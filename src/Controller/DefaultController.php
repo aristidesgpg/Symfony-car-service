@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -10,7 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @package App\Controller
  */
-class DefaultController {
+class DefaultController extends AbstractController {
 
     /**
      * @Route("/")
@@ -29,6 +30,8 @@ class DefaultController {
      * @return Response
      */
     public function test ($slug) {
-        return new Response($slug);
+        return $this->render('default/test.html.twig', [
+            'slug' => $slug
+        ]);
     }
 }
