@@ -156,18 +156,18 @@ class User {
     }
 
     /**
-     * @return int|null
+     * @return string|null
      */
-    public function getPhone (): ?int {
+    public function getPhone (): ?string {
         return $this->phone;
     }
 
     /**
-     * @param int $phone
+     * @param string $phone
      *
      * @return $this
      */
-    public function setPhone (int $phone): self {
+    public function setPhone (string $phone): self {
         $this->phone = $phone;
 
         return $this;
