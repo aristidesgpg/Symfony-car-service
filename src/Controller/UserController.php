@@ -71,7 +71,6 @@ class UserController extends AbstractController {
     public function edit (User $user, EntityManagerInterface $em) {
         $user->setFirstName('Laramie' . rand(10, 100));
 
-        $em->persist($user);
         $em->flush();
 
         $this->logInfo('User "' . $user->getFirstName() . '" Has Been Edited');
