@@ -29,7 +29,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
         ];
 
         // @TODO: Make this better w/ optional completions/values/cars/etc.
-        for ($i = 1; $i <= 300; $i++) {
+        for ($i = 1; $i <= 150; $i++) {
             $repairOrder   = new RepairOrder();
             $userReference = $faker->numberBetween(1, 50);
             $repairOrder->setNumber($faker->unique(true)->numberBetween(100000, 999999))
@@ -41,7 +41,8 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                         ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setWaiter($faker->boolean(25))
-                        ->setLinkHash($faker->unique(true)->randomAscii);
+                        ->setLinkHash($faker->unique(true)->randomAscii)
+                        ->setDeleted($faker->boolean(2));
 
             $manager->persist($repairOrder);
             $manager->flush();

@@ -4,14 +4,20 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  *
- * @TODO: Look into doctrine event subscriber for automatically doing things when entities are created/updated 'composer require antishov/doctrine-extensions-bundle' 'https://symfonycasts.com/screencast/symfony4-doctrine/sluggable#play'
+ * @TODO: Look into doctrine event subscriber for automatically doing things when entities are created/updated
+ *        'composer require antishov/doctrine-extensions-bundle'
+ *        'https://symfonycasts.com/screencast/symfony4-doctrine/sluggable#play'
  */
-class User {
+class User implements UserInterface {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -97,9 +103,19 @@ class User {
     private $active = true;
 
     /**
+     * @var ArrayCollection
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\RepairOrder", mappedBy="primaryTechnician")
+     * @ORM\OrderBy({"dateCreated" = "DESC"})
      */
     private $technicianRepairOrders;
+
+    /**
+     * User constructor.
+     */
+    public function __construct () {
+        $this->technicianRepairOrders = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -387,8 +403,12 @@ class User {
     /**
      * @return mixed
      */
-    public function getTechnicianRepairOrders () {
-        return $this->technicianRepairOrders;
+    public function getTechnicianRepairOrders (): Collection {
+        $criteria = Criteria::create()
+                            ->andWhere(Criteria::expr()->eq('deleted', false))
+                            ->orderBy(['dateCreated' => 'DESC']);
+
+        $this->technicianRepairOrders->matching($criteria);
     }
 
     public function getSalt () {
