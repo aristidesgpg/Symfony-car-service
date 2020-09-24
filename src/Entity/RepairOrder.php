@@ -23,7 +23,10 @@ class RepairOrder {
     private $primaryCustomer;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var User
+     *
+     * @ORM\ManyToOne (targetEntity="App\Entity\User", inversedBy="technicianRepairOrders")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $primaryTechnician;
 
@@ -125,7 +128,7 @@ class RepairOrder {
     /**
      * @ORM\Column(type="boolean")
      */
-    private $internal;
+    private $internal = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -145,12 +148,19 @@ class RepairOrder {
     /**
      * @ORM\Column(type="boolean")
      */
-    private $upgradeQue;
+    private $upgradeQue = false;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $deleted;
+    private $deleted = false;
+
+    /**
+     * RepairOrder constructor.
+     */
+    public function __construct () {
+        $this->dateCreated = new DateTime();
+    }
 
     /**
      * @return int|null
@@ -178,18 +188,18 @@ class RepairOrder {
     }
 
     /**
-     * @return int|null
+     * @return User
      */
-    public function getPrimaryTechnician (): ?int {
+    public function getPrimaryTechnician (): ?User {
         return $this->primaryTechnician;
     }
 
     /**
-     * @param int $primaryTechnician
+     * @param User $primaryTechnician
      *
      * @return $this
      */
-    public function setPrimaryTechnician (int $primaryTechnician): self {
+    public function setPrimaryTechnician (User $primaryTechnician): self {
         $this->primaryTechnician = $primaryTechnician;
 
         return $this;

@@ -8,7 +8,6 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -78,5 +77,20 @@ class UserController extends AbstractController {
         return new JsonResponse([
             'message' => 'User Edited'
         ]);
+    }
+
+    /**
+     * @Route("/api/user/{id}/get")
+     *
+     * @param User $user
+     *
+     * @return object|void
+     */
+    public function userGet (User $user) {
+        $repairOrders = $user->getTechnicianRepairOrders();
+        foreach ($repairOrders as $repairOrder){
+            dump($repairOrder);
+        }
+        exit;
     }
 }

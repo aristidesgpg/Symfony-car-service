@@ -8,6 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ *
+ * @TODO: Look into doctrine event subscriber for automatically doing things when entities are created/updated 'composer require antishov/doctrine-extensions-bundle' 'https://symfonycasts.com/screencast/symfony4-doctrine/sluggable#play'
  */
 class User {
     /**
@@ -93,6 +95,11 @@ class User {
      * @ORM\Column(type="boolean")
      */
     private $active = true;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrder", mappedBy="primaryTechnician")
+     */
+    private $technicianRepairOrders;
 
     /**
      * @return int|null
@@ -377,6 +384,13 @@ class User {
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getTechnicianRepairOrders () {
+        return $this->technicianRepairOrders;
+    }
+
     public function getSalt () {
         // TODO: Implement getSalt() method.
     }
@@ -388,4 +402,5 @@ class User {
     public function eraseCredentials () {
         // TODO: Implement eraseCredentials() method.
     }
+
 }

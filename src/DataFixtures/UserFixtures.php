@@ -34,8 +34,9 @@ class UserFixtures extends Fixture {
                  ->setLastLogin($faker->dateTime);
 
             $manager->persist($user);
-        }
+            $manager->flush();
 
-        $manager->flush();
+            $this->addReference('user_' . $i, $user);
+        }
     }
 }
