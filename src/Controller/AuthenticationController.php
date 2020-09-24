@@ -2,8 +2,7 @@
 
 namespace App\Controller;
 
-use Http\Client\Exception;
-use Nexy\Slack\Client;
+use App\Service\SlackClient;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,22 +21,14 @@ class AuthenticationController {
      * @Route("/authenticate", methods={"POST"})
      *
      * @param Request         $request
-     * @param LoggerInterface $iserviceLogger
-     * @param Client          $slack
+     * @param SlackClient     $slack
      *
      * @return JsonResponse
      */
-    public function authenticate (Request $request, LoggerInterface $iserviceLogger, Client $slack) {
+    public function authenticate (Request $request, SlackClient $slack) {
         $test = ['test' => 'test'];
 
-        $iserviceLogger->info('bacon2');
-
-        $message = $slack->createMessage()->from('khan')->withIcon(':ghost:')->setText('Ah, Kirk, my old friend...');
-        try {
-            $slack->sendMessage($message);
-        } catch (Exception $e) {
-            return new JsonResponse($e->getMessage());
-        }
+        $slack->sendMessage('Khan', 'Ah, Kirk, my old friend...');
 
         return new JsonResponse($test);
     }
