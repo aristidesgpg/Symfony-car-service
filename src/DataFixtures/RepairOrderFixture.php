@@ -29,6 +29,25 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
         ];
 
         // @TODO: Make this better w/ optional completions/values/cars/etc.
+        // Make one constant RO
+        $repairOrder   = new RepairOrder();
+        $userReference = $faker->numberBetween(1, 50);
+        $repairOrder->setNumber(1234567)
+                    ->setPrimaryCustomer($faker->numberBetween(1, 500))
+                    ->setPrimaryTechnician($this->getReference('user_' . $userReference))
+                    ->setPrimaryAdvisor($faker->numberBetween(1, 30))
+                    ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
+                    ->setMpiStatus($statusOptions[$faker->numberBetween(0, 5)])
+                    ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
+                    ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
+                    ->setWaiter($faker->boolean(25))
+                    ->setLinkHash(sha1('test'))
+                    ->setDeleted($faker->boolean(2));
+
+        $manager->persist($repairOrder);
+        $manager->flush();
+
+        // Now make 150 more
         for ($i = 1; $i <= 150; $i++) {
             $repairOrder   = new RepairOrder();
             $userReference = $faker->numberBetween(1, 50);
@@ -41,7 +60,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                         ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setWaiter($faker->boolean(25))
-                        ->setLinkHash($faker->unique(true)->randomAscii)
+                        ->setLinkHash(sha1($faker->unique(true)->randomAscii))
                         ->setDeleted($faker->boolean(2));
 
             $manager->persist($repairOrder);

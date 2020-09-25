@@ -4,11 +4,12 @@ namespace App\Entity;
 
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
-class Customer {
+class Customer implements UserInterface {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -19,15 +20,10 @@ class Customer {
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $firstName;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastName;
-
-    /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=10)
      */
     private $phone;
 
@@ -63,35 +59,17 @@ class Customer {
     /**
      * @return string|null
      */
-    public function getFirstName (): ?string {
-        return $this->firstName;
+    public function getName (): ?string {
+        return $this->name;
     }
 
     /**'
-     * @param string $firstName
+     * @param string $name
      *
      * @return $this
      */
-    public function setFirstName (string $firstName): self {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getLastName (): ?string {
-        return $this->lastName;
-    }
-
-    /**
-     * @param string $lastName
-     *
-     * @return $this
-     */
-    public function setLastName (string $lastName): self {
-        $this->lastName = $lastName;
+    public function setName (string $name): self {
+        $this->name = $name;
 
         return $this;
     }
@@ -186,4 +164,23 @@ class Customer {
         return $this;
     }
 
+    public function getRoles () {
+        return ['ROLE_CUSTOMER'];
+    }
+
+    public function getPassword () {
+        // TODO: Implement getPassword() method.
+    }
+
+    public function getSalt () {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function getUsername () {
+        $this->name;
+    }
+
+    public function eraseCredentials () {
+        // TODO: Implement eraseCredentials() method.
+    }
 }

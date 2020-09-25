@@ -27,6 +27,9 @@ class UserController extends AbstractFOSRestController {
      * @return Response
      */
     public function getUsers (UserRepository $userRepo) {
+        dump($this->getUser());
+        exit;
+
         $users = $userRepo->getActiveUsers();
 
         return $this->handleView($this->view($users, Response::HTTP_OK));
