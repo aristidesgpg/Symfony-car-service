@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AuthenticationController extends AbstractFOSRestController {
 
     /**
-     * @Rest\Get("/authenticate")
+     * @Rest\Post("/authenticate")
      *
      * @param Request                      $request
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -50,7 +50,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
         try {
             $token = $JWTEncoder->encode([
-                'usr' => $user->getEmail()
+                'username' => $user->getEmail()
             ]);
         } catch (JWTEncodeFailureException $e) {
             return new JsonResponse('Login Failed. Please try again later.', Response::HTTP_INTERNAL_SERVER_ERROR);

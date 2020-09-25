@@ -6,8 +6,9 @@ use App\Entity\User;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,23 +16,20 @@ use Symfony\Component\Routing\Annotation\Route;
  *
  * @package App\Controller
  */
-class UserController extends AbstractController {
+class UserController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Route("/api/user/list", methods={"GET"})
+     * @Route("/api/user/get-users", methods={"GET"})
      *
      * @param UserRepository $userRepo
      *
-     * @return JsonResponse
+     * @return Response
      */
-    public function list (UserRepository $userRepo) {
+    public function getUsers (UserRepository $userRepo) {
         $users = $userRepo->getActiveUsers();
 
-        dump($users);
-        exit;
-
-        return new JsonResponse($users);
+        return $this->handleView($this->view($users, Response::HTTP_OK));
     }
 
     /**
@@ -88,7 +86,7 @@ class UserController extends AbstractController {
      */
     public function userGet (User $user) {
         $repairOrders = $user->getTechnicianRepairOrders();
-        foreach ($repairOrders as $repairOrder){
+        foreach ($repairOrders as $repairOrder) {
             dump($repairOrder);
         }
         exit;

@@ -238,6 +238,10 @@ class User implements UserInterface {
     public function getRoles (): ?array {
         $roles = $this->roles;
 
+        if (is_string($roles)) {
+            $roles = [$roles];
+        }
+
         if (!empty($roles)) {
             $roles[] = 'ROLE_USER';
         }
@@ -246,12 +250,12 @@ class User implements UserInterface {
     }
 
     /**
-     * @param string $roles
+     * @param array $roles
      *
-     * @return $this
+     * @return User
      */
-    public function setRoles (string $roles): self {
-        $this->roles = $roles;
+    public function setRoles (array $roles) {
+        $this->roles = array_unique($roles);
 
         return $this;
     }
