@@ -180,6 +180,9 @@
             "./templates/base.html.twig"
         ]
     },
+    "twilio/sdk": {
+        "version": "6.10.3"
+    },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"
     },

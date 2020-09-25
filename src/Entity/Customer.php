@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -48,6 +49,21 @@ class Customer implements UserInterface {
      * @ORM\Column(type="integer", nullable=true)
      */
     private $addedBy;
+
+    /**
+     * @var ArrayCollection
+     *
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrder", mappedBy="primaryCustomer")
+     * @ORM\OrderBy({"dateCreated" = "DESC"})
+     */
+    private $primaryRepairOrders;
+
+    /**
+     * Customer constructor.
+     */
+    public function __construct () {
+        $this->primaryRepairOrders = new ArrayCollection();
+    }
 
     /**
      * @return int|null
@@ -162,6 +178,13 @@ class Customer implements UserInterface {
         $this->addedBy = $addedBy;
 
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPrimaryRepairOrders (): ArrayCollection {
+        return $this->primaryRepairOrders;
     }
 
     public function getRoles () {

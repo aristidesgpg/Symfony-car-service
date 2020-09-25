@@ -28,7 +28,7 @@ class RepairOrderRepository extends ServiceEntityRepository {
     /**
      * @param string $uid
      *
-     * @return int|mixed|string|null
+     * @return RepairOrder|null
      */
     public function findByUID (string $uid) {
         try {

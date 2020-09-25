@@ -9,7 +9,6 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\Annotations\Route;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -65,16 +64,17 @@ class AuthenticationController extends AbstractFOSRestController {
         // Logging in from customer side
         if ($linkHash) {
             $repairOrder = $repairOrderRepository->findByUID($linkHash);
-            if (!$repairOrder){
+            if (!$repairOrder) {
                 goto INVALID;
             }
 
             // Successful customer "login"
-            $tokenUsername = '8479025995';
+            $tokenUsername = $repairOrder->getPrimaryCustomer();
             goto TOKEN;
         }
 
-        // @TODO: Tech login
+        // @TODO: Tech Pin login
+
 
         INVALID:
         return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));

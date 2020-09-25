@@ -30,10 +30,12 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
 
         // @TODO: Make this better w/ optional completions/values/cars/etc.
         // Make one constant RO
-        $repairOrder   = new RepairOrder();
-        $userReference = $faker->numberBetween(1, 50);
+        $repairOrder       = new RepairOrder();
+        $userReference     = $faker->numberBetween(1, 50);
+        $customerReference = $faker->numberBetween(1, 50);
+
         $repairOrder->setNumber(1234567)
-                    ->setPrimaryCustomer($faker->numberBetween(1, 500))
+                    ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                     ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                     ->setPrimaryAdvisor($faker->numberBetween(1, 30))
                     ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
@@ -49,10 +51,11 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
 
         // Now make 150 more
         for ($i = 1; $i <= 150; $i++) {
-            $repairOrder   = new RepairOrder();
-            $userReference = $faker->numberBetween(1, 50);
+            $repairOrder       = new RepairOrder();
+            $userReference     = $faker->numberBetween(1, 50);
+            $customerReference = $faker->numberBetween(1, 50);
             $repairOrder->setNumber($faker->unique(true)->numberBetween(100000, 999999))
-                        ->setPrimaryCustomer($faker->numberBetween(1, 500))
+                        ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                         ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                         ->setPrimaryAdvisor($faker->numberBetween(1, 30))
                         ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
@@ -73,7 +76,8 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
      */
     public function getDependencies () {
         return [
-            UserFixtures::class
+            UserFixture::class,
+            CustomerFixture::class
         ];
     }
 }

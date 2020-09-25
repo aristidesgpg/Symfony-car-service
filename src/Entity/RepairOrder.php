@@ -18,7 +18,10 @@ class RepairOrder {
     private $id;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var Customer
+     *
+     * @ORM\ManyToOne (targetEntity="App\Entity\Customer", inversedBy="primaryRepairOrders")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $primaryCustomer;
 
@@ -170,18 +173,18 @@ class RepairOrder {
     }
 
     /**
-     * @return int|null
+     * @return Customer
      */
-    public function getPrimaryCustomer (): ?int {
+    public function getPrimaryCustomer (): ?Customer {
         return $this->primaryCustomer;
     }
 
     /**
-     * @param int $primaryCustomer
+     * @param Customer $primaryCustomer
      *
      * @return $this
      */
-    public function setPrimaryCustomer (int $primaryCustomer): self {
+    public function setPrimaryCustomer (Customer $primaryCustomer): self {
         $this->primaryCustomer = $primaryCustomer;
 
         return $this;
