@@ -7,9 +7,9 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class UserController
@@ -20,7 +20,7 @@ class UserController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Route("/api/user/get-users", methods={"GET"})
+     * @Rest\Get("/api/user/get-users")
      *
      * @param UserRepository $userRepo
      *
@@ -33,7 +33,7 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Route("/api/user/new", methods={"POST"})
+     * @Rest\Post("/api/user/new")
      *
      * @param EntityManagerInterface $em
      *
@@ -58,7 +58,7 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Route("/api/user/{id}/edit", methods={"POST"})
+     * @Rest\Post("/api/user/{id}/edit")
      *
      * @param User                   $user
      * @param EntityManagerInterface $em
@@ -78,7 +78,7 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Route("/api/user/{id}/get")
+     * @Rest\Get("/api/user/{id}/get")
      *
      * @param User $user
      *

@@ -1,0 +1,21 @@
+nelmio_api_doc:
+    documentation:
+        schemes: [http, https]
+        info:
+            title: iService 3.0 Back-End Documentation
+            description: Sometimes when I feel down, I think about all the times I wrote jquery.
+            version: 0.0.1
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header
+        security:
+            - Bearer: []
+    areas:
+        default:
+            path_patterns: # an array of regexps
+                - ^/api/(?!doc$)
+            host_patterns:
+#                - ^/api/*

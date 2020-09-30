@@ -6,9 +6,9 @@ use App\Entity\User;
 use App\Repository\RepairOrderRepository;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\Controller\Annotations\Route;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -17,12 +17,59 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * Class AuthenticationController
  *
  * @package App\Controller
- * @Route("/api/authentication")
  */
 class AuthenticationController extends AbstractFOSRestController {
 
     /**
-     * @Rest\Post("/authenticate")
+     * @Rest\Post("/api/authentication/authenticate")
+     *
+     * @SWG\Tag(name="Authentication")
+     * @SWG\Post(description="Endpoint to authenticate with the back-end. Needs to be either a user/pass combo, a
+     *                                 user/pin combo, or just a link hash (customer app)")
+     * @SWG\Parameter(
+     *     name="username",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="The username/email of the account",
+     * )
+     * @SWG\Parameter(
+     *     name="password",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="The password of the account",
+     * )
+     *  @SWG\Parameter(
+     *     name="linkHash",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="Link Hash from customer app",
+     * )
+     * @SWG\Parameter(
+     *     name="pin",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="Pin for the user if not using a password to login",
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns a JWT token",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="token", type="string", description="JSON Web Token"),
+     *         )
+     * )
+     * @SWG\Response(
+     *     response=403,
+     *     description="Invalid Login",
+     * )
+     * @SWG\Response(
+     *     response=500,
+     *     description="Login Failed. Please try again later."
+     * )
      *
      * @param Request                      $request
      * @param UserPasswordEncoderInterface $passwordEncoder
@@ -35,10 +82,11 @@ class AuthenticationController extends AbstractFOSRestController {
                                         JWTEncoderInterface $JWTEncoder, RepairOrderRepository $repairOrderRepository) {
         $username      = $request->get('username');  // tperson@iserviceauto.com
         $password      = $request->get('password');  // test
-        $linkHash      = $request->get('link_hash'); // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+        $linkHash      = $request->get('linkHash'); // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+        $pin           = $request->get('pin');
         $tokenUsername = null;
 
-        if ((!$username || !$password) && !$linkHash) {
+        if ((!$username || !$password) && !$linkHash && (!$username || !$pin)) {
             goto INVALID;
         }
 
