@@ -24,12 +24,12 @@ class SettingsController extends AbstractFOSRestController {
         /**
      * @Rest\Get("/api/settings/upgrade_settings")
      *
-     * @SWG\Tag(name="UpgradeSettings")
-     * @SWG\Get(description="Get upgradeSettings")
+     * @SWG\Tag(name="Upgrade Settings")
+     * @SWG\Get(description="Get upgrade settings")
      *
      *  @SWG\Response(
      *     response=200,
-     *     description="Return upgradeSettings",
+     *     description="Return upgrade settings",
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="percentage_of_tax", type="string", description="The percentage of tax to be paid on a trade in vehicle", example="6.25"),
@@ -55,7 +55,7 @@ class SettingsController extends AbstractFOSRestController {
             
             $upgrade_setting[$name] = $value;
             
-			$this->logInfo('New upgrade_setting "' . $name . '" "'.$value.'" Created');
+			$this->logInfo('get upgradeSetting "' . $name . '" "'.$value.'" ');
 		}
 
         return new JsonResponse($upgrade_setting);
@@ -63,9 +63,9 @@ class SettingsController extends AbstractFOSRestController {
 
 
 	/**
-     * @Rest\Post("/api/settings/upgrade_settings/create")
+     * @Rest\Post("/api/settings/upgrade_settings")
      *
-     * @SWG\Tag(name="UpgradeSettings")
+     * @SWG\Tag(name="Upgrade Settings")
      * @SWG\Post(description="Create upgrade settings")
      * @SWG\Parameter(
      *     name="percentage_of_tax",
@@ -154,7 +154,7 @@ class SettingsController extends AbstractFOSRestController {
 			 
 			$em->persist($upgrade_setting);
 			$em->flush();
-			$this->logInfo('New upgrade_setting "' . $key . '" "'.$value.'" Created');
+			$this->logInfo('New upgradeSetting "' . $key . '" "'.$value.'" Created');
 		}
 
         return new JsonResponse([
@@ -164,10 +164,10 @@ class SettingsController extends AbstractFOSRestController {
    
     
     /**
-     * @Rest\Post("/api/settings/upgrade_settings/update")
+     * @Rest\Patch("/api/settings/upgrade_settings")
      *
-     * @SWG\Tag(name="UpgradeSettings")
-     * @SWG\Post(description="Update upgradeSettings")
+     * @SWG\Tag(name="Upgrade Settings")
+     * @SWG\Patch(description="Update upgrade settings")
      * @SWG\Parameter(
      *     name="percentage_of_tax",
      *     in="formData",
@@ -258,11 +258,50 @@ class SettingsController extends AbstractFOSRestController {
 			$em->persist($upgrade_setting);
             $em->flush();
             
-			$this->logInfo('New upgrade_setting "' . $key . '" "'.$value.'" Created');
+			$this->logInfo('Update upgradeSetting "' . $key . '" "'.$value.'" updated');
 		}
 
         return new JsonResponse([
             'status' => 'Successfully updated!'
+		]);
+    }
+
+    /**
+     * @Rest\Delete("/api/settings/upgrade_settings")
+     *
+     * @SWG\Tag(name="Upgrade Settings")
+     * @SWG\Delete(description="Remove upgrade settings")
+	 * 
+	 * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status": "Successfully removed" }),
+     *         )
+     * )
+	 * 
+     *
+     *
+     * @return JsonResponse
+     */
+	public function remove (EntityManagerInterface $em) {
+        
+        $names = ["percentage_of_tax","limit_on_tax","total_days","website_url","upgrade_inital_text","upgrade_offer_text","upgrade_cash_offer","upgrade_disclaimer"];
+		foreach($names as $name ){
+            $upgrade_setting = $em->getRepository('App:UpgradeSetting')->findOneBy([ "name" => $name]);
+            if($upgrade_setting){
+                $em->remove($upgrade_setting);
+                
+                $em->flush();
+            }
+            
+			$this->logInfo('Remove upgradeSetting "' . $name .'" Removed');
+		}
+
+        return new JsonResponse([
+            'status' => 'Successfully removed!'
 		]);
     }
 }
