@@ -3,15 +3,15 @@
 namespace App\Controller;
 
 use App\Helper\iServiceLoggerTrait;
+use App\Service\SettingsHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-
-use App\Entity\UpgradeSetting;
+use App\Entity\Setting;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class SettingsController
@@ -20,13 +20,12 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class SettingsController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
-    
-        /**
-     * @Rest\Get("/api/settings/upgrade_settings")
+
+    /**
+     * @Rest\Get("/api/settings")
      *
-     * @SWG\Tag(name="Upgrade Settings")
-     * @SWG\Get(description="Get upgrade settings")
-     *
+     * @SWG\Tag(name="Settings")
+     * @SWG\Get(description="Get all settings")
      * @SWG\Parameter(
      *     name="Authorization",
      *     type="string",
@@ -34,56 +33,36 @@ class SettingsController extends AbstractFOSRestController {
      *     description="JWT Auth token",
      *     @SWG\Schema(
      *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token string>"})
+     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
+     *                                                  string>"})
      *
      *     )
      * )
-     * 
-     *  @SWG\Response(
+     * @SWG\Response(
      *     response=200,
-     *     description="Return upgrade settings",
+     *     description="Return settings",
      *     @SWG\Items(
      *         type="object",
-     *             @SWG\Property(property="percentage_of_tax", type="string", description="The percentage of tax to be paid on a trade in vehicle", example="6.25"),
-     *             @SWG\Property(property="limit_on_tax", type="string", description="The limit on applicable tax to be paid on a trade in vehicle", example="10000"),
-     *             @SWG\Property(property="total_days", type="string", description="Total days until this offer expires", example="7"),
-     *             @SWG\Property(property="website_url", type="string", description="The website url to direct a user to obtain their instant cash offer", example="https://www.performancetoyotastore.com/value-your-trade/"),
-     *             @SWG\Property(property="upgrade_inital_text", type="string", description="Upgrade Initial Text (Message that gets sent to a customer about their vehicle value. Limit 109 characters)", example="Click the link below to see the value of your vehicle.  Thank you for visiting Performance Toyota"),
-     *             @SWG\Property(property="upgrade_offer_text", type="string", description="Upgrade Offer Text (Message that gets sent when a manager sends a cash offer to the customer. Limit 109 characters)", example="Congratulations.  We have made you a cash offer.  Click the link to view."),
-     *             @SWG\Property(property="upgrade_cash_offer", type="string", description="Upgrade cash offer copy", example="Show to any sales agent to claim your offer."),
-     *             @SWG\Property(property="upgrade_disclaimer", type="string", description="Upgrade disclaimer", example="The cash offer is contingent upon verifying the condition and trim levels are true that were selected."),
+     *             description="key/pair values of all available settings. Will expand over time."
      *         )
      * )
-	 *
-     * @return JsonResponse
+     *
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
      */
-	public function getSettings (EntityManagerInterface $em) {
-        
-        $names = ["percentage_of_tax","limit_on_tax","total_days","website_url","upgrade_inital_text","upgrade_offer_text","upgrade_cash_offer","upgrade_disclaimer"];
-        $upgrade_settings = array();
-		foreach($names as $name ){
-            $setting = $em->getRepository('App:UpgradeSetting')->findOneBy([ "name" => $name]);
-            
-            if($setting){
-                $value = $setting->getValue();
-            
-                $upgrade_settings[$name] = $value;
-                
-                $this->logInfo('get upgradeSetting "' . $name . '" "'.$value.'" ');
-            }
+    public function getSettings (EntityManagerInterface $em) {
+        $setting = $em->getRepository(Setting::class)->findAll();
 
-		}
-
-        return new JsonResponse($upgrade_settings);
+        return $this->handleView($this->view($setting, 200));
     }
 
-
-	/**
-     * @Rest\Post("/api/settings/upgrade_settings")
+    /**
+     * @Rest\Post("/api/settings/upgrade/edit")
      *
-     * @SWG\Tag(name="Upgrade Settings")
-     * @SWG\Post(description="Create upgrade settings")
-     * 
+     * @SWG\Tag(name="Settings")
+     * @SWG\Post(description="Update upgrade settings")
+     *
      * @SWG\Parameter(
      *     name="Authorization",
      *     type="string",
@@ -91,269 +70,123 @@ class SettingsController extends AbstractFOSRestController {
      *     description="JWT Auth token",
      *     @SWG\Schema(
      *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token string>"})
-     *
+     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
+     *                                                  string>"})
      *     )
      * )
-     * 
      * @SWG\Parameter(
-     *     name="percentage_of_tax",
+     *     name="percentageOfTax",
      *     in="formData",
      *     required=true,
      *     type="string",
      *     description="The percentage of tax to be paid on a trade in vehicle",
      * )
-	 * @SWG\Parameter(
-     *     name="limit_on_tax",
+     * @SWG\Parameter(
+     *     name="limitOnTax",
      *     in="formData",
      *     required=true,
      *     type="string",
      *     description="The limit on applicable tax to be paid on a trade in vehicle",
      * )
-	 * @SWG\Parameter(
-     *     name="total_days",
+     * @SWG\Parameter(
+     *     name="totalDays",
      *     in="formData",
      *     required=true,
      *     type="string",
      *     description="Total days until this offer expires",
      * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="website_url",
+     *
+     * @SWG\Parameter(
+     *     name="websiteUrl",
      *     in="formData",
      *     required=true,
      *     type="string",
      *     description="The website url to direct a user to obtain their instant cash offer",
      * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="upgrade_inital_text",
+     *
+     * @SWG\Parameter(
+     *     name="upgradeInitialText",
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="Upgrade Initial Text (Message that gets sent to a customer about their vehicle value. Limit 109 characters)",
+     *     description="Upgrade Initial Text (Message that gets sent to a customer about their vehicle value. Limit 109
+     *     characters)",
      * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="upgrade_offer_text",
+     *
+     * @SWG\Parameter(
+     *     name="upgradeOfferText",
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="Upgrade Offer Text (Message that gets sent when a manager sends a cash offer to the customer. Limit 109 characters)",
+     *     description="Upgrade Offer Text (Message that gets sent when a manager sends a cash offer to the customer.
+     *     Limit 109 characters)",
      * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="upgrade_cash_offer",
+     *
+     * @SWG\Parameter(
+     *     name="upgradeCashOffer",
      *     in="formData",
      *     required=true,
      *     type="string",
      *     description="Upgrade cash offer copy",
      * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="upgrade_disclaimer",
+     *
+     * @SWG\Parameter(
+     *     name="upgradeDisclaimer",
      *     in="formData",
      *     required=true,
      *     type="string",
      *     description="Upgrade disclaimer",
      * )
-	 * 
-	 * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
      *     @SWG\Items(
      *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status": "Successfully created" }),
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully created" }),
      *         )
      * )
-	 * 
      *
-     * @param Request                      $request
+     * @param Request        $request
+     * @param SettingsHelper $settingsHelper
      *
-     * @return JsonResponse
+     * @return Response
      */
-	public function create (Request $request, EntityManagerInterface $em) {
-			 
-		$data = $request->request->all();
-		foreach($data as $key => $value ){
-			$upgrade_setting = new UpgradeSetting();
-			$upgrade_setting->setName($key)
-			 ->setValue($value);
-			 
-			$em->persist($upgrade_setting);
-			$em->flush();
-			$this->logInfo('New upgradeSetting "' . $key . '" "'.$value.'" Created');
-		}
+    public function upgradeEdit (Request $request, SettingsHelper $settingsHelper) {
+        $percentageOfTax    = $request->get('percentageOfTax');
+        $limitOnTax         = $request->get('limitOnTax');
+        $totalDays          = $request->get('totalDays');
+        $websiteUrl         = $request->get('websiteUrl');
+        $upgradeInitialText = $request->get('upgradeInitialText');
+        $upgradeOfferText   = $request->get('upgradeOfferText');
+        $upgradeCashOffer   = $request->get('upgradeCashOffer');
+        $upgradeDisclaimer  = $request->get('upgradeDisclaimer');
 
-        return new JsonResponse([
-            'status' => 'Successfully created!'
-		]);
-    }
-   
-    
-    /**
-     * @Rest\Patch("/api/settings/upgrade_settings")
-     *
-     * @SWG\Tag(name="Upgrade Settings")
-     * @SWG\Patch(description="Update upgrade settings")
-     * 
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
-     *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token string>"})
-     *
-     *     )
-     * )
-     * 
-     * @SWG\Parameter(
-     *     name="percentage_of_tax",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The percentage of tax to be paid on a trade in vehicle",
-     * )
-	 * @SWG\Parameter(
-     *     name="limit_on_tax",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The limit on applicable tax to be paid on a trade in vehicle",
-     * )
-	 * @SWG\Parameter(
-     *     name="total_days",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Total days until this offer expires",
-     * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="website_url",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The website url to direct a user to obtain their instant cash offer",
-     * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="upgrade_inital_text",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Upgrade Initial Text (Message that gets sent to a customer about their vehicle value. Limit 109 characters)",
-     * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="upgrade_offer_text",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Upgrade Offer Text (Message that gets sent when a manager sends a cash offer to the customer. Limit 109 characters)",
-     * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="upgrade_cash_offer",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Upgrade cash offer copy",
-     * )
-	 * 
-	 * @SWG\Parameter(
-     *     name="upgrade_disclaimer",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Upgrade disclaimer",
-     * )
-	 * 
-	 * 
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status": "Successfully created" }),
-     *         )
-     * )
-	 * 
-     *
-     * @param Request                      $request
-     *
-     * @return JsonResponse
-     */
-	public function update (Request $request, EntityManagerInterface $em) {
-        
-        // $settings = $this->getDoctrine()->getRepository(Admin::class)->find(1);
-        // $introText = $settings->getIntroText();
+        // Validation
+        if (!$percentageOfTax || !$limitOnTax || !$totalDays || !$websiteUrl || !$upgradeInitialText ||
+            !$upgradeOfferText || !$upgradeCashOffer || !$upgradeDisclaimer) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
 
-		$data = $request->request->all();
-		foreach($data as $key => $value ){
-			$upgrade_setting = $em->getRepository('App:UpgradeSetting')->findOneBy([ "name" => $key]);
-			$upgrade_setting->setValue($value);
-			 
-			$em->persist($upgrade_setting);
-            $em->flush();
-            
-			$this->logInfo('Update upgradeSetting "' . $key . '" "'.$value.'" updated');
-		}
+        $settingsArray = [
+            'percentageOfTax'    => $percentageOfTax,
+            'limitOnTax'         => $limitOnTax,
+            'totalDays'          => $totalDays,
+            'websiteUrl'         => $websiteUrl,
+            'upgradeInitialText' => $upgradeInitialText,
+            'upgradeOfferText'   => $upgradeOfferText,
+            'upgradeCashOffer'   => $upgradeCashOffer,
+            'upgradeDisclaimer'  => $upgradeDisclaimer,
+        ];
 
-        return new JsonResponse([
-            'status' => 'Successfully updated!'
-		]);
-    }
+        $bulkUpdateResult = $settingsHelper->bulkUpdate($settingsArray);
+        if (!$bulkUpdateResult) {
+            return $this->handleView(
+                $this->view('Something Went Wrong Trying to Update the Settings', Response::HTTP_INTERNAL_SERVER_ERROR)
+            );
+        }
 
-    /**
-     * @Rest\Delete("/api/settings/upgrade_settings")
-     *
-     * @SWG\Tag(name="Upgrade Settings")
-     * @SWG\Delete(description="Remove upgrade settings")
-	 * 
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
-     *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token string>"})
-     *
-     *     )
-     * )
-	 * 
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status": "Successfully removed" }),
-     *         )
-     * )
-	 * 
-     *
-     *
-     * @return JsonResponse
-     */
-	public function remove (EntityManagerInterface $em) {
-        
-        $names = ["percentage_of_tax","limit_on_tax","total_days","website_url","upgrade_inital_text","upgrade_offer_text","upgrade_cash_offer","upgrade_disclaimer"];
-		foreach($names as $name ){
-            $upgrade_setting = $em->getRepository('App:UpgradeSetting')->findOneBy([ "name" => $name]);
-            if($upgrade_setting){
-                $em->remove($upgrade_setting);
-                $em->flush();
-                $this->logInfo('Remove upgradeSetting "' . $name .'" Removed');
-            }
-            
-		}
-
-        return new JsonResponse([
-            'status' => 'Successfully removed!'
-		]);
+        return $this->handleView($this->view('Settings Updated', Response::HTTP_OK));
     }
 }

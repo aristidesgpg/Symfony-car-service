@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\UpgradeSetting;
+use App\Entity\Setting;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method UpgradeSetting|null find($id, $lockMode = null, $lockVersion = null)
- * @method UpgradeSetting|null findOneBy(array $criteria, array $orderBy = null)
- * @method UpgradeSetting[]    findAll()
- * @method UpgradeSetting[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Setting|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Setting|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Setting[]    findAll()
+ * @method Setting[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UpgradeSettingRepository extends ServiceEntityRepository
+class SettingRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, UpgradeSetting::class);
+        parent::__construct($registry, Setting::class);
     }
 
     /*
