@@ -118,6 +118,61 @@ class SettingsController extends AbstractFOSRestController {
         return new Response();
     }
 
+    /**
+     * @Rest\Get("/dealer")
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Settings::class))
+     *     )
+     * )
+     *
+     * @param SettingsRepository $repo
+     * @return Response
+     */
+    public function getDealerSettings(SettingsRepository $repo): Response {
+        return $this->handleView($this->view($repo->getSection('dealer')));
+    }
+
+    /**
+     * @Rest\Post("/dealer")
+     * @SWG\Parameter(name="dealer_name", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_email", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_website_url", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_inventory_url", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_address", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_address2", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_city", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_state", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_zip", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_phone", type="string", in="formData")
+     * @SWG\Parameter(name="dealer_logo", type="file", in="formData")
+     * @SWG\Response(response="200", description="Success!")
+     *
+     * @param Request $req
+     * @param EntityManagerInterface $em
+     * @return Response
+     */
+    public function setDealerSettings(Request $req, EntityManagerInterface $em): Response {
+        $settings = [];
+        foreach ($req->request->all() as $k=>$v) {
+            $settings[] = ['key' => $k, 'value' => $v];
+        }
+        $file = $req->files->get('dealer_logo');
+        if ($file instanceof UploadedFile) {
+            $settings[] = ['key' => 'dealer_logo', 'value' => $this->handleImage($file)];
+        }
+        try {
+            $this->commitSettings($settings, $em);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage());
+        }
+
+        return new Response();
+    }
+
     private function handleImage(UploadedFile $file): string
     {
         return base64_encode($file->openFile()->fread($file->getSize())); // TODO: Move image and store path

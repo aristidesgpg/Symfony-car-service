@@ -16,4 +16,12 @@ class SettingsRepository extends ServiceEntityRepository {
     public function __construct(ManagerRegistry $registry) {
         parent::__construct($registry, Settings::class);
     }
+
+    public function getSection(string $section) {
+        return $this->createQueryBuilder('s')
+            ->where('s.key LIKE :section')
+            ->setParameter('section', $section . '%')
+            ->getQuery()
+            ->getResult();
+    }
 }
