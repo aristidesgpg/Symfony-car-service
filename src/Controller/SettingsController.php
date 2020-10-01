@@ -27,6 +27,18 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Tag(name="Upgrade Settings")
      * @SWG\Get(description="Get upgrade settings")
      *
+     * @SWG\Parameter(
+     *     name="Authorization",
+     *     type="string",
+     *     in="header",
+     *     description="JWT Auth token",
+     *     @SWG\Schema(
+     *          type="object",
+     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token string>"})
+     *
+     *     )
+     * )
+     * 
      *  @SWG\Response(
      *     response=200,
      *     description="Return upgrade settings",
@@ -50,15 +62,19 @@ class SettingsController extends AbstractFOSRestController {
         $names = ["percentage_of_tax","limit_on_tax","total_days","website_url","upgrade_inital_text","upgrade_offer_text","upgrade_cash_offer","upgrade_disclaimer"];
         $upgrade_settings = array();
 		foreach($names as $name ){
-			$setting = $em->getRepository('App:UpgradeSetting')->findOneBy([ "name" => $name]);
-			$value = $setting->getValue();
+            $setting = $em->getRepository('App:UpgradeSetting')->findOneBy([ "name" => $name]);
             
-            $upgrade_setting[$name] = $value;
+            if($setting){
+                $value = $setting->getValue();
             
-			$this->logInfo('get upgradeSetting "' . $name . '" "'.$value.'" ');
+                $upgrade_settings[$name] = $value;
+                
+                $this->logInfo('get upgradeSetting "' . $name . '" "'.$value.'" ');
+            }
+
 		}
 
-        return new JsonResponse($upgrade_setting);
+        return new JsonResponse($upgrade_settings);
     }
 
 
@@ -67,6 +83,19 @@ class SettingsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Upgrade Settings")
      * @SWG\Post(description="Create upgrade settings")
+     * 
+     * @SWG\Parameter(
+     *     name="Authorization",
+     *     type="string",
+     *     in="header",
+     *     description="JWT Auth token",
+     *     @SWG\Schema(
+     *          type="object",
+     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token string>"})
+     *
+     *     )
+     * )
+     * 
      * @SWG\Parameter(
      *     name="percentage_of_tax",
      *     in="formData",
@@ -168,6 +197,19 @@ class SettingsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Upgrade Settings")
      * @SWG\Patch(description="Update upgrade settings")
+     * 
+     * @SWG\Parameter(
+     *     name="Authorization",
+     *     type="string",
+     *     in="header",
+     *     description="JWT Auth token",
+     *     @SWG\Schema(
+     *          type="object",
+     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token string>"})
+     *
+     *     )
+     * )
+     * 
      * @SWG\Parameter(
      *     name="percentage_of_tax",
      *     in="formData",
@@ -272,6 +314,17 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Tag(name="Upgrade Settings")
      * @SWG\Delete(description="Remove upgrade settings")
 	 * 
+     * @SWG\Parameter(
+     *     name="Authorization",
+     *     type="string",
+     *     in="header",
+     *     description="JWT Auth token",
+     *     @SWG\Schema(
+     *          type="object",
+     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token string>"})
+     *
+     *     )
+     * )
 	 * 
      * @SWG\Response(
      *     response=200,
@@ -293,11 +346,10 @@ class SettingsController extends AbstractFOSRestController {
             $upgrade_setting = $em->getRepository('App:UpgradeSetting')->findOneBy([ "name" => $name]);
             if($upgrade_setting){
                 $em->remove($upgrade_setting);
-                
                 $em->flush();
+                $this->logInfo('Remove upgradeSetting "' . $name .'" Removed');
             }
             
-			$this->logInfo('Remove upgradeSetting "' . $name .'" Removed');
 		}
 
         return new JsonResponse([
