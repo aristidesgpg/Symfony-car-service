@@ -1,4 +1,7 @@
 {
+    "behat/transliterator": {
+        "version": "v1.3.0"
+    },
     "clue/stream-filter": {
         "version": "v1.4.1"
     },
@@ -114,6 +117,9 @@
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
+    "gedmo/doctrine-extensions": {
+        "version": "v3.0.0"
+    },
     "guzzlehttp/guzzle": {
         "version": "6.5.5"
     },
@@ -142,6 +148,15 @@
             "./config/packages/jms_serializer.yaml",
             "./config/packages/prod/jms_serializer.yaml"
         ]
+    },
+    "laminas/laminas-code": {
+        "version": "3.4.1"
+    },
+    "laminas/laminas-eventmanager": {
+        "version": "3.3.0"
+    },
+    "laminas/laminas-zendframework-bridge": {
+        "version": "1.1.1"
     },
     "lcobucci/jwt": {
         "version": "3.3.3"
@@ -266,6 +281,15 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
+    },
+    "stof/doctrine-extensions-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
+        }
     },
     "symfony/asset": {
         "version": "v4.4.14"
@@ -511,6 +535,9 @@
     },
     "twilio/sdk": {
         "version": "6.10.3"
+    },
+    "webimpress/safe-writer": {
+        "version": "2.1.0"
     },
     "webmozart/assert": {
         "version": "1.9.1"
