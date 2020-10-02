@@ -48,7 +48,7 @@ class SettingsController extends AbstractFOSRestController {
      * @return Response
      */
     public function getSettings(SettingsRepository $repo): Response {
-        return $this->handleView($this->view($repo->findAll()));
+        return $this->settingsResponse($repo->findAll());
     }
 
     /**
@@ -66,7 +66,7 @@ class SettingsController extends AbstractFOSRestController {
      * @return Response
      */
     public function getDealerSettings(SettingsRepository $repo): Response {
-        return $this->handleView($this->view($repo->getSection('dealer')));
+        return $this->settingsResponse($repo->getSection('dealer'));
     }
 
     /**
@@ -141,6 +141,26 @@ class SettingsController extends AbstractFOSRestController {
             $em->rollback();
             throw new \RuntimeException('An error occurred'); // TODO: More helpful message
         }
+    }
+
+    /**
+     * @param Settings[] $settings
+     * @return Response
+     */
+    private function settingsResponse(array $settings): Response
+    {
+        $json = [];
+        foreach ($settings as $s) {
+            if (!$s instanceof Settings) {
+                throw new \InvalidArgumentException(sprintf('$settings must be array of "%s" instances', Settings::class));
+            }
+            $json[] = [
+                'key' => $s->getKey(),
+                'value' => ($s->getValue() === null) ? '' : $s->getValue(),
+            ];
+        }
+
+        return $this->json($json);
     }
 
     /**
