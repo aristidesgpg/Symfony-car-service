@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Helper\iServiceLoggerTrait;
 use App\Service\CouponsHelper;
-
+use App\Service\ImageUploader;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -143,10 +143,11 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @param Request        $request
      * @param CouponsHelper $couponsHelper
+     * @param ImageUploader $imageUploader
      *
      * @return Response
      */
-    public function couponCreate (Request $request, CouponsHelper $couponsHelper) {
+    public function couponCreate (Request $request, CouponsHelper $couponsHelper,ImageUploader $imageUploader) {
         $title = $request->get('title');
         // $image = $request->get('image');
         $image = $request->files->get('image');
@@ -156,7 +157,7 @@ class CouponsController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $path = $this->uploadImage($image);
+        $path = $imageUploader->uploadImage($image);
 
         $couponArray = [
             'title' => $title,
@@ -220,10 +221,11 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @param Request        $request
      * @param CouponsHelper $couponsHelper
+     * @param ImageUploader $imageUploader
      *
      * @return Response
      */
-    public function couponUpdate ($id,Request $request, CouponsHelper $couponsHelper) {
+    public function couponUpdate ($id,Request $request, CouponsHelper $couponsHelper,ImageUploader $imageUploader) {
         $title = $request->get('title');
         // $image = $request->get('image');
         $image = $request->files->get('image');
@@ -234,7 +236,7 @@ class CouponsController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $path = $this->uploadImage($image);
+        $path = $imageUploader->uploadImage($image);
 
         $couponArray = [
             'id'    => $id, 
@@ -301,25 +303,6 @@ class CouponsController extends AbstractFOSRestController {
         }
 
         return $this->handleView($this->view('Delete Coupon Successfully', Response::HTTP_OK));  
-    }
-
-    
-    /**
-    * @param UploadedFile $file
-    *
-    * @return string
-    */
-    public function uploadImage (UploadedFile $file): string {
-        $uploadsDirectory = $this->getParameter('uploads_directory');
-        $filename         = md5(uniqid()).'.'.$file->guessExtension();
-
-        $file->move(
-            $uploadsDirectory,
-            $filename
-        );
-
-        $fullpath = $uploadsDirectory.'/'.$filename;
-        return $fullpath;
     }
 
 
