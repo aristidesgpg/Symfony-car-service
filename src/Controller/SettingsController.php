@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
+use App\Helper\SettingsHelper;
 use App\Repository\SettingsRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -85,10 +85,10 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Response(response="200", description="Success!")
      *
      * @param Request $req
-     * @param EntityManagerInterface $em
+     * @param SettingsHelper $helper
      * @return Response
      */
-    public function setDealerSettings(Request $req, EntityManagerInterface $em): Response {
+    public function setDealerSettings(Request $req, SettingsHelper $helper): Response {
         $fields = [
             'name', 'email', 'websiteUrl', 'inventoryUrl', 'address', 'address2', 'city', 'state', 'zip', 'phone'
         ];
@@ -101,7 +101,7 @@ class SettingsController extends AbstractFOSRestController {
             $settings['dealer_logo'] = $this->handleImage($file);
         }
         try {
-            $this->commitSettings($settings, $em);
+            $helper->commitSettings($settings);
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
@@ -112,35 +112,6 @@ class SettingsController extends AbstractFOSRestController {
     private function handleImage(UploadedFile $file): string
     {
         return base64_encode($file->openFile()->fread($file->getSize())); // TODO: Move image and store path
-    }
-
-    /**
-     * @param array $settings
-     * @param EntityManagerInterface $em
-     * @throws
-     */
-    private function commitSettings(array $settings, EntityManagerInterface $em): void {
-        foreach ($settings as $key=>$value) {
-            if (!is_string($key)) {
-                throw new \InvalidArgumentException('"key" must be string');
-            }
-            $obj = $em->find(Settings::class, $key);
-            if (!$obj instanceof Settings) {
-                $obj = new Settings($key, $value);
-                $em->persist($obj);
-            } else {
-                $obj->setValue($value);
-            }
-        }
-        $em->beginTransaction();
-        try {
-            $em->flush();
-            $em->commit();
-        } catch (\Exception $e) {
-            $this->logger->error(sprintf('Caught exception during flush: "%s"', $e->getMessage()));
-            $em->rollback();
-            throw new \RuntimeException('An error occurred'); // TODO: More helpful message
-        }
     }
 
     /**
