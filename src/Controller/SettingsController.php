@@ -267,7 +267,7 @@ class SettingsController extends AbstractFOSRestController {
         return $this->handleView($this->view($coupon, 200));
     }
 
-    /**
+     /**
      * @Rest\Post("/api/settings/coupons/create")
      *
      * @SWG\Tag(name="Settings Coupons")
@@ -416,53 +416,5 @@ class SettingsController extends AbstractFOSRestController {
         return $this->handleView($this->view('Coupon Updated', Response::HTTP_OK));   
     }
 
-    /**
-     * @Rest\Post("/api/settings/coupons/delete/{id}")
-     *
-     * @SWG\Tag(name="Settings Coupons")
-     * @SWG\Post(description="Delete a coupon")
-     *
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
-     *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
-     *                                                  string>"})
-     *     )
-     * )
-     * 
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
-     * )
-     *
-     * @param CouponsHelper $couponsHelper
-     *
-     * @return Response
-     */
-    public function couponDelete ($id, CouponsHelper $couponsHelper) {
 
-        $couponArray = [
-            'id'      => $id, 
-            'deleted' => true
-        ];
-
-        $createOrUpdateCoupon = $couponsHelper->createOrUpdateCoupon($couponArray);
-        
-        if (!$createOrUpdateCoupon) {
-            return $this->handleView(
-                $this->view('Something Went Wrong Trying to Delete the Coupon', Response::HTTP_INTERNAL_SERVER_ERROR)
-            );
-        }
-
-        return $this->handleView($this->view('Coupon Deleted', Response::HTTP_OK));   
-    }
 }
