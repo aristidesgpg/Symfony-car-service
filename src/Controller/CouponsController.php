@@ -11,8 +11,10 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+use Doctrine\ORM\EntityManagerInterface;
 
 use App\Entity\Coupon;
 
@@ -24,7 +26,7 @@ use App\Entity\Coupon;
 class CouponsController extends AbstractFOSRestController {
 
     /**
-     * @Rest\Get("/api/settings/coupons")
+     * @Rest\Get("/api/coupons")
      *
      * @SWG\Tag(name="Settings Coupons")
      * @SWG\Get(description="Get all coupons")
@@ -60,7 +62,7 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Get("/api/settings/coupons/show/{id}")
+     * @Rest\Get("/api/coupons/show/{id}")
      *
      * @SWG\Tag(name="Settings Coupons")
      * @SWG\Get(description="Show a coupon")
@@ -96,7 +98,7 @@ class CouponsController extends AbstractFOSRestController {
     }
 
      /**
-     * @Rest\Post("/api/settings/coupons/create")
+     * @Rest\Post("/api/coupons/create")
      *
      * @SWG\Tag(name="Settings Coupons")
      * @SWG\Post(description="Create a coupon")
@@ -125,7 +127,7 @@ class CouponsController extends AbstractFOSRestController {
      *     name="image",
      *     in="formData",
      *     required=true,
-     *     type="string",
+     *     type="file",
      *     description="The image of coupon",
      * )
      * 
@@ -146,16 +148,19 @@ class CouponsController extends AbstractFOSRestController {
      */
     public function couponCreate (Request $request, CouponsHelper $couponsHelper) {
         $title = $request->get('title');
-        $image = $request->get('image');
+        // $image = $request->get('image');
+        $image = $request->files->get('image');
 
         // Validation
-        if (!$title || !$image) {
+        if (!$title || !$image || !$image instanceof UploadedFile) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
+        $path = $this->uploadImage($image);
+
         $couponArray = [
             'title' => $title,
-            'image' => $image
+            'image' => $path
         ];
 
         $createOrUpdateCoupon = $couponsHelper->createOrUpdateCoupon($couponArray);
@@ -166,11 +171,11 @@ class CouponsController extends AbstractFOSRestController {
             );
         }
 
-        return $this->handleView($this->view('Coupon Created', Response::HTTP_OK));
+        return $this->handleView($this->view('Create Coupon Successfully', Response::HTTP_OK));  
     }
 
     /**
-     * @Rest\Post("/api/settings/coupons/update/{id}")
+     * @Rest\Post("/api/coupons/update/{id}")
      *
      * @SWG\Tag(name="Settings Coupons")
      * @SWG\Post(description="Update a coupon")
@@ -199,7 +204,7 @@ class CouponsController extends AbstractFOSRestController {
      *     name="image",
      *     in="formData",
      *     required=true,
-     *     type="string",
+     *     type="file",
      *     description="The image of coupon",
      * )
      * 
@@ -220,17 +225,21 @@ class CouponsController extends AbstractFOSRestController {
      */
     public function couponUpdate ($id,Request $request, CouponsHelper $couponsHelper) {
         $title = $request->get('title');
-        $image = $request->get('image');
+        // $image = $request->get('image');
+        $image = $request->files->get('image');
+        
 
         // Validation
-        if (!$title || !$image) {
+        if (!$title || !$image || !$image instanceof UploadedFile) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
+
+        $path = $this->uploadImage($image);
 
         $couponArray = [
             'id'    => $id, 
             'title' => $title,
-            'image' => $image
+            'image' => $path
         ];
 
         $createOrUpdateCoupon = $couponsHelper->createOrUpdateCoupon($couponArray);
@@ -241,11 +250,11 @@ class CouponsController extends AbstractFOSRestController {
             );
         }
 
-        return $this->handleView($this->view('Coupon Updated', Response::HTTP_OK));   
+        return $this->handleView($this->view('Update Coupon Successfully', Response::HTTP_OK));  
     }
 
- /**
-     * @Rest\Post("/api/settings/coupons/delete/{id}")
+    /**
+     * @Rest\Post("/api/coupons/delete/{id}")
      *
      * @SWG\Tag(name="Settings Coupons")
      * @SWG\Post(description="Delete a coupon")
@@ -291,6 +300,46 @@ class CouponsController extends AbstractFOSRestController {
             );
         }
 
-        return $this->handleView($this->view('Coupon Deleted', Response::HTTP_OK));   
+        return $this->handleView($this->view('Delete Coupon Successfully', Response::HTTP_OK));  
+    }
+
+    
+    /**
+    * @param UploadedFile $file
+    *
+    * @return string
+    */
+    public function uploadImage (UploadedFile $file): string {
+        $uploadsDirectory = $this->getParameter('uploads_directory');
+        $filename         = md5(uniqid()).'.'.$file->guessExtension();
+
+        $file->move(
+            $uploadsDirectory,
+            $filename
+        );
+
+        $fullpath = $uploadsDirectory.'/'.$filename;
+        return $fullpath;
+    }
+
+
+    /**
+     * 
+     * @param array $couponArray
+     * @param string $type
+     * @param CouponsHelper $couponsHelper
+     *
+     * @return Response
+     */
+    public function createOrUpdateCoupon(array $couponArray, string $type, CouponsHelper $couponsHelper){
+        $createOrUpdateCoupon = $couponsHelper->createOrUpdateCoupon($couponArray);
+        
+        if (!$createOrUpdateCoupon) {
+            return $this->handleView(
+                $this->view('Something Went Wrong Trying to the Coupon', Response::HTTP_INTERNAL_SERVER_ERROR)
+            );
+        }
+
+        return $this->handleView($this->view(' Coupon Successfully', Response::HTTP_OK));  
     }
 }

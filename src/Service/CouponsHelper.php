@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Coupon;
 use App\Repository\CouponRepository;
 use Doctrine\ORM\EntityManagerInterface;
-
 /**
  * Class CouponsHelper
  *
@@ -78,6 +77,9 @@ class CouponsHelper {
 
         $coupon = $this->getCouponById($couponArray);
 
+        if(!$coupon)
+            return false;
+
         if (array_key_exists("title",$couponArray)){ //Update title
             $coupon->setTitle($couponArray['title']);
         }
@@ -93,7 +95,7 @@ class CouponsHelper {
         $this->em->persist($coupon);
         $this->em->flush();
 
-        return $coupon;
+        return true;
     }
 
     /**
@@ -110,9 +112,6 @@ class CouponsHelper {
         }
 
         // Update if valid
-        $this->findAndUpdate($couponArray);
- 
-        return true;
+        return $this->findAndUpdate($couponArray);
     }
-
 }
