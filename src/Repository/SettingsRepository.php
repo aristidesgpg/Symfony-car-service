@@ -13,15 +13,25 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Settings[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class SettingsRepository extends ServiceEntityRepository {
-    public function __construct(ManagerRegistry $registry) {
+    /**
+     * SettingsRepository constructor.
+     *
+     * @param ManagerRegistry $registry
+     */
+    public function __construct (ManagerRegistry $registry) {
         parent::__construct($registry, Settings::class);
     }
 
-    public function getSection(string $section) {
+    /**
+     * @param string $section
+     *
+     * @return int|mixed|string
+     */
+    public function getSection (string $section) {
         return $this->createQueryBuilder('s')
-            ->where('s.key LIKE :section')
-            ->setParameter('section', $section . '%')
-            ->getQuery()
-            ->getResult();
+                    ->where('s.key LIKE :section')
+                    ->setParameter('section', $section . '%')
+                    ->getQuery()
+                    ->getResult();
     }
 }

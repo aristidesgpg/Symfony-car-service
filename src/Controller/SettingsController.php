@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
-use App\Helper\SettingsHelper;
+use App\Service\SettingsHelper;
 use App\Repository\SettingsRepository;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -45,32 +45,16 @@ class SettingsController extends AbstractFOSRestController {
      * )
      *
      * @param SettingsRepository $repo
+     *
      * @return Response
      */
-    public function getSettings(SettingsRepository $repo): Response {
+    public function getSettings (SettingsRepository $repo): Response {
         return $this->settingsResponse($repo->findAll());
     }
 
     /**
-     * @Rest\Get("/dealer")
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=Settings::class))
-     *     )
-     * )
-     *
-     * @param SettingsRepository $repo
-     * @return Response
-     */
-    public function getDealerSettings(SettingsRepository $repo): Response {
-        return $this->settingsResponse($repo->getSection('dealer'));
-    }
-
-    /**
      * @Rest\Post("/dealer")
+     *
      * @SWG\Parameter(name="name", type="string", in="formData")
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="websiteUrl", type="string", in="formData")
@@ -84,22 +68,26 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="logo", type="file", in="formData")
      * @SWG\Response(response="200", description="Success!")
      *
-     * @param Request $req
+     * @param Request        $req
      * @param SettingsHelper $helper
+     *
      * @return Response
      */
-    public function setDealerSettings(Request $req, SettingsHelper $helper): Response {
-        $fields = [
+    public function setDealerSettings (Request $req, SettingsHelper $helper): Response {
+        $fields   = [
             'name', 'email', 'websiteUrl', 'inventoryUrl', 'address', 'address2', 'city', 'state', 'zip', 'phone'
         ];
         $settings = [];
+
         foreach ($fields as $key) {
             $settings['dealer_' . $key] = $req->request->get($key);
         }
+
         $file = $req->files->get('logo');
         if ($file instanceof UploadedFile) {
             $settings['dealer_logo'] = $this->handleImage($file);
         }
+
         try {
             $helper->commitSettings($settings);
         } catch (\Exception $e) {
@@ -109,24 +97,30 @@ class SettingsController extends AbstractFOSRestController {
         return new Response();
     }
 
-    private function handleImage(UploadedFile $file): string
-    {
+    /**
+     * @param UploadedFile $file
+     *
+     * @return string
+     */
+    private function handleImage (UploadedFile $file): string {
         return base64_encode($file->openFile()->fread($file->getSize())); // TODO: Move image and store path
     }
 
     /**
      * @param Settings[] $settings
+     *
      * @return Response
      */
-    private function settingsResponse(array $settings): Response
-    {
+    private function settingsResponse (array $settings): Response {
         $json = [];
+
         foreach ($settings as $s) {
             if (!$s instanceof Settings) {
                 throw new \InvalidArgumentException(sprintf('$settings must be array of "%s" instances', Settings::class));
             }
+
             $json[] = [
-                'key' => $s->getKey(),
+                'key'   => $s->getKey(),
                 'value' => ($s->getValue() === null) ? '' : $s->getValue(),
             ];
         }
@@ -136,9 +130,10 @@ class SettingsController extends AbstractFOSRestController {
 
     /**
      * @param string $msg
+     *
      * @return JsonResponse
      */
-    private function errorResponse(string $msg): JsonResponse {
+    private function errorResponse (string $msg): JsonResponse {
         return $this->json(['error' => $msg], 500);
     }
 }
