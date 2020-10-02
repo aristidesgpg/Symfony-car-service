@@ -215,51 +215,6 @@ class SettingsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/dealer")
-     *
-     * @SWG\Parameter(name="name", type="string", in="formData")
-     * @SWG\Parameter(name="email", type="string", in="formData")
-     * @SWG\Parameter(name="websiteUrl", type="string", in="formData")
-     * @SWG\Parameter(name="inventoryUrl", type="string", in="formData")
-     * @SWG\Parameter(name="address", type="string", in="formData")
-     * @SWG\Parameter(name="address2", type="string", in="formData")
-     * @SWG\Parameter(name="city", type="string", in="formData")
-     * @SWG\Parameter(name="state", type="string", in="formData")
-     * @SWG\Parameter(name="zip", type="string", in="formData")
-     * @SWG\Parameter(name="phone", type="string", in="formData")
-     * @SWG\Parameter(name="logo", type="file", in="formData")
-     * @SWG\Response(response="200", description="Success!")
-     *
-     * @param Request        $req
-     * @param SettingsHelper $helper
-     *
-     * @return Response
-     */
-    public function setDealerSettings (Request $req, SettingsHelper $helper): Response {
-        $fields   = [
-            'name', 'email', 'websiteUrl', 'inventoryUrl', 'address', 'address2', 'city', 'state', 'zip', 'phone'
-        ];
-        $settings = [];
-
-        foreach ($fields as $key) {
-            $settings['dealer_' . $key] = $req->request->get($key);
-        }
-
-        $file = $req->files->get('logo');
-        if ($file instanceof UploadedFile) {
-            $settings['dealer_logo'] = $this->handleImage($file);
-        }
-
-        try {
-            $helper->commitSettings($settings);
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage());
-        }
-
-        return new Response();
-    }
-
-    /**
      * @param UploadedFile $file
      *
      * @return string
