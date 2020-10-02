@@ -71,17 +71,17 @@ class SettingsController extends AbstractFOSRestController {
 
     /**
      * @Rest\Post("/dealer")
-     * @SWG\Parameter(name="dealer_name", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_email", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_website_url", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_inventory_url", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_address", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_address2", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_city", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_state", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_zip", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_phone", type="string", in="formData")
-     * @SWG\Parameter(name="dealer_logo", type="file", in="formData")
+     * @SWG\Parameter(name="name", type="string", in="formData")
+     * @SWG\Parameter(name="email", type="string", in="formData")
+     * @SWG\Parameter(name="websiteUrl", type="string", in="formData")
+     * @SWG\Parameter(name="inventoryUrl", type="string", in="formData")
+     * @SWG\Parameter(name="address", type="string", in="formData")
+     * @SWG\Parameter(name="address2", type="string", in="formData")
+     * @SWG\Parameter(name="city", type="string", in="formData")
+     * @SWG\Parameter(name="state", type="string", in="formData")
+     * @SWG\Parameter(name="zip", type="string", in="formData")
+     * @SWG\Parameter(name="phone", type="string", in="formData")
+     * @SWG\Parameter(name="logo", type="file", in="formData")
      * @SWG\Response(response="200", description="Success!")
      *
      * @param Request $req
@@ -89,13 +89,16 @@ class SettingsController extends AbstractFOSRestController {
      * @return Response
      */
     public function setDealerSettings(Request $req, EntityManagerInterface $em): Response {
+        $fields = [
+            'name', 'email', 'websiteUrl', 'inventoryUrl', 'address', 'address2', 'city', 'state', 'zip', 'phone'
+        ];
         $settings = [];
-        foreach ($req->request->all() as $k=>$v) {
-            $settings[] = ['key' => $k, 'value' => $v];
+        foreach ($fields as $key) {
+            $settings['dealer_' . $key] = $req->request->get($key);
         }
-        $file = $req->files->get('dealer_logo');
+        $file = $req->files->get('logo');
         if ($file instanceof UploadedFile) {
-            $settings[] = ['key' => 'dealer_logo', 'value' => $this->handleImage($file)];
+            $settings['dealer_logo'] = $this->handleImage($file);
         }
         try {
             $this->commitSettings($settings, $em);
@@ -117,10 +120,9 @@ class SettingsController extends AbstractFOSRestController {
      * @throws
      */
     private function commitSettings(array $settings, EntityManagerInterface $em): void {
-        foreach ($settings as $s) {
-            ['key' => $key, 'value' => $value] = $s;
-            if (empty($key) || !is_string($key)) {
-                throw new \InvalidArgumentException('"key" cannot be empty');
+        foreach ($settings as $key=>$value) {
+            if (!is_string($key)) {
+                throw new \InvalidArgumentException('"key" must be string');
             }
             $obj = $em->find(Settings::class, $key);
             if (!$obj instanceof Settings) {
