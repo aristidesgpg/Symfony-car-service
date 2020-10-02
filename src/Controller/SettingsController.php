@@ -34,7 +34,7 @@ class SettingsController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/get")
+     * @Rest\Get("")
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -49,73 +49,6 @@ class SettingsController extends AbstractFOSRestController {
      */
     public function getSettings(SettingsRepository $repo): Response {
         return $this->handleView($this->view($repo->findAll()));
-    }
-
-    /**
-     * @Rest\Post("/set")
-     * @SWG\Parameter(
-     *     name="settings",
-     *     in="body",
-     *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(type="object", ref=@Model(type=Settings::class))
-     *     )
-     * )
-     * @SWG\Response(response="200", description="Success!")
-     *
-     * @param Request $req
-     * @param EntityManagerInterface $em
-     * @return Response
-     */
-    public function setSettings(Request $req, EntityManagerInterface $em): Response {
-        $json = json_decode($req->getContent(), true);
-        try {
-            $this->commitSettings($json, $em);
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage());
-        }
-
-        return new Response();
-    }
-
-    /**
-     * @Rest\Post("/upload")
-     * @SWG\Response(response="200", description="Success!")
-     * @SWG\Parameter(
-     *     name="key",
-     *     type="string",
-     *     in="formData",
-     *     description="customer_video OR dealer_logo"
-     * )
-     * @SWG\Parameter(name="file", type="file", in="formData")
-     *
-     * @param Request $req
-     * @param EntityManagerInterface $em
-     * @return Response
-     */
-    public function upload(Request $req, EntityManagerInterface $em): Response {
-        $file = $req->files->get('file');
-        if (!$file instanceof UploadedFile) {
-            return $this->errorResponse('No file found');
-        }
-        $key = $req->request->get('key');
-        $setting = ['key' => $key, 'value' => null];
-        switch ($key) {
-            case 'customer_video':
-                return $this->errorResponse('Not implemented'); // TODO
-            case 'dealer_logo':
-                $setting['value'] = $this->handleImage($file);
-                break;
-            default:
-                return $this->errorResponse(sprintf('Unknown key: "%s"', $key));
-        }
-        try {
-            $this->commitSettings([$setting], $em);
-        } catch (\Exception $e) {
-            return $this->errorResponse($e->getMessage());
-        }
-
-        return new Response();
     }
 
     /**
