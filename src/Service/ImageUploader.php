@@ -31,25 +31,27 @@ class ImageUploader {
      * @param Container              $container
      */
     public function __construct (EntityManagerInterface $em, Container $container) {
-        $this->em         = $em;
-        $this->container  = $container;
+        $this->em        = $em;
+        $this->container = $container;
     }
 
-        /**
-    * @param UploadedFile $file
-    *
-    * @return string
-    */
-    public function uploadImage (UploadedFile $file): string {
-        $uploadsDirectory = $this->container->getParameter('uploads_directory');
-        $filename         = md5(uniqid()).'.'.$file->guessExtension();
+    /**
+     * @param UploadedFile $file
+     *
+     * @param              $directory
+     *
+     * @return string
+     */
+    public function uploadImage (UploadedFile $file, $directory = null): string {
+        $uploadsDirectory = $this->container->getParameter('uploads_directory') . $directory;
+        $filename         = md5(uniqid()) . '.' . $file->guessExtension();
 
         $file->move(
             $uploadsDirectory,
             $filename
         );
 
-        $fullpath = $uploadsDirectory.'/'.$filename;
+        $fullpath = $uploadsDirectory . '/' . $filename;
         return $fullpath;
     }
 }

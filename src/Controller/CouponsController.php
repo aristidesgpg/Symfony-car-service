@@ -2,20 +2,15 @@
 
 namespace App\Controller;
 
-use App\Helper\iServiceLoggerTrait;
-use App\Service\CouponsHelper;
+use App\Repository\CouponRepository;
 use App\Service\ImageUploader;
-
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
-use Doctrine\ORM\EntityManagerInterface;
-
 use App\Entity\Coupon;
 
 /**
@@ -28,7 +23,7 @@ class CouponsController extends AbstractFOSRestController {
     /**
      * @Rest\Get("/api/coupons")
      *
-     * @SWG\Tag(name="Settings Coupons")
+     * @SWG\Tag(name="Coupons")
      * @SWG\Get(description="Get all coupons")
      * @SWG\Parameter(
      *     name="Authorization",
@@ -52,55 +47,17 @@ class CouponsController extends AbstractFOSRestController {
      * )
      *
      * @param EntityManagerInterface $em
-     *
+     * @param CouponRepository $couponRepository
      * @return Response
      */
-    public function getCoupons (EntityManagerInterface $em) {
-        $coupon = $em->getRepository(Coupon::class)->findAll();
-
-        return $this->handleView($this->view($coupon, 200));
+    public function list (EntityManagerInterface $em, CouponRepository $couponRepository) {
+        return $this->handleView($this->view($couponRepository->findBy(['deleted' => 0]), Response::HTTP_OK));
     }
 
     /**
-     * @Rest\Get("/api/coupons/show/{id}")
+     * @Rest\Post("/api/coupons/new")
      *
-     * @SWG\Tag(name="Settings Coupons")
-     * @SWG\Get(description="Show a coupon")
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
-     *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
-     *                                                  string>"})
-     *
-     *     )
-     * )
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return coupons",
-     *     @SWG\Items(
-     *         type="object",
-     *             description="id, title, image, deleted value for coupons"
-     *         )
-     * )
-     *
-     * @param EntityManagerInterface $em
-     *
-     * @return Response
-     */
-    public function couponShow ($id, EntityManagerInterface $em) {
-        $coupon = $em->getRepository(Coupon::class)->findById($id);
-
-        return $this->handleView($this->view($coupon, 200));
-    }
-
-     /**
-     * @Rest\Post("/api/coupons/create")
-     *
-     * @SWG\Tag(name="Settings Coupons")
+     * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Create a coupon")
      *
      * @SWG\Parameter(
@@ -114,7 +71,7 @@ class CouponsController extends AbstractFOSRestController {
      *                                                  string>"})
      *     )
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="title",
      *     in="formData",
@@ -122,7 +79,7 @@ class CouponsController extends AbstractFOSRestController {
      *     type="string",
      *     description="The title of coupon",
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="image",
      *     in="formData",
@@ -130,7 +87,7 @@ class CouponsController extends AbstractFOSRestController {
      *     type="file",
      *     description="The image of coupon",
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -141,15 +98,15 @@ class CouponsController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Request        $request
+     * @param EntityManagerInterface $em
+     * @param Request $request
      * @param CouponsHelper $couponsHelper
      * @param ImageUploader $imageUploader
      *
      * @return Response
      */
-    public function couponCreate (Request $request, CouponsHelper $couponsHelper,ImageUploader $imageUploader) {
+    public function new (EntityManagerInterface $em, Request $request, ImageUploader $imageUploader) {
         $title = $request->get('title');
-        // $image = $request->get('image');
         $image = $request->files->get('image');
 
         // Validation
@@ -157,28 +114,20 @@ class CouponsController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $path = $imageUploader->uploadImage($image);
+        $path   = $imageUploader->uploadImage($image, 'coupons');
+        $coupon = new Coupon();
 
-        $couponArray = [
-            'title' => $title,
-            'image' => $path
-        ];
+        $coupon->setTitle($title)->setImage($path);
+        $em->persist($coupon);
+        $em->flush();
 
-        $createOrUpdateCoupon = $couponsHelper->createOrUpdateCoupon($couponArray);
-        
-        if (!$createOrUpdateCoupon) {
-            return $this->handleView(
-                $this->view('Something Went Wrong Trying to Create the Coupon', Response::HTTP_INTERNAL_SERVER_ERROR)
-            );
-        }
-
-        return $this->handleView($this->view('Create Coupon Successfully', Response::HTTP_OK));  
+        return $this->handleView($this->view('Coupon Created', Response::HTTP_OK));
     }
 
     /**
-     * @Rest\Post("/api/coupons/update/{id}")
+     * @Rest\Post("/api/coupons/{id}/edit")
      *
-     * @SWG\Tag(name="Settings Coupons")
+     * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Update a coupon")
      *
      * @SWG\Parameter(
@@ -192,7 +141,7 @@ class CouponsController extends AbstractFOSRestController {
      *                                                  string>"})
      *     )
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="title",
      *     in="formData",
@@ -200,7 +149,7 @@ class CouponsController extends AbstractFOSRestController {
      *     type="string",
      *     description="The title of coupon",
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="image",
      *     in="formData",
@@ -208,7 +157,7 @@ class CouponsController extends AbstractFOSRestController {
      *     type="file",
      *     description="The image of coupon",
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -225,40 +174,39 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function couponUpdate ($id,Request $request, CouponsHelper $couponsHelper,ImageUploader $imageUploader) {
+    public function edit (Coupon $coupon, Request $request, EntityManagerInterface $em,
+                          ImageUploader $imageUploader) {
         $title = $request->get('title');
-        // $image = $request->get('image');
         $image = $request->files->get('image');
-        
 
         // Validation
-        if (!$title || !$image || !$image instanceof UploadedFile) {
+        if (!$title) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $path = $imageUploader->uploadImage($image);
-
-        $couponArray = [
-            'id'    => $id, 
-            'title' => $title,
-            'image' => $path
-        ];
-
-        $createOrUpdateCoupon = $couponsHelper->createOrUpdateCoupon($couponArray);
-        
-        if (!$createOrUpdateCoupon) {
-            return $this->handleView(
-                $this->view('Something Went Wrong Trying to Update the Coupon', Response::HTTP_INTERNAL_SERVER_ERROR)
-            );
+        // Only if image is passed do we update it
+        if ($image && !$image instanceof UploadedFile) {
+            return $this->handleView($this->view('Invalid Image Passed', Response::HTTP_BAD_REQUEST));
         }
 
-        return $this->handleView($this->view('Update Coupon Successfully', Response::HTTP_OK));  
+        $coupon->setTitle($title);
+
+        if ($image) {
+            $path = $imageUploader->uploadImage($image, 'coupons');
+
+            $coupon->setImage($path);
+        }
+
+        $em->persist($coupon);
+        $em->flush();
+
+        return $this->handleView($this->view('Coupon Updated', Response::HTTP_OK));
     }
 
     /**
-     * @Rest\Post("/api/coupons/delete/{id}")
+     * @Rest\Post("/api/coupons/{id}/delete")
      *
-     * @SWG\Tag(name="Settings Coupons")
+     * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Delete a coupon")
      *
      * @SWG\Parameter(
@@ -272,7 +220,7 @@ class CouponsController extends AbstractFOSRestController {
      *                                                  string>"})
      *     )
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -283,46 +231,18 @@ class CouponsController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param CouponsHelper $couponsHelper
+     * @param Coupon                 $coupon
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function couponDelete ($id, CouponsHelper $couponsHelper) {
+    public function delete (Coupon $coupon, EntityManagerInterface $em) {
+        $coupon->setDeleted(true);
 
-        $couponArray = [
-            'id'      => $id, 
-            'deleted' => true
-        ];
+        $em->persist($coupon);
+        $em->flush();
 
-        $createOrUpdateCoupon = $couponsHelper->createOrUpdateCoupon($couponArray);
-        
-        if (!$createOrUpdateCoupon) {
-            return $this->handleView(
-                $this->view('Something Went Wrong Trying to Delete the Coupon', Response::HTTP_INTERNAL_SERVER_ERROR)
-            );
-        }
-
-        return $this->handleView($this->view('Delete Coupon Successfully', Response::HTTP_OK));  
+        return $this->handleView($this->view('Coupon Deleted', Response::HTTP_OK));
     }
 
-
-    /**
-     * 
-     * @param array $couponArray
-     * @param string $type
-     * @param CouponsHelper $couponsHelper
-     *
-     * @return Response
-     */
-    public function createOrUpdateCoupon(array $couponArray, string $type, CouponsHelper $couponsHelper){
-        $createOrUpdateCoupon = $couponsHelper->createOrUpdateCoupon($couponArray);
-        
-        if (!$createOrUpdateCoupon) {
-            return $this->handleView(
-                $this->view('Something Went Wrong Trying to the Coupon', Response::HTTP_INTERNAL_SERVER_ERROR)
-            );
-        }
-
-        return $this->handleView($this->view(' Coupon Successfully', Response::HTTP_OK));  
-    }
 }
