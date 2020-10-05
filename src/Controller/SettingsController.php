@@ -121,7 +121,7 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="googleUrl", type="string", in="formData")
      * @SWG\Parameter(name="facebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
-     * @SWG\Parameter(name="reviewSms", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
+     * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      *
      * @param Request $req
      * @param SettingsHelper $helper
@@ -133,7 +133,7 @@ class SettingsController extends AbstractFOSRestController {
             'phase1', 'phase2', 'phase3', 'techUsername', 'techPassword', 'custAppraise', 'custFinanceUrl',
             'laborRate', 'useMatrix', 'laborTax', 'partsTax', 'estimateWaiverText', 'activateAuthMsg', 'waiverText',
             'usageEmails', 'openLate', 'salesVideoText', 'name', 'email', 'websiteUrl', 'inventoryUrl', 'address',
-            'address2', 'city', 'state', 'zip', 'phone', 'spotLightUrl', 'googleUrl', 'facebookUrl', 'reviewSms',
+            'address2', 'city', 'state', 'zip', 'phone', 'spotLightUrl', 'googleUrl', 'facebookUrl', 'reviewText',
         ];
         $file_list = ['custVideo', 'logo', 'reviewLogo'];
 
@@ -152,7 +152,7 @@ class SettingsController extends AbstractFOSRestController {
                         $errors[$key] = $e->getMessage();
                     }
                     break;
-                case 'reviewSms':
+                case 'reviewText':
                     if (strlen($val) > self::SMS_MAX_LENGTH) {
                         $errors[$key] = sprintf(self::TOO_LONG_MSG, self::SMS_MAX_LENGTH);
                     }
