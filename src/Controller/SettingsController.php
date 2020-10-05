@@ -90,6 +90,12 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="custVideo", type="file", in="formData")
      * @SWG\Parameter(name="custFinanceUrl", type="string", in="formData")
      *
+     * @SWG\Parameter(name="introText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
+     * @SWG\Parameter(name="videoText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="videoResendText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="quoteText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="paymentText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     *
      * @SWG\Parameter(name="laborRate", type="number", in="formData")
      * @SWG\Parameter(name="useMatrix", type="boolean", in="formData")
      * @SWG\Parameter(name="laborTax", type="number", in="formData")
@@ -134,6 +140,7 @@ class SettingsController extends AbstractFOSRestController {
             'laborRate', 'useMatrix', 'laborTax', 'partsTax', 'estimateWaiverText', 'activateAuthMsg', 'waiverText',
             'usageEmails', 'openLate', 'salesVideoText', 'name', 'email', 'websiteUrl', 'inventoryUrl', 'address',
             'address2', 'city', 'state', 'zip', 'phone', 'spotLightUrl', 'googleUrl', 'facebookUrl', 'reviewText',
+            'introText', 'videoText', 'videoResendText', 'quoteText', 'paymentText',
         ];
         $file_list = ['custVideo', 'logo', 'reviewLogo'];
 
@@ -152,11 +159,16 @@ class SettingsController extends AbstractFOSRestController {
                         $errors[$key] = $e->getMessage();
                     }
                     break;
+                case 'introText':
                 case 'reviewText':
                     if (strlen($val) > self::SMS_MAX_LENGTH) {
                         $errors[$key] = sprintf(self::TOO_LONG_MSG, self::SMS_MAX_LENGTH);
                     }
                     break;
+                case 'videoText':
+                case 'videoResendText':
+                case 'quoteText':
+                case 'paymentText':
                 case 'waiverText':
                 case 'salesVideoText':
                     if (strlen($val) > self::SMS_EXTRA_MAX_LENGTH) {
