@@ -100,7 +100,6 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @param EntityManagerInterface $em
      * @param Request $request
-     * @param CouponsHelper $couponsHelper
      * @param ImageUploader $imageUploader
      *
      * @return Response
@@ -114,9 +113,17 @@ class CouponsController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $path   = $imageUploader->uploadImage($image, 'coupons');
-        $coupon = new Coupon();
+        //check image extension is valid
+        if(!$imageUploader->isValidImage($image)){ 
+            return $this->handleView($this->view('Invalid Image Type', Response::HTTP_BAD_REQUEST));
+        }
 
+        $path   = $imageUploader->uploadImage($image, 'coupons');
+        if(!$path){
+            $this->view('Something Went Wrong Trying to Upload the Image', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        $coupon = new Coupon();
         $coupon->setTitle($title)->setImage($path);
         $em->persist($coupon);
         $em->flush();
@@ -168,8 +175,7 @@ class CouponsController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Request        $request
-     * @param CouponsHelper $couponsHelper
+     * @param Request       $request
      * @param ImageUploader $imageUploader
      *
      * @return Response
@@ -189,10 +195,18 @@ class CouponsController extends AbstractFOSRestController {
             return $this->handleView($this->view('Invalid Image Passed', Response::HTTP_BAD_REQUEST));
         }
 
+        //check image extension is valid
+        if(!$imageUploader->isValidImage($image)){ 
+            return $this->handleView($this->view('Invalid Image Type', Response::HTTP_BAD_REQUEST));
+        }
+
         $coupon->setTitle($title);
 
         if ($image) {
             $path = $imageUploader->uploadImage($image, 'coupons');
+            if(!$path){
+                $this->view('Something Went Wrong Trying to Upload the Image', Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
 
             $coupon->setImage($path);
         }

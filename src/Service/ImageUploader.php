@@ -46,12 +46,36 @@ class ImageUploader {
         $uploadsDirectory = $this->container->getParameter('uploads_directory') . $directory;
         $filename         = md5(uniqid()) . '.' . $file->guessExtension();
 
-        $file->move(
-            $uploadsDirectory,
-            $filename
-        );
-
+        try {
+            $file->move(
+                $uploadsDirectory,
+                $filename
+            );
+        }
+        catch(Exception  $e){
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            return false;
+        }
+        
+       
         $fullpath = $uploadsDirectory . '/' . $filename;
         return $fullpath;
+    }
+
+    /**
+     * @param UploadedFile $file
+     *
+     * @return string
+     */
+    public function isValidImage (UploadedFile $file): string {
+        // all the image extension types in array
+        $type=Array(1 => 'jpg', 2 => 'jpeg', 3 => 'png'); 
+ 
+        //check image extension not in the array $type
+        if(!(in_array($file->guessExtension(),$type))){ 
+            return false;
+        }
+
+        return true;
     }
 }
