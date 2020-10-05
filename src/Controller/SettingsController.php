@@ -196,13 +196,12 @@ class SettingsController extends AbstractFOSRestController {
             } else {
                 // TODO: Validate image
             }
-            $files[] = [$key, $file]; // Defer file processing in case of validation errors
+            $files[$key] = $file; // Defer file processing in case of validation errors
         }
         if (!empty($errors)) {
             return $this->validationErrorResponse($errors);
         }
-        foreach ($files as $f) {
-            [$key, $file] = $f;
+        foreach ($files as $key=>$file) {
             $settings[$key] = ($key === 'custVideo') ? $this->handleVideo($file) : $this->handleImage($file);
         }
         try {
