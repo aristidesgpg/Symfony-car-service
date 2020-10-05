@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
+use App\Service\ImageUploader;
 use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
 use App\Repository\SettingsRepository;
@@ -131,10 +132,11 @@ class SettingsController extends AbstractFOSRestController {
      *
      * @param Request $req
      * @param SettingsHelper $helper
+     * @param ImageUploader $uploader
      *
      * @return Response
      */
-    public function setSettings (Request $req, SettingsHelper $helper): Response {
+    public function setSettings (Request $req, SettingsHelper $helper, ImageUploader $uploader): Response {
         $param_list = [ // FIXME: Pull parameters from docblock
             'phase1', 'phase2', 'phase3', 'techUsername', 'techPassword', 'custAppraise', 'custFinanceUrl',
             'laborRate', 'useMatrix', 'laborTax', 'partsTax', 'estimateWaiverText', 'activateAuthMsg', 'waiverText',
@@ -206,7 +208,10 @@ class SettingsController extends AbstractFOSRestController {
             if ($key === 'custVideo') {
                 // TODO: Validate video
             } else {
-                // TODO: Validate image
+                if ($uploader->isValidImage($file) !== true) {
+                    $errors[$key] = 'Invalid file type';
+                    continue;
+                }
             }
             $files[$key] = $file; // Defer file processing in case of validation errors
         }
@@ -214,7 +219,11 @@ class SettingsController extends AbstractFOSRestController {
             return $this->validationErrorResponse($errors);
         }
         foreach ($files as $key=>$file) {
-            $settings[$key] = ($key === 'custVideo') ? $this->handleVideo($file) : $this->handleImage($file);
+            try {
+                $settings[$key] = ($key === 'custVideo') ? $this->handleVideo($file) : $this->handleImage($file, $uploader);
+            } catch (\Exception $e) {
+                return $this->errorResponse(sprintf('%s: %s', $key, $e->getMessage()));
+            }
         }
         try {
             $helper->commitSettings($settings);
@@ -227,11 +236,21 @@ class SettingsController extends AbstractFOSRestController {
 
     /**
      * @param UploadedFile $file
+     * @param ImageUploader $uploader
      *
      * @return string
      */
-    private function handleImage (UploadedFile $file): string {
-        return base64_encode($file->openFile()->fread($file->getSize())); // TODO: Move image and store path
+    private function handleImage (UploadedFile $file, ImageUploader $uploader): string {
+        $path = $uploader->uploadImage($file);
+        if ($path === false) {
+            throw new \RuntimeException('Could not move file');
+        }
+        $matches = [];
+        if (preg_match('/\/public\/(.*)/', $path, $matches)) { // Get relative URL
+            return '/' . $matches[1];
+        }
+
+        return $path;
     }
 
     private function handleVideo (UploadedFile $file): string {
