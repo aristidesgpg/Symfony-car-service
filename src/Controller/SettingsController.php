@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
-use App\Service\ImageUploader;
 use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
 use App\Repository\SettingsRepository;
+use App\Service\UploadHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -132,11 +132,11 @@ class SettingsController extends AbstractFOSRestController {
      *
      * @param Request $req
      * @param SettingsHelper $helper
-     * @param ImageUploader $uploader
+     * @param UploadHelper $uploader
      *
      * @return Response
      */
-    public function setSettings (Request $req, SettingsHelper $helper, ImageUploader $uploader): Response {
+    public function setSettings (Request $req, SettingsHelper $helper, UploadHelper $uploader): Response {
         $param_list = [ // FIXME: Pull parameters from docblock
             'phase1', 'phase2', 'phase3', 'techUsername', 'techPassword', 'custAppraise', 'custFinanceUrl',
             'laborRate', 'useMatrix', 'laborTax', 'partsTax', 'estimateWaiverText', 'activateAuthMsg', 'waiverText',
@@ -205,13 +205,10 @@ class SettingsController extends AbstractFOSRestController {
                 $errors[$key] = 'Could not find file';
                 continue;
             }
-            if ($key === 'custVideo') {
-                // TODO: Validate video
-            } else {
-                if ($uploader->isValidImage($file) !== true) {
-                    $errors[$key] = 'Invalid file type';
-                    continue;
-                }
+            $isValid = ($key === 'custVideo') ? $uploader->isValidVideo($file) : $uploader->isValidImage($file);
+            if ($isValid !== true) {
+                $errors[$key] = 'Invalid file type';
+                continue;
             }
             $files[$key] = $file; // Defer file processing in case of validation errors
         }
@@ -220,9 +217,12 @@ class SettingsController extends AbstractFOSRestController {
         }
         foreach ($files as $key=>$file) {
             try {
-                $settings[$key] = ($key === 'custVideo') ? $this->handleVideo($file) : $this->handleImage($file, $uploader);
+                $dir = ($key === 'custVideo') ? 'videos' : 'images';
+                $path = $uploader->upload($file, $dir);
+                $settings[$key] = $uploader->pathToRelativeUrl($path);
             } catch (\Exception $e) {
-                return $this->errorResponse(sprintf('%s: %s', $key, $e->getMessage()));
+                $this->logger->error(sprintf('Failed to move file for key "%s": "%s"', $key, $e->getMessage()));
+                return $this->errorResponse('Failed to move file');
             }
         }
         try {
@@ -232,29 +232,6 @@ class SettingsController extends AbstractFOSRestController {
         }
 
         return new Response();
-    }
-
-    /**
-     * @param UploadedFile $file
-     * @param ImageUploader $uploader
-     *
-     * @return string
-     */
-    private function handleImage (UploadedFile $file, ImageUploader $uploader): string {
-        $path = $uploader->uploadImage($file);
-        if ($path === false) {
-            throw new \RuntimeException('Could not move file');
-        }
-        $matches = [];
-        if (preg_match('/\/public\/(.*)/', $path, $matches)) { // Get relative URL
-            return '/' . $matches[1];
-        }
-
-        return $path;
-    }
-
-    private function handleVideo (UploadedFile $file): string {
-        return 'not implemented'; // TODO
     }
 
     /**
