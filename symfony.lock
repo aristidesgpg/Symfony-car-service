@@ -205,7 +205,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.4"
+        "version": "7.3"
     },
     "php-http/client-common": {
         "version": "1.10.0"
@@ -289,6 +289,15 @@
             "branch": "master",
             "version": "1.2",
             "ref": "6c1ceb662f8997085f739cd089bfbef67f245983"
+        }
+    },
+    "symfony/apache-pack": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "71599f5b0fdeeeec0fb90e9b17c85e6f5e1350c1"
         }
     },
     "symfony/asset": {
