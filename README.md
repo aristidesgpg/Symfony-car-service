@@ -4,7 +4,7 @@ PHP Version: 7.3.22
 
 MySQL Version: 5.7.31
 
-1. install docker,
+1. Install docker
         https://docs.docker.com/get-docker/
 
 2. Go to project root directory and run command below
