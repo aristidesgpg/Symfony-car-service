@@ -36,3 +36,12 @@ Constant PIN: tbd
 
 
 The API Documentation can be found at `localhost:8000/api/doc` and test login using credentials provided above
+
+1. install docker
+2. go to project root direcotry and run command : docker-compose up -d --build
+3. docker exec -it iService3 /bin/bash
+4. install and configure the project
+    - composer install
+    - add jwt keys on config/jwt using openssl
+    - yes | php bin/console doctrine:migration:migrate
+    - yes | php bin/console doctrine:fixtures:load
