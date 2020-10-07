@@ -6,19 +6,19 @@ MySQL Version: 5.7.31
 
 install docker
 
-go to project root directory and run command below
+1. Go to project root directory and run command below
 
 `docker-compose up -d --build`
 
 This command will create docker container named iService3 and iService3_db_1
 
-After the docker containers are built, run command below
+2. After the docker containers are built, run command below
 
 `docker exec -it iService3 /bin/bash`
 
 This will lead you to iService3 docker container bash
 
-Now that you are able to install composer packages and doctrine migrations
+3. Now that you are able to install composer packages and doctrine migrations
 
 `composer install`
 
