@@ -4,29 +4,31 @@ PHP Version: 7.3.22
 
 MySQL Version: 5.7.31
 
-install docker
+1. install docker,
+        https://docs.docker.com/get-docker/
 
-1. Go to project root directory and run command below
+2. Go to project root directory and run command below
 
-`docker-compose up -d --build`
+        `docker-compose up -d --build`
 
-This command will create docker container named iService3 and iService3_db_1
+        This command will create docker container named iService3 and iService3_db_1
 
-2. After the docker containers are built, run command below
+3. After the docker containers are built, run command below
 
-`docker exec -it iService3 /bin/bash`
+        `docker exec -it iService3 /bin/bash`
 
-This will lead you to iService3 docker container bash
+        This will lead you to iService3 docker container bash
 
-3. Now that you are able to install composer packages and doctrine migrations
+4. Now that you are able to install composer packages and doctrine migrations
 
-`composer install`
+        `composer install`
 
-add JWT keys in config/jwt using openssl
+        `openssl genrsa -out config/jwt/private.pem -aes256 4096`
+        `openssl rsa -pubout -in var/jwt/private.pem -out config/jwt/public.pem`
 
-`yes | php bin/console doctrine:migration:migrate`
+        `yes | php bin/console doctrine:migration:migrate`
 
-`yes | php bin/console doctrine:fixtures:load`
+        `yes | php bin/console doctrine:fixtures:load`
 
 
 Constant Username: tperson@iserviceauto.com
