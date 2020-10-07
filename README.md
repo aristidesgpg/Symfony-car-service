@@ -24,7 +24,7 @@ MySQL Version: 5.7.31
         `composer install`
 
         `openssl genrsa -out config/jwt/private.pem -aes256 4096`
-        `openssl rsa -pubout -in var/jwt/private.pem -out config/jwt/public.pem`
+        `openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem`
 
         `yes | php bin/console doctrine:migration:migrate`
 
