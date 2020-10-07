@@ -4,27 +4,30 @@ PHP Version: 7.3.22
 
 MySQL Version: 5.7.31
 
-`git clone https://github.com/jmdigital/iservice3`
+install docker
 
-`cd iservice3`
+go to project root directory and run command below
+
+`docker-compose up -d --build`
+
+This command will create docker container named iService3 and iService3_db_1
+
+After the docker containers are built, run command below
+
+`docker exec -it iService3 /bin/bash`
+
+This will lead you to iService3 docker container bash
+
+Now that you are able to install composer packages and doctrine migrations
 
 `composer install`
 
-Open .env and cut the entire `###> doctrine/doctrine-bundle ###` block and paste into a new file called .env.local in 
-the root directory.
+add JWT keys in config/jwt using openssl
 
-Modify the `DATABASE_URL` env variable as needed w/ the database name of iservice3
+`yes | php bin/console doctrine:migration:migrate`
 
-Make sure you have symfony installed and set up as an environment variable on your system. 
+`yes | php bin/console doctrine:fixtures:load`
 
-`symfony server start`
-
-
-Load the fixtures:
-`php bin/console doctrine:fixtures:load` & confirm `yes`
-
-This will load dummy data into the iservice3 database. A few never change, otherwise they will change every time the 
-fixtures are loaded. 
 
 Constant Username: tperson@iserviceauto.com
 
@@ -36,12 +39,3 @@ Constant PIN: tbd
 
 
 The API Documentation can be found at `localhost:8000/api/doc` and test login using credentials provided above
-
-1. install docker
-2. go to project root direcotry and run command : docker-compose up -d --build
-3. docker exec -it iService3 /bin/bash
-4. install and configure the project
-    - composer install
-    - add jwt keys on config/jwt using openssl
-    - yes | php bin/console doctrine:migration:migrate
-    - yes | php bin/console doctrine:fixtures:load

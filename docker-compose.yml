@@ -7,7 +7,7 @@ services:
           dockerfile: docker/app/Dockerfile # Dockerfile path
       container_name: iService3 # Container Name
       ports:
-        - "80:80" # bind port
+        - "8000:80" # bind port
         - "443:433"
       volumes:
         - ./:/var/www/html   # copy root directory to /var/www/html in docker container
