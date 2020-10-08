@@ -17,6 +17,30 @@ class CustomerRepository extends ServiceEntityRepository {
         parent::__construct($registry, Customer::class);
     }
 
+    /**
+     * @return Customer[]
+     */
+    public function findAllActive (): array {
+        return $this->createQueryBuilder('c')
+                    ->andWhere('c.deleted = 0')
+                    ->getQuery()
+                    ->getResult();
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return Customer|null
+     */
+    public function findActive (int $id): ?Customer {
+        $customer = $this->find($id);
+        if ($customer === null || $customer->isDeleted()) {
+            return null;
+        }
+
+        return $customer;
+    }
+
     // /**
     //  * @return Customer[] Returns an array of Customer objects
     //  */
