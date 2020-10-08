@@ -25,18 +25,6 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Get(description="Get all coupons")
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
-     *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
-     *                                                  string>"})
-     *
-     *     )
-     * )
      * @SWG\Response(
      *     response=200,
      *     description="Return coupons",
@@ -47,7 +35,8 @@ class CouponsController extends AbstractFOSRestController {
      * )
      *
      * @param EntityManagerInterface $em
-     * @param CouponRepository $couponRepository
+     * @param CouponRepository       $couponRepository
+     *
      * @return Response
      */
     public function list (EntityManagerInterface $em, CouponRepository $couponRepository) {
@@ -59,19 +48,6 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Create a coupon")
-     *
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
-     *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
-     *                                                  string>"})
-     *     )
-     * )
-     *
      * @SWG\Parameter(
      *     name="title",
      *     in="formData",
@@ -99,8 +75,8 @@ class CouponsController extends AbstractFOSRestController {
      * )
      *
      * @param EntityManagerInterface $em
-     * @param Request $request
-     * @param ImageUploader $imageUploader
+     * @param Request                $request
+     * @param ImageUploader          $imageUploader
      *
      * @return Response
      */
@@ -113,14 +89,9 @@ class CouponsController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        //check image extension is valid
-        if(!$imageUploader->isValidImage($image)){ 
-            return $this->handleView($this->view('Invalid Image Type', Response::HTTP_BAD_REQUEST));
-        }
-
-        $path   = $imageUploader->uploadImage($image, 'coupons');
-        if(!$path){
-            $this->view('Something Went Wrong Trying to Upload the Image', Response::HTTP_INTERNAL_SERVER_ERROR);
+        $path = $imageUploader->uploadImage($image, 'coupons');
+        if (!$path) {
+            return $this->handleView($this->view('Something Went Wrong Trying to Upload the Image', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
         $coupon = new Coupon();
@@ -136,19 +107,6 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Update a coupon")
-     *
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
-     *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
-     *                                                  string>"})
-     *     )
-     * )
-     *
      * @SWG\Parameter(
      *     name="title",
      *     in="formData",
@@ -160,7 +118,6 @@ class CouponsController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="image",
      *     in="formData",
-     *     required=true,
      *     type="file",
      *     description="The image of coupon",
      * )
@@ -175,8 +132,10 @@ class CouponsController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Request       $request
-     * @param ImageUploader $imageUploader
+     * @param Coupon                 $coupon
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     * @param ImageUploader          $imageUploader
      *
      * @return Response
      */
@@ -191,21 +150,18 @@ class CouponsController extends AbstractFOSRestController {
         }
 
         // Only if image is passed do we update it
-        if ($image && !$image instanceof UploadedFile) {
-            return $this->handleView($this->view('Invalid Image Passed', Response::HTTP_BAD_REQUEST));
-        }
-
-        //check image extension is valid
-        if(!$imageUploader->isValidImage($image)){ 
-            return $this->handleView($this->view('Invalid Image Type', Response::HTTP_BAD_REQUEST));
+        if ($image) {
+            if (!$image instanceof UploadedFile) {
+                return $this->handleView($this->view('Invalid Image Passed', Response::HTTP_BAD_REQUEST));
+            }
         }
 
         $coupon->setTitle($title);
 
         if ($image) {
             $path = $imageUploader->uploadImage($image, 'coupons');
-            if(!$path){
-                $this->view('Something Went Wrong Trying to Upload the Image', Response::HTTP_INTERNAL_SERVER_ERROR);
+            if (!$path) {
+                return $this->handleView($this->view('Something Went Wrong Trying to Upload the Image', Response::HTTP_INTERNAL_SERVER_ERROR));
             }
 
             $coupon->setImage($path);
@@ -222,19 +178,6 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Delete a coupon")
-     *
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
-     *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
-     *                                                  string>"})
-     *     )
-     * )
-     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
