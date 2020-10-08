@@ -46,7 +46,8 @@ class CustomerFixture extends Fixture {
             $phone    = $faker->unique(true)->phoneNumber;
             $phone    = $this->phoneValidator->clean($phone);
 
-            $customer->setName($faker->name)
+            $customer->setFirstName($faker->firstName)
+                     ->setLastName($faker->lastName)
                      ->setPhone($phone)
                      ->setEmail($faker->optional(.05)->email);
 

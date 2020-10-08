@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -15,26 +16,37 @@ class Customer implements UserInterface {
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups({"customer_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"customer_list"})
      */
-    private $name;
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"customer_list"})
+     */
+    private $lastName;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Serializer\Groups({"customer_list"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"customer_list"})
      */
     private $mobileConfirmed = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"customer_list"})
      */
     private $email;
 
@@ -42,13 +54,20 @@ class Customer implements UserInterface {
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"customer_list"})
      */
     private $doNotContact = false;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="User")
+     * @Serializer\Groups({"customer_list"})
      */
     private $addedBy;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted = false;
 
     /**
      * @var ArrayCollection
@@ -75,17 +94,42 @@ class Customer implements UserInterface {
     /**
      * @return string|null
      */
-    public function getName (): ?string {
-        return $this->name;
+    public function getFullName (): ?string {
+        return $this->firstName . ' ' . $this->lastName;
     }
 
-    /**'
-     * @param string $name
+    /**
+     * @return string|null
+     */
+    public function getFirstName (): ?string {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
      *
      * @return $this
      */
-    public function setName (string $name): self {
-        $this->name = $name;
+    public function setFirstName (string $firstName): self {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastName (): ?string {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     *
+     * @return $this
+     */
+    public function setLastName (string $lastName): self {
+        $this->lastName = $lastName;
 
         return $this;
     }
@@ -98,11 +142,11 @@ class Customer implements UserInterface {
     }
 
     /**
-     * @param int $phone
+     * @param string $phone
      *
      * @return $this
      */
-    public function setPhone (int $phone): self {
+    public function setPhone (string $phone): self {
         $this->phone = $phone;
 
         return $this;
@@ -163,26 +207,41 @@ class Customer implements UserInterface {
     }
 
     /**
-     * @return int|null
+     * @return User|null
      */
-    public function getAddedBy (): ?int {
+    public function getAddedBy (): ?User {
         return $this->addedBy;
     }
 
     /**
-     * @param int|null $addedBy
+     * @param User
      *
      * @return $this
      */
-    public function setAddedBy (?int $addedBy): self {
+    public function setAddedBy (User $addedBy): self {
         $this->addedBy = $addedBy;
 
         return $this;
     }
 
     /**
-     * @return ArrayCollection
+     * @param bool $deleted
+     *
+     * @return $this
      */
+    public function setDeleted(bool $deleted): self {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted(): bool {
+        return $this->deleted;
+    }
+
     public function getPrimaryRepairOrders (): ArrayCollection {
         return $this->primaryRepairOrders;
     }
@@ -200,7 +259,7 @@ class Customer implements UserInterface {
     }
 
     public function getUsername () {
-        $this->name;
+        return $this->getFullName();
     }
 
     public function eraseCredentials () {
