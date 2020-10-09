@@ -7,7 +7,7 @@ use Swagger\Annotations as SWG;
 class ValidationItem {
     /**
      * @var string
-     * @SWG\Property(type="string")
+     * @SWG\Property(type="string", description="Parameter name")
      */
     private $key;
 
