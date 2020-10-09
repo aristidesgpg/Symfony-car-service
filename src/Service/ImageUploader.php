@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -37,42 +38,41 @@ class ImageUploader {
 
     /**
      * @param UploadedFile $file
+     * @param null         $directory
      *
-     * @param              $directory
-     *
-     * @return string
+     * @return false|string
      */
-    public function uploadImage (UploadedFile $file, $directory = null): string {
+    public function uploadImage (UploadedFile $file, $directory = null) {
         $uploadsDirectory = $this->container->getParameter('uploads_directory') . $directory;
         $filename         = md5(uniqid()) . '.' . $file->guessExtension();
+
+        if (!$this->isValidImage($file)) {
+            return false;
+        }
 
         try {
             $file->move(
                 $uploadsDirectory,
                 $filename
             );
-        }
-        catch(Exception  $e){
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+        } catch (Exception  $e) {
             return false;
         }
-        
-       
-        $fullpath = $uploadsDirectory . '/' . $filename;
-        return $fullpath;
+
+        return $uploadsDirectory . '/' . $filename;
     }
 
     /**
      * @param UploadedFile $file
      *
-     * @return string
+     * @return bool
      */
-    public function isValidImage (UploadedFile $file): string {
+    public function isValidImage (UploadedFile $file) {
         // all the image extension types in array
-        $type=Array(1 => 'jpg', 2 => 'jpeg', 3 => 'png'); 
- 
+        $validExtensions = ['jpg', 'jpeg', 'png'];
+
         //check image extension not in the array $type
-        if(!(in_array($file->guessExtension(),$type))){ 
+        if (!(in_array($file->guessExtension(), $validExtensions))) {
             return false;
         }
 
