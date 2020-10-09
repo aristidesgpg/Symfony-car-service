@@ -77,7 +77,7 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Response(
      *     response="406",
      *     description="Validation failure",
-     *     @SWG\Schema(type="array", items=@SWG\Schema(type="object", ref=@Model(type=ValidationItem::class)))
+     *     @SWG\Schema(type="array", @SWG\Items(ref=@Model(type=ValidationItem::class)))
      * )
      *
      * @SWG\Parameter(name="firstName", type="string", in="formData", required=True)
@@ -111,7 +111,7 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Response(
      *     response="406",
      *     description="Validation failure",
-     *     @SWG\Schema(type="array", items=@SWG\Schema(type="object", ref=@Model(type=ValidationItem::class)))
+     *     @SWG\Schema(type="array", @SWG\Items(ref=@Model(type=ValidationItem::class)))
      * )
      *
      * @SWG\Parameter(name="firstName", type="string", in="formData")
