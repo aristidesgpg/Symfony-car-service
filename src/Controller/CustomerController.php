@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Customer;
 use App\Entity\User;
 use App\Repository\CustomerRepository;
-use App\Response\ValidationItem;
+use App\Response\ValidationResponse;
 use App\Service\CustomerHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -74,11 +74,7 @@ class CustomerController extends AbstractFOSRestController {
      *     description="Success!",
      *     headers={@SWG\Header(header="Location", type="string", description="URL of new customer")}
      * )
-     * @SWG\Response(
-     *     response="406",
-     *     description="Validation failure",
-     *     @SWG\Schema(type="array", @SWG\Items(ref=@Model(type=ValidationItem::class)))
-     * )
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="firstName", type="string", in="formData", required=True)
      * @SWG\Parameter(name="lastName", type="string", in="formData", required=True)
@@ -94,7 +90,7 @@ class CustomerController extends AbstractFOSRestController {
     public function addCustomer (Request $req, CustomerHelper $helper): Response {
         $validation = $helper->validateParams($req->request->all(), true);
         if (!empty($validation)) {
-            return $this->handleView($this->view($validation, 406));
+            return new ValidationResponse($validation);
         }
         $customer = new Customer();
         $customer->setAddedBy($this->getCurrentUser());
@@ -108,11 +104,7 @@ class CustomerController extends AbstractFOSRestController {
      * @Rest\Put("/{id}")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="Customer does not exist")
-     * @SWG\Response(
-     *     response="406",
-     *     description="Validation failure",
-     *     @SWG\Schema(type="array", @SWG\Items(ref=@Model(type=ValidationItem::class)))
-     * )
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="firstName", type="string", in="formData")
      * @SWG\Parameter(name="lastName", type="string", in="formData")
@@ -130,7 +122,7 @@ class CustomerController extends AbstractFOSRestController {
         $customer = $this->findCustomer($id);
         $validation = $helper->validateParams($req->request->all());
         if (!empty($validation)) {
-            return $this->handleView($this->view($validation, 406));
+            return new ValidationResponse($validation);
         }
         $helper->commitCustomer($customer, $req->request->all());
 

@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Customer;
 use App\Entity\User;
-use App\Response\ValidationItem;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -31,7 +30,7 @@ class CustomerHelper {
      * @param array $params
      * @param bool  $checkRequiredFields
      *
-     * @return ValidationItem[] Empty on successful validation
+     * @return array Empty on successful validation
      */
     public function validateParams(array $params, bool $checkRequiredFields = false): array {
         $errors = [];
@@ -72,7 +71,7 @@ class CustomerHelper {
                     $msg = 'Unknown key';
             }
             if ($msg !== null) {
-                $errors[] = new ValidationItem($k, $msg);
+                $errors[$k] = $msg;
             }
         }
 
