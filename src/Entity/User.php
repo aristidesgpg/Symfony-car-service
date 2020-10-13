@@ -111,6 +111,11 @@ class User implements UserInterface {
     private $technicianRepairOrders;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pin;
+
+    /**
      * User constructor.
      */
     public function __construct () {
@@ -425,6 +430,18 @@ class User implements UserInterface {
 
     public function eraseCredentials () {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getPin(): ?string
+    {
+        return $this->pin;
+    }
+
+    public function setPin(string $pin): self
+    {
+        $this->pin = $pin;
+
+        return $this;
     }
 
 }

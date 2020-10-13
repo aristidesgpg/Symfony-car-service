@@ -7,9 +7,10 @@ RUN apt-get update \
     && docker-php-ext-install zip mysqli pdo_mysql \ 
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
-    && echo 'xdebug.remote_enable=on' >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo 'xdebug.remote_host=host.docker.internal' >> /usr/local/etc/php/conf.d/xdebug.ini \
-    && echo 'xdebug.remote_port=9000' >>  /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo 'xdebug.remote_enable = on' >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo 'xdebug.remote_host = host.docker.internal' >> /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo 'xdebug.remote_port = 9000' >>  /usr/local/etc/php/conf.d/xdebug.ini \
+    && echo 'xdebug.max_nesting_level = 500' >>  /usr/local/etc/php/conf.d/xdebug.ini \
     && a2enmod rewrite \
     && sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf \
     && curl -sS https://getcomposer.org/installer \

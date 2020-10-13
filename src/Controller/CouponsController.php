@@ -25,6 +25,7 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Get(description="Get all coupons")
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return coupons",

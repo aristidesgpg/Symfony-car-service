@@ -11,6 +11,7 @@ services:
         - "443:433"
       volumes:
         - ./:/var/www/html   # copy root directory to /var/www/html in docker container
+        - ./docker/app/php.ini:/usr/local/etc/php/php.ini # copy php.ini
       depends_on:  # build current container after dependencies are built
         - db
 
@@ -21,3 +22,5 @@ services:
         - MYSQL_ROOT_PASSWORD=password
         - MYSQL_PASSWORD=password
         - MYSQL_DATABASE=iservice3
+      ports:
+        - "3307:3306" #bind port
