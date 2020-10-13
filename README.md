@@ -12,14 +12,17 @@ MySQL Version: 5.7.31
         `docker-compose up -d --build`
 
         This command will create docker container named iService3 and iService3_db_1
+        (If you recieve an error about var-dump-server, delete your vendor folder and run `composer install`
 
 3. After the docker containers are built, run command below
 
         `docker exec -it iService3 /bin/bash`
 
         This will lead you to iService3 docker container bash
+        
+4. (OPTIONAL) If you would like to set up your database in a third party database tool, create a new session using 127.0.0.1 as the host and 3307 as the port with a username/password of root/password
 
-4. Now that you are able to install composer packages and doctrine migrations
+5. Now that you are able to install composer packages and doctrine migrations
 
         `composer install`
 
@@ -30,27 +33,44 @@ MySQL Version: 5.7.31
 
         `yes | php bin/console doctrine:fixtures:load`
 
-5. You can remove containers and images created by docker-compose using the commands below
+6. NOTE: Occasionally as things change you will have to remove containers and images created by docker-compose using the commands below
 
         `docker kill $(docker ps -aq)`
+        (on windows: list containers using docker ps -aq and kill them one by one)
 
         This will stop all docker containers
 
         `docker rm $(docker ps -aq)`
+        (on windows: list containers using docker ps -aq and remove them one by one)
 
         This will remove all docker containers
 
-        `docker rmi $(docker ps -aq)`
+        `docker rmi $(docker images)`
+        (on windows: list images using docker ps -aq and remove them one by one)
 
         This will remove all docker images
+        
+7. Get a JWT token by going to /api/authentication/authenticate passing the following as formData:
 
-Constant Username: tperson@iserviceauto.com
+        username: tperson@iserviceauto.com
+        password: test
 
-Constant Password: test
+    or if authenticating testing the customer app:
 
-Constant Link Hash: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+        linkHash: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+        
+    or if authenticating testing the technician app:
 
-Constant PIN: tbd
+        //@TODO: Coming soon
 
+8. Another way to test endpoints is to use the API Documentation that can be found at `localhost:8000/api/doc` 
 
-The API Documentation can be found at `localhost:8000/api/doc` and test login using credentials provided above
+    1. Expand the `/authentication/authenticate` endpoint
+    2. Click "try it out"
+    3. Enter credentials as desired provided above
+    4. Click "Execute"
+    5. Copy the value of the `token` provided in the response
+    6. At the top right, click "Authorize"
+    7. In the text box type "Bearer " then paste the token you copied
+    8. Click "Authorize" 
+    9. All calls after this will automatically have the bearer token in the "Autorization" header
