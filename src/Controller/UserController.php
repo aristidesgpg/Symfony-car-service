@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 
+use App\Service\UserHelper;
+
 /**
  * Class UserController
  *
@@ -37,22 +39,14 @@ class UserController extends AbstractFOSRestController {
      *
      * @param String         $role
      * @param UserRepository $userRepo
+     * @param UserHelper     $userHelper
      *
      * @return Response
      */
-    public function getUsers (String $role, UserRepository $userRepo) {
-        $roles = [
-            "ROLE_ADMIN", 
-            "ROLE_SERVICE_MANAGER",
-            "ROLE_SERVICE_ADVISOR",
-            "ROLE_TECHNICIAN",
-            "ROLE_PARTS_ADVISTOR",
-            "ROLE_SALES_MANAGER",
-            "ROLE_SALES_AGENT"
-        ];
+    public function getUsers (String $role, UserRepository $userRepo, UserHelper $userHelper) {
 
-        //role is valid
-        if(!$role || !in_array($role, $roles)){
+        //role is invalid
+        if(!$userHelper->isValidRole($role)){
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -67,6 +61,13 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Tag(name="Users")
      * @SWG\Post(description="Create a new user")
      * 
+     * @SWG\Parameter(
+     *     name="role",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Role of User",
+     * )
      * @SWG\Parameter(
      *     name="firstName",
      *     in="formData",
@@ -102,6 +103,28 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Password of User",
      * )
+     * @SWG\Parameter(
+     *     name="pin",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="The Pin of User",
+     * )
+     * @SWG\Parameter(
+     *     name="certification",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="The certification of Technician",
+     * )
+     * @SWG\Parameter(
+     *     name="experience",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="The experience of Technician",
+     * )
+     * 
      * 
      * @SWG\Response(
      *     response=200,
@@ -111,11 +134,30 @@ class UserController extends AbstractFOSRestController {
      *             description="first name, last name, email, phone, roles, active, last login"
      *         )
      * )
+     * 
+     * @param Request                $request
      * @param EntityManagerInterface $em
+     * @param UserHelper             $userHelper
      *
      * @return JsonResponse
      */
-    public function new (EntityManagerInterface $em) {
+    public function new (Request $request, EntityManagerInterface $em,UserHelper $userHelper) {
+        
+
+        $firstName    = $request->get('percentageOfTax');
+        $lastName         = $request->get('limitOnTax');
+        $totalDays          = $request->get('totalDays');
+        $websiteUrl         = $request->get('websiteUrl');
+        $upgradeInitialText = $request->get('upgradeInitialText');
+        $upgradeOfferText   = $request->get('upgradeOfferText');
+        $upgradeCashOffer   = $request->get('upgradeCashOffer');
+        $upgradeDisclaimer  = $request->get('upgradeDisclaimer');
+
+        //role is invalid
+        if(!$userHelper->isValidRole($role)){
+            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
         $user = new User();
         $user->setFirstName('Laramie')
              ->setLastName('Rugen')
