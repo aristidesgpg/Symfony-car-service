@@ -30,6 +30,19 @@ MySQL Version: 5.7.31
 
         `yes | php bin/console doctrine:fixtures:load`
 
+5. You can remove containers and images created by docker-compose using the commands below
+
+        `docker kill $(docker ps -aq)`
+
+        This will stop all docker containers
+
+        `docker rm $(docker ps -aq)`
+
+        This will remove all docker containers
+
+        `docker rmi $(docker ps -aq)`
+
+        This will remove all docker images
 
 Constant Username: tperson@iserviceauto.com
 
