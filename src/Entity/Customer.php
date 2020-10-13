@@ -60,7 +60,6 @@ class Customer implements UserInterface {
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
-     * @Serializer\Groups({"customer_list"})
      */
     private $addedBy;
 
@@ -242,8 +241,11 @@ class Customer implements UserInterface {
         return $this->deleted;
     }
 
-    public function getPrimaryRepairOrders (): ArrayCollection {
-        return $this->primaryRepairOrders;
+    /**
+     * @return RepairOrder[]
+     */
+    public function getPrimaryRepairOrders (): array {
+        return $this->primaryRepairOrders->toArray();
     }
 
     public function getRoles () {
