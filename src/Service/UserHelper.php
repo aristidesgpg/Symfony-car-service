@@ -82,7 +82,7 @@ class UserHelper {
      * 
      * @return boolean
      */
-    public function massAssignment($user, $array){
+    public function massAssign($user, $array){
        
         //update values
         $roles         = $array['roles'] ?? $user->getRoles();

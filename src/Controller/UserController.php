@@ -319,14 +319,14 @@ class UserController extends AbstractFOSRestController {
             'experience'    => $experience
         ];
 
-        if(!$userHelper->massAssignment($user, $array)){
+        if(!$userHelper->massAssign($user, $array)){
             return $this->handleView($this->view('Something Went Wrong Trying to Update the User', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
-        $this->logInfo('User "' . $user->getFirstName() . '" Has Been Edited');
+        $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
 
         return new JsonResponse([
-            'message' => 'User Edited'
+            'message' => 'User Updated'
         ]);
     }
 
