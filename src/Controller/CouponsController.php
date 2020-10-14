@@ -175,17 +175,17 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/coupons/{id}/delete")
+     * @Rest\Delete("/api/coupons/{id}/delete")
      *
      * @SWG\Tag(name="Coupons")
-     * @SWG\Post(description="Delete a coupon")
+     * @SWG\Delete(description="Delete a coupon")
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
+     *                                              "Successfully deleted" }),
      *         )
      * )
      *

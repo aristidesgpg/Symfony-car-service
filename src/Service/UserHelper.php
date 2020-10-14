@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserHelper
@@ -23,14 +24,21 @@ class UserHelper {
     private $em;
 
     /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    /**
      * UserHelper constructor.
      *
-     * @param UserRepository      $userRepository
-     * @param EntityManagerInterface $em
+     * @param UserRepository               $userRepository
+     * @param EntityManagerInterface       $em
+     * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct (UserRepository $userRepository, EntityManagerInterface $em) {
-        $this->userRepository = $userRepository;
-        $this->em                = $em;
+    public function __construct (UserRepository $userRepository, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder) {
+        $this->userRepository  = $userRepository;
+        $this->em              = $em;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -54,6 +62,54 @@ class UserHelper {
         if(!$role || !in_array($role, $roles)){
             return false;
         }
+
+        return true;
+    }
+
+    /**
+     * @param  User    $user
+     * @param  string  $password
+     * 
+     * @return string
+     */
+    public function passwordEncoder($user, $password){
+        return $this->passwordEncoder->encodePassword($user, $password);
+    }
+
+    /**
+     * @param  User  $user
+     * @param  array $array
+     * 
+     * @return boolean
+     */
+    public function massAssignment($user, $array){
+       
+        //update values
+        $roles         = $array['roles'] ?? $user->getRoles();
+        $firstName     = $array['firstName'] ?? $user->getFirstName();
+        $lastName      = $array['lastName'] ?? $user->getLastName();
+        $email         = $array['email'] ?? $user->getEmail();
+        $phone         = $array['phone'] ?? $user->getPhone();
+        $pin           = $array['pin'] ?? $user->getPin();
+        $password      = $array['password'] ? $this->passwordEncoder($user, $password) : $user->getPassword();
+        $certification = $array['certification'] ?? $user->getCertification();
+        $experience    = $array['experience'] ?? $user->getExperience();
+
+        $user->setFirstName($firstName)
+             ->setLastName($lastName)
+             ->setEmail($email)
+             ->setPhone($phone)
+             ->setPassword($password)
+             ->setPin($pin)
+             ->setRoles($roles);
+
+        if(in_array('ROLE_TECHNICIAN', $roles)){
+            $user->setCertification($certification)
+                 ->setExperience($experience);
+        }
+
+        $this->em->persist($user);
+        $this->em->flush();
 
         return true;
     }
