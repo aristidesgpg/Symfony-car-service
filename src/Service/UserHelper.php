@@ -91,17 +91,21 @@ class UserHelper {
         $email         = $array['email'] ?? $user->getEmail();
         $phone         = $array['phone'] ?? $user->getPhone();
         $pin           = $array['pin'] ?? $user->getPin();
-        $password      = $array['password'] ? $this->passwordEncoder($user, $password) : $user->getPassword();
+        $password      = isset($array['password']) ? $this->passwordEncoder($user, $array['password']) : $user->getPassword();
+        $question      = $array['question'] ?? $user->getSecurityQuestion();
+        $answer        = isset($array['answer']) ? $this->passwordEncoder($user, $array['answer']) : $user->getSecurityAnswer();
         $certification = $array['certification'] ?? $user->getCertification();
         $experience    = $array['experience'] ?? $user->getExperience();
 
-        $user->setFirstName($firstName)
+        $user->setRoles($roles)
+             ->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
              ->setPhone($phone)
              ->setPassword($password)
              ->setPin($pin)
-             ->setRoles($roles);
+             ->setSecurityQuestion($question)
+             ->setSecurityAnswer($answer);
 
         if(in_array('ROLE_TECHNICIAN', $roles)){
             $user->setCertification($certification)

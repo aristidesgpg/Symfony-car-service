@@ -331,6 +331,69 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Put("/api/user/{id}/security")
+     * 
+     * @SWG\Tag(name="Users")
+     * @SWG\Put(description="Set Security question and answer for a User")
+     * 
+     * @SWG\Parameter(
+     *     name="question",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Security Question of a User",
+     * )
+     * @SWG\Parameter(
+     *     name="answer",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Security Answer of a User",
+     * )
+     * 
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully created" }),
+     *         )
+     * )
+     * 
+     * @param User                   $user
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     * @param UserHelper             $userHelper
+     *
+     * @return JsonResponse
+     */
+    public function security (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
+
+        $question = $request->get('question');
+        $answer   = $request->get('answer');
+
+        //check if parameters are valid
+        if(!$question || !$answer){
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        $array = [
+            'question' => $question,
+            'answer'    => strtolower($answer)
+        ];
+
+        if(!$userHelper->massAssign($user, $array)){
+            return $this->handleView($this->view('Something Went Wrong Trying to Set Security for the User', Response::HTTP_INTERNAL_SERVER_ERROR));
+        }
+
+        return new JsonResponse([
+            'message' => 'Security Questions Has Been Updated'
+        ]);
+    }
+
+    /**
      * @Rest\Delete("/api/user/{id}/delete")
      *
      * @SWG\Tag(name="Users")
