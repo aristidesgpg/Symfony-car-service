@@ -34,7 +34,8 @@ class RepairOrder {
     private $primaryTechnician;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $primaryAdvisor;
 
@@ -159,6 +160,11 @@ class RepairOrder {
     private $deleted = false;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $archived = false;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct () {
@@ -209,18 +215,18 @@ class RepairOrder {
     }
 
     /**
-     * @return int|null
+     * @return User|null
      */
-    public function getPrimaryAdvisor (): ?int {
+    public function getPrimaryAdvisor (): ?User {
         return $this->primaryAdvisor;
     }
 
     /**
-     * @param int $primaryAdvisor
+     * @param User $primaryAdvisor
      *
      * @return $this
      */
-    public function setPrimaryAdvisor (int $primaryAdvisor): self {
+    public function setPrimaryAdvisor (User $primaryAdvisor): self {
         $this->primaryAdvisor = $primaryAdvisor;
 
         return $this;
@@ -654,6 +660,24 @@ class RepairOrder {
      */
     public function setDeleted (bool $deleted): self {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArchived (): bool {
+        return ($this->archived === true);
+    }
+
+    /**
+     * @param bool $archived
+     *
+     * @return $this
+     */
+    public function setArchived (bool $archived): self {
+        $this->archived = $archived;
 
         return $this;
     }

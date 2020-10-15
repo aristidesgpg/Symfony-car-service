@@ -33,18 +33,20 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
         $repairOrder       = new RepairOrder();
         $userReference     = $faker->numberBetween(1, 50);
         $customerReference = $faker->numberBetween(1, 50);
+        $advisorReference  = $faker->numberBetween(1, 30);
 
         $repairOrder->setNumber(1234567)
                     ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                     ->setPrimaryTechnician($this->getReference('user_' . $userReference))
-                    ->setPrimaryAdvisor($faker->numberBetween(1, 30))
+                    ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
                     ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
                     ->setMpiStatus($statusOptions[$faker->numberBetween(0, 5)])
                     ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
                     ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
                     ->setWaiter($faker->boolean(25))
                     ->setLinkHash(sha1('test'))
-                    ->setDeleted($faker->boolean(2));
+                    ->setDeleted($faker->boolean(2))
+                    ->setArchived($faker->boolean(5));
 
         $manager->persist($repairOrder);
         $manager->flush();
@@ -54,17 +56,19 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
             $repairOrder       = new RepairOrder();
             $userReference     = $faker->numberBetween(1, 50);
             $customerReference = $faker->numberBetween(1, 50);
+            $advisorReference  = $faker->numberBetween(1, 30);
             $repairOrder->setNumber($faker->unique(true)->numberBetween(100000, 999999))
                         ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                         ->setPrimaryTechnician($this->getReference('user_' . $userReference))
-                        ->setPrimaryAdvisor($faker->numberBetween(1, 30))
+                        ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
                         ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setMpiStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setWaiter($faker->boolean(25))
                         ->setLinkHash(sha1($faker->unique(true)->randomAscii))
-                        ->setDeleted($faker->boolean(2));
+                        ->setDeleted($faker->boolean(2))
+                        ->setArchived($faker->boolean(5));
 
             $manager->persist($repairOrder);
             $manager->flush();

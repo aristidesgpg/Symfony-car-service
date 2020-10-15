@@ -9,10 +9,10 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method User|null find($id, $lockMode = null, $lockVersion = null)
- * @method User|null findOneBy(array $criteria, array $orderBy = null)
- * @method User[]    findAll()
- * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RepairOrder|null find($id, $lockMode = null, $lockVersion = null)
+ * @method RepairOrder|null findOneBy(array $criteria, array $orderBy = null)
+ * @method RepairOrder[]    findAll()
+ * @method RepairOrder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class RepairOrderRepository extends ServiceEntityRepository {
 
