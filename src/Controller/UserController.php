@@ -306,7 +306,9 @@ class UserController extends AbstractFOSRestController {
         }
 
         $roles = [];
-        array_push($roles, $role);
+        if($role){
+            array_push($roles, $role);
+        }
         $array = [
             'roles'         => $roles,
             'firstName'     => $firstName,
@@ -358,7 +360,7 @@ class UserController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
+     *                                              "Security Question Has Been Updated" }),
      *         )
      * )
      * 
@@ -389,7 +391,7 @@ class UserController extends AbstractFOSRestController {
         }
 
         return new JsonResponse([
-            'message' => 'Security Questions Has Been Updated'
+            'message' => 'Security Question Has Been Updated'
         ]);
     }
 

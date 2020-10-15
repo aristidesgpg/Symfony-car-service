@@ -55,7 +55,8 @@ class UserHelper {
             "ROLE_TECHNICIAN",
             "ROLE_PARTS_ADVISTOR",
             "ROLE_SALES_MANAGER",
-            "ROLE_SALES_AGENT"
+            "ROLE_SALES_AGENT",
+            "ROLE_USER"
         ];
         
         //role is invalid
@@ -85,7 +86,7 @@ class UserHelper {
     public function massAssign($user, $array){
        
         //update values
-        $roles         = $array['roles'] ?? $user->getRoles();
+        $roles         = !empty($array['roles']) ? $array['roles'] : $user->getRoles();
         $firstName     = $array['firstName'] ?? $user->getFirstName();
         $lastName      = $array['lastName'] ?? $user->getLastName();
         $email         = $array['email'] ?? $user->getEmail();
