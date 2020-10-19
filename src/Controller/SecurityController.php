@@ -59,12 +59,11 @@ class SecurityController extends AbstractFOSRestController {
      * 
      * @param User                   $user
      * @param Request                $request
-     * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
      *
      * @return JsonResponse
      */
-    public function security (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
+    public function security (User $user, Request $request, UserHelper $userHelper) {
 
         $question = $request->get('question');
         $answer   = $request->get('answer');
@@ -119,12 +118,11 @@ class SecurityController extends AbstractFOSRestController {
      * 
      * @param User                   $user
      * @param Request                $request
-     * @param EntityManagerInterface $em
      * @param SecurityHelper         $securityHelper
      *
      * @return JsonResponse
      */
-    public function validate (User $user, Request $request, EntityManagerInterface $em, SecurityHelper $securityHelper) {
+    public function validate (User $user, Request $request, SecurityHelper $securityHelper) {
 
         $answer   = $request->get('answer');
 
