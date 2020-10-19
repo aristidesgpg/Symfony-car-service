@@ -118,23 +118,4 @@ class UserHelper {
 
         return true;
     }
-
-    /**
-     * @param  User   $user
-     * @param  string $answer
-     * 
-     * @return boolean
-     */
-    public function validateSecurity(User $user, string $answer){
-        //validate params
-        if(!$user || !$answer){
-            return false;
-        }
-        //check answer
-        if(!password_verify(strtolower($answer), $user->getSecurityAnswer())){
-            return false;
-        }
-
-        return true;
-    }
 }
