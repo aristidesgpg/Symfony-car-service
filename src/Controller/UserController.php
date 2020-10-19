@@ -58,6 +58,42 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Get("/api/user/{id}/get")
+     *
+     * @SWG\Tag(name="Users")
+     * @SWG\Get(description="Get a User")
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return a User",
+     *     @SWG\Items(
+     *         type="object",
+     *             description="first name, last name, email, phone, roles, security_question,active, last login"
+     *         )
+     * )
+     *
+     * @param                $id
+     * @param UserRepository $userRepo
+     * @param UserHelper     $userHelper
+     *
+     * @return Response
+     */
+    public function show ($id, UserRepository $userRepo, UserHelper $userHelper) {
+
+        if(!$id){
+            return $this->handleView($this->view('Missing ID Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        $user = $userRepo->getUserByID($id);
+
+        //id is invalid
+        if(!$user){
+            return $this->handleView($this->view('Invalid ID Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        return $this->handleView($this->view($user, Response::HTTP_OK));
+    }
+
+    /**
      * @Rest\Post("/api/user/new")
      *
      * @SWG\Tag(name="Users")
@@ -332,11 +368,47 @@ class UserController extends AbstractFOSRestController {
         ]);
     }
 
+        /**
+     * @Rest\Delete("/api/user/{id}/delete")
+     *
+     * @SWG\Tag(name="Users")
+     * @SWG\Delete(description="Delete a user")
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully deleted" }),
+     *         )
+     * )
+     * 
+     * @param User                   $user
+     * @param EntityManagerInterface $em
+     *
+     * @return object|void
+     */
+    public function delete (User $user, EntityManagerInterface $em) {
+        //id is invalid
+        if(!$user){
+            return $this->handleView($this->view('Invalid ID Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        $user->setActive(false);
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->handleView($this->view('User Deleted', Response::HTTP_OK));
+    }
+
+
     /**
-     * @Rest\Put("/api/user/{id}/security")
+     * @Rest\Post("/api/user/{id}/security")
      * 
      * @SWG\Tag(name="Users")
-     * @SWG\Put(description="Set Security question and answer for a User")
+     * @SWG\Post(description="Set Security question and answer for a User")
      * 
      * @SWG\Parameter(
      *     name="question",
@@ -380,10 +452,14 @@ class UserController extends AbstractFOSRestController {
         if(!$question || !$answer){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
+        //id is invalid
+        if(!$user){
+            return $this->handleView($this->view('Invalid ID Parameter', Response::HTTP_BAD_REQUEST));
+        }
 
         $array = [
             'question' => $question,
-            'answer'    => strtolower($answer)
+            'answer'   => strtolower($answer)
         ];
 
         if(!$userHelper->massAssign($user, $array)){
@@ -396,10 +472,19 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Delete("/api/user/{id}/delete")
-     *
+     * @Rest\Post("/api/user/{id}/validateSecurity")
+     * 
      * @SWG\Tag(name="Users")
-     * @SWG\Delete(description="Delete a user")
+     * @SWG\Post(description="Check if security answer is correct")
+     * 
+     * @SWG\Parameter(
+     *     name="answer",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Security Answer of a User",
+     * )
+     * 
      * 
      * @SWG\Response(
      *     response=200,
@@ -407,21 +492,36 @@ class UserController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully deleted" }),
+     *                                              "Security Question Has Been Validated" }),
      *         )
      * )
      * 
      * @param User                   $user
+     * @param Request                $request
      * @param EntityManagerInterface $em
+     * @param UserHelper             $userHelper
      *
-     * @return object|void
+     * @return JsonResponse
      */
-    public function delete (User $user, EntityManagerInterface $em) {
-        $user->setActive(false);
+    public function validateSecurity (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
 
-        $em->persist($user);
-        $em->flush();
+        $answer   = $request->get('answer');
 
-        return $this->handleView($this->view('User Deleted', Response::HTTP_OK));
+        //check if parameter is valid
+        if(!$answer){
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //id is invalid
+        if(!$user){
+            return $this->handleView($this->view('Invalid ID Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        if(!$userHelper->validateSecurity($user, $answer)){
+            return $this->handleView($this->view('Invalid Security Answer', Response::HTTP_UNAUTHORIZED));
+        }
+
+        return new JsonResponse([
+            'message' => 'Security Question Has Been Validated'
+        ]);
     }
 }

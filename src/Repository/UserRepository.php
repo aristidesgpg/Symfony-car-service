@@ -40,12 +40,12 @@ class UserRepository extends ServiceEntityRepository {
 
     /**
      * @param String            $role
-     * @param QueryBuilder|null $qb
      *
      * @return QueryBuilder
      */
     public function getUserByRole (String $role) {
         return $this->createQueryBuilder('u')
+                    ->select('u.id', 'u.firstName', 'u.lastName', 'u.email', 'u.phone','u.securityQuestion', 'u.roles', 'u.previewDeviceTokens', 'u.forceAuthentication', 'u.active', 'u.pin')
                     ->where('u.roles LIKE :role')
                     ->andWhere('u.active = 1')
                     ->setParameter('role', '%'.$role.'%')
@@ -53,6 +53,20 @@ class UserRepository extends ServiceEntityRepository {
                     ->getResult();
     }
 
+
+    /**
+     * @param String            $id
+     *
+     * @return QueryBuilder
+     */
+    public function getUserByID (String $id) {
+        return $this->createQueryBuilder('u')
+                    ->select('u.id', 'u.firstName', 'u.lastName', 'u.email', 'u.phone', 'u.securityQuestion','u.roles', 'u.previewDeviceTokens', 'u.forceAuthentication', 'u.active', 'u.pin')
+                    ->where('u.id = :id')
+                    ->setParameter('id', $id)
+                    ->getQuery()
+                    ->getResult();
+    }
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

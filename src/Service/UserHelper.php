@@ -91,10 +91,10 @@ class UserHelper {
         $lastName      = $array['lastName'] ?? $user->getLastName();
         $email         = $array['email'] ?? $user->getEmail();
         $phone         = $array['phone'] ?? $user->getPhone();
-        $pin           = $array['pin'] ?? $user->getPin();
+        $pin           = $array['pin'] ?? $user->getPin() ?? '';
         $password      = isset($array['password']) ? $this->passwordEncoder($user, $array['password']) : $user->getPassword();
         $question      = $array['question'] ?? $user->getSecurityQuestion();
-        $answer        = isset($array['answer']) ? $this->passwordEncoder($user, $array['answer']) : $user->getSecurityAnswer();
+        $answer        = isset($array['answer']) ? password_hash($array['answer'], PASSWORD_DEFAULT) : $user->getSecurityAnswer();
         $certification = $array['certification'] ?? $user->getCertification();
         $experience    = $array['experience'] ?? $user->getExperience();
 
@@ -119,4 +119,22 @@ class UserHelper {
         return true;
     }
 
+    /**
+     * @param  User   $user
+     * @param  string $answer
+     * 
+     * @return boolean
+     */
+    public function validateSecurity(User $user, string $answer){
+        //validate params
+        if(!$user || !$answer){
+            return false;
+        }
+        //check answer
+        if(!password_verify(strtolower($answer), $user->getSecurityAnswer())){
+            return false;
+        }
+
+        return true;
+    }
 }
