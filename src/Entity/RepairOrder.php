@@ -155,6 +155,11 @@ class RepairOrder {
     private $upgradeQue = false;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $note;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $deleted = false;
@@ -642,6 +647,24 @@ class RepairOrder {
      */
     public function setUpgradeQue (bool $upgradeQue): self {
         $this->upgradeQue = $upgradeQue;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getNote (): ?string {
+        return $this->note;
+    }
+
+    /**
+     * @param string|null $note
+     *
+     * @return $this
+     */
+    public function setNote (?string $note): self {
+        $this->note = $note;
 
         return $this;
     }
