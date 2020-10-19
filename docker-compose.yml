@@ -1,0 +1,26 @@
+version: "2"
+
+services:
+    app:
+      build:
+          context: .  #Find Dockerfile in its directory
+          dockerfile: docker/app/Dockerfile # Dockerfile path
+      container_name: iService3 # Container Name
+      ports:
+        - "8000:80" # bind port
+        - "443:433"
+      volumes:
+        - ./:/var/www/html   # copy root directory to /var/www/html in docker container
+        - ./docker/app/php.ini:/usr/local/etc/php/php.ini # copy php.ini
+      depends_on:  # build current container after dependencies are built
+        - db
+
+    db:
+      image: mysql:5.7     # use mysql5.7 image from docker hub
+      environment:           # database config
+        - MYSQL_HOST=db       # set database alias
+        - MYSQL_ROOT_PASSWORD=password
+        - MYSQL_PASSWORD=password
+        - MYSQL_DATABASE=iservice3
+      ports:
+        - "3307:3306" #bind port

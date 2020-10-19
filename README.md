@@ -4,35 +4,73 @@ PHP Version: 7.3.22
 
 MySQL Version: 5.7.31
 
-`git clone https://github.com/jmdigital/iservice3`
+1. Install docker
+        https://docs.docker.com/get-docker/
 
-`cd iservice3`
+2. Go to project root directory and run command below
 
-`composer install`
+        `docker-compose up -d --build`
 
-Open .env and cut the entire `###> doctrine/doctrine-bundle ###` block and paste into a new file called .env.local in 
-the root directory.
+        This command will create docker container named iService3 and iService3_db_1
+        (If you recieve an error about var-dump-server, delete your vendor folder and run `composer install`
 
-Modify the `DATABASE_URL` env variable as needed w/ the database name of iservice3
+3. After the docker containers are built, run command below
 
-Make sure you have symfony installed and set up as an environment variable on your system. 
+        `docker exec -it iService3 /bin/bash`
 
-`symfony server start`
+        This will lead you to iService3 docker container bash
+        
+4. (OPTIONAL) If you would like to set up your database in a third party database tool, create a new session using 127.0.0.1 as the host and 3307 as the port with a username/password of root/password
 
+5. Now that you are able to install composer packages and doctrine migrations
 
-Load the fixtures:
-`php bin/console doctrine:fixtures:load` & confirm `yes`
+        `composer install`
 
-This will load dummy data into the iservice3 database. A few never change, otherwise they will change every time the 
-fixtures are loaded. 
+        `openssl genrsa -out config/jwt/private.pem -aes256 4096`
+        `openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem`
 
-Constant Username: tperson@iserviceauto.com
+        `yes | php bin/console doctrine:migration:migrate`
 
-Constant Password: test
+        `yes | php bin/console doctrine:fixtures:load`
 
-Constant Link Hash: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+6. NOTE: Occasionally as things change you will have to remove containers and images created by docker-compose using the commands below
 
-Constant PIN: tbd
+        `docker kill $(docker ps -aq)`
+        (on windows: list containers using docker ps -aq and kill them one by one)
 
+        This will stop all docker containers
 
-The API Documentation can be found at `localhost:8000/api/doc` and test login using credentials provided above
+        `docker rm $(docker ps -aq)`
+        (on windows: list containers using docker ps -aq and remove them one by one)
+
+        This will remove all docker containers
+
+        `docker rmi $(docker images)`
+        (on windows: list images using docker ps -aq and remove them one by one)
+
+        This will remove all docker images
+        
+7. Get a JWT token by going to /api/authentication/authenticate passing the following as formData:
+
+        username: tperson@iserviceauto.com
+        password: test
+
+    or if authenticating testing the customer app:
+
+        linkHash: a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+        
+    or if authenticating testing the technician app:
+
+        //@TODO: Coming soon
+
+8. Another way to test endpoints is to use the API Documentation that can be found at `localhost:8000/api/doc` 
+
+    1. Expand the `/authentication/authenticate` endpoint
+    2. Click "try it out"
+    3. Enter credentials as desired provided above
+    4. Click "Execute"
+    5. Copy the value of the `token` provided in the response
+    6. At the top right, click "Authorize"
+    7. In the text box type "Bearer " then paste the token you copied
+    8. Click "Authorize" 
+    9. All calls after this will automatically have the bearer token in the "Autorization" header

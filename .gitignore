@@ -10,6 +10,8 @@
 ###< symfony/framework-bundle ###
 ###> custom ###
 .idea/
+public/uploads/coupons
+!public/uploads/coupons/.gitkeep
 ###< custom ###
 
 ###> lexik/jwt-authentication-bundle ###
