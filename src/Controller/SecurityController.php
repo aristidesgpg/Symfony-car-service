@@ -57,9 +57,9 @@ class SecurityController extends AbstractFOSRestController {
      *         )
      * )
      * 
-     * @param User                   $user
-     * @param Request                $request
-     * @param UserHelper             $userHelper
+     * @param User           $user
+     * @param Request        $request
+     * @param UserHelper     $userHelper
      *
      * @return JsonResponse
      */
@@ -92,17 +92,24 @@ class SecurityController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/security/{id}/validate")
+     * @Rest\Post("/api/security/validate")
      * 
      * @SWG\Tag(name="Security")
      * @SWG\Post(description="Check if security answer is correct")
      * 
      * @SWG\Parameter(
+     *     name="email",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Email of the User",
+     * )
+     * @SWG\Parameter(
      *     name="answer",
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="The Security Answer of a User",
+     *     description="The Security Answer of the User",
      * )
      * 
      * 
@@ -116,23 +123,25 @@ class SecurityController extends AbstractFOSRestController {
      *         )
      * )
      * 
-     * @param User                   $user
-     * @param Request                $request
-     * @param SecurityHelper         $securityHelper
+     * @param Request        $request
+     * @param SecurityHelper $securityHelper
+     * @param UserRepository $userRepo
      *
      * @return JsonResponse
      */
-    public function validate (User $user, Request $request, SecurityHelper $securityHelper) {
+    public function validate (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
 
-        $answer   = $request->get('answer');
+        $answer = $request->get('answer');
+        $email  = $request->get('email');
 
         //check if parameter is valid
-        if(!$answer){
+        if(!$answer || !$email){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //id is invalid
+        //email is invalid
+        $user = $userRepo->findOneByEmail($email);
         if(!$user){
-            return $this->handleView($this->view('Invalid ID Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         if(!$securityHelper->validateSecurity($user, $answer)){
