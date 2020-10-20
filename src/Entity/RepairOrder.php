@@ -436,6 +436,13 @@ class RepairOrder {
     }
 
     /**
+     * @return bool
+     */
+    public function isClosed (): bool {
+        return ($this->dateClosed !== null);
+    }
+
+    /**
      * @param DateTime|null $dateClosed
      *
      * @return $this
