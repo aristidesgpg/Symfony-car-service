@@ -5,15 +5,19 @@ namespace App\Entity;
 use App\Repository\RepairOrderRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderRepository::class)
  */
 class RepairOrder {
+    public const GROUPS = ['ro_list', 'customer_list', 'user_list'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $id;
 
@@ -22,6 +26,7 @@ class RepairOrder {
      *
      * @ORM\ManyToOne (targetEntity="App\Entity\Customer", inversedBy="primaryRepairOrders")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $primaryCustomer;
 
@@ -30,112 +35,134 @@ class RepairOrder {
      *
      * @ORM\ManyToOne (targetEntity="App\Entity\User", inversedBy="technicianRepairOrders")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $primaryTechnician;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $primaryAdvisor;
 
     /**
      * @ORM\Column(name="`number`", type="string", length=255, unique=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $number;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $videoStatus;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $mpiStatus;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $quoteStatus;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $paymentStatus;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $startValue;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $finalValue;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $approvedValue;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $dateCreated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $dateClosed;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $waiter;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $pickupDate;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $linkHash;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $year;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $make;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $model;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $miles;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $vin;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $internal = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $dmsKey;
 
@@ -151,11 +178,13 @@ class RepairOrder {
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $upgradeQue = false;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $note;
 
