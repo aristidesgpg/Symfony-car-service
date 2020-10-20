@@ -56,25 +56,25 @@ class RepairOrder {
      * @ORM\Column(type="string", length=255)
      * @Serializer\Groups(groups={"ro_list"})
      */
-    private $videoStatus;
+    private $videoStatus = ''; // TODO
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Groups(groups={"ro_list"})
      */
-    private $mpiStatus;
+    private $mpiStatus = ''; // TODO
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Groups(groups={"ro_list"})
      */
-    private $quoteStatus;
+    private $quoteStatus = ''; // TODO
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Serializer\Groups(groups={"ro_list"})
      */
-    private $paymentStatus;
+    private $paymentStatus = ''; // TODO
 
     /**
      * @ORM\Column(type="float", nullable=true)
