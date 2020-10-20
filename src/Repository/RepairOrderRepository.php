@@ -47,6 +47,40 @@ class RepairOrderRepository extends ServiceEntityRepository {
         }
     }
 
+    /**
+     * @param string $number
+     *
+     * @return RepairOrder|null
+     */
+    public function findByNumber (string $number): ?RepairOrder {
+        try {
+            return $this->createQueryBuilder('ro')
+                        ->andWhere('ro.number = :number')
+                        ->setParameter('number', $number)
+                        ->getQuery()
+                        ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
+    /**
+     * @param string $linkHash
+     *
+     * @return RepairOrder|null
+     */
+    public function findByHash (string $linkHash): ?RepairOrder {
+        try {
+            return $this->createQueryBuilder('ro')
+                        ->andWhere('ro.linkHash = :hash')
+                        ->setParameter('hash', $linkHash)
+                        ->getQuery()
+                        ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
 
     // /**
     //  * @return User[] Returns an array of User objects
