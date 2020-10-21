@@ -148,8 +148,109 @@ class SecurityController extends AbstractFOSRestController {
             return $this->handleView($this->view('Invalid Security Answer', Response::HTTP_UNAUTHORIZED));
         }
 
+        //for test
+        $token = $securityHelper->generateToken($email);
         return new JsonResponse([
-            'message' => 'Security Question Has Been Validated'
+            'message' => 'Security Question Has Been Validated',
+            'token'   => $token //for test
+        ]);
+    }
+
+    /**
+     * @Rest\Get("/api/security/reset-password/{token}")
+     * 
+     * @SWG\Tag(name="Security")
+     * @SWG\Get(description="Reset User Password")
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Reset Password Token Has Been Validated" }),
+     *         )
+     * )
+     * 
+     * @param String         $token
+     * @param SecurityHelper $securityHelper
+     * @param UserRepository $userRepo
+     *
+     * @return JsonResponse
+     */
+    public function validateToken (String $token, SecurityHelper $securityHelper, UserRepository $userRepo) {
+
+        //check if parameter is valid
+        if(!$token){
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //token is invalid
+        if(!$securityHelper->validateToken($token)){
+            return $this->handleView($this->view('Invalid Token', Response::HTTP_UNAUTHORIZED));
+        }
+        
+        return new JsonResponse([
+            'message' => 'Reset Password Token Has Been Validated'
+        ]);
+    }
+
+    /**
+     * @Rest\Post("/api/security/reset-password")
+     * 
+     * @SWG\Tag(name="Security")
+     * @SWG\Post(description="Reset User Password")
+     * 
+     * @SWG\Parameter(
+     *     name="token",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Reset Password Token of the User",
+     * )
+     * @SWG\Parameter(
+     *     name="password",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The New Password of the User",
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Password Has Been Reset" }),
+     *         )
+     * )
+     * 
+     * @param Request        $request
+     * @param SecurityHelper $securityHelper
+     * @param UserRepository $userRepo
+     *
+     * @return JsonResponse
+     */
+    public function resetPassword (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
+
+        $token    = $request->get('token');
+        $password = $request->get('password');
+
+        //check if parameter is valid
+        if(!$password || !$token){
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //token is invalid
+        if(!$securityHelper->validateToken($token)){
+            return $this->handleView($this->view('Invalid Token', Response::HTTP_UNAUTHORIZED));
+        }
+
+        if(!$securityHelper->resetPassword($token, $password)){
+            return $this->handleView($this->view('Something Went Wrong Trying to Reset the Password', Response::HTTP_INTERNAL_SERVER_ERROR));
+        }
+
+        return new JsonResponse([
+            'message' => 'Password Has Been Reset'
         ]);
     }
 }

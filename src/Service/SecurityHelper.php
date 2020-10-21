@@ -24,12 +24,30 @@ class SecurityHelper {
     private $secret;
 
     /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
      * SecurityHelper constructor.
      *
      */
-    public function __construct (Container $container) {
-        $this->container = $container;
-        $this->secret    = $this->container->getParameter('pass_phrase');
+    public function __construct (Container $container, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, EntityManagerInterface $em) {
+        $this->container       = $container;
+        $this->secret          = $this->container->getParameter('pass_phrase');
+        $this->passwordEncoder = $passwordEncoder;
+        $this->userRepository  = $userRepository;
+        $this->em              = $em;
     }
 
     /**
@@ -90,20 +108,20 @@ class SecurityHelper {
         $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $this->secret, true);
         // Encode Signature to Base64Url String
         $base64UrlSignature = $this->base64UrlEncode($signature);
-        // Create JWT
-        $jwt = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+        // Create Token
+        $token = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
 
-        return $jwt;
+        return $token;
     }
 
     /**
-     * @param String $jwt
+     * @param String $token
      * 
-     * @return String
+     * @return Boolean
      */
-    public function validateToken(String $jwt){
+    public function validateToken(String $token){
         // split the token
-        $tokenParts = explode('.', $jwt);
+        $tokenParts = explode('.', $token);
         $header = base64_decode($tokenParts[0]);
         $payload = base64_decode($tokenParts[1]);
         $signatureProvided = $tokenParts[2];
@@ -122,14 +140,37 @@ class SecurityHelper {
         // verify it matches the signature provided in the token
         $signatureValid = ($base64UrlSignature === $signatureProvided);
 
-        if ($tokenExpired) {
-            return "Token has expired.\n";
+        if ($tokenExpired || !$signatureValid) {
+            return false;
         }
 
-        if ($signatureValid) {
-            return "The signature is valid.\n";
-        } else {
-            return "The signature is NOT valid\n";
+        return true;
+    }
+
+    /**
+     * @param String $token
+     * @param String $password
+     * 
+     * @return Boolean
+     */
+    public function resetPassword(String $token, String $password){
+        //if token is valid
+        if(!$this->validateToken($token) || !$password){
+            return false;
         }
+        // split the token
+        $tokenParts = explode('.', $token);
+        $payload    = base64_decode($tokenParts[1]);
+        // get the email from payload
+        $email      = json_decode($payload)->email;
+        // get User from email
+        $user       = $this->userRepository->findOneByEmail($email);
+        //reset pasword for the User
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+
+        $this->em->persist($user);
+        $this->em->flush();
+
+        return true;
     }
 }
