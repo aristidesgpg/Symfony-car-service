@@ -60,12 +60,44 @@ class RepairOrderController extends AbstractFOSRestController {
      * )
      * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
-     * @SWG\Parameter(name="open", type="boolean", description="", in="query")
-     * @SWG\Parameter(name="waiter", type="boolean", description="", in="query")
-     * @SWG\Parameter(name="internal", type="boolean", description="", in="query")
-     * @SWG\Parameter(name="archived", type="boolean", description="", in="query")
-     * @SWG\Parameter(name="startDate", type="string", format="date-time", description="", in="query")
-     * @SWG\Parameter(name="endDate", type="string", format="date-time", description="", in="query")
+     * @SWG\Parameter(
+     *     name="open",
+     *     type="boolean",
+     *     description="0=Closed, 1=Open, Omit for all",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="waiter",
+     *     type="boolean",
+     *     description="0=Non-Waiters, 1=Waiters, Omit for all",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="internal",
+     *     type="boolean",
+     *     description="0=Non-Internal, 1=Internal, Omit for all",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="archived",
+     *     type="boolean",
+     *     description="1=Archived, Omit for non-archived",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="startDate",
+     *     type="string",
+     *     format="date-time",
+     *     description="Get ROs created after supplied date-time",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="endDate",
+     *     type="string",
+     *     format="date-time",
+     *     description="Get ROs created before supplied date-time",
+     *     in="query"
+     * )
      *
      * @param Request $req
      *
