@@ -47,7 +47,7 @@ class RepairOrder {
     private $primaryAdvisor;
 
     /**
-     * @ORM\Column(name="`number`", type="string", length=255, unique=true)
+     * @ORM\Column(name="number", type="string", length=255, unique=true)
      * @Serializer\Groups(groups={"ro_list"})
      */
     private $number;
