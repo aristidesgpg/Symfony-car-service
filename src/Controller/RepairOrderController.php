@@ -58,7 +58,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *         @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      *     )
      * )
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
+     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
      * @SWG\Parameter(name="open", type="boolean", description="", in="query")
      * @SWG\Parameter(name="waiter", type="boolean", description="", in="query")
@@ -148,7 +148,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="Success!",
      *     @SWG\Header(header="Location", type="string", description="URL of new RO")
      * )
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
+     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
      * @SWG\Parameter(name="customer", type="integer", in="formData", required=true)
      * @SWG\Parameter(name="advisor", type="integer", in="formData", required=true)
@@ -180,7 +180,7 @@ class RepairOrderController extends AbstractFOSRestController {
      * @Rest\Put("/{id}")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="RO does not exist")
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
+     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
      * @SWG\Parameter(name="customer", type="integer", in="formData")
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
