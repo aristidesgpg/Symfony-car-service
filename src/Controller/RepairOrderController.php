@@ -392,10 +392,20 @@ class RepairOrderController extends AbstractFOSRestController {
         return $ro;
     }
 
+    /**
+     * @param $param
+     *
+     * @return bool
+     */
     private function paramToBool ($param): bool {      // TODO
         return ($param !== 'false' && $param == true); // TODO
     }                                                  // TODO
 
+    /**
+     * @param string $date
+     *
+     * @return string|null
+     */
     private function formatDate (string $date): ?string {
         try {
             return (new \DateTime($date))->format('Y-m-d\TH:i:s');
