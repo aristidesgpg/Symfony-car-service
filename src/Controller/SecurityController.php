@@ -160,7 +160,7 @@ class SecurityController extends AbstractFOSRestController {
      * @Rest\Get("/api/security/reset-password/{token}")
      * 
      * @SWG\Tag(name="Security")
-     * @SWG\Get(description="Reset User Password")
+     * @SWG\Get(description="Validate Password Reset token")
      * 
      * @SWG\Response(
      *     response=200,

@@ -52,11 +52,11 @@ class SecurityHelper {
 
     /**
      * @param  User   $user
-     * @param  string $answer
+     * @param  String $answer
      * 
-     * @return boolean
+     * @return Boolean
      */
-    public function validateSecurity(User $user, string $answer){
+    public function validateSecurity(User $user, String $answer){
         //validate params
         if(!$user || !$answer){
             return false;
@@ -70,9 +70,9 @@ class SecurityHelper {
     }
 
     /**
-     * @param String $text
+     * @param  String $text
      * 
-     * @return boolean
+     * @return Boolean
      */
     public function base64UrlEncode(String $text)
     {
@@ -84,7 +84,7 @@ class SecurityHelper {
     }
 
     /**
-     * @param String $email
+     * @param  String $email
      * 
      * @return String
      */
@@ -101,44 +101,44 @@ class SecurityHelper {
         ]);
 
         // Encode Header
-        $base64UrlHeader = $this->base64UrlEncode($header);
+        $base64UrlHeader    = $this->base64UrlEncode($header);
         // Encode Payload
-        $base64UrlPayload = $this->base64UrlEncode($payload);
+        $base64UrlPayload   = $this->base64UrlEncode($payload);
         // Create Signature Hash
-        $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $this->secret, true);
+        $signature          = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $this->secret, true);
         // Encode Signature to Base64Url String
         $base64UrlSignature = $this->base64UrlEncode($signature);
         // Create Token
-        $token = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+        $token              = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
 
         return $token;
     }
 
     /**
-     * @param String $token
+     * @param  String $token
      * 
      * @return Boolean
      */
     public function validateToken(String $token){
         // split the token
-        $tokenParts = explode('.', $token);
-        $header = base64_decode($tokenParts[0]);
-        $payload = base64_decode($tokenParts[1]);
-        $signatureProvided = $tokenParts[2];
+        $tokenParts         = explode('.', $token);
+        $header             = base64_decode($tokenParts[0]);
+        $payload            = base64_decode($tokenParts[1]);
+        $signatureProvided  = $tokenParts[2];
 
         // check the expiration time - note this will cause an error if there is no 'exp' claim in the token
-        $expiration   = date(json_decode($payload)->exp);
-        $now          = date('Y-m-d H:i:s');
-        $tokenExpired = $now > $expiration;
+        $expiration         = date(json_decode($payload)->exp);
+        $now                = date('Y-m-d H:i:s');
+        $tokenExpired       = $now > $expiration;
 
         // build a signature based on the header and payload using the secret
-        $base64UrlHeader = $this->base64UrlEncode($header);
-        $base64UrlPayload = $this->base64UrlEncode($payload);
-        $signature = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $this->secret, true);
+        $base64UrlHeader    = $this->base64UrlEncode($header);
+        $base64UrlPayload   = $this->base64UrlEncode($payload);
+        $signature          = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $this->secret, true);
         $base64UrlSignature = $this->base64UrlEncode($signature);
 
         // verify it matches the signature provided in the token
-        $signatureValid = ($base64UrlSignature === $signatureProvided);
+        $signatureValid     = ($base64UrlSignature === $signatureProvided);
 
         if ($tokenExpired || !$signatureValid) {
             return false;
@@ -148,8 +148,8 @@ class SecurityHelper {
     }
 
     /**
-     * @param String $token
-     * @param String $password
+     * @param  String $token
+     * @param  String $password
      * 
      * @return Boolean
      */
