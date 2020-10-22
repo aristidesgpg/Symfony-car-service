@@ -8,8 +8,10 @@ use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
 use App\Repository\SettingsRepository;
 use App\Service\UploadHelper;
+use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use InvalidArgumentException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -33,12 +35,12 @@ use Symfony\Component\HttpFoundation\Response;
  * )
  */
 class SettingsController extends AbstractFOSRestController {
-    public const SMS_MAX_LENGTH = 160;
-    public const SMS_EXTRA_MAX_LENGTH = 109;
-    public const ZIP_LENGTH = 5;
-    public const ZIP_P4_LENGTH = 10;
-    public const PHONE_LENGTH = 10;
-    private const TOO_LONG_MSG = 'Value cannot exceed %d characters';
+    public const  SMS_MAX_LENGTH       = 160;
+    public const  SMS_EXTRA_MAX_LENGTH = 109;
+    public const  ZIP_LENGTH           = 5;
+    public const  ZIP_P4_LENGTH        = 10;
+    public const  PHONE_LENGTH         = 10;
+    private const TOO_LONG_MSG         = 'Value cannot exceed %d characters';
 
     use iServiceLoggerTrait;
 
@@ -80,104 +82,122 @@ class SettingsController extends AbstractFOSRestController {
      *     )
      * )
      *
+     * Phase Settings
      * @SWG\Parameter(name="phase1", type="integer", in="formData")
      * @SWG\Parameter(name="phase2", type="integer", in="formData")
      * @SWG\Parameter(name="phase3", type="integer", in="formData")
      *
-     * @SWG\Parameter(name="techUsername", type="string", in="formData")
-     * @SWG\Parameter(name="techPassword", type="string", format="password", in="formData")
+     * Tech App Settings
+     * @SWG\Parameter(name="techAppUsername", type="string", in="formData")
+     * @SWG\Parameter(name="techAppPassword", type="string", format="password", in="formData")
      *
-     * @SWG\Parameter(name="custAppraise", type="string", in="formData")
-     * @SWG\Parameter(name="custVideo", type="file", in="formData")
-     * @SWG\Parameter(name="custFinanceUrl", type="string", in="formData")
+     * Customer Web App Settings
+     * @SWG\Parameter(name="custAppAppraiseButtonText", type="string", in="formData")
+     * @SWG\Parameter(name="custAppPostInspectionVideo", type="file", in="formData")
+     * @SWG\Parameter(name="custAppFinanceRepairUrl", type="string", in="formData")
      *
-     * @SWG\Parameter(name="introText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
-     * @SWG\Parameter(name="videoText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
-     * @SWG\Parameter(name="videoResendText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
-     * @SWG\Parameter(name="quoteText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
-     * @SWG\Parameter(name="paymentText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * Service Text Settings
+     * @SWG\Parameter(name="serviceTextIntro", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
+     * @SWG\Parameter(name="serviceTextVideo", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="serviceTextVideoResend", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="serviceTextQuote", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="serviceTextPayment", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      *
-     * @SWG\Parameter(name="laborRate", type="number", in="formData")
-     * @SWG\Parameter(name="useMatrix", type="boolean", in="formData")
-     * @SWG\Parameter(name="laborTax", type="number", in="formData")
-     * @SWG\Parameter(name="partsTax", type="number", in="formData")
+     * Pricing Settings
+     * @SWG\Parameter(name="pricingLaborRate", type="number", in="formData")
+     * @SWG\Parameter(name="pricingUseMatrix", type="boolean", in="formData")
+     * @SWG\Parameter(name="pricingLaborTax", type="number", in="formData")
+     * @SWG\Parameter(name="pricingPartsTax", type="number", in="formData")
      *
-     * @SWG\Parameter(name="estimateWaiverText", type="string", in="formData")
-     * @SWG\Parameter(name="activateAuthMsg", type="boolean", in="formData")
-     * @SWG\Parameter(name="waiverText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * Waiver Settings
+     * @SWG\Parameter(name="waiverEstimateText", type="string", in="formData")
+     * @SWG\Parameter(name="waiverActivateAuthMessage", type="boolean", in="formData")
+     * @SWG\Parameter(name="waiverIntroText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      *
-     * @SWG\Parameter(name="usageEmails", type="string", in="formData")
+     * // Other Settings
+     * @SWG\Parameter(name="advisorUsageEmails", type="string", in="formData")
      * @SWG\Parameter(name="openLate", type="boolean", in="formData")
      *
-     * @SWG\Parameter(name="salesVideoText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * Preview Settings
+     * @SWG\Parameter(name="previewSalesVideoText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      *
-     * @SWG\Parameter(name="name", type="string", in="formData")
-     * @SWG\Parameter(name="email", type="string", in="formData")
-     * @SWG\Parameter(name="websiteUrl", type="string", in="formData")
-     * @SWG\Parameter(name="inventoryUrl", type="string", in="formData")
-     * @SWG\Parameter(name="address", type="string", in="formData")
-     * @SWG\Parameter(name="address2", type="string", in="formData")
-     * @SWG\Parameter(name="city", type="string", in="formData")
-     * @SWG\Parameter(name="state", type="string", in="formData")
-     * @SWG\Parameter(name="zip", type="string", in="formData", minLength=SettingsController::ZIP_LENGTH, maxLength=SettingsController::ZIP_P4_LENGTH)
-     * @SWG\Parameter(name="phone", type="string", in="formData", maxLength=SettingsController::PHONE_LENGTH)
-     * @SWG\Parameter(name="logo", type="file", in="formData")
+     * Upgrade Settings
+     * @SWG\Parameter(name="upgradeTradeInTax", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeTradeInTaxLimit", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeOfferExpiration", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeInstantOfferUrl", type="string", in="formData")
+     * @SWG\Parameter(name="upgradeIntroText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="upgradeOfferText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="upgradeCashOfferCopy", type="string", in="formData")
+     * @SWG\Parameter(name="upgradeDisclaimer", type="string", in="formData")
      *
-     * @SWG\Parameter(name="spotLightUrl", type="string", in="formData")
+     * General Settings
+     * @SWG\Parameter(name="generalName", type="string", in="formData")
+     * @SWG\Parameter(name="generalEmail", type="string", in="formData")
+     * @SWG\Parameter(name="generalWebsiteUrl", type="string", in="formData")
+     * @SWG\Parameter(name="generalInventoryUrl", type="string", in="formData")
+     * @SWG\Parameter(name="generaAddress", type="string", in="formData")
+     * @SWG\Parameter(name="generalAddress2", type="string", in="formData")
+     * @SWG\Parameter(name="generalCity", type="string", in="formData")
+     * @SWG\Parameter(name="generalState", type="string", in="formData")
+     * @SWG\Parameter(name="generalZip", type="string", in="formData", minLength=SettingsController::ZIP_LENGTH, maxLength=SettingsController::ZIP_P4_LENGTH)
+     * @SWG\Parameter(name="generalPhone", type="string", in="formData", maxLength=SettingsController::PHONE_LENGTH)
+     * @SWG\Parameter(name="generalLogo", type="file", in="formData")
      *
-     * @SWG\Parameter(name="googleUrl", type="string", in="formData")
-     * @SWG\Parameter(name="facebookUrl", type="string", in="formData")
+     * myReview Settings
+     * @SWG\Parameter(name="reviewGoogleUrl", type="string", in="formData")
+     * @SWG\Parameter(name="reviewFacebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      *
-     * @param Request $req
+     * @param Request        $req
      * @param SettingsHelper $helper
-     * @param UploadHelper $uploader
+     * @param UploadHelper   $uploader
      *
      * @return Response
      */
     public function setSettings (Request $req, SettingsHelper $helper, UploadHelper $uploader): Response {
-        $param_list = [ // FIXME: Pull parameters from docblock
-            'phase1', 'phase2', 'phase3', 'techUsername', 'techPassword', 'custAppraise', 'custFinanceUrl',
-            'laborRate', 'useMatrix', 'laborTax', 'partsTax', 'estimateWaiverText', 'activateAuthMsg', 'waiverText',
-            'usageEmails', 'openLate', 'salesVideoText', 'name', 'email', 'websiteUrl', 'inventoryUrl', 'address',
-            'address2', 'city', 'state', 'zip', 'phone', 'spotLightUrl', 'googleUrl', 'facebookUrl', 'reviewText',
-            'introText', 'videoText', 'videoResendText', 'quoteText', 'paymentText',
-        ];
-        $file_list = ['custVideo', 'logo', 'reviewLogo'];
+        $parameterList = SettingsHelper::VALID_SETTINGS;
+        $fileList      = SettingsHelper::VALID_FILE_SETTINGS;
+        $settings      = [];
+        $errors        = [];
 
-        $settings = [];
-        $errors = [];
-        foreach ($param_list as $key) {
+        // Loop each one to see if it exists and validate it
+        foreach ($parameterList as $key) {
+            // Doesn't exist, move along
             if ($req->request->has($key) !== true) {
                 continue;
             }
+
+            // Get value, see what to do w/ it
             $val = $req->request->get($key);
             switch ($key) {
-                case 'techPassword':
+                case 'techAppPassword':
                     try {
                         $val = PasswordHelper::hashPassword($val);
-                    } catch (\Exception $e) {
+                    } catch (Exception $e) {
                         $errors[$key] = $e->getMessage();
                     }
                     break;
-                case 'introText':
+                case 'serviceTextIntro':
                 case 'reviewText':
                     if (strlen($val) > self::SMS_MAX_LENGTH) {
                         $errors[$key] = sprintf(self::TOO_LONG_MSG, self::SMS_MAX_LENGTH);
                     }
                     break;
-                case 'videoText':
-                case 'videoResendText':
-                case 'quoteText':
-                case 'paymentText':
-                case 'waiverText':
-                case 'salesVideoText':
+                case 'serviceTextVideo':
+                case 'serviceTextVideoResend':
+                case 'serviceTextQuote':
+                case 'serviceTextPayment':
+                case 'waiverIntroText':
+                case 'previewSalesVideoText':
+                case 'upgradeIntroText':
+                case 'upgradeOfferText':
                     if (strlen($val) > self::SMS_EXTRA_MAX_LENGTH) {
                         $errors[$key] = sprintf(self::TOO_LONG_MSG, self::SMS_EXTRA_MAX_LENGTH);
                     }
                     break;
-                case 'zip':
+                case 'generalZip':
                     if (!in_array(strlen($val), [self::ZIP_LENGTH, self::ZIP_P4_LENGTH])) {
                         $errors[$key] = sprintf(
                             'ZIP must be either %d characters or %d in the case of ZIP+4',
@@ -186,7 +206,7 @@ class SettingsController extends AbstractFOSRestController {
                         );
                     }
                     break;
-                case 'phone':
+                case 'generalPhone':
                     if (strlen($val) !== self::PHONE_LENGTH) {
                         $errors[$key] = sprintf('Phone number must be %d digits', self::PHONE_LENGTH);
                     }
@@ -195,43 +215,53 @@ class SettingsController extends AbstractFOSRestController {
             }
             $settings[$key] = $val;
         }
+
+
         $files = [];
-        foreach ($file_list as $key) {
+        foreach ($fileList as $key) {
             if ($req->files->has($key) !== true) {
                 continue;
             }
+
             $file = $req->files->get($key);
             if (!$file instanceof UploadedFile) {
                 $errors[$key] = 'Could not find file';
                 continue;
             }
-            $isValid = ($key === 'custVideo') ? $uploader->isValidVideo($file) : $uploader->isValidImage($file);
+
+            $isValid = ($key === 'custAppPostInspectionVideo') ? $uploader->isValidVideo($file) : $uploader->isValidImage($file);
             if ($isValid !== true) {
                 $errors[$key] = 'Invalid file type';
                 continue;
             }
             $files[$key] = $file; // Defer file processing in case of validation errors
         }
+
+        // Don't commit any changes if there were errors
         if (!empty($errors)) {
             return $this->validationErrorResponse($errors);
         }
-        foreach ($files as $key=>$file) {
+
+        // Do file uploads
+        foreach ($files as $key => $file) {
             try {
-                $dir = ($key === 'custVideo') ? 'videos' : 'images';
-                $path = $uploader->upload($file, $dir);
+                $dir            = ($key === 'custAppPostInspectionVideo') ? 'videos' : 'images';
+                $path           = $uploader->upload($file, $dir);
                 $settings[$key] = $uploader->pathToRelativeUrl($path);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->error(sprintf('Failed to move file for key "%s": "%s"', $key, $e->getMessage()));
                 return $this->errorResponse('Failed to move file');
             }
         }
+
+        // Try to commit the settings
         try {
             $helper->commitSettings($settings);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
 
-        return new Response();
+        return $this->handleView($this->view('Settings Updated', Response::HTTP_OK));
     }
 
     /**
@@ -242,27 +272,32 @@ class SettingsController extends AbstractFOSRestController {
     private function settingsResponse (array $settings): Response {
         $json = [];
 
-        foreach ($settings as $s) {
-            if (!$s instanceof Settings) {
-                throw new \InvalidArgumentException(sprintf('$settings must be array of "%s" instances', Settings::class));
+        foreach ($settings as $setting) {
+            if (!$setting instanceof Settings) {
+                throw new InvalidArgumentException(sprintf('$settings must be array of "%s" instances', Settings::class));
             }
 
             $json[] = [
-                'key'   => $s->getKey(),
-                'value' => ($s->getValue() === null) ? '' : $s->getValue(),
+                'key'   => $setting->getKey(),
+                'value' => ($setting->getValue() === null) ? '' : $setting->getValue(),
             ];
         }
 
-        return $this->json($json);
+        return $this->json($json, Response::HTTP_OK);
     }
 
-    private function validationErrorResponse(array $errors): JsonResponse {
+    /**
+     * @param array $errors
+     *
+     * @return JsonResponse
+     */
+    private function validationErrorResponse (array $errors): JsonResponse {
         $json = [];
-        foreach ($errors as $k=>$v) {
+        foreach ($errors as $k => $v) {
             $json[] = ['key' => $k, 'msg' => $v];
         }
 
-        return $this->json($json, 400);
+        return $this->json($json, Response::HTTP_BAD_REQUEST);
     }
 
     /**
@@ -271,6 +306,6 @@ class SettingsController extends AbstractFOSRestController {
      * @return JsonResponse
      */
     private function errorResponse (string $msg): JsonResponse {
-        return $this->json(['error' => $msg], 500);
+        return $this->json(['error' => $msg], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
