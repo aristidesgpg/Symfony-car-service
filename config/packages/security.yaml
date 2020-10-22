@@ -10,9 +10,13 @@ security:
       entity:
         class: App\Entity\Customer
         property: phone
+    tech_app_provider:
+      memory:
+        users:
+          technician: { roles: [ 'ROLE_TECHNICIAN' ] }
     chain_provider:
       chain:
-        providers: [ 'user_provider', 'customer_provider' ]
+        providers: [ 'user_provider', 'customer_provider', 'tech_app_provider' ]
   role_hierarchy:
   # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
   firewalls:
