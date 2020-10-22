@@ -44,7 +44,7 @@ class SecurityHelper {
      */
     public function __construct (Container $container, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, EntityManagerInterface $em) {
         $this->container       = $container;
-        $this->secret          = $this->container->getParameter('pass_phrase');
+        $this->secret          = $this->container->getParameter('reset_password_secret');
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository  = $userRepository;
         $this->em              = $em;
