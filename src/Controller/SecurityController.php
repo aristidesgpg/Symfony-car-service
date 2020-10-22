@@ -16,6 +16,7 @@ use Swagger\Annotations as SWG;
 
 use App\Service\UserHelper;
 use App\Service\SecurityHelper;
+use App\Service\MailerHelper;
 
 /**
  * Class SecurityController
@@ -125,11 +126,12 @@ class SecurityController extends AbstractFOSRestController {
      * 
      * @param Request        $request
      * @param SecurityHelper $securityHelper
+     * @param MailerHelper   $mailerHelper
      * @param UserRepository $userRepo
      *
      * @return JsonResponse
      */
-    public function validate (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
+    public function validate (Request $request, SecurityHelper $securityHelper, MailerHelper $mailerHelper, UserRepository $userRepo) {
 
         $answer = $request->get('answer');
         $email  = $request->get('email');
@@ -150,6 +152,9 @@ class SecurityController extends AbstractFOSRestController {
 
         //for test
         $token = $securityHelper->generateToken($email);
+        if(!$mailerHelper->sendMail("Reset Password", $email)){
+            return $this->handleView($this->view('Something Went Wrong Trying to Send the Email', Response::HTTP_INTERNAL_SERVER_ERROR));
+        }
         return new JsonResponse([
             'message' => 'Security Question Has Been Validated',
             'token'   => $token //for test
