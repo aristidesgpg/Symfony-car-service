@@ -59,7 +59,7 @@ class ImageUploader {
             return false;
         }
 
-        return $uploadsDirectory . '/' . $filename;
+        return 'uploads/'.$directory . '/' . $filename;
     }
 
     /**
