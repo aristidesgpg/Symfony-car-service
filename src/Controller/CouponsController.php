@@ -103,7 +103,7 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/coupons/{id}/edit")
+     * @Rest\Put("/api/coupons/{id}")
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Put(description="Update a coupon")
@@ -174,7 +174,7 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Delete("/api/coupons/{id}/delete")
+     * @Rest\Delete("/api/coupons/{id}")
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Delete(description="Delete a coupon")
