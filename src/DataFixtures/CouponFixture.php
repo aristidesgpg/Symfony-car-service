@@ -29,9 +29,9 @@ class CouponFixture extends Fixture {
 
     /**
      * CouponFixtures constructor.
-     * 
-     * @param ImageUploader $imageUploader
      *
+     * @param ImageUploader $imageUploader
+     * @param Container     $container
      */
     public function __construct (ImageUploader $imageUploader, Container $container) {
         $this->imageUploader = $imageUploader;
@@ -41,18 +41,19 @@ class CouponFixture extends Fixture {
     /**
      * Create UploadedFile object from public url.
      *
+     * @return UploadedFile|null
+     *
      * @var array
      */
-    public function createFileObject($url){
+    public function createFileObject ($url) {
         $rawData = file_get_contents($url);
         $imgRaw  = imagecreatefromstring($rawData);
 
         if ($imgRaw !== false) {
-            imagejpeg($imgRaw,$this->container->getParameter('uploads_directory').'tmp.jpg',100);
+            imagejpeg($imgRaw, $this->container->getParameter('uploads_directory') . 'tmp.jpg', 100);
             imagedestroy($imgRaw);
-        
-            $file =  new UploadedFile($this->container->getParameter('uploads_directory').'tmp.jpg', 'tmp.jpg', 'image/jpeg',null,null,true);
-            return $file;
+
+            return new UploadedFile($this->container->getParameter('uploads_directory') . 'tmp.jpg', 'tmp.jpg', 'image/jpeg', null, null, true);
         }
         return null;
     }
@@ -69,13 +70,19 @@ class CouponFixture extends Fixture {
             $coupon = new Coupon();
             //upload a random image
             $file = $this->createFileObject($image);
-            if($file){
+            $path = '';
+
+            if ($file) {
                 $path = $this->imageUploader->uploadImage($file, 'coupons');
             }
 
+            if (!$path) {
+                continue;
+            }
+
             $coupon->setTitle($faker->sentence($nbWords = 3, $variableNbWords = true))
-                    ->setImage($path)
-                    ->setDeleted($faker->boolean(30));
+                   ->setImage($path)
+                   ->setDeleted($faker->boolean(30));
 
             $manager->persist($coupon);
             $manager->flush();
