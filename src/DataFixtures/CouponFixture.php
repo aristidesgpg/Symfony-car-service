@@ -39,7 +39,7 @@ class CouponFixture extends Fixture {
     }
 
     /**
-     * The attributes that are mass assignable.
+     * Create UploadedFile object from public url.
      *
      * @var array
      */
@@ -62,11 +62,12 @@ class CouponFixture extends Fixture {
      */
     public function load (ObjectManager $manager) {
         $faker = Factory::create();
-        $image = 'https://picsum.photos/200/300';
+        $image = 'https://picsum.photos/400/200';
 
         // Load some coupons
         for ($i = 1; $i <= 10; $i++) {
             $coupon = new Coupon();
+            //upload a random image
             $file = $this->createFileObject($image);
             if($file){
                 $path = $this->imageUploader->uploadImage($file, 'coupons');
@@ -74,7 +75,7 @@ class CouponFixture extends Fixture {
 
             $coupon->setTitle($faker->sentence($nbWords = 3, $variableNbWords = true))
                     ->setImage($path)
-                    ->setDeleted($faker->boolean(15));
+                    ->setDeleted($faker->boolean(30));
 
             $manager->persist($coupon);
             $manager->flush();
