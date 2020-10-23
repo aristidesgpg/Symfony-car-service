@@ -5,7 +5,7 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
-use Symfony\Component\Mailer\MailerInterface as Mailer;
+use \Swift_Mailer as Mailer;
 /**
  * Class MailerHelper
  *
@@ -46,8 +46,10 @@ class MailerHelper {
             ->setFrom($this->sender)
             ->setTo($email);
     
-        $this->mailer->send($message);
-
+        if (!$this->mailer->send($message, $failures)) {
+            return false;
+        } 
+        
         return true;
     }
 }
