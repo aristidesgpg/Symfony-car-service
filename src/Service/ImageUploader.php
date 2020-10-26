@@ -7,6 +7,7 @@ use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\UrlHelper;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 
 /**
@@ -32,15 +33,21 @@ class ImageUploader {
     private $urlHelper;
 
     /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    /**
      * ImageUploader constructor.
      *
      * @param EntityManagerInterface $em
      * @param Container              $container
      */
-    public function __construct (EntityManagerInterface $em, Container $container, UrlHelper $urlHelper) {
+    public function __construct (EntityManagerInterface $em, Container $container, UrlHelper $urlHelper,UrlGeneratorInterface $urlGenerator) {
         $this->em        = $em;
         $this->container = $container;
         $this->urlHelper = $urlHelper;
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -66,7 +73,11 @@ class ImageUploader {
             return false;
         }
 
-        return $this->urlHelper->getAbsoluteUrl('uploads/'.$directory . '/' . $filename);
+        //get the route url
+        $url = $this->urlGenerator->generate('app_coupons_new', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        //make the public url for the uploaded file
+        $publicURL = substr($url, 0, strpos($url, "api")).'uploads/'.$directory . '/' . $filename;
+        return $publicURL;
     }
 
     /**
