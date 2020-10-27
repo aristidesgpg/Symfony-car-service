@@ -152,9 +152,11 @@ class SecurityController extends AbstractFOSRestController {
 
         //for test
         $token = $securityHelper->generateToken($email);
-        if(!$mailerHelper->sendMail("Reset Password", $email)){
+        $resetPasswordURL = "".$token;
+        if(!$mailerHelper->sendMail("Reset Password Link", $email, $resetPasswordURL)){
             return $this->handleView($this->view('Something Went Wrong Trying to Send the Email', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
+        
         return new JsonResponse([
             'message' => 'Security Question Has Been Validated',
             'token'   => $token //for test
