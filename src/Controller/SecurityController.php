@@ -12,7 +12,9 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Swagger\Annotations as SWG;
+
 
 use App\Service\UserHelper;
 use App\Service\SecurityHelper;
@@ -124,14 +126,15 @@ class SecurityController extends AbstractFOSRestController {
      *         )
      * )
      * 
-     * @param Request        $request
-     * @param SecurityHelper $securityHelper
-     * @param MailerHelper   $mailerHelper
-     * @param UserRepository $userRepo
-     *
+     * @param Request               $request
+     * @param SecurityHelper        $securityHelper
+     * @param MailerHelper          $mailerHelper
+     * @param UserRepository        $userRepo
+     * @param UrlGeneratorInterface $urlGenerator
+     * 
      * @return JsonResponse
      */
-    public function validate (Request $request, SecurityHelper $securityHelper, MailerHelper $mailerHelper, UserRepository $userRepo) {
+    public function validate (Request $request, SecurityHelper $securityHelper, MailerHelper $mailerHelper, UserRepository $userRepo, UrlGeneratorInterface $urlGenerator) {
 
         $answer = $request->get('answer');
         $email  = $request->get('email');
@@ -150,16 +153,16 @@ class SecurityController extends AbstractFOSRestController {
             return $this->handleView($this->view('Invalid Security Answer', Response::HTTP_UNAUTHORIZED));
         }
 
-        //for test
+        //get reset password token
         $token = $securityHelper->generateToken($email);
-        $resetPasswordURL = "".$token;
+        //get reset password request url with token
+        $resetPasswordURL = $urlGenerator->generate('app_security_validatetoken', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
         if(!$mailerHelper->sendMail("Reset Password Link", $email, $resetPasswordURL)){
             return $this->handleView($this->view('Something Went Wrong Trying to Send the Email', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
         
         return new JsonResponse([
-            'message' => 'Security Question Has Been Validated',
-            'token'   => $token //for test
+            'message' => 'Security Question Has Been Validated'
         ]);
     }
 

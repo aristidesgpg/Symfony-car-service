@@ -119,13 +119,21 @@ class SecurityHelper {
      * 
      * @return Boolean
      */
-    public function validateToken(String $token){
+    public function validateToken(String $token){           
         // split the token
         $tokenParts         = explode('.', $token);
+        //if token has valid header, body
+        if(!isset($tokenParts[0]) || !isset($tokenParts[1]) || !isset($tokenParts[2])){
+            return false;
+        }
         $header             = base64_decode($tokenParts[0]);
         $payload            = base64_decode($tokenParts[1]);
         $signatureProvided  = $tokenParts[2];
 
+        //if exp doesn't exist in the payload
+        if(!isset(json_decode($payload)->exp)){
+            return false;
+        }
         // check the expiration time - note this will cause an error if there is no 'exp' claim in the token
         $expiration         = date(json_decode($payload)->exp);
         $now                = date('Y-m-d H:i:s');
@@ -160,7 +168,17 @@ class SecurityHelper {
         }
         // split the token
         $tokenParts = explode('.', $token);
+        //if token has valid header, body
+        if(!isset($tokenParts[0]) || !isset($tokenParts[1]) || !isset($tokenParts[2])){
+            return false;
+        }
         $payload    = base64_decode($tokenParts[1]);
+
+        //if email doesn't exist in the payload
+        if(!isset(json_decode($payload)->email)){
+            return false;
+        }
+        
         // get the email from payload
         $email      = json_decode($payload)->email;
         // get User from email

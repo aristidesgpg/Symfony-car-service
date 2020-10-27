@@ -32,5 +32,6 @@ security:
   access_control:
     - { path: ^/api/authentication/authenticate, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/doc, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/security/reset-password, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api, role: IS_AUTHENTICATED_FULLY }
     
