@@ -3,10 +3,7 @@
 FROM php:7.3-apache-stretch
 
 RUN apt-get update \
-    && apt-get install -y vim nano git zlib1g-dev libzip-dev \
-    && libfreetype6-dev \
-    && libjpeg62-turbo-dev \
-    && libpng-dev \
+    && apt-get install -y vim nano git zlib1g-dev libzip-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev\
     && docker-php-ext-configure gd --with-freetype-dir=/usr --with-jpeg-dir=/usr --with-png-dir=/usr \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install zip mysqli pdo_mysql \ 
