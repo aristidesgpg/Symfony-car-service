@@ -25,7 +25,7 @@ class UserController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/api/user")
+     * @Rest\Get("/api/users")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Get(description="Get all users")
@@ -59,7 +59,7 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/user")
+     * @Rest\Post("/api/users")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Post(description="Create a new user")
@@ -196,7 +196,7 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/user/{id}")
+     * @Rest\Put("/api/users/{id}")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Put(description="Update a User")
@@ -331,7 +331,7 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Delete("/api/user/{id}")
+     * @Rest\Delete("/api/users/{id}")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Delete(description="Delete a user")
