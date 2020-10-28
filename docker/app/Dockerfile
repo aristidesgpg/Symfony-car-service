@@ -1,6 +1,6 @@
 
 
-FROM php:7.3-apache
+FROM php:7.3-apache-stretch
 
 RUN apt-get update \
     && apt-get install -y vim nano git zlib1g-dev libzip-dev \
