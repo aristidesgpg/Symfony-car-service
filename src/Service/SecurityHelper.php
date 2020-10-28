@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Entity\ForgotPassword;
 use App\Repository\UserRepository;
+use App\Repository\ForgotPasswordRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
@@ -34,6 +36,11 @@ class SecurityHelper {
     private $userRepository;
 
     /**
+     * @var ForgotPasswordRepository
+     */
+    private $forgotPasswordRepository;
+
+    /**
      * @var EntityManagerInterface
      */
     private $em;
@@ -42,12 +49,13 @@ class SecurityHelper {
      * SecurityHelper constructor.
      *
      */
-    public function __construct (Container $container, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, EntityManagerInterface $em) {
-        $this->container       = $container;
-        $this->secret          = $this->container->getParameter('reset_password_secret');
-        $this->passwordEncoder = $passwordEncoder;
-        $this->userRepository  = $userRepository;
-        $this->em              = $em;
+    public function __construct (Container $container, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ForgotPasswordRepository $forgotPasswordRepository, EntityManagerInterface $em) {
+        $this->container                 = $container;
+        $this->secret                    = $this->container->getParameter('reset_password_secret');
+        $this->passwordEncoder           = $passwordEncoder;
+        $this->userRepository            = $userRepository;
+        $this->forgotPasswordRepository  = $forgotPasswordRepository;
+        $this->em                        = $em;
     }
 
     /**
@@ -70,46 +78,25 @@ class SecurityHelper {
     }
 
     /**
-     * @param  String $text
-     * 
-     * @return Boolean
-     */
-    public function base64UrlEncode(String $text)
-    {
-        return str_replace(
-            ['+', '/', '='],
-            ['-', '_', ''],
-            base64_encode($text)
-        );
-    }
-
-    /**
+     * @param  User   $user
      * @param  String $email
      * 
      * @return String
      */
-    public function generateToken(String $email){
-        // Create the token header
-        $header = json_encode([
-            'typ' => 'JWT',
-            'alg' => 'HS256'
-        ]);
-        // Create the token payload
-        $payload = json_encode([
-            'email' => $email,
-            'exp'   => date('Y-m-d H:i:s', strtotime('1 hour'))
-        ]);
-
-        // Encode Header
-        $base64UrlHeader    = $this->base64UrlEncode($header);
-        // Encode Payload
-        $base64UrlPayload   = $this->base64UrlEncode($payload);
-        // Create Signature Hash
-        $signature          = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $this->secret, true);
-        // Encode Signature to Base64Url String
-        $base64UrlSignature = $this->base64UrlEncode($signature);
-        // Create Token
-        $token              = $base64UrlHeader . "." . $base64UrlPayload . "." . $base64UrlSignature;
+    public function generateToken(User $user, String $email){
+        //generate token
+        $token = password_hash($email, PASSWORD_DEFAULT);
+        //get expired date
+        $date  = date('Y-m-d H:i:s', strtotime('1 hour'));
+        //save forgot password token in table
+        $forgotPassword = $this->forgotPasswordRepository->findOneBy(["user" => $user->getId()]);
+        if(!$forgotPassword){
+            $forgotPassword = new ForgotPassword();
+            $forgotPassword->setUser($user->getId());
+        }
+        $forgotPassword->setToken($token)->setExpirationDate(new \DateTime($date));
+        $this->em->persist($forgotPassword);
+        $this->em->flush();
 
         return $token;
     }
@@ -119,38 +106,33 @@ class SecurityHelper {
      * 
      * @return Boolean
      */
-    public function validateToken(String $token){           
-        // split the token
-        $tokenParts         = explode('.', $token);
-        //if token has valid header, body
-        if(!isset($tokenParts[0]) || !isset($tokenParts[1]) || !isset($tokenParts[2])){
-            return false;
-        }
-        $header             = base64_decode($tokenParts[0]);
-        $payload            = base64_decode($tokenParts[1]);
-        $signatureProvided  = $tokenParts[2];
+    public function validateToken(String $token){
+        //find the token on the table
+        $forgotPassword = $this->forgotPasswordRepository->findOneBy([
+            "token" => $token,
+            "used"  => false,
+        ]);
 
-        //if exp doesn't exist in the payload
-        if(!isset(json_decode($payload)->exp)){
+        if(!$token){
             return false;
         }
+
         // check the expiration time - note this will cause an error if there is no 'exp' claim in the token
-        $expiration         = date(json_decode($payload)->exp);
-        $now                = date('Y-m-d H:i:s');
+        $expiration         = $forgotPassword->getExpirationDate();
+        $now                = new \DateTime();
         $tokenExpired       = $now > $expiration;
 
-        // build a signature based on the header and payload using the secret
-        $base64UrlHeader    = $this->base64UrlEncode($header);
-        $base64UrlPayload   = $this->base64UrlEncode($payload);
-        $signature          = hash_hmac('sha256', $base64UrlHeader . "." . $base64UrlPayload, $this->secret, true);
-        $base64UrlSignature = $this->base64UrlEncode($signature);
-
-        // verify it matches the signature provided in the token
-        $signatureValid     = ($base64UrlSignature === $signatureProvided);
+        // verify it matches the token
+        $signatureValid     = ($token == $forgotPassword->getToken());
 
         if ($tokenExpired || !$signatureValid) {
             return false;
         }
+
+        //once verified, set used true
+        $forgotPassword->setUsed(true);
+        $this->em->persist($forgotPassword);
+        $this->em->flush();
 
         return true;
     }
@@ -162,27 +144,18 @@ class SecurityHelper {
      * @return Boolean
      */
     public function resetPassword(String $token, String $password){
-        //if token is valid
-        if(!$this->validateToken($token) || !$password){
-            return false;
-        }
-        // split the token
-        $tokenParts = explode('.', $token);
-        //if token has valid header, body
-        if(!isset($tokenParts[0]) || !isset($tokenParts[1]) || !isset($tokenParts[2])){
-            return false;
-        }
-        $payload    = base64_decode($tokenParts[1]);
-
-        //if email doesn't exist in the payload
-        if(!isset(json_decode($payload)->email)){
+        //find the token on the table
+        $forgotPassword = $this->forgotPasswordRepository->findOneBy([
+            "token" => $token
+        ]);
+        
+        //if token does not exist
+        if(!$forgotPassword){
             return false;
         }
         
-        // get the email from payload
-        $email      = json_decode($payload)->email;
-        // get User from email
-        $user       = $this->userRepository->findOneByEmail($email);
+        // get User
+        $user = $this->userRepository->findOne($forgotPassword->getUser());
         //reset pasword for the User
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
 

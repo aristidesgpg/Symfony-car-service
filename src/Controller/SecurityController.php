@@ -154,7 +154,7 @@ class SecurityController extends AbstractFOSRestController {
         }
 
         //get reset password token
-        $token = $securityHelper->generateToken($email);
+        $token = $securityHelper->generateToken($user, $email);
         //get reset password request url with token
         $resetPasswordURL = $urlGenerator->generate('app_security_validatetoken', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
         if(!$mailerHelper->sendMail("Reset Password Link", $email, $resetPasswordURL)){

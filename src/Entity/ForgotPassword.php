@@ -28,14 +28,14 @@ class ForgotPassword
     private $token;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="datetime")
      */
     private $expirationDate;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $used;
+    private $used = false;
 
     public function getId(): ?int
     {
