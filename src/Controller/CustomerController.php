@@ -35,6 +35,12 @@ class CustomerController extends AbstractFOSRestController {
 
     /**
      * @Rest\Get
+     * @SWG\Parameter(
+     *     name="search",
+     *     type="string",
+     *     description="First/Last Name, Phone Number, or Email",
+     *     in="query"
+     * )
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -44,10 +50,18 @@ class CustomerController extends AbstractFOSRestController {
      *     )
      * )
      *
+     * @param Request $req
+     *
      * @return Response
      */
-    public function getAll (): Response {
-        return $this->customerView($this->repo->findAllActive());
+    public function getAll (Request $req): Response {
+        if ($req->query->has('search')) {
+            $res = $this->repo->search($req->query->get('search'));
+        } else {
+            $res = $this->repo->findAllActive();
+        }
+
+        return $this->customerView($res);
     }
 
     /**
