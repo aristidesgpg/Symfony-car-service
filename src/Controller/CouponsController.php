@@ -44,7 +44,7 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/coupons/new")
+     * @Rest\Post("/api/coupons")
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Create a coupon")
