@@ -1,6 +1,6 @@
 nelmio_api_doc:
     documentation:
-        schemes: [http, https]
+        schemes: [https, http]
         info:
             title: iService 3.0 Back-End Documentation
             description: Sometimes when I feel down, I think about all the times I wrote jquery.
