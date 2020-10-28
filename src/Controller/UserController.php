@@ -25,11 +25,11 @@ class UserController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/api/user/get-users/{role}")
+     * @Rest\Get("/api/user")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Get(description="Get all users")
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return users",
@@ -39,16 +39,17 @@ class UserController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param String         $role
+     * @param Request        $request
      * @param UserRepository $userRepo
      * @param UserHelper     $userHelper
      *
      * @return Response
      */
-    public function getUsers (String $role, UserRepository $userRepo, UserHelper $userHelper) {
+    public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper) {
+        $role = $request->query->get('role');
 
         //role is invalid
-        if(!$role || !$userHelper->isValidRole($role)){
+        if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -58,11 +59,11 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/user/new")
+     * @Rest\Post("/api/user")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Post(description="Create a new user")
-     * 
+     *
      * @SWG\Parameter(
      *     name="role",
      *     in="formData",
@@ -126,8 +127,8 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The experience of Technician",
      * )
-     * 
-     * 
+     *
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -137,15 +138,14 @@ class UserController extends AbstractFOSRestController {
      *                                              "Successfully created" }),
      *         )
      * )
-     * 
+     *
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
      *
      * @return JsonResponse
      */
-    public function new (Request $request, EntityManagerInterface $em,UserHelper $userHelper) {
-        
+    public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
         $role          = $request->get('role');
         $firstName     = $request->get('firstName');
         $lastName      = $request->get('lastName');
@@ -157,19 +157,19 @@ class UserController extends AbstractFOSRestController {
         $experience    = $request->get('experience');
 
         //role is invalid
-        if(!$role || !$userHelper->isValidRole($role)){
+        if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         //check if parameters are valid
-        if(!$firstName || !$lastName || !$email || !$phone || !$password){
+        if (!$firstName || !$lastName || !$email || !$phone || !$password) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        if($role == 'ROLE_TECHNICIAN' && (!$certification || !$experience)){
+        if ($role == 'ROLE_TECHNICIAN' && (!$certification || !$experience)) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        
-        $user = new User();
+
+        $user  = new User();
         $roles = [];
         array_push($roles, $role);
         $user->setFirstName($firstName)
@@ -180,7 +180,7 @@ class UserController extends AbstractFOSRestController {
              ->setPassword($userHelper->passwordEncoder($user, $password))
              ->setRoles($roles);
 
-        if($role == 'ROLE_TECHNICIAN'){
+        if ($role == 'ROLE_TECHNICIAN') {
             $user->setCertification($certification)
                  ->setExperience($experience);
         }
@@ -196,11 +196,11 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/user/{id}/edit")
-     * 
+     * @Rest\Put("/api/user/{id}")
+     *
      * @SWG\Tag(name="Users")
      * @SWG\Put(description="Update a User")
-     * 
+     *
      * @SWG\Parameter(
      *     name="role",
      *     in="formData",
@@ -264,8 +264,8 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The experience of Technician",
      * )
-     * 
-     * 
+     *
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -275,7 +275,7 @@ class UserController extends AbstractFOSRestController {
      *                                              "Successfully created" }),
      *         )
      * )
-     * 
+     *
      * @param User                   $user
      * @param Request                $request
      * @param EntityManagerInterface $em
@@ -296,12 +296,12 @@ class UserController extends AbstractFOSRestController {
         $experience    = $request->get('experience');
 
         //role is invalid
-        if($role && !$userHelper->isValidRole($role)){
+        if ($role && !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         //check if parameters are valid
-        if($role != 'ROLE_TECHNICIAN' && ($certification || $experience)){
+        if ($role != 'ROLE_TECHNICIAN' && ($certification || $experience)) {
             return $this->handleView($this->view('Certification and Experience is Only for Technicians', Response::HTTP_BAD_REQUEST));
         }
 
@@ -319,7 +319,7 @@ class UserController extends AbstractFOSRestController {
             'experience'    => $experience
         ];
 
-        if(!$userHelper->massAssign($user, $array)){
+        if (!$userHelper->massAssign($user, $array)) {
             return $this->handleView($this->view('Something Went Wrong Trying to Update the User', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
@@ -331,11 +331,11 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Delete("/api/user/{id}/delete")
+     * @Rest\Delete("/api/user/{id}")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Delete(description="Delete a user")
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -345,7 +345,7 @@ class UserController extends AbstractFOSRestController {
      *                                              "Successfully deleted" }),
      *         )
      * )
-     * 
+     *
      * @param User                   $user
      * @param EntityManagerInterface $em
      *

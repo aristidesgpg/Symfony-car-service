@@ -2,193 +2,310 @@
 
 namespace App\Controller;
 
+use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
+use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
-
+use App\Repository\SettingsRepository;
+use App\Service\UploadHelper;
+use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use InvalidArgumentException;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
-use App\Entity\Setting;
 
 /**
  * Class SettingsController
  *
  * @package App\Controller
+ * @Rest\Route("/api/settings")
+ * @SWG\Tag(name="Settings")
+ * @SWG\Response(
+ *     response="500",
+ *     description="Server Error",
+ *     @SWG\Schema(
+ *         type="object",
+ *         @SWG\Property(property="error", type="string")
+ *     )
+ * )
  */
 class SettingsController extends AbstractFOSRestController {
+    public const  SMS_MAX_LENGTH       = 160;
+    public const  SMS_EXTRA_MAX_LENGTH = 109;
+    public const  ZIP_LENGTH           = 5;
+    public const  ZIP_P4_LENGTH        = 10;
+    public const  PHONE_LENGTH         = 10;
+    private const TOO_LONG_MSG         = 'Value cannot exceed %d characters';
+
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/api/settings")
-     *
-     * @SWG\Tag(name="Settings")
-     * @SWG\Get(description="Get all settings")
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
+     * @Rest\Get
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
      *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
-     *                                                  string>"})
-     *
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Settings::class))
      *     )
      * )
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return settings",
-     *     @SWG\Items(
-     *         type="object",
-     *             description="key/pair values of all available settings. Will expand over time."
-     *         )
-     * )
      *
-     * @param EntityManagerInterface $em
+     * @param SettingsRepository $repo
      *
      * @return Response
      */
-    public function getSettings (EntityManagerInterface $em) {
-        $setting = $em->getRepository(Setting::class)->findAll();
-
-        return $this->handleView($this->view($setting, 200));
+    public function getSettings (SettingsRepository $repo): Response {
+        return $this->settingsResponse($repo->findAll());
     }
 
     /**
-     * @Rest\Post("/api/settings/upgrade/edit")
-     *
-     * @SWG\Tag(name="Settings")
-     * @SWG\Post(description="Update upgrade settings")
-     *
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     type="string",
-     *     in="header",
-     *     description="JWT Auth token",
+     * @Rest\Post
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!"
+     * )
+     * @SWG\Response(
+     *     response="400",
+     *     description="Validation failure",
      *     @SWG\Schema(
-     *          type="object",
-     *          @SWG\Property(property="Authorization", type="string", example={"Authorization": "Bearer <token
-     *                                                  string>"})
+     *         type="array",
+     *         items=@SWG\Schema(
+     *             type="object",
+     *             @SWG\Property(property="key", type="string", description="Parameter name"),
+     *             @SWG\Property(property="msg", type="string", description="Validation message")
+     *         )
      *     )
      * )
-     * @SWG\Parameter(
-     *     name="percentageOfTax",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The percentage of tax to be paid on a trade in vehicle",
-     * )
-     * @SWG\Parameter(
-     *     name="limitOnTax",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The limit on applicable tax to be paid on a trade in vehicle",
-     * )
-     * @SWG\Parameter(
-     *     name="totalDays",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Total days until this offer expires",
-     * )
      *
-     * @SWG\Parameter(
-     *     name="websiteUrl",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The website url to direct a user to obtain their instant cash offer",
-     * )
+     * Phase Settings
+     * @SWG\Parameter(name="phase1", type="integer", in="formData")
+     * @SWG\Parameter(name="phase2", type="integer", in="formData")
+     * @SWG\Parameter(name="phase3", type="integer", in="formData")
      *
-     * @SWG\Parameter(
-     *     name="upgradeInitialText",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Upgrade Initial Text (Message that gets sent to a customer about their vehicle value. Limit 109
-     *     characters)",
-     * )
+     * Tech App Settings
+     * @SWG\Parameter(name="techAppUsername", type="string", in="formData")
+     * @SWG\Parameter(name="techAppPassword", type="string", format="password", in="formData")
      *
-     * @SWG\Parameter(
-     *     name="upgradeOfferText",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Upgrade Offer Text (Message that gets sent when a manager sends a cash offer to the customer.
-     *     Limit 109 characters)",
-     * )
+     * Customer Web App Settings
+     * @SWG\Parameter(name="custAppAppraiseButtonText", type="string", in="formData")
+     * @SWG\Parameter(name="custAppPostInspectionVideo", type="file", in="formData")
+     * @SWG\Parameter(name="custAppFinanceRepairUrl", type="string", in="formData")
      *
-     * @SWG\Parameter(
-     *     name="upgradeCashOffer",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Upgrade cash offer copy",
-     * )
+     * Service Text Settings
+     * @SWG\Parameter(name="serviceTextIntro", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
+     * @SWG\Parameter(name="serviceTextVideo", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="serviceTextVideoResend", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="serviceTextQuote", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="serviceTextPayment", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      *
-     * @SWG\Parameter(
-     *     name="upgradeDisclaimer",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="Upgrade disclaimer",
-     * )
+     * Pricing Settings
+     * @SWG\Parameter(name="pricingLaborRate", type="number", in="formData")
+     * @SWG\Parameter(name="pricingUseMatrix", type="boolean", in="formData")
+     * @SWG\Parameter(name="pricingLaborTax", type="number", in="formData")
+     * @SWG\Parameter(name="pricingPartsTax", type="number", in="formData")
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
-     * )
+     * Waiver Settings
+     * @SWG\Parameter(name="waiverEstimateText", type="string", in="formData")
+     * @SWG\Parameter(name="waiverActivateAuthMessage", type="boolean", in="formData")
+     * @SWG\Parameter(name="waiverIntroText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      *
-     * @param Request        $request
-     * @param SettingsHelper $settingsHelper
+     * // Other Settings
+     * @SWG\Parameter(name="advisorUsageEmails", type="string", in="formData")
+     * @SWG\Parameter(name="openLate", type="boolean", in="formData")
+     *
+     * Preview Settings
+     * @SWG\Parameter(name="previewSalesVideoText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     *
+     * Upgrade Settings
+     * @SWG\Parameter(name="upgradeTradeInTax", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeTradeInTaxLimit", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeOfferExpiration", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeInstantOfferUrl", type="string", in="formData")
+     * @SWG\Parameter(name="upgradeIntroText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="upgradeOfferText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
+     * @SWG\Parameter(name="upgradeCashOfferCopy", type="string", in="formData")
+     * @SWG\Parameter(name="upgradeDisclaimer", type="string", in="formData")
+     *
+     * General Settings
+     * @SWG\Parameter(name="generalName", type="string", in="formData")
+     * @SWG\Parameter(name="generalEmail", type="string", in="formData")
+     * @SWG\Parameter(name="generalWebsiteUrl", type="string", in="formData")
+     * @SWG\Parameter(name="generalInventoryUrl", type="string", in="formData")
+     * @SWG\Parameter(name="generaAddress", type="string", in="formData")
+     * @SWG\Parameter(name="generalAddress2", type="string", in="formData")
+     * @SWG\Parameter(name="generalCity", type="string", in="formData")
+     * @SWG\Parameter(name="generalState", type="string", in="formData")
+     * @SWG\Parameter(name="generalZip", type="string", in="formData", minLength=SettingsController::ZIP_LENGTH, maxLength=SettingsController::ZIP_P4_LENGTH)
+     * @SWG\Parameter(name="generalPhone", type="string", in="formData", maxLength=SettingsController::PHONE_LENGTH)
+     * @SWG\Parameter(name="generalLogo", type="file", in="formData")
+     *
+     * myReview Settings
+     * @SWG\Parameter(name="reviewGoogleUrl", type="string", in="formData")
+     * @SWG\Parameter(name="reviewFacebookUrl", type="string", in="formData")
+     * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
+     * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
+     *
+     * @param Request        $req
+     * @param SettingsHelper $helper
+     * @param UploadHelper   $uploader
      *
      * @return Response
      */
-    public function upgradeEdit (Request $request, SettingsHelper $settingsHelper) {
-        $percentageOfTax    = $request->get('percentageOfTax');
-        $limitOnTax         = $request->get('limitOnTax');
-        $totalDays          = $request->get('totalDays');
-        $websiteUrl         = $request->get('websiteUrl');
-        $upgradeInitialText = $request->get('upgradeInitialText');
-        $upgradeOfferText   = $request->get('upgradeOfferText');
-        $upgradeCashOffer   = $request->get('upgradeCashOffer');
-        $upgradeDisclaimer  = $request->get('upgradeDisclaimer');
+    public function setSettings (Request $req, SettingsHelper $helper, UploadHelper $uploader): Response {
+        $parameterList = SettingsHelper::VALID_SETTINGS;
+        $fileList      = SettingsHelper::VALID_FILE_SETTINGS;
+        $settings      = [];
+        $errors        = [];
 
-        // Validation
-        if (!$percentageOfTax || !$limitOnTax || !$totalDays || !$websiteUrl || !$upgradeInitialText ||
-            !$upgradeOfferText || !$upgradeCashOffer || !$upgradeDisclaimer) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        // Loop each one to see if it exists and validate it
+        foreach ($parameterList as $key) {
+            // Doesn't exist, move along
+            if ($req->request->has($key) !== true) {
+                continue;
+            }
+
+            // Get value, see what to do w/ it
+            $val = $req->request->get($key);
+            switch ($key) {
+                case 'techAppPassword':
+                    try {
+                        $val = PasswordHelper::hashPassword($val);
+                    } catch (Exception $e) {
+                        $errors[$key] = $e->getMessage();
+                    }
+                    break;
+                case 'serviceTextIntro':
+                case 'reviewText':
+                    if (strlen($val) > self::SMS_MAX_LENGTH) {
+                        $errors[$key] = sprintf(self::TOO_LONG_MSG, self::SMS_MAX_LENGTH);
+                    }
+                    break;
+                case 'serviceTextVideo':
+                case 'serviceTextVideoResend':
+                case 'serviceTextQuote':
+                case 'serviceTextPayment':
+                case 'waiverIntroText':
+                case 'previewSalesVideoText':
+                case 'upgradeIntroText':
+                case 'upgradeOfferText':
+                    if (strlen($val) > self::SMS_EXTRA_MAX_LENGTH) {
+                        $errors[$key] = sprintf(self::TOO_LONG_MSG, self::SMS_EXTRA_MAX_LENGTH);
+                    }
+                    break;
+                case 'generalZip':
+                    if (!in_array(strlen($val), [self::ZIP_LENGTH, self::ZIP_P4_LENGTH])) {
+                        $errors[$key] = sprintf(
+                            'ZIP must be either %d characters or %d in the case of ZIP+4',
+                            self::ZIP_LENGTH,
+                            self::ZIP_P4_LENGTH
+                        );
+                    }
+                    break;
+                case 'generalPhone':
+                    if (strlen($val) !== self::PHONE_LENGTH) {
+                        $errors[$key] = sprintf('Phone number must be %d digits', self::PHONE_LENGTH);
+                    }
+                    break;
+                default:
+            }
+            $settings[$key] = $val;
         }
 
-        $settingsArray = [
-            'percentageOfTax'    => $percentageOfTax,
-            'limitOnTax'         => $limitOnTax,
-            'totalDays'          => $totalDays,
-            'websiteUrl'         => $websiteUrl,
-            'upgradeInitialText' => $upgradeInitialText,
-            'upgradeOfferText'   => $upgradeOfferText,
-            'upgradeCashOffer'   => $upgradeCashOffer,
-            'upgradeDisclaimer'  => $upgradeDisclaimer,
-        ];
 
-        $bulkUpdateResult = $settingsHelper->bulkUpdate($settingsArray);
-        if (!$bulkUpdateResult) {
-            return $this->handleView(
-                $this->view('Something Went Wrong Trying to Update the Settings', Response::HTTP_INTERNAL_SERVER_ERROR)
-            );
+        $files = [];
+        foreach ($fileList as $key) {
+            if ($req->files->has($key) !== true) {
+                continue;
+            }
+
+            $file = $req->files->get($key);
+            if (!$file instanceof UploadedFile) {
+                $errors[$key] = 'Could not find file';
+                continue;
+            }
+
+            $isValid = ($key === 'custAppPostInspectionVideo') ? $uploader->isValidVideo($file) : $uploader->isValidImage($file);
+            if ($isValid !== true) {
+                $errors[$key] = 'Invalid file type';
+                continue;
+            }
+            $files[$key] = $file; // Defer file processing in case of validation errors
+        }
+
+        // Don't commit any changes if there were errors
+        if (!empty($errors)) {
+            return $this->validationErrorResponse($errors);
+        }
+
+        // Do file uploads
+        foreach ($files as $key => $file) {
+            try {
+                $dir            = ($key === 'custAppPostInspectionVideo') ? 'videos' : 'images';
+                $path           = $uploader->upload($file, $dir);
+                $settings[$key] = $uploader->pathToRelativeUrl($path);
+            } catch (Exception $e) {
+                $this->logger->error(sprintf('Failed to move file for key "%s": "%s"', $key, $e->getMessage()));
+                return $this->errorResponse('Failed to move file');
+            }
+        }
+
+        // Try to commit the settings
+        try {
+            $helper->commitSettings($settings);
+        } catch (Exception $e) {
+            return $this->errorResponse($e->getMessage());
         }
 
         return $this->handleView($this->view('Settings Updated', Response::HTTP_OK));
+    }
+
+    /**
+     * @param Settings[] $settings
+     *
+     * @return Response
+     */
+    private function settingsResponse (array $settings): Response {
+        $json = [];
+
+        foreach ($settings as $setting) {
+            if (!$setting instanceof Settings) {
+                throw new InvalidArgumentException(sprintf('$settings must be array of "%s" instances', Settings::class));
+            }
+
+            $json[] = [
+                'key'   => $setting->getKey(),
+                'value' => ($setting->getValue() === null) ? '' : $setting->getValue(),
+            ];
+        }
+
+        return $this->json($json, Response::HTTP_OK);
+    }
+
+    /**
+     * @param array $errors
+     *
+     * @return JsonResponse
+     */
+    private function validationErrorResponse (array $errors): JsonResponse {
+        $json = [];
+        foreach ($errors as $k => $v) {
+            $json[] = ['key' => $k, 'msg' => $v];
+        }
+
+        return $this->json($json, Response::HTTP_BAD_REQUEST);
+    }
+
+    /**
+     * @param string $msg
+     *
+     * @return JsonResponse
+     */
+    private function errorResponse (string $msg): JsonResponse {
+        return $this->json(['error' => $msg], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

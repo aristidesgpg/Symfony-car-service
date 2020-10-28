@@ -53,7 +53,7 @@ class UserHelper {
             "ROLE_SERVICE_MANAGER",
             "ROLE_SERVICE_ADVISOR",
             "ROLE_TECHNICIAN",
-            "ROLE_PARTS_ADVISTOR",
+            "ROLE_PARTS_ADVISOR",
             "ROLE_SALES_MANAGER",
             "ROLE_SALES_AGENT"
         ];

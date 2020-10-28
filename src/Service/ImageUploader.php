@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\UrlHelper;
 
 
 /**
@@ -26,14 +27,20 @@ class ImageUploader {
     private $container;
 
     /**
+     * @var UrlHelper
+     */
+    private $urlHelper;
+
+    /**
      * ImageUploader constructor.
      *
      * @param EntityManagerInterface $em
      * @param Container              $container
      */
-    public function __construct (EntityManagerInterface $em, Container $container) {
+    public function __construct (EntityManagerInterface $em, Container $container, UrlHelper $urlHelper) {
         $this->em        = $em;
         $this->container = $container;
+        $this->urlHelper = $urlHelper;
     }
 
     /**
@@ -59,7 +66,7 @@ class ImageUploader {
             return false;
         }
 
-        return $uploadsDirectory . '/' . $filename;
+        return $this->urlHelper->getAbsoluteUrl('uploads/'.$directory . '/' . $filename);
     }
 
     /**
