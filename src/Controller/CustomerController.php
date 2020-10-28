@@ -46,7 +46,7 @@ class CustomerController extends AbstractFOSRestController {
      *     description="Success!",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=Customer::class, groups={"customer_list"}))
+     *         @SWG\Items(ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      *     )
      * )
      *
@@ -69,7 +69,7 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
-     *     @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups={"customer_list"}))
+     *     @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      * )
      * @SWG\Response(response="404", description="Customer does not exist")
      *
@@ -168,7 +168,7 @@ class CustomerController extends AbstractFOSRestController {
      */
     private function customerView ($data): Response {
         $view = $this->view($data);
-        $view->getContext()->setGroups(['customer_list']);
+        $view->getContext()->setGroups(Customer::GROUPS);
 
         return $this->handleView($view);
     }

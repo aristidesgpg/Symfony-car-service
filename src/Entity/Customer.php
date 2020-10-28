@@ -12,6 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
 class Customer implements UserInterface {
+    public const GROUPS = ['customer_list'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
