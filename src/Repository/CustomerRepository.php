@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Customer;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,10 +20,12 @@ class CustomerRepository extends ServiceEntityRepository {
     }
 
     /**
+     * @param User|null $user
+     *
      * @return Customer[]
      */
-    public function findAllActive (): array {
-        return $this->getBaseQueryBuilder()->getQuery()->getResult();
+    public function findAllActive (?User $user = null): array {
+        return $this->getBaseQueryBuilder($user)->getQuery()->getResult();
     }
 
     /**
@@ -40,12 +43,13 @@ class CustomerRepository extends ServiceEntityRepository {
     }
 
     /**
-     * @param string $query - First/Last Name, Phone Number, or Email
+     * @param string    $query - First/Last Name, Phone Number, or Email
+     * @param User|null $user
      *
      * @return Customer[]
      */
-    public function search (string $query): array {
-        $qb = $this->getBaseQueryBuilder();
+    public function search (string $query, ?User $user = null): array {
+        $qb = $this->getBaseQueryBuilder($user);
         $or = $qb->expr()->orX();
         $or->add('c.firstName LIKE :query')
            ->add('c.lastName LIKE :query')
@@ -58,11 +62,19 @@ class CustomerRepository extends ServiceEntityRepository {
     }
 
     /**
+     * @param User|null $user
+     *
      * @return QueryBuilder
      */
-    private function getBaseQueryBuilder (): QueryBuilder {
-        return $this->createQueryBuilder('c')
-                    ->andWhere('c.deleted = 0');
+    private function getBaseQueryBuilder (?User $user = null): QueryBuilder {
+        $qb = $this->createQueryBuilder('c')
+                   ->andWhere('c.deleted = 0');
+        if ($user !== null) {
+            $qb->andWhere('c.addedBy = :user');
+            $qb->setParameter('user', $user);
+        }
+
+        return $qb;
     }
 
     // /**
