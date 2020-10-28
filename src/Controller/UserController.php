@@ -29,7 +29,14 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Users")
      * @SWG\Get(description="Get all users")
-     *
+     * @SWG\Parameter(
+     *     name="role",
+     *     in="query",
+     *     required=true,
+     *     type="string",
+     *     description="permission role for users you are trying to get",
+     *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Return users",

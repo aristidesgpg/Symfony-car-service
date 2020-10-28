@@ -13,6 +13,17 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @package App\Service
  */
 class UserHelper {
+    /** @var string[] */
+    public const USER_ROLES = [
+        "ROLE_ADMIN",
+        "ROLE_SERVICE_MANAGER",
+        "ROLE_SERVICE_ADVISOR",
+        "ROLE_TECHNICIAN",
+        "ROLE_PARTS_ADVISOR",
+        "ROLE_SALES_MANAGER",
+        "ROLE_SALES_AGENT"
+    ];
+
     /**
      * @var UserRepository
      */
@@ -47,16 +58,7 @@ class UserHelper {
      * @return boolean
      */
     public function isValidRole (string $role) {
-
-        $roles = [
-            "ROLE_ADMIN", 
-            "ROLE_SERVICE_MANAGER",
-            "ROLE_SERVICE_ADVISOR",
-            "ROLE_TECHNICIAN",
-            "ROLE_PARTS_ADVISOR",
-            "ROLE_SALES_MANAGER",
-            "ROLE_SALES_AGENT"
-        ];
+        $roles = self::USER_ROLES;
         
         //role is invalid
         if(!$role || !in_array($role, $roles)){

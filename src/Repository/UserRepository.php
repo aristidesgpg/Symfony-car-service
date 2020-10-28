@@ -39,16 +39,15 @@ class UserRepository extends ServiceEntityRepository {
     }
 
     /**
-     * @param String            $role
-     * @param QueryBuilder|null $qb
+     * @param String $role
      *
      * @return QueryBuilder
      */
-    public function getUserByRole (String $role) {
+    public function getUserByRole (string $role) {
         return $this->createQueryBuilder('u')
-                    ->where('u.roles LIKE :role')
+                    ->where('u.role = :role')
                     ->andWhere('u.active = 1')
-                    ->setParameter('role', '%'.$role.'%')
+                    ->setParameter('role', $role)
                     ->getQuery()
                     ->getResult();
     }

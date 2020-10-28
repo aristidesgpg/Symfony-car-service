@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\User;
+use App\Service\UserHelper;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -21,12 +22,22 @@ class UserFixture extends Fixture {
     private $passwordEncoder;
 
     /**
+     * @var UserHelper
+     */
+    private $userHelper;
+
+    /** @var array */
+    private $userRoles;
+
+    /**
      * UserFixtures constructor.
      *
      * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct (UserPasswordEncoderInterface $passwordEncoder) {
+    public function __construct (UserPasswordEncoderInterface $passwordEncoder, UserHelper $userHelper) {
         $this->passwordEncoder = $passwordEncoder;
+        $this->userHelper      = $userHelper;
+        $this->userRoles       = $userHelper::USER_ROLES;
     }
 
     /**
@@ -43,7 +54,7 @@ class UserFixture extends Fixture {
              ->setEmail('lrugen@iserviceauto.com')
              ->setPhone(8475551234)
              ->setPassword($password)
-             ->setRoles(['ROLE_ADMIN']);
+             ->setRole('ROLE_ADMIN');
         $manager->persist($user);
         $manager->flush();
 
@@ -54,7 +65,7 @@ class UserFixture extends Fixture {
              ->setEmail('jmule@iserviceauto.com')
              ->setPhone(8475551235)
              ->setPassword($password)
-             ->setRoles(['ROLE_ADMIN']);
+             ->setRole('ROLE_ADMIN');
         $manager->persist($user);
         $manager->flush();
 
@@ -65,7 +76,7 @@ class UserFixture extends Fixture {
              ->setEmail('tperson@iserviceauto.com')
              ->setPhone(8475551236)
              ->setPassword($password)
-             ->setRoles(['ROLE_ADMIN']);
+             ->setRole('ROLE_ADMIN');
         $manager->persist($user);
         $manager->flush();
 
@@ -81,7 +92,9 @@ class UserFixture extends Fixture {
                  ->setEmail($faker->email)
                  ->setPhone($phone)
                  ->setPassword($password)
-                 ->setLastLogin($faker->dateTime);
+                 ->setLastLogin($faker->dateTime)
+                 ->setRole($faker->randomElement($this->userRoles))
+                 ->setActive($faker->boolean(95));
 
             $manager->persist($user);
             $manager->flush();

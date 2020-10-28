@@ -65,12 +65,13 @@ MySQL Version: 5.7.31
 
 8. Another way to test endpoints is to use the API Documentation that can be found at `localhost:8000/api/doc` 
 
-    1. Expand the `/authentication/authenticate` endpoint
-    2. Click "try it out"
-    3. Enter credentials as desired provided above
-    4. Click "Execute"
-    5. Copy the value of the `token` provided in the response
-    6. At the top right, click "Authorize"
-    7. In the text box type "Bearer " then paste the token you copied
-    8. Click "Authorize" 
-    9. All calls after this will automatically have the bearer token in the "Autorization" header
+    1. In the top left of the page, select "http" from the drop-down
+    2. Expand the `/authentication/authenticate` endpoint
+    3. Click "try it out"
+    4. Enter credentials as desired provided above
+    5. Click "Execute"
+    6. Copy the value of the `token` provided in the response
+    7. At the top right, click "Authorize"
+    8. In the text box type "Bearer " then paste the token you copied
+    9. Click "Authorize" 
+    10. All calls after this will automatically have the bearer token in the "Autorization" header

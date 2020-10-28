@@ -56,9 +56,9 @@ class User implements UserInterface {
     private $password;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $roles;
+    private $role;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -111,7 +111,7 @@ class User implements UserInterface {
     private $technicianRepairOrders;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pin;
 
@@ -238,29 +238,19 @@ class User implements UserInterface {
     }
 
     /**
-     * @return array|null
+     * @return array
      */
-    public function getRoles (): ?array {
-        $roles = $this->roles;
-
-        if (is_string($roles)) {
-            $roles = [$roles];
-        }
-
-        if (!empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        return array_unique($roles);
+    public function getRoles () {
+        return [$this->role, 'ROLE_USER'];
     }
 
     /**
-     * @param array $roles
+     * @param string $role
      *
      * @return User
      */
-    public function setRoles (array $roles) {
-        $this->roles = array_unique($roles);
+    public function setRole (string $role) {
+        $this->role = $role;
 
         return $this;
     }
@@ -432,13 +422,11 @@ class User implements UserInterface {
         // TODO: Implement eraseCredentials() method.
     }
 
-    public function getPin(): ?string
-    {
+    public function getPin (): ?string {
         return $this->pin;
     }
 
-    public function setPin(string $pin): self
-    {
+    public function setPin (string $pin): self {
         $this->pin = $pin;
 
         return $this;
