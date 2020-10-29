@@ -17,21 +17,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class CustomerController
+ *
  * @package App\Controller
  * @Rest\Route("/api/customer")
  * @SWG\Tag(name="Customer")
  */
 class CustomerController extends AbstractFOSRestController {
-    /** @var CustomerRepository */
-    private $repo;
-
-    /**
-     * CustomerController constructor.
-     * @param CustomerRepository $repo
-     */
-    public function __construct (CustomerRepository $repo) {
-        $this->repo = $repo;
-    }
 
     /**
      * @Rest\Get
@@ -50,18 +41,22 @@ class CustomerController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param Request $req
+     * @param Request            $request
+     * @param CustomerRepository $customerRepository
      *
      * @return Response
      */
-    public function getAll (Request $req): Response {
-        if ($req->query->has('search')) {
-            $res = $this->repo->search($req->query->get('search'));
+    public function getAll (Request $request, CustomerRepository $customerRepository): Response {
+        if ($request->query->has('search')) {
+            $customers = $customerRepository->search($request->query->get('search'));
         } else {
-            $res = $this->repo->findAllActive();
+            $customers = $customerRepository->findAllActive();
         }
 
-        return $this->customerView($res);
+        $view = $this->view($customers);
+        $view->getContext()->setGroups(Customer::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -73,12 +68,15 @@ class CustomerController extends AbstractFOSRestController {
      * )
      * @SWG\Response(response="404", description="Customer does not exist")
      *
-     * @param int $id
+     * @param Customer $customer
      *
      * @return Response
      */
-    public function getCustomer (int $id): Response {
-        return $this->customerView($this->findCustomer($id));
+    public function getCustomer (Customer $customer): Response {
+        $view = $this->view($customer);
+        $view->getContext()->setGroups(Customer::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -106,9 +104,11 @@ class CustomerController extends AbstractFOSRestController {
         if (!empty($validation)) {
             return new ValidationResponse($validation);
         }
+
         $customer = new Customer();
         $customer->setAddedBy($this->getCurrentUser());
         $helper->commitCustomer($customer, $req->request->all());
+
         $url = $this->generateUrl('getCustomer', ['id' => $customer->getId()]);
 
         return new Response(null, 201, ['Location' => $url]);
@@ -116,6 +116,7 @@ class CustomerController extends AbstractFOSRestController {
 
     /**
      * @Rest\Put("/{id}")
+     *
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="Customer does not exist")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
@@ -126,21 +127,23 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      *
-     * @param int            $id
+     * @param Customer       $customer
      * @param Request        $req
      * @param CustomerHelper $helper
      *
      * @return Response
      */
-    public function updateCustomer (int $id, Request $req, CustomerHelper $helper): Response {
-        $customer = $this->findCustomer($id);
+    public function updateCustomer (Customer $customer, Request $req, CustomerHelper $helper): Response {
         $validation = $helper->validateParams($req->request->all());
         if (!empty($validation)) {
             return new ValidationResponse($validation);
         }
+
         $helper->commitCustomer($customer, $req->request->all());
 
-        return new Response();
+        return $this->handleView($this->view([
+            'message' => 'User Updated'
+        ], Response::HTTP_OK));
     }
 
     /**
@@ -148,44 +151,19 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="Customer does not exist")
      *
-     * @param int            $id
+     * @param Customer       $customer
      * @param CustomerHelper $helper
      *
      * @return Response
      */
-    public function deleteCustomer (int $id, CustomerHelper $helper): Response {
-        $customer = $this->findCustomer($id);
+    public function deleteCustomer (Customer $customer, CustomerHelper $helper): Response {
         $customer->setDeleted(true);
+
         $helper->commitCustomer($customer);
 
-        return new Response();
-    }
-
-    /**
-     * @param mixed $data
-     *
-     * @return Response
-     */
-    private function customerView ($data): Response {
-        $view = $this->view($data);
-        $view->getContext()->setGroups(Customer::GROUPS);
-
-        return $this->handleView($view);
-    }
-
-    /**
-     * @param int $id
-     *
-     * @return Customer
-     * @throws NotFoundHttpException
-     */
-    private function findCustomer (int $id): Customer {
-        $customer = $this->repo->findActive($id);
-        if ($customer === null) {
-            throw new NotFoundHttpException(sprintf('Customer ID %d not found', $id));
-        }
-
-        return $customer;
+        return $this->handleView($this->view([
+            'message' => 'Customer Deleted'
+        ], Response::HTTP_OK));
     }
 
     /**

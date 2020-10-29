@@ -41,6 +41,7 @@ class CustomerHelper {
                 }
             }
         }
+
         foreach ($params as $k=>$v) {
             $msg = null;
             switch ($k) {
@@ -66,6 +67,9 @@ class CustomerHelper {
                     if (!$v instanceof User) {
                         $msg = sprintf('addedBy must be instance of "%s"', User::class);
                     }
+                    break;
+                case 'doNotContact':
+                    // @TODO: Tyler H., Nothing?
                     break;
                 default:
                     $msg = 'Unknown key';
