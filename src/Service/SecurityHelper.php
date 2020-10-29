@@ -113,7 +113,7 @@ class SecurityHelper {
             "used"  => false,
         ]);
 
-        if(!$token){
+        if(!$forgotPassword){
             return false;
         }
 
