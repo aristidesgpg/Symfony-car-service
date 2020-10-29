@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,26 +23,31 @@ class User implements UserInterface {
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups({"user_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $phone;
 
@@ -56,22 +62,26 @@ class User implements UserInterface {
     private $password;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
-    private $roles;
+    private $role;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $certification;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $experience;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $securityQuestion;
 
@@ -94,11 +104,13 @@ class User implements UserInterface {
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $lastLogin;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
      */
     private $active = true;
 
@@ -111,7 +123,7 @@ class User implements UserInterface {
     private $technicianRepairOrders;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pin;
 
@@ -238,29 +250,19 @@ class User implements UserInterface {
     }
 
     /**
-     * @return array|null
+     * @return array
      */
-    public function getRoles (): ?array {
-        $roles = $this->roles;
-
-        if (is_string($roles)) {
-            $roles = [$roles];
-        }
-
-        if (!empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        return array_unique($roles);
+    public function getRoles () {
+        return [$this->role];
     }
 
     /**
-     * @param array $roles
+     * @param string $role
      *
      * @return User
      */
-    public function setRoles (array $roles) {
-        $this->roles = array_unique($roles);
+    public function setRole (string $role) {
+        $this->role = $role;
 
         return $this;
     }
@@ -432,13 +434,11 @@ class User implements UserInterface {
         // TODO: Implement eraseCredentials() method.
     }
 
-    public function getPin(): ?string
-    {
+    public function getPin (): ?string {
         return $this->pin;
     }
 
-    public function setPin(string $pin): self
-    {
+    public function setPin (string $pin): self {
         $this->pin = $pin;
 
         return $this;

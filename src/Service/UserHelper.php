@@ -13,6 +13,17 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @package App\Service
  */
 class UserHelper {
+    /** @var string[] */
+    public const USER_ROLES = [
+        "ROLE_ADMIN",
+        "ROLE_SERVICE_MANAGER",
+        "ROLE_SERVICE_ADVISOR",
+        "ROLE_TECHNICIAN",
+        "ROLE_PARTS_ADVISOR",
+        "ROLE_SALES_MANAGER",
+        "ROLE_SALES_AGENT"
+    ];
+
     /**
      * @var UserRepository
      */
@@ -47,17 +58,7 @@ class UserHelper {
      * @return boolean
      */
     public function isValidRole (string $role) {
-
-        $roles = [
-            "ROLE_ADMIN", 
-            "ROLE_SERVICE_MANAGER",
-            "ROLE_SERVICE_ADVISOR",
-            "ROLE_TECHNICIAN",
-            "ROLE_PARTS_ADVISTOR",
-            "ROLE_SALES_MANAGER",
-            "ROLE_SALES_AGENT",
-            "ROLE_USER"
-        ];
+        $roles = self::USER_ROLES;
         
         //role is invalid
         if(!$role || !in_array($role, $roles)){
@@ -86,27 +87,23 @@ class UserHelper {
     public function massAssign($user, $array){
        
         //update values
-        $roles         = !empty($array['roles']) ? $array['roles'] : $user->getRoles();
+        $roles         = $array['roles'] ?? $user->getRoles();
         $firstName     = $array['firstName'] ?? $user->getFirstName();
         $lastName      = $array['lastName'] ?? $user->getLastName();
         $email         = $array['email'] ?? $user->getEmail();
         $phone         = $array['phone'] ?? $user->getPhone();
-        $pin           = $array['pin'] ?? $user->getPin() ?? '';
-        $password      = isset($array['password']) ? $this->passwordEncoder($user, $array['password']) : $user->getPassword();
-        $question      = $array['question'] ?? $user->getSecurityQuestion();
-        $answer        = isset($array['answer']) ? password_hash($array['answer'], PASSWORD_DEFAULT) : $user->getSecurityAnswer();
+        $pin           = $array['pin'] ?? $user->getPin();
+        $password      = $array['password'] ? $this->passwordEncoder($user, $password) : $user->getPassword();
         $certification = $array['certification'] ?? $user->getCertification();
         $experience    = $array['experience'] ?? $user->getExperience();
 
-        $user->setRoles($roles)
-             ->setFirstName($firstName)
+        $user->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
              ->setPhone($phone)
              ->setPassword($password)
              ->setPin($pin)
-             ->setSecurityQuestion($question)
-             ->setSecurityAnswer($answer);
+             ->setRole($roles[0]);
 
         if(in_array('ROLE_TECHNICIAN', $roles)){
             $user->setCertification($certification)
@@ -118,4 +115,5 @@ class UserHelper {
 
         return true;
     }
+
 }

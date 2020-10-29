@@ -12,6 +12,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 
 use App\Service\UserHelper;
@@ -25,80 +26,65 @@ class UserController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/api/user/get-users/{role}")
+     * @Rest\Get("/api/users")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Get(description="Get all users")
-     * 
+     * @SWG\Parameter(
+     *     name="role",
+     *     in="query",
+     *     required=true,
+     *     type="string",
+     *     description="permission role for users you are trying to get",
+     *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Return users",
      *     @SWG\Items(
-     *         type="object",
-     *             description="first name, last name, email, phone, roles, active, last login"
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
+     *         description="first name, last name, email, phone, roles, active, last login"
+     *     )
      * )
      *
-     * @param String         $role
+     * @param Request        $request
      * @param UserRepository $userRepo
      * @param UserHelper     $userHelper
      *
      * @return Response
      */
-    public function getUsers (String $role, UserRepository $userRepo, UserHelper $userHelper) {
+    public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper) {
+        $role = $request->query->get('role');
 
         //role is invalid
-        if(!$role || !$userHelper->isValidRole($role)){
+        if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         $users = $userRepo->getUserByRole($role);
 
-        return $this->handleView($this->view($users, Response::HTTP_OK));
+        return $this->userView($users);
     }
 
     /**
-     * @Rest\Get("/api/user/{id}/get")
-     *
-     * @SWG\Tag(name="Users")
-     * @SWG\Get(description="Get a User")
-     * 
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return a User",
-     *     @SWG\Items(
-     *         type="object",
-     *             description="first name, last name, email, phone, roles, security_question,active, last login"
-     *         )
-     * )
-     *
-     * @param                $id
-     * @param UserRepository $userRepo
-     * @param UserHelper     $userHelper
+     * @param mixed $data
      *
      * @return Response
      */
-    public function show ($id, UserRepository $userRepo, UserHelper $userHelper) {
+    private function userView ($data): Response {
+        $view = $this->view($data);
+        $view->getContext()->setGroups(['user_list']);
 
-        if(!$id){
-            return $this->handleView($this->view('Missing ID Parameter', Response::HTTP_BAD_REQUEST));
-        }
-        $user = $userRepo->getUserByID($id);
-
-        //id is invalid
-        if(!$user){
-            return $this->handleView($this->view('Invalid ID Parameter', Response::HTTP_BAD_REQUEST));
-        }
-
-        return $this->handleView($this->view($user, Response::HTTP_OK));
+        return $this->handleView($view);
     }
 
     /**
-     * @Rest\Post("/api/user/new")
+     * @Rest\Post("/api/users")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Post(description="Create a new user")
-     * 
+     *
      * @SWG\Parameter(
      *     name="role",
      *     in="formData",
@@ -162,8 +148,8 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The experience of Technician",
      * )
-     * 
-     * 
+     *
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -173,15 +159,14 @@ class UserController extends AbstractFOSRestController {
      *                                              "Successfully created" }),
      *         )
      * )
-     * 
+     *
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
      *
      * @return JsonResponse
      */
-    public function new (Request $request, EntityManagerInterface $em,UserHelper $userHelper) {
-        
+    public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
         $role          = $request->get('role');
         $firstName     = $request->get('firstName');
         $lastName      = $request->get('lastName');
@@ -193,30 +178,29 @@ class UserController extends AbstractFOSRestController {
         $experience    = $request->get('experience');
 
         //role is invalid
-        if(!$role || !$userHelper->isValidRole($role)){
+        if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         //check if parameters are valid
-        if(!$firstName || !$lastName || !$email || !$phone || !$password){
+        if (!$firstName || !$lastName || !$email || !$phone || !$password) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        if($role == 'ROLE_TECHNICIAN' && (!$certification || !$experience)){
+        if ($role == 'ROLE_TECHNICIAN' && (!$certification || !$experience)) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        
-        $user = new User();
-        $roles = [];
-        array_push($roles, $role);
+
+        $user  = new User();
+
         $user->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
              ->setPhone($phone)
              ->setPin($pin)
              ->setPassword($userHelper->passwordEncoder($user, $password))
-             ->setRoles($roles);
+             ->setRole($role);
 
-        if($role == 'ROLE_TECHNICIAN'){
+        if ($role == 'ROLE_TECHNICIAN') {
             $user->setCertification($certification)
                  ->setExperience($experience);
         }
@@ -232,11 +216,11 @@ class UserController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/user/{id}/edit")
-     * 
+     * @Rest\Put("/api/users/{id}")
+     *
      * @SWG\Tag(name="Users")
      * @SWG\Put(description="Update a User")
-     * 
+     *
      * @SWG\Parameter(
      *     name="role",
      *     in="formData",
@@ -300,8 +284,8 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The experience of Technician",
      * )
-     * 
-     * 
+     *
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -311,7 +295,7 @@ class UserController extends AbstractFOSRestController {
      *                                              "Successfully created" }),
      *         )
      * )
-     * 
+     *
      * @param User                   $user
      * @param Request                $request
      * @param EntityManagerInterface $em
@@ -332,19 +316,17 @@ class UserController extends AbstractFOSRestController {
         $experience    = $request->get('experience');
 
         //role is invalid
-        if($role && !$userHelper->isValidRole($role)){
+        if ($role && !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         //check if parameters are valid
-        if($role != 'ROLE_TECHNICIAN' && ($certification || $experience)){
+        if ($role != 'ROLE_TECHNICIAN' && ($certification || $experience)) {
             return $this->handleView($this->view('Certification and Experience is Only for Technicians', Response::HTTP_BAD_REQUEST));
         }
 
         $roles = [];
-        if($role){
-            array_push($roles, $role);
-        }
+        array_push($roles, $role);
         $array = [
             'roles'         => $roles,
             'firstName'     => $firstName,
@@ -357,7 +339,7 @@ class UserController extends AbstractFOSRestController {
             'experience'    => $experience
         ];
 
-        if(!$userHelper->massAssign($user, $array)){
+        if (!$userHelper->massAssign($user, $array)) {
             return $this->handleView($this->view('Something Went Wrong Trying to Update the User', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
@@ -368,12 +350,12 @@ class UserController extends AbstractFOSRestController {
         ]);
     }
 
-        /**
-     * @Rest\Delete("/api/user/{id}/delete")
+    /**
+     * @Rest\Delete("/api/users/{id}")
      *
      * @SWG\Tag(name="Users")
      * @SWG\Delete(description="Delete a user")
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -383,18 +365,13 @@ class UserController extends AbstractFOSRestController {
      *                                              "Successfully deleted" }),
      *         )
      * )
-     * 
+     *
      * @param User                   $user
      * @param EntityManagerInterface $em
      *
      * @return object|void
      */
     public function delete (User $user, EntityManagerInterface $em) {
-        //id is invalid
-        if(!$user){
-            return $this->handleView($this->view('Invalid ID Parameter', Response::HTTP_BAD_REQUEST));
-        }
-
         $user->setActive(false);
 
         $em->persist($user);
