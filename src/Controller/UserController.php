@@ -12,6 +12,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 
 use App\Service\UserHelper;
@@ -41,9 +42,10 @@ class UserController extends AbstractFOSRestController {
      *     response=200,
      *     description="Return users",
      *     @SWG\Items(
-     *         type="object",
-     *             description="first name, last name, email, phone, roles, active, last login"
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
+     *         description="first name, last name, email, phone, roles, active, last login"
+     *     )
      * )
      *
      * @param Request        $request
@@ -62,7 +64,19 @@ class UserController extends AbstractFOSRestController {
 
         $users = $userRepo->getUserByRole($role);
 
-        return $this->handleView($this->view($users, Response::HTTP_OK));
+        return $this->userView($users);
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return Response
+     */
+    private function userView ($data): Response {
+        $view = $this->view($data);
+        $view->getContext()->setGroups(['user_list']);
+
+        return $this->handleView($view);
     }
 
     /**

@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -22,26 +23,31 @@ class User implements UserInterface {
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups({"user_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $phone;
 
@@ -57,21 +63,25 @@ class User implements UserInterface {
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"user_list"})
      */
     private $role;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $certification;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $experience;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $securityQuestion;
 
@@ -94,11 +104,13 @@ class User implements UserInterface {
      * @var DateTime
      *
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $lastLogin;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
      */
     private $active = true;
 
