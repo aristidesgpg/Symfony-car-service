@@ -85,9 +85,11 @@ class SecurityHelper {
      */
     public function generateToken(User $user, String $email){
         //generate token
-        $token = password_hash($email, PASSWORD_DEFAULT);
+        $raw            = password_hash($email, PASSWORD_DEFAULT);
+        $pattern        = "/[\/]+/i";
+        $token          = preg_replace($pattern, "", $raw);
         //get expired date
-        $date  = date('Y-m-d H:i:s', strtotime('1 hour'));
+        $date           = date('Y-m-d H:i:s', strtotime('1 hour'));
         //save forgot password token in table
         $forgotPassword = $this->forgotPasswordRepository->findOneBy(["user" => $user->getId()]);
         if(!$forgotPassword){
@@ -155,7 +157,7 @@ class SecurityHelper {
         }
         
         // get User
-        $user = $this->userRepository->findOne($forgotPassword->getUser());
+        $user = $this->userRepository->findOneById($forgotPassword->getUser());
         //reset pasword for the User
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
 
