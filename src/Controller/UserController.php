@@ -177,15 +177,14 @@ class UserController extends AbstractFOSRestController {
         }
 
         $user  = new User();
-        $roles = [];
-        array_push($roles, $role);
+
         $user->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
              ->setPhone($phone)
              ->setPin($pin)
              ->setPassword($userHelper->passwordEncoder($user, $password))
-             ->setRoles($roles);
+             ->setRole($role);
 
         if ($role == 'ROLE_TECHNICIAN') {
             $user->setCertification($certification)

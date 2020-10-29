@@ -103,7 +103,7 @@ class UserHelper {
              ->setPhone($phone)
              ->setPassword($password)
              ->setPin($pin)
-             ->setRoles($roles);
+             ->setRole($roles[0]);
 
         if(in_array('ROLE_TECHNICIAN', $roles)){
             $user->setCertification($certification)
