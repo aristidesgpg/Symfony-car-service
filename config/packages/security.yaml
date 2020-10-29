@@ -18,6 +18,13 @@ security:
       chain:
         providers: [ 'user_provider', 'customer_provider', 'tech_app_provider' ]
   role_hierarchy:
+      ROLE_ADMIN: [ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN, ROLE_PARTS_ADVISOR, ROLE_SALES_MANAGER, ROLE_SALES_AGENT, ROLE_USER]
+      ROLE_SERVICE_MANAGER: [ROLE_SERVICE_ADVISOR, ROLE_USER]
+      ROLE_SERVICE_ADVISOR: ROLE_USER
+      ROLE_TECHNICIAN: ROLE_USER
+      ROLE_PARTS_ADVISOR: ROLE_USER
+      ROLE_SALES_MANAGER: [ROLE_SALES_AGENT, ROLE_USER]
+      ROLE_SALES_AGENT: ROLE_USER
   # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
   firewalls:
     dev:
