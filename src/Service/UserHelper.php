@@ -46,22 +46,23 @@ class UserHelper {
      * @param EntityManagerInterface       $em
      * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct (UserRepository $userRepository, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder) {
+    public function __construct (UserRepository $userRepository, EntityManagerInterface $em,
+                                 UserPasswordEncoderInterface $passwordEncoder) {
         $this->userRepository  = $userRepository;
         $this->em              = $em;
         $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
-     * @param  string  $role
-     * 
+     * @param string $role
+     *
      * @return boolean
      */
     public function isValidRole (string $role) {
         $roles = self::USER_ROLES;
-        
+
         //role is invalid
-        if(!$role || !in_array($role, $roles)){
+        if (!$role || !in_array($role, $roles)) {
             return false;
         }
 
@@ -69,23 +70,22 @@ class UserHelper {
     }
 
     /**
-     * @param  User    $user
-     * @param  string  $password
-     * 
+     * @param $user
+     * @param $password
+     *
      * @return string
      */
-    public function passwordEncoder($user, $password){
+    public function passwordEncoder ($user, $password) {
         return $this->passwordEncoder->encodePassword($user, $password);
     }
 
     /**
-     * @param  User  $user
-     * @param  array $array
-     * 
-     * @return boolean
+     * @param $user
+     * @param $array
+     *
+     * @return bool
      */
-    public function massAssign($user, $array){
-       
+    public function massAssign ($user, $array) {
         //update values
         $roles         = $array['roles'] ?? $user->getRoles();
         $firstName     = $array['firstName'] ?? $user->getFirstName();
@@ -105,7 +105,7 @@ class UserHelper {
              ->setPin($pin)
              ->setRole($roles[0]);
 
-        if(in_array('ROLE_TECHNICIAN', $roles)){
+        if (in_array('ROLE_TECHNICIAN', $roles)) {
             $user->setCertification($certification)
                  ->setExperience($experience);
         }

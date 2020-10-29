@@ -109,6 +109,13 @@ class User implements UserInterface {
     private $lastLogin;
 
     /**
+     * @var
+     *
+     * //     *     @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pin;
+
+    /**
      * @ORM\Column(type="boolean")
      * @Serializer\Groups({"user_list"})
      */
@@ -122,10 +129,6 @@ class User implements UserInterface {
      */
     private $technicianRepairOrders;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $pin;
 
     /**
      * User constructor.
@@ -394,6 +397,24 @@ class User implements UserInterface {
     }
 
     /**
+     * @return mixed
+     */
+    public function getPin () {
+        return $this->pin;
+    }
+
+    /**
+     * @param $pin
+     *
+     * @return $this
+     */
+    public function setPin ($pin) {
+        $this->pin = $pin;
+
+        return $this;
+    }
+
+    /**
      * @return bool|null
      */
     public function getActive (): ?bool {
@@ -432,16 +453,6 @@ class User implements UserInterface {
 
     public function eraseCredentials () {
         // TODO: Implement eraseCredentials() method.
-    }
-
-    public function getPin (): ?string {
-        return $this->pin;
-    }
-
-    public function setPin (string $pin): self {
-        $this->pin = $pin;
-
-        return $this;
     }
 
 }

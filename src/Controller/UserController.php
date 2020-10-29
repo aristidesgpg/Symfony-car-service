@@ -7,14 +7,12 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-
 use App\Service\UserHelper;
 
 /**
@@ -57,7 +55,7 @@ class UserController extends AbstractFOSRestController {
     public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper) {
         $role = $request->query->get('role');
 
-        //role is invalid
+        // role is invalid
         if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
@@ -65,18 +63,6 @@ class UserController extends AbstractFOSRestController {
         $users = $userRepo->getUserByRole($role);
 
         return $this->userView($users);
-    }
-
-    /**
-     * @param mixed $data
-     *
-     * @return Response
-     */
-    private function userView ($data): Response {
-        $view = $this->view($data);
-        $view->getContext()->setGroups(['user_list']);
-
-        return $this->handleView($view);
     }
 
     /**
@@ -91,6 +77,7 @@ class UserController extends AbstractFOSRestController {
      *     required=true,
      *     type="string",
      *     description="The Role of User",
+     *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
      * @SWG\Parameter(
      *     name="firstName",
@@ -190,7 +177,7 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $user  = new User();
+        $user = new User();
 
         $user->setFirstName($firstName)
              ->setLastName($lastName)
@@ -227,6 +214,7 @@ class UserController extends AbstractFOSRestController {
      *     required=false,
      *     type="string",
      *     description="The Role of User",
+     *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
      * @SWG\Parameter(
      *     name="firstName",
@@ -285,7 +273,6 @@ class UserController extends AbstractFOSRestController {
      *     description="The experience of Technician",
      * )
      *
-     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -301,10 +288,9 @@ class UserController extends AbstractFOSRestController {
      * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
      *
-     * @return JsonResponse
+     * @return Response
      */
     public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
-
         $role          = $request->get('role');
         $firstName     = $request->get('firstName');
         $lastName      = $request->get('lastName');
@@ -345,9 +331,7 @@ class UserController extends AbstractFOSRestController {
 
         $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
 
-        return new JsonResponse([
-            'message' => 'User Updated'
-        ]);
+        return $this->handleView($this->view(['message' => 'User Updated']), Response::HTTP_OK);
     }
 
     /**
@@ -378,5 +362,17 @@ class UserController extends AbstractFOSRestController {
         $em->flush();
 
         return $this->handleView($this->view('User Deleted', Response::HTTP_OK));
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return Response
+     */
+    private function userView ($data): Response {
+        $view = $this->view($data);
+        $view->getContext()->setGroups(['user_list']);
+
+        return $this->handleView($view);
     }
 }
