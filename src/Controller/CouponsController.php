@@ -44,7 +44,7 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/coupons/new")
+     * @Rest\Post("/api/coupons")
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Create a coupon")
@@ -184,7 +184,7 @@ class CouponsController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
+     *                                              "Successfully deleted" }),
      *         )
      * )
      *
