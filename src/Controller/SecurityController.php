@@ -60,13 +60,14 @@ class SecurityController extends AbstractFOSRestController {
      *         )
      * )
      * 
-     * @param User           $user
-     * @param Request        $request
-     * @param UserHelper     $userHelper
+     * @param User                   $user
+     * @param Request                $request
+     * @param UserHelper             $userHelper
+     * @param EntityManagerInterface $em
      *
      * @return JsonResponse
      */
-    public function security (User $user, Request $request, UserHelper $userHelper) {
+    public function security (User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em) {
 
         $question = $request->get('question');
         $answer   = $request->get('answer');
@@ -75,19 +76,13 @@ class SecurityController extends AbstractFOSRestController {
         if(!$question || !$answer){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //id is invalid
-        if(!$user){
-            return $this->handleView($this->view('Invalid ID Parameter', Response::HTTP_BAD_REQUEST));
-        }
 
-        $array = [
-            'question' => $question,
-            'answer'   => strtolower($answer)
-        ];
+        //set security question and answer
+        $user->setSecurityQuestion($question)
+             ->setSecurityAnswer($userHelper->passwordEncoder($user, strtolower($answer)));
 
-        if(!$userHelper->massAssign($user, $array)){
-            return $this->handleView($this->view('Something Went Wrong Trying to Set Security for the User', Response::HTTP_INTERNAL_SERVER_ERROR));
-        }
+        $em->persist($user);
+        $em->flush();
 
         return new JsonResponse([
             'message' => 'Security Question Has Been Updated'

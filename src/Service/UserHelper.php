@@ -77,47 +77,4 @@ class UserHelper {
     public function passwordEncoder($user, $password){
         return $this->passwordEncoder->encodePassword($user, $password);
     }
-
-    /**
-     * @param  User  $user
-     * @param  array $array
-     * 
-     * @return boolean
-     */
-    public function massAssign($user, $array){
-       
-        //update values
-        $roles         = $array['roles'] ?? $user->getRoles();
-        $firstName     = $array['firstName'] ?? $user->getFirstName();
-        $lastName      = $array['lastName'] ?? $user->getLastName();
-        $email         = $array['email'] ?? $user->getEmail();
-        $phone         = $array['phone'] ?? $user->getPhone();
-        $pin           = $array['pin'] ?? $user->getPin();
-        $password      = isset($array['password']) ? $this->passwordEncoder($user, $array['password']) : $user->getPassword();
-        $question      = $array['question'] ?? $user->getSecurityQuestion();
-        $answer        = isset($array['answer']) ? $this->passwordEncoder($user, $array['answer']) : $user->getSecurityAnswer();
-        $certification = $array['certification'] ?? $user->getCertification();
-        $experience    = $array['experience'] ?? $user->getExperience();
-
-        $user->setFirstName($firstName)
-             ->setLastName($lastName)
-             ->setEmail($email)
-             ->setPhone($phone)
-             ->setPassword($password)
-             ->setSecurityQuestion($question)
-             ->setSecurityAnswer($answer)
-             ->setPin($pin)
-             ->setRole($roles[0]);
-
-        if(in_array('ROLE_TECHNICIAN', $roles)){
-            $user->setCertification($certification)
-                 ->setExperience($experience);
-        }
-
-        $this->em->persist($user);
-        $this->em->flush();
-
-        return true;
-    }
-
 }
