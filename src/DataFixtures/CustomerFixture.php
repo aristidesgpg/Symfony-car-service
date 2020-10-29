@@ -48,7 +48,9 @@ class CustomerFixture extends Fixture {
 
             $customer->setName($faker->name)
                      ->setPhone($phone)
-                     ->setEmail($faker->optional(.05)->email);
+                     ->setEmail($faker->optional(.05)->email)
+                     ->setMobileConfirmed($faker->boolean(80))
+                     ->setDoNotContact($faker->boolean(2));
 
             $manager->persist($customer);
             $manager->flush();

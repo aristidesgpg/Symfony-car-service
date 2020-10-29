@@ -46,22 +46,23 @@ class UserHelper {
      * @param EntityManagerInterface       $em
      * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct (UserRepository $userRepository, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder) {
+    public function __construct (UserRepository $userRepository, EntityManagerInterface $em,
+                                 UserPasswordEncoderInterface $passwordEncoder) {
         $this->userRepository  = $userRepository;
         $this->em              = $em;
         $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
-     * @param  string  $role
-     * 
+     * @param string $role
+     *
      * @return boolean
      */
     public function isValidRole (string $role) {
         $roles = self::USER_ROLES;
-        
+
         //role is invalid
-        if(!$role || !in_array($role, $roles)){
+        if (!$role || !in_array($role, $roles)) {
             return false;
         }
 
@@ -69,12 +70,12 @@ class UserHelper {
     }
 
     /**
-     * @param  User    $user
-     * @param  string  $password
-     * 
+     * @param $user
+     * @param $password
+     *
      * @return string
      */
-    public function passwordEncoder($user, $password){
+    public function passwordEncoder ($user, $password) {
         return $this->passwordEncoder->encodePassword($user, $password);
     }
 
