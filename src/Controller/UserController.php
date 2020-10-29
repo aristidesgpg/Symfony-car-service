@@ -87,10 +87,11 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(
      *     name="role",
-     *     in="formData",
+     *     in="query",
      *     required=true,
      *     type="string",
-     *     description="The Role of User",
+     *     description="permission role for users you are trying to get",
+     *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
      * @SWG\Parameter(
      *     name="firstName",
@@ -223,10 +224,11 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(
      *     name="role",
-     *     in="formData",
-     *     required=false,
+     *     in="query",
+     *     required=true,
      *     type="string",
-     *     description="The Role of User",
+     *     description="permission role for users you are trying to get",
+     *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
      * @SWG\Parameter(
      *     name="firstName",
@@ -325,23 +327,22 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Certification and Experience is Only for Technicians', Response::HTTP_BAD_REQUEST));
         }
 
-        $roles = [];
-        array_push($roles, $role);
-        $array = [
-            'roles'         => $roles,
-            'firstName'     => $firstName,
-            'lastName'      => $lastName,
-            'email'         => $email,
-            'phone'         => $phone,
-            'password'      => $password,
-            'pin'           => $pin,
-            'certification' => $certification,
-            'experience'    => $experience
-        ];
-
-        if (!$userHelper->massAssign($user, $array)) {
-            return $this->handleView($this->view('Something Went Wrong Trying to Update the User', Response::HTTP_INTERNAL_SERVER_ERROR));
+        //update user
+        $user->setFirstName($firstName)
+            ->setLastName($lastName)
+            ->setEmail($email)
+            ->setPhone($phone)
+            ->setPassword($userHelper->passwordEncoder($user, $password))
+            ->setPin($pin)
+            ->setRole($role);
+        
+        if($role == 'ROLE_TECHNICIAN'){
+            $user->setCertification($certification)
+                 ->setExperience($experience);
         }
+
+        $em->persist($user);
+        $em->flush();
 
         $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
 
