@@ -96,7 +96,7 @@ class SecurityHelper {
             $forgotPassword = new ForgotPassword();
             $forgotPassword->setUser($user->getId());
         }
-        $forgotPassword->setToken($token)->setExpirationDate(new \DateTime($date));
+        $forgotPassword->setToken($token)->setExpirationDate(new \DateTime($date))->setUsed(false);
         $this->em->persist($forgotPassword);
         $this->em->flush();
 
