@@ -17,7 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class OperationCodeController extends AbstractFOSRestController
 {
-     /**
+    /**
      * @Rest\Get("/api/operaction-code")
      *
      * @SWG\Tag(name="OperationCode")
@@ -155,7 +155,7 @@ class OperationCodeController extends AbstractFOSRestController
         ], Response::HTTP_OK));
     }
 
-     /**
+    /**
      * @Rest\Put("/api/operaction-code/{id}")
      *
      * @SWG\Tag(name="OperationCode")
@@ -267,4 +267,36 @@ class OperationCodeController extends AbstractFOSRestController
         ], Response::HTTP_OK));
     }
 
+    /**
+     * @Rest\Delete("/api/operaction-code/{id}")
+     *
+     * @SWG\Tag(name="OperationCode")
+     * @SWG\Delete(description="Delete a Operation Code")
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deleted" }),
+     *         )
+     * )
+     * 
+     * @param OperationCode           $operationCode
+     * @param EntityManagerInterface  $em
+     * 
+     * @return Response
+     */
+    public function delete (OperationCode $operationCode, EntityManagerInterface $em) {
+        //Delete a operation code
+        $operationCode->setDeleted(true);
+
+        $em->persist($operationCode);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'Operation Code Deleted'
+        ], Response::HTTP_OK));
+    }
 }
