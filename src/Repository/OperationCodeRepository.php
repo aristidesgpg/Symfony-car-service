@@ -19,6 +19,17 @@ class OperationCodeRepository extends ServiceEntityRepository
         parent::__construct($registry, OperationCode::class);
     }
 
+    /**
+     *
+     * @return QueryBuilder
+     */
+    public function getActiveOperationCodes () {
+        return $this->createQueryBuilder('o')
+                    ->andWhere('o.deleted = 0')
+                    ->getQuery()
+                    ->getResult();
+    }
+
     // /**
     //  * @return OperationCode[] Returns an array of OperationCode objects
     //  */
