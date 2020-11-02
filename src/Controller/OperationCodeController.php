@@ -244,11 +244,6 @@ class OperationCodeController extends AbstractFOSRestController
         $suppliesPrice   = $request->get('suppliesPrice') ?? $operationCode->getSuppliesPrice();
         $suppliesTaxable = $request->get('suppliesTaxable') ?? $operationCode->getSuppliesTaxable();
 
-        //params are invalid
-        // if(!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable){
-        //     return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
-        // }
-
         //update a operation code
         $operationCode->setCode($code)
                       ->setDescription($description)
