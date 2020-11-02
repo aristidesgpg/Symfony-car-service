@@ -4,30 +4,54 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-Use Faker\Factory;
 use App\Entity\OperationCode;
+use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 class OperationCodeFixture extends Fixture
 {
+    /**
+     * @var Container
+     */
+    private $container;
+
+    /**
+     * CouponFixtures constructor.
+     *
+     * @param Container     $container
+     */
+    public function __construct (Container $container) {
+        $this->container = $container;
+    }
+
     public function load(ObjectManager $manager) {
-        $faker = Factory::create();
+        $manager->getConnection()->getConfiguration()->setSQLLogger(null);
+        //read a csv file
+        $filepath = $this->container->getParameter('csv_directory').'operationCode.csv';
+        $csv      = fopen($filepath, 'r');
 
-        for ($i = 1; $i <= 10; $i++) {
+        //load data from a csv file
+        $i = 0;
+        while (!feof($csv)) {
+            $row = fgetcsv($csv);
+            if($i++ == 0){
+                continue;
+            }
+
             $operationCode = new OperationCode();
-
-            $operationCode->setCode($faker->unique()->word)
-                    ->setDescription($faker->sentence($nbWords = 6, $variableNbWords = true))
-                    ->setLaborHours($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
-                    ->setLaborTaxable($faker->boolean(50))
-                    ->setPartsPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
-                    ->setPartsTaxable($faker->boolean(50))
-                    ->setSuppliesPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
-                    ->setSuppliesTaxable($faker->boolean(50));
-
+            $operationCode->setCode($row[1])
+                        ->setDescription($row[2])
+                        ->setLaborHours(floatval($row[3]))
+                        ->setLaborTaxable($row[4])
+                        ->setPartsPrice(floatval($row[5]))
+                        ->setPartsTaxable($row[6])
+                        ->setSuppliesPrice(floatval($row[7]))
+                        ->setSuppliesTaxable($row[8]);
             $manager->persist($operationCode);
             $manager->flush();
 
-            $this->addReference('OperationCode_' . $i, $operationCode);
+            $this->addReference('operationCode_' . $i, $operationCode);
         }
+
+        fclose($csv);
     }
 }
