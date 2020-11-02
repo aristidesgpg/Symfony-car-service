@@ -164,56 +164,56 @@ class OperationCodeController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="code",
      *     in="query",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="Operation Code"
      * )
      * @SWG\Parameter(
      *     name="description",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Description for Operation Code",
      * )
      * @SWG\Parameter(
      *     name="laborHours",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="number",
      *     description="The Labor Hours",
      * )
      * @SWG\Parameter(
      *     name="laborTaxable",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="boolean",
      *     description="The Labor Taxable",
      * )
      * @SWG\Parameter(
      *     name="partsPrice",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="number",
      *     description="The Parts Price",
      * )
      * @SWG\Parameter(
      *     name="partsTaxable",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="boolean",
      *     description="The Parts Taxable",
      * )
      * @SWG\Parameter(
      *     name="suppliesPrice",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="number",
      *     description="The Supplies Price",
      * )
      * @SWG\Parameter(
      *     name="suppliesTaxable",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="boolean",
      *     description="The Supplies Taxable",
      * )
@@ -235,14 +235,19 @@ class OperationCodeController extends AbstractFOSRestController
      * @return Response
      */
     public function edit (OperationCode $operationCode, Request $request, EntityManagerInterface $em) {
-        $code            = $request->get('code') ?? $operationCode->getCode(); 
-        $description     = $request->get('description') ?? $operationCode->getDescription();
-        $laborHours      = $request->get('laborHours') ?? $operationCode->getLaborHours();
-        $laborTaxable    = $request->get('laborTaxable') ?? $operationCode->getLaborTaxable();
-        $partsPrice      = $request->get('partsPrice') ?? $operationCode->getPartsPrice();
-        $partsTaxable    = $request->get('partsTaxable') ?? $operationCode->getPartsTaxable();
-        $suppliesPrice   = $request->get('suppliesPrice') ?? $operationCode->getSuppliesPrice();
-        $suppliesTaxable = $request->get('suppliesTaxable') ?? $operationCode->getSuppliesTaxable();
+        $code            = $request->get('code'); 
+        $description     = $request->get('description');
+        $laborHours      = $request->get('laborHours');
+        $laborTaxable    = $request->get('laborTaxable');
+        $partsPrice      = $request->get('partsPrice');
+        $partsTaxable    = $request->get('partsTaxable');
+        $suppliesPrice   = $request->get('suppliesPrice');
+        $suppliesTaxable = $request->get('suppliesTaxable');
+
+        //params are invalid
+        if(!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable){
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
 
         //update a operation code
         $operationCode->setCode($code)
