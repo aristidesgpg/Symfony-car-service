@@ -138,8 +138,6 @@ class SecurityHelper {
             return false;
         }
 
-        //once verified, set used true
-        $forgotPassword->setUsed(true);
         $this->em->persist($forgotPassword);
         $this->em->flush();
 
@@ -155,7 +153,8 @@ class SecurityHelper {
     public function resetPassword (string $token, string $password) {
         //find the token on the table
         $forgotPassword = $this->forgotPasswordRepository->findOneBy([
-            "token" => $token
+            "token" => $token,
+            "used"  => false,
         ]);
 
         //if token does not exist
@@ -168,6 +167,8 @@ class SecurityHelper {
 
         //reset pasword for the User
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
+        //once verified, set used true
+        $forgotPassword->setUsed(true);
 
         $this->em->persist($user);
         $this->em->flush();
