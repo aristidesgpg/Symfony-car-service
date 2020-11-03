@@ -73,6 +73,9 @@ class CustomerController extends AbstractFOSRestController {
      * @return Response
      */
     public function getCustomer (Customer $customer): Response {
+        if ($customer->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
         $view = $this->view($customer);
         $view->getContext()->setGroups(Customer::GROUPS);
 
@@ -132,6 +135,9 @@ class CustomerController extends AbstractFOSRestController {
      * @return Response
      */
     public function updateCustomer (Customer $customer, Request $req, CustomerHelper $helper): Response {
+        if ($customer->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
         $validation = $helper->validateParams($req->request->all());
         if (!empty($validation)) {
             return new ValidationResponse($validation);
@@ -155,6 +161,9 @@ class CustomerController extends AbstractFOSRestController {
      * @return Response
      */
     public function deleteCustomer (Customer $customer, CustomerHelper $helper): Response {
+        if ($customer->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
         $customer->setDeleted(true);
 
         $helper->commitCustomer($customer);
