@@ -85,9 +85,9 @@ class CustomerController extends AbstractFOSRestController {
     /**
      * @Rest\Post
      * @SWG\Response(
-     *     response="201",
+     *     response="200",
      *     description="Success!",
-     *     headers={@SWG\Header(header="Location", type="string", description="URL of new customer")}
+     *     @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      * )
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
@@ -111,9 +111,10 @@ class CustomerController extends AbstractFOSRestController {
         $customer->setAddedBy($this->getCurrentUser());
         $helper->commitCustomer($customer, $req->request->all());
 
-        $url = $this->generateUrl('getCustomer', ['id' => $customer->getId()]);
+        $view = $this->view($customer);
+        $view->getContext()->setGroups(Customer::GROUPS);
 
-        return new Response(null, 201, ['Location' => $url]);
+        return $this->handleView($view);
     }
 
     /**
