@@ -43,7 +43,7 @@ class CustomerRepository extends ServiceEntityRepository {
     }
 
     /**
-     * @param string    $query - First/Last Name, Phone Number, or Email
+     * @param string    $query - Name, Phone Number, or Email
      * @param User|null $user
      *
      * @return Customer[]
@@ -51,12 +51,14 @@ class CustomerRepository extends ServiceEntityRepository {
     public function search (string $query, ?User $user = null): array {
         $qb = $this->getBaseQueryBuilder($user);
         $or = $qb->expr()->orX();
-        $or->add('c.firstName LIKE :query')
-           ->add('c.lastName LIKE :query')
+        $or->add('c.name LIKE :fname')
+           ->add('c.name LIKE :lname')
            ->add('c.phone = :query')
            ->add('c.email = :query');
         $qb->andWhere($or);
         $qb->setParameter('query', $query);
+        $qb->setParameter('fname', $query . '%');
+        $qb->setParameter('lname', '%' . $query);
 
         return $qb->getQuery()->getResult();
     }

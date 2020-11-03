@@ -11,7 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
  * @package App\Service
  */
 class CustomerHelper {
-    private const REQUIRED_FIELDS = ['firstName', 'lastName', 'phone'];
+    private const REQUIRED_FIELDS = ['name', 'phone'];
 
     private $em;
     private $phoneValidator;
@@ -45,8 +45,7 @@ class CustomerHelper {
         foreach ($params as $k=>$v) {
             $msg = null;
             switch ($k) {
-                case 'firstName':
-                case 'lastName':
+                case 'name':
                     if (empty($v)) {
                         $msg = 'Cannot be blank';
                     }
@@ -69,7 +68,7 @@ class CustomerHelper {
                     }
                     break;
                 case 'doNotContact':
-                    // @TODO: Tyler H., Nothing?
+                    // Do nothing
                     break;
                 default:
                     $msg = 'Unknown key';
@@ -93,11 +92,8 @@ class CustomerHelper {
         }
         foreach ($params as $k=>$v) {
             switch ($k) {
-                case 'firstName':
-                    $c->setFirstName($v);
-                    break;
-                case 'lastName':
-                    $c->setLastName($v);
+                case 'name':
+                    $c->setName($v);
                     break;
                 case 'phone':
                     $c->setPhone($this->stripPhone($v));

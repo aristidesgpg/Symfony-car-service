@@ -26,13 +26,7 @@ class Customer implements UserInterface {
      * @ORM\Column(type="string", length=255)
      * @Serializer\Groups({"customer_list"})
      */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Serializer\Groups({"customer_list"})
-     */
-    private $lastName;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=10)
@@ -95,42 +89,17 @@ class Customer implements UserInterface {
     /**
      * @return string|null
      */
-    public function getFullName (): ?string {
-        return $this->firstName . ' ' . $this->lastName;
+    public function getName (): ?string {
+        return $this->name;
     }
 
     /**
-     * @return string|null
-     */
-    public function getFirstName (): ?string {
-        return $this->firstName;
-    }
-
-    /**
-     * @param string $firstName
+     * @param string $name
      *
      * @return $this
      */
-    public function setFirstName (string $firstName): self {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getLastName (): ?string {
-        return $this->lastName;
-    }
-
-    /**
-     * @param string $lastName
-     *
-     * @return $this
-     */
-    public function setLastName (string $lastName): self {
-        $this->lastName = $lastName;
+    public function setName (string $name): self {
+        $this->name = $name;
 
         return $this;
     }
@@ -263,7 +232,7 @@ class Customer implements UserInterface {
     }
 
     public function getUsername () {
-        return $this->getFullName();
+        return $this->getName();
     }
 
     public function eraseCredentials () {

@@ -29,7 +29,7 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="search",
      *     type="string",
-     *     description="First/Last Name, Phone Number, or Email",
+     *     description="Name, Phone Number, or Email",
      *     in="query"
      * )
      * @SWG\Response(
@@ -88,8 +88,7 @@ class CustomerController extends AbstractFOSRestController {
      * )
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
-     * @SWG\Parameter(name="firstName", type="string", in="formData", required=True)
-     * @SWG\Parameter(name="lastName", type="string", in="formData", required=True)
+     * @SWG\Parameter(name="name", type="string", in="formData", required=True)
      * @SWG\Parameter(name="phone", type="string", in="formData", required=True, minLength=10, maxLength=10)
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
@@ -121,8 +120,7 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Response(response="404", description="Customer does not exist")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
-     * @SWG\Parameter(name="firstName", type="string", in="formData")
-     * @SWG\Parameter(name="lastName", type="string", in="formData")
+     * @SWG\Parameter(name="name", type="string", in="formData")
      * @SWG\Parameter(name="phone", type="string", in="formData")
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
