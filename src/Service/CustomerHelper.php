@@ -52,9 +52,12 @@ class CustomerHelper {
                     break;
                 case 'phone':
                     try {
-                        $this->stripPhone($v);
+                        $v = $this->stripPhone($v);
                     } catch (\Exception $e) {
                         $msg = 'Invalid phone number';
+                    }
+                    if (!$this->skipMobileVerification($params) && !$this->phoneValidator->isMobile($v)) {
+                        $msg = 'Phone number is not mobile';
                     }
                     break;
                 case 'email':
@@ -68,6 +71,7 @@ class CustomerHelper {
                     }
                     break;
                 case 'doNotContact':
+                case 'skipMobileVerification':
                     // Do nothing
                     break;
                 default:
@@ -97,9 +101,7 @@ class CustomerHelper {
                     break;
                 case 'phone':
                     $c->setPhone($this->stripPhone($v));
-                    break;
-                case 'mobileConfirmed':
-                    $c->setMobileConfirmed($this->paramToBool($v));
+                    $c->setMobileConfirmed(!$this->skipMobileVerification($params));
                     break;
                 case 'email':
                     $c->setEmail($v);
@@ -135,5 +137,11 @@ class CustomerHelper {
 
     private function paramToBool($param): bool {
         return ($param !== 'false' && $param == true);
+    }
+
+    private function skipMobileVerification (array $params): bool {
+        $skip = $params['skipMobileVerification'] ?? false;
+
+        return $this->paramToBool($skip);
     }
 }

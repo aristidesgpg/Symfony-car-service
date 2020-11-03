@@ -2,8 +2,11 @@
 
 namespace App\Service;
 
+use App\Entity\PhoneLookup;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Twilio\Exceptions\ConfigurationException;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 /**
@@ -18,15 +21,22 @@ class PhoneValidator {
     private $twilio;
 
     /**
+     * @var EntityManagerInterface
+     */
+    private $em;
+
+    /**
      * PhoneValidator constructor.
      *
-     * @param string $sid
-     * @param string $authToken
+     * @param string                 $sid
+     * @param string                 $authToken
+     * @param EntityManagerInterface $em
      *
      * @throws ConfigurationException
      */
-    public function __construct (string $sid, string $authToken) {
+    public function __construct (string $sid, string $authToken, EntityManagerInterface $em) {
         $this->twilio = new Client($sid, $authToken);
+        $this->em = $em;
     }
 
     /**
@@ -55,5 +65,33 @@ class PhoneValidator {
         }
 
         return $phone;
+    }
+
+    /**
+     * @param string $mdn
+     *
+     * @return bool
+     */
+    public function isMobile (string $mdn): bool {
+        $mdn = '+1' . $mdn;
+        $lookup = $this->em->find(PhoneLookup::class, $mdn);
+        if ($lookup === null) {
+            $lookup = $this->lookupNumber($mdn);
+        }
+
+        return ($lookup->getCarrierType() === 'mobile');
+    }
+
+    private function lookupNumber (string $mdn): PhoneLookup {
+        try {
+            $instance = $this->twilio->lookups->v1->phoneNumbers($mdn)->fetch(['type' => 'carrier']);
+        } catch (TwilioException $e) {
+            throw new \RuntimeException('Caught twilio exception', 0, $e);
+        }
+        $lookup = new PhoneLookup($instance);
+        $this->em->persist($lookup);
+        $this->em->flush();
+
+        return $lookup;
     }
 }

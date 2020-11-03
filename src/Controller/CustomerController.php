@@ -95,6 +95,7 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Parameter(name="phone", type="string", in="formData", required=True, minLength=10, maxLength=10)
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
+     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      *
      * @param Request        $req
      * @param CustomerHelper $helper
@@ -128,6 +129,7 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Parameter(name="phone", type="string", in="formData")
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
+     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      *
      * @param Customer       $customer
      * @param Request        $req
