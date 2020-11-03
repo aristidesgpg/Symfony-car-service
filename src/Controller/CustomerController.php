@@ -109,7 +109,10 @@ class CustomerController extends AbstractFOSRestController {
         }
 
         $customer = new Customer();
-        $customer->setAddedBy($this->getUser());
+        $user = $this->getUser();
+        if ($user instanceof User && $user->getId() !== null) {
+            $customer->setAddedBy($user);
+        }
         $helper->commitCustomer($customer, $req->request->all());
 
         $view = $this->view($customer);
