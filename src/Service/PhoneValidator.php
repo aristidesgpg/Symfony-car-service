@@ -82,6 +82,11 @@ class PhoneValidator {
         return ($lookup->getCarrierType() === 'mobile');
     }
 
+    /**
+     * @param string $phone
+     *
+     * @return PhoneLookup
+     */
     private function lookupNumber (string $phone): PhoneLookup {
         try {
             $instance = $this->twilio->lookups->v1->phoneNumbers($phone)->fetch(['type' => 'carrier']);

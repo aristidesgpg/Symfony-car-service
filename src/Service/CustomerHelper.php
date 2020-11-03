@@ -8,21 +8,27 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CustomerHelper
+ *
  * @package App\Service
  */
 class CustomerHelper {
+    /** @var string[] */
     private const REQUIRED_FIELDS = ['name', 'phone'];
 
+    /** @var EntityManagerInterface */
     private $em;
+
+    /** @var PhoneValidator */
     private $phoneValidator;
 
     /**
      * CustomerHelper constructor.
+     *
      * @param EntityManagerInterface $em
      * @param PhoneValidator         $phoneValidator
      */
-    public function __construct(EntityManagerInterface $em, PhoneValidator $phoneValidator) {
-        $this->em = $em;
+    public function __construct (EntityManagerInterface $em, PhoneValidator $phoneValidator) {
+        $this->em             = $em;
         $this->phoneValidator = $phoneValidator;
     }
 
@@ -32,7 +38,7 @@ class CustomerHelper {
      *
      * @return array Empty on successful validation
      */
-    public function validateParams(array $params, bool $checkRequiredFields = false): array {
+    public function validateParams (array $params, bool $checkRequiredFields = false): array {
         $errors = [];
         if ($checkRequiredFields === true) {
             foreach (self::REQUIRED_FIELDS as $field) {
@@ -42,7 +48,7 @@ class CustomerHelper {
             }
         }
 
-        foreach ($params as $k=>$v) {
+        foreach ($params as $k => $v) {
             $msg = null;
             switch ($k) {
                 case 'name':
@@ -86,40 +92,40 @@ class CustomerHelper {
     }
 
     /**
-     * @param Customer $c
+     * @param Customer $customer
      * @param array    $params
      */
-    public function commitCustomer(Customer $c, array $params = []): void {
+    public function commitCustomer (Customer $customer, array $params = []): void {
         $valid = empty($this->validateParams($params));
         if ($valid !== true) {
             throw new \InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
-        foreach ($params as $k=>$v) {
+        foreach ($params as $k => $v) {
             switch ($k) {
                 case 'name':
-                    $c->setName($v);
+                    $customer->setName($v);
                     break;
                 case 'phone':
-                    $c->setPhone($this->stripPhone($v));
-                    $c->setMobileConfirmed(!$this->skipMobileVerification($params));
+                    $customer->setPhone($this->stripPhone($v));
+                    $customer->setMobileConfirmed(!$this->skipMobileVerification($params));
                     break;
                 case 'email':
-                    $c->setEmail($v);
+                    $customer->setEmail($v);
                     break;
                 case 'doNotContact':
-                    $c->setDoNotContact($this->paramToBool($v));
+                    $customer->setDoNotContact($this->paramToBool($v));
                     break;
                 case 'deleted':
-                    $c->setDeleted($this->paramToBool($v));
+                    $customer->setDeleted($this->paramToBool($v));
                     break;
                 case 'addedBy':
-                    $c->setAddedBy($v);
+                    $customer->setAddedBy($v);
                     break;
             }
         }
 
-        if ($c->getId() === null) {
-            $this->em->persist($c);
+        if ($customer->getId() === null) {
+            $this->em->persist($customer);
         }
         $this->em->beginTransaction();
         try {
@@ -131,11 +137,11 @@ class CustomerHelper {
         }
     }
 
-    private function stripPhone(string $phone): string {
+    private function stripPhone (string $phone): string {
         return $this->phoneValidator->clean($phone);
     }
 
-    private function paramToBool($param): bool {
+    private function paramToBool ($param): bool {
         return ($param !== 'false' && $param == true);
     }
 
