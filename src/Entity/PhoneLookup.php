@@ -13,7 +13,7 @@ class PhoneLookup {
      * @ORM\Id
      * @ORM\Column(type="string", length=12)
      */
-    private $mdn;
+    private $phoneNumber;
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -34,7 +34,7 @@ class PhoneLookup {
      * @param PhoneNumberInstance $instance
      */
     public function __construct(PhoneNumberInstance $instance) {
-        $this->mdn = $instance->phoneNumber;
+        $this->phoneNumber = $instance->phoneNumber;
         $this->carrierName = $instance->carrier['name'];
         $this->carrierType = $instance->carrier['type'];
         $this->created = new \DateTime();
@@ -43,8 +43,8 @@ class PhoneLookup {
     /**
      * @return string
      */
-    public function getMdn (): string {
-        return $this->mdn;
+    public function getPhoneNumber (): string {
+        return $this->phoneNumber;
     }
 
     /**

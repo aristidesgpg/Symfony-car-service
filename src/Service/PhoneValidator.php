@@ -68,23 +68,23 @@ class PhoneValidator {
     }
 
     /**
-     * @param string $mdn
+     * @param string $phone
      *
      * @return bool
      */
-    public function isMobile (string $mdn): bool {
-        $mdn = '+1' . $mdn;
-        $lookup = $this->em->find(PhoneLookup::class, $mdn);
+    public function isMobile (string $phone): bool {
+        $phone  = '+1' . $phone;
+        $lookup = $this->em->find(PhoneLookup::class, $phone);
         if ($lookup === null) {
-            $lookup = $this->lookupNumber($mdn);
+            $lookup = $this->lookupNumber($phone);
         }
 
         return ($lookup->getCarrierType() === 'mobile');
     }
 
-    private function lookupNumber (string $mdn): PhoneLookup {
+    private function lookupNumber (string $phone): PhoneLookup {
         try {
-            $instance = $this->twilio->lookups->v1->phoneNumbers($mdn)->fetch(['type' => 'carrier']);
+            $instance = $this->twilio->lookups->v1->phoneNumbers($phone)->fetch(['type' => 'carrier']);
         } catch (TwilioException $e) {
             throw new \RuntimeException('Caught twilio exception', 0, $e);
         }
