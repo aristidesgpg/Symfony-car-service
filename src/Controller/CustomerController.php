@@ -108,7 +108,7 @@ class CustomerController extends AbstractFOSRestController {
         }
 
         $customer = new Customer();
-        $customer->setAddedBy($this->getCurrentUser());
+        $customer->setAddedBy($this->getUser());
         $helper->commitCustomer($customer, $req->request->all());
 
         $view = $this->view($customer);
@@ -172,12 +172,5 @@ class CustomerController extends AbstractFOSRestController {
         return $this->handleView($this->view([
             'message' => 'Customer Deleted'
         ], Response::HTTP_OK));
-    }
-
-    /**
-     * @return User
-     */
-    private function getCurrentUser (): User {
-        return $this->container->get('security.token_storage')->getToken()->getUser();
     }
 }
