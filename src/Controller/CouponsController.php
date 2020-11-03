@@ -25,7 +25,6 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Get(description="Get all coupons")
-     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return coupons",
@@ -45,7 +44,7 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/coupons/new")
+     * @Rest\Post("/api/coupons")
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Post(description="Create a coupon")
@@ -104,10 +103,10 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/coupons/{id}/edit")
+     * @Rest\Put("/api/coupons/{id}")
      *
      * @SWG\Tag(name="Coupons")
-     * @SWG\Post(description="Update a coupon")
+     * @SWG\Put(description="Update a coupon")
      * @SWG\Parameter(
      *     name="title",
      *     in="formData",
@@ -175,7 +174,7 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Delete("/api/coupons/{id}/delete")
+     * @Rest\Delete("/api/coupons/{id}")
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Delete(description="Delete a coupon")

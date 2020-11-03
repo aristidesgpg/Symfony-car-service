@@ -42,11 +42,14 @@ class ImageUploader {
      *
      * @param EntityManagerInterface $em
      * @param Container              $container
+     * @param UrlHelper              $urlHelper
+     * @param UrlGeneratorInterface  $urlGenerator
      */
-    public function __construct (EntityManagerInterface $em, Container $container, UrlHelper $urlHelper,UrlGeneratorInterface $urlGenerator) {
-        $this->em        = $em;
-        $this->container = $container;
-        $this->urlHelper = $urlHelper;
+    public function __construct (EntityManagerInterface $em, Container $container, UrlHelper $urlHelper,
+                                 UrlGeneratorInterface $urlGenerator) {
+        $this->em           = $em;
+        $this->container    = $container;
+        $this->urlHelper    = $urlHelper;
         $this->urlGenerator = $urlGenerator;
     }
 
@@ -73,7 +76,7 @@ class ImageUploader {
             return false;
         }
 
-        return $this->urlHelper->getAbsoluteUrl('uploads/'.$directory . '/' . $filename);
+        return $this->urlHelper->getAbsoluteUrl('uploads/' . $directory . '/' . $filename);
         //get the route url
         // $url = $this->urlGenerator->generate('app_coupons_new', [], UrlGeneratorInterface::ABSOLUTE_URL);
         //make the public url for the uploaded file

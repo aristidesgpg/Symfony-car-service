@@ -2,9 +2,13 @@
 
 namespace App\Service;
 
-use App\Entity\Setting;
-use App\Repository\SettingRepository;
+use App\Entity\Settings;
+use App\Helper\iServiceLoggerTrait;
+use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 
 /**
  * Class SettingsHelper
@@ -12,10 +16,25 @@ use Doctrine\ORM\EntityManagerInterface;
  * @package App\Service
  */
 class SettingsHelper {
-    /**
-     * @var SettingRepository
-     */
-    private $settingRepository;
+    use iServiceLoggerTrait;
+
+    const VALID_SETTINGS = [
+        'phase1', 'phase2', 'phase3',
+        'techAppUsername', 'techAppPassword',
+        'custAppAppraiseButtonText', 'custAppFinanceRepairUrl',
+        'serviceTextIntro', 'serviceTextVideo', 'serviceTextVideoResend', 'serviceTextQuote', 'serviceTextPayment',
+        'pricingLaborRate', 'pricingUseMatrix', 'pricingLaborTax', 'pricingPartsTax',
+        'waiverEstimateText', 'waiverActivateAuthMessage', 'waiverIntroText',
+        'advisorUsageEmails', 'openLate',
+        'previewSalesVideoText',
+        'upgradeTradeInTax', 'upgradeTradeInTaxLimit', 'upgradeOfferExpiration', 'upgradeInstantOfferUrl',
+        'upgradeIntroText', 'upgradeOfferText', 'upgradeCashOfferCopy', 'upgradeDisclaimer',
+        'generalName', 'generalEmail', 'generalWebsiteUrl', 'generalInventoryUrl', 'generaAddress',
+        'generalAddress2', 'generalCity', 'generalState', 'generalZip', 'generalPhone',
+        'reviewGoogleUrl', 'reviewFacebookUrl', 'reviewText',
+    ];
+
+    const VALID_FILE_SETTINGS = ['custAppPostInspectionVideo', 'generalLogo', 'reviewLogo'];
 
     /**
      * @var EntityManagerInterface
@@ -23,91 +42,88 @@ class SettingsHelper {
     private $em;
 
     /**
+     * @var SettingsRepository
+     */
+    private $settingsRepository;
+
+    /**
      * SettingsHelper constructor.
      *
-     * @param SettingRepository      $settingRepository
      * @param EntityManagerInterface $em
+     * @param SettingsRepository     $settingsRepository
      */
-    public function __construct (SettingRepository $settingRepository, EntityManagerInterface $em) {
-        $this->settingRepository = $settingRepository;
-        $this->em                = $em;
+    public function __construct (EntityManagerInterface $em, SettingsRepository $settingsRepository) {
+        $this->em                 = $em;
+        $this->settingsRepository = $settingsRepository;
     }
 
     /**
-     * @param SettingRepository $settingRepository
+     * @param array $settings
      *
-     * @return Setting[]
+     * @throws
      */
-    public function getAllSettings (SettingRepository $settingRepository) {
-        return $this->settingRepository->findAll();
-    }
+    public function commitSettings (array $settings): void {
+        foreach ($settings as $key => $value) {
+            if (!is_string($key)) {
+                throw new InvalidArgumentException('"key" must be string');
+            }
 
-    /**
-     * Will retrieve the setting if one is found, if not maybe create one
-     *
-     * @param string $settingName
-     * @param bool   $createIfMissing
-     * @param string $defaultValue
-     *
-     * @return Setting|boolean
-     */
-    public function getSettingByName (string $settingName, $createIfMissing = true, string $defaultValue = '') {
-        $foundSetting = $this->settingRepository->findOneBy(['name' => $settingName]);
-
-        if ($foundSetting) {
-            return $foundSetting;
-        }
-
-        // Don't create the setting if it's missing
-        if (!$createIfMissing) {
-            return false;
-        }
-
-        // Create the setting
-        $setting = new Setting();
-        $setting->setName($settingName)->setValue($defaultValue);
-
-        $this->em->persist($setting);
-        $this->em->flush();
-
-        return $setting;
-    }
-
-    /**
-     * @param string $settingName
-     * @param string $settingValue
-     *
-     * @return Setting
-     */
-    public function createOrUpdateSetting (string $settingName, string $settingValue) {
-        $setting = $this->getSettingByName($settingName, true);
-
-        $setting->setValue($settingValue);
-        $this->em->persist($setting);
-        $this->em->flush();
-
-        return $setting;
-    }
-
-    /**
-     * @param array $settingArray
-     *
-     * @return boolean
-     */
-    public function bulkUpdate (array $settingArray) {
-        // First validate without updating
-        foreach ($settingArray as $settingKey => $settingName) {
-            if (!is_string($settingKey) || empty($settingKey)) {
-                return false;
+            $obj = $this->em->find(Settings::class, $key);
+            if (!$obj instanceof Settings) {
+                $obj = new Settings($key, $value);
+                $this->em->persist($obj);
+            } else {
+                $obj->setValue($value);
             }
         }
 
-        // Update if valid
-        foreach ($settingArray as $settingKey => $settingName) {
-            $this->createOrUpdateSetting($settingKey, $settingName);
-        }
+        $this->em->beginTransaction();
 
-        return true;
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (Exception $e) {
+            $this->logger->error(sprintf('Caught exception during flush: "%s"', $e->getMessage()));
+            $this->em->rollback();
+            throw new RuntimeException('An error occurred'); // TODO: More helpful message
+        }
     }
 
+    /**
+     * @param $key
+     *
+     * @return string|null
+     * @throws Exception
+     */
+    public function getSetting ($key) {
+        // Throw exception because false is a valid option
+        if (!in_array($key, self::VALID_SETTINGS) && !in_array($key, self::VALID_FILE_SETTINGS)) {
+            throw new Exception('Invalid Setting Requested');
+        }
+
+        $setting = $this->settingsRepository->findOneBy([
+            'key' => $key
+        ]);
+
+        if (!$setting) {
+            // Create it because it's valid if we got here
+            $settingArray = [
+                $key => ''
+            ];
+
+            $this->commitSettings($settingArray);
+
+            // Now get it again
+            $setting = $this->settingsRepository->findOneBy([
+                'key' => $key
+            ]);
+
+            // Throw exception because false is a valid option
+            if (!$setting) {
+                throw new Exception('Unable to retrieve setting');
+            }
+        }
+
+        return $setting->getValue();
+    }
 }

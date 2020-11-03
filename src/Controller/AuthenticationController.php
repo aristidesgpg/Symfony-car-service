@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderRepository;
+use App\Service\PasswordHelper;
+use App\Service\SettingsHelper;
+use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
@@ -19,6 +23,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @package App\Controller
  */
 class AuthenticationController extends AbstractFOSRestController {
+    use iServiceLoggerTrait;
 
     /**
      * @Rest\Post("/api/authentication/authenticate")
@@ -40,7 +45,7 @@ class AuthenticationController extends AbstractFOSRestController {
      *     type="string",
      *     description="The password of the account",
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="linkHash",
      *     in="formData",
      *     required=false,
@@ -75,14 +80,17 @@ class AuthenticationController extends AbstractFOSRestController {
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param JWTEncoderInterface          $JWTEncoder
      * @param RepairOrderRepository        $repairOrderRepository
+     * @param SettingsHelper               $settingsHelper
+     * @param PasswordHelper               $passwordHelper
      *
      * @return Response
      */
     public function authenticateAction (Request $request, UserPasswordEncoderInterface $passwordEncoder,
-                                        JWTEncoderInterface $JWTEncoder, RepairOrderRepository $repairOrderRepository) {
+                                        JWTEncoderInterface $JWTEncoder, RepairOrderRepository $repairOrderRepository,
+                                        SettingsHelper $settingsHelper, PasswordHelper $passwordHelper) {
         $username      = $request->get('username');  // tperson@iserviceauto.com
         $password      = $request->get('password');  // test
-        $linkHash      = $request->get('linkHash'); // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+        $linkHash      = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
         $pin           = $request->get('pin');
         $tokenUsername = null;
 
@@ -90,6 +98,7 @@ class AuthenticationController extends AbstractFOSRestController {
             goto INVALID;
         }
 
+        // Standard login
         if ($username) {
             /** @var User $user */
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $username]);
@@ -109,7 +118,7 @@ class AuthenticationController extends AbstractFOSRestController {
             }
         }
 
-        // Logging in from customer side
+        // Logging in from customer app
         if ($linkHash) {
             $repairOrder = $repairOrderRepository->findByUID($linkHash);
             if (!$repairOrder) {
@@ -121,8 +130,26 @@ class AuthenticationController extends AbstractFOSRestController {
             goto TOKEN;
         }
 
-        // @TODO: Tech Pin login
+        // Logging in from tech app
+        if ($username) {
+            try {
+                $techAppUsername = $settingsHelper->getSetting('techAppUsername');
+                $techAppPassword = $settingsHelper->getSetting('techAppPassword');
 
+                if ($username === $techAppUsername) {
+                    if ($passwordHelper->validatePassword($password, $techAppPassword)) {
+                        $tokenUsername = 'technician';
+                        goto TOKEN;
+                    } else {
+                        goto INVALID;
+                    }
+                }
+            } catch (Exception $e) {
+                $this->logInfo('Technician App Username not found in settings and wasn\'t created.');
+            }
+        }
+
+        // @TODO: Tech Pin login
 
         INVALID:
         return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));

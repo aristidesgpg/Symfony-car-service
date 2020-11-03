@@ -394,6 +394,24 @@ class User implements UserInterface {
     }
 
     /**
+     * @return mixed
+     */
+    public function getPin () {
+        return $this->pin;
+    }
+
+    /**
+     * @param $pin
+     *
+     * @return $this
+     */
+    public function setPin ($pin) {
+        $this->pin = $pin;
+
+        return $this;
+    }
+
+    /**
      * @return bool|null
      */
     public function getActive (): ?bool {
@@ -432,16 +450,6 @@ class User implements UserInterface {
 
     public function eraseCredentials () {
         // TODO: Implement eraseCredentials() method.
-    }
-
-    public function getPin (): ?string {
-        return $this->pin;
-    }
-
-    public function setPin (string $pin): self {
-        $this->pin = $pin;
-
-        return $this;
     }
 
 }

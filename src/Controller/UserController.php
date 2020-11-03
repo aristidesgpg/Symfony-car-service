@@ -8,10 +8,8 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use App\Service\UserHelper;
 
@@ -73,7 +71,7 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(
      *     name="role",
-     *     in="query",
+     *     in="formData",
      *     required=true,
      *     type="string",
      *     description="permission role for users you are trying to get",
@@ -136,7 +134,6 @@ class UserController extends AbstractFOSRestController {
      *     description="The experience of Technician",
      * )
      *
-     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -151,7 +148,7 @@ class UserController extends AbstractFOSRestController {
      * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
      *
-     * @return JsonResponse
+     * @return Response
      */
     public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
         $role          = $request->get('role');
@@ -178,7 +175,6 @@ class UserController extends AbstractFOSRestController {
         }
 
         $user = new User();
-
         $user->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
@@ -197,9 +193,9 @@ class UserController extends AbstractFOSRestController {
 
         $this->logInfo('New User "' . $user->getFirstName() . '" Created');
 
-        return new JsonResponse([
+        return $this->handleView($this->view([
             'message' => 'New User Created'
-        ]);
+        ]));
     }
 
     /**
@@ -210,8 +206,8 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(
      *     name="role",
-     *     in="query",
-     *     required=true,
+     *     in="formData",
+     *     required=false,
      *     type="string",
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
@@ -311,16 +307,16 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Certification and Experience is Only for Technicians', Response::HTTP_BAD_REQUEST));
         }
 
-        //update user
+        // update user
         $user->setFirstName($firstName)
-            ->setLastName($lastName)
-            ->setEmail($email)
-            ->setPhone($phone)
-            ->setPassword($userHelper->passwordEncoder($user, $password))
-            ->setPin($pin)
-            ->setRole($role);
-        
-        if($role == 'ROLE_TECHNICIAN'){
+             ->setLastName($lastName)
+             ->setEmail($email)
+             ->setPhone($phone)
+             ->setPassword($userHelper->passwordEncoder($user, $password))
+             ->setPin($pin)
+             ->setRole($role);
+
+        if ($role == 'ROLE_TECHNICIAN') {
             $user->setCertification($certification)
                  ->setExperience($experience);
         }
@@ -330,7 +326,9 @@ class UserController extends AbstractFOSRestController {
 
         $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
 
-        return $this->handleView($this->view(['message' => 'User Updated']), Response::HTTP_OK);
+        return $this->handleView($this->view([
+            'message' => 'User Updated'
+        ], Response::HTTP_OK));
     }
 
     /**
@@ -360,7 +358,9 @@ class UserController extends AbstractFOSRestController {
         $em->persist($user);
         $em->flush();
 
-        return $this->handleView($this->view('User Deleted', Response::HTTP_OK));
+        return $this->handleView($this->view([
+            'message' => 'User Deleted'
+        ], Response::HTTP_OK));
     }
 
     /**
