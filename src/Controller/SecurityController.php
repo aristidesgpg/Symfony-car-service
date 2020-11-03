@@ -7,15 +7,11 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Swagger\Annotations as SWG;
-
-
 use App\Service\UserHelper;
 use App\Service\SecurityHelper;
 use App\Service\MailerHelper;
@@ -30,10 +26,10 @@ class SecurityController extends AbstractFOSRestController {
 
     /**
      * @Rest\Post("/api/security/{id}/set")
-     * 
+     *
      * @SWG\Tag(name="Security")
      * @SWG\Post(description="Set Security question and answer for a User")
-     * 
+     *
      * @SWG\Parameter(
      *     name="question",
      *     in="formData",
@@ -48,8 +44,7 @@ class SecurityController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Security Answer of a User",
      * )
-     * 
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -59,21 +54,20 @@ class SecurityController extends AbstractFOSRestController {
      *                                              "Security Question Has Been Updated" }),
      *         )
      * )
-     * 
+     *
      * @param User                   $user
      * @param Request                $request
      * @param UserHelper             $userHelper
      * @param EntityManagerInterface $em
      *
-     * @return JsonResponse
+     * @return Response
      */
     public function security (User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em) {
-
         $question = $request->get('question');
         $answer   = $request->get('answer');
 
         //check if parameters are valid
-        if(!$question || !$answer){
+        if (!$question || !$answer) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -84,17 +78,17 @@ class SecurityController extends AbstractFOSRestController {
         $em->persist($user);
         $em->flush();
 
-        return new JsonResponse([
+        return $this->handleView($this->view([
             'message' => 'Security Question Has Been Updated'
-        ]);
+        ], Response::HTTP_OK));
     }
 
     /**
      * @Rest\Post("/api/security/validate")
-     * 
+     *
      * @SWG\Tag(name="Security")
      * @SWG\Post(description="Check if security answer is correct")
-     * 
+     *
      * @SWG\Parameter(
      *     name="email",
      *     in="formData",
@@ -109,8 +103,8 @@ class SecurityController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Security Answer of the User",
      * )
-     * 
-     * 
+     *
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -120,53 +114,57 @@ class SecurityController extends AbstractFOSRestController {
      *                                              "Security Question Has Been Validated" }),
      *         )
      * )
-     * 
+     *
      * @param Request               $request
      * @param SecurityHelper        $securityHelper
      * @param MailerHelper          $mailerHelper
      * @param UserRepository        $userRepo
      * @param UrlGeneratorInterface $urlGenerator
-     * 
-     * @return JsonResponse
+     *
+     * @return Response
      */
-    public function validate (Request $request, SecurityHelper $securityHelper, MailerHelper $mailerHelper, UserRepository $userRepo, UrlGeneratorInterface $urlGenerator) {
-
+    public function validate (Request $request, SecurityHelper $securityHelper, MailerHelper $mailerHelper,
+                              UserRepository $userRepo, UrlGeneratorInterface $urlGenerator) {
         $answer = $request->get('answer');
         $email  = $request->get('email');
 
-        //check if parameter is valid
-        if(!$answer || !$email){
+        // check if parameter is valid
+        if (!$answer || !$email) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //email is invalid
-        $user = $userRepo->findOneByEmail($email);
-        if(!$user){
+
+        // email is invalid
+        $user = $userRepo->findOneBy(['email' => $email]);
+        if (!$user) {
             return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        if(!$securityHelper->validateSecurity($user, $answer)){
+        if (!$securityHelper->validateSecurity($user, $answer)) {
             return $this->handleView($this->view('Invalid Security Answer', Response::HTTP_UNAUTHORIZED));
         }
 
-        //get reset password token
+        // get reset password token
         $token = $securityHelper->generateToken($user, $email);
-        //get reset password request url with token
+
+        // get reset password request url with token
         $resetPasswordURL = $urlGenerator->generate('app_security_validatetoken', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-        if(!$mailerHelper->sendMail("Reset Password Link", $email, $resetPasswordURL)){
-            return $this->handleView($this->view('Something Went Wrong Trying to Send the Email', Response::HTTP_INTERNAL_SERVER_ERROR));
+        if (!$mailerHelper->sendMail("Reset Password Link", $email, $resetPasswordURL)) {
+            return $this->handleView($this->view(
+                'Something Went Wrong Trying to Send the Email', Response::HTTP_INTERNAL_SERVER_ERROR
+            ));
         }
-        
-        return new JsonResponse([
+
+        return $this->handleView($this->view([
             'message' => 'Security Question Has Been Validated'
-        ]);
+        ], Response::HTTP_OK));
     }
 
     /**
      * @Rest\Get("/api/security/reset-password/{token}")
-     * 
+     *
      * @SWG\Tag(name="Security")
      * @SWG\Get(description="Validate Password Reset token")
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -176,35 +174,35 @@ class SecurityController extends AbstractFOSRestController {
      *                                              "Reset Password Token Has Been Validated" }),
      *         )
      * )
-     * 
+     *
      * @param String         $token
      * @param SecurityHelper $securityHelper
      * @param UserRepository $userRepo
      *
-     * @return JsonResponse
+     * @return Response
      */
-    public function validateToken (String $token, SecurityHelper $securityHelper, UserRepository $userRepo) {
-
-        //check if parameter is valid
-        if(!$token){
+    public function validateToken (string $token, SecurityHelper $securityHelper, UserRepository $userRepo) {
+        // check if parameter is valid
+        if (!$token) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //token is invalid
-        if(!$securityHelper->validateToken($token)){
+
+        // token is invalid
+        if (!$securityHelper->validateToken($token)) {
             return $this->handleView($this->view('Invalid Token', Response::HTTP_UNAUTHORIZED));
         }
-        
-        return new JsonResponse([
+
+        return $this->handleView($this->view([
             'message' => 'Reset Password Token Has Been Validated'
-        ]);
+        ], Response::HTTP_OK));
     }
 
     /**
      * @Rest\Post("/api/security/reset-password")
-     * 
+     *
      * @SWG\Tag(name="Security")
      * @SWG\Post(description="Reset User Password")
-     * 
+     *
      * @SWG\Parameter(
      *     name="token",
      *     in="formData",
@@ -219,7 +217,7 @@ class SecurityController extends AbstractFOSRestController {
      *     type="string",
      *     description="The New Password of the User",
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -229,33 +227,36 @@ class SecurityController extends AbstractFOSRestController {
      *                                              "Password Has Been Reset" }),
      *         )
      * )
-     * 
+     *
      * @param Request        $request
      * @param SecurityHelper $securityHelper
      * @param UserRepository $userRepo
      *
-     * @return JsonResponse
+     * @return Response
      */
     public function resetPassword (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
-
         $token    = $request->get('token');
         $password = $request->get('password');
 
-        //check if parameter is valid
-        if(!$password || !$token){
+        // check if parameter is valid
+        if (!$password || !$token) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //token is invalid
-        if(!$securityHelper->validateToken($token)){
+
+        // token is invalid
+        if (!$securityHelper->validateToken($token)) {
             return $this->handleView($this->view('Invalid Token', Response::HTTP_UNAUTHORIZED));
         }
 
-        if(!$securityHelper->resetPassword($token, $password)){
-            return $this->handleView($this->view('Something Went Wrong Trying to Reset the Password', Response::HTTP_INTERNAL_SERVER_ERROR));
+        if (!$securityHelper->resetPassword($token, $password)) {
+            return $this->handleView($this->view(
+                'Something Went Wrong Trying to Reset the Password',
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            ));
         }
 
-        return new JsonResponse([
+        return $this->handleView($this->view([
             'message' => 'Password Has Been Reset'
-        ]);
+        ], Response::HTTP_OK));
     }
 }

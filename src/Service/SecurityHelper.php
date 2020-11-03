@@ -6,9 +6,12 @@ use App\Entity\User;
 use App\Entity\ForgotPassword;
 use App\Repository\UserRepository;
 use App\Repository\ForgotPasswordRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+
 /**
  * Class SecurityHelper
  *
@@ -50,27 +53,27 @@ class SecurityHelper {
      *
      */
     public function __construct (Container $container, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ForgotPasswordRepository $forgotPasswordRepository, EntityManagerInterface $em) {
-        $this->container                 = $container;
-        $this->secret                    = $this->container->getParameter('reset_password_secret');
-        $this->passwordEncoder           = $passwordEncoder;
-        $this->userRepository            = $userRepository;
-        $this->forgotPasswordRepository  = $forgotPasswordRepository;
-        $this->em                        = $em;
+        $this->container                = $container;
+        $this->secret                   = $this->container->getParameter('reset_password_secret');
+        $this->passwordEncoder          = $passwordEncoder;
+        $this->userRepository           = $userRepository;
+        $this->forgotPasswordRepository = $forgotPasswordRepository;
+        $this->em                       = $em;
     }
 
     /**
-     * @param  User   $user
-     * @param  String $answer
-     * 
+     * @param User   $user
+     * @param String $answer
+     *
      * @return Boolean
      */
-    public function validateSecurity(User $user, String $answer){
+    public function validateSecurity (User $user, string $answer) {
         //validate params
-        if(!$user || !$answer){
+        if (!$user || !$answer) {
             return false;
         }
         //check answer
-        if(!password_verify(strtolower($answer), $user->getSecurityAnswer())){
+        if (!password_verify(strtolower($answer), $user->getSecurityAnswer())) {
             return false;
         }
 
@@ -78,25 +81,29 @@ class SecurityHelper {
     }
 
     /**
-     * @param  User   $user
-     * @param  String $email
-     * 
+     * @param User   $user
+     * @param String $email
+     *
      * @return String
      */
-    public function generateToken(User $user, String $email){
+    public function generateToken (User $user, string $email) {
         //generate token
-        $raw            = password_hash($email, PASSWORD_DEFAULT);
-        $pattern        = "/[\/]+/i";
-        $token          = preg_replace($pattern, "", $raw);
-        //get expired date
-        $date           = date('Y-m-d H:i:s', strtotime('1 hour'));
-        //save forgot password token in table
-        $forgotPassword = $this->forgotPasswordRepository->findOneBy(["user" => $user->getId()]);
-        if(!$forgotPassword){
+        $raw     = password_hash($email, PASSWORD_DEFAULT);
+        $pattern = "/[\/]+/i";
+        $token   = preg_replace($pattern, "", $raw);
+
+        // get expired date
+        $date = (new DateTime())->modify('+1 hour');
+
+        // save forgot password token in table
+        $forgotPassword = $this->forgotPasswordRepository->findOneBy(['user' => $user->getId()]);
+
+        if (!$forgotPassword) {
             $forgotPassword = new ForgotPassword();
             $forgotPassword->setUser($user->getId());
         }
-        $forgotPassword->setToken($token)->setExpirationDate(new \DateTime($date))->setUsed(false);
+
+        $forgotPassword->setToken($token)->setExpirationDate($date)->setUsed(false);
         $this->em->persist($forgotPassword);
         $this->em->flush();
 
@@ -104,28 +111,28 @@ class SecurityHelper {
     }
 
     /**
-     * @param  String $token
-     * 
+     * @param String $token
+     *
      * @return Boolean
      */
-    public function validateToken(String $token){
+    public function validateToken (string $token) {
         //find the token on the table
         $forgotPassword = $this->forgotPasswordRepository->findOneBy([
             "token" => $token,
             "used"  => false,
         ]);
 
-        if(!$forgotPassword){
+        if (!$forgotPassword) {
             return false;
         }
 
         // check the expiration time - note this will cause an error if there is no 'exp' claim in the token
-        $expiration         = $forgotPassword->getExpirationDate();
-        $now                = new \DateTime();
-        $tokenExpired       = $now > $expiration;
+        $expiration   = $forgotPassword->getExpirationDate();
+        $now          = new DateTime();
+        $tokenExpired = $now > $expiration;
 
         // verify it matches the token
-        $signatureValid     = ($token == $forgotPassword->getToken());
+        $signatureValid = ($token == $forgotPassword->getToken());
 
         if ($tokenExpired || !$signatureValid) {
             return false;
@@ -140,24 +147,25 @@ class SecurityHelper {
     }
 
     /**
-     * @param  String $token
-     * @param  String $password
-     * 
+     * @param String $token
+     * @param String $password
+     *
      * @return Boolean
      */
-    public function resetPassword(String $token, String $password){
+    public function resetPassword (string $token, string $password) {
         //find the token on the table
         $forgotPassword = $this->forgotPasswordRepository->findOneBy([
             "token" => $token
         ]);
-        
+
         //if token does not exist
-        if(!$forgotPassword){
+        if (!$forgotPassword) {
             return false;
         }
-        
+
         // get User
-        $user = $this->userRepository->findOneById($forgotPassword->getUser());
+        $user = $this->userRepository->find($forgotPassword->getUser());
+
         //reset pasword for the User
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
 
