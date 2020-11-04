@@ -5,7 +5,9 @@ namespace App\Repository;
 use App\Entity\Customer;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,11 +23,15 @@ class CustomerRepository extends ServiceEntityRepository {
 
     /**
      * @param User|null $user
+     * @param int|null  $limit
+     * @param int|null  $offset
      *
      * @return Customer[]
      */
-    public function findAllActive (?User $user = null): array {
-        return $this->getBaseQueryBuilder($user)->getQuery()->getResult();
+    public function findAllActive (?User $user = null, ?int $limit = null, ?int $offset = null): iterable {
+        $q = $this->getBaseQueryBuilder($user)->getQuery();
+
+        return $this->paginate($q, $limit, $offset);
     }
 
     /**
@@ -45,22 +51,24 @@ class CustomerRepository extends ServiceEntityRepository {
     /**
      * @param string    $query - Name, Phone Number, or Email
      * @param User|null $user
+     * @param int|null  $limit
+     * @param int|null  $offset
      *
      * @return Customer[]
      */
-    public function search (string $query, ?User $user = null): array {
+    public function search (string $query, ?User $user = null, ?int $limit = null, ?int $offset = null): iterable {
         $qb = $this->getBaseQueryBuilder($user);
         $or = $qb->expr()->orX();
         $or->add('c.name LIKE :fname')
            ->add('c.name LIKE :lname')
            ->add('c.phone = :query')
            ->add('c.email = :query');
-        $qb->andWhere($or);
-        $qb->setParameter('query', $query);
-        $qb->setParameter('fname', $query . '%');
-        $qb->setParameter('lname', '%' . $query);
+        $qb->andWhere($or)
+           ->setParameter('query', $query)
+           ->setParameter('fname', $query . '%')
+           ->setParameter('lname', '%' . $query);
 
-        return $qb->getQuery()->getResult();
+        return $this->paginate($qb->getQuery(), $limit, $offset);
     }
 
     /**
@@ -77,6 +85,28 @@ class CustomerRepository extends ServiceEntityRepository {
         }
 
         return $qb;
+    }
+
+    /**
+     * @param Query    $query
+     * @param int|null $limit
+     * @param int|null $offset
+     *
+     * @return iterable
+     */
+    private function paginate(Query $query, ?int $limit, ?int $offset): iterable {
+        if ($limit !== null) {
+            $query->setMaxResults($limit);
+        }
+        if ($offset !== null) {
+            $query->setFirstResult($offset);
+        }
+
+        try {
+            return (new Paginator($query))->getIterator();
+        } catch (\Exception $e) {
+            throw new \RuntimeException('Could not get iterator', 0, $e);
+        }
     }
 
     // /**
