@@ -14,13 +14,14 @@ class PhoneLookup {
      * @ORM\Column(type="string", length=12)
      */
     private $phoneNumber;
+
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $carrierName;
 
     /**
-     * @ORM\Column(type="string", length=8)
+     * @ORM\Column(type="string", length=8, nullable=true)
      */
     private $carrierType;
 
@@ -50,14 +51,14 @@ class PhoneLookup {
     /**
      * @return string
      */
-    public function getCarrierName (): string {
+    public function getCarrierName (): ?string {
         return $this->carrierName;
     }
 
     /**
      * @return string
      */
-    public function getCarrierType (): string {
+    public function getCarrierType (): ?string {
         return $this->carrierType;
     }
 
