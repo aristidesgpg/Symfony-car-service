@@ -147,4 +147,189 @@ class MPITemplateController extends AbstractFOSRestController {
             'message' => ' MPI Template Deleted'
         ], Response::HTTP_OK));
     }
+
+    /**
+     * @Rest\Post("/api/mpi-group")
+     *
+     * @SWG\Tag(name="MPI Group")
+     * @SWG\Post(description="Create a new MPI Group")
+     * 
+     * @SWG\Parameter(
+     *     name="template",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The ID of MPI Template",
+     * )
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Name of MPI Group",
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Created" }),
+     *         )
+     * )
+     *
+     * @param Request                $request
+     * @param MPITemplateRepository  $mpiTemplateRepo
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function createGroup (Request $request, MPITemplateRepository  $mpiTemplateRepo, EntityManagerInterface $em) {
+        $template = $request->get('template');
+        $name     = $request->get('name');
+
+        //param is invalid
+        if (!$template || !$name) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        $mpiTemplate = $mpiTemplateRepo->findOneById($template);
+
+        // update template
+        $inspectionGroup->setName($name)
+                        ->setMpiTemplateId($mpiTemplate);
+
+        $em->persist($inspectionGroup);
+        $em->flush();
+
+        $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Created');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Group Created'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Put("/api/mpi-group/{id}")
+     *
+     * @SWG\Tag(name="MPI Group")
+     * @SWG\Put(description="Update a MPI Group")
+     *
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Name of MPI Group",
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Updated" }),
+     *         )
+     * )
+     *
+     * @param InspectionGroup        $inspectionGroup
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function editGroup (InspectionGroup $inspectionGroup, Request $request, EntityManagerInterface $em) {
+        $name = $request->get('name');
+
+        //param is invalid
+        if (!$name) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // update template
+        $inspectionGroup->setName($name);
+
+        $em->persist($inspectionGroup);
+        $em->flush();
+
+        $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Updated');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Group Updated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Post("/api/mpi-group/de-activate/{id}")
+     *
+     * @SWG\Tag(name="MPI Group")
+     * @SWG\Post(description="Deactivate a MPI Group")
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deactivated" }),
+     *         )
+     * )
+     *
+     * @param InspectionGroup        $inspectionGroup
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function deactivateGroup (InspectionGroup $inspectionGroup, EntityManagerInterface $em) {
+
+        // delete template
+        $inspectionGroup->setActive(false);
+
+        $em->persist($inspectionGroup);
+        $em->flush();
+
+        $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Deactivated');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Template Deactivated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Delete("/api/mpi-group/{id}")
+     *
+     * @SWG\Tag(name="MPI Group")
+     * @SWG\Delete(description="Delete a MPI Group")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deleted" }),
+     *         )
+     * )
+     *
+     * @param InspectionGroup        $inspectionGroup
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function deleteGroup (InspectionGroup $inspectionGroup, EntityManagerInterface $em) {
+
+        // delete template
+        $inspectionGroup->setDeleted(true);
+
+        $em->persist($inspectionGroup);
+        $em->flush();
+
+        $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Deleted');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Template Deleted'
+        ], Response::HTTP_OK));
+    }
 }
