@@ -24,6 +24,64 @@ use Swagger\Annotations as SWG;
  */
 class MPITemplateController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
+    
+    /**
+     * @Rest\Post("/api/mpi-template")
+     *
+     * @SWG\Tag(name="MPI Template")
+     * @SWG\Post(description="Create a MPI Template")
+     *
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Name of MPI Template",
+     * )
+     * @SWG\Parameter(
+     *     name="axles",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The Number of Axles",
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Updated" }),
+     *         )
+     * )
+     *
+     * @param MPITemplate            $mpiTemplate
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function editTemplate (MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em) {
+        $name = $request->get('name');
+
+        //param is invalid
+        if (!$name) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // update template
+        $mpiTemplate->setName($name);
+
+        $em->persist($mpiTemplate);
+        $em->flush();
+
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Template Updated'
+        ], Response::HTTP_OK));
+    }
 
     /**
      * @Rest\Put("/api/mpi-template/{id}")
