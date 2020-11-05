@@ -46,7 +46,7 @@ class MPIItem
     /**
      * @ORM\Column(type="boolean")
      */
-    private $deleted;
+    private $deleted = false;
 
     public function getId(): ?int
     {

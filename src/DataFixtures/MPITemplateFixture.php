@@ -72,14 +72,14 @@ class MPITemplateFixture extends Fixture
             $mpiGroup = $this->inspectionGroupRepo->findOneByName($row[1]);
             if(!$mpiGroup){
                 $mpiGroup = new InspectionGroup();
-                $mpiGroup->setName($row[1])->setMpiTemplateId($mpiTemplate->getId());
+                $mpiGroup->setName($row[1])->setMpiTemplateId($mpiTemplate);
                 $manager->persist($mpiGroup);
                 $manager->flush();
             }
             //insert if mpi item does not exist
             $mpiItem = new MPIItem();
             $mpiItem->setName($row[2])
-                    ->setMpiInspectionGroupId($mpiGroup->getId())
+                    ->setMpiInspectionGroupId($mpiGroup)
                     ->setHasRange(intval($row[3]));
             //if mpi item has range
             if(intval($row[3])){

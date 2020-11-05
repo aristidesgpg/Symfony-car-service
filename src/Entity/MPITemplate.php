@@ -27,12 +27,12 @@ class MPITemplate
     /**
      * @ORM\Column(type="boolean")
      */
-    private $active;
+    private $active = true;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $deleted;
+    private $deleted = false;
 
     /**
      * @ORM\OneToMany(targetEntity=InspectionGroup::class, mappedBy="mpiTemplateId")

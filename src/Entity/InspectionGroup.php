@@ -33,12 +33,12 @@ class InspectionGroup
     /**
      * @ORM\Column(type="boolean")
      */
-    private $active;
+    private $active = true;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $deleted;
+    private $deleted = false;
 
     /**
      * @ORM\OneToMany(targetEntity=MPIItem::class, mappedBy="mpiInspectionGroupId")
