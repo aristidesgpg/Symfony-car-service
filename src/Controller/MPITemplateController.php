@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\MPITemplate;
 use App\Entity\InspectionGroup;
 use App\Entity\MPIItem;
-use App\Helper\iServiceLoggerTrait;
 use App\Repository\MPITemplateRepository;
+use App\Repository\InspectionGroupRepository;
+use App\Repository\MPIItemRepository;
+use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -23,4 +25,126 @@ use Swagger\Annotations as SWG;
 class MPITemplateController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
+    /**
+     * @Rest\Put("/api/mpi-template/{id}")
+     *
+     * @SWG\Tag(name="MPI Template")
+     * @SWG\Put(description="Update a MPI Template")
+     *
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Name of MPI Template",
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Updated" }),
+     *         )
+     * )
+     *
+     * @param MPITemplate            $mpiTemplate
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function editTemplate (MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em) {
+        $name = $request->get('name');
+
+        //param is invalid
+        if (!$name) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // update template
+        $mpiTemplate->setName($name);
+
+        $em->persist($mpiTemplate);
+        $em->flush();
+
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Template Updated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Post("/api/mpi-template/de-activate/{id}")
+     *
+     * @SWG\Tag(name="MPI Template")
+     * @SWG\Post(description="Deactivate a MPI Template")
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deactivated" }),
+     *         )
+     * )
+     *
+     * @param MPITemplate            $mpiTemplate
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function deactivateTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
+
+        // delete template
+        $mpiTemplate->setActive(false);
+
+        $em->persist($mpiTemplate);
+        $em->flush();
+
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deactivated');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Template Deactivated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Delete("/api/mpi-template/{id}")
+     *
+     * @SWG\Tag(name="MPI Template")
+     * @SWG\Delete(description="Delete a MPI Template")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deleted" }),
+     *         )
+     * )
+     *
+     * @param MPITemplate            $mpiTemplate
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function deleteTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
+
+        // deactivate template
+        $mpiTemplate->setDeleted(true);
+
+        $em->persist($mpiTemplate);
+        $em->flush();
+
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deleted');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Template Deleted'
+        ], Response::HTTP_OK));
+    }
 }
