@@ -195,6 +195,7 @@ class RepairOrder {
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $archived = false;
 
