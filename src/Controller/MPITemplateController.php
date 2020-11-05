@@ -196,7 +196,8 @@ class MPITemplateController extends AbstractFOSRestController {
 
         $mpiTemplate = $mpiTemplateRepo->findOneById($template);
 
-        // update template
+        // create template
+        $inspectionGroup = new InspectionGroup();
         $inspectionGroup->setName($name)
                         ->setMpiTemplateId($mpiTemplate);
 
@@ -329,7 +330,157 @@ class MPITemplateController extends AbstractFOSRestController {
         $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Deleted');
 
         return $this->handleView($this->view([
-            'message' => ' MPI Template Deleted'
+            'message' => ' MPI Group Deleted'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Post("/api/mpi-item")
+     *
+     * @SWG\Tag(name="MPI Item")
+     * @SWG\Post(description="Create a new MPI Item")
+     * 
+     * @SWG\Parameter(
+     *     name="group",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The ID of MPI Group",
+     * )
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Name of MPI Item",
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Created" }),
+     *         )
+     * )
+     *
+     * @param Request                    $request
+     * @param InspectionGroupRepository  $inspectionGroupRepository
+     * @param EntityManagerInterface     $em
+     *
+     * @return Response
+     */
+    public function createItem (Request $request, InspectionGroupRepository  $inspectionGroupRepo, EntityManagerInterface $em) {
+        $group = $request->get('group');
+        $name  = $request->get('name');
+
+        //param is invalid
+        if (!$group || !$name) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        $mpiGroup = $inspectionGroupRepo->findOneById($group);
+
+        // create item
+        $mpiItem = new MPIItem();
+        $mpiItem->setName($name)
+                        ->setMpiInspectionGroupId($mpiGroup);
+
+        $em->persist($mpiItem);
+        $em->flush();
+
+        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Created');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Item Created'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Put("/api/mpi-item/{id}")
+     *
+     * @SWG\Tag(name="MPI Item")
+     * @SWG\Put(description="Update a MPI Item")
+     *
+     * @SWG\Parameter(
+     *     name="name",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Name of MPI Item",
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Updated" }),
+     *         )
+     * )
+     *
+     * @param MPIItem                $mpiItem
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function editItem (MPIItem $mpiItem, Request $request, EntityManagerInterface $em) {
+        $name = $request->get('name');
+
+        //param is invalid
+        if (!$name) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // update template
+        $mpiItem->setName($name);
+
+        $em->persist($mpiItem);
+        $em->flush();
+
+        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Updated');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Item Updated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Delete("/api/mpi-item/{id}")
+     *
+     * @SWG\Tag(name="MPI Item")
+     * @SWG\Delete(description="Delete a MPI Item")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deleted" }),
+     *         )
+     * )
+     *
+     * @param MPIItem                $mpiItem
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function deleteItem (MPIItem $mpiItem, EntityManagerInterface $em) {
+
+        // delete template
+        $mpiItem->setDeleted(true);
+
+        $em->persist($mpiItem);
+        $em->flush();
+
+        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Deleted');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Item Deleted'
         ], Response::HTTP_OK));
     }
 }
