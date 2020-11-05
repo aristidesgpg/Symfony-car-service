@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RepairOrderRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -159,10 +160,16 @@ class RepairOrder {
     private $deleted = false;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderVideo", mappedBy="repairOrder")
+     */
+    private $videos;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct () {
         $this->dateCreated = new DateTime();
+        $this->videos = new ArrayCollection();
     }
 
     /**
@@ -654,6 +661,19 @@ class RepairOrder {
      */
     public function setDeleted (bool $deleted): self {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return RepairOrderVideo[]
+     */
+    public function getVideos(): array {
+        return $this->videos->toArray();
+    }
+
+    public function addVideo(RepairOrderVideo $video): self {
+        $this->videos->add($video);
 
         return $this;
     }
