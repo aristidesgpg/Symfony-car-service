@@ -162,12 +162,15 @@ class RepairOrderController extends AbstractFOSRestController {
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      *
-     * @param int $id
+     * @param RepairOrder $ro
      *
      * @return Response
      */
-    public function getOne (int $id): Response {
-        $view = $this->view($this->getRO($id));
+    public function getOne (RepairOrder $ro): Response {
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
+        $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
         return $this->handleView($view);
@@ -176,9 +179,9 @@ class RepairOrderController extends AbstractFOSRestController {
     /**
      * @Rest\Post
      * @SWG\Response(
-     *     response="201",
+     *     response="200",
      *     description="Success!",
-     *     @SWG\Header(header="Location", type="string", description="URL of new RO")
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
@@ -203,14 +206,20 @@ class RepairOrderController extends AbstractFOSRestController {
 //            return new ValidationResponse($ro);
         }
         $this->helper->addRepairOrder($ro);
-        $url = $this->generateUrl('getRepairOrder', ['id' => $ro->getId()]);
 
-        return new Response(null, 201, ['Location' => $url]);
+        $view = $this->view($ro);
+        $view->getContext()->setGroups(RepairOrder::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**
      * @Rest\Put("/{id}")
-     * @SWG\Response(response="200", description="Success!")
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     * )
      * @SWG\Response(response="404", description="RO does not exist")
      * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
@@ -236,13 +245,15 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="waiverVerbiage", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
      *
-     * @param int     $id
-     * @param Request $req
+     * @param RepairOrder $ro
+     * @param Request     $req
      *
      * @return Response
      */
-    public function update (int $id, Request $req): Response {
-        $ro = $this->getRO($id);
+    public function update (RepairOrder $ro, Request $req): Response {
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
         $errors = $this->buildRO($req->request->all(), $ro);
         if (is_array($errors)) {
             return new JsonResponse($errors, 406); // TODO
@@ -250,7 +261,10 @@ class RepairOrderController extends AbstractFOSRestController {
         }
         $this->helper->updateRepairOrder($ro);
 
-        return new Response();
+        $view = $this->view($ro);
+        $view->getContext()->setGroups(RepairOrder::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -258,11 +272,14 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="RO does not exist")
      *
-     * @param int $id
+     * @param RepairOrder $ro
+     *
      * @return Response
      */
-    public function delete (int $id): Response {
-        $ro = $this->getRO($id);
+    public function delete (RepairOrder $ro): Response {
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
         $this->helper->deleteRepairOrder($ro);
 
         return new Response();
@@ -274,12 +291,14 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="400", description="RO is already archived")
      * @SWG\Response(response="404", description="RO does not exist")
      *
-     * @param int $id
+     * @param RepairOrder $ro
      *
      * @return Response
      */
-    public function archive (int $id): Response {
-        $ro = $this->getRO($id);
+    public function archive (RepairOrder $ro): Response {
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
         if ($ro->isArchived() === true) {
             return new Response(null, 400);
         }
@@ -294,27 +313,20 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="400", description="RO is already closed")
      * @SWG\Response(response="404", description="RO does not exist")
      *
-     * @param int $id
+     * @param RepairOrder $ro
      *
      * @return Response
      */
-    public function close (int $id): Response {
-        $ro = $this->getRO($id);
+    public function close (RepairOrder $ro): Response {
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
         if ($ro->isClosed() === true) {
             return new Response(null, 400);
         }
         $this->helper->closeRepairOrder($ro);
 
         return new Response();
-    }
-
-    private function getRO (int $id): RepairOrder {
-        $ro = $this->orders->find($id);
-        if (!$ro instanceof RepairOrder || $ro->getDeleted() === true) {
-            throw new NotFoundHttpException();
-        }
-
-        return $ro;
     }
 
     /**
