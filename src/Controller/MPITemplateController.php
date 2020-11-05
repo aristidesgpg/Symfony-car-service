@@ -45,6 +45,13 @@ class MPITemplateController extends AbstractFOSRestController {
      *     type="integer",
      *     description="The Number of Axles",
      * )
+     * @SWG\Parameter(
+     *     name="axleInfo",
+     *     in="formData",
+     *     required=true,
+     *     type="object",
+     *     description="The Number of Axles",
+     * )
      * 
      * @SWG\Response(
      *     response=200,
@@ -56,17 +63,18 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param MPITemplate            $mpiTemplate
      * @param Request                $request
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function editTemplate (MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em) {
-        $name = $request->get('name');
+    public function createTemplate (Request $request, EntityManagerInterface $em) {
+        $name     = $request->get('name');
+        $axles    = $request->get('axles');
+        $axleInfo = $request->get('axleInfo');
 
         //param is invalid
-        if (!$name) {
+        if (!$name || !$axles || !$axleInfo) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
