@@ -49,7 +49,7 @@ class MPITemplateFixture extends Fixture
     public function load(ObjectManager $manager)
     {
         //read a csv file
-        $filepath = $this->container->getParameter('csv_directory').'operationCode.csv';
+        $filepath = $this->container->getParameter('csv_directory').'MPITemplates.csv';
         $csv      = fopen($filepath, 'r');
 
         //load data from a csv file
@@ -77,13 +77,18 @@ class MPITemplateFixture extends Fixture
                 $manager->flush();
             }
             //insert if mpi item does not exist
-            $mpiItem = $this->mpiItemRepo->findOneByName($row[2]);
-            if(!$mpiItem){
-                $mpiItem = new MPIItem();
-                $mpiItem->setName($row[2])->setMpiInspectionGroupId($mpiGroup->getId());
-                $manager->persist($mpiItem);
-                $manager->flush();
+            $mpiItem = new MPIItem();
+            $mpiItem->setName($row[2])
+                    ->setMpiInspectionGroupId($mpiGroup->getId())
+                    ->setHasRange(intval($row[3]));
+            //if mpi item has range
+            if(intval($row[3])){
+                $mpiItem->setRangeMaximum(10)
+                        ->setRangeUnit("mm");
             }
+            $manager->persist($mpiItem);
+            $manager->flush();
+    
             
             $this->addReference('MPITemplate_' . $i, $mpiTemplate, $mpiGroup, $mpiItem);
         }
