@@ -99,7 +99,7 @@ class MPITemplateController extends AbstractFOSRestController {
      */
     public function deactivateTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
 
-        // delete template
+        // deactivate template
         $mpiTemplate->setActive(false);
 
         $em->persist($mpiTemplate);
@@ -135,7 +135,7 @@ class MPITemplateController extends AbstractFOSRestController {
      */
     public function deleteTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
 
-        // deactivate template
+        // delete template
         $mpiTemplate->setDeleted(true);
 
         $em->persist($mpiTemplate);
@@ -195,8 +195,11 @@ class MPITemplateController extends AbstractFOSRestController {
         }
 
         $mpiTemplate = $mpiTemplateRepo->findOneById($template);
-
-        // create template
+        //Check if MPI Template exists
+        if(!$mpiTemplate){
+            return $this->handleView($this->view('Invalid Template Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        // create group
         $inspectionGroup = new InspectionGroup();
         $inspectionGroup->setName($name)
                         ->setMpiTemplateId($mpiTemplate);
@@ -249,7 +252,7 @@ class MPITemplateController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        // update template
+        // update group
         $inspectionGroup->setName($name);
 
         $em->persist($inspectionGroup);
@@ -285,7 +288,7 @@ class MPITemplateController extends AbstractFOSRestController {
      */
     public function deactivateGroup (InspectionGroup $inspectionGroup, EntityManagerInterface $em) {
 
-        // delete template
+        // deactivate group
         $inspectionGroup->setActive(false);
 
         $em->persist($inspectionGroup);
@@ -294,7 +297,7 @@ class MPITemplateController extends AbstractFOSRestController {
         $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Deactivated');
 
         return $this->handleView($this->view([
-            'message' => ' MPI Template Deactivated'
+            'message' => ' MPI Group Deactivated'
         ], Response::HTTP_OK));
     }
 
@@ -321,7 +324,7 @@ class MPITemplateController extends AbstractFOSRestController {
      */
     public function deleteGroup (InspectionGroup $inspectionGroup, EntityManagerInterface $em) {
 
-        // delete template
+        // delete group
         $inspectionGroup->setDeleted(true);
 
         $em->persist($inspectionGroup);
@@ -381,7 +384,10 @@ class MPITemplateController extends AbstractFOSRestController {
         }
 
         $mpiGroup = $inspectionGroupRepo->findOneById($group);
-
+        //check if MPI Group exists
+        if(!$mpiGroup){
+            return $this->handleView($this->view('Invalid Group Parameter', Response::HTTP_BAD_REQUEST));
+        }
         // create item
         $mpiItem = new MPIItem();
         $mpiItem->setName($name)
@@ -435,7 +441,7 @@ class MPITemplateController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        // update template
+        // update Item
         $mpiItem->setName($name);
 
         $em->persist($mpiItem);
@@ -471,7 +477,7 @@ class MPITemplateController extends AbstractFOSRestController {
      */
     public function deleteItem (MPIItem $mpiItem, EntityManagerInterface $em) {
 
-        // delete template
+        // delete Item
         $mpiItem->setDeleted(true);
 
         $em->persist($mpiItem);
