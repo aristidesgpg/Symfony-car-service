@@ -452,4 +452,11 @@ class User implements UserInterface {
         // TODO: Implement eraseCredentials() method.
     }
 
+    /**
+     * @return bool
+     */
+    public function isTechnician () {
+        return in_array('ROLE_TECHNICIAN', $this->getRoles());
+    }
+
 }

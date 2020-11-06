@@ -99,13 +99,38 @@ class AuthenticationController extends AbstractFOSRestController {
         }
 
         // Standard login
-        if ($username) {
+        if ($username && $password) {
             /** @var User $user */
             $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $username]);
 
             // User was found
             if ($user) {
                 $isValid = $passwordEncoder->isPasswordValid($user, $password);
+
+                // But it was invalid
+                if (!$isValid) {
+                    goto INVALID;
+                }
+
+                // Successful regular user login
+                $tokenUsername = $user->getEmail();
+                goto TOKEN;
+            }
+        }
+
+        // Tech Pin login
+        if ($username && $pin) {
+            /** @var User $user */
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $username]);
+
+            // User was found
+            if ($user) {
+                // Validate if tech
+                if (!$user->isTechnician()) {
+                    goto INVALID;
+                }
+
+                $isValid = $pin === $user->getPin();
 
                 // But it was invalid
                 if (!$isValid) {
@@ -126,7 +151,7 @@ class AuthenticationController extends AbstractFOSRestController {
             }
 
             // Successful customer "login"
-            $tokenUsername = $repairOrder->getPrimaryCustomer();
+            $tokenUsername = $repairOrder->getPrimaryCustomer()->getPhone();
             goto TOKEN;
         }
 
@@ -149,7 +174,9 @@ class AuthenticationController extends AbstractFOSRestController {
             }
         }
 
-        // @TODO: Tech Pin login
+        // @TODO: WP Admin
+
+        // @TODO: WP iService Employee
 
         INVALID:
         return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
