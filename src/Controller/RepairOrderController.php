@@ -179,6 +179,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
+    // TODO: Replace customer param with customerPhone & customerName, lookup/create customer
     public function add (Request $req, RepairOrderHelper $helper): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
