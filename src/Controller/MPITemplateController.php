@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use App\Service\MPITemplateHelper;
+
 
 /**
  * Class MPITemplateController
@@ -39,17 +41,10 @@ class MPITemplateController extends AbstractFOSRestController {
      *     description="The Name of MPI Template",
      * )
      * @SWG\Parameter(
-     *     name="axles",
-     *     in="formData",
-     *     required=true,
-     *     type="integer",
-     *     description="The Number of Axles",
-     * )
-     * @SWG\Parameter(
      *     name="axleInfo",
      *     in="formData",
      *     required=true,
-     *     type="object",
+     *     type="string",
      *     description="The Number of Axles",
      * )
      * 
@@ -65,29 +60,74 @@ class MPITemplateController extends AbstractFOSRestController {
      *
      * @param Request                $request
      * @param EntityManagerInterface $em
+     * @param MPITemplateHelper      $mpiTemplateHelper
      *
      * @return Response
      */
-    public function createTemplate (Request $request, EntityManagerInterface $em) {
-        $name     = $request->get('name');
-        $axles    = $request->get('axles');
-        $axleInfo = $request->get('axleInfo');
-
-        //param is invalid
-        if (!$name || !$axles || !$axleInfo) {
+    public function createTemplate (Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper) {
+        $name          = $request->get('name');
+        $axleInfo      = $request->get('axleInfo');
+        //convert string to object
+        $obj           = json_decode($axleInfo);
+        $numberOfAxles = count((array)$obj);
+        //check if params are valid
+        if(!$name || !$axleInfo){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-
-        // update template
+        //create a new template
+        $mpiTemplate = new MPITemplate();
         $mpiTemplate->setName($name);
-
         $em->persist($mpiTemplate);
+
+        // create new Brakes configuration group and MPI items
+        $brakeConfiguration = new InspectionGroup();
+        $brakeConfiguration->setName("Brakes Configuration")
+                           ->setMpiTemplateId($mpiTemplate);
+        $em->persist($brakeConfiguration);
+
+        $tireConfiguration  = new InspectionGroup();
+        $tireConfiguration->setName("Tire Configuration")
+                          ->setMpiTemplateId($mpiTemplate);
+        $em->persist($tireConfiguration);
         $em->flush();
 
-        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
+        //create MPI Items
+        foreach($obj as $index=>$axle){
+            if($numberOfAxles == 2){
+                $itemPassenger = $index == "axle1" ? "Front Passenger" : "Rear Passenger";
+                $itemDriver    = $index == "axle1" ? "Front Driver" : "Rear Driver";
+                $itemNames = [$itemPassenger, $itemDriver];
+                //create brake items
+                $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
+                //craete tire items
+                if($axle->wheeles == 2){
+                    $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
+                }
+            }
+            else if($numberOfAxles > 2){
+                $itemPassenger = $index." - Passenger";
+                $itemDriver    = $index." - Driver";
+                $itemNames = [$itemPassenger, $itemDriver];
+                //create brake items
+                $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
+                //create tire items
+                if($axle->wheeles == 2){
+                    $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
+                }
+                else if($axle->wheeles == 4){
+                    $itemPassengerInner = $index." - Passenger Inner";
+                    $itemPassengerOuter = $index." - Passenger Outer";
+                    $itemDriverInner    = $index." - Driver Inner";
+                    $itemDriverOuter    = $index." - Driver Outer";
+                    $itemNames = [$itemPassengerInner, $itemPassengerOuter, $itemDriverInner, $itemDriverOuter];
 
+                    $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
+                }
+            }
+        }
+        
         return $this->handleView($this->view([
-            'message' => ' MPI Template Updated'
+            'message' => "MPI Template Created"
         ], Response::HTTP_OK));
     }
 
