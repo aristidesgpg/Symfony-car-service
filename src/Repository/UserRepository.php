@@ -41,7 +41,7 @@ class UserRepository extends ServiceEntityRepository {
     /**
      * @param String $role
      *
-     * @return QueryBuilder
+     * @return User[]
      */
     public function getUserByRole (string $role) {
         return $this->createQueryBuilder('u')
