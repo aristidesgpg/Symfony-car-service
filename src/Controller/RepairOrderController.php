@@ -3,9 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
-use App\Repository\CustomerRepository;
+use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
-use App\Repository\UserRepository;
 use App\Service\RepairOrderHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -24,29 +23,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @SWG\Tag(name="Repair Order")
  */
 class RepairOrderController extends AbstractFOSRestController {
-    private $helper;
-    private $orders;
-    private $customers;
-    private $users;
-
-    /**
-     * RepairOrderController constructor.
-     * @param RepairOrderHelper     $helper
-     * @param RepairOrderRepository $orders
-     * @param CustomerRepository    $customers
-     * @param UserRepository        $users
-     */
-    public function __construct (
-        RepairOrderHelper $helper,
-        RepairOrderRepository $orders,
-        CustomerRepository $customers,
-        UserRepository $users
-    ) {
-        $this->helper = $helper;
-        $this->orders = $orders;
-        $this->customers = $customers;
-        $this->users = $users;
-    }
+    use FalsyTrait;
 
     /**
      * @Rest\Get
@@ -99,12 +76,13 @@ class RepairOrderController extends AbstractFOSRestController {
      *     in="query"
      * )
      *
-     * @param Request $req
+     * @param Request               $req
+     * @param RepairOrderRepository $orders
      *
      * @return Response
      */
-    public function getAll (Request $req): Response {
-        $qb = $this->orders->createQueryBuilder('ro');
+    public function getAll (Request $req, RepairOrderRepository $orders): Response {
+        $qb = $orders->createQueryBuilder('ro');
         $qb->andWhere('ro.deleted = 0');
         if ($req->query->has('archived') && $this->paramToBool($req->query->get('archived'))) {
             $qb->andWhere('ro.archived = 1');
@@ -131,14 +109,15 @@ class RepairOrderController extends AbstractFOSRestController {
             if (!$req->query->has($key)) {
                 continue;
             }
-            $date = $this->formatDate($req->query->get($key));
-            if ($date !== null) {
-                $op = ($key === 'startDate') ? '>=' : '<=';
-                $qb->andWhere("ro.dateCreated {$op} :{$key}");
-                $params[$key] = $date;
-            } else {
+            try {
+                $date = (new \DateTime($req->query->get($key)))->format('Y-m-d\TH:i:s');
+            } catch (\Exception $e) {
                 $errors[$key] = 'Invalid date format';
+                continue;
             }
+            $op = ($key === 'startDate') ? '>=' : '<=';
+            $qb->andWhere("ro.dateCreated {$op} :{$key}");
+            $params[$key] = $date;
         }
         if (!empty($errors)) {
             return new JsonResponse($errors, 406); // TODO
@@ -195,17 +174,17 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="internal", type="boolean", in="formData")
      * @SWG\Parameter(name="note", type="string", in="formData")
      *
-     * @param Request $req
+     * @param Request           $req
+     * @param RepairOrderHelper $helper
      *
      * @return Response
      */
-    public function add (Request $req): Response {
-        $ro = $this->buildRO($req->request->all());
+    public function add (Request $req, RepairOrderHelper $helper): Response {
+        $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
             return new JsonResponse($ro, 406); // TODO
 //            return new ValidationResponse($ro);
         }
-        $this->helper->addRepairOrder($ro);
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -245,21 +224,21 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="waiverVerbiage", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
      *
-     * @param RepairOrder $ro
-     * @param Request     $req
+     * @param RepairOrder       $ro
+     * @param Request           $req
+     * @param RepairOrderHelper $helper
      *
      * @return Response
      */
-    public function update (RepairOrder $ro, Request $req): Response {
+    public function update (RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        $errors = $this->buildRO($req->request->all(), $ro);
-        if (is_array($errors)) {
+        $errors = $helper->updateRepairOrder($req->request->all(), $ro);
+        if (!empty($errors)) {
             return new JsonResponse($errors, 406); // TODO
 //            return new ValidationResponse($errors);
         }
-        $this->helper->updateRepairOrder($ro);
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -272,15 +251,16 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="RO does not exist")
      *
-     * @param RepairOrder $ro
+     * @param RepairOrder       $ro
+     * @param RepairOrderHelper $helper
      *
      * @return Response
      */
-    public function delete (RepairOrder $ro): Response {
+    public function delete (RepairOrder $ro, RepairOrderHelper $helper): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        $this->helper->deleteRepairOrder($ro);
+        $helper->deleteRepairOrder($ro);
 
         return new Response();
     }
@@ -291,18 +271,19 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="400", description="RO is already archived")
      * @SWG\Response(response="404", description="RO does not exist")
      *
-     * @param RepairOrder $ro
+     * @param RepairOrder       $ro
+     * @param RepairOrderHelper $helper
      *
      * @return Response
      */
-    public function archive (RepairOrder $ro): Response {
+    public function archive (RepairOrder $ro, RepairOrderHelper $helper): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
         if ($ro->isArchived() === true) {
             return new Response(null, 400);
         }
-        $this->helper->archiveRepairOrder($ro);
+        $helper->archiveRepairOrder($ro);
 
         return new Response();
     }
@@ -313,148 +294,20 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="400", description="RO is already closed")
      * @SWG\Response(response="404", description="RO does not exist")
      *
-     * @param RepairOrder $ro
+     * @param RepairOrder       $ro
+     * @param RepairOrderHelper $helper
      *
      * @return Response
      */
-    public function close (RepairOrder $ro): Response {
+    public function close (RepairOrder $ro, RepairOrderHelper $helper): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
         if ($ro->isClosed() === true) {
             return new Response(null, 400);
         }
-        $this->helper->closeRepairOrder($ro);
+        $helper->closeRepairOrder($ro);
 
         return new Response();
-    }
-
-    /**
-     * @param array            $params
-     * @param RepairOrder|null $ro
-     *
-     * @return RepairOrder|array Array on validation failure
-     */
-    private function buildRO (array $params, ?RepairOrder $ro = null) {
-        $errors = [];
-        if ($ro === null) {
-            $ro = new RepairOrder();
-            $required = ['customer', 'advisor', 'technician', 'number', 'startValue'];
-            foreach ($required as $k) {
-                if (!isset($params[$k]) || strlen($params[$k]) === 0) {
-                    $errors[$k] = 'Required field missing';
-                }
-            }
-        }
-        if (isset($params['customer'])) {
-            $customer = $this->customers->find($params['customer']);
-            if ($customer === null) {
-                $errors['customer'] = 'Customer not found';
-            } else {
-                $ro->setPrimaryCustomer($customer);
-            }
-        }
-        foreach (['advisor', 'technician'] as $k) {
-            if (!isset($params[$k]) || empty($params[$k])) {
-                continue;
-            }
-            $user = $this->users->find($params[$k]);
-            if ($user === null) {
-                $errors[$k] = ucfirst($k) . ' not found';
-                continue;
-            }
-            if ($k === 'advisor') {
-                $ro->setPrimaryAdvisor($user);
-            } else {
-                $ro->setPrimaryTechnician($user);
-            }
-        }
-        if (isset($params['number'])) {
-            if ($this->helper->isNumberUnique($params['number'])) {
-                $ro->setNumber($params['number']);
-            } else {
-                $errors['number'] = 'RO# already exists';
-            }
-        }
-        if (isset($params['startValue'])) {
-            $ro->setStartValue($params['startValue']);
-        }
-        if (isset($params['finalValue'])) {
-            $ro->setFinalValue($params['finalValue']);
-        }
-        if (isset($params['approvedValue'])) {
-            $ro->setApprovedValue($params['approvedValue']);
-        }
-        if (isset($params['waiter'])) {
-            $ro->setWaiter($this->paramToBool($params['waiter']));
-        }
-        if (isset($params['pickupDate'])) {
-            try {
-                $dt = new \DateTime($params['pickupDate']);
-                $ro->setPickupDate($dt);
-            } catch (\Exception $e) {
-                $errors['pickupDate'] = 'Invalid date format';
-            }
-        }
-        if (isset($params['year'])) {
-            $ro->setYear($params['year']);
-        }
-        if (isset($params['make'])) {
-            $ro->setMake($params['make']);
-        }
-        if (isset($params['model'])) {
-            $ro->setModel($params['model']);
-        }
-        if (isset($params['miles'])) {
-            $ro->setMiles($params['miles']);
-        }
-        if (isset($params['vin'])) {
-            $ro->setVin($params['vin']);
-        }
-        if (isset($params['internal'])) {
-            $ro->setInternal($this->paramToBool($params['internal']));
-        }
-        if (isset($params['dmsKey'])) {
-            $ro->setDmsKey($params['dmsKey']);
-        }
-        if (isset($params['waiver'])) {
-            $ro->setWaiver($params['waiver']);
-        }
-        if (isset($params['waiverVerbiage'])) {
-            $ro->setWaiverVerbiage($params['waiverVerbiage']);
-        }
-        if (isset($params['upgradeQue'])) {
-            $ro->setUpgradeQue($this->paramToBool($params['upgradeQue']));
-        }
-        if (isset($params['note'])) {
-            $ro->setNote($params['note']);
-        }
-        if (!empty($errors)) {
-            return $errors;
-        }
-
-        return $ro;
-    }
-
-    /**
-     * @param $param
-     *
-     * @return bool
-     */
-    private function paramToBool ($param): bool {      // TODO
-        return ($param !== 'false' && $param == true); // TODO
-    }                                                  // TODO
-
-    /**
-     * @param string $date
-     *
-     * @return string|null
-     */
-    private function formatDate (string $date): ?string {
-        try {
-            return (new \DateTime($date))->format('Y-m-d\TH:i:s');
-        } catch (\Exception $e) {
-            return null;
-        }
     }
 }
