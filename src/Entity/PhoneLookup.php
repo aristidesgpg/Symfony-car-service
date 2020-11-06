@@ -32,13 +32,16 @@ class PhoneLookup {
 
     /**
      * PhoneLookup constructor.
-     * @param PhoneNumberInstance $instance
+     * @param string                   $phoneNumber
+     * @param PhoneNumberInstance|null $instance
      */
-    public function __construct(PhoneNumberInstance $instance) {
-        $this->phoneNumber = $instance->phoneNumber;
-        $this->carrierName = $instance->carrier['name'];
-        $this->carrierType = $instance->carrier['type'];
+    public function __construct(string $phoneNumber, ?PhoneNumberInstance $instance = null) {
+        $this->phoneNumber = $phoneNumber;
         $this->created = new \DateTime();
+        if ($instance !== null) {
+            $this->carrierName = $instance->carrier['name'];
+            $this->carrierType = $instance->carrier['type'];
+        }
     }
 
     /**

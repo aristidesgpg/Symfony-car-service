@@ -90,10 +90,14 @@ class PhoneValidator {
     private function lookupNumber (string $phone): PhoneLookup {
         try {
             $instance = $this->twilio->lookups->v1->phoneNumbers($phone)->fetch(['type' => 'carrier']);
+            $lookup = new PhoneLookup($phone, $instance);
         } catch (TwilioException $e) {
-            throw new \RuntimeException('Caught twilio exception', 0, $e);
+            if ($e->getCode() === 20404) { // Technically a 404, can mean a bad/non-existent phone number
+                $lookup = new PhoneLookup($phone);
+            } else {
+                throw new \RuntimeException('Caught twilio exception', 0, $e);
+            }
         }
-        $lookup = new PhoneLookup($instance);
         $this->em->persist($lookup);
         $this->em->flush();
 
