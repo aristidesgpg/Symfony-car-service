@@ -202,11 +202,9 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="404", description="RO does not exist")
      * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
-     * @SWG\Parameter(name="customer", type="integer", in="formData")
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
      *
-     * @SWG\Parameter(name="number", type="string", in="formData")
      * @SWG\Parameter(name="startValue", type="number", in="formData")
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
      * @SWG\Parameter(name="internal", type="boolean", in="formData")
@@ -220,8 +218,6 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="miles", type="integer", in="formData")
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
-     * @SWG\Parameter(name="waiver", type="string", in="formData")
-     * @SWG\Parameter(name="waiverVerbiage", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
      *
      * @param RepairOrder       $ro
