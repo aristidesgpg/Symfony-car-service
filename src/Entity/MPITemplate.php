@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\MPITemplateRepository;
+use App\Repository\MpiTemplateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MPITemplateRepository::class)
+ * @ORM\Entity(repositoryClass=MpiTemplateRepository::class)
  */
-class MPITemplate
+class MpiTemplate
 {
     /**
      * @ORM\Id
@@ -35,13 +35,13 @@ class MPITemplate
     private $deleted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=InspectionGroup::class, mappedBy="mpiTemplateId")
+     * @ORM\OneToMany(targetEntity=MpiGroup::class, mappedBy="mpiTemplate")
      */
-    private $inspectionGroups;
+    private $mpiGroups;
 
     public function __construct()
     {
-        $this->inspectionGroups = new ArrayCollection();
+        $this->mpiGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,30 +86,30 @@ class MPITemplate
     }
 
     /**
-     * @return Collection|InspectionGroup[]
+     * @return Collection|MPIGroup[]
      */
-    public function getInspectionGroups(): Collection
+    public function getMPIGroups(): Collection
     {
-        return $this->inspectionGroups;
+        return $this->mpiGroups;
     }
 
-    public function addInspectionGroup(InspectionGroup $inspectionGroup): self
+    public function addMPIGroup(MpiGroup $mpiGroup): self
     {
-        if (!$this->inspectionGroups->contains($inspectionGroup)) {
-            $this->inspectionGroups[] = $inspectionGroup;
-            $inspectionGroup->setMpiTemplateId($this);
+        if (!$this->mpiGroups->contains($mpiGroup)) {
+            $this->mpiGroups[] = $mpiGroup;
+            $mpiGroup->setMpiTemplate($this);
         }
 
         return $this;
     }
 
-    public function removeInspectionGroup(InspectionGroup $inspectionGroup): self
+    public function removeMPIGroup(MpiGroup $mpiGroup): self
     {
-        if ($this->inspectionGroups->contains($inspectionGroup)) {
-            $this->inspectionGroups->removeElement($inspectionGroup);
+        if ($this->mpiGroups->contains($mpiGroup)) {
+            $this->mpiGroups->removeElement($mpiGroup);
             // set the owning side to null (unless already changed)
-            if ($inspectionGroup->getMpiTemplateId() === $this) {
-                $inspectionGroup->setMpiTemplateId(null);
+            if ($mpiGroup->getMpiTemplate() === $this) {
+                $mpiGroup->setMpiTemplate(null);
             }
         }
 

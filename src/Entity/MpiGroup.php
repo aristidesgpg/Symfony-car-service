@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\InspectionGroupRepository;
+use App\Repository\MpiGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=InspectionGroupRepository::class)
+ * @ORM\Entity(repositoryClass=MpiGroupRepository::class)
  */
-class InspectionGroup
+class MpiGroup
 {
     /**
      * @ORM\Id
@@ -20,10 +20,10 @@ class InspectionGroup
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MPITemplate::class, inversedBy="inspectionGroups")
+     * @ORM\ManyToOne(targetEntity=MpiTemplate::class, inversedBy="mpiGroups")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $mpiTemplateId;
+    private $mpiTemplate;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -41,7 +41,7 @@ class InspectionGroup
     private $deleted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=MPIItem::class, mappedBy="mpiInspectionGroupId")
+     * @ORM\OneToMany(targetEntity=MpiItem::class, mappedBy="mpiGroup")
      */
     private $mpiItems;
 
@@ -55,14 +55,14 @@ class InspectionGroup
         return $this->id;
     }
 
-    public function getMpiTemplateId(): ?MPITemplate
+    public function getMpiTemplate(): ?MpiTemplate
     {
-        return $this->mpiTemplateId;
+        return $this->mpiTemplate;
     }
 
-    public function setMpiTemplateId(?MPITemplate $mpiTemplateId): self
+    public function setMpiTemplate(?MpiTemplate $mpiTemplate): self
     {
-        $this->mpiTemplateId = $mpiTemplateId;
+        $this->mpiTemplate = $mpiTemplate;
 
         return $this;
     }
@@ -111,23 +111,23 @@ class InspectionGroup
         return $this->mpiItems;
     }
 
-    public function addMpiItem(MPIItem $mpiItem): self
+    public function addMpiItem(MpiItem $mpiItem): self
     {
         if (!$this->mpiItems->contains($mpiItem)) {
             $this->mpiItems[] = $mpiItem;
-            $mpiItem->setMpiInspectionGroupId($this);
+            $mpiItem->setMpiGroup($this);
         }
 
         return $this;
     }
 
-    public function removeMpiItem(MPIItem $mpiItem): self
+    public function removeMpiItem(MpiItem $mpiItem): self
     {
         if ($this->mpiItems->contains($mpiItem)) {
             $this->mpiItems->removeElement($mpiItem);
             // set the owning side to null (unless already changed)
-            if ($mpiItem->getMpiInspectionGroupId() === $this) {
-                $mpiItem->setMpiInspectionGroupId(null);
+            if ($mpiItem->getMpiGroup() === $this) {
+                $mpiItem->setMpiGroup(null);
             }
         }
 

@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MPIItemRepository;
+use App\Repository\MpiItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MPIItemRepository::class)
+ * @ORM\Entity(repositoryClass=MpiItemRepository::class)
  */
-class MPIItem
+class MpiItem
 {
     /**
      * @ORM\Id
@@ -18,10 +18,10 @@ class MPIItem
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=InspectionGroup::class, inversedBy="mpiItems")
+     * @ORM\ManyToOne(targetEntity=MpiGroup::class, inversedBy="mpiItems")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $mpiInspectionGroupId;
+    private $mpiGroup;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -53,14 +53,14 @@ class MPIItem
         return $this->id;
     }
 
-    public function getMpiInspectionGroupId(): ?InspectionGroup
+    public function getMpiGroup(): ?MpiGroup
     {
-        return $this->mpiInspectionGroupId;
+        return $this->mpiGroup;
     }
 
-    public function setMpiInspectionGroupId(?InspectionGroup $mpiInspectionGroupId): self
+    public function setMpiGroup(?MpiGroup $mpiGroup): self
     {
-        $this->mpiInspectionGroupId = $mpiInspectionGroupId;
+        $this->mpiGroup = $mpiGroup;
 
         return $this;
     }

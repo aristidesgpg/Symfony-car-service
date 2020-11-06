@@ -2,20 +2,20 @@
 
 namespace App\Service;
 
-use App\Entity\MPIItem;
-use App\Entity\InspectionGroup;
-use App\Repository\MPIItemRepository;
+use App\Entity\MpiItem;
+use App\Entity\MpiGroup;
+use App\Repository\MpiItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class MPITemplateHelper
+ * Class MpiTemplateHelper
  *
  * @package App\Service
  */
-class MPITemplateHelper {
+class MpiTemplateHelper {
 
     /**
-     * @var MPIItemRepository
+     * @var MpiItemRepository
      */
     private $mpiItemRepository;
 
@@ -25,25 +25,25 @@ class MPITemplateHelper {
     private $em;
 
     /**
-     * MPITemplateHelper constructor.
+     * MpiTemplateHelper constructor.
      *
-     * @param MPIItemRepository      $mpiItemRepository
+     * @param MpiItemRepository      $mpiItemRepository
      * @param EntityManagerInterface $em
      */
-    public function __construct (MPIItemRepository $mpiItemRepository, EntityManagerInterface $em) {
+    public function __construct (MpiItemRepository $mpiItemRepository, EntityManagerInterface $em) {
         $this->mpiItemRepository  = $mpiItemRepository;
         $this->em                 = $em;
     }
 
     /**
-     * @param String          $type
-     * @param Array           $names
-     * @param Object          $axle
-     * @param InspectionGroup $inspectionGroup
+     * @param String   $type
+     * @param Array    $names
+     * @param Object   $axle
+     * @param MpiGroup $mpiGroup
      *
      * @return boolean
      */
-    public function createMPIItems (String $type, Array $names, $axle, InspectionGroup $inspectionGroup) {
+    public function createMPIItems (String $type, Array $names, $axle, MpiGroup $mpiGroup) {
         if($type == "brake"){
             $rangeMax  = isset($axle->brakesRangeMaximum) ? $axle->brakesRangeMaximum : 0;
             $rangeUnit = isset($axle->brakesRangeUnit) ? $axle->brakesRangeUnit : "";
@@ -54,9 +54,9 @@ class MPITemplateHelper {
         }
 
         foreach($names as $name){
-            $mpiItem = new MPIItem();
+            $mpiItem = new MpiItem();
             $mpiItem->setName($name)
-                    ->setMpiInspectionGroupId($inspectionGroup)
+                    ->setMpiGroup($mpiGroup)
                     ->setHasRange(true)
                     ->setRangeMaximum($rangeMax)
                     ->setRangeUnit($rangeUnit);

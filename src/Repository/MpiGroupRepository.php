@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\InspectionGroup;
+use App\Entity\MpiGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method InspectionGroup|null find($id, $lockMode = null, $lockVersion = null)
- * @method InspectionGroup|null findOneBy(array $criteria, array $orderBy = null)
- * @method InspectionGroup[]    findAll()
- * @method InspectionGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MpiGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MpiGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MpiGroup[]    findAll()
+ * @method MpiGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class InspectionGroupRepository extends ServiceEntityRepository
+class MpiGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, InspectionGroup::class);
+        parent::__construct($registry, MpiGroup::class);
     }
 
     // /**
-    //  * @return InspectionGroup[] Returns an array of InspectionGroup objects
+    //  * @return MpiGroup[] Returns an array of MpiGroup objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class InspectionGroupRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?InspectionGroup
+    public function findOneBySomeField($value): ?MpiGroup
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.exampleField = :val')

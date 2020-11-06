@@ -2,12 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\MPITemplate;
-use App\Entity\InspectionGroup;
-use App\Entity\MPIItem;
-use App\Repository\MPITemplateRepository;
-use App\Repository\InspectionGroupRepository;
-use App\Repository\MPIItemRepository;
+use App\Entity\MpiTemplate;
+use App\Entity\MpiGroup;
+use App\Entity\MpiItem;
+use App\Repository\MpiTemplateRepository;
+use App\Repository\MpiGroupRepository;
+use App\Repository\MpiItemRepository;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -16,17 +16,36 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use App\Service\MPITemplateHelper;
+use App\Service\MpiTemplateHelper;
 
 
 /**
- * Class MPITemplateController
+ * Class MpiController
  *
  * @package App\Controller
  */
-class MPITemplateController extends AbstractFOSRestController {
+class MpiController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
     
+    /**
+     * @Rest\Get("/api/mpi-template")
+     *
+     * @SWG\Tag(name="MPI Template")
+     * @SWG\Get(description="Get All Templates")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return MPI Templates"
+     * )
+     * 
+     * @param MpiTemplateRepository $mpiTemplateRepository
+     *
+     * @return Response
+     */
+    public function getTemplates (MpiTemplateRepository $mpiTemplateRepository) {
+        return $this->handleView($this->view($mpiTemplateRepository->findBy(['deleted' => 0]), Response::HTTP_OK));
+    }
+
     /**
      * @Rest\Post("/api/mpi-template")
      *
@@ -60,11 +79,11 @@ class MPITemplateController extends AbstractFOSRestController {
      *
      * @param Request                $request
      * @param EntityManagerInterface $em
-     * @param MPITemplateHelper      $mpiTemplateHelper
+     * @param MpiTemplateHelper      $mpiTemplateHelper
      *
      * @return Response
      */
-    public function createTemplate (Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper) {
+    public function createTemplate (Request $request, EntityManagerInterface $em, MpiTemplateHelper $mpiTemplateHelper) {
         $name          = $request->get('name');
         $axleInfo      = $request->get('axleInfo');
         //convert string to object
@@ -75,19 +94,19 @@ class MPITemplateController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //create a new template
-        $mpiTemplate = new MPITemplate();
+        $mpiTemplate = new MpiTemplate();
         $mpiTemplate->setName($name);
         $em->persist($mpiTemplate);
 
         // create new Brakes configuration group and MPI items
-        $brakeConfiguration = new InspectionGroup();
+        $brakeConfiguration = new MpiGroup();
         $brakeConfiguration->setName("Brakes Configuration")
-                           ->setMpiTemplateId($mpiTemplate);
+                           ->setMpiTemplate($mpiTemplate);
         $em->persist($brakeConfiguration);
 
-        $tireConfiguration  = new InspectionGroup();
+        $tireConfiguration  = new MpiGroup();
         $tireConfiguration->setName("Tire Configuration")
-                          ->setMpiTemplateId($mpiTemplate);
+                          ->setMpiTemplate($mpiTemplate);
         $em->persist($tireConfiguration);
         $em->flush();
 
@@ -132,30 +151,6 @@ class MPITemplateController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Get("/api/mpi-template")
-     *
-     * @SWG\Tag(name="MPI Template")
-     * @SWG\Get(description="Get All Templates")
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Showed" }),
-     *         )
-     * )
-     * 
-     * @param MPITemplateRepository $mpiTemplateRepository
-     *
-     * @return Response
-     */
-    public function getTemplates (MPITemplateRepository $mpiTemplateRepository) {
-        return $this->handleView($this->view($mpiTemplateRepository->findBy(['deleted' => 0]), Response::HTTP_OK));
-    }
-
-    /**
      * @Rest\Put("/api/mpi-template/{id}")
      *
      * @SWG\Tag(name="MPI Template")
@@ -179,13 +174,13 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param MPITemplate            $mpiTemplate
+     * @param MpiTemplate            $mpiTemplate
      * @param Request                $request
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function editTemplate (MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em) {
+    public function editTemplate (MpiTemplate $mpiTemplate, Request $request, EntityManagerInterface $em) {
         $name = $request->get('name');
 
         //param is invalid
@@ -222,12 +217,12 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param MPITemplate            $mpiTemplate
+     * @param MpiTemplate            $mpiTemplate
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function deactivateTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
+    public function deactivateTemplate (MpiTemplate $mpiTemplate, EntityManagerInterface $em) {
 
         // deactivate template
         $mpiTemplate->setActive(false);
@@ -258,12 +253,12 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param MPITemplate            $mpiTemplate
+     * @param MpiTemplate            $mpiTemplate
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function deleteTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
+    public function deleteTemplate (MpiTemplate $mpiTemplate, EntityManagerInterface $em) {
 
         // delete template
         $mpiTemplate->setDeleted(true);
@@ -310,12 +305,12 @@ class MPITemplateController extends AbstractFOSRestController {
      * )
      *
      * @param Request                $request
-     * @param MPITemplateRepository  $mpiTemplateRepo
+     * @param MpiTemplateRepository  $mpiTemplateRepo
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function createGroup (Request $request, MPITemplateRepository  $mpiTemplateRepo, EntityManagerInterface $em) {
+    public function createGroup (Request $request, MpiTemplateRepository  $mpiTemplateRepo, EntityManagerInterface $em) {
         $template = $request->get('template');
         $name     = $request->get('name');
 
@@ -324,20 +319,20 @@ class MPITemplateController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $mpiTemplate = $mpiTemplateRepo->findOneById($template);
+        $mpiTemplate = $mpiTemplateRepo->findOneBy($template);
         //Check if MPI Template exists
         if(!$mpiTemplate){
             return $this->handleView($this->view('Invalid Template Parameter', Response::HTTP_BAD_REQUEST));
         }
         // create group
-        $inspectionGroup = new InspectionGroup();
-        $inspectionGroup->setName($name)
-                        ->setMpiTemplateId($mpiTemplate);
+        $mpiGroup = new MpiGroup();
+        $mpiGroup->setName($name)
+                        ->setMpiTemplate($mpiTemplate);
 
-        $em->persist($inspectionGroup);
+        $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Created');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Created');
 
         return $this->handleView($this->view([
             'message' => ' MPI Group Created'
@@ -368,13 +363,13 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param InspectionGroup        $inspectionGroup
+     * @param MpiGroup        $mpiGroup
      * @param Request                $request
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function editGroup (InspectionGroup $inspectionGroup, Request $request, EntityManagerInterface $em) {
+    public function editGroup (MpiGroup $mpiGroup, Request $request, EntityManagerInterface $em) {
         $name = $request->get('name');
 
         //param is invalid
@@ -383,12 +378,12 @@ class MPITemplateController extends AbstractFOSRestController {
         }
 
         // update group
-        $inspectionGroup->setName($name);
+        $mpiGroup->setName($name);
 
-        $em->persist($inspectionGroup);
+        $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Updated');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Updated');
 
         return $this->handleView($this->view([
             'message' => ' MPI Group Updated'
@@ -411,20 +406,20 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param InspectionGroup        $inspectionGroup
+     * @param MpiGroup        $mpiGroup
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function deactivateGroup (InspectionGroup $inspectionGroup, EntityManagerInterface $em) {
+    public function deactivateGroup (MpiGroup $mpiGroup, EntityManagerInterface $em) {
 
         // deactivate group
-        $inspectionGroup->setActive(false);
+        $mpiGroup->setActive(false);
 
-        $em->persist($inspectionGroup);
+        $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Deactivated');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deactivated');
 
         return $this->handleView($this->view([
             'message' => ' MPI Group Deactivated'
@@ -447,20 +442,20 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param InspectionGroup        $inspectionGroup
+     * @param MpiGroup        $mpiGroup
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function deleteGroup (InspectionGroup $inspectionGroup, EntityManagerInterface $em) {
+    public function deleteGroup (MpiGroup $mpiGroup, EntityManagerInterface $em) {
 
         // delete group
-        $inspectionGroup->setDeleted(true);
+        $mpiGroup->setDeleted(true);
 
-        $em->persist($inspectionGroup);
+        $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $inspectionGroup->getName() . '" Has Been Deleted');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deleted');
 
         return $this->handleView($this->view([
             'message' => ' MPI Group Deleted'
@@ -499,12 +494,12 @@ class MPITemplateController extends AbstractFOSRestController {
      * )
      *
      * @param Request                    $request
-     * @param InspectionGroupRepository  $inspectionGroupRepository
+     * @param MpiGroupRepository  $mpiGroupRepository
      * @param EntityManagerInterface     $em
      *
      * @return Response
      */
-    public function createItem (Request $request, InspectionGroupRepository  $inspectionGroupRepo, EntityManagerInterface $em) {
+    public function createItem (Request $request, MpiGroupRepository  $mpiGroupRepo, EntityManagerInterface $em) {
         $group = $request->get('group');
         $name  = $request->get('name');
 
@@ -513,15 +508,15 @@ class MPITemplateController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $mpiGroup = $inspectionGroupRepo->findOneById($group);
+        $mpiGroup = $mpiGroupRepo->findOneBy($group);
         //check if MPI Group exists
         if(!$mpiGroup){
             return $this->handleView($this->view('Invalid Group Parameter', Response::HTTP_BAD_REQUEST));
         }
         // create item
-        $mpiItem = new MPIItem();
+        $mpiItem = new MpiItem();
         $mpiItem->setName($name)
-                        ->setMpiInspectionGroupId($mpiGroup);
+                        ->setMpiMPIGroup($mpiGroup);
 
         $em->persist($mpiItem);
         $em->flush();
@@ -557,13 +552,13 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param MPIItem                $mpiItem
+     * @param MpiItem                $mpiItem
      * @param Request                $request
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function editItem (MPIItem $mpiItem, Request $request, EntityManagerInterface $em) {
+    public function editItem (MpiItem $mpiItem, Request $request, EntityManagerInterface $em) {
         $name = $request->get('name');
 
         //param is invalid
@@ -600,12 +595,12 @@ class MPITemplateController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param MPIItem                $mpiItem
+     * @param MpiItem                $mpiItem
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function deleteItem (MPIItem $mpiItem, EntityManagerInterface $em) {
+    public function deleteItem (MpiItem $mpiItem, EntityManagerInterface $em) {
 
         // delete Item
         $mpiItem->setDeleted(true);

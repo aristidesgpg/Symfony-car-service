@@ -5,14 +5,14 @@ namespace App\DataFixtures;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
-use App\Entity\MPITemplate;
-use App\Entity\InspectionGroup;
-use App\Entity\MPIItem;
-use App\Repository\MPITemplateRepository;
-use App\Repository\InspectionGroupRepository;
-use App\Repository\MPIItemRepository;
+use App\Entity\MpiTemplate;
+use App\Entity\MpiGroup;
+use App\Entity\MpiItem;
+use App\Repository\MpiTemplateRepository;
+use App\Repository\MpiGroupRepository;
+use App\Repository\MpiItemRepository;
 
-class MPITemplateFixture extends Fixture
+class MpiTemplateFixture extends Fixture
 {
     /**
      * @var Container
@@ -20,17 +20,17 @@ class MPITemplateFixture extends Fixture
     private $container;
 
     /**
-     * @var MPITemplateRepository
+     * @var MpiTemplateRepository
      */
     private $mpiTemplateRepo;
 
     /**
-     * @var InspectionGroupRepository
+     * @var MpiGroupRepository
      */
-    private $inspectionGroupRepo;
+    private $mpiGroupRepo;
 
     /**
-     * @var MPIItemRepository
+     * @var MpiItemRepository
      */
     private $mpiItemRepo;
 
@@ -39,11 +39,11 @@ class MPITemplateFixture extends Fixture
      *
      * @param Container $container
      */
-    public function __construct (Container $container, MPITemplateRepository $mpiTemplateRepo, InspectionGroupRepository $inspectionGroupRepo, MPIItemRepository $mpiItemRepo) {
-        $this->container           = $container;
-        $this->mpiTemplateRepo     = $mpiTemplateRepo;
-        $this->inspectionGroupRepo = $inspectionGroupRepo;
-        $this->mpiItemRepo         = $mpiItemRepo;
+    public function __construct (Container $container, MpiTemplateRepository $mpiTemplateRepo, MpiGroupRepository $mpiGroupRepo, MpiItemRepository $mpiItemRepo) {
+        $this->container       = $container;
+        $this->mpiTemplateRepo = $mpiTemplateRepo;
+        $this->mpiGroupRepo    = $mpiGroupRepo;
+        $this->mpiItemRepo     = $mpiItemRepo;
     }
 
     public function load(ObjectManager $manager)
@@ -63,23 +63,23 @@ class MPITemplateFixture extends Fixture
             //insert if mpi template does not exist
             $mpiTemplate = $this->mpiTemplateRepo->findOneByName($row[0]);
             if(!$mpiTemplate){
-                $mpiTemplate = new MPITemplate();
+                $mpiTemplate = new MpiTemplate();
                 $mpiTemplate->setName($row[0]);
                 $manager->persist($mpiTemplate);
                 $manager->flush();
             }
             //insert if mpi group does not exist
-            $mpiGroup = $this->inspectionGroupRepo->findOneByName($row[1]);
+            $mpiGroup = $this->mpiGroupRepo->findOneByName($row[1]);
             if(!$mpiGroup){
-                $mpiGroup = new InspectionGroup();
-                $mpiGroup->setName($row[1])->setMpiTemplateId($mpiTemplate);
+                $mpiGroup = new MpiGroup();
+                $mpiGroup->setName($row[1])->setMpiTemplate($mpiTemplate);
                 $manager->persist($mpiGroup);
                 $manager->flush();
             }
             //insert if mpi item does not exist
-            $mpiItem = new MPIItem();
+            $mpiItem = new MpiItem();
             $mpiItem->setName($row[2])
-                    ->setMpiInspectionGroupId($mpiGroup)
+                    ->setMpiGroup($mpiGroup)
                     ->setHasRange(intval($row[3]));
             //if mpi item has range
             if(intval($row[3])){
