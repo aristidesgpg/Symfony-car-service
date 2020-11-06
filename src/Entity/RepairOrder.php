@@ -34,7 +34,6 @@ class RepairOrder {
      * @var User
      *
      * @ORM\ManyToOne (targetEntity="App\Entity\User", inversedBy="technicianRepairOrders")
-     * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups(groups={"ro_list"})
      */
     private $primaryTechnician;
@@ -110,7 +109,7 @@ class RepairOrder {
      * @ORM\Column(type="boolean")
      * @Serializer\Groups(groups={"ro_list"})
      */
-    private $waiter;
+    private $waiter = true;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
