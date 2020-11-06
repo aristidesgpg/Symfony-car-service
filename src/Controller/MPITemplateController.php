@@ -132,6 +132,30 @@ class MPITemplateController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Get("/api/mpi-template")
+     *
+     * @SWG\Tag(name="MPI Template")
+     * @SWG\Get(description="Get All Templates")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Showed" }),
+     *         )
+     * )
+     * 
+     * @param MPITemplateRepository $mpiTemplateRepository
+     *
+     * @return Response
+     */
+    public function getTemplates (MPITemplateRepository $mpiTemplateRepository) {
+        return $this->handleView($this->view($mpiTemplateRepository->findBy(['deleted' => 0]), Response::HTTP_OK));
+    }
+
+    /**
      * @Rest\Put("/api/mpi-template/{id}")
      *
      * @SWG\Tag(name="MPI Template")
