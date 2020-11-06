@@ -83,8 +83,9 @@ class MPITemplateFixture extends Fixture
                     ->setHasRange(intval($row[3]));
             //if mpi item has range
             if(intval($row[3])){
+                $rangeUnit = $row[1] == "Brakes" ? "mm" : ($row[1] == "brake" ? "s" : "");
                 $mpiItem->setRangeMaximum(10)
-                        ->setRangeUnit("mm");
+                        ->setRangeUnit($rangeUnit);
             }
             $manager->persist($mpiItem);
             $manager->flush();

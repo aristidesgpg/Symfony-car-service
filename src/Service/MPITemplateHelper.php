@@ -56,10 +56,10 @@ class MPITemplateHelper {
         foreach($names as $name){
             $mpiItem = new MPIItem();
             $mpiItem->setName($name)
-                                ->setMpiInspectionGroupId($inspectionGroup)
-                                ->setHasRange(true)
-                                ->setRangeMaximum($rangeMax)
-                                ->setRangeUnit($rangeUnit);
+                    ->setMpiInspectionGroupId($inspectionGroup)
+                    ->setHasRange(true)
+                    ->setRangeMaximum($rangeMax)
+                    ->setRangeUnit($rangeUnit);
             $this->em->persist($mpiItem);
         }
         $this->em->flush();
