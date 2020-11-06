@@ -164,12 +164,12 @@ class RepairOrderController extends AbstractFOSRestController {
      * )
      * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
-     * @SWG\Parameter(name="customer", type="integer", in="formData", required=true)
-     * @SWG\Parameter(name="advisor", type="integer", in="formData", required=true)
-     * @SWG\Parameter(name="technician", type="integer", in="formData", required=true)
+     * @SWG\Parameter(name="customer", type="integer", in="formData", required=true) TODO
+     * @SWG\Parameter(name="advisor", type="integer", in="formData")
+     * @SWG\Parameter(name="technician", type="integer", in="formData")
      *
      * @SWG\Parameter(name="number", type="string", in="formData", required=true)
-     * @SWG\Parameter(name="startValue", type="number", in="formData", required=true)
+     * @SWG\Parameter(name="startValue", type="number", in="formData")
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
      * @SWG\Parameter(name="internal", type="boolean", in="formData")
      * @SWG\Parameter(name="note", type="string", in="formData")

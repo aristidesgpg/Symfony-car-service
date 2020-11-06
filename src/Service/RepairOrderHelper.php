@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\RepairOrder;
+use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\CustomerRepository;
@@ -59,7 +60,7 @@ class RepairOrderHelper {
      */
     public function addRepairOrder (array $params) {
         $errors = [];
-        $required = ['customer', 'advisor', 'technician', 'number', 'startValue'];
+        $required = ['customer', 'number']; // TODO: s/customer/customerName & customerPhone/
         foreach ($required as $k) {
             if (!isset($params[$k]) || strlen($params[$k]) === 0) {
                 $errors[$k] = 'Required field missing';
@@ -72,6 +73,14 @@ class RepairOrderHelper {
         }
         if ($ro->getLinkHash() === null) {
             $ro->setLinkHash($this->generateLinkHash($ro->getDateCreated()->format('c')));
+        }
+        if ($ro->getPrimaryAdvisor() === null) {
+            $advisors = $this->users->getUserByRole('ROLE_SERVICE_ADVISOR');
+            $advisor = $advisors[0] ?? null;
+            if (!$advisor instanceof User) {
+                throw new \RuntimeException('Could not find advisor');
+            }
+            $ro->setPrimaryAdvisor($advisor);
         }
         $this->em->persist($ro);
         $this->commitRepairOrder();
