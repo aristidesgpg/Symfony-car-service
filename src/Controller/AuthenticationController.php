@@ -7,6 +7,7 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderRepository;
 use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
+use App\Service\WordpressLogin;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -82,12 +83,14 @@ class AuthenticationController extends AbstractFOSRestController {
      * @param RepairOrderRepository        $repairOrderRepository
      * @param SettingsHelper               $settingsHelper
      * @param PasswordHelper               $passwordHelper
+     * @param WordpressLogin               $wordpressLogin
      *
      * @return Response
      */
     public function authenticateAction (Request $request, UserPasswordEncoderInterface $passwordEncoder,
                                         JWTEncoderInterface $JWTEncoder, RepairOrderRepository $repairOrderRepository,
-                                        SettingsHelper $settingsHelper, PasswordHelper $passwordHelper) {
+                                        SettingsHelper $settingsHelper, PasswordHelper $passwordHelper,
+                                        WordpressLogin $wordpressLogin) {
         $username      = $request->get('username');  // tperson@iserviceauto.com
         $password      = $request->get('password');  // test
         $linkHash      = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
@@ -174,9 +177,23 @@ class AuthenticationController extends AbstractFOSRestController {
             }
         }
 
-        // @TODO: WP Admin
+        // WP admin
+        if ($username && $password) {
+            // First try dealer
+            $dealerResponse = $wordpressLogin->validateUserPassword($username, $password);
 
-        // @TODO: WP iService Employee
+            if ($dealerResponse) {
+                $tokenUsername = 'dealer';
+                goto TOKEN;
+            }
+
+            // Now try iService agent
+//            $agentResponse = $wordpressLogin->validateUserPassword($username, $password, false);
+//            if ($agentResponse) {
+//                $tokenUsername = 'iservice';
+//                goto TOKEN;
+//            }
+        }
 
         INVALID:
         return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
