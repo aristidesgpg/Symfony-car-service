@@ -259,7 +259,9 @@ class RepairOrderController extends AbstractFOSRestController {
         }
         $helper->deleteRepairOrder($ro);
 
-        return new Response();
+        return $this->handleView($this->view([
+            'message' => 'RO Deleted',
+        ]));
     }
 
     /**
@@ -282,7 +284,9 @@ class RepairOrderController extends AbstractFOSRestController {
         }
         $helper->archiveRepairOrder($ro);
 
-        return new Response();
+        return $this->handleView($this->view([
+            'message' => 'RO Archived',
+        ]));
     }
 
     /**
@@ -305,6 +309,8 @@ class RepairOrderController extends AbstractFOSRestController {
         }
         $helper->closeRepairOrder($ro);
 
-        return new Response();
+        return $this->handleView($this->view([
+            'message' => 'RO Closed',
+        ]));
     }
 }
