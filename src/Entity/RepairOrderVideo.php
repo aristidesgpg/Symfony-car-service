@@ -40,7 +40,7 @@ class RepairOrderVideo {
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Serializer\Groups(groups={"rov_list"}}
+     * @Serializer\Groups(groups={"rov_list"})
      */
     private $status = 'Created';
 
