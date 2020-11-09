@@ -478,6 +478,9 @@
     "symfony/polyfill-php80": {
         "version": "v1.18.1"
     },
+    "symfony/process": {
+        "version": "v4.4.16"
+    },
     "symfony/property-access": {
         "version": "v4.4.13"
     },
