@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Process\Process;
 
 /**
  * Class UploadHelper
@@ -24,20 +26,20 @@ class UploadHelper {
     }
 
     /**
-     * @param UploadedFile $file
+     * @param File $file
      *
      * @return bool
      */
-    public function isValidImage (UploadedFile $file): bool {
+    public function isValidImage (File $file): bool {
         return $this->isValid($file, self::VALID_IMAGE_EXTENSIONS);
     }
 
     /**
-     * @param UploadedFile $file
+     * @param File $file
      *
      * @return bool
      */
-    public function isValidVideo (UploadedFile $file): bool {
+    public function isValidVideo (File $file): bool {
         return $this->isValid($file, self::VALID_VIDEO_EXTENSIONS);
     }
 
@@ -70,6 +72,36 @@ class UploadHelper {
     }
 
     /**
+     * @param File $file
+     *
+     * @return File
+     */
+    public function compressVideo (File $file): File {
+        if (!$this->isValidVideo($file)) {
+            throw new \InvalidArgumentException(sprintf('%s is not a valid video format', $file->getFilename()));
+        }
+        $newName = md5(uniqid() . time()) . '.mp4';
+        $newPath = $file->getPath() . '/' . $newName;
+        $process = new Process([
+            'ffmpeg',
+            '-i',
+            $file->getRealPath(),
+            '-vf',
+            'scale=320:240',
+            '-strict',
+            '-2',
+            $newPath,
+        ]);
+        $exit = $process->run();
+        if ($exit !== 0 || !file_exists($newPath)) {
+            throw new \RuntimeException('Could not compress video');
+        }
+        $newFile = new File($newPath);
+
+        return $newFile->move($file->getPath(), $file->getFilename());
+    }
+
+    /**
      * @param string $dir
      *
      * @return string
@@ -79,21 +111,21 @@ class UploadHelper {
     }
 
     /**
-     * @param UploadedFile $file
-     * @param array        $extensions
+     * @param File  $file
+     * @param array $extensions
      *
      * @return bool
      */
-    private function isValid (UploadedFile $file, array $extensions): bool {
+    private function isValid (File $file, array $extensions): bool {
         return in_array($this->getExtension($file), $extensions);
     }
 
     /**
-     * @param UploadedFile $file
+     * @param File $file
      *
      * @return string
      */
-    private function getExtension (UploadedFile $file): string {
+    private function getExtension (File $file): string {
         return $file->guessExtension();
     }
 }
