@@ -6,6 +6,7 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class VideoHelper {
@@ -47,6 +48,8 @@ class VideoHelper {
 
         $this->em->persist($video);
         $this->em->flush();
+
+        $this->upload->compressVideo(new File($path)); // FIXME: Defer compression to KernelEvents::TERMINATE?
 
         return $video;
     }
