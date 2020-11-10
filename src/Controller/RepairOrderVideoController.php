@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
+use App\Entity\User;
 use App\Service\VideoHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -82,7 +84,12 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         if (!$file instanceof UploadedFile) {
             return new JsonResponse(['msg' => 'File not found'], 406);
         }
-        $video = $helper->createVideo($ro, $file);
+        $user = $this->getUser();
+        if (!$user instanceof User || $user->getId() === null) {
+            $user = null;
+        }
+        $video = $helper->createVideo($ro, $file, $user);
+
         $view = $this->view($video);
         $view->getContext()->setGroups(RepairOrderVideo::GROUPS);
 
@@ -126,6 +133,75 @@ class RepairOrderVideoController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
         $helper->deleteVideo($video);
+
+        return new Response();
+    }
+
+    /**
+     * @Rest\Post("/{video}/view")
+     * @SWG\Response(response="200", description="Success!")
+     *
+     * @param RepairOrder      $ro
+     * @param RepairOrderVideo $video
+     * @param VideoHelper      $helper
+     *
+     * @return Response
+     */
+    public function viewVideo(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response {
+        if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+        $user = $this->getUser();
+        if (!$user instanceof Customer && !$user instanceof User) {
+            // TODO
+        }
+        $helper->viewVideo($video, $user);
+
+        return new Response();
+    }
+
+    /**
+     * @Rest\Post("/{video}/approve")
+     * @SWG\Response(response="200", description="Success!")
+     *
+     * @param RepairOrder      $ro
+     * @param RepairOrderVideo $video
+     * @param VideoHelper      $helper
+     *
+     * @return Response
+     */
+    public function approveVideo(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response {
+        if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            // TODO
+        }
+        $helper->approveVideo($video, $user);
+
+        return new Response();
+    }
+
+    /**
+     * @Rest\Post("/{video}/confirm")
+     * @SWG\Response(response="200", description="Success!")
+     *
+     * @param RepairOrder      $ro
+     * @param RepairOrderVideo $video
+     * @param VideoHelper      $helper
+     *
+     * @return Response
+     */
+    public function confirmViewed(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response {
+        if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            // TODO
+        }
+        $helper->confirmViewed($video, $user);
 
         return new Response();
     }

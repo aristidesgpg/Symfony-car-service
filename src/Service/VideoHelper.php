@@ -2,8 +2,10 @@
 
 namespace App\Service;
 
+use App\Entity\Customer;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
+use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\File;
@@ -40,16 +42,27 @@ class VideoHelper {
         $path = $this->upload->upload($file, 'ro-videos');
         $video = new RepairOrderVideo();
         $video->setRepairOrder($ro)
-              ->setPath($path); // TODO
+              ->setPath($this->upload->pathToRelativeUrl($path)); // TODO: Add hostname
         if ($tech !== null) {
             $video->setTechnician($tech);
         }
+        $video->setRepairOrder($ro);
+        $interaction = new RepairOrderVideoInteraction();
+        $interaction->setType('Created')
+                    ->setRepairOrderVideo($video);
+        $video->addInteraction($interaction);
         $ro->addVideo($video);
+        $ro->updateVideoStatus();
 
         $this->em->persist($video);
         $this->em->flush();
 
         $this->upload->compressVideo(new File($path)); // FIXME: Defer compression to KernelEvents::TERMINATE?
+//        if ($approvalRequired) {
+//
+//        } else {
+            $this->sendVideo($video);
+//        }
 
         return $video;
     }
@@ -63,6 +76,76 @@ class VideoHelper {
         }
 
         $video->setDeleted(true);
+        $this->em->flush();
+    }
+
+    public function sendVideo(RepairOrderVideo $video): void {
+//        $code = $this->shortcode->generateShortcode('');
+//        $video->setShortcode($code);
+//        $this->shortcode->sendShortenedLink('', $code, true);
+
+        $interaction = new RepairOrderVideoInteraction();
+        $interaction->setType('Customer Sent')
+                    ->setRepairOrderVideo($video);
+        $video->addInteraction($interaction);
+        $video->getRepairOrder()->updateVideoStatus();
+
+        $this->em->flush();
+    }
+
+    /**
+     * @param RepairOrderVideo $video
+     * @param Customer|User    $user
+     */
+    public function viewVideo(RepairOrderVideo $video, $user): void {
+        $interaction = new RepairOrderVideoInteraction();
+        if ($user instanceof Customer) {
+            $type = 'Customer Viewed';
+            $interaction->setCustomer($user);
+        } elseif ($user instanceof User) {
+            $type = 'Advisor Viewed';
+            $interaction->setUser($user);
+        } else {
+            throw new \InvalidArgumentException(sprintf('Invalid type for $user: %s', get_class($user)));
+        }
+
+        $interaction->setRepairOrderVideo($video)
+                    ->setType($type);
+        $video->addInteraction($interaction);
+        $video->getRepairOrder()->updateVideoStatus();
+
+        $this->em->flush();
+    }
+
+    /**
+     * @param RepairOrderVideo $video
+     * @param User             $user
+     */
+    public function approveVideo(RepairOrderVideo $video, User $user): void {
+        $interaction = new RepairOrderVideoInteraction();
+        $interaction->setRepairOrderVideo($video)
+                    ->setUser($user)
+                    ->setType('Advisor Approved');
+        $video->addInteraction($interaction);
+        $video->getRepairOrder()->updateVideoStatus();
+
+        $this->em->flush();
+
+        $this->sendVideo($video);
+    }
+
+    /**
+     * @param RepairOrderVideo $video
+     * @param User             $user
+     */
+    public function confirmViewed(RepairOrderVideo $video, User $user): void {
+        $interaction = new RepairOrderVideoInteraction();
+        $interaction->setRepairOrderVideo($video)
+                    ->setUser($user)
+                    ->setType('Advisor Confirmed Viewed');
+        $video->addInteraction($interaction);
+        $video->getRepairOrder()->updateVideoStatus();
+
         $this->em->flush();
     }
 }
