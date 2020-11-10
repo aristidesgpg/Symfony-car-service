@@ -10,7 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Entity
  */
 class RepairOrderVideo {
-    public const GROUPS = ['rov_list'];
+    public const GROUPS   = ['rov_list'];
     public const STATUSES = [
         0 => 'Created',
         1 => 'Awaiting Approval',

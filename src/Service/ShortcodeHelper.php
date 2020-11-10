@@ -5,12 +5,12 @@ namespace App\Service;
 use App\Controller\SettingsController;
 
 class ShortcodeHelper {
-    public const MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
-    private const ENDPOINT = 'http://isre.us/api/create-short-url';
+    public const  MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
+    private const ENDPOINT        = 'http://isre.us/api/create-short-url';
 
     private $accessToken;
 
-    public function __construct(string $accessToken) {
+    public function __construct (string $accessToken) {
         $this->accessToken = $accessToken;
     }
 

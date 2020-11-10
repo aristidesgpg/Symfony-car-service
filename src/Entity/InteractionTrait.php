@@ -38,7 +38,7 @@ trait InteractionTrait {
      */
     private $date;
 
-    public function __construct() {
+    public function __construct () {
         $this->date = new \DateTime();
     }
 

@@ -23,8 +23,8 @@ class VideoHelper {
      * @param EntityManagerInterface $em
      * @param UploadHelper           $upload
      */
-    public function __construct(EntityManagerInterface $em, UploadHelper $upload) {
-        $this->em = $em;
+    public function __construct (EntityManagerInterface $em, UploadHelper $upload) {
+        $this->em     = $em;
         $this->upload = $upload;
     }
 
@@ -35,11 +35,11 @@ class VideoHelper {
      *
      * @return RepairOrderVideo
      */
-    public function createVideo(RepairOrder $ro, UploadedFile $file, ?User $tech = null): RepairOrderVideo {
+    public function createVideo (RepairOrder $ro, UploadedFile $file, ?User $tech = null): RepairOrderVideo {
         if (!$this->upload->isValidVideo($file)) {
             throw new \InvalidArgumentException('Invalid file format');
         }
-        $path = $this->upload->upload($file, 'ro-videos');
+        $path  = $this->upload->upload($file, 'ro-videos');
         $video = new RepairOrderVideo();
         $video->setRepairOrder($ro)
               ->setPath($this->upload->pathToRelativeUrl($path)); // TODO: Add hostname
@@ -70,7 +70,7 @@ class VideoHelper {
     /**
      * @param RepairOrderVideo $video
      */
-    public function deleteVideo(RepairOrderVideo $video): void {
+    public function deleteVideo (RepairOrderVideo $video): void {
         if ($video->isDeleted()) {
             throw new \InvalidArgumentException('Video already deleted');
         }
@@ -79,7 +79,7 @@ class VideoHelper {
         $this->em->flush();
     }
 
-    public function sendVideo(RepairOrderVideo $video): void {
+    public function sendVideo (RepairOrderVideo $video): void {
 //        $code = $this->shortcode->generateShortcode('');
 //        $video->setShortcode($code);
 //        $this->shortcode->sendShortenedLink('', $code, true);
@@ -97,7 +97,7 @@ class VideoHelper {
      * @param RepairOrderVideo $video
      * @param Customer|User    $user
      */
-    public function viewVideo(RepairOrderVideo $video, $user): void {
+    public function viewVideo (RepairOrderVideo $video, $user): void {
         $interaction = new RepairOrderVideoInteraction();
         if ($user instanceof Customer) {
             $type = 'Customer Viewed';
@@ -121,7 +121,7 @@ class VideoHelper {
      * @param RepairOrderVideo $video
      * @param User             $user
      */
-    public function approveVideo(RepairOrderVideo $video, User $user): void {
+    public function approveVideo (RepairOrderVideo $video, User $user): void {
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setRepairOrderVideo($video)
                     ->setUser($user)
@@ -138,7 +138,7 @@ class VideoHelper {
      * @param RepairOrderVideo $video
      * @param User             $user
      */
-    public function confirmViewed(RepairOrderVideo $video, User $user): void {
+    public function confirmViewed (RepairOrderVideo $video, User $user): void {
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setRepairOrderVideo($video)
                     ->setUser($user)
