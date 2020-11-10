@@ -153,7 +153,7 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $user = $this->getUser();
         if (!$user instanceof Customer && !$user instanceof User) {
-            // TODO
+            throw new \RuntimeException('Could not determine user');
         }
         $helper->viewVideo($video, $user);
 
@@ -176,7 +176,7 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $user = $this->getUser();
         if (!$user instanceof User) {
-            // TODO
+            throw new \RuntimeException('Could not determine user');
         }
         $helper->approveVideo($video, $user);
 
@@ -199,7 +199,7 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $user = $this->getUser();
         if (!$user instanceof User) {
-            // TODO
+            throw new \RuntimeException('Could not determine user');
         }
         $helper->confirmViewed($video, $user);
 
