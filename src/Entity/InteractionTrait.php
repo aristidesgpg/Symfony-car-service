@@ -27,7 +27,7 @@ trait InteractionTrait {
     private $customer;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      * @Serializer\Groups(groups={"int_list"})
      */
     private $type;
@@ -85,18 +85,18 @@ trait InteractionTrait {
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getType (): int {
+    public function getType (): string {
         return $this->type;
     }
 
     /**
-     * @param int $type
+     * @param string $type
      *
      * @return self
      */
-    public function setType (int $type): self {
+    public function setType (string $type): self {
         $this->type = $type;
 
         return $this;
