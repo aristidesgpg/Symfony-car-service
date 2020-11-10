@@ -50,9 +50,9 @@ class UploadHelper {
     public function upload (UploadedFile $file, ?string $directory = null): string {
         $targetDir = $this->upload_dir . '/' . $this->trimDir($directory);
         $fileName = md5(uniqid()) . '.' . $this->getExtension($file);
-        $file->move($targetDir, $fileName);
+        $movedFile = $file->move($targetDir, $fileName);
 
-        return $targetDir . '/' . $fileName;
+        return $movedFile->getRealPath();
     }
 
     /**
