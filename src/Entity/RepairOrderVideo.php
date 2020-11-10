@@ -53,6 +53,11 @@ class RepairOrderVideo {
     private $status = 'Created';
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $shortcode;
+
+    /**
      * @ORM\Column(type="datetime")
      * @Serializer\Groups(groups={"rov_list"})
      */
@@ -153,6 +158,24 @@ class RepairOrderVideo {
      */
     public function setStatus (string $status): self {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getShortcode (): ?string {
+        return $this->shortcode;
+    }
+
+    /**
+     * @param string $shortcode
+     *
+     * @return $this
+     */
+    public function setShortcode (string $shortcode): self {
+        $this->shortcode = $shortcode;
 
         return $this;
     }
