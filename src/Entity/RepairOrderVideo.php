@@ -11,6 +11,15 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderVideo {
     public const GROUPS = ['rov_list'];
+    public const STATUSES = [
+        0 => 'Created',
+        1 => 'Awaiting Approval',
+        2 => 'Advisor Viewed',
+        3 => 'Advisor Approved',
+        4 => 'Customer Sent',
+        5 => 'Customer Viewed',
+        6 => 'Advisor Confirmed Viewed',
+    ];
 
     /**
      * @ORM\Id
@@ -56,7 +65,11 @@ class RepairOrderVideo {
     private $deleted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderVideoInteraction", mappedBy="repairOrderVideo")
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\RepairOrderVideoInteraction",
+     *     mappedBy="repairOrderVideo",
+     *     cascade={"PERSIST"}
+     * )
      * @ORM\OrderBy({"date"="DESC"})
      */
     private $interactions;
@@ -188,7 +201,13 @@ class RepairOrderVideo {
         return $this->interactions->toArray();
     }
 
+    /**
+     * @param RepairOrderVideoInteraction $interaction
+     *
+     * @return $this
+     */
     public function addInteraction (RepairOrderVideoInteraction $interaction): self {
+        $this->setStatus($interaction->getType());
         $this->interactions->add($interaction);
 
         return $this;
