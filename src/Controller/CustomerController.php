@@ -64,37 +64,45 @@ class CustomerController extends AbstractFOSRestController {
      * @return Response
      */
     public function getAll (Request $request, CustomerRepository $customerRepository): Response {
-        $page = $request->query->has('page') ? (int)$request->query->get('page') : 1;
+        $page          = $request->query->has('page') ? (int)$request->query->get('page') : 1;
+        $offset        = self::PAGE_LIMIT * ($page - 1);
+        $urlParameters = [];
+        $next          = null;
+        $previous      = null;
+
+        // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $urlParams = [];
-        $offset = self::PAGE_LIMIT * ($page - 1);
+        // Build query
         if ($request->query->has('search')) {
-            $customers = $customerRepository->search($request->query->get('search'), null, self::PAGE_LIMIT, $offset);
-            $urlParams['search'] = $request->query->get('search');
+            $customers               = $customerRepository->search($request->query->get('search'), null, self::PAGE_LIMIT, $offset);
+            $urlParameters['search'] = $request->query->get('search');
         } else {
             $customers = $customerRepository->findAllActive(null, self::PAGE_LIMIT, $offset);
         }
+
+        // Pages went too far
         $count = count($customers);
         if ($page !== 1 && $count === 0) {
             throw new NotFoundHttpException();
         }
 
-        $next = $prev = null;
         if ($count === self::PAGE_LIMIT) {
-            $next = $this->generateUrl('getCustomers', $urlParams + ['page' => $page + 1]);
+            $next = $this->generateUrl('getCustomers', $urlParameters + ['page' => $page + 1]);
         }
+
         if ($page !== 1) {
-            $prev = $this->generateUrl('getCustomers', $urlParams + ['page' => $page - 1]);
+            $previous = $this->generateUrl('getCustomers', $urlParameters + ['page' => $page - 1]);
         }
 
         $json = [
-            'items' => $customers,
-            'next' => $next,
-            'prev' => $prev,
+            'items'    => $customers,
+            'next'     => $next,
+            'previous' => $previous,
         ];
+
         $view = $this->view($json);
         $view->getContext()->setGroups(Customer::GROUPS);
 
@@ -151,7 +159,7 @@ class CustomerController extends AbstractFOSRestController {
         }
 
         $customer = new Customer();
-        $user = $this->getUser();
+        $user     = $this->getUser();
         if ($user instanceof User && $user->getId() !== null) {
             $customer->setAddedBy($user);
         }
