@@ -275,6 +275,9 @@ class RepairOrder {
     public function updateVideoStatus (): self {
         $min = PHP_INT_MAX;
         foreach ($this->getVideos() as $video) {
+            if ($video->isDeleted()) {
+                continue;
+            }
             $index = array_search($video->getStatus(), RepairOrderVideo::STATUSES);
             if ($index !== false && $index < $min) {
                 $min = $index;
