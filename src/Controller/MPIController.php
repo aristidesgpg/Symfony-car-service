@@ -103,11 +103,7 @@ class MPIController extends AbstractFOSRestController {
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="The Axle information- {'axle1':{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'},'axle2':{'wheeles':4,'brakesRangeMaximum':12,'brakesRangeUnit':'mm','tireRangeMaximum':12,'tireRangeUnit':'s'},'axle3':{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'}}",
-     *     @SWG\Schema(
-     *          type="string",
-     *          @SWG\Property(property="axleInfo", type="string", example="{'axle1':{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'},'axle2':{'wheeles':4,'brakesRangeMaximum':12,'brakesRangeUnit':'mm','tireRangeMaximum':12,'tireRangeUnit':'s'},'axle3':{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'}}")
-     *     )
+     *     description="Axle Information - [{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'},{'wheeles':4,'brakesRangeMaximum':12,'brakesRangeUnit':'mm','tireRangeMaximum':12,'tireRangeUnit':'s'},{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'}]",
      * )
      *
      * @SWG\Response(
@@ -128,12 +124,12 @@ class MPIController extends AbstractFOSRestController {
      */
     public function createTemplate (Request $request, EntityManagerInterface $em,
                                     MPITemplateHelper $mpiTemplateHelper) {
-        $name     = $request->get('name');
-        $axleInfo = $request->get('axleInfo');
+        $name          = $request->get('name');
+        $axleInfo      = str_replace("'",'"',$request->get('axleInfo'));
 
         //convert string to object
-        $obj           = json_decode($axleInfo);
-        $numberOfAxles = count((array)$obj);
+        $obj           = (array)json_decode($axleInfo);
+        $numberOfAxles = count($obj);
 
         //check if params are valid
         if (!$name || !$axleInfo) {
@@ -160,8 +156,8 @@ class MPIController extends AbstractFOSRestController {
         //create MPI Items
         foreach ($obj as $index => $axle) {
             if ($numberOfAxles == 2) {
-                $itemPassenger = $index == "axle1" ? "Front Passenger" : "Rear Passenger";
-                $itemDriver    = $index == "axle1" ? "Front Driver" : "Rear Driver";
+                $itemPassenger = $index == 0 ? "Front Passenger" : "Rear Passenger";
+                $itemDriver    = $index == 0 ? "Front Driver" : "Rear Driver";
                 $itemNames     = [$itemPassenger, $itemDriver];
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
@@ -170,8 +166,8 @@ class MPIController extends AbstractFOSRestController {
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
                 }
             } else if ($numberOfAxles > 2) {
-                $itemPassenger = $index . " - Passenger";
-                $itemDriver    = $index . " - Driver";
+                $itemPassenger = "Axle" . ($index + 1) . " - Passenger";
+                $itemDriver    = "Axle" . ($index + 1) . " - Driver";
                 $itemNames     = [$itemPassenger, $itemDriver];
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
@@ -179,10 +175,10 @@ class MPIController extends AbstractFOSRestController {
                 if ($axle->wheeles == 2) {
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
                 } else if ($axle->wheeles == 4) {
-                    $itemPassengerInner = $index . " - Passenger Inner";
-                    $itemPassengerOuter = $index . " - Passenger Outer";
-                    $itemDriverInner    = $index . " - Driver Inner";
-                    $itemDriverOuter    = $index . " - Driver Outer";
+                    $itemPassengerInner = "Axle" . ($index + 1) . " - Passenger Inner";
+                    $itemPassengerOuter = "Axle" . ($index + 1) . " - Passenger Outer";
+                    $itemDriverInner    = "Axle" . ($index + 1) . " - Driver Inner";
+                    $itemDriverOuter    = "Axle" . ($index + 1) . " - Driver Outer";
                     $itemNames          = [$itemPassengerInner, $itemPassengerOuter, $itemDriverInner, $itemDriverOuter];
 
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
