@@ -47,4 +47,18 @@ class MpiTemplateRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    public function findActiveTemplates(): ?MpiTemplate
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.mpiGroups', 'mg')
+            ->join('mg.mpiItems', 'mi')
+            ->where('m.active = 1')
+            ->andWhere('m.deleted = 0')
+            ->andWhere('mg.active = 1')
+            ->andWhere('mg.deleted = 0')
+            ->andWhere('mi.deleted = 0')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

@@ -47,4 +47,18 @@ class MpiItemRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findActiveItems()
+    {
+        return $this->createQueryBuilder('mi')
+                    ->join('mi.mpiGroup', 'mg')
+                    ->join('mg.mpiTemplate', 'mt')
+                    ->where('mt.active = 1')
+                    ->andWhere('mt.deleted = 0')
+                    ->andWhere('mg.active = 1')
+                    ->andWhere('mg.deleted = 0')
+                    ->andWhere('mi.deleted = 0')
+                    ->getQuery()
+                    ->getResult();
+    }
 }

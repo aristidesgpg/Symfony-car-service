@@ -88,12 +88,12 @@ class MpiTemplate
     /**
      * @return Collection|MPIGroup[]
      */
-    public function getMPIGroups(): Collection
+    public function getMpiGroups(): Collection
     {
         return $this->mpiGroups;
     }
 
-    public function addMPIGroup(MpiGroup $mpiGroup): self
+    public function addMpiGroup(MpiGroup $mpiGroup): self
     {
         if (!$this->mpiGroups->contains($mpiGroup)) {
             $this->mpiGroups[] = $mpiGroup;
@@ -103,7 +103,7 @@ class MpiTemplate
         return $this;
     }
 
-    public function removeMPIGroup(MpiGroup $mpiGroup): self
+    public function removeMpiGroup(MpiGroup $mpiGroup): self
     {
         if ($this->mpiGroups->contains($mpiGroup)) {
             $this->mpiGroups->removeElement($mpiGroup);

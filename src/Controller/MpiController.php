@@ -33,17 +33,58 @@ class MpiController extends AbstractFOSRestController {
      * @SWG\Tag(name="MPI Template")
      * @SWG\Get(description="Get All Templates")
      *
+     * @SWG\Parameter(
+     *     name="active",
+     *     in="query",
+     *     required=false,
+     *     type="boolean",
+     *     description="Get Active Templates",
+     *     enum={true}
+     * )
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return MPI Templates"
      * )
      * 
+     * @param Request               $request
      * @param MpiTemplateRepository $mpiTemplateRepository
+     * @param MpiTemplateHelper     $mpiTemplateHelper
      *
      * @return Response
      */
-    public function getTemplates (MpiTemplateRepository $mpiTemplateRepository) {
-        return $this->handleView($this->view($mpiTemplateRepository->findBy(['deleted' => 0]), Response::HTTP_OK));
+    public function getTemplates (Request $request, MpiTemplateRepository $mpiTemplateRepository, MpiTemplateHelper $mpiTemplateHelper) {
+        $active = $request->query->get('active') ?? false;
+        //get MPI Template
+        if(!$active){
+            $mpiTemplates = $mpiTemplateRepository->findBy(['deleted' => 0]);
+            $result       = $mpiTemplateHelper->getActiveTemplates($mpiTemplates, false);
+        }
+        else{
+            $mpiTemplates = $mpiTemplateRepository->findBy(['active'=> 1, 'deleted' => 0]);
+            $result       = $mpiTemplateHelper->getActiveTemplates($mpiTemplates, true);
+        }
+
+        return $this->handleView($this->view($result, Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Get("/api/mpi-template/{id}")
+     *
+     * @SWG\Tag(name="MPI Template")
+     * @SWG\Get(description="Get a Template")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return MPI Templates"
+     * )
+     * 
+     * @param MpiTemplate           $mpiTemplate
+     * 
+     * @return Response
+     */
+    public function getTemplate (MpiTemplate $mpiTemplate) {
+        return $this->handleView($this->view($mpiTemplate, Response::HTTP_OK));
     }
 
     /**

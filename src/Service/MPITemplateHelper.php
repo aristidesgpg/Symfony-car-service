@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\MpiItem;
 use App\Entity\MpiGroup;
+use App\Entity\MpiTemplate;
 use App\Repository\MpiItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -63,5 +64,33 @@ class MpiTemplateHelper {
             $this->em->persist($mpiItem);
         }
         $this->em->flush();
+    }
+
+    /**
+     * @param Array $mpiTemplates
+     * @param Bool  $active
+     *
+     * @return Array
+     */
+    public function getActiveTemplates(Array $mpiTemplates, Bool $active){
+        //get active templates
+        foreach($mpiTemplates as $mpiTemplate){
+            $mpiGroups = $mpiTemplate->getMpiGroups();
+            foreach($mpiGroups as $mpiGroup){
+                if($mpiGroup->getDeleted() || ($active && !$mpiGroup->getActive())){
+                    $mpiTemplate->removeMpiGroup($mpiGroup);
+                }
+                else{
+                    $mpiItems = $mpiGroup->getMpiItems();
+                    foreach($mpiItems as $mpiItem){
+                        if($mpiItem->getDeleted()){
+                            $mpiGroup->removeMpiItem($mpiItem);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $mpiTemplates;
     }
 }
