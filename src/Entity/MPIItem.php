@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\MpiItemRepository;
+use App\Repository\MPIItemRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MpiItemRepository::class)
+ * @ORM\Entity(repositoryClass=MPIItemRepository::class)
  */
-class MpiItem
-{
+class MPIItem {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -18,7 +17,7 @@ class MpiItem
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=MpiGroup::class, inversedBy="mpiItems")
+     * @ORM\ManyToOne(targetEntity=MPIGroup::class, inversedBy="mpiItems")
      * @ORM\JoinColumn(nullable=false)
      */
     private $mpiGroup;
@@ -48,78 +47,116 @@ class MpiItem
      */
     private $deleted = false;
 
-    public function getId(): ?int
-    {
+    /**
+     * @return int|null
+     */
+    public function getId (): ?int {
         return $this->id;
     }
 
-    public function getMpiGroup(): ?MpiGroup
-    {
+    /**
+     * @return MPIGroup|null
+     */
+    public function getMPIGroup (): ?MPIGroup {
         return $this->mpiGroup;
     }
 
-    public function setMpiGroup(?MpiGroup $mpiGroup): self
-    {
+    /**
+     * @param MPIGroup|null $mpiGroup
+     *
+     * @return $this
+     */
+    public function setMPIGroup (?MPIGroup $mpiGroup): self {
         $this->mpiGroup = $mpiGroup;
 
         return $this;
     }
 
-    public function getName(): ?string
-    {
+    /**
+     * @return string|null
+     */
+    public function getName (): ?string {
         return $this->name;
     }
 
-    public function setName(string $name): self
-    {
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setName (string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getHasRange(): ?bool
-    {
+    /**
+     * @return bool|null
+     */
+    public function getHasRange (): ?bool {
         return $this->hasRange;
     }
 
-    public function setHasRange(bool $hasRange): self
-    {
+    /**
+     * @param bool $hasRange
+     *
+     * @return $this
+     */
+    public function setHasRange (bool $hasRange): self {
         $this->hasRange = $hasRange;
 
         return $this;
     }
 
-    public function getRangeMaximum(): ?int
-    {
+    /**
+     * @return int|null
+     */
+    public function getRangeMaximum (): ?int {
         return $this->rangeMaximum;
     }
 
-    public function setRangeMaximum(int $rangeMaximum): self
-    {
+    /**
+     * @param int $rangeMaximum
+     *
+     * @return $this
+     */
+    public function setRangeMaximum (int $rangeMaximum): self {
         $this->rangeMaximum = $rangeMaximum;
 
         return $this;
     }
 
-    public function getRangeUnit(): ?string
-    {
+    /**
+     * @return string|null
+     */
+    public function getRangeUnit (): ?string {
         return $this->rangeUnit;
     }
 
-    public function setRangeUnit(?string $rangeUnit): self
-    {
+    /**
+     * @param string|null $rangeUnit
+     *
+     * @return $this
+     */
+    public function setRangeUnit (?string $rangeUnit): self {
         $this->rangeUnit = $rangeUnit;
 
         return $this;
     }
 
-    public function getDeleted(): ?bool
-    {
+    /**
+     * @return bool|null
+     */
+    public function getDeleted (): ?bool {
         return $this->deleted;
     }
 
-    public function setDeleted(bool $deleted): self
-    {
+    /**
+     * @param bool $deleted
+     *
+     * @return $this
+     */
+    public function setDeleted (bool $deleted): self {
         $this->deleted = $deleted;
 
         return $this;

@@ -2,21 +2,20 @@
 
 namespace App\Service;
 
-use App\Entity\MpiItem;
-use App\Entity\MpiGroup;
-use App\Entity\MpiTemplate;
-use App\Repository\MpiItemRepository;
+use App\Entity\MPIItem;
+use App\Entity\MPIGroup;
+use App\Repository\MPIItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class MpiTemplateHelper
+ * Class MPITemplateHelper
  *
  * @package App\Service
  */
-class MpiTemplateHelper {
+class MPITemplateHelper {
 
     /**
-     * @var MpiItemRepository
+     * @var MPIItemRepository
      */
     private $mpiItemRepository;
 
@@ -26,38 +25,40 @@ class MpiTemplateHelper {
     private $em;
 
     /**
-     * MpiTemplateHelper constructor.
+     * MPITemplateHelper constructor.
      *
-     * @param MpiItemRepository      $mpiItemRepository
+     * @param MPIItemRepository      $mpiItemRepository
      * @param EntityManagerInterface $em
      */
-    public function __construct (MpiItemRepository $mpiItemRepository, EntityManagerInterface $em) {
-        $this->mpiItemRepository  = $mpiItemRepository;
-        $this->em                 = $em;
+    public function __construct (MPIItemRepository $mpiItemRepository, EntityManagerInterface $em) {
+        $this->mpiItemRepository = $mpiItemRepository;
+        $this->em                = $em;
     }
 
     /**
-     * @param String   $type
-     * @param Array    $names
+     * @param string   $type
+     * @param array    $names
      * @param Object   $axle
-     * @param MpiGroup $mpiGroup
+     * @param MPIGroup $mpiGroup
      *
-     * @return boolean
+     * @return void
      */
-    public function createMPIItems (String $type, Array $names, $axle, MpiGroup $mpiGroup) {
-        if($type == "brake"){
+    public function createMPIItems (string $type, array $names, $axle, MPIGroup $mpiGroup) {
+        $rangeMax  = null;
+        $rangeUnit = null;
+
+        if ($type == "brake") {
             $rangeMax  = isset($axle->brakesRangeMaximum) ? $axle->brakesRangeMaximum : 0;
             $rangeUnit = isset($axle->brakesRangeUnit) ? $axle->brakesRangeUnit : "";
-        }
-        else if($type == "tire"){
+        } else if ($type == "tire") {
             $rangeMax  = isset($axle->tireRangeMaximum) ? $axle->tireRangeMaximum : 0;
             $rangeUnit = isset($axle->tireRangeUnit) ? $axle->tireRangeUnit : "";
         }
 
-        foreach($names as $name){
-            $mpiItem = new MpiItem();
+        foreach ($names as $name) {
+            $mpiItem = new MPIItem();
             $mpiItem->setName($name)
-                    ->setMpiGroup($mpiGroup)
+                    ->setMPIGroup($mpiGroup)
                     ->setHasRange(true)
                     ->setRangeMaximum($rangeMax)
                     ->setRangeUnit($rangeUnit);
@@ -67,24 +68,23 @@ class MpiTemplateHelper {
     }
 
     /**
-     * @param Array $mpiTemplates
-     * @param Bool  $active
+     * @param array $mpiTemplates
+     * @param bool  $active
      *
-     * @return Array
+     * @return array
      */
-    public function getActiveTemplates(Array $mpiTemplates, Bool $active){
+    public function getActiveTemplates (array $mpiTemplates, bool $active) {
         //get active templates
-        foreach($mpiTemplates as $mpiTemplate){
-            $mpiGroups = $mpiTemplate->getMpiGroups();
-            foreach($mpiGroups as $mpiGroup){
-                if($mpiGroup->getDeleted() || ($active && !$mpiGroup->getActive())){
-                    $mpiTemplate->removeMpiGroup($mpiGroup);
-                }
-                else{
-                    $mpiItems = $mpiGroup->getMpiItems();
-                    foreach($mpiItems as $mpiItem){
-                        if($mpiItem->getDeleted()){
-                            $mpiGroup->removeMpiItem($mpiItem);
+        foreach ($mpiTemplates as $mpiTemplate) {
+            $mpiGroups = $mpiTemplate->getMPIGroups();
+            foreach ($mpiGroups as $mpiGroup) {
+                if ($mpiGroup->getDeleted() || ($active && !$mpiGroup->getActive())) {
+                    $mpiTemplate->removeMPIGroup($mpiGroup);
+                } else {
+                    $mpiItems = $mpiGroup->getMPIItems();
+                    foreach ($mpiItems as $mpiItem) {
+                        if ($mpiItem->getDeleted()) {
+                            $mpiGroup->removeMPIItem($mpiItem);
                         }
                     }
                 }

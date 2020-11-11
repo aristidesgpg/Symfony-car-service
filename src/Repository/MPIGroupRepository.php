@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\MpiGroup;
+use App\Entity\MPIGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method MpiGroup|null find($id, $lockMode = null, $lockVersion = null)
- * @method MpiGroup|null findOneBy(array $criteria, array $orderBy = null)
- * @method MpiGroup[]    findAll()
- * @method MpiGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MPIGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MPIGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MPIGroup[]    findAll()
+ * @method MPIGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MpiGroupRepository extends ServiceEntityRepository
+class MPIGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, MpiGroup::class);
+        parent::__construct($registry, MPIGroup::class);
     }
 
     // /**
-    //  * @return MpiGroup[] Returns an array of MpiGroup objects
+    //  * @return MPIGroup[] Returns an array of MPIGroup objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class MpiGroupRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?MpiGroup
+    public function findOneBySomeField($value): ?MPIGroup
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.exampleField = :val')
