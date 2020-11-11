@@ -105,7 +105,11 @@ class MpiController extends AbstractFOSRestController {
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="The Number of Axles",
+     *     description="The Axle information- {'axle1':{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'},'axle2':{'wheeles':4,'brakesRangeMaximum':12,'brakesRangeUnit':'mm','tireRangeMaximum':12,'tireRangeUnit':'s'},'axle3':{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'}}",
+     *     @SWG\Schema(
+     *          type="string",
+     *          @SWG\Property(property="axleInfo", type="string", example="{'axle1':{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'},'axle2':{'wheeles':4,'brakesRangeMaximum':12,'brakesRangeUnit':'mm','tireRangeMaximum':12,'tireRangeUnit':'s'},'axle3':{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'}}")
+     *     )
      * )
      * 
      * @SWG\Response(
