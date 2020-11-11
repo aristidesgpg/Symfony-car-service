@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\MpiTemplate;
+use App\Entity\MPITemplate;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method MpiTemplate|null find($id, $lockMode = null, $lockVersion = null)
- * @method MpiTemplate|null findOneBy(array $criteria, array $orderBy = null)
- * @method MpiTemplate[]    findAll()
- * @method MpiTemplate[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method MPITemplate|null find($id, $lockMode = null, $lockVersion = null)
+ * @method MPITemplate|null findOneBy(array $criteria, array $orderBy = null)
+ * @method MPITemplate[]    findAll()
+ * @method MPITemplate[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class MpiTemplateRepository extends ServiceEntityRepository
+class MPITemplateRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, MpiTemplate::class);
+        parent::__construct($registry, MPITemplate::class);
     }
 
     // /**
-    //  * @return MpiTemplate[] Returns an array of MpiTemplate objects
+    //  * @return MPITemplate[] Returns an array of MPITemplate objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class MpiTemplateRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?MpiTemplate
+    public function findOneBySomeField($value): ?MPITemplate
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.exampleField = :val')
@@ -48,7 +48,7 @@ class MpiTemplateRepository extends ServiceEntityRepository
     }
     */
     
-    public function findActiveTemplates(): ?MpiTemplate
+    public function findActiveTemplates(): ?MPITemplate
     {
         return $this->createQueryBuilder('m')
             ->join('m.mpiGroups', 'mg')

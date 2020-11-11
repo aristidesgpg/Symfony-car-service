@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\MpiTemplateRepository;
+use App\Repository\MPITemplateRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=MpiTemplateRepository::class)
+ * @ORM\Entity(repositoryClass=MPITemplateRepository::class)
  */
-class MpiTemplate
+class MPITemplate
 {
     /**
      * @ORM\Id
@@ -35,7 +35,7 @@ class MpiTemplate
     private $deleted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=MpiGroup::class, mappedBy="mpiTemplate")
+     * @ORM\OneToMany(targetEntity=MPIGroup::class, mappedBy="mpiTemplate")
      */
     private $mpiGroups;
 
@@ -88,28 +88,28 @@ class MpiTemplate
     /**
      * @return Collection|MPIGroup[]
      */
-    public function getMpiGroups(): Collection
+    public function getMPIGroups(): Collection
     {
         return $this->mpiGroups;
     }
 
-    public function addMpiGroup(MpiGroup $mpiGroup): self
+    public function addMPIGroup(MPIGroup $mpiGroup): self
     {
         if (!$this->mpiGroups->contains($mpiGroup)) {
             $this->mpiGroups[] = $mpiGroup;
-            $mpiGroup->setMpiTemplate($this);
+            $mpiGroup->setMPITemplate($this);
         }
 
         return $this;
     }
 
-    public function removeMpiGroup(MpiGroup $mpiGroup): self
+    public function removeMPIGroup(MPIGroup $mpiGroup): self
     {
         if ($this->mpiGroups->contains($mpiGroup)) {
             $this->mpiGroups->removeElement($mpiGroup);
             // set the owning side to null (unless already changed)
-            if ($mpiGroup->getMpiTemplate() === $this) {
-                $mpiGroup->setMpiTemplate(null);
+            if ($mpiGroup->getMPITemplate() === $this) {
+                $mpiGroup->setMPITemplate(null);
             }
         }
 
