@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=MPIItemRepository::class)
+ * @ORM\Table(name="mpi_item")
  */
 class MPIItem {
     /**
@@ -18,7 +19,7 @@ class MPIItem {
 
     /**
      * @ORM\ManyToOne(targetEntity=MPIGroup::class, inversedBy="mpiItems")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
      */
     private $mpiGroup;
 

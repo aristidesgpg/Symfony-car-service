@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=MPITemplateRepository::class)
+ * @ORM\Table(name="mpi_template")
  */
 class MPITemplate
 {

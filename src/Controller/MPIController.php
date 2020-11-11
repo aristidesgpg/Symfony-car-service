@@ -7,14 +7,12 @@ use App\Entity\MPIGroup;
 use App\Entity\MPIItem;
 use App\Repository\MPITemplateRepository;
 use App\Repository\MPIGroupRepository;
-use App\Repository\MPIItemRepository;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use App\Service\MPITemplateHelper;
 
@@ -39,7 +37,7 @@ class MPIController extends AbstractFOSRestController {
      *     required=false,
      *     type="boolean",
      *     description="Get Active Templates",
-     *     enum={true}
+     *     enum={true, false}
      * )
      *
      * @SWG\Response(
@@ -53,7 +51,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getTemplates (Request $request, MPITemplateRepository $mpiTemplateRepository, MPITemplateHelper $mpiTemplateHelper) {
+    public function getTemplates (Request $request, MPITemplateRepository $mpiTemplateRepository,
+                                  MPITemplateHelper $mpiTemplateHelper) {
         $active = $request->query->get('active') ?? false;
         //get MPI Template
         if (!$active) {
@@ -127,16 +126,20 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function createTemplate (Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper) {
+    public function createTemplate (Request $request, EntityManagerInterface $em,
+                                    MPITemplateHelper $mpiTemplateHelper) {
         $name     = $request->get('name');
         $axleInfo = $request->get('axleInfo');
+
         //convert string to object
         $obj           = json_decode($axleInfo);
         $numberOfAxles = count((array)$obj);
+
         //check if params are valid
         if (!$name || !$axleInfo) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
+
         //create a new template
         $mpiTemplate = new MPITemplate();
         $mpiTemplate->setName($name);
@@ -536,7 +539,7 @@ class MPIController extends AbstractFOSRestController {
      * )
      *
      * @param Request                $request
-     * @param MPIGroupRepository     $mpiGroupRepository
+     * @param MPIGroupRepository     $mpiGroupRepo
      * @param EntityManagerInterface $em
      *
      * @return Response
