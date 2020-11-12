@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Controller\SettingsController;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 class ShortcodeHelper {
@@ -10,15 +11,31 @@ class ShortcodeHelper {
     private const ENDPOINT        = 'http://isre.us/api/create-short-url';
     private const FROM_NUMBER     = ''; // TODO
 
+    /** @var string */
     private $accessToken;
 
+    /** @var Client */
     private $twilio;
 
+    /**
+     * ShortcodeHelper constructor.
+     *
+     * @param string $accessToken
+     * @param Client $twilio
+     */
     public function __construct (string $accessToken, Client $twilio) {
         $this->accessToken = $accessToken;
         $this->twilio = $twilio;
     }
 
+    /**
+     * @param string $phone
+     * @param string $msg
+     * @param string $url
+     * @param bool   $urlIsShort
+     *
+     * @throws TwilioException
+     */
     public function sendShortenedLink (string $phone, string $msg, string $url, bool $urlIsShort = false): void {
         $msg = rtrim($msg);
         if (strlen($msg) > self::MAX_SMS_MSG_LEN) {
@@ -35,6 +52,11 @@ class ShortcodeHelper {
         $this->sendSms($phone, $msg);
     }
 
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
     public function generateShortcode (string $url): string {
         $response = $this->curl(self::ENDPOINT, [
             'access_token' => $this->accessToken,
@@ -47,6 +69,12 @@ class ShortcodeHelper {
         return $response['url'];
     }
 
+    /**
+     * @param string $url
+     * @param array  $post
+     *
+     * @return array
+     */
     private function curl (string $url, array $post): array {
         $curl = curl_init($url);
         curl_setopt_array($curl, [
@@ -65,6 +93,12 @@ class ShortcodeHelper {
         return json_decode($response, true);
     }
 
+    /**
+     * @param string $phone
+     * @param string $msg
+     *
+     * @throws TwilioException
+     */
     private function sendSms (string $phone, string $msg): void {
         $this->twilio->messages->create('+1' . $phone, [
            'message' => $msg,

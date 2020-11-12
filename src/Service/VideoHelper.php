@@ -27,6 +27,7 @@ class VideoHelper {
 
     /**
      * VideoHelper constructor.
+     *
      * @param EntityManagerInterface $em
      * @param UploadHelper           $upload
      * @param ShortcodeHelper        $shortcode
@@ -95,6 +96,9 @@ class VideoHelper {
         $this->em->flush();
     }
 
+    /**
+     * @param RepairOrderVideo $video
+     */
     public function sendVideo (RepairOrderVideo $video): void {
         $phone = $video->getRepairOrder()->getPrimaryCustomer()->getPhone();
         $message = $this->settings->find('serviceTextVideo');
