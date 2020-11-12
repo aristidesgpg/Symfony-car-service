@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use Exception;
-use Twilio\Exceptions\ConfigurationException;
 use Twilio\Rest\Client;
 
 /**
@@ -20,13 +19,10 @@ class PhoneValidator {
     /**
      * PhoneValidator constructor.
      *
-     * @param string $sid
-     * @param string $authToken
-     *
-     * @throws ConfigurationException
+     * @param Client $twilio
      */
-    public function __construct (string $sid, string $authToken) {
-        $this->twilio = new Client($sid, $authToken);
+    public function __construct (Client $twilio) {
+        $this->twilio = $twilio;
     }
 
     /**
