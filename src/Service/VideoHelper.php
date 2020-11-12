@@ -7,6 +7,7 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
+use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -18,14 +19,29 @@ class VideoHelper {
     /** @var UploadHelper */
     private $upload;
 
+    /** @var ShortcodeHelper */
+    private $shortcode;
+
+    /** @var SettingsRepository */
+    private $settings;
+
     /**
      * VideoHelper constructor.
      * @param EntityManagerInterface $em
      * @param UploadHelper           $upload
+     * @param ShortcodeHelper        $shortcode
+     * @param SettingsRepository     $settings
      */
-    public function __construct (EntityManagerInterface $em, UploadHelper $upload) {
-        $this->em     = $em;
-        $this->upload = $upload;
+    public function __construct (
+        EntityManagerInterface $em,
+        UploadHelper $upload,
+        ShortcodeHelper $shortcode,
+        SettingsRepository $settings
+    ) {
+        $this->em        = $em;
+        $this->upload    = $upload;
+        $this->shortcode = $shortcode;
+        $this->settings  = $settings;
     }
 
     /**
@@ -80,9 +96,10 @@ class VideoHelper {
     }
 
     public function sendVideo (RepairOrderVideo $video): void {
-//        $code = $this->shortcode->generateShortcode('');
-//        $video->setShortcode($code);
-//        $this->shortcode->sendShortenedLink('', $code, true);
+        $phone = $video->getRepairOrder()->getPrimaryCustomer()->getPhone();
+        $message = $this->settings->find('serviceTextVideo');
+        $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $video->getRepairOrder()->getLinkHash();
+        $this->shortcode->sendShortenedLink($phone, $message, $url);
 
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Customer Sent')

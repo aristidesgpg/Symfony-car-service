@@ -3,27 +3,36 @@
 namespace App\Service;
 
 use App\Controller\SettingsController;
+use Twilio\Rest\Client;
 
 class ShortcodeHelper {
     public const  MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
     private const ENDPOINT        = 'http://isre.us/api/create-short-url';
+    private const FROM_NUMBER     = ''; // TODO
 
     private $accessToken;
 
-    public function __construct (string $accessToken) {
+    private $twilio;
+
+    public function __construct (string $accessToken, Client $twilio) {
         $this->accessToken = $accessToken;
+        $this->twilio = $twilio;
     }
 
     public function sendShortenedLink (string $phone, string $msg, string $url, bool $urlIsShort = false): void {
+        $msg = rtrim($msg);
         if (strlen($msg) > self::MAX_SMS_MSG_LEN) {
             throw new \InvalidArgumentException(sprintf('$msg too long. Must be <= %d', self::MAX_SMS_MSG_LEN));
         }
+
         if ($urlIsShort === true) {
             $shortcode = $url;
         } else {
             $shortcode = $this->generateShortcode($url);
         }
-        // TODO: Twilio
+
+        $msg .= ' ' . $shortcode;
+        $this->sendSms($phone, $msg);
     }
 
     public function generateShortcode (string $url): string {
@@ -54,5 +63,12 @@ class ShortcodeHelper {
         curl_close($curl);
 
         return json_decode($response, true);
+    }
+
+    private function sendSms (string $phone, string $msg): void {
+        $this->twilio->messages->create('+1' . $phone, [
+           'message' => $msg,
+           'from' => self::FROM_NUMBER,
+        ]);
     }
 }
