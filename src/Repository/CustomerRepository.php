@@ -7,7 +7,6 @@ use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,15 +22,11 @@ class CustomerRepository extends ServiceEntityRepository {
 
     /**
      * @param User|null $user
-     * @param int|null  $limit
-     * @param int|null  $offset
      *
-     * @return Customer[]
+     * @return Query
      */
-    public function findAllActive (?User $user = null, ?int $limit = null, ?int $offset = null): iterable {
-        $q = $this->getBaseQueryBuilder($user)->getQuery();
-
-        return $this->paginate($q, $limit, $offset);
+    public function findAllActive (?User $user = null): Query {
+        return $this->getBaseQueryBuilder($user)->getQuery();
     }
 
     /**
@@ -51,12 +46,10 @@ class CustomerRepository extends ServiceEntityRepository {
     /**
      * @param string    $query - Name, Phone Number, or Email
      * @param User|null $user
-     * @param int|null  $limit
-     * @param int|null  $offset
      *
-     * @return Customer[]
+     * @return Query
      */
-    public function search (string $query, ?User $user = null, ?int $limit = null, ?int $offset = null): iterable {
+    public function search (string $query, ?User $user = null): Query {
         $qb = $this->getBaseQueryBuilder($user);
         $or = $qb->expr()->orX();
         $or->add('c.name LIKE :fname')
@@ -68,7 +61,7 @@ class CustomerRepository extends ServiceEntityRepository {
            ->setParameter('fname', $query . '%')
            ->setParameter('lname', '%' . $query);
 
-        return $this->paginate($qb->getQuery(), $limit, $offset);
+        return $qb->getQuery();
     }
 
     /**
@@ -85,28 +78,6 @@ class CustomerRepository extends ServiceEntityRepository {
         }
 
         return $qb;
-    }
-
-    /**
-     * @param Query    $query
-     * @param int|null $limit
-     * @param int|null $offset
-     *
-     * @return iterable
-     */
-    private function paginate(Query $query, ?int $limit, ?int $offset): iterable {
-        if ($limit !== null) {
-            $query->setMaxResults($limit);
-        }
-        if ($offset !== null) {
-            $query->setFirstResult($offset);
-        }
-
-        try {
-            return (new Paginator($query))->getIterator();
-        } catch (\Exception $e) {
-            throw new \RuntimeException('Could not get iterator', 0, $e);
-        }
     }
 
     // /**

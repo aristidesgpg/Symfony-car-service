@@ -9,6 +9,7 @@ use App\Response\ValidationResponse;
 use App\Service\CustomerHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
@@ -50,7 +51,8 @@ class CustomerController extends AbstractFOSRestController {
      *             @SWG\Items(ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      *         ),
      *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
-     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null")
+     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
+     *         @SWG\Property(property="total", type="integer", description="Total number of items for query")
      *     )
      * )
      * @SWG\Response(
@@ -60,12 +62,12 @@ class CustomerController extends AbstractFOSRestController {
      *
      * @param Request            $request
      * @param CustomerRepository $customerRepository
+     * @param PaginatorInterface $paginator
      *
      * @return Response
      */
-    public function getAll (Request $request, CustomerRepository $customerRepository): Response {
-        $page          = $request->query->has('page') ? (int)$request->query->get('page') : 1;
-        $offset        = self::PAGE_LIMIT * ($page - 1);
+    public function getAll (Request $request, CustomerRepository $customerRepository, PaginatorInterface $paginator): Response {
+        $page          = $request->query->getInt('page', 1);
         $urlParameters = [];
         $next          = null;
         $previous      = null;
@@ -77,11 +79,13 @@ class CustomerController extends AbstractFOSRestController {
 
         // Build query
         if ($request->query->has('search')) {
-            $customers               = $customerRepository->search($request->query->get('search'), null, self::PAGE_LIMIT, $offset);
+            $customersQuery          = $customerRepository->search($request->query->get('search'));
             $urlParameters['search'] = $request->query->get('search');
         } else {
-            $customers = $customerRepository->findAllActive(null, self::PAGE_LIMIT, $offset);
+            $customersQuery = $customerRepository->findAllActive();
         }
+        $pager = $paginator->paginate($customersQuery, $page, self::PAGE_LIMIT);
+        $customers = $pager->getItems();
 
         // Pages went too far
         $count = count($customers);
@@ -89,7 +93,7 @@ class CustomerController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
-        if ($count === self::PAGE_LIMIT) {
+        if ($count === self::PAGE_LIMIT && $page * self::PAGE_LIMIT !== $pager->getTotalItemCount()) {
             $next = $this->generateUrl('getCustomers', $urlParameters + ['page' => $page + 1]);
         }
 
@@ -101,6 +105,7 @@ class CustomerController extends AbstractFOSRestController {
             'items'    => $customers,
             'next'     => $next,
             'previous' => $previous,
+            'total'    => $pager->getTotalItemCount(),
         ];
 
         $view = $this->view($json);
