@@ -8,6 +8,7 @@ use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,20 +24,31 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * @SWG\Tag(name="Repair Order")
  */
 class RepairOrderController extends AbstractFOSRestController {
+    private const PAGE_LIMIT = 50;
+
     use FalsyTrait;
 
     /**
-     * @Rest\Get
+     * @Rest\Get(name="getOrders")
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
      *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     *         type="object",
+     *         @SWG\Property(
+     *             property="items",
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     *         ),
+     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
+     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
+     *         @SWG\Property(property="total", type="integer", description="Total number of items for query")
      *     )
      * )
+     * @SWG\Response(response="404", description="Invalid page parameter")
      * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
      *
+     * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
      *     name="open",
      *     type="boolean",
@@ -78,22 +90,35 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @param Request               $req
      * @param RepairOrderRepository $orders
+     * @param PaginatorInterface    $paginator
      *
      * @return Response
      */
-    public function getAll (Request $req, RepairOrderRepository $orders): Response {
+    public function getAll (Request $req, RepairOrderRepository $orders, PaginatorInterface $paginator): Response {
+        $page          = $req->query->getInt('page', 1);
+        $urlParameters = [];
+        $next          = null;
+        $prev          = null;
+
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
         $qb = $orders->createQueryBuilder('ro');
         $qb->andWhere('ro.deleted = 0');
         if ($req->query->has('archived') && $this->paramToBool($req->query->get('archived'))) {
             $qb->andWhere('ro.archived = 1');
+            $urlParameters['archived'] = 1;
         } else {
             $qb->andWhere('ro.archived = 0');
         }
         $params = $errors = [];
         if ($req->query->has('open')) {
             if ($this->paramToBool($req->query->get('open'))) {
+                $urlParameters['open'] = 1;
                 $qb->andWhere('ro.dateClosed IS NULL');
             } else {
+                $urlParameters['open'] = 0;
                 $qb->andWhere('ro.dateClosed IS NOT NULL');
             }
         }
@@ -125,8 +150,29 @@ class RepairOrderController extends AbstractFOSRestController {
         }
         $q = $qb->getQuery();
         $q->setParameters($params);
+        $urlParameters += $params;
+        $pager         = $paginator->paginate($q, $page, self::PAGE_LIMIT);
+        $orders        = $pager->getItems();
 
-        $view = $this->view($q->getResult());
+        $count = count($orders);
+        if ($page !== 1 && $count === 0) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($count === self::PAGE_LIMIT && $page * self::PAGE_LIMIT !== $pager->getTotalItemCount()) {
+            $next = $this->generateUrl('getOrders', $urlParameters + ['page' => $page + 1]);
+        }
+
+        if ($page !== 1) {
+            $prev = $this->generateUrl('getOrders', $urlParameters + ['page' => $page - 1]);
+        }
+
+        $view = $this->view([
+            'items' => $orders,
+            'next'  => $next,
+            'prev'  => $prev,
+            'total' => $pager->getTotalItemCount(),
+        ]);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
         return $this->handleView($view);
