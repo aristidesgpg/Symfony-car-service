@@ -18,4 +18,6 @@ fos_rest:
   format_listener:
     rules:
       - { path: ^/api, prefer_extension: false, fallback_format: json, priorities: [ json ] }
-      - { path: ^/, prefer_extension: false, fallback_format: html, priorities: [  'html', '*/*'  ] }
+      - { path: ^/, prefer_extension: false, fallback_format: html, priorities: [ 'html', '*/*' ] }
+  serializer:
+    serialize_null: true
