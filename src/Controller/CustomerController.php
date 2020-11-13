@@ -46,13 +46,15 @@ class CustomerController extends AbstractFOSRestController {
      *     @SWG\Schema(
      *         type="object",
      *         @SWG\Property(
-     *             property="items",
+     *             property="customers",
      *             type="array",
      *             @SWG\Items(ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      *         ),
-     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
-     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
-     *         @SWG\Property(property="total", type="integer", description="Total number of items for query")
+     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="next", type="string", description="URL for next page")
      *     )
      * )
      * @SWG\Response(
@@ -66,11 +68,10 @@ class CustomerController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getAll (Request $request, CustomerRepository $customerRepository, PaginatorInterface $paginator): Response {
+    public function getAll (Request $request, CustomerRepository $customerRepository,
+                            PaginatorInterface $paginator): Response {
         $page          = $request->query->getInt('page', 1);
         $urlParameters = [];
-        $next          = null;
-        $previous      = null;
 
         // Invalid page
         if ($page < 1) {
@@ -84,28 +85,41 @@ class CustomerController extends AbstractFOSRestController {
         } else {
             $customersQuery = $customerRepository->findAllActive();
         }
-        $pager = $paginator->paginate($customersQuery, $page, self::PAGE_LIMIT);
-        $customers = $pager->getItems();
 
-        // Pages went too far
-        $count = count($customers);
-        if ($page !== 1 && $count === 0) {
+        $pager        = $paginator->paginate($customersQuery, $page, self::PAGE_LIMIT);
+        $totalResults = $pager->getTotalItemCount();
+        $totalPages   = ceil($totalResults / self::PAGE_LIMIT);
+        $currentPage  = $pager->getCurrentPageNumber();
+        $previous     = $currentPage - 1;
+        $next         = $currentPage + 1;
+
+        if ($page > $totalPages) {
             throw new NotFoundHttpException();
         }
 
-        if ($count === self::PAGE_LIMIT && $page * self::PAGE_LIMIT !== $pager->getTotalItemCount()) {
-            $next = $this->generateUrl('getCustomers', $urlParameters + ['page' => $page + 1]);
+        if ($previous <= 0) {
+            $previous = null;
         }
 
-        if ($page !== 1) {
-            $previous = $this->generateUrl('getCustomers', $urlParameters + ['page' => $page - 1]);
+        if ($next >= $totalPages) {
+            $next = null;
+        }
+
+        if ($next) {
+            $next = $this->generateUrl('getCustomers', $urlParameters + ['page' => $next]);
+        }
+
+        if ($previous) {
+            $previous = $this->generateUrl('getCustomers', $urlParameters + ['page' => $previous]);
         }
 
         $json = [
-            'items'    => $customers,
-            'next'     => $next,
-            'previous' => $previous,
-            'total'    => $pager->getTotalItemCount(),
+            'customers'    => $pager->getItems(),
+            'totalResults' => $pager->getTotalItemCount(),
+            'totalPages'   => $totalPages,
+            'previous'     => $previous,
+            'currentPage'  => $currentPage,
+            'next'         => $next
         ];
 
         $view = $this->view($json);
