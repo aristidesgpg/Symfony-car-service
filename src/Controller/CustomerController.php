@@ -115,7 +115,7 @@ class CustomerController extends AbstractFOSRestController {
 
         $json = [
             'customers'    => $pager->getItems(),
-            'totalResults' => $pager->getTotalItemCount(),
+            'totalResults' => $totalResults,
             'totalPages'   => $totalPages,
             'previous'     => $previous,
             'currentPage'  => $currentPage,

@@ -6,6 +6,8 @@ use App\Entity\RepairOrder;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderHelper;
+use DateTime;
+use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
@@ -18,6 +20,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class RepairOrderController
+ *
  * @package App\Controller
  *
  * @Rest\Route("/api/repair-order")
@@ -29,7 +32,7 @@ class RepairOrderController extends AbstractFOSRestController {
     use FalsyTrait;
 
     /**
-     * @Rest\Get(name="getOrders")
+     * @Rest\Get(name="getRepairOrders")
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -88,33 +91,36 @@ class RepairOrderController extends AbstractFOSRestController {
      *     in="query"
      * )
      *
-     * @param Request               $req
-     * @param RepairOrderRepository $orders
+     * @param Request               $request
+     * @param RepairOrderRepository $repairOrderRepo
      * @param PaginatorInterface    $paginator
      *
      * @return Response
      */
-    public function getAll (Request $req, RepairOrderRepository $orders, PaginatorInterface $paginator): Response {
-        $page          = $req->query->getInt('page', 1);
-        $urlParameters = [];
-        $next          = null;
-        $prev          = null;
+    public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator): Response {
+        $page            = $request->query->getInt('page', 1);
+        $startDate       = $request->query->get('startDate');
+        $endDate         = $request->query->get('endDate');
+        $urlParameters   = [];
+        $queryParameters = [];
+        $errors          = [];
 
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $qb = $orders->createQueryBuilder('ro');
+        $qb = $repairOrderRepo->createQueryBuilder('ro');
         $qb->andWhere('ro.deleted = 0');
-        if ($req->query->has('archived') && $this->paramToBool($req->query->get('archived'))) {
+
+        if ($request->query->has('archived') && $this->paramToBool($request->query->get('archived'))) {
             $qb->andWhere('ro.archived = 1');
             $urlParameters['archived'] = 1;
         } else {
             $qb->andWhere('ro.archived = 0');
         }
-        $params = $errors = [];
-        if ($req->query->has('open')) {
-            if ($this->paramToBool($req->query->get('open'))) {
+
+        if ($request->query->has('open')) {
+            if ($this->paramToBool($request->query->get('open'))) {
                 $urlParameters['open'] = 1;
                 $qb->andWhere('ro.dateClosed IS NULL');
             } else {
@@ -122,56 +128,73 @@ class RepairOrderController extends AbstractFOSRestController {
                 $qb->andWhere('ro.dateClosed IS NOT NULL');
             }
         }
-        if ($req->query->has('waiter')) {
+
+        if ($request->query->has('waiter')) {
             $qb->andWhere("ro.waiter = :waiter");
-            $params['waiter'] = $this->paramToBool($req->query->get('waiter'));
+            $queryParameters['waiter'] = $this->paramToBool($request->query->get('waiter'));
         }
-        if ($req->query->has('internal')) {
+
+        if ($request->query->has('internal')) {
             $qb->andWhere("ro.internal = :internal");
-            $params['internal'] = $this->paramToBool($req->query->get('internal'));
+            $queryParameters['internal'] = $this->paramToBool($request->query->get('internal'));
         }
-        foreach (['startDate', 'endDate'] as $key) {
-            if (!$req->query->has($key)) {
-                continue;
-            }
+
+        if ($startDate && $endDate) {
             try {
-                $date = (new \DateTime($req->query->get($key)))->format('Y-m-d\TH:i:s');
-            } catch (\Exception $e) {
-                $errors[$key] = 'Invalid date format';
-                continue;
+                $startDate = new DateTime($startDate);
+                $endDate   = new DateTime($endDate);
+
+                $qb->andWhere("ro.dateCreated BETWEEN :startDate AND :endDate");
+                $queryParameters['startDate'] = $startDate;
+                $queryParameters['endDate']   = $endDate;
+            } catch (Exception $e) {
+                $errors['date'] = 'Invalid date format';
             }
-            $op = ($key === 'startDate') ? '>=' : '<=';
-            $qb->andWhere("ro.dateCreated {$op} :{$key}");
-            $params[$key] = $date;
         }
+
         if (!empty($errors)) {
             return new JsonResponse($errors, 406); // TODO
-//            return new ValidationResponse($errors);
+            //            return new ValidationResponse($errors);
         }
-        $q = $qb->getQuery();
-        $q->setParameters($params);
-        $urlParameters += $params;
-        $pager         = $paginator->paginate($q, $page, self::PAGE_LIMIT);
-        $orders        = $pager->getItems();
 
-        $count = count($orders);
-        if ($page !== 1 && $count === 0) {
+        $q = $qb->getQuery();
+        $q->setParameters($queryParameters);
+
+        $urlParameters += $queryParameters;
+        $pager         = $paginator->paginate($q, $page, self::PAGE_LIMIT);
+        $totalResults  = $pager->getTotalItemCount();
+        $totalPages    = ceil($totalResults / self::PAGE_LIMIT);
+        $currentPage   = $pager->getCurrentPageNumber();
+        $previous      = $currentPage - 1;
+        $next          = $currentPage + 1;
+
+        if ($page > $totalPages) {
             throw new NotFoundHttpException();
         }
 
-        if ($count === self::PAGE_LIMIT && $page * self::PAGE_LIMIT !== $pager->getTotalItemCount()) {
-            $next = $this->generateUrl('getOrders', $urlParameters + ['page' => $page + 1]);
+        if ($previous <= 0) {
+            $previous = null;
         }
 
-        if ($page !== 1) {
-            $prev = $this->generateUrl('getOrders', $urlParameters + ['page' => $page - 1]);
+        if ($next >= $totalPages) {
+            $next = null;
+        }
+
+        if ($next) {
+            $next = $this->generateUrl('getRepairOrders', $urlParameters + ['page' => $next]);
+        }
+
+        if ($previous) {
+            $previous = $this->generateUrl('getRepairOrders', $urlParameters + ['page' => $previous]);
         }
 
         $view = $this->view([
-            'items' => $orders,
-            'next'  => $next,
-            'prev'  => $prev,
-            'total' => $pager->getTotalItemCount(),
+            'repairOrders' => $pager->getItems(),
+            'totalResults' => $totalResults,
+            'totalPages'   => $totalPages,
+            'previous'     => $previous,
+            'currentPage'  => $currentPage,
+            'next'         => $next
         ]);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -230,7 +253,7 @@ class RepairOrderController extends AbstractFOSRestController {
         $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
             return new JsonResponse($ro, 406); // TODO
-//            return new ValidationResponse($ro);
+            //            return new ValidationResponse($ro);
         }
 
         $view = $this->view($ro);
@@ -280,7 +303,7 @@ class RepairOrderController extends AbstractFOSRestController {
         $errors = $helper->updateRepairOrder($req->request->all(), $ro);
         if (!empty($errors)) {
             return new JsonResponse($errors, 406); // TODO
-//            return new ValidationResponse($errors);
+            //            return new ValidationResponse($errors);
         }
 
         $view = $this->view($ro);
