@@ -27,7 +27,9 @@ MySQL Version: 5.7.31
         `composer install`
 
         `openssl genrsa -out config/jwt/private.pem -aes256 4096`
+        You need to use this password for it to work: 0dd003e40304fb6c03eb056fcaa27a3c
         `openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem`
+        Make sure you use the same password
 
         `yes | php bin/console doctrine:migration:migrate`
 
