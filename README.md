@@ -32,6 +32,9 @@ MySQL Version: 5.7.31
         `yes | php bin/console doctrine:migration:migrate`
 
         `yes | php bin/console doctrine:fixtures:load`
+        
+        `php bin/console assets:install --symlink`
+        This command will set up the symlinks for swagger-ui (if necessary)
 
 6. NOTE: Occasionally as things change you will have to remove containers and images created by docker-compose using the commands below
 
