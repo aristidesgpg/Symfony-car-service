@@ -28,7 +28,7 @@ class RepairOrderMPI
     private $dateCompleted;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $dateSent;
 
@@ -36,6 +36,11 @@ class RepairOrderMPI
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $results;
+
+    public function __construct()
+    {
+        $this->dateCompleted = new DateTime(); 
+    }
 
     public function getId(): ?int
     {
