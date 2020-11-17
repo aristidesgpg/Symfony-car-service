@@ -43,4 +43,66 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         //get Repair Order MPIs
         return $this->handleView($this->view($RepairOrderMPIRepository->findAll(), Response::HTTP_OK));
     }
+
+    /**
+     * @Rest\Post("/api/repair-order-mpi")
+     *
+     * @SWG\Tag(name="Repair Order MPI")
+     * @SWG\Post(description="Create a new Repair Order MPIs")
+     *
+     * @SWG\Parameter(
+     *     name="repair_order",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The Repair Order ID",
+     * )
+     * @SWG\Parameter(
+     *     name="results",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The json string for results",
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Created" }),
+     *         )
+     * )
+     *
+     * @param Request                $request
+     * @param RepairOrderRepository  $repairOrderRepository
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function createRepairOrderMPI (Request $request, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
+        $repair_order = $request->get('repair_order');
+        $results      = $request->get('results');
+        //check if params are valid
+        if(!$repair_order || !$results){
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //Check if Repair Order exists
+        $repairOrder  = $repairOrderRepository->findOneBy($repair_order);
+        if (!$repairOrder) {
+            return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //store repairOrderMPI
+        $repairOrderMPI = new RepairOrderMPI();
+        $repairOrderMPI->setRepairOrder($repairOrder)
+                       ->setResults($results);
+
+        $em->persist($repairOrderMPI);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'RepairOrderMPI Created'
+        ], Response::HTTP_OK));
+    }
 }
