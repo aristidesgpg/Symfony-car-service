@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderMPIRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderMPIRepository::class)
+ * @ORM\Table(name="repair_order_mpi")
  */
 class RepairOrderMPI
 {
@@ -37,9 +40,15 @@ class RepairOrderMPI
      */
     private $results;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="repairOrderMPI")
+     */
+    private $repairOrderMPIInteractions;
+
     public function __construct()
     {
-        $this->dateCompleted = new DateTime(); 
+        $this->dateCompleted = new DateTime();
+        $this->repairOrderMPIInteractions = new ArrayCollection(); 
     }
 
     public function getId(): ?int
@@ -91,6 +100,37 @@ class RepairOrderMPI
     public function setResults(?string $results): self
     {
         $this->results = $results;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderMPIInteraction[]
+     */
+    public function getRepairOrderMPIInteractions(): Collection
+    {
+        return $this->repairOrderMPIInteractions;
+    }
+
+    public function addRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if (!$this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions[] = $repairOrderMPIInteraction;
+            $repairOrderMPIInteraction->setRepairOrderMPI($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if ($this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions->removeElement($repairOrderMPIInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderMPIInteraction->getRepairOrderMPI() === $this) {
+                $repairOrderMPIInteraction->setRepairOrderMPI(null);
+            }
+        }
 
         return $this;
     }

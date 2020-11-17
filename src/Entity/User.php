@@ -129,12 +129,18 @@ class User implements UserInterface {
      */
     private $technicianRepairOrders;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="user")
+     */
+    private $repairOrderMPIInteractions;
+
 
     /**
      * User constructor.
      */
     public function __construct () {
         $this->technicianRepairOrders = new ArrayCollection();
+        $this->repairOrderMPIInteractions = new ArrayCollection();
     }
 
     /**
@@ -453,6 +459,37 @@ class User implements UserInterface {
 
     public function eraseCredentials () {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|RepairOrderMPIInteraction[]
+     */
+    public function getRepairOrderMPIInteractions(): Collection
+    {
+        return $this->repairOrderMPIInteractions;
+    }
+
+    public function addRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if (!$this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions[] = $repairOrderMPIInteraction;
+            $repairOrderMPIInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if ($this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions->removeElement($repairOrderMPIInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderMPIInteraction->getUser() === $this) {
+                $repairOrderMPIInteraction->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }

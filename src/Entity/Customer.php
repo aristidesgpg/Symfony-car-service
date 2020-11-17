@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -59,10 +60,16 @@ class Customer implements UserInterface {
     private $primaryRepairOrders;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="customer")
+     */
+    private $repairOrderMPIInteractions;
+
+    /**
      * Customer constructor.
      */
     public function __construct () {
         $this->primaryRepairOrders = new ArrayCollection();
+        $this->repairOrderMPIInteractions = new ArrayCollection();
     }
 
     /**
@@ -205,5 +212,36 @@ class Customer implements UserInterface {
 
     public function eraseCredentials () {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|RepairOrderMPIInteraction[]
+     */
+    public function getRepairOrderMPIInteractions(): Collection
+    {
+        return $this->repairOrderMPIInteractions;
+    }
+
+    public function addRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if (!$this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions[] = $repairOrderMPIInteraction;
+            $repairOrderMPIInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if ($this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions->removeElement($repairOrderMPIInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderMPIInteraction->getCustomer() === $this) {
+                $repairOrderMPIInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
     }
 }
