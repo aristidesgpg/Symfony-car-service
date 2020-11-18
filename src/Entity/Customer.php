@@ -6,36 +6,44 @@ use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
 class Customer implements UserInterface {
+    public const GROUPS = ['customer_list'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups({"customer_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"customer_list"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=10)
+     * @Serializer\Groups({"customer_list"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"customer_list"})
      */
     private $mobileConfirmed = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"customer_list"})
      */
     private $email;
 
@@ -43,13 +51,19 @@ class Customer implements UserInterface {
      * @var bool
      *
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"customer_list"})
      */
     private $doNotContact = false;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity="User")
      */
     private $addedBy;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted = false;
 
     /**
      * @var ArrayCollection
@@ -86,7 +100,7 @@ class Customer implements UserInterface {
         return $this->name;
     }
 
-    /**'
+    /**
      * @param string $name
      *
      * @return $this
@@ -105,11 +119,11 @@ class Customer implements UserInterface {
     }
 
     /**
-     * @param int $phone
+     * @param string $phone
      *
      * @return $this
      */
-    public function setPhone (int $phone): self {
+    public function setPhone (string $phone): self {
         $this->phone = $phone;
 
         return $this;
@@ -170,28 +184,46 @@ class Customer implements UserInterface {
     }
 
     /**
-     * @return int|null
+     * @return User|null
      */
-    public function getAddedBy (): ?int {
+    public function getAddedBy (): ?User {
         return $this->addedBy;
     }
 
     /**
-     * @param int|null $addedBy
+     * @param User
      *
      * @return $this
      */
-    public function setAddedBy (?int $addedBy): self {
+    public function setAddedBy (User $addedBy): self {
         $this->addedBy = $addedBy;
 
         return $this;
     }
 
     /**
-     * @return ArrayCollection
+     * @param bool $deleted
+     *
+     * @return $this
      */
-    public function getPrimaryRepairOrders (): ArrayCollection {
-        return $this->primaryRepairOrders;
+    public function setDeleted(bool $deleted): self {
+        $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDeleted(): bool {
+        return $this->deleted;
+    }
+
+    /**
+     * @return RepairOrder[]
+     */
+    public function getPrimaryRepairOrders (): array {
+        return $this->primaryRepairOrders->toArray();
     }
 
     public function getRoles () {
@@ -207,7 +239,7 @@ class Customer implements UserInterface {
     }
 
     public function getUsername () {
-        $this->name;
+        return $this->getName();
     }
 
     public function eraseCredentials () {

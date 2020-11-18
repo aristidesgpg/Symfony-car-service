@@ -8,9 +8,9 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use App\Service\UserHelper;
 
@@ -72,7 +72,7 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(
      *     name="role",
-     *     in="query",
+     *     in="formData",
      *     required=true,
      *     type="string",
      *     description="permission role for users you are trying to get",
@@ -134,7 +134,6 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The experience of Technician",
      * )
-     *
      *
      * @SWG\Response(
      *     response=200,
@@ -208,8 +207,8 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(
      *     name="role",
-     *     in="query",
-     *     required=true,
+     *     in="formData",
+     *     required=false,
      *     type="string",
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}

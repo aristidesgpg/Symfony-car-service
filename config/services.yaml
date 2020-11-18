@@ -6,6 +6,8 @@
 parameters:
   uploads_directory: '%kernel.project_dir%/public/uploads/'
   csv_directory: '%kernel.project_dir%/public/csv/'
+  reset_password_secret: '%env(RESET_PASSWORD_TOKEN_SECRET)%'
+  sender: '%env(SENDER)%'
 services:
   # default configuration for services in *this* file
   _defaults:

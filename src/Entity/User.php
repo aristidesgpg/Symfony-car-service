@@ -109,13 +109,6 @@ class User implements UserInterface {
     private $lastLogin;
 
     /**
-     * @var
-     *
-     * //     *     @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $pin;
-
-    /**
      * @ORM\Column(type="boolean")
      * @Serializer\Groups({"user_list"})
      */
@@ -134,6 +127,10 @@ class User implements UserInterface {
      */
     private $repairOrderMPIInteractions;
 
+    /*
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pin;
 
     /**
      * User constructor.
@@ -490,6 +487,13 @@ class User implements UserInterface {
         }
 
         return $this;
+    }
+    
+    /*
+     * @return bool
+     */
+    public function isTechnician () {
+        return in_array('ROLE_TECHNICIAN', $this->getRoles());
     }
 
 }

@@ -70,12 +70,12 @@ class UserHelper {
     }
 
     /**
-     * @param $user
-     * @param $password
+     * @param User   $user
+     * @param string $password
      *
      * @return string
      */
-    public function passwordEncoder ($user, $password) {
+    public function passwordEncoder (User $user, string $password) {
         return $this->passwordEncoder->encodePassword($user, $password);
     }
 
