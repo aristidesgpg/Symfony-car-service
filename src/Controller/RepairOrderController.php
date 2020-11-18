@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\RepairOrder;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
+use App\Response\ValidationResponse;
 use App\Service\RepairOrderHelper;
 use DateTime;
 use Exception;
@@ -231,7 +232,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="Success!",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
-     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="customer", type="integer", in="formData", required=true) TODO
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
@@ -252,8 +253,7 @@ class RepairOrderController extends AbstractFOSRestController {
     public function add (Request $req, RepairOrderHelper $helper): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
-            return new JsonResponse($ro, 406); // TODO
-            //            return new ValidationResponse($ro);
+            return new ValidationResponse($ro);
         }
 
         $view = $this->view($ro);
@@ -270,7 +270,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * @SWG\Response(response="404", description="RO does not exist")
-     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
@@ -302,8 +302,7 @@ class RepairOrderController extends AbstractFOSRestController {
         }
         $errors = $helper->updateRepairOrder($req->request->all(), $ro);
         if (!empty($errors)) {
-            return new JsonResponse($errors, 406); // TODO
-            //            return new ValidationResponse($errors);
+            return new ValidationResponse($errors);
         }
 
         $view = $this->view($ro);
