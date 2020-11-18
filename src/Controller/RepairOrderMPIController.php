@@ -35,13 +35,13 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *     description="Return Repair Order MPIs"
      * )
      *
-     * @param RepairOrderMPIRepository $RepairOrderMPIRepository
+     * @param RepairOrderMPIRepository $repairOrderMPIRepository
      *
      * @return Response
      */
-    public function getRepairOrderMPIs (RepairOrderMPIRepository $RepairOrderMPIRepository) {
+    public function getRepairOrderMPIs (RepairOrderMPIRepository $repairOrderMPIRepository) {
         //get Repair Order MPIs
-        return $this->handleView($this->view($RepairOrderMPIRepository->findAll(), Response::HTTP_OK));
+        return $this->handleView($this->view($repairOrderMPIRepository->findAll(), Response::HTTP_OK));
     }
 
     /**
