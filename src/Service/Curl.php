@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace AppBundle\Service;
 
 use Exception;
 use Monolog\Logger;

@@ -1,81 +1,73 @@
 <?php
 
-namespace App\Service;
+namespace AppBundle\Service;
 
-use App\Entity\RepairOrder;
+use AppBundle\Entity\RepairOrder;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
 use Exception;
-use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
- * Class AutoMateClient
+ * Class OpenMate
  *
- * @package App\Service
+ * @package AppBundle\Service
  */
 class AutoMate extends SOAP {
 
     /**
      * @var string
      */
+    //    private $eventServiceUrl = "https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?wsdl";
     private $eventServiceUrl = "https://openmate.automate-webservices.com/OpenMateGateway/ProcessEventService";
 
     /**
      * @var int
      */
+    //    private $username = '1087';
     private $username = '136';
 
     /**
      * @var string
      */
+    //    private $password = 'xrXnveA8PdH@';
     private $password = 'k(iabvS8en5K';
 
     /**
      * @var int
      */
-    private $dealerEndpointID;
+    private $dealerEndpointId;
 
     /**
-     * @var EntityManagerInterface
+     * @var EntityManager
      */
     private $em;
 
     /**
-     * @var PhoneValidator
+     * @var Twilio
      */
-    private $phoneValidator;
+    private $twilio;
 
     /**
-     * AutoMateClient constructor.
+     * AutoMate constructor.
      *
-     * @param EntityManagerInterface $em
-     * @param PhoneValidator         $phoneValidator
-     * @param ParameterBagInterface  $parameterBag
-     *
-     * @throws ParameterNotFoundException
+     * @param EntityManager $em
+     * @param               $dealerEndpointId
+     * @param Twilio        $twilio
      */
-    public function __construct (EntityManagerInterface $em, PhoneValidator $phoneValidator,
-                                 ParameterBagInterface $parameterBag) {
+    public function __construct (EntityManager $em, $dealerEndpointId, Twilio $twilio) {
+        $this->dealerEndpointId = $dealerEndpointId;
         $this->em               = $em;
-        $this->phoneValidator   = $phoneValidator;
-        $this->dealerEndpointID = $parameterBag->get('automate_endpoint_id');
-        $env                    = $parameterBag->get('app_env');
-
-        // Use staging credentials if in dev environment
-        if ($env == 'dev') {
-            $this->eventServiceUrl = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?wsdl';
-            $this->username        = '1334';
-            $this->password        = '3tdVAR6nPH^d';
-        }
+        $this->twilio           = $twilio;
 
         parent::__construct($em);
     }
 
     /**
      * @return array
+     * @throws Exception
      */
-    public function getOpenRepairOrders (): array {
+    public function getOpenRepairOrders () {
         $returnResult  = [];
         $xmlPostString = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:open="http://openmate.automate-webservices.com/">
                                <soapenv:Header/>
@@ -86,7 +78,7 @@ class AutoMate extends SOAP {
                                         <password>' . $this->password . '</password>
                                      </authenticationToken>
                                      <sourceThirdPartyId>' . $this->username . '</sourceThirdPartyId>
-                                     <dealerEndpointId>' . $this->dealerEndpointID . '</dealerEndpointId>
+                                     <dealerEndpointId>' . $this->dealerEndpointId . '</dealerEndpointId>
                                      <eventType>GetRepairOrderKeys</eventType>
                                      <payload>
                                         <![CDATA[
@@ -239,14 +231,8 @@ class AutoMate extends SOAP {
                 }
 
                 $roNumber    = $repairOrder->RepairOrderHeader->DocumentIdentificationGroup->AlternateDocumentIdentification->DocumentID;
-                $createdDate = new DateTime();
+                $createdDate = new DateTime($repairOrder->RepairOrderHeader->DealerParty->AlternatePartyDocument->EffectivePeriod->StartDateTime);
                 $waiter      = false;
-
-                try {
-                    $createdDate = new DateTime($repairOrder->RepairOrderHeader->DealerParty->AlternatePartyDocument->EffectivePeriod->StartDateTime);
-                } catch (Exception $e) {
-                    // nothing
-                }
 
                 if (isset($repairOrder->RepairOrderHeader->RepairOrderPriorityCode)) {
                     $priorityCode = $repairOrder->RepairOrderHeader->RepairOrderPriorityCode;
@@ -263,11 +249,7 @@ class AutoMate extends SOAP {
                         foreach ($statuses as $status) {
                             $statusText = $status->StatusText;
                             if (strpos($statusText, 'PICKUP_DATE') !== false) {
-                                try {
-                                    $pickupDate = new DateTime(explode('=', $statusText)[1]);
-                                } catch (Exception $e) {
-                                    // nothing
-                                }
+                                $pickupDate = new DateTime(explode('=', $statusText)[1]);
                             }
                         }
                     }
@@ -281,12 +263,12 @@ class AutoMate extends SOAP {
 
                 $returnResult[] = (object)[
                     'customer'   => (object)[
-                        'name'         => $customerFirstName . ' ' . $customerLastName,
-                        'phoneNumbers' => $customerPhoneNumbers,
-                        'email'        => $email
+                        'name'          => $customerFirstName . ' ' . $customerLastName,
+                        'phone_numbers' => $customerPhoneNumbers,
+                        'email'         => $email
                     ],
                     'number'     => $roNumber,
-                    'roKey'      => $roKey,
+                    'ro_key'     => $roKey,
                     'date'       => $createdDate,
                     'waiter'     => $waiter,
                     'pickupDate' => $pickupDate,
@@ -296,9 +278,9 @@ class AutoMate extends SOAP {
                     'miles'      => $miles,
                     'vin'        => $vin,
                     'advisor'    => (object)[
-                        'id'        => null,
-                        'firstName' => $advisorFirstName,
-                        'lastName'  => $advisorLastName
+                        'id'         => null,
+                        'first_name' => $advisorFirstName,
+                        'last_name'  => $advisorLastName
                     ]
                 ];
             }
@@ -324,7 +306,7 @@ class AutoMate extends SOAP {
 		            		<password>' . $this->password . '</password>
 			         	</authenticationToken>
 			         	<sourceThirdPartyId>' . $this->username . '</sourceThirdPartyId>
-		         		<dealerEndpointId>' . $this->dealerEndpointID . '</dealerEndpointId>
+		         		<dealerEndpointId>' . $this->dealerEndpointId . '</dealerEndpointId>
 			         	<eventType>GetRepairOrders</eventType>
 			         	<payload>
                             <![CDATA[
@@ -356,29 +338,25 @@ class AutoMate extends SOAP {
         $replacement = '<ComplaintDescription></ComplaintDescription>';
         $raw_xml     = preg_replace($pattern, $replacement, $raw_xml);
 
-        $xml = simplexml_load_string('<data>' . $raw_xml . '</data>');
+        $xml         = simplexml_load_string('<data>' . $raw_xml . '</data>');
 
         return json_decode(json_encode($xml));
     }
 
     /**
      * @param $repairOrders
-     *
-     * @return array
      */
-    public function getClosedRoDetails ($repairOrders): array {
-        $closedRepairOrder = [];
-
+    public function getClosedRoDetails ($repairOrders) {
         /** @var RepairOrder $repairOrder */
         foreach ($repairOrders as $repairOrder) {
             $finalRoValue = 0;
 
             // Can't close historical
-            if (!$repairOrder->getDmsKey()) {
+            if (!$repairOrder->getRoKey()) {
                 continue;
             }
 
-            $targetXml = "<target legacyId='{$repairOrder->getNumber()}'>{$repairOrder->getDmsKey()}</target>";
+            $targetXml = "<target legacyId='{$repairOrder->getNumber()}'>{$repairOrder->getRoKey()}</target>";
             $response  = $this->getRepairOrderInfo($targetXml);
 
             if (!$response) {
@@ -445,13 +423,14 @@ class AutoMate extends SOAP {
                 }
             }
 
-            $repairOrder->setDateClosed(new DateTime())->setFinalValue($finalRoValue);
-            $this->em->persist($repairOrder);
-            $this->em->flush();
+            $repairOrder->setClosedDate(new DateTime())->setFinalValue($finalRoValue);
 
-            $closedRepairOrder[] = $repairOrder;
+            try {
+                $this->em->persist($repairOrder);
+                $this->em->flush();
+            } catch (OptimisticLockException $e) {
+                continue;
+            }
         }
-
-        return $closedRepairOrder;
     }
 }

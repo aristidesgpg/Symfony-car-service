@@ -1,37 +1,30 @@
 <?php
 
-namespace App\Service;
+namespace AppBundle\Service;
 
-use App\Entity\SoapErrorLog;
-use App\Service\ThirdPartyAPILogHelper as APILogger;
-use Doctrine\ORM\EntityManagerInterface;
+use AppBundle\Entity\SoapErrorLog;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
 /**
  * Class SOAP
  *
- * @package App\Service
+ * @package AppBundle\Service
  */
 class SOAP {
     /**
-     * @var EntityManagerInterface
+     * @var EntityManager
      */
     private $em;
 
     /**
-     * @var ThirdPartyAPILogHelper
-     */
-    private $apiLogger;
-
-    /**
      * SOAP constructor.
      *
-     * @param EntityManagerInterface $em
+     * @param EntityManager $em
      */
-    public function __construct (EntityManagerInterface $em) {
+    public function __construct (EntityManager $em) {
         $this->em = $em;
-        $this->apiLogger = new APILogger($em);
     }
 
     /**
@@ -51,25 +44,22 @@ class SOAP {
             CURLOPT_HTTPHEADER     => $headers,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_ENCODING       => 'UTF-8',
-            CURLOPT_CAINFO         => '/var/www/html/cacert.pem',
-            CURLOPT_SSL_VERIFYPEER  => true // should only be done locally
+            CURLOPT_SSL_VERIFYPEER  => false // should only be done locally
         ];
 
         $ch = curl_init();
         curl_setopt_array($ch, $curlOptions);
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        
-        $error = curl_error($ch);
 
-        if ($error) {
-            $this->logError($url, $error);
+        if ($error = curl_error($ch)) {
+            $this->logError($xmlPostString, $error);
 
             return false;
         }
 
         if ($httpCode !== 200) {
-            $this->logError($url, $response);
+            $this->logError($xmlPostString, $response);
 
             return false;
         }
@@ -85,10 +75,19 @@ class SOAP {
      *
      * @return bool
      */
-    public function logError ($request, $response, $isRest = true) {
-        if ($isRest) 
-            $this->apiLogger->commitAPILog($request, null, $response, $isRest);
-        else
-            $this->apiLogger->commitAPILog(null, $request, $response, $isRest);
+    public function logError ($request, $response) {
+        $soapErrorLog = new SoapErrorLog();
+        $soapErrorLog->setRequest($request)->setResponse($response);
+
+        try {
+            $this->em->persist($soapErrorLog);
+            $this->em->flush();
+        } catch (OptimisticLockException $e) {
+            return false;
+        } catch (ORMException $e) {
+            return false;
+        }
+
+        return true;
     }
 }

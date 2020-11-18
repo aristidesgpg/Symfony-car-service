@@ -1,24 +1,28 @@
 <?php
 
-namespace App\Service;
+namespace AppBundle\Service;
 
-use App\Entity\Customer;
-use App\Entity\RepairOrder;
-use App\Repository\UserRepository;
-use App\Repository\CustomerRepository;
-use App\Repository\RepairOrderRepository;
-use App\Service\CustomerHelper;
-use App\Service\TwilioHelper;
-use App\Service\ShortUrlHelper;
+use AppBundle\Entity\Admin;
+use AppBundle\Entity\Advisor;
+use AppBundle\Entity\Customer;
+use AppBundle\Entity\InternalRepairOrder;
+use AppBundle\Entity\RepairOrder;
+use AppBundle\Entity\Technician;
+use AppBundle\Repository\AdminRepository;
+use AppBundle\Repository\AdvisorRepository;
+use AppBundle\Repository\CustomerRepository;
+use AppBundle\Repository\RepairOrderRepository;
+use AppBundle\Repository\TechnicianRepository;
+use AppBundle\Service\Customer as CustomerService;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
 use Exception;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class DMS
  *
- * @package App\Service
+ * @package AppBundle\Service
  */
 class DMS {
 
@@ -33,145 +37,124 @@ class DMS {
     private $activateIntegrationSms;
 
     /**
-     * @var TwilioHelper
+     * @var Twilio
      */
-    private $twilioHelper;
+    private $twilio;
 
     /**
-     * @var CustomerHelper
+     * @var \AppBundle\Service\Customer
      */
-    private $customerHelper;
+    private $customerService;
 
     /**
-     * @var EntityManagerInterface
+     * @var EntityManager
      */
     private $em;
 
     /**
      * @var CustomerRepository
      */
-    private $customerRepo;
+    private $customerRepository;
 
     /**
      * @var RepairOrderRepository
      */
-    private $repairOrderRepo;
+    private $repairOrderRepository;
 
     /**
-     * @var UserRepository
+     * @var TechnicianRepository
      */
-    private $userRepo;
+    private $technicianRepository;
 
     /**
-     * @var string|null
+     * @var AdvisorRepository
      */
-    private $dmsFilter;
+    private $advisorRepository;
 
     /**
-     * @var string
+     * @var AdminRepository
      */
-    private $customerURL;
+    private $adminRepository;
+
+    /**
+     * @var
+     */
+    private $dealertrackFilter;
+
+    /**
+     * @var
+     */
+    private $clientUrl;
 
     /**
      * @var URLShortener
      */
-    private $shortURLHelper;
-
-    /**
-     * @var SettingsHelper
-     */
-    private $settingsHelper;
-
-    /**
-     * @var RepairOrderHelper
-     */
-    private $repairOrderHelper;
-
-    /**
-     * @var bool
-     */
-    public $usingAutomate;
-
-    /**
-     * @var bool
-     */
-    public $usingDealerBuilt;
-
-    /**
-     * @var bool
-     */
-    public $usingDealerTrack;
-
-    /**
-     * @var bool
-     */
-    public $usingCdk;
-    /**
-     * @var ParameterBagInterface
-     */
-    private $parameterBag;
+    private $urlShortener;
 
     /**
      * DMS constructor.
      *
-     * @param AutoMate               $automate
-     * @param CDK                    $cdk
-     * @param DealerTrack            $dealerTrack
-     * @param DealerBuilt            $dealerBuilt
-     * @param TwilioHelper           $twilioHelper
-     * @param CustomerHelper         $customerHelper
-     * @param EntityManagerInterface $em
-     * @param ShortUrlHelper         $shortUrlHelper
-     * @param CustomerRepository     $customerRepo
-     * @param RepairOrderRepository  $repairOrderRepo
-     * @param UserRepository         $userRepo
-     * @param SettingsHelper         $settingsHelper
-     * @param RepairOrderHelper      $repairOrderHelper
-     * @param ParameterBagInterface  $parameterBag
-     *
-     * @throws Exception
+     * @param                             $usingAutomate
+     * @param                             $usingDealerTrack
+     * @param                             $usingDealerBuilt
+     * @param                             $usingCdk
+     * @param                             $automate
+     * @param                             $dealerTrack
+     * @param                             $dealerBuilt
+     * @param                             $cdk
+     * @param                             $activateIntegrationSms
+     * @param                             $dealertrackFilter
+     * @param                             $clientUrl
+     * @param Twilio                      $twilio
+     * @param \AppBundle\Service\Customer $customerService
+     * @param EntityManager               $em
+     * @param URLShortener                $URLShortener
+     * @param CustomerRepository          $customerRepository
+     * @param RepairOrderRepository       $repairOrderRepository
+     * @param TechnicianRepository        $technicianRepository
+     * @param AdvisorRepository           $advisorRepository
+     * @param AdminRepository             $adminRepository
      */
-    public function __construct (AutoMate $automate, CDK $cdk, DealerTrack $dealerTrack, DealerBuilt $dealerBuilt,
-                                 TwilioHelper $twilioHelper, CustomerHelper $customerHelper, EntityManagerInterface $em,
-                                 ShortUrlHelper $shortUrlHelper, CustomerRepository $customerRepo,
-                                 RepairOrderRepository $repairOrderRepo, UserRepository $userRepo,
-                                 SettingsHelper $settingsHelper, RepairOrderHelper $repairOrderHelper,
-                                 ParameterBagInterface $parameterBag) {
-        $this->twilioHelper           = $twilioHelper;
-        $this->customerHelper         = $customerHelper;
+    public function __construct ($usingAutomate, $usingDealerTrack, $usingDealerBuilt, $usingCdk, $automate, $dealerTrack,
+                                 $dealerBuilt, $cdk, $activateIntegrationSms, $dealertrackFilter, $clientUrl, Twilio $twilio,
+                                 CustomerService $customerService, EntityManager $em, URLShortener $URLShortener,
+                                 CustomerRepository $customerRepository, RepairOrderRepository $repairOrderRepository,
+                                 TechnicianRepository $technicianRepository, AdvisorRepository $advisorRepository,
+                                 AdminRepository $adminRepository) {
+        $this->twilio                 = $twilio;
+        $this->customerService        = $customerService;
         $this->em                     = $em;
-        $this->customerRepo           = $customerRepo;
-        $this->repairOrderRepo        = $repairOrderRepo;
-        $this->userRepo               = $userRepo;
-        $this->shortURLHelper         = $shortUrlHelper;
-        $this->settingsHelper         = $settingsHelper;
-        $this->repairOrderHelper      = $repairOrderHelper;
-        $this->parameterBag           = $parameterBag;
-        $this->customerURL            = $this->settingsHelper->getSetting('customerURL');
-        $this->dmsFilter              = $this->settingsHelper->getSetting('dmsFilter');
-        $this->usingAutomate          = $this->settingsHelper->getSetting('usingAutomate') === 'true';
-        $this->usingDealerTrack       = $this->settingsHelper->getSetting('usingDealerTrack') === 'true';
-        $this->usingDealerBuilt       = $this->settingsHelper->getSetting('usingDealerBuilt') === 'true';
-        $this->usingCdk               = $this->settingsHelper->getSetting('usingCdk') === 'true';
-        $this->activateIntegrationSms = true;
+        $this->customerRepository     = $customerRepository;
+        $this->repairOrderRepository  = $repairOrderRepository;
+        $this->technicianRepository   = $technicianRepository;
+        $this->advisorRepository      = $advisorRepository;
+        $this->adminRepository        = $adminRepository;
+        $this->activateIntegrationSms = $activateIntegrationSms;
+        $this->dealertrackFilter      = $dealertrackFilter;
+        $this->clientUrl              = $clientUrl;
+        $this->urlShortener           = $URLShortener;
 
-        if ($this->usingAutomate) {
+        if ($usingAutomate) {
             $this->integration = $automate;
+
             return;
         }
 
-        if ($this->usingDealerTrack) {
+        if ($usingDealerTrack) {
             $this->integration = $dealerTrack;
+
             return;
         }
 
-        if ($this->usingDealerBuilt) {
+        if ($usingDealerBuilt) {
             $this->integration = $dealerBuilt;
+
             return;
         }
 
-        if ($this->usingCdk) {
+        if ($usingCdk) {
             $this->integration = $cdk;
+
             return;
         }
     }
@@ -186,40 +169,41 @@ class DMS {
             return;
         }
 
-        $defaultTechnician   = $this->userRepo->findOneBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC']);
-        $defaultAdvisor      = $this->userRepo->findOneBy(['active' => 1, 'role' => 'ROLE_PARTS_ADVISOR'], ['id' => 'ASC']);
-        $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
+        /** @var Admin $settings */
+        $settings          = $this->adminRepository->find(1);
+        $defaultTechnician = $this->technicianRepository->find(1);
+        $defaultAdvisor    = $this->advisorRepository->findBy(['active' => 1], ['id' => 'ASC'])[0];
 
-        // Loop over found repair orders
+        $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
+        //return $dmsOpenRepairOrders;
         foreach ($dmsOpenRepairOrders as $dmsOpenRepairOrder) {
             // First check if it exists already
-            $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsOpenRepairOrder->number]);
+            $repairOrderExists = $this->repairOrderRepository->findOneBy(['number' => $dmsOpenRepairOrder->number]);
             if ($repairOrderExists) {
                 continue;
             }
 
             $customer         = null;
             $advisor          = null;
-            $phoneNumbers     = $dmsOpenRepairOrder->customer->phoneNumbers;
+            $phoneNumbers     = $dmsOpenRepairOrder->customer->phone_numbers;
             $name             = $dmsOpenRepairOrder->customer->name;
             $email            = $dmsOpenRepairOrder->customer->email;
             $dmsAdvisorId     = $dmsOpenRepairOrder->advisor->id;
-            $advisorFirstName = $dmsOpenRepairOrder->advisor->firstName;
-            $advisorLastName  = $dmsOpenRepairOrder->advisor->lastName;
-            $roKey            = isset($dmsOpenRepairOrder->roKey) ? $dmsOpenRepairOrder->roKey : null;
+            $advisorFirstName = $dmsOpenRepairOrder->advisor->first_name;
+            $advisorLastName  = $dmsOpenRepairOrder->advisor->last_name;
+            $roKey            = isset($dmsOpenRepairOrder->ro_key) ? $dmsOpenRepairOrder->ro_key : null;
 
-            // No phone numbers passed, create new customer.
+            // No phone numbers passed, create new customer
             if (!$phoneNumbers) {
-                $customer = new Customer();
-                $this->customerHelper->commitCustomer($customer, ['name' => $name, 'email' => $email]);
+                $customer = $this->customerService->addCustomer('', $name, $email, false);
             }
 
-            // Check if the customer exists already
+            // If phone numbers passed, loop over them to see if they exist
             if (!$customer) {
                 foreach ($phoneNumbers as $phoneNumber) {
                     // Try to find the customer
                     // Check if the customer exists and use that one instead if so
-                    $customer = $this->customerRepo->findOneBy(['phone' => $phoneNumber]);
+                    $customer = $this->customerRepository->findOneBy(['phone' => $phoneNumber]);
                 }
             }
 
@@ -228,19 +212,9 @@ class DMS {
                 foreach ($phoneNumbers as $phoneNumber) {
                     // Try to validate the phone number
                     try {
-                        // Phone is valid, use this one
-                        $phoneValid = true;
-
-                        // We want to skip validating the customer phone if production
-                        if ($this->parameterBag->get('app_env') == 'prod') {
-                            $phoneValid = $this->twilioHelper->lookupNumber($phoneNumber);
-                        }
-
+                        $phoneValid = $this->twilio->carrierLookup($phoneNumber);
                         if ($phoneValid) {
-                            $customer = new Customer();
-                            $newCustomer = $this->customerHelper->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
-
-                            dump($newCustomer);exit;
+                            $customer = $this->customerService->addCustomer($phoneNumber, $name, $email, true);
                         }
                         break;
                     } catch (Exception $e) {
@@ -253,28 +227,26 @@ class DMS {
             // STILL no customer, just used the first number we got
             if (!$customer && isset($phoneNumbers[0])) {
                 $phoneNumber = $phoneNumbers[0];
-                $customer    = new Customer();
-                $this->customerHelper->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
+                $customer    = $this->customerService->addCustomer($phoneNumber, $name, $email, false);
             }
 
             // If there isn't a customer at this state, just skip the RO, something seriously weird happened
-            if (!$customer || !$customer->getId()) {
+            if (!$customer){
                 continue;
             }
 
             if ($dmsAdvisorId) {
-                $foundAdvisor = $this->userRepo->findOneBy(['id' => $dmsAdvisorId, 'role' => 'ROLE_SERVICE_ADVISOR']);
+                $foundAdvisor = $this->advisorRepository->findOneBy(['dmsId' => $dmsAdvisorId]);
                 if ($foundAdvisor) {
                     $advisor = $foundAdvisor;
                 }
             }
 
             if (!$advisor) {
-                $foundAdvisor = $this->userRepo->findOneBy([
+                $foundAdvisor = $this->advisorRepository->findOneBy([
                     'firstName' => $advisorFirstName,
                     'lastName'  => $advisorLastName,
-                    'active'    => 1,
-                    'role'      => 'ROLE_SERVICE_ADVISOR'
+                    'active'    => 1
                 ]);
                 if ($foundAdvisor) {
                     $advisor = $foundAdvisor;
@@ -287,7 +259,7 @@ class DMS {
             }
 
             // If there is a filter, check against it and move along if it matched
-            $filter = $this->dmsFilter;
+            $filter = $this->dealertrackFilter;
             if ($filter != 'false' && $filter != false) {
                 if (strncmp($dmsOpenRepairOrder->number, $filter, strlen($filter)) === 0) {
                     continue;
@@ -305,12 +277,13 @@ class DMS {
 
             $repairOrder = new RepairOrder();
             $repairOrder->setPrimaryCustomer($customer)
-                        ->setPrimaryTechnician($defaultTechnician)
-                        ->setPrimaryAdvisor($advisor)
+                        ->setTechnician($defaultTechnician)
+                        ->setAdvisor($advisor)
                         ->setNumber($dmsOpenRepairOrder->number)
-                        ->setDmsKey($roKey)
-                        ->setStartValue(0)
-                        ->setDateCreated($dmsOpenRepairOrder->date)
+                        ->setRoKey($roKey)
+                        ->setValue(0)
+                        ->setDate($dmsOpenRepairOrder->date)
+                        ->setPhase(1)
                         ->setWaiter($dmsOpenRepairOrder->waiter)
                         ->setPickupDate($dmsOpenRepairOrder->pickupDate)
                         ->setYear($dmsOpenRepairOrder->year)
@@ -318,17 +291,21 @@ class DMS {
                         ->setModel($dmsOpenRepairOrder->model)
                         ->setMiles($dmsOpenRepairOrder->miles)
                         ->setVin($dmsOpenRepairOrder->vin)
-                        ->setUpgradeQue(0)
-                        ->setInternal(0)
-                        ->setLinkHash($this->repairOrderHelper->generateLinkHash($dmsOpenRepairOrder->date->format('c')));
+                        ->setUpgradeQueue(0)
+                        ->setInactive(0);
 
-            // If the customer name has "INVENTORY" in it, skip as an internal
-            if (strpos($name, 'INVENTORY') !== false) {
-                $repairOrder->setInternal(1);
+            // @TODO: Fix this later. Need to make an admin settings. Imagine getIntegrationFilter is getInternalFilter
+            // If the customer name has "INVENTORY" in it, skip as an internal UNLESS getIntegrationFilter() has any value
+            if (strpos($name, 'INVENTORY') !== false && $settings->getIntegrationFilter() == null) {
+                $repairOrder->setInactive(1);
             }
 
-            $this->em->persist($repairOrder);
-            $this->em->flush();
+            try {
+                $this->em->persist($repairOrder);
+                $this->em->flush();
+            } catch (OptimisticLockException $e) {
+                continue;
+            }
 
             // No number, don't text them. Move to next RO
             if (!$customer->getPhone()) {
@@ -337,46 +314,49 @@ class DMS {
 
             // Throws an error if it's not a mobile number
             try {
-                $this->twilioHelper->lookupNumber($customer->getPhone());
+                $this->twilio->carrierLookup($customer->getPhone());
             } catch (Exception $e) {
                 continue;
             }
-            // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
-            if ($this->settingsHelper->getSetting('waiverEstimateText') && $this->settingsHelper->getSetting('waiverActivateAuthMessage')) {
+
+            if ($settings->getEstimateWaiverText() && $settings->getAuthorizationMessage()) {
                 $introMessage = "Welcome to " . $settings->getName() . '. Click the link below to begin your visit. ';
-                if ($this->settingsHelper->getSetting('waiverIntroText')) {
-                    $introMessage = $settings->getSetting('waiverIntroText') . ' ';
+                if ($settings->getAuthorizationMessageText()) {
+                    $introMessage = $settings->getAuthorizationMessageText() . ' ';
                 }
 
-                $textLink     = $this->customerURL . $repairOrder->getLinkHash() . '/repair-waiver';
-                $textLink     = $this->shortURLHelper->shortenUrl($textLink);
+                $textLink     = $this->clientUrl . $repairOrder->getLinkHash() . '/repair-waiver';
+                $textLink     = $this->urlShortener->shortenUrl($textLink);
                 $introMessage = $introMessage . $textLink;
                 if ($this->activateIntegrationSms == true) {
-                    $this->twilioHelper->sendShortCode($customer->getPhone(), $introMessage);
+                    $this->twilio->sendShortCode($customer->getPhone(), $introMessage);
                 }
             } else {
                 $introMessage = "
                     For updates on your vehicle, please reply to this number. Your video inspection will be sent to you soon.
                 ";
-                // if (!$settings->getTwoWayTexting()) {
-                //     $introMessage = "
-                //         For updates on your vehicle, contact your advisor. Your video inspection will be sent to you soon.
-                //     ";
-                // }
+                if (!$settings->getTwoWayTexting()) {
+                    $introMessage = "
+                        For updates on your vehicle, contact your advisor. Your video inspection will be sent to you soon.
+                    ";
+                }
 
-                if ($this->settingsHelper->getSetting('serviceTextIntro')) {
-                    $introMessage = $this->settingsHelper->getSetting('serviceTextIntro');
+                if ($settings->getIntroText()) {
+                    $introMessage = $settings->getIntroText();
                 }
                 if ($this->activateIntegrationSms == true) {
-                    $this->twilioHelper->sendSms($customer->getPhone(), $introMessage);
+                    $this->twilio->sendSms($customer->getPhone(), $introMessage);
                 }
             }
 
-            if ($repairOrder->getVin() && $repairOrder->getYear() && $repairOrder->getMake() && $repairOrder->getModel()) {
+            if($repairOrder->getVin() && $repairOrder->getYear() && $repairOrder->getMake() && $repairOrder->getModel()){
                 $repairOrder->setUpgradeQueue(1);
-
-                $this->em->persist($repairOrder);
-                $this->em->flush();
+                try {
+                    $this->em->persist($repairOrder);
+                    $this->em->flush();
+                } catch (OptimisticLockException $e) {
+                    continue;
+                }
             }
         }
     }
@@ -386,25 +366,23 @@ class DMS {
      */
     public function closeOpenRepairOrders () {
         // Get open repair orders
-        $openRepairOrders  = $this->repairOrderRepo->findBy(['dateClosed' => null, 'deleted' => 0]);
+        $openRepairOrders  = $this->repairOrderRepository->findBy(['phase' => [0, 1, 2, 3, 4], 'inactive' => 0]);
         $checkRepairOrders = [];
 
-        // if ($openRepairOrders) {
-        //     /** @var RepairOrder $openRepairOrder */
-        //     foreach ($openRepairOrders as $openRepairOrder) {
-        //         // Has a closed date so don't get the data again
-        //         if ($openRepairOrder->getDateClosed()) {
-        //             print_r($openRepairOrder);
-        //             echo PHP_EOL;
-        //             continue;
-        //         }
-
-        //         $checkRepairOrders[] = $openRepairOrder;
-        //     }
-        // }
-
         if ($openRepairOrders) {
-            $this->integration->getClosedRoDetails($openRepairOrders);
+            /** @var RepairOrder $openRepairOrder */
+            foreach ($openRepairOrders as $openRepairOrder) {
+                // Has a closed date so don't get the data again
+                if ($openRepairOrder->getClosedDate()) {
+                    continue;
+                }
+
+                $checkRepairOrders[] = $openRepairOrder;
+            }
+        }
+
+        if ($checkRepairOrders) {
+            $this->integration->getClosedRoDetails($checkRepairOrders);
         }
     }
 
@@ -415,9 +393,10 @@ class DMS {
      * @throws Exception
      */
     public function addSingleRepairOrder ($RONumber) {
-        $defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
-        $defaultAdvisor    = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_SERVICE_ADVISOR'], ['id' => 'ASC'])[0];
-        $filter            = $this->dmsFilter;
+        $settings          = $this->adminRepository->find(1);
+        $defaultTechnician = $this->technicianRepository->find(1);
+        $defaultAdvisor    = $this->advisorRepository->findBy(['active' => 1], ['id' => 'ASC'])[0];
+        $filter            = $this->dealertrackFilter;
 
         if (!$this->integration) {
             throw new Exception('You are not integrated with a DMS');
@@ -432,7 +411,7 @@ class DMS {
             throw new Exception("We were unable to find that RO Number on your DMS");
         }
 
-        $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsRepairOrder->number]);
+        $repairOrderExists = $this->repairOrderRepository->findOneBy(['number' => $dmsRepairOrder->number]);
         if ($repairOrderExists) {
             throw new Exception("This RO is already in the system");
         }
@@ -442,40 +421,37 @@ class DMS {
         $name             = $dmsRepairOrder->customer->name;
         $email            = $dmsRepairOrder->customer->email;
         $dmsAdvisorId     = $dmsRepairOrder->advisor->id;
-        $advisorFirstName = $dmsRepairOrder->advisor->firstName;
-        $advisorLastName  = $dmsRepairOrder->advisor->lastName;
-        $roKey            = isset($dmsRepairOrder->roKey) ? $dmsRepairOrder->roKey : null;
+        $advisorFirstName = $dmsRepairOrder->advisor->first_name;
+        $advisorLastName  = $dmsRepairOrder->advisor->last_name;
+        $roKey            = isset($dmsRepairOrder->ro_key) ? $dmsRepairOrder->ro_key : null;
 
         // Skip certain ROs w/ customer names of those shown in the skip array
         // No phone number, just create the customer and move on
         if (!$phone) {
-            $customer = new Customer();
-            $this->customerHelper->commitCustomer($customer, ['name' => $name, 'email' => $email]);
+            $customer = $this->customerService->addCustomer($phone, $name, $email);
         } else {
             // Check if the customer exists and use that one instead if so
-            $customerExists = $this->customerRepo->findOneBy(['phone' => $phone]);
+            $customerExists = $this->customerRepository->findOneBy(['phone' => $phone]);
 
             if ($customerExists) {
                 $customer = $customerExists;
             } else {
-                $customer = new Customer();
-                $this->customerHelper->commitCustomer($customer, ['phone' => $phone, 'name' => $name, 'email' => $email]);
+                $customer = $this->customerService->addCustomer($phone, $name, $email);
             }
         }
 
         if ($dmsAdvisorId) {
-            $foundAdvisor = $this->userRepo->findOneBy(['dmsId' => $dmsAdvisorId, 'role' => 'ROLE_SERVICE_ADVISOR']);
+            $foundAdvisor = $this->advisorRepository->findOneBy(['dmsId' => $dmsAdvisorId]);
             if ($foundAdvisor) {
                 $advisor = $foundAdvisor;
             }
         }
 
         if (!$advisor) {
-            $foundAdvisor = $this->userRepo->findOneBy([
+            $foundAdvisor = $this->advisorRepository->findOneBy([
                 'firstName' => $advisorFirstName,
                 'lastName'  => $advisorLastName,
-                'active'    => 1,
-                'role'      => 'ROLE_SERVICE_ADVISOR'
+                'active'    => 1
             ]);
             if ($foundAdvisor) {
                 $advisor = $foundAdvisor;
@@ -496,12 +472,13 @@ class DMS {
 
         $repairOrder = new RepairOrder();
         $repairOrder->setPrimaryCustomer($customer)
-                    ->setPrimaryTechnician($defaultTechnician)
-                    ->setPrimaryAdvisor($advisor)
+                    ->setTechnician($defaultTechnician)
+                    ->setAdvisor($advisor)
                     ->setNumber($dmsRepairOrder->number)
-                    ->setDmsKey($roKey)
-                    ->setStartValue(0)
-                    ->setDateCreated($dmsRepairOrder->date)
+                    ->setRoKey($roKey)
+                    ->setValue(0)
+                    ->setDate($dmsRepairOrder->date)
+                    ->setPhase(1)
                     ->setWaiter($dmsRepairOrder->waiter)
                     ->setPickupDate($dmsRepairOrder->pickupDate)
                     ->setYear($dmsRepairOrder->year)
@@ -509,51 +486,54 @@ class DMS {
                     ->setModel($dmsRepairOrder->model)
                     ->setMiles($dmsRepairOrder->miles)
                     ->setVin($dmsRepairOrder->vin)
-                    ->setInternal(0)
-                    ->setLinkHash($this->repairOrderHelper->generateLinkHash($dmsOpenRepairOrder->date->format('c')->format('c')));
+                    ->setInactive(0);
 
-        // If the customer name has "INVENTORY" in it, skip as an internal
-        if (strpos($name, 'INVENTORY') !== false) {
-            $repairOrder->setInternal(1);
+        // @TODO: Fix this later. Need to make an admin settings. Imagine getIntegrationFilter is getInternalFilter
+        // If the customer name has "INVENTORY" in it, skip as an internal UNLESS getIntegrationFilter() has any value
+        if (strpos($name, 'INVENTORY') !== false && $settings->getIntegrationFilter() == null) {
+            $repairOrder->setInactive(1);
         }
 
-        $this->em->persist($repairOrder);
-        $this->em->flush();
+        try {
+            $this->em->persist($repairOrder);
+            $this->em->flush();
+        } catch (OptimisticLockException $e) {
+            throw new Exception('Failed to save the RO to the database. Please try again later.');
+        }
 
         if ($customer->getPhone()) {
             // Don't do the rest of the script if it's not a mobile number
             try {
-                $this->twilioHelper->lookupNumber($customer->getPhone());
+                $this->twilio->carrierLookup($customer->getPhone());
 
-                // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
-                if ($settings->getSettings('waiverEstimateText') && $settings->getAuthorizationMessage()) {
-                    $introMessage = "Welcome to " . $settings->getSetting('generalName') . '. Click the link below to begin your visit. ';
-                    if ($settings->repairAuthorizationTextMessage()) {
-                        $introMessage = $settings->repairAuthorizationTextMessage() . ' ';
+                if ($settings->getEstimateWaiverText() && $settings->getAuthorizationMessage()) {
+                    $introMessage = "Welcome to " . $settings->getName() . '. Click the link below to begin your visit. ';
+                    if ($settings->getAuthorizationMessageText()) {
+                        $introMessage = $settings->getAuthorizationMessageText() . ' ';
                     }
 
-                    $textLink     = $this->customerURL . $repairOrder->getLinkHash() . '/repair-waiver';
-                    $textLink     = $this->shortURLHelper->shortenUrl($textLink);
+                    $textLink     = $this->clientUrl . $repairOrder->getLinkHash() . '/repair-waiver';
+                    $textLink     = $this->urlShortener->shortenUrl($textLink);
                     $introMessage = $introMessage . $textLink;
                     if ($this->activateIntegrationSms == true) {
-                        $this->twilioHelper->sendShortCode($customer->getPhone(), $introMessage);
+                        $this->twilio->sendShortCode($customer->getPhone(), $introMessage);
                     }
                 } else {
                     $introMessage = "
                         For updates on your vehicle, please reply to this number. Your video inspection will be sent to you soon.
                     ";
-                    // if (!$settings->getTwoWayTexting()) {
-                    //     $introMessage = "
-                    //         For updates on your vehicle, contact your advisor. Your video inspection will be sent to you soon.
-                    //     ";
-                    // }
+                    if (!$settings->getTwoWayTexting()) {
+                        $introMessage = "
+                            For updates on your vehicle, contact your advisor. Your video inspection will be sent to you soon.
+                        ";
+                    }
 
-                    if ($settings->getSetting('serviceTextIntro')) {
-                        $introMessage = $settings->getSetting('serviceTextIntro');
+                    if ($settings->getIntroText()) {
+                        $introMessage = $settings->getIntroText();
                     }
 
                     if ($this->activateIntegrationSms == true) {
-                        $this->twilioHelper->sendSms($customer->getPhone(), $introMessage);
+                        $this->twilio->sendSms($customer->getPhone(), $introMessage);
                     }
                 }
             } catch (Exception $e) {

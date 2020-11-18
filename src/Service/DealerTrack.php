@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Service;
+namespace AppBundle\Service;
 
-use App\Entity\RepairOrder;
+use AppBundle\Entity\RepairOrder;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Dotenv\Dotenv;
 
 /**
- * Class DealerTrackClient
+ * Class DealerTrack
  *
- * @package App\Service
+ * @package AppBundle\Service
  */
 class DealerTrack extends SOAP {
     /**
@@ -47,29 +45,30 @@ class DealerTrack extends SOAP {
     private $server = 'arkonap.arkona.com';
 
     /**
-     * @var EntityManagerInterface
+     * @var EntityManager
      */
     private $em;
 
     /**
-     * DealerTrackClient constructor.
+     * DealerTrack constructor.
      *
-     * @param EntityManagerInterface $em
-     * @param ParameterBagInterface  $parameterBag
+     * @param EntityManager $em
+     * @param               $enterprise
+     * @param               $company
      */
-    public function __construct (EntityManagerInterface $em, ParameterBagInterface $parameterBag) {
+    public function __construct (EntityManager $em, $enterprise, $company) {
+        $this->enterprise = $enterprise;
+        $this->company    = $company;
         $this->em         = $em;
-        $this->company    = $parameterBag->get('dealertrack_company');
-        $this->enterprise = $parameterBag->get('dealertrack_enterprise');
-        $env              = $parameterBag->get('app_env');
-
-        if ($env == 'dev') {
-            $this->company         = 'ZE7';
-            $this->enterprise      = 'ZE';
-            $this->eventServiceUrl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx';
-        }
 
         parent::__construct($em);
+    }
+
+    /**
+     * Enables Dev mode. Generally will break it unless you have params set to a valid staging account
+     */
+    public function enableDevMode () {
+        $this->eventServiceUrl = "https://otstaging.arkona.com/opentrack/serviceapi.asmx";
     }
 
     /**
@@ -151,12 +150,12 @@ class DealerTrack extends SOAP {
 
                 $return[] = (object)[
                     'customer'   => (object)[
-                        'name'         => $repairOrder->CustomerName,
-                        'phoneNumbers' => $repairOrder->CustomerPhoneNumber ? [$repairOrder->CustomerPhoneNumber] : null,
-                        'email'        => !is_object($repairOrder->CustomerEmail) ? $repairOrder->CustomerEmail : null
+                        'name'          => $repairOrder->CustomerName,
+                        'phone_numbers' => $repairOrder->CustomerPhoneNumber ? [$repairOrder->CustomerPhoneNumber] : null,
+                        'email'         => !is_object($repairOrder->CustomerEmail) ? $repairOrder->CustomerEmail : null
                     ],
                     'number'     => $repairOrder->RepairOrderNumber,
-                    'roKey'      => null,
+                    'ro_key'     => null,
                     'date'       => $openDate,
                     'waiter'     => ($pickupDate) ? false : true,
                     'pickupDate' => ($pickupDate) ? $pickupDate : null,
@@ -166,9 +165,9 @@ class DealerTrack extends SOAP {
                     'miles'      => $repairOrder->OdometerIn,
                     'vin'        => $repairOrder->VIN,
                     'advisor'    => (object)[
-                        'id'        => $repairOrder->ServiceWriterID,
-                        'firstName' => null,
-                        'lastName'  => null
+                        'id'         => $repairOrder->ServiceWriterID,
+                        'first_name' => null,
+                        'last_name'  => null
                     ]
                 ];
             }
@@ -245,7 +244,7 @@ class DealerTrack extends SOAP {
                 continue;
             }
 
-            $repairOrder->setDateClosed($closedDate)->setFinalValue($details->TotalSale);
+            $repairOrder->setClosedDate($closedDate)->setFinalValue($details->TotalSale);
 
             try {
                 $this->em->persist($repairOrder);
