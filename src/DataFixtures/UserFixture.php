@@ -80,6 +80,18 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
+        $user     = new User();
+        $password = $this->passwordEncoder->encodePassword($user, 'test');
+        $user->setFirstName('Test')
+             ->setLastName('Technician')
+             ->setEmail('ttechnician@iserviceauto.com')
+             ->setPhone(8475556665)
+             ->setPassword($password)
+             ->setRole('ROLE_TECHNICIAN')
+             ->setPin(1234);
+        $manager->persist($user);
+        $manager->flush();
+
         for ($i = 1; $i <= 50; $i++) {
             $user     = new User();
             $phone    = $faker->phoneNumber;
