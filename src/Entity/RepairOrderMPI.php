@@ -6,6 +6,7 @@ use App\Repository\RepairOrderMPIRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderMPIRepository::class)
@@ -21,7 +22,7 @@ class RepairOrderMPI
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="dateCompleted", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderMPI", cascade={"persist", "remove"})
      */
     private $repairOrder;
 
@@ -36,7 +37,7 @@ class RepairOrderMPI
     private $dateSent;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $results;
 

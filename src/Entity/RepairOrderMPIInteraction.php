@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RepairOrderMPIInteractionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderMPIInteractionRepository::class)
