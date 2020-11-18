@@ -348,7 +348,9 @@ class RepairOrderController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
         if ($ro->isArchived() === true) {
-            return new Response(null, 400);
+            return $this->handleView($this->view([
+                'message' => 'RO already archived',
+            ], Response::HTTP_BAD_REQUEST));
         }
         $helper->archiveRepairOrder($ro);
 
@@ -373,7 +375,9 @@ class RepairOrderController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
         if ($ro->isClosed() === true) {
-            return new Response(null, 400);
+            return $this->handleView($this->view([
+                'message' => 'RO already closed',
+            ], Response::HTTP_BAD_REQUEST));
         }
         $helper->closeRepairOrder($ro);
 
