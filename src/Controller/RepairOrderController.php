@@ -234,7 +234,10 @@ class RepairOrderController extends AbstractFOSRestController {
      * )
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
-     * @SWG\Parameter(name="customer", type="integer", in="formData", required=true) TODO
+     * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
+     *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
      *
@@ -249,7 +252,6 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    // TODO: Replace customer param with customerPhone & customerName, lookup/create customer
     public function add (Request $req, RepairOrderHelper $helper): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
