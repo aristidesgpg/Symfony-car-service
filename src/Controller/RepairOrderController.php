@@ -15,7 +15,6 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -52,7 +51,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *     )
      * )
      * @SWG\Response(response="404", description="Invalid page parameter")
-     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
@@ -159,8 +158,7 @@ class RepairOrderController extends AbstractFOSRestController {
         }
 
         if (!empty($errors)) {
-            return new JsonResponse($errors, 406); // TODO
-            //            return new ValidationResponse($errors);
+            return new ValidationResponse($errors);
         }
 
         $q = $qb->getQuery();
