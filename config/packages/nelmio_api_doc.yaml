@@ -13,6 +13,20 @@ nelmio_api_doc:
                 in: header
         security:
             - Bearer: []
+        responses:
+            ValidationResponse:
+                description: Validation error
+                schema:
+                    type: array
+                    items:
+                        type: object
+                        properties:
+                            key:
+                                type: string
+                                description: Parameter name
+                            msg:
+                                type: string
+                                description: Validation message
     areas:
         default:
             path_patterns: # an array of regexps
