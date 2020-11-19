@@ -7,13 +7,13 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
+use App\Response\ValidationResponse;
 use App\Service\VideoHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -68,6 +68,7 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      *     description="Success!",
      *     @SWG\Schema(ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS))
      * )
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      * @SWG\Parameter(name="video", type="file", in="formData", required=true)
      *
      * @param Request     $request
@@ -82,7 +83,7 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $file = $request->files->get('video');
         if (!$file instanceof UploadedFile) {
-            return new JsonResponse(['msg' => 'File not found'], 406);
+            return new ValidationResponse(['video' => 'File not found']);
         }
         $user = $this->getUser();
         if (!$user instanceof User || $user->getId() === null) {
@@ -121,6 +122,7 @@ class RepairOrderVideoController extends AbstractFOSRestController {
 
     /**
      * @Rest\Delete("/{video}")
+     * @SWG\Response(response="200", description="Success!")
      *
      * @param RepairOrder      $ro
      * @param RepairOrderVideo $video
@@ -134,7 +136,9 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $helper->deleteVideo($video);
 
-        return new Response();
+        return $this->handleView($this->view([
+            'message' => 'Video deleted',
+        ]));
     }
 
     /**
@@ -157,7 +161,9 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $helper->viewVideo($video, $user);
 
-        return new Response();
+        return $this->handleView($this->view([
+            'message' => 'Video view recorded',
+        ]));
     }
 
     /**
@@ -180,7 +186,9 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $helper->approveVideo($video, $user);
 
-        return new Response();
+        return $this->handleView($this->view([
+            'message' => 'Video approved',
+        ]));
     }
 
     /**
@@ -203,7 +211,9 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $helper->confirmViewed($video, $user);
 
-        return new Response();
+        return $this->handleView($this->view([
+            'message' => 'Video view confirmed',
+        ]));
     }
 
     /**
