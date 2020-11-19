@@ -6,6 +6,7 @@ use App\Entity\RepairOrder;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
+use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
 use DateTime;
 use Exception;
@@ -18,6 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class RepairOrderController
@@ -96,9 +98,12 @@ class RepairOrderController extends AbstractFOSRestController {
      * @param RepairOrderRepository $repairOrderRepo
      * @param PaginatorInterface    $paginator
      *
+     * @param UrlGeneratorInterface $urlGenerator
+     *
      * @return Response
      */
-    public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator): Response {
+    public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator,
+                            UrlGeneratorInterface $urlGenerator): Response {
         $page            = $request->query->getInt('page', 1);
         $startDate       = $request->query->get('startDate');
         $endDate         = $request->query->get('endDate');
@@ -163,39 +168,15 @@ class RepairOrderController extends AbstractFOSRestController {
 
         $urlParameters += $queryParameters;
         $pager         = $paginator->paginate($q, $page, self::PAGE_LIMIT);
-        $totalResults  = $pager->getTotalItemCount();
-        $totalPages    = ceil($totalResults / self::PAGE_LIMIT);
-        $currentPage   = $pager->getCurrentPageNumber();
-        $previous      = $currentPage - 1;
-        $next          = $currentPage + 1;
-
-        if ($page > $totalPages) {
-            throw new NotFoundHttpException();
-        }
-
-        if ($previous <= 0) {
-            $previous = null;
-        }
-
-        if ($next >= $totalPages) {
-            $next = null;
-        }
-
-        if ($next) {
-            $next = $this->generateUrl('getRepairOrders', $urlParameters + ['page' => $next]);
-        }
-
-        if ($previous) {
-            $previous = $this->generateUrl('getRepairOrders', $urlParameters + ['page' => $previous]);
-        }
+        $pagination    = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
         $view = $this->view([
             'repairOrders' => $pager->getItems(),
-            'totalResults' => $totalResults,
-            'totalPages'   => $totalPages,
-            'previous'     => $previous,
-            'currentPage'  => $currentPage,
-            'next'         => $next
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters)
         ]);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 

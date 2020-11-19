@@ -27,11 +27,16 @@ MySQL Version: 5.7.31
         `composer install`
 
         `openssl genrsa -out config/jwt/private.pem -aes256 4096`
+        You need to use this password for it to work: 0dd003e40304fb6c03eb056fcaa27a3c
         `openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem`
+        Make sure you use the same password
 
         `yes | php bin/console doctrine:migration:migrate`
 
         `yes | php bin/console doctrine:fixtures:load`
+        
+        `php bin/console assets:install --symlink`
+        This command will set up the symlinks for swagger-ui (if necessary)
 
 6. NOTE: Occasionally as things change you will have to remove containers and images created by docker-compose using the commands below
 
