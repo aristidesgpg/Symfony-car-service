@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\PhoneLookup;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Twilio\Exceptions\ConfigurationException;
+use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 /**
