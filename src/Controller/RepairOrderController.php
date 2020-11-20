@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\RepairOrder;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
+use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
 use DateTime;
@@ -14,7 +15,6 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -51,7 +51,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *     )
      * )
      * @SWG\Response(response="404", description="Invalid page parameter")
-     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
@@ -158,8 +158,7 @@ class RepairOrderController extends AbstractFOSRestController {
         }
 
         if (!empty($errors)) {
-            return new JsonResponse($errors, 406); // TODO
-            //            return new ValidationResponse($errors);
+            return new ValidationResponse($errors);
         }
 
         $q = $qb->getQuery();
@@ -212,9 +211,12 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="Success!",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
-     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
-     * @SWG\Parameter(name="customer", type="integer", in="formData", required=true) TODO
+     * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
+     *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
      *
@@ -229,12 +231,10 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    // TODO: Replace customer param with customerPhone & customerName, lookup/create customer
     public function add (Request $req, RepairOrderHelper $helper): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
-            return new JsonResponse($ro, 406); // TODO
-            //            return new ValidationResponse($ro);
+            return new ValidationResponse($ro);
         }
 
         $view = $this->view($ro);
@@ -251,7 +251,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * @SWG\Response(response="404", description="RO does not exist")
-     * SWG\Response(response="406", ref="#/responses/ValidationResponse") TODO
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
@@ -283,8 +283,7 @@ class RepairOrderController extends AbstractFOSRestController {
         }
         $errors = $helper->updateRepairOrder($req->request->all(), $ro);
         if (!empty($errors)) {
-            return new JsonResponse($errors, 406); // TODO
-            //            return new ValidationResponse($errors);
+            return new ValidationResponse($errors);
         }
 
         $view = $this->view($ro);
@@ -330,7 +329,9 @@ class RepairOrderController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
         if ($ro->isArchived() === true) {
-            return new Response(null, 400);
+            return $this->handleView($this->view([
+                'message' => 'RO already archived',
+            ], Response::HTTP_BAD_REQUEST));
         }
         $helper->archiveRepairOrder($ro);
 
@@ -355,7 +356,9 @@ class RepairOrderController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
         if ($ro->isClosed() === true) {
-            return new Response(null, 400);
+            return $this->handleView($this->view([
+                'message' => 'RO already closed',
+            ], Response::HTTP_BAD_REQUEST));
         }
         $helper->closeRepairOrder($ro);
 

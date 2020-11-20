@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Customer;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -62,6 +63,24 @@ class CustomerRepository extends ServiceEntityRepository {
            ->setParameter('lname', '%' . $query);
 
         return $qb->getQuery();
+    }
+
+    /**
+     * @param string $phone
+     *
+     * @return Customer|null
+     */
+    public function findByPhone (string $phone): ?Customer {
+        try {
+            return $this->getBaseQueryBuilder()
+                        ->andWhere('c.phone = :phone')
+                        ->setParameter('phone', $phone)
+                        ->getQuery()
+                        ->setMaxResults(1)
+                        ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 
     /**
