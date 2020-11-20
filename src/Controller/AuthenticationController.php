@@ -90,12 +90,13 @@ class AuthenticationController extends AbstractFOSRestController {
     public function authenticateAction (Request $request, UserPasswordEncoderInterface $passwordEncoder,
                                         JWTEncoderInterface $JWTEncoder, RepairOrderRepository $repairOrderRepository,
                                         SettingsHelper $settingsHelper, PasswordHelper $passwordHelper,
-                                        WordpressLogin $wordpressLogin) {
+                                        WordpressLogin $wordpressLogin, ContainerBuilder $containerBuilder) {
         $username      = $request->get('username');  // tperson@iserviceauto.com
         $password      = $request->get('password');  // test
         $linkHash      = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
         $pin           = $request->get('pin');
         $tokenUsername = null;
+        $ttl           = 28800; // Default 8 hours
 
         if ((!$username || !$password) && !$linkHash && (!$username || !$pin)) {
             goto INVALID;
@@ -142,6 +143,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
+                $ttl           = 3600;
                 goto TOKEN;
             }
         }
@@ -167,6 +169,7 @@ class AuthenticationController extends AbstractFOSRestController {
                 if ($username === $techAppUsername) {
                     if ($passwordHelper->validatePassword($password, $techAppPassword)) {
                         $tokenUsername = 'technician';
+                        $ttl           = 31536000; // 1 year
                         goto TOKEN;
                     } else {
                         goto INVALID;
@@ -188,11 +191,11 @@ class AuthenticationController extends AbstractFOSRestController {
             }
 
             // Now try iService agent
-//            $agentResponse = $wordpressLogin->validateUserPassword($username, $password, false);
-//            if ($agentResponse) {
-//                $tokenUsername = 'iservice';
-//                goto TOKEN;
-//            }
+            //            $agentResponse = $wordpressLogin->validateUserPassword($username, $password, false);
+            //            if ($agentResponse) {
+            //                $tokenUsername = 'iservice';
+            //                goto TOKEN;
+            //            }
         }
 
         INVALID:
@@ -201,7 +204,8 @@ class AuthenticationController extends AbstractFOSRestController {
         TOKEN:
         try {
             $token = $JWTEncoder->encode([
-                'username' => $tokenUsername
+                'username' => $tokenUsername,
+                'exp'      => $ttl
             ]);
         } catch (JWTEncodeFailureException $e) {
             return $this->handleView($this->view('Login Failed. Please try again later.', Response::HTTP_INTERNAL_SERVER_ERROR));
