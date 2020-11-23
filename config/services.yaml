@@ -42,5 +42,9 @@ services:
     arguments:
       - '%env(TWILIO_SID)%'
       - '%env(TWILIO_AUTH_TOKEN)%'
+  App\Service\NMI:
+    arguments:
+      - '%env(NMI_USERNAME)%'
+      - '%env(NMI_PASSWORD)%'
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
