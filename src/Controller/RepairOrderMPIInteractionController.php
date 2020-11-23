@@ -42,7 +42,7 @@ class RepairOrderMPIInteractionController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getRepairOrderMPIs (RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo) {
+    public function getRepairOrderMPIInteractions (RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo) {
         //get Repair Order MPI Interactions
         return $this->handleView($this->view($repairOrderMPIInteractionRepo->findAll(), Response::HTTP_OK));
     }
@@ -100,7 +100,7 @@ class RepairOrderMPIInteractionController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function createRepairOrderMPI (
+    public function createRepairOrderMPIInteraction (
                         Request $request, 
                         RepairOrderMPIRepository $repairOrderMPIRepository, 
                         UserRepository           $userRepository,
