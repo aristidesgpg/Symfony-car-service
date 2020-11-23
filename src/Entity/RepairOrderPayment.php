@@ -2,11 +2,9 @@
 
 namespace App\Entity;
 
-use App\Money\MoneyHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use Money\Money;
 
 /**
  * @ORM\Entity
@@ -28,10 +26,8 @@ class RepairOrderPayment {
     private $repairOrder;
 
     /**
-     * @ORM\Column(type="money")
-     * @Serializer\Accessor(getter="getAmountString")
+     * @ORM\Column(type="integer")
      * @Serializer\Groups(groups={"rop_list"})
-     * @Serializer\Type(name="string")
      */
     private $amount;
 
@@ -42,10 +38,8 @@ class RepairOrderPayment {
     private $transactionId;
 
     /**
-     * @ORM\Column(type="money", nullable=true)
-     * @Serializer\Accessor(getter="getRefundedAmountString")
+     * @ORM\Column(type="integer", nullable=true)
      * @Serializer\Groups(groups={"rop_list"})
-     * @Serializer\Type(name="string")
      */
     private $refundedAmount;
 
@@ -148,25 +142,18 @@ class RepairOrderPayment {
     }
 
     /**
-     * @return Money
+     * @return int
      */
-    public function getAmount (): Money {
+    public function getAmount (): int {
         return $this->amount;
     }
 
     /**
-     * @return string
-     */
-    public function getAmountString (): string {
-        return MoneyHelper::getFormatter()->format($this->amount);
-    }
-
-    /**
-     * @param Money $amount
+     * @param int $amount
      *
      * @return $this
      */
-    public function setAmount (Money $amount): self {
+    public function setAmount (int $amount): self {
         $this->amount = $amount;
 
         return $this;
@@ -191,29 +178,18 @@ class RepairOrderPayment {
     }
 
     /**
-     * @return Money|null
+     * @return int|null
      */
-    public function getRefundedAmount (): ?Money {
+    public function getRefundedAmount (): ?int {
         return $this->refundedAmount;
     }
 
     /**
-     * @return string|null
-     */
-    public function getRefundedAmountString (): ?string {
-        if ($this->refundedAmount === null) {
-            return null;
-        }
-
-        return MoneyHelper::getFormatter()->format($this->refundedAmount);
-    }
-
-    /**
-     * @param Money $refundedAmount
+     * @param int $refundedAmount
      *
      * @return $this
      */
-    public function setRefundedAmount (Money $refundedAmount): self {
+    public function setRefundedAmount (int $refundedAmount): self {
         $this->refundedAmount = $refundedAmount;
 
         return $this;
