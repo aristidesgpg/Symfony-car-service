@@ -6,6 +6,7 @@ use App\Repository\RepairOrderMPIRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use DateTime;
 
 /**
@@ -18,26 +19,31 @@ class RepairOrderMPI
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"rom_list"})
      */
     private $id;
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderMPI", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"rom_list"})
      */
     private $repairOrder;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"rom_list"})
      */
     private $dateCompleted;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"rom_list"})
      */
     private $dateSent;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Serializer\Groups(groups={"rom_list"})
      */
     private $results;
 

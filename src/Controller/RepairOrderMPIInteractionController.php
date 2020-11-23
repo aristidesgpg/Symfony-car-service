@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Customer;
 use App\Entity\RepairOrderMPI;
+use App\Entity\RepairOrderMPIInteraction;
 use App\Repository\UserRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderMPIRepository;
@@ -13,6 +14,7 @@ use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
@@ -35,7 +37,8 @@ class RepairOrderMPIInteractionController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return Repair Order MPI Interactions"
+     *     description="Return Repair Order MPI Interactions",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderMPIInteraction::class, groups=RepairOrderMPIInteraction::GROUPS))
      * )
      *
      * @param RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepository
@@ -44,7 +47,11 @@ class RepairOrderMPIInteractionController extends AbstractFOSRestController {
      */
     public function getRepairOrderMPIInteractions (RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo) {
         //get Repair Order MPI Interactions
-        return $this->handleView($this->view($repairOrderMPIInteractionRepo->findAll(), Response::HTTP_OK));
+        $repairOrderMPIInteractions = $repairOrderMPIInteractionRepo->findAll();
+        $view                       = $this->view($repairOrderMPIInteractions);
+        $view->getContext()->setGroups(RepairOrderMPIInteraction::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -117,17 +124,17 @@ class RepairOrderMPIInteractionController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order MPI exists
-        $repairOrderMPI  = $repairOrderMPIRepository->findOneBy($repairOrderMPIID);
+        $repairOrderMPI  = $repairOrderMPIRepository->find($repairOrderMPIID);
         if (!$repairOrderMPI) {
             return $this->handleView($this->view('Invalid repair_order_mpi Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if User exists
-        $user           = $userRepository->findOneBy($userID);
+        $user           = $userRepository->find($userID);
         if (!$user) {
             return $this->handleView($this->view('Invalid user Parameter', Response::HTTP_BAD_REQUEST));
         }
          //Check if Customer exists
-        $customer       = $customerRepository->findOneBy($customerID);
+        $customer       = $customerRepository->find($customerID);
         if (!$customer) {
             return $this->handleView($this->view('Invalid customer Parameter', Response::HTTP_BAD_REQUEST));
         }

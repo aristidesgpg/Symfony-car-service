@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RepairOrderMPIInteractionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use DateTime;
 
 /**
@@ -12,38 +13,45 @@ use DateTime;
  */
 class RepairOrderMPIInteraction
 {
+    public const GROUPS = ['romi_list', 'rom_list', 'user_list', 'customer_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"romi_list"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=RepairOrderMPI::class, inversedBy="repairOrderMPIInteractions")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"romi_list"})
      */
     private $repairOrderMPI;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="repairOrderMPIInteractions")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"romi_list"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="repairOrderMPIInteractions")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"romi_list"})
      */
     private $customer;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"romi_list"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"romi_list"})
      */
     private $date;
 

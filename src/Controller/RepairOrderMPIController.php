@@ -10,11 +10,11 @@ use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use App\Service\MPITemplateHelper;
-
 
 /**
  * Class RepairOrderMPIController
@@ -32,7 +32,12 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return Repair Order MPIs"
+     *     description="Return Repair Order MPIs",
+     *     @SWG\Items(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=RepairOrderMPI::class, groups={"rom_list"})),
+     *         description="id, repair_order_id, date_completed, date_sent, results"
+     *     )
      * )
      *
      * @param RepairOrderMPIRepository $repairOrderMPIRepository
@@ -41,7 +46,11 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      */
     public function getRepairOrderMPIs (RepairOrderMPIRepository $repairOrderMPIRepository) {
         //get Repair Order MPIs
-        return $this->handleView($this->view($repairOrderMPIRepository->findAll(), Response::HTTP_OK));
+        $repairOrderMPIs = $repairOrderMPIRepository->findAll();
+        $view            = $this->view($repairOrderMPIs);
+        $view->getContext()->setGroups(['rom_list']);
+
+        return $this->handleView($view);
     }
 
     /**
