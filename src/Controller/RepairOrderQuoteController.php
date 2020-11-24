@@ -14,6 +14,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
+use DateTime;
 
 /**
  * Class RepairOrderQuoteController
@@ -128,10 +129,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         //store repairOrderQuote
         $repairOrderQuote = new RepairOrderQuote();
         $repairOrderQuote->setRepairOrder($repairOrder)
-                         ->setDateSent($dateSent)
-                         ->setDateCustomerViewed($dateCustomerViewed)
-                         ->setDateCustomerCompleted($dateCustomerCompleted)
-                         ->setDateCompletedViewed($dateCompletedViewed);
+                         ->setDateSent($dateSent ? new DateTime($dateSent) : null)
+                         ->setDateCustomerViewed($dateCustomerViewed ? new DateTime($dateCustomerViewed) : null)
+                         ->setDateCustomerCompleted($dateCustomerCompleted ? new DateTime($dateCustomerCompleted) : null)
+                         ->setDateCompletedViewed($dateCompletedViewed ? new DateTime($dateCompletedViewed) : null);
 
         $em->persist($repairOrderQuote);
         $em->flush();
@@ -217,10 +218,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         }
         //update repairOrderQuote
         $repairOrderQuote->setRepairOrder($repairOrder)
-                         ->setDateSent($dateSent)
-                         ->setDateCustomerViewed($dateCustomerViewed)
-                         ->setDateCustomerCompleted($dateCustomerCompleted)
-                         ->setDateCompletedViewed($dateCompletedViewed);
+                         ->setDateSent($dateSent ? new DateTime($dateSent) : null)
+                         ->setDateCustomerViewed($dateCustomerViewed ? new DateTime($dateCustomerViewed) : null)
+                         ->setDateCustomerCompleted($dateCustomerCompleted ? new DateTime($dateCustomerCompleted) : null)
+                         ->setDateCompletedViewed($dateCompletedViewed ? new DateTime($dateCompletedViewed) : null);
 
         $em->persist($repairOrderQuote);
         $em->flush();
@@ -231,10 +232,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/repair-order-quote/{id}")
+     * @Rest\Delete("/api/repair-order-quote/{id}")
      *
      * @SWG\Tag(name="Repair Order Quote")
-     * @SWG\Put(description="Delete a Repair Order Quote")
+     * @SWG\Delete(description="Delete a Repair Order Quote")
      * 
      * @SWG\Response(
      *     response=200,

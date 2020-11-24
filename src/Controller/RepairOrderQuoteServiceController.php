@@ -323,10 +323,10 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/repair-order-quote-service/{id}")
+     * @Rest\Delete("/api/repair-order-quote-service/{id}")
      *
      * @SWG\Tag(name="Repair Order Quote Service")
-     * @SWG\Put(description="Delete a Repair Order Quote Service")
+     * @SWG\Delete(description="Delete a Repair Order Quote Service")
      * 
      * @SWG\Response(
      *     response=200,
