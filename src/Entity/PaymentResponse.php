@@ -26,20 +26,30 @@ class PaymentResponse {
     private $code;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $responseText;
+
+    /**
      * @ORM\Column(type="text")
      */
-    private $response;
+    private $rawResponse;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $created;
 
-    public function __construct (string $type, int $code, string $response) {
+    private $parsedResponse = [];
+
+    public function __construct (string $type, string $curlResponse) {
         $this->type = $type;
-        $this->code = $code;
-        $this->response = $response;
+        $this->rawResponse = $curlResponse;
         $this->created = new \DateTime();
+
+        $parsed = $this->getParsedResponse();
+        $this->code = (int)$parsed['response_code'] ?? -1;
+        $this->responseText = $parsed['responsetext'] ?? 'Unknown. responsetext missing.';
     }
 
     /**
@@ -47,6 +57,18 @@ class PaymentResponse {
      */
     public function getId (): ?int {
         return $this->id;
+    }
+
+    public function getRawResponse (): string {
+        return $this->rawResponse;
+    }
+
+    public function getParsedResponse (): array {
+        if (empty($this->parsedResponse)) {
+            parse_str($this->rawResponse, $this->parsedResponse);
+        }
+
+        return $this->parsedResponse;
     }
 
     /**
@@ -66,8 +88,8 @@ class PaymentResponse {
     /**
      * @return string
      */
-    public function getResponse (): string {
-        return $this->response;
+    public function getResponseText (): string {
+        return $this->responseText;
     }
 
     /**
