@@ -15,6 +15,8 @@ use DateTime;
  */
 class RepairOrderMPI
 {
+    public const GROUPS = ['rom_list', 'ro_list'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

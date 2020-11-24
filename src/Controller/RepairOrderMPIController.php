@@ -35,7 +35,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *     description="Return Repair Order MPIs",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderMPI::class, groups={"rom_list"})),
+     *         @SWG\Items(ref=@Model(type=RepairOrderMPI::class, groups=RepairOrderMPI::GROUPS)),
      *         description="id, repair_order_id, date_completed, date_sent, results"
      *     )
      * )

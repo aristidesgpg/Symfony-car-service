@@ -35,7 +35,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *     description="Return Repair Order Quotes",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderQuote::class, groups={"roq_list"})),
+     *         @SWG\Items(ref=@Model(type=RepairOrderQuote::class, groups=RepairOrderQuote::GROUPS)),
      *         description="id, repair_order_id, date_created, date_sent, date_customer_viewed, date_customer_completed, date_completed_viewed, deleted"
      *     )
      * )
@@ -46,7 +46,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      */
     public function getRepairOrderQuotes (RepairOrderQuoteRepository $repairOrderQuoteRepository) {
         //get Repair Order MPIs
-        $repairOrderQuotes = $repairOrderQuoteRepository->findAll(['deleted' => 0]);
+        $repairOrderQuotes = $repairOrderQuoteRepository->findBy(['deleted' => 0]);
         $view              = $this->view($repairOrderQuotes);
         $view->getContext()->setGroups(['roq_list']);
 

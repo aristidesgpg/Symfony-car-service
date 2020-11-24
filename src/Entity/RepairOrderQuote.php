@@ -14,6 +14,8 @@ use DateTime;
  */
 class RepairOrderQuote
 {
+    public const GROUPS = ['roq_list', 'ro_list'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

@@ -36,7 +36,7 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      *     description="Return Repair Order Quote Services",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderQuoteService::class, groups={"roqs_list"})),
+     *         @SWG\Items(ref=@Model(type=RepairOrderQuoteService::class, groups=RepairOrderQuoteService::GROUPS)),
      *         description="id, repair_order_quote_id, operation_code_id, description, pre_approved, approved, parts_price, supplies_price, labor_price, notes"
      *     )
      * )
@@ -47,7 +47,7 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      */
     public function getRepairOrderQuoteServices (RepairOrderQuoteServiceRepository $repairOrderQuoteServiceRepository) {
         //get Repair Order MPIs
-        $repairOrderQuoteServices = $repairOrderQuoteServiceRepository->findAll();
+        $repairOrderQuoteServices = $repairOrderQuoteServiceRepository->findBy(["deleted" => 0]);
         $view                     = $this->view($repairOrderQuoteServices);
         $view->getContext()->setGroups(['roqs_list']);
 
@@ -152,7 +152,7 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
         $laborPrice         = $request->get('labor_price');
         $notes              = $request->get('notes');
         //check if params are valid
-        if(!$repairOrderID || !$operationCodeID || !$preApproved || !$approved || !$partsPrice || !$suppliesPrice || !$laborPrice){
+        if(!$repairOrderQuoteID || !$operationCodeID || !$preApproved || !$approved || !$partsPrice || !$suppliesPrice || !$laborPrice){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order Quote exists
@@ -186,7 +186,7 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
     }
 
      /**
-     * @Rest\Put("/api/repair-order-quote-service")
+     * @Rest\Put("/api/repair-order-quote-service/{id}")
      *
      * @SWG\Tag(name="Repair Order Quote Service")
      * @SWG\Put(description="Update a Repair Order Quote Service")
@@ -290,7 +290,7 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
         $laborPrice         = $request->get('labor_price');
         $notes              = $request->get('notes');
         //check if params are valid
-        if(!$repairOrderID || !$operationCodeID || !$preApproved || !$approved || !$partsPrice || !$suppliesPrice || !$laborPrice){
+        if(!$repairOrderQuoteID || !$operationCodeID || !$preApproved || !$approved || !$partsPrice || !$suppliesPrice || !$laborPrice){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order Quote exists
@@ -345,7 +345,9 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      */
     public function deleteRepairOrderQuoteService (RepairOrderQuoteService $repairOrderQuoteService, EntityManagerInterface $em) {
         //delete repairOrderQuoteService
-        $em->remove($repairOrderQuoteService);
+        $repairOrderQuoteService->setDeleted(true);
+
+        $em->persist($repairOrderQuoteService);
         $em->flush();
 
         return $this->handleView($this->view([

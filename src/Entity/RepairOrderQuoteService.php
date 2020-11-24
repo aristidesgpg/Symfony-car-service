@@ -12,6 +12,7 @@ use DateTime;
  */
 class RepairOrderQuoteService
 {
+    public const GROUPS = ['roqs_list', 'roq_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -75,6 +76,11 @@ class RepairOrderQuoteService
      * @Serializer\Groups(groups={"roqs_list"})
      */
     private $notes;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted = false;
 
     public function getId(): ?int
     {
@@ -185,6 +191,18 @@ class RepairOrderQuoteService
     public function setNotes(?string $notes): self
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }
