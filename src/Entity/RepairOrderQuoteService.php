@@ -44,13 +44,13 @@ class RepairOrderQuoteService
      * @ORM\Column(type="boolean", nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
-    private $preApproved;
+    private $preApproved = false;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
-    private $approved;
+    private $approved = false;
 
     /**
      * @ORM\Column(type="float", nullable=true)

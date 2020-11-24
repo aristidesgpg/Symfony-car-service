@@ -185,46 +185,74 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
         ], Response::HTTP_OK));
     }
 
-    /**
-     * @Rest\Put("/api/repair-order-quote/{id}")
+     /**
+     * @Rest\Put("/api/repair-order-quote-service")
      *
      * @SWG\Tag(name="Repair Order Quote Service")
-     * @SWG\Put(description="Update a Repair Order Quote")
+     * @SWG\Put(description="Update a Repair Order Quote Service")
      *
      * @SWG\Parameter(
-     *     name="repair_order",
+     *     name="repair_order_quote",
      *     in="formData",
      *     required=true,
      *     type="integer",
-     *     description="The Repair Order ID",
+     *     description="The Repair Order Quote ID",
      * )
      * @SWG\Parameter(
-     *     name="date_sent",
+     *     name="operation_code",
      *     in="formData",
      *     required=true,
-     *     type="string",
-     *     description="The Sent Date",
+     *     type="integer",
+     *     description="The Operation Code ID",
      * )
      * @SWG\Parameter(
-     *     name="date_customer_viewed",
+     *     name="description",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
-     *     description="The Customer Viewed Date",
+     *     description="The Description",
      * )
      * @SWG\Parameter(
-     *     name="date_customer_completed",
+     *     name="pre_approved",
      *     in="formData",
      *     required=true,
-     *     type="string",
-     *     description="The Customer Completed Date",
+     *     type="boolean",
+     *     description="PreApproved",
      * )
      * @SWG\Parameter(
-     *     name="date_completed_viewed",
+     *     name="approved",
      *     in="formData",
      *     required=true,
+     *     type="boolean",
+     *     description="Approved",
+     * )
+     * @SWG\Parameter(
+     *     name="parts_price",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Parts Price",
+     * )
+     * @SWG\Parameter(
+     *     name="supplies_price",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Supplies Price",
+     * )
+     * @SWG\Parameter(
+     *     name="labor_price",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Labor Price",
+     * )
+     * @SWG\Parameter(
+     *     name="notes",
+     *     in="formData",
+     *     required=false,
      *     type="string",
-     *     description="The Completed Viewed Date",
+     *     description="The Notes",
      * )
      * 
      * @SWG\Response(
@@ -237,40 +265,60 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param RepairOrderQuoteService $repairOrderQuoteService
-     * @param Request                 $request
-     * @param RepairOrderRepository   $repairOrderRepository
-     * @param EntityManagerInterface  $em
+     * @param RepairOrderQuoteService    $repairOrderQuoteService
+     * @param Request                    $request
+     * @param RepairOrderQuoteRepository $repairOrderQuoteRepository
+     * @param OperationCodeRepository    $operationCodeRepository
+     * @param EntityManagerInterface     $em
      *
      * @return Response
      */
-    public function updateRepairOrderQuote (RepairOrderQuoteService $repairOrderQuoteService, Request $request, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
-        $repairOrderID         = $request->get('repair_order');
-        $dateSent              = $request->get('date_sent');
-        $dateCustomerViewed    = $request->get('date_customer_viewed');
-        $dateCustomerCompleted = $request->get('date_customer_completed');
-        $dateCompletedViewed   = $request->get('date_completed_viewed');
+    public function updateRepairOrderQuote (
+        RepairOrderQuoteService $repairOrderQuoteService, 
+        Request $request, 
+        RepairOrderQuoteRepository $repairOrderQuoteRepository, 
+        OperationCodeRepository $operationCodeRepository, 
+        EntityManagerInterface $em
+    ) {
+        $repairOrderQuoteID = $request->get('repair_order_quote');
+        $operationCodeID    = $request->get('operation_code');
+        $description        = $request->get('description');
+        $preApproved        = $request->get('pre_approved');
+        $approved           = $request->get('approved');
+        $partsPrice         = $request->get('parts_price');
+        $suppliesPrice      = $request->get('supplies_price');
+        $laborPrice         = $request->get('labor_price');
+        $notes              = $request->get('notes');
         //check if params are valid
-        if(!$repairOrderID || !$dateSent || !$dateCustomerViewed || !$dateCustomerCompleted || !$dateCompletedViewed){
+        if(!$repairOrderID || !$operationCodeID || !$preApproved || !$approved || !$partsPrice || !$suppliesPrice || !$laborPrice){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //Check if Repair Order exists
-        $repairOrder  = $repairOrderRepository->find($repairOrderID);
-        if (!$repairOrder) {
-            return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
+        //Check if Repair Order Quote exists
+        $repairOrderQuote  = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        if (!$repairOrderQuote) {
+            return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //update repairOrderQuote
-        $repairOrderQuote->setRepairOrder($repairOrder)
-                         ->setDateSent($dateSent)
-                         ->setDateCustomerViewed($dateCustomerViewed)
-                         ->setDateCustomerCompleted($dateCustomerCompleted)
-                         ->setDateCompletedViewed($dateCompletedViewed);
+        //Check if Operation Code exists
+        $operationCode  = $operationCodeRepository->find($operationCodeID);
+        if (!$operationCode) {
+            return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //update repairOrderQuoteService
+        $repairOrderQuoteService->setRepairOrderQuote($repairOrderQuote)
+                                 ->setOperationCode($operationCode)
+                                 ->setDescription($description)
+                                 ->setPreApproved($preApproved)
+                                 ->setApproved($approved)
+                                 ->setPartsPrice($partsPrice)
+                                 ->setSuppliesPrice($suppliesPrice)
+                                 ->setLaborPrice($laborPrice)
+                                 ->setNotes($notes);
 
-        $em->persist($repairOrderQuote);
+        $em->persist($repairOrderQuoteService);
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'RepairOrderQuote Updated'
+            'message' => 'RepairOrderQuoteService Updated'
         ], Response::HTTP_OK));
     }
 
@@ -296,10 +344,8 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      * @return Response
      */
     public function deleteRepairOrderQuoteService (RepairOrderQuoteService $repairOrderQuoteService, EntityManagerInterface $em) {
-        //delete repairOrderQuote
-        $repairOrderQuote->setDeleted(true);
-
-        $em->persist($repairOrderQuote);
+        //delete repairOrderQuoteService
+        $em->remove($repairOrderQuoteService);
         $em->flush();
 
         return $this->handleView($this->view([
