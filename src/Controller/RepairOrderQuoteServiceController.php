@@ -274,11 +274,11 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      * @return Response
      */
     public function updateRepairOrderQuote (
-        RepairOrderQuoteService $repairOrderQuoteService, 
-        Request $request, 
+        RepairOrderQuoteService    $repairOrderQuoteService, 
+        Request                    $request, 
         RepairOrderQuoteRepository $repairOrderQuoteRepository, 
-        OperationCodeRepository $operationCodeRepository, 
-        EntityManagerInterface $em
+        OperationCodeRepository    $operationCodeRepository, 
+        EntityManagerInterface     $em
     ) {
         $repairOrderQuoteID = $request->get('repair_order_quote');
         $operationCodeID    = $request->get('operation_code');

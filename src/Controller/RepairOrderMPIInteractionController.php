@@ -110,7 +110,7 @@ class RepairOrderMPIInteractionController extends AbstractFOSRestController {
      * @return Response
      */
     public function createRepairOrderMPIInteraction (
-                        Request $request, 
+                        Request                  $request, 
                         RepairOrderMPIRepository $repairOrderMPIRepository, 
                         UserRepository           $userRepository,
                         CustomerRepository       $customerRepository,

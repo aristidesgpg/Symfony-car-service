@@ -92,7 +92,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      */
     public function createRepairOrderMPI (Request $request, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
         $repairOrderID = $request->get('repair_order');
-        $results      = $request->get('results');
+        $results       = $request->get('results');
         //check if params are valid
         if(!$repairOrderID || !$results){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
