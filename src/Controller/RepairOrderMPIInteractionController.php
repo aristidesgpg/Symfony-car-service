@@ -15,6 +15,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
@@ -40,12 +41,13 @@ class RepairOrderMPIInteractionController extends AbstractFOSRestController {
      *     description="Return Repair Order MPI Interactions",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderMPIInteraction::class, groups=RepairOrderMPIInteraction::GROUPS))
      * )
+     * @SWG\Response(response="404", description="Invalid page parameter")
      *
      * @param RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepository
      *
      * @return Response
      */
-    public function getRepairOrderMPIInteractions (RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo) {
+    public function getRepairOrderMPIInteractions (RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo) { 
         //get Repair Order MPI Interactions
         $repairOrderMPIInteractions = $repairOrderMPIInteractionRepo->findAll();
         $view                       = $this->view($repairOrderMPIInteractions);

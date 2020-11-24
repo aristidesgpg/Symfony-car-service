@@ -204,6 +204,11 @@ class RepairOrder {
     private $archived = false;
 
     /**
+     * @ORM\OneToOne(targetEntity=RepairOrderQuote::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     */
+    private $repairOrderQuote;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct () {
@@ -759,6 +764,23 @@ class RepairOrder {
      */
     public function setArchived (bool $archived): self {
         $this->archived = $archived;
+        return $this;
+    }
+
+    public function getRepairOrderQuote(): ?RepairOrderQuote
+    {
+        return $this->repairOrderQuote;
+    }
+
+    public function setRepairOrderQuote(RepairOrderQuote $repairOrderQuote): self
+    {
+        $this->repairOrderQuote = $repairOrderQuote;
+
+        // set the owning side of the relation if necessary
+        if ($repairOrderQuote->getRepairOrder() !== $this) {
+            $repairOrderQuote->setRepairOrder($this);
+        }
+
         return $this;
     }
 }
