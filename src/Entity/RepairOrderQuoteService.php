@@ -16,53 +16,63 @@ class RepairOrderQuoteService
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=RepairOrderQuote::class, inversedBy="repairOrderQuoteServices")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $repairOrderQuote;
 
     /**
      * @ORM\ManyToOne(targetEntity=OperationCode::class, inversedBy="repairOrderQuoteServices")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $operationCode;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $preApproved;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $approved;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $partsPrice;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $suppliesPrice;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $laborPrice;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $notes;
 

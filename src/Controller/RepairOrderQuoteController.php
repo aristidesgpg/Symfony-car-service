@@ -14,7 +14,6 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
-use App\Service\MPITemplateHelper;
 
 /**
  * Class RepairOrderQuoteController
@@ -69,28 +68,28 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="date_sent",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Sent Date",
      * )
      * @SWG\Parameter(
      *     name="date_customer_viewed",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Customer Viewed Date",
      * )
      * @SWG\Parameter(
      *     name="date_customer_completed",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Customer Completed Date",
      * )
      * @SWG\Parameter(
      *     name="date_completed_viewed",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Completed Viewed Date",
      * )
@@ -118,7 +117,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         $dateCustomerCompleted = $request->get('date_customer_completed');
         $dateCompletedViewed   = $request->get('date_completed_viewed');
         //check if params are valid
-        if(!$repairOrderID || !$dateSent || !$dateCustomerViewed || !$dateCustomerCompleted || !$dateCompletedViewed){
+        if(!$repairOrderID){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order exists
@@ -158,28 +157,28 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="date_sent",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Sent Date",
      * )
      * @SWG\Parameter(
      *     name="date_customer_viewed",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Customer Viewed Date",
      * )
      * @SWG\Parameter(
      *     name="date_customer_completed",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Customer Completed Date",
      * )
      * @SWG\Parameter(
      *     name="date_completed_viewed",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Completed Viewed Date",
      * )
@@ -208,7 +207,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         $dateCustomerCompleted = $request->get('date_customer_completed');
         $dateCompletedViewed   = $request->get('date_completed_viewed');
         //check if params are valid
-        if(!$repairOrderID || !$dateSent || !$dateCustomerViewed || !$dateCustomerCompleted || !$dateCompletedViewed){
+        if(!$repairOrderID){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order exists
