@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\OperationCodeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -61,6 +63,16 @@ class OperationCode
      * @ORM\Column(type="boolean")
      */
     private $deleted = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteService::class, mappedBy="operationCode")
+     */
+    private $repairOrderQuoteServices;
+
+    public function __construct()
+    {
+        $this->repairOrderQuoteServices = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -171,6 +183,36 @@ class OperationCode
     public function setDeleted(bool $deleted): self
     {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderQuoteService[]
+     */
+    public function getRepairOrderQuoteServices(): Collection
+    {
+        return $this->repairOrderQuoteServices;
+    }
+
+    public function addRepairOrderQuoteService(RepairOrderQuoteService $repairOrderQuoteService): self
+    {
+        if (!$this->repairOrderQuoteServices->contains($repairOrderQuoteService)) {
+            $this->repairOrderQuoteServices[] = $repairOrderQuoteService;
+            $repairOrderQuoteService->setOperationCode($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderQuoteService(RepairOrderQuoteService $repairOrderQuoteService): self
+    {
+        if ($this->repairOrderQuoteServices->removeElement($repairOrderQuoteService)) {
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteService->getOperationCode() === $this) {
+                $repairOrderQuoteService->setOperationCode(null);
+            }
+        }
 
         return $this;
     }
