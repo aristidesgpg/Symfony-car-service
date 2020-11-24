@@ -205,6 +205,40 @@ class RepairOrderController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Get("/link-hash/{linkHash}", name="getRepairOrderByLinkHash")
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     * )
+     * @SWG\Response(response="404", description="RO does not exist")
+     *
+     * @param string                $linkHash
+     * @param RepairOrderRepository $repairOrderRepo
+     *
+     * @return Response
+     */
+    public function getByLinkHash (string $linkHash, RepairOrderRepository $repairOrderRepo): Response {
+        if (!$linkHash){
+            throw new NotFoundHttpException();
+        }
+
+        $repairOrder = $repairOrderRepo->findByUID($linkHash);
+        if (!$repairOrder){
+            throw new NotFoundHttpException();
+        }
+
+        if ($repairOrder->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        $view = $this->view($repairOrder);
+        $view->getContext()->setGroups(RepairOrder::GROUPS);
+
+        return $this->handleView($view);
+    }
+
+    /**
      * @Rest\Post
      * @SWG\Response(
      *     response="200",
