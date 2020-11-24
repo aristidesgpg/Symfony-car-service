@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
-use App\Entity\RepairOrderMPI;
+use App\Entity\RepairOrderQuote;
 use App\Repository\RepairOrderRepository;
-use App\Repository\RepairOrderMPIRepository;
+use App\Repository\RepairOrderQuoteRepository;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -32,32 +32,32 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return Repair Order MPIs",
+     *     description="Return Repair Order Quotes",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderMPI::class, groups={"rom_list"})),
-     *         description="id, repair_order_id, date_completed, date_sent, results"
+     *         @SWG\Items(ref=@Model(type=RepairOrderQuote::class, groups={"roq_list"})),
+     *         description="id, repair_order_id, date_created, date_sent, date_customer_viewed, date_customer_completed, date_completed_viewed, deleted"
      *     )
      * )
      *
-     * @param RepairOrderMPIRepository $repairOrderMPIRepository
+     * @param RepairOrderQuoteRepository $repairOrderQuoteRepository
      *
      * @return Response
      */
-    public function getRepairOrderMPIs (RepairOrderMPIRepository $repairOrderMPIRepository) {
+    public function getRepairOrderQuotes (RepairOrderQuoteRepository $repairOrderQuoteRepository) {
         //get Repair Order MPIs
-        $repairOrderMPIs = $repairOrderMPIRepository->findAll();
-        $view            = $this->view($repairOrderMPIs);
-        $view->getContext()->setGroups(['rom_list']);
+        $repairOrderQuotes = $repairOrderQuoteRepository->findAll(['deleted' => 0]);
+        $view              = $this->view($repairOrderQuotes);
+        $view->getContext()->setGroups(['roq_list']);
 
         return $this->handleView($view);
     }
 
     /**
-     * @Rest\Post("/api/repair-order-mpi")
+     * @Rest\Post("/api/repair-order-quote")
      *
-     * @SWG\Tag(name="Repair Order MPI")
-     * @SWG\Post(description="Create a new Repair Order MPIs")
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Post(description="Create a new Repair Order Quote")
      *
      * @SWG\Parameter(
      *     name="repair_order",
@@ -67,11 +67,32 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *     description="The Repair Order ID",
      * )
      * @SWG\Parameter(
-     *     name="results",
+     *     name="date_sent",
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="The json string for results",
+     *     description="The Sent Date",
+     * )
+     * @SWG\Parameter(
+     *     name="date_customer_viewed",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Customer Viewed Date",
+     * )
+     * @SWG\Parameter(
+     *     name="date_customer_completed",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Customer Completed Date",
+     * )
+     * @SWG\Parameter(
+     *     name="date_completed_viewed",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Completed Viewed Date",
      * )
      * 
      * @SWG\Response(
@@ -90,11 +111,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function createRepairOrderMPI (Request $request, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
-        $repairOrderID = $request->get('repair_order');
-        $results      = $request->get('results');
+    public function createRepairOrderQuote (Request $request, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
+        $repairOrderID         = $request->get('repair_order');
+        $dateSent              = $request->get('date_sent');
+        $dateCustomerViewed    = $request->get('date_customer_viewed');
+        $dateCustomerCompleted = $request->get('date_customer_completed');
+        $dateCompletedViewed   = $request->get('date_completed_viewed');
         //check if params are valid
-        if(!$repairOrderID || !$results){
+        if(!$repairOrderID || !$dateSent || !$dateCustomerViewed || !$dateCustomerCompleted || !$dateCompletedViewed){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order exists
@@ -102,16 +126,19 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //store repairOrderMPI
-        $repairOrderMPI = new RepairOrderMPI();
-        $repairOrderMPI->setRepairOrder($repairOrder)
-                       ->setResults($results);
+        //store repairOrderQuote
+        $repairOrderQuote = new RepairOrderQuote();
+        $repairOrderQuote->setRepairOrder($repairOrder)
+                         ->setDateSent($dateSent)
+                         ->setDateCustomerViewed($dateCustomerViewed)
+                         ->setDateCustomerCompleted($dateCustomerCompleted)
+                         ->setDateCompletedViewed($dateCompletedViewed);
 
-        $em->persist($repairOrderMPI);
+        $em->persist($repairOrderQuote);
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'RepairOrderMPI Created'
+            'message' => 'RepairOrderQuote Created'
         ], Response::HTTP_OK));
     }
 }

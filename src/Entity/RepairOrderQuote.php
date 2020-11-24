@@ -6,6 +6,8 @@ use App\Repository\RepairOrderQuoteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderQuoteRepository::class)
@@ -16,44 +18,52 @@ class RepairOrderQuote
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"roq_list"})
      */
     private $id;
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderQuote", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"roq_list"})
      */
     private $repairOrder;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"roq_list"})
      */
     private $dateCreated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"roq_list"})
      */
     private $dateSent;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"roq_list"})
      */
     private $dateCustomerViewed;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"roq_list"})
      */
     private $dateCustomerCompleted;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"roq_list"})
      */
     private $dateCompletedViewed;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"roq_list"})
      */
-    private $deleted;
+    private $deleted = false;
 
     /**
      * @ORM\OneToMany(targetEntity=RepairOrderQuoteService::class, mappedBy="repairOrderQuote")
@@ -62,6 +72,7 @@ class RepairOrderQuote
 
     public function __construct()
     {
+        $this->dateCreated              = new DateTime();
         $this->repairOrderQuoteServices = new ArrayCollection();
     }
 
