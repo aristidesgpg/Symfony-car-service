@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Customer;
 use App\Entity\RepairOrder;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
@@ -22,6 +23,7 @@ class RepairOrderHelper {
     private $repo;
     private $customers;
     private $users;
+    private $customerHelper;
 
     /**
      * RepairOrderHelper constructor.
@@ -29,17 +31,20 @@ class RepairOrderHelper {
      * @param RepairOrderRepository  $repo
      * @param CustomerRepository     $customers
      * @param UserRepository         $users
+     * @param CustomerHelper         $customerHelper
      */
     public function __construct (
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
-        UserRepository $users
+        UserRepository $users,
+        CustomerHelper $customerHelper
     ) {
-        $this->em = $em;
-        $this->repo = $repo;
-        $this->customers = $customers;
-        $this->users = $users;
+        $this->em             = $em;
+        $this->repo           = $repo;
+        $this->customers      = $customers;
+        $this->users          = $users;
+        $this->customerHelper = $customerHelper;
     }
 
     /**
@@ -59,14 +64,20 @@ class RepairOrderHelper {
      * @return RepairOrder|array Array on validation failure
      */
     public function addRepairOrder (array $params) {
-        $errors = [];
-        $required = ['customer', 'number']; // TODO: s/customer/customerName & customerPhone/
+        $errors   = [];
+        $required = ['customerName', 'customerPhone', 'number'];
         foreach ($required as $k) {
             if (!isset($params[$k]) || strlen($params[$k]) === 0) {
                 $errors[$k] = 'Required field missing';
             }
         }
-        $ro = new RepairOrder();
+        $ro       = new RepairOrder();
+        $customer = $this->handleCustomer($params);
+        if ($customer instanceof Customer) {
+            $ro->setPrimaryCustomer($customer);
+        } else {
+            $errors = array_merge($errors, $customer);
+        }
         $errors = array_merge($errors, $this->buildRO($params, $ro));
         if (!empty($errors)) {
             return $errors;
@@ -76,7 +87,7 @@ class RepairOrderHelper {
         }
         if ($ro->getPrimaryAdvisor() === null) {
             $advisors = $this->users->getUserByRole('ROLE_SERVICE_ADVISOR');
-            $advisor = $advisors[0] ?? null;
+            $advisor  = $advisors[0] ?? null;
             if (!$advisor instanceof User) {
                 throw new \RuntimeException('Could not find advisor');
             }
@@ -179,14 +190,6 @@ class RepairOrderHelper {
      */
     private function buildRO (array $params, RepairOrder $ro): array {
         $errors = [];
-        if (isset($params['customer'])) {
-            $customer = $this->customers->find($params['customer']);
-            if ($customer === null) {
-                $errors['customer'] = 'Customer not found';
-            } else {
-                $ro->setPrimaryCustomer($customer);
-            }
-        }
         foreach (['advisor', 'technician'] as $k) {
             if (!isset($params[$k]) || empty($params[$k])) {
                 continue;
@@ -264,5 +267,48 @@ class RepairOrderHelper {
         }
 
         return $errors;
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return Customer|array Array on validation failure
+     */
+    private function handleCustomer (array $params) {
+        $customer = $this->customers->findByPhone($params['customerPhone']);
+        if ($customer !== null) {
+            $customer->setName($params['customerName']);
+            $this->customerHelper->commitCustomer($customer);
+
+            return $customer;
+        }
+        $translated = $this->translateCustomerParams($params);
+        $errors     = $this->customerHelper->validateParams($translated);
+        if (!empty($errors)) {
+            return $this->translateCustomerParams($errors, true);
+        }
+        $customer = new Customer();
+        $this->customerHelper->commitCustomer($customer, $translated);
+
+        return $customer;
+    }
+
+    private function translateCustomerParams (array $params, bool $reverse = false): array {
+        $map    = [
+            'customerName'           => 'name',
+            'customerPhone'          => 'phone',
+            'skipMobileVerification' => 'skipMobileVerification',
+        ];
+        $return = [];
+
+        foreach ($map as $from => $to) {
+            if ($reverse && isset($params[$to])) {
+                $return[$from] = $params[$to];
+            } elseif (!$reverse) {
+                $return[$to] = $params[$from] ?? null;
+            }
+        }
+
+        return $return;
     }
 }
