@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\PaymentResponse;
+use App\Exception\PaymentException;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -45,19 +46,19 @@ class NMI {
     }
 
     /**
-     * @param $paymentToken
-     * @param $amount
+     * @param string $paymentToken
+     * @param string $amount
      *
-     * @return bool
-     * @throws \Exception
+     * @return PaymentResponse
+     * @throws \Exception|PaymentException
      */
-    public function makePayment ($paymentToken, $amount): bool {
+    public function makePayment (string $paymentToken, string $amount): PaymentResponse {
         $response = $this->curl('sale', [
             'payment_token' => $paymentToken,
             'amount'        => $amount,
         ]);
         if ($response->isOk()) {
-            return true;
+            return $response;
         }
 
         switch ($response->getCode()) {
@@ -65,26 +66,26 @@ class NMI {
                 $reason = 'Duplicate Transaction. If splitting the payment into two transactions, make one transaction amount different from the other in order to prevent the payment processor marking it as a duplicate.';
                 break;
             default:
-                $reason = "Payment failed. Reason: {$response->getResponse()}";
+                $reason = "Payment failed. Reason: {$response->getResponseText()}";
         }
 
-        throw new \Exception($reason);
+        throw new PaymentException($response, $reason);
     }
 
     /**
-     * @param $transactionId
-     * @param $amount
+     * @param string $transactionId
+     * @param string $amount
      *
-     * @return bool
-     * @throws \Exception
+     * @return PaymentResponse
+     * @throws \Exception|PaymentException
      */
-    public function makeRefund ($transactionId, $amount): bool {
+    public function makeRefund (string $transactionId, string $amount): PaymentResponse {
         $response = $this->curl('refund', [
             'transaction_id' => $transactionId,
             'amount'         => $amount,
         ]);
         if ($response->isOk()) {
-            return true;
+            return $response;
         }
 
         switch ($response->getCode()) {
@@ -92,10 +93,10 @@ class NMI {
                 $reason = "Refund amount can not surpass the original payment amount.";
                 break;
             default:
-                $reason = "Refund failed. Reason: {$response->getResponse()}";
+                $reason = "Refund failed. Reason: {$response->getResponseText()}";
         }
 
-        throw new \Exception($reason);
+        throw new PaymentException($response, $reason);
     }
 
     /**
@@ -128,12 +129,7 @@ class NMI {
             throw new \Exception($msg, curl_errno($ch));
         }
 
-        $parsed = [];
-        parse_str($response, $parsed);
-
-        $code   = (int)$parsed['response_code'] ?? -1;
-        $text   = $parsed['responsetext'] ?? 'Unknown. responsetext missing';
-        $entity = new PaymentResponse($type, $code, $text);
+        $entity = new PaymentResponse($type, $response);
         $this->em->persist($entity);
         $this->em->flush();
 
