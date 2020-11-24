@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RepairOrderRepository;
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -199,10 +200,16 @@ class RepairOrder {
     private $archived = false;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderPayment", mappedBy="repairOrder")
+     */
+    private $payments;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct () {
         $this->dateCreated = new DateTime();
+        $this->payments = new ArrayCollection();
     }
 
     /**
@@ -737,6 +744,24 @@ class RepairOrder {
      */
     public function setArchived (bool $archived): self {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * @return RepairOrderPayment[]
+     */
+    public function getPayments (): array {
+        return $this->payments->toArray();
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
+     *
+     * @return $this
+     */
+    public function addPayment (RepairOrderPayment $payment): self {
+        $this->payments->add($payment);
 
         return $this;
     }
