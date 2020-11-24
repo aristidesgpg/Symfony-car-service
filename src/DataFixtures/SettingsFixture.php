@@ -3,8 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Settings;
+use App\Service\PasswordHelper;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 
 /**
  * Class SettingFixture
@@ -12,8 +14,25 @@ use Doctrine\Persistence\ObjectManager;
  * @package App\DataFixtures
  */
 class SettingsFixture extends Fixture {
+
+    /**
+     * @var PasswordHelper
+     */
+    private $passwordHelper;
+
+    /**
+     * SettingsFixture constructor.
+     *
+     * @param PasswordHelper $passwordHelper
+     */
+    public function __construct (PasswordHelper $passwordHelper) {
+        $this->passwordHelper = $passwordHelper;
+    }
+
     /**
      * @param ObjectManager $manager
+     *
+     * @throws Exception
      */
     public function load (ObjectManager $manager) {
         $settings = [
@@ -21,7 +40,8 @@ class SettingsFixture extends Fixture {
             'phase2'                     => '60',
             'phase3'                     => '60',
             'techAppUsername'            => 'iService',
-            'techAppPassword'            => null,
+            'techAppPassword'            => $this->passwordHelper->hashPassword('test'),
+            'techAppReAuthenticate'      => false,
             'custAppAppraiseButtonText'  => 'Appraise My Car',
             'custAppPostInspectionVideo' => null,
             'custAppFinanceRepairUrl'    => null,

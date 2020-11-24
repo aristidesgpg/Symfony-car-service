@@ -109,13 +109,6 @@ class User implements UserInterface {
     private $lastLogin;
 
     /**
-     * @var
-     *
-     * //     *     @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $pin;
-
-    /**
      * @ORM\Column(type="boolean")
      * @Serializer\Groups({"user_list"})
      */
@@ -129,6 +122,10 @@ class User implements UserInterface {
      */
     private $technicianRepairOrders;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $pin;
 
     /**
      * User constructor.
@@ -453,6 +450,13 @@ class User implements UserInterface {
 
     public function eraseCredentials () {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTechnician () {
+        return in_array('ROLE_TECHNICIAN', $this->getRoles());
     }
 
 }

@@ -5,15 +5,19 @@ namespace App\Entity;
 use App\Repository\RepairOrderRepository;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderRepository::class)
  */
 class RepairOrder {
+    public const GROUPS = ['ro_list', 'customer_list', 'user_list'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $id;
 
@@ -22,6 +26,7 @@ class RepairOrder {
      *
      * @ORM\ManyToOne (targetEntity="App\Entity\Customer", inversedBy="primaryRepairOrders")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $primaryCustomer;
 
@@ -29,112 +34,134 @@ class RepairOrder {
      * @var User
      *
      * @ORM\ManyToOne (targetEntity="App\Entity\User", inversedBy="technicianRepairOrders")
-     * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $primaryTechnician;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $primaryAdvisor;
 
     /**
-     * @ORM\Column(name="`number`", type="string", length=255, unique=true)
+     * @ORM\Column(name="number", type="string", length=255, unique=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $number;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
-    private $videoStatus;
+    private $videoStatus = 'Not Started';
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
-    private $mpiStatus;
+    private $mpiStatus = 'Not Started';
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
-    private $quoteStatus;
+    private $quoteStatus = 'Not Started';
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
-    private $paymentStatus;
+    private $paymentStatus = 'Not Started';
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $startValue;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $finalValue;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $approvedValue;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $dateCreated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $dateClosed;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"ro_list"})
      */
-    private $waiter;
+    private $waiter = true;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $pickupDate;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $linkHash;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $year;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $make;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $model;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $miles;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $vin;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $internal = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $dmsKey;
 
@@ -150,13 +177,26 @@ class RepairOrder {
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $upgradeQue = false;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $note;
 
     /**
      * @ORM\Column(type="boolean")
      */
     private $deleted = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $archived = false;
 
     /**
      * RepairOrder constructor.
@@ -209,18 +249,18 @@ class RepairOrder {
     }
 
     /**
-     * @return int|null
+     * @return User|null
      */
-    public function getPrimaryAdvisor (): ?int {
+    public function getPrimaryAdvisor (): ?User {
         return $this->primaryAdvisor;
     }
 
     /**
-     * @param int $primaryAdvisor
+     * @param User $primaryAdvisor
      *
      * @return $this
      */
-    public function setPrimaryAdvisor (int $primaryAdvisor): self {
+    public function setPrimaryAdvisor (User $primaryAdvisor): self {
         $this->primaryAdvisor = $primaryAdvisor;
 
         return $this;
@@ -393,6 +433,13 @@ class RepairOrder {
      */
     public function getDateClosed (): ?DateTime {
         return $this->dateClosed;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isClosed (): bool {
+        return ($this->dateClosed !== null);
     }
 
     /**
@@ -641,6 +688,24 @@ class RepairOrder {
     }
 
     /**
+     * @return string|null
+     */
+    public function getNote (): ?string {
+        return $this->note;
+    }
+
+    /**
+     * @param string|null $note
+     *
+     * @return $this
+     */
+    public function setNote (?string $note): self {
+        $this->note = $note;
+
+        return $this;
+    }
+
+    /**
      * @return bool|null
      */
     public function getDeleted (): ?bool {
@@ -654,6 +719,24 @@ class RepairOrder {
      */
     public function setDeleted (bool $deleted): self {
         $this->deleted = $deleted;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArchived (): bool {
+        return ($this->archived === true);
+    }
+
+    /**
+     * @param bool $archived
+     *
+     * @return $this
+     */
+    public function setArchived (bool $archived): self {
+        $this->archived = $archived;
 
         return $this;
     }
