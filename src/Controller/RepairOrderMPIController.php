@@ -14,7 +14,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
-use App\Service\MPITemplateHelper;
+use App\Service\MPIInteractionHelper;
 
 /**
  * Class RepairOrderMPIController
