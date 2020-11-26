@@ -42,6 +42,37 @@ class PaymentHelper {
     public function payPayment (RepairOrderPayment $payment, string $paymentToken): void {
         $response      = $this->nmi->makePayment($paymentToken, $payment->getAmount())->getParsedResponse();
         $transactionId = $response['transaction_id'] ?? null;
+        $payment->setTransactionId($transactionId);
+        $payment->setDatePaid(new \DateTime());
+
+        try {
+            $lookup = $this->nmi->lookupTransaction($transactionId);
+            $payment->setCardType($lookup['transaction']['cc_type']);
+            $payment->setCardNumber($lookup['transaction']['cc_number']);
+        } catch (\Exception $e) {
+            // TODO: Fail gracefully
+        } finally {
+            $this->commitPayment($payment);
+        }
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
+     * @param string             $amount
+     *
+     * @throws \Exception|PaymentException
+     */
+    public function refundPayment (RepairOrderPayment $payment, string $amount): void {
+        $transactionId = $payment->getTransactionId();
+        if ($transactionId === null) {
+            throw new \InvalidArgumentException('Missing transactionId');
+        }
+        // TODO: Check amount
+
+        $this->nmi->makeRefund($transactionId, $amount);
+        $payment->setDateRefunded(new \DateTime())
+                ->setRefundedAmount($amount);
+        $this->commitPayment($payment);
     }
 
     public function deletePayment (RepairOrderPayment $payment): void {
