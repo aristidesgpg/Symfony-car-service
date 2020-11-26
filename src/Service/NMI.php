@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
  * @package App\Service
  */
 class NMI {
-    private const ENDPOINT_URL = 'https://secure.networkmerchants.com/api/transact.php';
+    private const ENDPOINT_URL = 'https://secure.networkmerchants.com/api/';
 
     use iServiceLoggerTrait;
 
@@ -30,7 +30,7 @@ class NMI {
     /**
      * @var EntityManagerInterface
      */
-    private $em;
+    protected $em;
 
     /**
      * NMI constructor.
@@ -100,13 +100,23 @@ class NMI {
     }
 
     /**
+     * @param string $transactionId
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function lookupTransaction (string $transactionId): array {
+        return $this->query($transactionId);
+    }
+
+    /**
      * @param string $type
      * @param array  $data
      *
      * @return PaymentResponse
      * @throws \Exception
      */
-    private function curl (string $type, array $data): PaymentResponse {
+    protected function curl (string $type, array $data): PaymentResponse {
         $data = array_merge($data, [
             'type'     => $type,
             'username' => $this->username,
@@ -115,7 +125,7 @@ class NMI {
 
         $ch = curl_init();
         curl_setopt_array($ch, [
-            CURLOPT_URL            => self::ENDPOINT_URL,
+            CURLOPT_URL            => self::ENDPOINT_URL . 'transact.php',
             CURLOPT_POST           => true,
             CURLOPT_POSTFIELDS     => http_build_query($data),
             CURLOPT_RETURNTRANSFER => true,
@@ -123,10 +133,7 @@ class NMI {
 
         $response = curl_exec($ch);
         if (!$response) {
-            $msg = sprintf('Encountered cURL error during %s: "%s"', $type, curl_error($ch));
-            $this->logger->critical($msg);
-
-            throw new \Exception($msg, curl_errno($ch));
+            $this->handleCurlError($ch, $type);
         }
 
         $entity = new PaymentResponse($type, $response);
@@ -134,5 +141,46 @@ class NMI {
         $this->em->flush();
 
         return $entity;
+    }
+
+    /**
+     * @param string $transactionId
+     *
+     * @return array
+     * @throws \Exception
+     */
+    protected function query (string $transactionId): array {
+        $data = [
+            'username'       => $this->username,
+            'password'       => $this->password,
+            'transaction_id' => $transactionId,
+        ];
+
+        $ch = curl_init(self::ENDPOINT_URL . 'query.php?' . http_build_query($data));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        if (!$response) {
+            $this->handleCurlError($ch, 'query');
+        }
+
+        $xml = simplexml_load_string($response);
+        if (!$xml) {
+            throw new \Exception('Could not parse XML');
+        }
+
+        return json_decode(json_encode($xml), true);
+    }
+
+    /**
+     * @param resource $ch
+     * @param string   $operation
+     *
+     * @throws \Exception
+     */
+    private function handleCurlError ($ch, string $operation): void {
+        $msg = sprintf('Encountered cURL error during %s: "%s"', $operation, curl_error($ch));
+        $this->logger->critical($msg);
+
+        throw new \Exception($msg, curl_errno($ch));
     }
 }
