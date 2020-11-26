@@ -6,6 +6,7 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderPayment;
 use App\Exception\PaymentException;
 use App\Helper\FalsyTrait;
+use App\Response\ValidationResponse;
 use App\Service\PaymentHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -69,15 +70,28 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      * )
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
-     * @param RepairOrder $ro
-     * @param Request     $request
+     * @SWG\Parameter(name="amount", type="string", in="formData", required=true)
+     *
+     * @param RepairOrder   $ro
+     * @param Request       $request
+     * @param PaymentHelper $helper
      *
      * @return Response
      */
-    public function createPayment (RepairOrder $ro, Request $request): Response {
+    public function createPayment (RepairOrder $ro, Request $request, PaymentHelper $helper): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
+        $amount = $request->request->get('amount');
+        if (!preg_match(RepairOrderPayment::AMOUNT_REGEX, $amount)) {
+            return new ValidationResponse(['amount' => 'Invalid format']);
+        }
+
+        $payment = $helper->addPayment($ro, $request->request->get('amount'));
+        $view = $this->view($payment);
+        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**

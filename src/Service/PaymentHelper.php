@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderPayment;
 use App\Entity\RepairOrderPaymentInteraction;
 use App\Exception\PaymentException;
@@ -14,6 +15,22 @@ class PaymentHelper {
     public function __construct (EntityManagerInterface $em, NMI $nmi) {
         $this->em  = $em;
         $this->nmi = $nmi;
+    }
+
+    /**
+     * @param RepairOrder $ro
+     * @param string      $amount
+     *
+     * @return RepairOrderPayment
+     */
+    public function addPayment (RepairOrder $ro, string $amount): RepairOrderPayment {
+        $payment = new RepairOrderPayment();
+        $payment->setRepairOrder($ro)
+                ->setAmount($amount)
+                ->setDateCreated(new \DateTime());
+        $this->commitPayment($payment);
+
+        return $payment;
     }
 
     /**
