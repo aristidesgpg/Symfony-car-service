@@ -1,10 +1,10 @@
 <?php
 
-namespace AppBundle\Service;
+namespace App\Service;
 
-use AppBundle\Entity\RepairOrder;
+use App\Entity\RepairOrder;
 use DateTime;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use SimpleXMLElement;
@@ -12,12 +12,12 @@ use SimpleXMLElement;
 /**
  * Class CDK
  *
- * @package AppBundle\Service
+ * @package App\Service
  */
 class CDK extends SOAP {
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -34,11 +34,11 @@ class CDK extends SOAP {
     /**
      * CDK constructor.
      *
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
      * @param SOAP          $soapService
      * @param               $dealerId
      */
-    public function __construct (EntityManager $em, SOAP $soapService, $dealerId) {
+    public function __construct (EntityManagerInterface $em, SOAP $soapService, $dealerId = 1) {
         $this->em          = $em;
         $this->dealerId    = $dealerId;
         $this->soapService = $soapService;

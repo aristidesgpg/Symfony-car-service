@@ -1,8 +1,8 @@
 <?php
 
-namespace AppBundle\Service;
+namespace App\Service;
 
-use AppBundle\Entity\RepairOrder;
+use App\Entity\RepairOrder;
 use DateTime;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
@@ -11,7 +11,7 @@ use Exception;
 /**
  * Class OpenMate
  *
- * @package AppBundle\Service
+ * @package App\Service
  */
 class AutoMate extends SOAP {
 
