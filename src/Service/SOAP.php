@@ -1,29 +1,29 @@
 <?php
 
-namespace AppBundle\Service;
+namespace App\Service;
 
-use AppBundle\Entity\SoapErrorLog;
-use Doctrine\ORM\EntityManager;
+use App\Entity\SoapErrorLog;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 
 /**
  * Class SOAP
  *
- * @package AppBundle\Service
+ * @package App\Service
  */
 class SOAP {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
     /**
      * SOAP constructor.
      *
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
      */
-    public function __construct (EntityManager $em) {
+    public function __construct (EntityManagerInterface $em) {
         $this->em = $em;
     }
 
