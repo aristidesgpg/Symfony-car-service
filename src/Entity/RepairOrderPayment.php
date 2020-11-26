@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderPayment {
     public const GROUPS = ['rop_list'];
+    public const AMOUNT_REGEX = '/^\d+\.\d{2}$/';
 
     /**
      * @ORM\Id
