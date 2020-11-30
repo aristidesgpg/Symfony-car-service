@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\RepairOrderQuoteService;
+use App\Entity\RepairOrderQuoteRecommendation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method RepairOrderQuoteService|null find($id, $lockMode = null, $lockVersion = null)
- * @method RepairOrderQuoteService|null findOneBy(array $criteria, array $orderBy = null)
- * @method RepairOrderQuoteService[]    findAll()
- * @method RepairOrderQuoteService[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RepairOrderQuoteRecommendation|null find($id, $lockMode = null, $lockVersion = null)
+ * @method RepairOrderQuoteRecommendation|null findOneBy(array $criteria, array $orderBy = null)
+ * @method RepairOrderQuoteRecommendation[]    findAll()
+ * @method RepairOrderQuoteRecommendation[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RepairOrderQuoteServiceRepository extends ServiceEntityRepository
+class RepairOrderQuoteRecommendationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, RepairOrderQuoteService::class);
+        parent::__construct($registry, RepairOrderQuoteRecommendation::class);
     }
 
     // /**
-    //  * @return RepairOrderQuoteService[] Returns an array of RepairOrderQuoteService objects
+    //  * @return RepairOrderQuoteRecommendation[] Returns an array of RepairOrderQuoteRecommendation objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class RepairOrderQuoteServiceRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?RepairOrderQuoteService
+    public function findOneBySomeField($value): ?RepairOrderQuoteRecommendation
     {
         return $this->createQueryBuilder('r')
             ->andWhere('r.exampleField = :val')

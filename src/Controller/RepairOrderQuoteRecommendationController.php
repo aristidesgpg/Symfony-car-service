@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\RepairOrderQuote;
 use App\Entity\OperationCode;
-use App\Entity\RepairOrderQuoteService;
+use App\Entity\RepairOrderQuoteRecommendation;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\OperationCodeRepository;
-use App\Repository\RepairOrderQuoteServiceRepository;
+use App\Repository\RepairOrderQuoteRecommendationRepository;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -18,37 +18,37 @@ use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 
 /**
- * Class RepairOrderQuoteServiceController
+ * Class RepairOrderQuoteRecommendationController
  *
  * @package App\Controller
  */
-class RepairOrderQuoteServiceController extends AbstractFOSRestController {
+class RepairOrderQuoteRecommendationController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
      * @Rest\Get("/api/repair-order-quote-service")
      *
-     * @SWG\Tag(name="Repair Order Quote Service")
-     * @SWG\Get(description="Get All Repair Order Quote Services")
+     * @SWG\Tag(name="Repair Order Quote Recommendation")
+     * @SWG\Get(description="Get All Repair Order Quote Recommendations")
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return Repair Order Quote Services",
+     *     description="Return Repair Order Quote Recommendations",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderQuoteService::class, groups=RepairOrderQuoteService::GROUPS)),
+     *         @SWG\Items(ref=@Model(type=RepairOrderQuoteRecommendation::class, groups=RepairOrderQuoteRecommendation::GROUPS)),
      *         description="id, repair_order_quote_id, operation_code_id, description, pre_approved, approved, parts_price, supplies_price, labor_price, notes"
      *     )
      * )
      *
-     * @param RepairOrderQuoteServiceRepository $repairOrderQuoteServiceRepository
+     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository
      *
      * @return Response
      */
-    public function getRepairOrderQuoteServices (RepairOrderQuoteServiceRepository $repairOrderQuoteServiceRepository) {
+    public function getRepairOrderQuoteRecommendations (RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository) {
         //get Repair Order MPIs
-        $repairOrderQuoteServices = $repairOrderQuoteServiceRepository->findBy(["deleted" => 0]);
-        $view                     = $this->view($repairOrderQuoteServices);
+        $repairOrderQuoteRecommendations = $repairOrderQuoteRecommendationRepository->findBy(["deleted" => 0]);
+        $view                     = $this->view($repairOrderQuoteRecommendations);
         $view->getContext()->setGroups(['roqs_list']);
 
         return $this->handleView($view);
@@ -57,8 +57,8 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
     /**
      * @Rest\Post("/api/repair-order-quote-service")
      *
-     * @SWG\Tag(name="Repair Order Quote Service")
-     * @SWG\Post(description="Create a new Repair Order Quote Service")
+     * @SWG\Tag(name="Repair Order Quote Recommendation")
+     * @SWG\Post(description="Create a new Repair Order Quote Recommendation")
      *
      * @SWG\Parameter(
      *     name="repair_order_quote",
@@ -165,9 +165,9 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
         if (!$operationCode) {
             return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //store repairOrderQuoteService
-        $repairOrderQuoteService = new RepairOrderQuoteService();
-        $repairOrderQuoteService->setRepairOrderQuote($repairOrderQuote)
+        //store RepairOrderQuoteRecommendation
+        $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
+        $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
                                  ->setOperationCode($operationCode)
                                  ->setDescription($description)
                                  ->setPreApproved($preApproved)
@@ -177,19 +177,19 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
                                  ->setLaborPrice($laborPrice)
                                  ->setNotes($notes);
 
-        $em->persist($repairOrderQuoteService);
+        $em->persist($repairOrderQuoteRecommendation);
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'RepairOrderQuoteService Created'
+            'message' => 'RepairOrderQuoteRecommendation Created'
         ], Response::HTTP_OK));
     }
 
      /**
      * @Rest\Put("/api/repair-order-quote-service/{id}")
      *
-     * @SWG\Tag(name="Repair Order Quote Service")
-     * @SWG\Put(description="Update a Repair Order Quote Service")
+     * @SWG\Tag(name="Repair Order Quote Recommendation")
+     * @SWG\Put(description="Update a Repair Order Quote Recommendation")
      *
      * @SWG\Parameter(
      *     name="repair_order_quote",
@@ -265,7 +265,7 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param RepairOrderQuoteService    $repairOrderQuoteService
+     * @param RepairOrderQuoteRecommendation    $repairOrderQuoteRecommendation
      * @param Request                    $request
      * @param RepairOrderQuoteRepository $repairOrderQuoteRepository
      * @param OperationCodeRepository    $operationCodeRepository
@@ -274,7 +274,7 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      * @return Response
      */
     public function updateRepairOrderQuote (
-        RepairOrderQuoteService    $repairOrderQuoteService, 
+        RepairOrderQuoteRecommendation    $repairOrderQuoteRecommendation, 
         Request                    $request, 
         RepairOrderQuoteRepository $repairOrderQuoteRepository, 
         OperationCodeRepository    $operationCodeRepository, 
@@ -303,8 +303,8 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
         if (!$operationCode) {
             return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //update repairOrderQuoteService
-        $repairOrderQuoteService->setRepairOrderQuote($repairOrderQuote)
+        //update RepairOrderQuoteRecommendation
+        $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
                                  ->setOperationCode($operationCode)
                                  ->setDescription($description)
                                  ->setPreApproved($preApproved)
@@ -314,19 +314,19 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
                                  ->setLaborPrice($laborPrice)
                                  ->setNotes($notes);
 
-        $em->persist($repairOrderQuoteService);
+        $em->persist($repairOrderQuoteRecommendation);
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'RepairOrderQuoteService Updated'
+            'message' => 'RepairOrderQuoteRecommendation Updated'
         ], Response::HTTP_OK));
     }
 
     /**
      * @Rest\Delete("/api/repair-order-quote-service/{id}")
      *
-     * @SWG\Tag(name="Repair Order Quote Service")
-     * @SWG\Delete(description="Delete a Repair Order Quote Service")
+     * @SWG\Tag(name="Repair Order Quote Recommendation")
+     * @SWG\Delete(description="Delete a Repair Order Quote Recommendation")
      * 
      * @SWG\Response(
      *     response=200,
@@ -338,20 +338,20 @@ class RepairOrderQuoteServiceController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param RepairOrderQuoteService $repairOrderQuoteService
+     * @param RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation
      * @param EntityManagerInterface  $em
      *
      * @return Response
      */
-    public function deleteRepairOrderQuoteService (RepairOrderQuoteService $repairOrderQuoteService, EntityManagerInterface $em) {
-        //delete repairOrderQuoteService
-        $repairOrderQuoteService->setDeleted(true);
+    public function deleteRepairOrderQuoteRecommendation (RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation, EntityManagerInterface $em) {
+        //delete RepairOrderQuoteRecommendation
+        $repairOrderQuoteRecommendation->setDeleted(true);
 
-        $em->persist($repairOrderQuoteService);
+        $em->persist($repairOrderQuoteRecommendation);
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'RepairOrderQuoteService Deleted'
+            'message' => 'RepairOrderQuoteRecommendation Deleted'
         ], Response::HTTP_OK));
     }
 }

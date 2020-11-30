@@ -68,14 +68,14 @@ class RepairOrderQuote
     private $deleted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=RepairOrderQuoteService::class, mappedBy="repairOrderQuote")
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendation::class, mappedBy="repairOrderQuote")
      */
-    private $repairOrderQuoteServices;
+    private $repairOrderQuoteRecommendations;
 
     public function __construct()
     {
         $this->dateCreated              = new DateTime();
-        $this->repairOrderQuoteServices = new ArrayCollection();
+        $this->RepairOrderQuoteRecommendations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,29 +168,29 @@ class RepairOrderQuote
     }
 
     /**
-     * @return Collection|RepairOrderQuoteService[]
+     * @return Collection|RepairOrderQuoteRecommendation[]
      */
-    public function getRepairOrderQuoteServices(): Collection
+    public function getRepairOrderQuoteRecommendations(): Collection
     {
-        return $this->repairOrderQuoteServices;
+        return $this->RepairOrderQuoteRecommendations;
     }
 
-    public function addRepairOrderQuoteService(RepairOrderQuoteService $repairOrderQuoteService): self
+    public function addRepairOrderQuoteRecommendation(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self
     {
-        if (!$this->repairOrderQuoteServices->contains($repairOrderQuoteService)) {
-            $this->repairOrderQuoteServices[] = $repairOrderQuoteService;
-            $repairOrderQuoteService->setRepairOrderQuote($this);
+        if (!$this->RepairOrderQuoteRecommendations->contains($repairOrderQuoteRecommendation)) {
+            $this->RepairOrderQuoteRecommendations[] = $repairOrderQuoteRecommendation;
+            $repairOrderQuoteRecommendation->setRepairOrderQuote($this);
         }
 
         return $this;
     }
 
-    public function removeRepairOrderQuoteService(RepairOrderQuoteService $repairOrderQuoteService): self
+    public function removeRepairOrderQuoteRecommendation(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self
     {
-        if ($this->repairOrderQuoteServices->removeElement($repairOrderQuoteService)) {
+        if ($this->RepairOrderQuoteRecommendations->removeElement($repairOrderQuoteRecommendation)) {
             // set the owning side to null (unless already changed)
-            if ($repairOrderQuoteService->getRepairOrderQuote() === $this) {
-                $repairOrderQuoteService->setRepairOrderQuote(null);
+            if ($repairOrderQuoteRecommendation->getRepairOrderQuote() === $this) {
+                $repairOrderQuoteRecommendation->setRepairOrderQuote(null);
             }
         }
 
