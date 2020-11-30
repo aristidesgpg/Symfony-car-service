@@ -98,6 +98,13 @@ class UserFixture extends Fixture {
             $phone    = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $phone);
             $phone    = substr($phone, 0, 10);
             $password = $this->passwordEncoder->encodePassword($user, 'test');
+            $role     = $faker->randomElement($this->userRoles);
+
+            if ($role == 'ROLE_TECHNICIAN') {
+                $user->setPin(1234)
+                     ->setExperience('10')
+                     ->setCertification('Master');
+            }
 
             $user->setFirstName($faker->firstName)
                  ->setLastName($faker->lastName)
@@ -105,7 +112,7 @@ class UserFixture extends Fixture {
                  ->setPhone($phone)
                  ->setPassword($password)
                  ->setLastLogin($faker->dateTime)
-                 ->setRole($faker->randomElement($this->userRoles))
+                 ->setRole($role)
                  ->setActive($faker->boolean(95));
 
             $manager->persist($user);
