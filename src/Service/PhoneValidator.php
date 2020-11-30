@@ -2,11 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\PhoneLookup;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Twilio\Exceptions\TwilioException;
-use Twilio\Rest\Client;
 
 /**
  * Class PhoneValidator
@@ -15,7 +12,7 @@ use Twilio\Rest\Client;
  */
 class PhoneValidator {
     /**
-     * @var Client
+     * @var TwilioHelper
      */
     private $twilio;
 
@@ -27,10 +24,10 @@ class PhoneValidator {
     /**
      * PhoneValidator constructor.
      *
-     * @param Client $twilio
+     * @param TwilioHelper $twilio
      * @param EntityManagerInterface $em
      */
-    public function __construct (Client $twilio, EntityManagerInterface $em) {
+    public function __construct (TwilioHelper $twilio, EntityManagerInterface $em) {
         $this->twilio = $twilio;
         $this->em = $em;
     }
@@ -69,34 +66,8 @@ class PhoneValidator {
      * @return bool
      */
     public function isMobile (string $phone): bool {
-        $phone  = '+1' . $phone;
-        $lookup = $this->em->find(PhoneLookup::class, $phone);
-        if ($lookup === null) {
-            $lookup = $this->lookupNumber($phone);
-        }
+        $lookup = $this->twilio->lookupNumber($phone);
 
         return ($lookup->getCarrierType() === 'mobile');
-    }
-
-    /**
-     * @param string $phone
-     *
-     * @return PhoneLookup
-     */
-    private function lookupNumber (string $phone): PhoneLookup {
-        try {
-            $instance = $this->twilio->lookups->v1->phoneNumbers($phone)->fetch(['type' => 'carrier']);
-            $lookup = new PhoneLookup($phone, $instance);
-        } catch (TwilioException $e) {
-            if ($e->getCode() === 20404) { // Technically a 404, can mean a bad/non-existent phone number
-                $lookup = new PhoneLookup($phone);
-            } else {
-                throw new \RuntimeException('Caught twilio exception', 0, $e);
-            }
-        }
-        $this->em->persist($lookup);
-        $this->em->flush();
-
-        return $lookup;
     }
 }

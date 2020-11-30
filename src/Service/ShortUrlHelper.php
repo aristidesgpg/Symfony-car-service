@@ -4,26 +4,24 @@ namespace App\Service;
 
 use App\Controller\SettingsController;
 use Twilio\Exceptions\TwilioException;
-use Twilio\Rest\Client;
 
 class ShortUrlHelper {
     public const  MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
     private const ENDPOINT        = 'http://isre.us/api/create-short-url';
-    private const FROM_NUMBER     = ''; // TODO
 
     /** @var string */
     private $accessToken;
 
-    /** @var Client */
+    /** @var TwilioHelper */
     private $twilio;
 
     /**
      * ShortcodeHelper constructor.
      *
      * @param string $accessToken
-     * @param Client $twilio
+     * @param TwilioHelper $twilio
      */
-    public function __construct (string $accessToken, Client $twilio) {
+    public function __construct (string $accessToken, TwilioHelper $twilio) {
         $this->accessToken = $accessToken;
         $this->twilio = $twilio;
     }
@@ -49,7 +47,7 @@ class ShortUrlHelper {
         }
 
         $msg .= ' ' . $shortUrl;
-        $this->sendSms($phone, $msg);
+        $this->twilio->sendSms($phone, $msg);
     }
 
     /**
@@ -91,18 +89,5 @@ class ShortUrlHelper {
         curl_close($curl);
 
         return json_decode($response, true);
-    }
-
-    /**
-     * @param string $phone
-     * @param string $msg
-     *
-     * @throws TwilioException
-     */
-    private function sendSms (string $phone, string $msg): void {
-        $this->twilio->messages->create('+1' . $phone, [
-           'message' => $msg,
-           'from' => self::FROM_NUMBER,
-        ]);
     }
 }
