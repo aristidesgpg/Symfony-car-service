@@ -9,11 +9,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Entity\Settings;
 use App\Service\CDK;
 use App\Service\DMS;
-use App\Service\SettingsHelper as Settings;
-use Doctrine\ORM\EntityManagerInterface;
-use DateTime;
+use Symfony\Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class AddRepairOrders
@@ -25,26 +24,11 @@ class AddRepairOrders extends Command {
      * @var string
      */
     protected static $defaultName = 'dms:addRepairOrders';
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    /**
-     * @var DMS
-     */
+    
     private $dms;
 
-    /**
-     * @var Settings
-     */
-    private $settings;
-
-    public function __construct (EntityManagerInterface $em, DMS $dms, CDK $cdk, Settings $settings) {
-        $this->em       = $em;
-        $this->dms      = $dms;
-        $this->settings = $settings;
+    public function __construct(DMS $dms) {
+        $this->dms = $dms;
 
         parent::__construct();
     }
@@ -73,21 +57,36 @@ class AddRepairOrders extends Command {
      * @throws Exception
      */
     protected function execute (InputInterface $input, OutputInterface $output) {
-        $dms = $this->dms;
-
-        $offHoursIntegration = $this->settings->getSetting('offHoursIntegration') === 'true' ? true : false;
-        // If using cdk and the dealer's service department isn't 24/7
-        if ($dms->usingCdk && !$offHoursIntegration) {
-            $now       = new DateTime();
-            $startTime = new DateTime($now->format('Y-m-d 03:00:00'));
-            $endTime   = new DateTime($now->format('Y-m-d 22:00:00'));
-            if ($now < $startTime || $now > $endTime) {
-                $output->writeln('The CDKClient servers are busy between 10pm and 3am doing nothing so they can\'t handle our requests');
-                return;
-            }
-        }
-        // Gets and adds repair orders
-        $dms->addOpenRepairOrders();
-        $output->writeln('Complete!');
+        // $dms = $this->getContainer()->get('app.dms');
+        // $cdk = $this->getContainer()->getParameter('cdk');
+        // /** @var Admin $settings */
+        // $settings            = $this->getContainer()->get('doctrine')->getRepository(Admin::class)->find(1);
+        // $offHoursIntegration = $settings->getOffHoursIntegration();
+        // // If using cdk and the dealer's service department isn't 24/7
+        // if ($cdk && !$offHoursIntegration) {
+        //     $now       = new DateTime();
+        //     $startTime = new DateTime($now->format('Y-m-d 03:00:00'));
+        //     $endTime   = new DateTime($now->format('Y-m-d 22:00:00'));
+        //     if ($now < $startTime || $now > $endTime) {
+        //         $output->writeln('The CDK servers are busy between 10pm and 3am doing nothing so they can\'t handle our requests');
+        //         return;
+        //     }
+        // }
+        // // Gets and adds repair orders
+        //         $dms->addOpenRepairOrders();
+        // if ($cdk) {
+        //     // Delete old cdk logs
+        //     $twoDaysAgo  = (new DateTime())->modify('-2 days');
+        //     $em          = $this->getContainer()->get('doctrine')->getManager();
+        //     $deleteQuery = $em->createQueryBuilder()
+        //                       ->delete('AppBundle:SoapErrorLog', 's')
+        //                       ->where('s.date < :twoDaysAgo')
+        //                       ->andWhere('s.request LIKE :cdkUrl')
+        //                       ->setParameter('twoDaysAgo', $twoDaysAgo->format('Y-m-d'))
+        //                       ->setParameter(':cdkUrl', '%dmotorworks.com%')
+        //                       ->getQuery();
+        //     $deleteQuery->execute();
+        // }
+        // $output->writeln('Complete!');
     }
 }
