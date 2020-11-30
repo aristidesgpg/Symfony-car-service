@@ -200,6 +200,11 @@ class RepairOrder {
     private $archived = false;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderVideo", mappedBy="repairOrder")
+     */
+    private $videos;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderPayment", mappedBy="repairOrder")
      */
     private $payments;
@@ -209,6 +214,7 @@ class RepairOrder {
      */
     public function __construct () {
         $this->dateCreated = new DateTime();
+        $this->videos = new ArrayCollection();
         $this->payments = new ArrayCollection();
     }
 
@@ -305,6 +311,27 @@ class RepairOrder {
      */
     public function setVideoStatus (string $videoStatus): self {
         $this->videoStatus = $videoStatus;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function updateVideoStatus (): self {
+        $min = PHP_INT_MAX;
+        foreach ($this->getVideos() as $video) {
+            if ($video->isDeleted()) {
+                continue;
+            }
+            $index = array_search($video->getStatus(), RepairOrderVideo::STATUSES);
+            if ($index !== false && $index < $min) {
+                $min = $index;
+            }
+        }
+        if ($min !== PHP_INT_MAX) {
+            $this->videoStatus = RepairOrderVideo::STATUSES[$min];
+        }
 
         return $this;
     }
@@ -744,6 +771,19 @@ class RepairOrder {
      */
     public function setArchived (bool $archived): self {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * @return RepairOrderVideo[]
+     */
+    public function getVideos(): array {
+        return $this->videos->toArray();
+    }
+
+    public function addVideo(RepairOrderVideo $video): self {
+        $this->videos->add($video);
 
         return $this;
     }

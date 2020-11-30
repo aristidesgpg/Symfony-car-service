@@ -67,6 +67,12 @@ class AuthenticationController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="token", type="string", description="JSON Web Token"),
+     *             @SWG\Property(
+     *                  property="roles",
+     *                  type="array",
+     *                  description="Array of user roles granted",
+     *                  @SWG\Items(type="string", description="ex: ROLE_ADVISOR")
+     *             )
      *         )
      * )
      * @SWG\Response(
@@ -95,8 +101,9 @@ class AuthenticationController extends AbstractFOSRestController {
         $username      = $request->get('username');  // tperson@iserviceauto.com
         $password      = $request->get('password');  // test
         $linkHash      = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
-        $pin           = $request->get('pin');
+        $pin           = $request->get('pin');       // 1234
         $tokenUsername = null;
+        $roles         = null;
         $ttl           = 28800; // Default 8 hours
 
         if ((!$username || !$password) && !$linkHash && (!$username || !$pin)) {
@@ -119,6 +126,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
+                $roles         = $user->getRoles();
                 goto TOKEN;
             }
         }
@@ -144,7 +152,8 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
-                $ttl           = 3600;
+                $roles         = $user->getRoles();
+                $ttl           = 3600; // Techs get logged in 1 hour
                 goto TOKEN;
             }
         }
@@ -158,6 +167,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
             // Successful customer "login"
             $tokenUsername = $repairOrder->getPrimaryCustomer()->getPhone();
+            $roles         = ['ROLE_CUSTOMER'];
             goto TOKEN;
         }
 
@@ -170,6 +180,7 @@ class AuthenticationController extends AbstractFOSRestController {
                 if ($username === $techAppUsername) {
                     if ($passwordHelper->validatePassword($password, $techAppPassword)) {
                         $tokenUsername = 'technician';
+                        $roles         = ['ROLE_TECHNICIAN'];
                         $ttl           = 31536000; // 1 year
                         goto TOKEN;
                     } else {
@@ -188,6 +199,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
             if ($dealerResponse) {
                 $tokenUsername = 'dealer';
+                $roles         = ['ROLE_ADMIN'];
                 goto TOKEN;
             }
 
@@ -206,12 +218,15 @@ class AuthenticationController extends AbstractFOSRestController {
         try {
             $token = $JWTEncoder->encode([
                 'username' => $tokenUsername,
-                'exp'      => $ttl
+                'exp'      => time() + $ttl
             ]);
         } catch (JWTEncodeFailureException $e) {
             return $this->handleView($this->view('Login Failed. Please try again later.', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
-        return $this->handleView($this->view(['token' => $token], Response::HTTP_OK));
+        return $this->handleView($this->view([
+            'token' => $token,
+            'roles' => $roles
+        ], Response::HTTP_OK));
     }
 }
