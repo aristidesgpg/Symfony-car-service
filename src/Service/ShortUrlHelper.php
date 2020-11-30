@@ -6,7 +6,7 @@ use App\Controller\SettingsController;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
-class ShortcodeHelper {
+class ShortUrlHelper {
     public const  MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
     private const ENDPOINT        = 'http://isre.us/api/create-short-url';
     private const FROM_NUMBER     = ''; // TODO
@@ -43,12 +43,12 @@ class ShortcodeHelper {
         }
 
         if ($urlIsShort === true) {
-            $shortcode = $url;
+            $shortUrl = $url;
         } else {
-            $shortcode = $this->generateShortcode($url);
+            $shortUrl = $this->generateShortUrl($url);
         }
 
-        $msg .= ' ' . $shortcode;
+        $msg .= ' ' . $shortUrl;
         $this->sendSms($phone, $msg);
     }
 
@@ -57,7 +57,7 @@ class ShortcodeHelper {
      *
      * @return string
      */
-    public function generateShortcode (string $url): string {
+    public function generateShortUrl (string $url): string {
         $response = $this->curl(self::ENDPOINT, [
             'access_token' => $this->accessToken,
             'url'          => $url,

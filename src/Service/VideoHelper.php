@@ -19,8 +19,8 @@ class VideoHelper {
     /** @var UploadHelper */
     private $upload;
 
-    /** @var ShortcodeHelper */
-    private $shortcode;
+    /** @var ShortUrlHelper */
+    private $urlHelper;
 
     /** @var SettingsRepository */
     private $settings;
@@ -30,18 +30,18 @@ class VideoHelper {
      *
      * @param EntityManagerInterface $em
      * @param UploadHelper           $upload
-     * @param ShortcodeHelper        $shortcode
+     * @param ShortUrlHelper         $urlHelper
      * @param SettingsRepository     $settings
      */
     public function __construct (
         EntityManagerInterface $em,
         UploadHelper $upload,
-        ShortcodeHelper $shortcode,
+        ShortUrlHelper $urlHelper,
         SettingsRepository $settings
     ) {
         $this->em        = $em;
         $this->upload    = $upload;
-        $this->shortcode = $shortcode;
+        $this->urlHelper = $urlHelper;
         $this->settings  = $settings;
     }
 
@@ -103,12 +103,14 @@ class VideoHelper {
         $phone = $video->getRepairOrder()->getPrimaryCustomer()->getPhone();
         $message = $this->settings->find('serviceTextVideo');
         $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $video->getRepairOrder()->getLinkHash();
-        $this->shortcode->sendShortenedLink($phone, $message, $url);
+        $shortUrl = $this->urlHelper->generateShortUrl($url);
+        $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
 
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Customer Sent')
                     ->setRepairOrderVideo($video);
-        $video->addInteraction($interaction);
+        $video->addInteraction($interaction)
+              ->setShortUrl($shortUrl);
         $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();

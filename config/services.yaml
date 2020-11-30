@@ -30,9 +30,9 @@ services:
   App\Controller\:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
-  App\Service\ShortcodeHelper:
+  App\Service\ShortUrlHelper:
     arguments:
-      - '%env(SHORTCODE_ACCESS_TOKEN)%'
+      - '%env(SHORT_URL_ACCESS_TOKEN)%'
   Twilio\Rest\Client:
     arguments:
       - '%env(TWILIO_SID)%'

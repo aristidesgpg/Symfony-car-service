@@ -55,7 +55,7 @@ class RepairOrderVideo {
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $shortcode;
+    private $shortUrl;
 
     /**
      * @ORM\Column(type="datetime")
@@ -165,17 +165,17 @@ class RepairOrderVideo {
     /**
      * @return string|null
      */
-    public function getShortcode (): ?string {
-        return $this->shortcode;
+    public function getShortUrl (): ?string {
+        return $this->shortUrl;
     }
 
     /**
-     * @param string $shortcode
+     * @param string $shortUrl
      *
      * @return $this
      */
-    public function setShortcode (string $shortcode): self {
-        $this->shortcode = $shortcode;
+    public function setShortUrl (string $shortUrl): self {
+        $this->shortUrl = $shortUrl;
 
         return $this;
     }
