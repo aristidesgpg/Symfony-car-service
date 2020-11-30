@@ -10,6 +10,10 @@ use App\Repository\UserRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderRepository;
 use App\Service\CustomerHelper as CustomerService;
+use App\Service\AutoMate;
+use App\Service\DealerBuilt;
+use App\Service\DealerTrack;
+use App\Service\CDK;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
@@ -69,7 +73,7 @@ class DMS {
     /**
      * @var
      */
-    private $dealertrackFilter;
+    private $dmsFilter;
 
     /**
      * @var
@@ -93,7 +97,7 @@ class DMS {
      * @param                             $dealerBuilt
      * @param                             $cdk
      * @param                             $activateIntegrationSms
-     * @param                             $dealertrackFilter
+     * @param                             $dmsFilter
      * @param                             $clientUrl
      * @param Twilio                      $twilio
      * @param \App\Service\Customer $customerService
@@ -103,8 +107,8 @@ class DMS {
      * @param RepairOrderRepository       $repairOrderRepository
      * @param UserRepository              $userRepository
      */
-    public function __construct ($usingAutomate, $usingDealerTrack, $usingDealerBuilt, $usingCdk, $automate, $dealerTrack,
-                                 $dealerBuilt, $cdk, $activateIntegrationSms, $dealertrackFilter, $clientUrl, Twilio $twilio,
+    public function __construct (AutoMate $automate, DealerTrack $dealerTrack,
+                                 DealerBuilt $dealerBuilt, CDK $cdk, Twilio $twilio = null,
                                  CustomerService $customerService, EntityManagerInterface $em, URLShortener $URLShortener,
                                  CustomerRepository $customerRepository, RepairOrderRepository $repairOrderRepository,
                                  UserRepository $userRepository) {
@@ -114,10 +118,23 @@ class DMS {
         $this->customerRepository     = $customerRepository;
         $this->repairOrderRepository  = $repairOrderRepository;
         $this->userRepository         = $userRepository;
-        $this->activateIntegrationSms = $activateIntegrationSms;
-        $this->dealertrackFilter      = $dealertrackFilter;
-        $this->clientUrl              = $clientUrl;
+        $this->activateIntegrationSms = true;
+        $this->dmsFilter              = 'Internal';
+        $this->clientUrl              = '';
         $this->urlShortener           = $URLShortener;
+
+        $settingsRepository = $em->getRepository("App:Settings");
+        $usingAutomateEntity = $settingsRepository->findOneBy(['key' => 'usingAutomate']);
+        $usingAutomate = $usingAutomateEntity ? $usingAutomateEntity->value : false;
+
+        $usingDealerTrackEntity = $settingsRepository->findOneBy(['key' => 'usingDealerTrack']);
+        $usingDealerTrack = $usingDealerTrackEntity ? $usingDealerTrackEntity->value : false;
+
+        $usingDealerBuiltEntity = $settingsRepository->findOneBy(['key' => 'usingDealerBuilt']);
+        $usingDealerBuilt = $usingDealerBuiltEntity ? $usingDealerBuiltEntity->value : false;
+
+        $usingCdkEntity = $settingsRepository->findOneBy(['key' => 'usingCdk']);
+        $usingCdk = $usingCdkEntity ? $usingCdkEntity->value : false;
 
         if ($usingAutomate) {
             $this->integration = $automate;
@@ -248,7 +265,7 @@ class DMS {
             }
 
             // If there is a filter, check against it and move along if it matched
-            $filter = $this->dealertrackFilter;
+            $filter = $this->dmsFilter;
             if ($filter != 'false' && $filter != false) {
                 if (strncmp($dmsOpenRepairOrder->number, $filter, strlen($filter)) === 0) {
                     continue;
@@ -384,7 +401,7 @@ class DMS {
         $settings          = $this->userRepository->findBy(['active' => 1, 'role' => role_admin], ['id' => 'ASC'])[0];
         $defaultTechnician = $this->userRepository->findBy(['active' => 1, 'role' => role_technician], ['id' => 'ASC'])[0];
         $defaultAdvisor    = $this->userRepository->findBy(['active' => 1, 'role' => role_advisor], ['id' => 'ASC'])[0];
-        $filter            = $this->dealertrackFilter;
+        $filter            = $this->dmsFilter;
 
         if (!$this->integration) {
             throw new Exception('You are not integrated with a DMS');
