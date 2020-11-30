@@ -87,6 +87,10 @@ class SettingsFixture extends Fixture {
             'reviewGoogleUrl'            => null,
             'reviewFacebookUrl'          => null,
             'reviewText'                 => null,
+            'usingAutomate'              => 'false',
+            'usingDealerTrack'           => 'false',
+            'usingDealerBuilt'           => 'false',
+            'usingCdk'                   => 'true'
         ];
 
         foreach ($settings as $k => $v) {
