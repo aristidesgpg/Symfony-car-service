@@ -41,6 +41,7 @@ class SettingsFixture extends Fixture {
             'phase3'                     => '60',
             'techAppUsername'            => 'iService',
             'techAppPassword'            => $this->passwordHelper->hashPassword('test'),
+            'techAppReAuthenticate'      => false,
             'custAppAppraiseButtonText'  => 'Appraise My Car',
             'custAppPostInspectionVideo' => null,
             'custAppFinanceRepairUrl'    => null,
