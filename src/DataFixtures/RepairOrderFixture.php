@@ -120,6 +120,8 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
 
             $manager->persist($repairOrder);
             $manager->flush();
+
+            $this->addReference('repairOrder_' . $i, $repairOrder);
         }
     }
 
