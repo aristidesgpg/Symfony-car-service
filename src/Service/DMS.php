@@ -14,6 +14,8 @@ use App\Service\AutoMate;
 use App\Service\DealerBuilt;
 use App\Service\DealerTrack;
 use App\Service\CDK;
+use App\Service\TwilioHelper as Twilio;
+use App\Service\ShortUrlHelper as URLShortener;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
@@ -125,38 +127,34 @@ class DMS {
 
         $settingsRepository = $em->getRepository("App:Settings");
         $usingAutomateEntity = $settingsRepository->findOneBy(['key' => 'usingAutomate']);
-        $usingAutomate = $usingAutomateEntity ? $usingAutomateEntity->value : false;
+        $usingAutomate = $usingAutomateEntity ? $usingAutomateEntity->getValue() : false;
 
         $usingDealerTrackEntity = $settingsRepository->findOneBy(['key' => 'usingDealerTrack']);
-        $usingDealerTrack = $usingDealerTrackEntity ? $usingDealerTrackEntity->value : false;
+        $usingDealerTrack = $usingDealerTrackEntity ? $usingDealerTrackEntity->getValue() : false;
 
         $usingDealerBuiltEntity = $settingsRepository->findOneBy(['key' => 'usingDealerBuilt']);
-        $usingDealerBuilt = $usingDealerBuiltEntity ? $usingDealerBuiltEntity->value : false;
+        $usingDealerBuilt = $usingDealerBuiltEntity ? $usingDealerBuiltEntity->getValue() : false;
 
         $usingCdkEntity = $settingsRepository->findOneBy(['key' => 'usingCdk']);
-        $usingCdk = $usingCdkEntity ? $usingCdkEntity->value : false;
+        $usingCdk = $usingCdkEntity ? $usingCdkEntity->getValue() : false;
 
         if ($usingAutomate) {
             $this->integration = $automate;
-
             return;
         }
 
         if ($usingDealerTrack) {
             $this->integration = $dealerTrack;
-
             return;
         }
 
         if ($usingDealerBuilt) {
             $this->integration = $dealerBuilt;
-
             return;
         }
 
         if ($usingCdk) {
             $this->integration = $cdk;
-
             return;
         }
     }
