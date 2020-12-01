@@ -88,7 +88,10 @@ class SettingsFixture extends Fixture {
             'usingAutomate'              => 'false',
             'usingDealerTrack'           => 'false',
             'usingDealerBuilt'           => 'false',
-            'usingCdk'                   => 'true'
+            'usingCdk'                   => 'true',
+            'activateIntegrationSms'     => 'true',
+            'dmsFilter'                  => 'Internal',
+            'clientURL'                  => ''
         ];
 
         foreach ($settings as $k => $v) {

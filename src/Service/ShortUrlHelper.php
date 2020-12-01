@@ -1,0 +1,93 @@
+<?php
+
+namespace App\Service;
+
+use App\Controller\SettingsController;
+use Twilio\Exceptions\TwilioException;
+
+class ShortUrlHelper {
+    public const  MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
+    private const ENDPOINT        = 'http://isre.us/api/create-short-url';
+
+    /** @var string */
+    private $accessToken;
+
+    /** @var TwilioHelper */
+    private $twilio;
+
+    /**
+     * ShortcodeHelper constructor.
+     *
+     * @param string $accessToken
+     * @param TwilioHelper $twilio
+     */
+    public function __construct (string $accessToken, TwilioHelper $twilio) {
+        $this->accessToken = $accessToken;
+        $this->twilio = $twilio;
+    }
+
+    /**
+     * @param string $phone
+     * @param string $msg
+     * @param string $url
+     * @param bool   $urlIsShort
+     *
+     * @throws TwilioException
+     */
+    public function sendShortenedLink (string $phone, string $msg, string $url, bool $urlIsShort = false): void {
+        $msg = rtrim($msg);
+        if (strlen($msg) > self::MAX_SMS_MSG_LEN) {
+            throw new \InvalidArgumentException(sprintf('$msg too long. Must be <= %d', self::MAX_SMS_MSG_LEN));
+        }
+
+        if ($urlIsShort === true) {
+            $shortUrl = $url;
+        } else {
+            $shortUrl = $this->generateShortUrl($url);
+        }
+
+        $msg .= ' ' . $shortUrl;
+        $this->twilio->sendSms($phone, $msg);
+    }
+
+    /**
+     * @param string $url
+     *
+     * @return string
+     */
+    public function generateShortUrl (string $url): string {
+        $response = $this->curl(self::ENDPOINT, [
+            'access_token' => $this->accessToken,
+            'url'          => $url,
+        ]);
+        if (!isset($response['url']) || empty($response['url'])) {
+            throw new \RuntimeException('Did not get shortcode');
+        }
+
+        return $response['url'];
+    }
+
+    /**
+     * @param string $url
+     * @param array  $post
+     *
+     * @return array
+     */
+    private function curl (string $url, array $post): array {
+        $curl = curl_init($url);
+        curl_setopt_array($curl, [
+            CURLOPT_TIMEOUT        => 20,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => $post,
+        ]);
+        $response = curl_exec($curl);
+        if ($response === false) {
+            $msg = sprintf('Encountered cURL error: (%d) %s', curl_errno($curl), curl_error($curl));
+            throw new \RuntimeException($msg);
+        }
+        curl_close($curl);
+
+        return json_decode($response, true);
+    }
+}

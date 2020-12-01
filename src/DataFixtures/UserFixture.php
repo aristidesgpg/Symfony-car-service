@@ -80,12 +80,31 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
+        $user     = new User();
+        $password = $this->passwordEncoder->encodePassword($user, 'test');
+        $user->setFirstName('Test')
+             ->setLastName('Technician')
+             ->setEmail('ttechnician@iserviceauto.com')
+             ->setPhone(8475556665)
+             ->setPassword($password)
+             ->setRole('ROLE_TECHNICIAN')
+             ->setPin(1234);
+        $manager->persist($user);
+        $manager->flush();
+
         for ($i = 1; $i <= 50; $i++) {
             $user     = new User();
             $phone    = $faker->phoneNumber;
             $phone    = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $phone);
             $phone    = substr($phone, 0, 10);
             $password = $this->passwordEncoder->encodePassword($user, 'test');
+            $role     = $faker->randomElement($this->userRoles);
+
+            if ($role == 'ROLE_TECHNICIAN') {
+                $user->setPin(1234)
+                     ->setExperience('10')
+                     ->setCertification('Master');
+            }
 
             $user->setFirstName($faker->firstName)
                  ->setLastName($faker->lastName)
@@ -93,7 +112,7 @@ class UserFixture extends Fixture {
                  ->setPhone($phone)
                  ->setPassword($password)
                  ->setLastLogin($faker->dateTime)
-                 ->setRole($faker->randomElement($this->userRoles))
+                 ->setRole($role)
                  ->setActive($faker->boolean(95));
 
             $manager->persist($user);

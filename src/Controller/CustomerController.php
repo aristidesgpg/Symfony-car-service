@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\CustomerRepository;
 use App\Response\ValidationResponse;
 use App\Service\CustomerHelper;
+use App\Service\Pagination;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
@@ -15,6 +16,7 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class CustomerController
@@ -62,14 +64,15 @@ class CustomerController extends AbstractFOSRestController {
      *     description="Invalid page parameter"
      * )
      *
-     * @param Request            $request
-     * @param CustomerRepository $customerRepository
-     * @param PaginatorInterface $paginator
+     * @param Request               $request
+     * @param CustomerRepository    $customerRepository
+     * @param PaginatorInterface    $paginator
+     * @param UrlGeneratorInterface $urlGenerator
      *
      * @return Response
      */
     public function getAll (Request $request, CustomerRepository $customerRepository,
-                            PaginatorInterface $paginator): Response {
+                            PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
         $page          = $request->query->getInt('page', 1);
         $urlParameters = [];
 
@@ -86,40 +89,16 @@ class CustomerController extends AbstractFOSRestController {
             $customersQuery = $customerRepository->findAllActive();
         }
 
-        $pager        = $paginator->paginate($customersQuery, $page, self::PAGE_LIMIT);
-        $totalResults = $pager->getTotalItemCount();
-        $totalPages   = ceil($totalResults / self::PAGE_LIMIT);
-        $currentPage  = $pager->getCurrentPageNumber();
-        $previous     = $currentPage - 1;
-        $next         = $currentPage + 1;
-
-        if ($page > $totalPages) {
-            throw new NotFoundHttpException();
-        }
-
-        if ($previous <= 0) {
-            $previous = null;
-        }
-
-        if ($next >= $totalPages) {
-            $next = null;
-        }
-
-        if ($next) {
-            $next = $this->generateUrl('getCustomers', $urlParameters + ['page' => $next]);
-        }
-
-        if ($previous) {
-            $previous = $this->generateUrl('getCustomers', $urlParameters + ['page' => $previous]);
-        }
+        $pager      = $paginator->paginate($customersQuery, $page, self::PAGE_LIMIT);
+        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
         $json = [
             'customers'    => $pager->getItems(),
-            'totalResults' => $pager->getTotalItemCount(),
-            'totalPages'   => $totalPages,
-            'previous'     => $previous,
-            'currentPage'  => $currentPage,
-            'next'         => $next
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('getCustomers', $urlParameters),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('getCustomers', $urlParameters)
         ];
 
         $view = $this->view($json);

@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\RepairOrder;
 use DateTime;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 
@@ -32,12 +32,12 @@ class DealerTrack extends SOAP {
     /**
      * @var string
      */
-    private $enterprise;
+    private $enterprise = 'ZE';
 
     /**
      * @var string
      */
-    private $company;
+    private $company = 'ZE7';
 
     /**
      * @var
@@ -45,20 +45,20 @@ class DealerTrack extends SOAP {
     private $server = 'arkonap.arkona.com';
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
     /**
      * DealerTrack constructor.
      *
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
      * @param               $enterprise
      * @param               $company
      */
-    public function __construct (EntityManager $em, $enterprise, $company) {
-        $this->enterprise = $enterprise;
-        $this->company    = $company;
+    public function __construct (EntityManagerInterface $em) {
+        // $this->enterprise = $enterprise;
+        // $this->company    = $company;
         $this->em         = $em;
 
         parent::__construct($em);

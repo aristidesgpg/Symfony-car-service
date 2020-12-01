@@ -30,8 +30,10 @@ services:
   App\Controller\:
     resource: '../src/Controller/'
     tags: [ 'controller.service_arguments' ]
-  App\Service\PhoneValidator:
-    class: App\Service\PhoneValidator
+  App\Service\ShortUrlHelper:
+    arguments:
+      - '%env(SHORT_URL_ACCESS_TOKEN)%'
+  Twilio\Rest\Client:
     arguments:
       - '%env(TWILIO_SID)%'
       - '%env(TWILIO_AUTH_TOKEN)%'
