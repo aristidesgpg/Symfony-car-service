@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\RepairOrder;
 use DateTime;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use SimpleXMLElement;
@@ -34,25 +34,25 @@ class DealerBuilt extends SOAP {
     /**
      * @var string
      */
-    private $serviceLocationId;
+    private $serviceLocationId = 44102;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
     /**
      * AutoMate constructor.
      *
-     * @param EntityManager $em
+     * @param EntityManagerInterface $em
      * @param               $username
      * @param               $password
      * @param               $serviceLocationId
      */
-    public function __construct (EntityManager $em, $username, $password, $serviceLocationId) {
-        $this->username          = $username;
-        $this->password          = $password;
-        $this->serviceLocationId = $serviceLocationId;
+    public function __construct (EntityManagerInterface $em) {
+        // $this->username          = $username;
+        // $this->password          = $password;
+        // $this->serviceLocationId = $serviceLocationId;
         $this->em                = $em;
 
         parent::__construct($em);

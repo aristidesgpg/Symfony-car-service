@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Entity\Settings;
 use App\Service\CDK;
 use App\Service\DMS;
-use Symfony\Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class AddRepairOrders
@@ -25,10 +25,14 @@ class AddRepairOrders extends Command {
      */
     protected static $defaultName = 'dms:addRepairOrders';
     
+    private $em;
     private $dms;
+    private $cdk;
 
-    public function __construct(DMS $dms) {
+    public function __construct(EntityManagerInterface $em, DMS $dms, CDK $cdk) {
+        $this->em = $em;
         $this->dms = $dms;
+        $this->cdk = $cdk;
 
         parent::__construct();
     }
@@ -60,25 +64,27 @@ class AddRepairOrders extends Command {
         // $dms = $this->getContainer()->get('app.dms');
         // $cdk = $this->getContainer()->getParameter('cdk');
         // /** @var Admin $settings */
-        // $settings            = $this->getContainer()->get('doctrine')->getRepository(Admin::class)->find(1);
+        $dms = $this->dms;
+        $cdk = $this->cdk;
+        $settings            = $this->em->getRepository(Settings::class);
         // $offHoursIntegration = $settings->getOffHoursIntegration();
-        // // If using cdk and the dealer's service department isn't 24/7
-        // if ($cdk && !$offHoursIntegration) {
-        //     $now       = new DateTime();
-        //     $startTime = new DateTime($now->format('Y-m-d 03:00:00'));
-        //     $endTime   = new DateTime($now->format('Y-m-d 22:00:00'));
-        //     if ($now < $startTime || $now > $endTime) {
-        //         $output->writeln('The CDK servers are busy between 10pm and 3am doing nothing so they can\'t handle our requests');
-        //         return;
-        //     }
-        // }
-        // // Gets and adds repair orders
-        //         $dms->addOpenRepairOrders();
+        $offHoursIntegration = true;
+        // If using cdk and the dealer's service department isn't 24/7
+        if ($cdk && !$offHoursIntegration) {
+            $now       = new DateTime();
+            $startTime = new DateTime($now->format('Y-m-d 03:00:00'));
+            $endTime   = new DateTime($now->format('Y-m-d 22:00:00'));
+            if ($now < $startTime || $now > $endTime) {
+                $output->writeln('The CDK servers are busy between 10pm and 3am doing nothing so they can\'t handle our requests');
+                return;
+            }
+        }
+        // Gets and adds repair orders
+        $dms->addOpenRepairOrders();
         // if ($cdk) {
         //     // Delete old cdk logs
         //     $twoDaysAgo  = (new DateTime())->modify('-2 days');
-        //     $em          = $this->getContainer()->get('doctrine')->getManager();
-        //     $deleteQuery = $em->createQueryBuilder()
+        //     $deleteQuery = $this->em->createQueryBuilder()
         //                       ->delete('AppBundle:SoapErrorLog', 's')
         //                       ->where('s.date < :twoDaysAgo')
         //                       ->andWhere('s.request LIKE :cdkUrl')
