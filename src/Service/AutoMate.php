@@ -4,8 +4,9 @@ namespace App\Service;
 
 use App\Entity\RepairOrder;
 use DateTime;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
+use App\Service\TwilioHelper as Twilio;
 use Exception;
 
 /**
@@ -36,10 +37,10 @@ class AutoMate extends SOAP {
     /**
      * @var int
      */
-    private $dealerEndpointId;
+    private $dealerEndpointId = 1169;
 
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $em;
 
@@ -51,12 +52,10 @@ class AutoMate extends SOAP {
     /**
      * AutoMate constructor.
      *
-     * @param EntityManager $em
-     * @param               $dealerEndpointId
+     * @param EntityManagerInterface $em
      * @param Twilio        $twilio
      */
-    public function __construct (EntityManager $em, $dealerEndpointId, Twilio $twilio) {
-        $this->dealerEndpointId = $dealerEndpointId;
+    public function __construct (EntityManagerInterface $em, Twilio $twilio) {
         $this->em               = $em;
         $this->twilio           = $twilio;
 

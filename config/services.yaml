@@ -5,7 +5,6 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
   uploads_directory: '%kernel.project_dir%/public/uploads/'
-  csv_directory: '%kernel.project_dir%/public/csv/'
   reset_password_secret: '%env(RESET_PASSWORD_TOKEN_SECRET)%'
   sender: '%env(SENDER)%'
 services:
@@ -34,6 +33,7 @@ services:
   App\Service\ShortUrlHelper:
     arguments:
       - '%env(SHORT_URL_ACCESS_TOKEN)%'
+  Twilio\Rest\Client:
   App\Service\SpacesClient:
     arguments:
       - '%env(CUSTOMER_URL)%'
