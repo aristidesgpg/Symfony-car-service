@@ -288,15 +288,15 @@ class UserController extends AbstractFOSRestController {
      * @return Response
      */
     public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
-        $role          = $request->get('role');
-        $firstName     = $request->get('firstName');
-        $lastName      = $request->get('lastName');
-        $email         = $request->get('email');
-        $phone         = $request->get('phone');
-        $password      = $request->get('password');
-        $pin           = $request->get('pin');
-        $certification = $request->get('certification');
-        $experience    = $request->get('experience');
+        $role          = $request->get('role') ?? $user->getRoles()[0];
+        $firstName     = $request->get('firstName') ?? $user->getFirstName();
+        $lastName      = $request->get('lastName') ?? $user->getLastName();
+        $email         = $request->get('email') ?? $user->getEmail();
+        $phone         = $request->get('phone') ?? $user->getPhone();
+        $password      = $request->get('password') ?? $user->getPassword();
+        $pin           = $request->get('pin') ?? $user->getPin();
+        $certification = $request->get('certification') ?? $user->getCertification();
+        $experience    = $request->get('experience') ?? $user->getExperience();
 
         //role is invalid
         if ($role && !$userHelper->isValidRole($role)) {
