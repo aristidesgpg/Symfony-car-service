@@ -114,8 +114,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
     public function createRepairOrderQuote (
         Request                                  $request, 
         RepairOrderRepository                    $repairOrderRepository,
-        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo,
-        OperationCodeRepository                  $operationCodeRepository,
         EntityManagerInterface                   $em
     ) {
         $repairOrderID         = $request->get('repair_order');
