@@ -26,35 +26,6 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/api/repair-order-quote-recommendation")
-     *
-     * @SWG\Tag(name="Repair Order Quote Recommendation")
-     * @SWG\Get(description="Get All Repair Order Quote Recommendations")
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return Repair Order Quote Recommendations",
-     *     @SWG\Items(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderQuoteRecommendation::class, groups=RepairOrderQuoteRecommendation::GROUPS)),
-     *         description="id, repair_order_quote_id, operation_code_id, description, pre_approved, approved, parts_price, supplies_price, labor_price, notes"
-     *     )
-     * )
-     *
-     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository
-     *
-     * @return Response
-     */
-    public function getRepairOrderQuoteRecommendations (RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository) {
-        //get Repair Order MPIs
-        $repairOrderQuoteRecommendations = $repairOrderQuoteRecommendationRepository->findBy(["deleted" => 0]);
-        $view                     = $this->view($repairOrderQuoteRecommendations);
-        $view->getContext()->setGroups(['roqs_list']);
-
-        return $this->handleView($view);
-    }
-
-    /**
      * @Rest\Post("/api/repair-order-quote-recommendation")
      *
      * @SWG\Tag(name="Repair Order Quote Recommendation")
@@ -247,39 +218,6 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderQuoteRecommendation Updated'
-        ], Response::HTTP_OK));
-    }
-
-    /**
-     * @Rest\Delete("/api/repair-order-quote-recommendation/{id}")
-     *
-     * @SWG\Tag(name="Repair Order Quote Recommendation")
-     * @SWG\Delete(description="Delete a Repair Order Quote Recommendation")
-     * 
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Deleted" }),
-     *         )
-     * )
-     *
-     * @param RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation
-     * @param EntityManagerInterface  $em
-     *
-     * @return Response
-     */
-    public function deleteRepairOrderQuoteRecommendation (RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation, EntityManagerInterface $em) {
-        //delete RepairOrderQuoteRecommendation
-        $repairOrderQuoteRecommendation->setDeleted(true);
-
-        $em->persist($repairOrderQuoteRecommendation);
-        $em->flush();
-
-        return $this->handleView($this->view([
-            'message' => 'RepairOrderQuoteRecommendation Deleted'
         ], Response::HTTP_OK));
     }
 }
