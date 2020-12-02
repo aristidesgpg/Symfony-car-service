@@ -26,7 +26,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/api/repair-order-quote-service")
+     * @Rest\Get("/api/repair-order-quote-recommendation")
      *
      * @SWG\Tag(name="Repair Order Quote Recommendation")
      * @SWG\Get(description="Get All Repair Order Quote Recommendations")
@@ -55,7 +55,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/repair-order-quote-service")
+     * @Rest\Post("/api/repair-order-quote-recommendation")
      *
      * @SWG\Tag(name="Repair Order Quote Recommendation")
      * @SWG\Post(description="Create a new Repair Order Quote Recommendation")
@@ -68,60 +68,11 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
      *     description="The Repair Order Quote ID",
      * )
      * @SWG\Parameter(
-     *     name="operation_code",
-     *     in="formData",
-     *     required=true,
-     *     type="integer",
-     *     description="The Operation Code ID",
-     * )
-     * @SWG\Parameter(
-     *     name="description",
+     *     name="recommendations",
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="The Description",
-     * )
-     * @SWG\Parameter(
-     *     name="pre_approved",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="PreApproved",
-     * )
-     * @SWG\Parameter(
-     *     name="approved",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="Approved",
-     * )
-     * @SWG\Parameter(
-     *     name="parts_price",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Parts Price",
-     * )
-     * @SWG\Parameter(
-     *     name="supplies_price",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Supplies Price",
-     * )
-     * @SWG\Parameter(
-     *     name="labor_price",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Labor Price",
-     * )
-     * @SWG\Parameter(
-     *     name="notes",
-     *     in="formData",
-     *     required=false,
-     *     type="string",
-     *     description="The Notes",
+     *     description="[{'operationCode':14, 'description':'Neque maxime ex dolorem ut.','preApproved':true,'approved':true,'partsPrice':1.0,'suppliesPrice':14.02,'laborPrice':5.3,'notes':'Cumque tempora ut nobis.'},{'operationCode':11, 'description':'Quidem earum sapiente at dolores quia natus.','preApproved':false,'approved':true,'partsPrice':2.6,'suppliesPrice':509.02,'laborPrice':36.9,'notes':'Et accusantium rerum.'},{'id':26, 'operationCode':4, 'description':'Mollitia unde nobis doloribus sed.','preApproved':true,'approved':false,'partsPrice':1.1,'suppliesPrice':71.7,'laborPrice':55.1,'notes':'Voluptates et aut debitis.'}]",
      * )
      * 
      * @SWG\Response(
@@ -134,51 +85,63 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param Request                    $request
-     * @param RepairOrderQuoteRepository $repairOrderQuoteRepository
-     * @param OperationCodeRepository    $operationCodeRepository
-     * @param EntityManagerInterface     $em
+     * @param Request                                  $request
+     * @param RepairOrderQuoteRepository               $repairOrderQuoteRepository
+     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo
+     * @param OperationCodeRepository                  $operationCodeRepository
+     * @param EntityManagerInterface                   $em
      *
      * @return Response
      */
-    public function createRepairOrderQuote (Request $request, RepairOrderQuoteRepository $repairOrderQuoteRepository, OperationCodeRepository $operationCodeRepository, EntityManagerInterface $em) {
-        $repairOrderQuoteID = $request->get('repair_order_quote');
-        $operationCodeID    = $request->get('operation_code');
-        $description        = $request->get('description');
-        $preApproved        = $request->get('pre_approved');
-        $approved           = $request->get('approved');
-        $partsPrice         = $request->get('parts_price');
-        $suppliesPrice      = $request->get('supplies_price');
-        $laborPrice         = $request->get('labor_price');
-        $notes              = $request->get('notes');
+    public function createRepairOrderQuoteRecommendations (
+        Request                                  $request, 
+        RepairOrderQuoteRepository               $repairOrderQuoteRepository, 
+        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo,
+        OperationCodeRepository                  $operationCodeRepository, 
+        EntityManagerInterface                   $em
+    ) {
+        $repairOrderQuoteID    = $request->get('repair_order_quote');
+        $recommendations       = str_replace("'",'"', $request->get('recommendations'));
+        $obj                   = (array)json_decode($recommendations);
+
         //check if params are valid
-        if(!$repairOrderQuoteID || !$operationCodeID || !$preApproved || !$approved || !$partsPrice || !$suppliesPrice || !$laborPrice){
+        if(!$repairOrderQuoteID){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order Quote exists
-        $repairOrderQuote  = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        $repairOrderQuote  = $repairOrderQuoteRepository->findOneBy(["id" => $repairOrderQuoteID]);
         if (!$repairOrderQuote) {
             return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //Check if Operation Code exists
-        $operationCode  = $operationCodeRepository->find($operationCodeID);
-        if (!$operationCode) {
-            return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
-        }
-        //store RepairOrderQuoteRecommendation
-        $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
-        $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                                 ->setOperationCode($operationCode)
-                                 ->setDescription($description)
-                                 ->setPreApproved($preApproved)
-                                 ->setApproved($approved)
-                                 ->setPartsPrice($partsPrice)
-                                 ->setSuppliesPrice($suppliesPrice)
-                                 ->setLaborPrice($laborPrice)
-                                 ->setNotes($notes);
+        
+        foreach ($obj as $index => $recommendation){
+            if(property_exists($recommendation, "id")){
+                $rOQRecom = $repairOrderQuoteRecommendationRepo->findOneBy(["id" => $recommendation->id]);
+                if (!$rOQRecom) {
+                    return $this->handleView($this->view('Invalid repair_order_quote_recommendation id Parameter', Response::HTTP_BAD_REQUEST));
+                }
+            }
+            else{
+                $rOQRecom = new RepairOrderQuoteRecommendation();
+            }
+            
+            //Check if Operation Code exists
+            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
+            if (!$operationCode) {
+                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
+            }
+            $rOQRecom->setRepairOrderQuote($repairOrderQuote)
+                     ->setOperationCode($operationCode)
+                     ->setDescription($recommendation->description)
+                     ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
+                     ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
+                     ->setPartsPrice($recommendation->partsPrice)
+                     ->setSuppliesPrice($recommendation->suppliesPrice)
+                     ->setNotes($recommendation->notes);
 
-        $em->persist($repairOrderQuoteRecommendation);
-        $em->flush();
+            $em->persist($rOQRecom);
+            $em->flush();
+        }
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderQuoteRecommendation Created'
@@ -186,7 +149,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
     }
 
      /**
-     * @Rest\Put("/api/repair-order-quote-service/{id}")
+     * @Rest\Put("/api/repair-order-quote-recommendation")
      *
      * @SWG\Tag(name="Repair Order Quote Recommendation")
      * @SWG\Put(description="Update a Repair Order Quote Recommendation")
@@ -199,60 +162,11 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
      *     description="The Repair Order Quote ID",
      * )
      * @SWG\Parameter(
-     *     name="operation_code",
-     *     in="formData",
-     *     required=true,
-     *     type="integer",
-     *     description="The Operation Code ID",
-     * )
-     * @SWG\Parameter(
-     *     name="description",
+     *     name="recommendations",
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="The Description",
-     * )
-     * @SWG\Parameter(
-     *     name="pre_approved",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="PreApproved",
-     * )
-     * @SWG\Parameter(
-     *     name="approved",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="Approved",
-     * )
-     * @SWG\Parameter(
-     *     name="parts_price",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Parts Price",
-     * )
-     * @SWG\Parameter(
-     *     name="supplies_price",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Supplies Price",
-     * )
-     * @SWG\Parameter(
-     *     name="labor_price",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Labor Price",
-     * )
-     * @SWG\Parameter(
-     *     name="notes",
-     *     in="formData",
-     *     required=false,
-     *     type="string",
-     *     description="The Notes",
+     *     description="[{'operationCode':14, 'description':'Neque maxime ex dolorem ut.','preApproved':true,'approved':true,'partsPrice':1.0,'suppliesPrice':14.02,'laborPrice':5.3,'notes':'Cumque tempora ut nobis.'},{'operationCode':11, 'description':'Quidem earum sapiente at dolores quia natus.','preApproved':false,'approved':true,'partsPrice':2.6,'suppliesPrice':509.02,'laborPrice':36.9,'notes':'Et accusantium rerum.'},{'id':26, 'operationCode':4, 'description':'Mollitia unde nobis doloribus sed.','preApproved':true,'approved':false,'partsPrice':1.1,'suppliesPrice':71.7,'laborPrice':55.1,'notes':'Voluptates et aut debitis.'}]",
      * )
      * 
      * @SWG\Response(
@@ -265,32 +179,26 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param RepairOrderQuoteRecommendation    $repairOrderQuoteRecommendation
-     * @param Request                    $request
-     * @param RepairOrderQuoteRepository $repairOrderQuoteRepository
-     * @param OperationCodeRepository    $operationCodeRepository
-     * @param EntityManagerInterface     $em
+     * @param Request                                  $request
+     * @param RepairOrderQuoteRepository               $repairOrderQuoteRepository
+     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo
+     * @param OperationCodeRepository                  $operationCodeRepository
+     * @param EntityManagerInterface                   $em
      *
      * @return Response
      */
-    public function updateRepairOrderQuote (
-        RepairOrderQuoteRecommendation    $repairOrderQuoteRecommendation, 
-        Request                    $request, 
-        RepairOrderQuoteRepository $repairOrderQuoteRepository, 
-        OperationCodeRepository    $operationCodeRepository, 
-        EntityManagerInterface     $em
+    public function updateRepairOrderQuoteRecommendations (
+        Request                                  $request, 
+        RepairOrderQuoteRepository               $repairOrderQuoteRepository, 
+        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo,
+        OperationCodeRepository                  $operationCodeRepository, 
+        EntityManagerInterface                   $em
     ) {
-        $repairOrderQuoteID = $request->get('repair_order_quote');
-        $operationCodeID    = $request->get('operation_code');
-        $description        = $request->get('description');
-        $preApproved        = $request->get('pre_approved');
-        $approved           = $request->get('approved');
-        $partsPrice         = $request->get('parts_price');
-        $suppliesPrice      = $request->get('supplies_price');
-        $laborPrice         = $request->get('labor_price');
-        $notes              = $request->get('notes');
+        $repairOrderQuoteID    = $request->get('repair_order_quote');
+        $recommendations       = str_replace("'",'"', $request->get('recommendations'));
+        $obj                   = (array)json_decode($recommendations);
         //check if params are valid
-        if(!$repairOrderQuoteID || !$operationCodeID || !$preApproved || !$approved || !$partsPrice || !$suppliesPrice || !$laborPrice){
+        if(!$repairOrderQuoteID){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order Quote exists
@@ -298,24 +206,44 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
         if (!$repairOrderQuote) {
             return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //Check if Operation Code exists
-        $operationCode  = $operationCodeRepository->find($operationCodeID);
-        if (!$operationCode) {
-            return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
+        //remove existing recommendations
+        $allRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
+        foreach($allRecommendations as $index => $recommendation){
+            $recommendation->setDeleted(true);
+
+            $em->persist($recommendation);
+            $em->flush();
         }
         //update RepairOrderQuoteRecommendation
-        $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                                 ->setOperationCode($operationCode)
-                                 ->setDescription($description)
-                                 ->setPreApproved($preApproved)
-                                 ->setApproved($approved)
-                                 ->setPartsPrice($partsPrice)
-                                 ->setSuppliesPrice($suppliesPrice)
-                                 ->setLaborPrice($laborPrice)
-                                 ->setNotes($notes);
+        foreach ($obj as $index => $recommendation){
+            if(property_exists($recommendation, "id")){
+                $rOQRecom = $repairOrderQuoteRecommendationRepo->findOneBy(["id" => $recommendation->id]);
+                if (!$rOQRecom) {
+                    return $this->handleView($this->view('Invalid repair_order_quote_recommendation id Parameter', Response::HTTP_BAD_REQUEST));
+                }
+            }
+            else{
+                $rOQRecom = new RepairOrderQuoteRecommendation();
+            }
+            
+            //Check if Operation Code exists
+            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
+            if (!$operationCode) {
+                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
+            }
+            $rOQRecom->setRepairOrderQuote($repairOrderQuote)
+                     ->setOperationCode($operationCode)
+                     ->setDescription($recommendation->description)
+                     ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
+                     ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
+                     ->setPartsPrice($recommendation->partsPrice)
+                     ->setSuppliesPrice($recommendation->suppliesPrice)
+                     ->setNotes($recommendation->notes)
+                     ->setDeleted(false);
 
-        $em->persist($repairOrderQuoteRecommendation);
-        $em->flush();
+            $em->persist($rOQRecom);
+            $em->flush();
+        }
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderQuoteRecommendation Updated'
@@ -323,7 +251,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Delete("/api/repair-order-quote-service/{id}")
+     * @Rest\Delete("/api/repair-order-quote-recommendation/{id}")
      *
      * @SWG\Tag(name="Repair Order Quote Recommendation")
      * @SWG\Delete(description="Delete a Repair Order Quote Recommendation")

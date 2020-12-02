@@ -75,7 +75,7 @@ class RepairOrderQuote
     public function __construct()
     {
         $this->dateCreated              = new DateTime();
-        $this->RepairOrderQuoteRecommendations = new ArrayCollection();
+        $this->repairOrderQuoteRecommendations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,13 +172,13 @@ class RepairOrderQuote
      */
     public function getRepairOrderQuoteRecommendations(): Collection
     {
-        return $this->RepairOrderQuoteRecommendations;
+        return $this->repairOrderQuoteRecommendations;
     }
 
     public function addRepairOrderQuoteRecommendation(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self
     {
-        if (!$this->RepairOrderQuoteRecommendations->contains($repairOrderQuoteRecommendation)) {
-            $this->RepairOrderQuoteRecommendations[] = $repairOrderQuoteRecommendation;
+        if (!$this->repairOrderQuoteRecommendations->contains($repairOrderQuoteRecommendation)) {
+            $this->repairOrderQuoteRecommendations[] = $repairOrderQuoteRecommendation;
             $repairOrderQuoteRecommendation->setRepairOrderQuote($this);
         }
 
@@ -187,7 +187,7 @@ class RepairOrderQuote
 
     public function removeRepairOrderQuoteRecommendation(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self
     {
-        if ($this->RepairOrderQuoteRecommendations->removeElement($repairOrderQuoteRecommendation)) {
+        if ($this->repairOrderQuoteRecommendations->removeElement($repairOrderQuoteRecommendation)) {
             // set the owning side to null (unless already changed)
             if ($repairOrderQuoteRecommendation->getRepairOrderQuote() === $this) {
                 $repairOrderQuoteRecommendation->setRepairOrderQuote(null);
