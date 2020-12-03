@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
+use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Class DealerTrack
@@ -32,12 +33,12 @@ class DealerTrack extends SOAP {
     /**
      * @var string
      */
-    private $enterprise = 'ZE';
+    private $enterprise;
 
     /**
      * @var string
      */
-    private $company = 'ZE7';
+    private $company;
 
     /**
      * @var
@@ -57,9 +58,13 @@ class DealerTrack extends SOAP {
      * @param               $company
      */
     public function __construct (EntityManagerInterface $em) {
-        // $this->enterprise = $enterprise;
-        // $this->company    = $company;
         $this->em         = $em;
+
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__ . '/../../.env');
+        
+        $this->company = $_ENV['DEALERTRACK_COMPANY'];
+        $this->enterprise = $_ENV['DEALERTRACK_ENTERPRISE'];
 
         parent::__construct($em);
     }

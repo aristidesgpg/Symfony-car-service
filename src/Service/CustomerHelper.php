@@ -147,6 +147,53 @@ class CustomerHelper
         return $errors;
     }
 
+    /**
+     * @param Customer $customer
+     * @param array    $params
+     */
+    public function commitCustomer (Customer $customer, array $params = []): void {
+        $valid = $this->validateParams($params);
+        if (empty($valid) !== true) {
+            throw new \InvalidArgumentException('Params did not validate. Call validateParams first.');
+        }
+        foreach ($params as $k => $v) {
+            switch ($k) {
+                case 'name':
+                    $customer->setName($v);
+                    break;
+                case 'phone':
+                    $customer->setPhone($this->stripPhone($v));
+                    $customer->setMobileConfirmed(!$this->skipMobileVerification($params));
+                    break;
+                case 'email':
+                    $customer->setEmail($v);
+                    break;
+                case 'doNotContact':
+                    $customer->setDoNotContact($this->paramToBool($v));
+                    break;
+                case 'deleted':
+                    $customer->setDeleted($this->paramToBool($v));
+                    break;
+                case 'addedBy':
+                    $customer->setAddedBy($v);
+                    break;
+            }
+        }
+
+        if ($customer->getId() === null) {
+            $this->em->persist($customer);
+        }
+        $this->em->beginTransaction();
+        try {
+            echo json_encode($params);
+            $this->em->flush();
+            $this->em->commit();
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            throw new \RuntimeException('Caught exception during flush', 0, $e);
+        }
+    }
+
     private function stripPhone(string $phone): string
     {
         return $this->phoneValidator->clean($phone);

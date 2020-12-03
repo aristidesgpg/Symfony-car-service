@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
-use App\Repository\SettingsRepository;
 use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
+use App\Repository\SettingsRepository;
 use App\Service\UploadHelper;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -184,6 +184,13 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")
      *
+     * DMS Settings
+     * @SWG\Parameter(name="usingAutomate", type="string", in="formData")
+     * @SWG\Parameter(name="usingDealerBuilt", type="string", in="formData")
+     * @SWG\Parameter(name="usingDealerTrack", type="string", in="formData")
+     * @SWG\Parameter(name="usingCdk", type="string", in="formData")
+     * @SWG\Parameter(name="offHoursIntegration", type="string", in="formData")
+     *
      * @param Request        $req
      * @param SettingsHelper $helper
      * @param UploadHelper   $uploader
@@ -252,6 +259,7 @@ class SettingsController extends AbstractFOSRestController
             }
             $settings[$key] = $val;
         }
+
 
         $files = [];
         foreach ($fileList as $key) {

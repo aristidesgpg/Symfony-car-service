@@ -16,6 +16,7 @@ use App\Service\DealerTrack;
 use App\Service\CDK;
 use App\Service\TwilioHelper as Twilio;
 use App\Service\ShortUrlHelper as URLShortener;
+use App\Service\SettingsHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
@@ -88,6 +89,31 @@ class DMS {
     private $urlShortener;
 
     /**
+     * @var SettingsHelper
+     */
+    private $settings;
+
+    /**
+     * @var usingAutomate
+     */
+    public $usingAutomate;
+
+    /**
+     * @var usingDealerBuilt
+     */
+    public $usingDealerBuilt;
+
+    /**
+     * @var usingDealerTrack
+     */
+    public $usingDealerTrack;
+
+    /**
+     * @var usingCdk
+     */
+    public $usingCdk;
+
+    /**
      * DMS constructor.
      *
      * @param                             $usingAutomate
@@ -113,7 +139,7 @@ class DMS {
                                  DealerBuilt $dealerBuilt, CDK $cdk, Twilio $twilio = null,
                                  CustomerService $customerService, EntityManagerInterface $em, URLShortener $URLShortener,
                                  CustomerRepository $customerRepository, RepairOrderRepository $repairOrderRepository,
-                                 UserRepository $userRepository) {
+                                 UserRepository $userRepository, SettingsHelper $settings) {
         $this->twilio                 = $twilio;
         $this->customerService        = $customerService;
         $this->em                     = $em;
@@ -121,39 +147,34 @@ class DMS {
         $this->repairOrderRepository  = $repairOrderRepository;
         $this->userRepository         = $userRepository;
         $this->activateIntegrationSms = true;
-        $this->dmsFilter              = 'Internal';
         $this->clientUrl              = '';
         $this->urlShortener           = $URLShortener;
+        $this->settings               = $settings;
 
-        $settingsRepository = $em->getRepository("App:Settings");
-        $usingAutomateEntity = $settingsRepository->findOneBy(['key' => 'usingAutomate']);
-        $usingAutomate = $usingAutomateEntity ? $usingAutomateEntity->getValue() : false;
+        $this->dmsFilter = $this->settings->getSetting('dmsFilter');
 
-        $usingDealerTrackEntity = $settingsRepository->findOneBy(['key' => 'usingDealerTrack']);
-        $usingDealerTrack = $usingDealerTrackEntity ? $usingDealerTrackEntity->getValue() : false;
+        $this->usingAutomate = $this->settings->getSetting('usingAutomate') === 'true' ? true : false;
+        $this->usingDealerTrack = $this->settings->getSetting('usingDealerTrack') === 'true' ? true : false;
+        $this->usingDealerBuilt = $this->settings->getSetting('usingDealerBuilt') === 'true' ? true : false;
+        $this->usingCdk = $this->settings->getSetting('usingCdk') === 'true' ? true : false;
 
-        $usingDealerBuiltEntity = $settingsRepository->findOneBy(['key' => 'usingDealerBuilt']);
-        $usingDealerBuilt = $usingDealerBuiltEntity ? $usingDealerBuiltEntity->getValue() : false;
-
-        $usingCdkEntity = $settingsRepository->findOneBy(['key' => 'usingCdk']);
-        $usingCdk = $usingCdkEntity ? $usingCdkEntity->getValue() : false;
-
-        if ($usingAutomate) {
+        if ($this->usingAutomate) {
             $this->integration = $automate;
             return;
         }
 
-        if ($usingDealerTrack) {
+        if ($this->usingDealerTrack) {
             $this->integration = $dealerTrack;
+            $this->integration->enableDevMode();
             return;
         }
 
-        if ($usingDealerBuilt) {
+        if ($this->usingDealerBuilt) {
             $this->integration = $dealerBuilt;
             return;
         }
 
-        if ($usingCdk) {
+        if ($this->usingCdk) {
             $this->integration = $cdk;
             return;
         }
@@ -185,7 +206,7 @@ class DMS {
 
             $customer         = null;
             $advisor          = null;
-            $phoneNumbers     = $dmsOpenRepairOrder->customer->phone_numbers;
+            $phoneNumbers     = is_array($dmsOpenRepairOrder->customer->phone_numbers) ? $dmsOpenRepairOrder->customer->phone_numbers : [];
             $name             = $dmsOpenRepairOrder->customer->name;
             $email            = $dmsOpenRepairOrder->customer->email;
             $dmsAdvisorId     = $dmsOpenRepairOrder->advisor->id;
@@ -213,10 +234,10 @@ class DMS {
                 foreach ($phoneNumbers as $phoneNumber) {
                     // Try to validate the phone number
                     try {
-                        $phoneValid = $this->twilio->carrierLookup($phoneNumber);
+                        $phoneValid = $this->twilio->lookupNumber($phoneNumber);
                         if ($phoneValid) {
                             $customer = new Customer();
-                            $this->customerService->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
+                            $this->customerService->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email, 'skipMobileVerification' => true]);
                         }
                         break;
                     } catch (Exception $e) {
@@ -230,7 +251,7 @@ class DMS {
             if (!$customer && isset($phoneNumbers[0])) {
                 $phoneNumber = $phoneNumbers[0];
                 $customer = new Customer();
-                $this->customerService->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
+                $this->customerService->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email, 'skipMobileVerification' => true]);
             }
 
             // If there isn't a customer at this state, just skip the RO, something seriously weird happened
@@ -239,7 +260,7 @@ class DMS {
             }
 
             if ($dmsAdvisorId) {
-                $foundAdvisor = $this->userRepository->findOneBy(['dmsId' => $dmsAdvisorId, 'role' => role_advisor]);
+                $foundAdvisor = $this->userRepository->findOneBy(['id' => $dmsAdvisorId, 'role' => role_advisor]);
                 if ($foundAdvisor) {
                     $advisor = $foundAdvisor;
                 }
@@ -317,7 +338,7 @@ class DMS {
 
             // Throws an error if it's not a mobile number
             try {
-                $this->twilio->carrierLookup($customer->getPhone());
+                $this->twilio->lookupNumber($customer->getPhone());
             } catch (Exception $e) {
                 continue;
             }
@@ -508,7 +529,7 @@ class DMS {
         if ($customer->getPhone()) {
             // Don't do the rest of the script if it's not a mobile number
             try {
-                $this->twilio->carrierLookup($customer->getPhone());
+                $this->twilio->lookupNumber($customer->getPhone());
 
                 if ($settings->repairAuthorizationText() && $settings->repairAuthorization()) {
                     $introMessage = "Welcome to " . $settings->getName() . '. Click the link below to begin your visit. ';

@@ -31,6 +31,8 @@ class SettingsHelper {
         'upgradeIntroText', 'upgradeOfferText', 'upgradeCashOfferCopy', 'upgradeDisclaimer',
         'generalName', 'generalEmail', 'generalWebsiteUrl', 'generalInventoryUrl', 'generaAddress',
         'generalAddress2', 'generalCity', 'generalState', 'generalZip', 'generalPhone',
+        'reviewGoogleUrl', 'reviewFacebookUrl', 'reviewText',
+        'usingAutomate', 'usingDealerBuilt', 'usingDealerTrack', 'usingCdk', 'dmsFilter', 'offHoursIntegration',
         'myReviewGoogleURL', 'myReviewFacebookURL', 'myReviewText', 'myReviewActivated',
     ];
 
