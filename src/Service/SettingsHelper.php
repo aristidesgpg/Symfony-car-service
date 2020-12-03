@@ -32,7 +32,7 @@ class SettingsHelper {
         'generalName', 'generalEmail', 'generalWebsiteUrl', 'generalInventoryUrl', 'generaAddress',
         'generalAddress2', 'generalCity', 'generalState', 'generalZip', 'generalPhone',
         'reviewGoogleUrl', 'reviewFacebookUrl', 'reviewText',
-        'usingAutomate', 'usingDealerBuilt', 'usingDealerTrack', 'usingCdk', 'dmsFilter', 'offHoursIntegration'
+        'usingAutomate', 'usingDealerBuilt', 'usingDealerTrack', 'usingCdk', 'dmsFilter', 'offHoursIntegration', 'customerURL'
     ];
 
     const VALID_FILE_SETTINGS = ['custAppPostInspectionVideo', 'generalLogo', 'reviewLogo'];
@@ -99,7 +99,7 @@ class SettingsHelper {
     public function getSetting ($key) {
         // Throw exception because false is a valid option
         if (!in_array($key, self::VALID_SETTINGS) && !in_array($key, self::VALID_FILE_SETTINGS)) {
-            throw new Exception('Invalid Setting Requested');
+            throw new Exception('Invalid Setting Requested: ' . $key);
         }
 
         $setting = $this->settingsRepository->findOneBy([

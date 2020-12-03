@@ -57,7 +57,6 @@ class CDK extends SOAP {
      * @throws Exception
      */
     public function getOpenRepairOrders () {
-        echo "cdk";
         $returnResult = [];
         $postUrl      = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Open_WIP';
         // $postUrl     = 'https://3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Open_WIP';
