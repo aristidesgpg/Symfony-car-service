@@ -342,8 +342,8 @@ class DMS {
                 //     ";
                 // }
 
-                if ($settings->serviceIntroTextMessage()) {
-                    $introMessage = $settings->serviceIntroTextMessage();
+                if ($settings->getSetting('serviceTextIntro')) {
+                    $introMessage = $settings->getSetting('serviceTextIntro');
                 }
                 if ($this->activateIntegrationSms == true) {
                     $this->twilio->sendSms($customer->getPhone(), $introMessage);
@@ -425,9 +425,8 @@ class DMS {
         // Skip certain ROs w/ customer names of those shown in the skip array
         // No phone number, just create the customer and move on
         if (!$phone) {
-            // @TODO: Fix this
-            exit;
-            $customer = $this->customerService->addCustomer($phone, $name, $email);
+            $customer = new Customer();
+            $this->customerService->commitCustomer($customer, ['name' => $name, 'email' => $email]);
         } else {
             // Check if the customer exists and use that one instead if so
             $customerExists = $this->customerRepository->findOneBy(['phone' => $phone]);
@@ -504,7 +503,7 @@ class DMS {
                 throw new Exception();
                 // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
                 if ($settings->repairAuthorizationText() && $settings->repairAuthorization()) {
-                    $introMessage = "Welcome to " . $settings->getName() . '. Click the link below to begin your visit. ';
+                    $introMessage = "Welcome to " . $settings->getSetting('generalName') . '. Click the link below to begin your visit. ';
                     if ($settings->repairAuthorizationTextMessage()) {
                         $introMessage = $settings->repairAuthorizationTextMessage() . ' ';
                     }
@@ -525,8 +524,8 @@ class DMS {
                     //     ";
                     // }
 
-                    if ($settings->serviceIntroTextMessage()) {
-                        $introMessage = $settings->serviceIntroTextMessage();
+                    if ($settings->getSetting('serviceTextIntro')) {
+                        $introMessage = $settings->getSetting('serviceTextIntro');
                     }
 
                     if ($this->activateIntegrationSms == true) {
