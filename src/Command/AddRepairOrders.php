@@ -9,10 +9,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Entity\Settings;
 use App\Service\CDK;
 use App\Service\DMS;
+use App\Service\SettingsHelper as Settings;
 use Doctrine\ORM\EntityManagerInterface;
+use DateTime;
 
 /**
  * Class AddRepairOrders
@@ -25,14 +26,25 @@ class AddRepairOrders extends Command {
      */
     protected static $defaultName = 'dms:addRepairOrders';
     
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
-    private $dms;
-    private $cdk;
 
-    public function __construct(EntityManagerInterface $em, DMS $dms, CDK $cdk) {
+    /**
+     * @var DMS
+     */
+    private $dms;
+
+    /**
+     * @var Settings
+     */
+    private $settings;
+
+    public function __construct(EntityManagerInterface $em, DMS $dms, CDK $cdk, Settings $settings) {
         $this->em = $em;
         $this->dms = $dms;
-        $this->cdk = $cdk;
+        $this->settings = $settings;
 
         parent::__construct();
     }
@@ -61,16 +73,12 @@ class AddRepairOrders extends Command {
      * @throws Exception
      */
     protected function execute (InputInterface $input, OutputInterface $output) {
-        // $dms = $this->getContainer()->get('app.dms');
-        // $cdk = $this->getContainer()->getParameter('cdk');
-        // /** @var Admin $settings */
+        
         $dms = $this->dms;
-        $cdk = $this->cdk;
-        $settings            = $this->em->getRepository(Settings::class);
-        // $offHoursIntegration = $settings->getOffHoursIntegration();
-        $offHoursIntegration = true;
+        
+        $offHoursIntegration = $this->settings->getSetting('offHoursIntegration') === 'true' ? true : false;
         // If using cdk and the dealer's service department isn't 24/7
-        if ($cdk && !$offHoursIntegration) {
+        if ($dms->usingCdk && !$offHoursIntegration) {
             $now       = new DateTime();
             $startTime = new DateTime($now->format('Y-m-d 03:00:00'));
             $endTime   = new DateTime($now->format('Y-m-d 22:00:00'));

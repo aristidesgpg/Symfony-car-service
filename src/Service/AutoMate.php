@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use App\Service\TwilioHelper as Twilio;
+use Symfony\Component\Dotenv\Dotenv;
 use Exception;
 
 /**
@@ -19,25 +20,25 @@ class AutoMate extends SOAP {
     /**
      * @var string
      */
-    //    private $eventServiceUrl = "https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?wsdl";
-    private $eventServiceUrl = "https://openmate.automate-webservices.com/OpenMateGateway/ProcessEventService";
+    private $eventServiceUrl = "https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?wsdl";
+    // private $eventServiceUrl = "https://openmate.automate-webservices.com/OpenMateGateway/ProcessEventService";
 
     /**
      * @var int
      */
-    //    private $username = '1087';
-    private $username = '136';
+    private $username = '1334';
+    // private $username = '136';
 
     /**
      * @var string
      */
-    //    private $password = 'xrXnveA8PdH@';
-    private $password = 'k(iabvS8en5K';
+    private $password = '3tdVAR6nPH^d';
+    // private $password = 'k(iabvS8en5K';
 
     /**
      * @var int
      */
-    private $dealerEndpointId = 1169;
+    private $dealerEndpointId;
 
     /**
      * @var EntityManagerInterface
@@ -59,6 +60,11 @@ class AutoMate extends SOAP {
         $this->em               = $em;
         $this->twilio           = $twilio;
 
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__ . '/../../.env');
+        
+        $this->dealerEndpointId = $_ENV['DEALER_ENDPOINT_ID'];
+
         parent::__construct($em);
     }
 
@@ -67,6 +73,7 @@ class AutoMate extends SOAP {
      * @throws Exception
      */
     public function getOpenRepairOrders () {
+        echo "automate";
         $returnResult  = [];
         $xmlPostString = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:open="http://openmate.automate-webservices.com/">
                                <soapenv:Header/>

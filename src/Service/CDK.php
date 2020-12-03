@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use SimpleXMLElement;
+use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Class CDK
@@ -38,10 +39,14 @@ class CDK extends SOAP {
      * @param SOAP          $soapService
      * @param               $dealerId
      */
-    public function __construct (EntityManagerInterface $em, SOAP $soapService, $dealerId = 1) {
+    public function __construct (EntityManagerInterface $em, SOAP $soapService) {
         $this->em          = $em;
-        $this->dealerId    = $dealerId;
         $this->soapService = $soapService;
+
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__ . '/../../.env');
+        
+        $this->dealerId = $_ENV['CDK_DEALER_ID'];
 
         parent::__construct($em);
     }
@@ -52,9 +57,10 @@ class CDK extends SOAP {
      * @throws Exception
      */
     public function getOpenRepairOrders () {
+        echo "cdk";
         $returnResult = [];
-        //$postUrl      = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Open_WIP';
-        $postUrl     = 'https://3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Open_WIP';
+        $postUrl      = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Open_WIP';
+        // $postUrl     = 'https://3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Open_WIP';
         $curlOptions = [
             CURLOPT_URL            => $postUrl,
             CURLOPT_POST           => true,
@@ -70,7 +76,7 @@ class CDK extends SOAP {
         $response = curl_exec($ch);
 
         // Not an error, but logs the request/response for compliance
-        $this->soapService->logError($postUrl, $response);
+        // $this->soapService->logError($postUrl, $response);
 
         if ($curlError = curl_error($ch)) {
             return [];

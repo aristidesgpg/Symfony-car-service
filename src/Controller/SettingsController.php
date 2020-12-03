@@ -152,13 +152,20 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      *
+     * DMS Settings
+     * @SWG\Parameter(name="usingAutomate", type="string", in="formData")
+     * @SWG\Parameter(name="usingDealerBuilt", type="string", in="formData")
+     * @SWG\Parameter(name="usingDealerTrack", type="string", in="formData")
+     * @SWG\Parameter(name="usingCdk", type="string", in="formData")
+     * @SWG\Parameter(name="offHoursIntegration", type="string", in="formData")
+     * 
      * @param Request        $req
      * @param SettingsHelper $helper
      * @param UploadHelper   $uploader
      *
      * @return Response
      */
-    public function setSettings (Request $req, SettingsHelper $helper, UploadHelper $uploader): Response {
+    public function setSettings (Request $req, SettingsHelper $helper, UploadHelper $uploader) {
         $parameterList = SettingsHelper::VALID_SETTINGS;
         $fileList      = SettingsHelper::VALID_FILE_SETTINGS;
         $settings      = [];

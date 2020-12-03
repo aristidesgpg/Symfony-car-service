@@ -51,8 +51,10 @@ class SOAP {
         curl_setopt_array($ch, $curlOptions);
         $response = curl_exec($ch);
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        
+        $error = curl_error($ch);
 
-        if ($error = curl_error($ch)) {
+        if ($error) {
             $this->logError($xmlPostString, $error);
 
             return false;
