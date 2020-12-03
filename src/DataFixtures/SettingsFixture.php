@@ -93,7 +93,7 @@ class SettingsFixture extends Fixture {
             'usingCdk'                   => 'true',
             'activateIntegrationSms'     => 'true',
             'dmsFilter'                  => 'Internal',
-            'clientURL'                  => '',
+            'customerURL'                => 'http://client3.iserviceauto.com/',
             'offHoursIntegration'        => 'false'
         ];
 

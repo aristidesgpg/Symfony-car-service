@@ -114,15 +114,15 @@ class CDK extends SOAP {
             $firstName = $namePieces[1];
             $lastname  = $namePieces[0];
 
-            $phoneNumber = [];
+            $phoneNumbers = [];
             if (isset($repairOrder['PhoneNumber']) && !empty($repairOrder['PhoneNumber'])) {
                 foreach ($repairOrder['PhoneNumber'] as $record) {
                     foreach ($record as $number) {
-                        $phoneNumber[] = $number;
+                        $phoneNumbers[] = $number;
                     }
                 }
             }
-            $phoneNumber = array_unique($phoneNumber);
+            $phoneNumbers = array_unique($phoneNumbers);
 
             $email = '';
             if (isset($repairOrder['ContactEmailAddress']) && !empty($repairOrder['ContactEmailAddress'])) {
@@ -217,7 +217,7 @@ class CDK extends SOAP {
             $returnResult[] = (object)[
                 'customer'   => (object)[
                     'name'          => $firstName . ' ' . $lastname,
-                    'phone_numbers' => $phoneNumber,
+                    'phone_numbers' => $phoneNumbers,
                     'email'         => $email
                 ],
                 'number'     => $roNumber,
@@ -417,15 +417,15 @@ class CDK extends SOAP {
         $firstName = $namePieces[1];
         $lastname  = $namePieces[0];
 
-        $phoneNumber = [];
+        $phoneNumbers = [];
         if (isset($repairOrder['PhoneNumber']) && !empty($repairOrder['PhoneNumber'])) {
             foreach ($repairOrder['PhoneNumber'] as $record) {
                 foreach ($record as $number) {
-                    $phoneNumber[] = $number;
+                    $phoneNumbers[] = $number;
                 }
             }
         }
-        $phoneNumber = array_unique($phoneNumber);
+        $phoneNumbers = array_unique($phoneNumbers);
 
         $email = '';
         if (isset($repairOrder['ContactEmailAddress']) && !empty($repairOrder['ContactEmailAddress'])) {
@@ -520,7 +520,7 @@ class CDK extends SOAP {
         return (object)[
             'customer'   => (object)[
                 'name'          => $firstName . ' ' . $lastname,
-                'phone_numbers' => $phoneNumber,
+                'phone_numbers' => $phoneNumbers,
                 'email'         => $email
             ],
             'number'     => $roNumber,
