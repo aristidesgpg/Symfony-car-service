@@ -92,7 +92,8 @@ class SettingsFixture extends Fixture {
             'usingCdk'                   => 'true',
             'activateIntegrationSms'     => 'true',
             'dmsFilter'                  => 'Internal',
-            'clientURL'                  => ''
+            'clientURL'                  => '',
+            'offHoursIntegration'        => 'false'
         ];
 
         foreach ($settings as $k => $v) {

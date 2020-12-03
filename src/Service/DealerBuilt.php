@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use SimpleXMLElement;
+use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * Class DealerBuilt
@@ -24,17 +25,17 @@ class DealerBuilt extends SOAP {
     /**
      * @var int
      */
-    private $username;
+    private $username = 'iservice';
 
     /**
      * @var string
      */
-    private $password;
+    private $password = 'w37B(7pDIb/FZF8(*1';
 
     /**
      * @var string
      */
-    private $serviceLocationId = 44102;
+    private $serviceLocationId;
 
     /**
      * @var EntityManagerInterface
@@ -50,10 +51,12 @@ class DealerBuilt extends SOAP {
      * @param               $serviceLocationId
      */
     public function __construct (EntityManagerInterface $em) {
-        // $this->username          = $username;
-        // $this->password          = $password;
-        // $this->serviceLocationId = $serviceLocationId;
-        $this->em                = $em;
+        $this->em = $em;
+
+        $dotenv =  new Dotenv();
+        $dotenv->load(__DIR__ . '/../../.env');
+
+        $this->serviceLocationId = $_ENV['DEALERBUILT_LOCATION_ID'];
 
         parent::__construct($em);
     }
@@ -86,7 +89,7 @@ class DealerBuilt extends SOAP {
             <SOAP-ENV:Body>
                 <ns:PullRepairOrders>
                     <ns:searchCriteria>
-                        <deal:MaxElapsedSinceUpdate>PT5M</deal:MaxElapsedSinceUpdate>
+                        <deal:MaxElapsedSinceUpdate>PT8760H</deal:MaxElapsedSinceUpdate>
                         <deal:ServiceLocationIds>
                             <arr:long>' . $this->serviceLocationId . '</arr:long>
                         </deal:ServiceLocationIds>
