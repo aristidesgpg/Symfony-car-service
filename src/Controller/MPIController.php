@@ -124,8 +124,8 @@ class MPIController extends AbstractFOSRestController {
      */
     public function createTemplate (Request $request, EntityManagerInterface $em,
                                     MPITemplateHelper $mpiTemplateHelper) {
-        $name          = $request->get('name');
-        $axleInfo      = str_replace("'",'"',$request->get('axleInfo'));
+        $name     = $request->get('name');
+        $axleInfo = str_replace("'", '"', $request->get('axleInfo'));
 
         //convert string to object
         $obj           = (array)json_decode($axleInfo);
@@ -321,7 +321,7 @@ class MPIController extends AbstractFOSRestController {
      * @SWG\Post(description="Create a new MPI Group")
      *
      * @SWG\Parameter(
-     *     name="template",
+     *     name="templateID",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -351,16 +351,17 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function createGroup (Request $request, MPITemplateRepository $mpiTemplateRepo, EntityManagerInterface $em) {
-        $template = $request->get('template');
-        $name     = $request->get('name');
+    public function createGroup (Request $request, MPITemplateRepository $mpiTemplateRepo,
+                                 EntityManagerInterface $em) {
+        $templateID = $request->get('templateID');
+        $name       = $request->get('name');
 
         //param is invalid
-        if (!$template || !$name) {
+        if (!$templateID || !$name) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $mpiTemplate = $mpiTemplateRepo->findOneBy($template);
+        $mpiTemplate = $mpiTemplateRepo->find($templateID);
         //Check if MPI Template exists
         if (!$mpiTemplate) {
             return $this->handleView($this->view('Invalid Template Parameter', Response::HTTP_BAD_REQUEST));
@@ -510,7 +511,7 @@ class MPIController extends AbstractFOSRestController {
      * @SWG\Post(description="Create a new MPI Item")
      *
      * @SWG\Parameter(
-     *     name="group",
+     *     name="groupID",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -541,15 +542,15 @@ class MPIController extends AbstractFOSRestController {
      * @return Response
      */
     public function createItem (Request $request, MPIGroupRepository $mpiGroupRepo, EntityManagerInterface $em) {
-        $group = $request->get('group');
-        $name  = $request->get('name');
+        $groupID = $request->get('groupID');
+        $name    = $request->get('name');
 
         //param is invalid
-        if (!$group || !$name) {
+        if (!$groupID || !$name) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $mpiGroup = $mpiGroupRepo->findOneBy($group);
+        $mpiGroup = $mpiGroupRepo->find($groupID);
         //check if MPI Group exists
         if (!$mpiGroup) {
             return $this->handleView($this->view('Invalid Group Parameter', Response::HTTP_BAD_REQUEST));

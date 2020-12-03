@@ -31,7 +31,7 @@ class MPIItem {
     /**
      * @ORM\Column(type="boolean")
      */
-    private $hasRange;
+    private $hasRange = false;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
