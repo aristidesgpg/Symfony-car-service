@@ -14,6 +14,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Service\MPITemplateHelper;
 
 
@@ -42,7 +43,12 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return MPI Templates"
+     *     description="Return MPI Templates",
+     *     @SWG\Items(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"mpi_template_list"})),
+     *         description="id, name, active"
+     *     )
      * )
      *
      * @param Request               $request
@@ -57,13 +63,12 @@ class MPIController extends AbstractFOSRestController {
         //get MPI Template
         if (!$active) {
             $mpiTemplates = $mpiTemplateRepository->findBy(['deleted' => 0]);
-            $result       = $mpiTemplateHelper->getActiveTemplates($mpiTemplates, false);
         } else {
             $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 1, 'deleted' => 0]);
-            $result       = $mpiTemplateHelper->getActiveTemplates($mpiTemplates, true);
         }
-
-        return $this->handleView($this->view($result, Response::HTTP_OK));
+        $view = $this->view($mpiTemplates);
+        $view->getContext()->setGroups(['mpi_template_list']);
+        return $this->handleView($view);
     }
 
     /**
