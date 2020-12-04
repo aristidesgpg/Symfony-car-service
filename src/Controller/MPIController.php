@@ -127,8 +127,7 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function createTemplate (Request $request, EntityManagerInterface $em,
-                                    MPITemplateHelper $mpiTemplateHelper) {
+    public function createTemplate (Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper) {
         $name     = $request->get('name');
         $axleInfo = str_replace("'", '"', $request->get('axleInfo'));
 
@@ -191,9 +190,7 @@ class MPIController extends AbstractFOSRestController {
             }
         }
 
-        return $this->handleView($this->view([
-            'message' => "MPI Template Created"
-        ], Response::HTTP_OK));
+        return $this->handleView($this->view($mpiTemplate, Response::HTTP_OK));
     }
 
     /**
@@ -223,10 +220,11 @@ class MPIController extends AbstractFOSRestController {
      * @param MPITemplate            $mpiTemplate
      * @param Request                $request
      * @param EntityManagerInterface $em
+     * @param MPITemplateHelper      $mpiTemplateHelper
      *
      * @return Response
      */
-    public function editTemplate (MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em) {
+    public function editTemplate (MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper) {
         $name = $request->get('name');
 
         //param is invalid
@@ -242,16 +240,15 @@ class MPIController extends AbstractFOSRestController {
 
         $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Template Updated'
-        ], Response::HTTP_OK));
+        $result = $mpiTemplateHelper->getLiveTemplate($mpiTemplate);
+        return $this->handleView($this->view($result, Response::HTTP_OK));
     }
 
     /**
-     * @Rest\Post("/api/mpi-template/de-activate/{id}")
+     * @Rest\Put("/api/mpi-template/de-activate/{id}")
      *
      * @SWG\Tag(name="MPI Template")
-     * @SWG\Post(description="Deactivate a MPI Template")
+     * @SWG\Put(description="Deactivate a MPI Template")
      *
      * @SWG\Response(
      *     response=200,
@@ -280,6 +277,42 @@ class MPIController extends AbstractFOSRestController {
 
         return $this->handleView($this->view([
             'message' => ' MPI Template Deactivated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Put("/api/mpi-template/re-activate/{id}")
+     *
+     * @SWG\Tag(name="MPI Template")
+     * @SWG\Put(description="Deactivate a MPI Template")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Reactivated" }),
+     *         )
+     * )
+     *
+     * @param MPITemplate            $mpiTemplate
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function reactivateTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
+
+        // reactivate template
+        $mpiTemplate->setActive(true);
+
+        $em->persist($mpiTemplate);
+        $em->flush();
+
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deactivated');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Template Reactivated'
         ], Response::HTTP_OK));
     }
 
