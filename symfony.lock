@@ -197,6 +197,9 @@
             "./config/packages/lexik_jwt_authentication.yaml"
         ]
     },
+    "moneyphp/money": {
+        "version": "v3.3.1"
+    },
     "monolog/monolog": {
         "version": "1.25.5"
     },
