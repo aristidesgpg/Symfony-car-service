@@ -601,12 +601,12 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *    description="Return MPIItem",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Created" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPIItem::class, groups={"mpi_item_list"})),
+     *         description="id, name, active"
+     *     )
      * )
      *
      * @param Request                $request
@@ -639,9 +639,9 @@ class MPIController extends AbstractFOSRestController {
 
         $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Created');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Item Created'
-        ], Response::HTTP_OK));
+        $view = $this->view($mpiItem);
+        $view->getContext()->setGroups(['mpi_item_list']);
+        return $this->handleView($view);
     }
 
     /**
@@ -660,12 +660,12 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return MPIItem",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Updated" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPIItem::class, groups={"mpi_item_list"})),
+     *         description="id, name, active"
+     *     )
      * )
      *
      * @param MPIItem                $mpiItem
@@ -690,9 +690,9 @@ class MPIController extends AbstractFOSRestController {
 
         $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Updated');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Item Updated'
-        ], Response::HTTP_OK));
+        $view = $this->view($mpiItem);
+        $view->getContext()->setGroups(['mpi_item_list']);
+        return $this->handleView($view);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MPIItemRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=MPIItemRepository::class)
@@ -14,6 +15,7 @@ class MPIItem {
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"mpi_item_list"})
      */
     private $id;
 
@@ -25,21 +27,25 @@ class MPIItem {
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"mpi_item_list"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"mpi_item_list"})
      */
     private $hasRange = false;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Serializer\Groups(groups={"mpi_item_list"})
      */
     private $rangeMaximum;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"mpi_item_list"})
      */
     private $rangeUnit;
 
