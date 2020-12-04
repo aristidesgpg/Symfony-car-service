@@ -6,7 +6,9 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderPayment;
 use App\Entity\RepairOrderPaymentInteraction;
 use App\Exception\PaymentException;
+use App\Money\MoneyHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Money\Money;
 
 class PaymentHelper {
     private $em;
@@ -19,11 +21,11 @@ class PaymentHelper {
 
     /**
      * @param RepairOrder $ro
-     * @param string      $amount
+     * @param Money       $amount
      *
      * @return RepairOrderPayment
      */
-    public function addPayment (RepairOrder $ro, string $amount): RepairOrderPayment {
+    public function addPayment (RepairOrder $ro, Money $amount): RepairOrderPayment {
         $payment = new RepairOrderPayment();
         $payment->setRepairOrder($ro)
                 ->setAmount($amount)
@@ -58,11 +60,11 @@ class PaymentHelper {
 
     /**
      * @param RepairOrderPayment $payment
-     * @param string             $amount
+     * @param Money              $amount
      *
      * @throws \Exception|PaymentException
      */
-    public function refundPayment (RepairOrderPayment $payment, string $amount): void {
+    public function refundPayment (RepairOrderPayment $payment, Money $amount): void {
         $transactionId = $payment->getTransactionId();
         if ($transactionId === null) {
             throw new \InvalidArgumentException('Missing transactionId');
