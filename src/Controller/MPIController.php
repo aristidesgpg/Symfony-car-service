@@ -53,12 +53,10 @@ class MPIController extends AbstractFOSRestController {
      *
      * @param Request               $request
      * @param MPITemplateRepository $mpiTemplateRepository
-     * @param MPITemplateHelper     $mpiTemplateHelper
      *
      * @return Response
      */
-    public function getTemplates (Request $request, MPITemplateRepository $mpiTemplateRepository,
-                                  MPITemplateHelper $mpiTemplateHelper) {
+    public function getTemplates (Request $request, MPITemplateRepository $mpiTemplateRepository) {
         $active = $request->query->get('active') ?? false;
         //get MPI Template
         if (!$active) {
@@ -82,12 +80,14 @@ class MPIController extends AbstractFOSRestController {
      *     description="Return MPI Templates"
      * )
      *
-     * @param MPITemplate $mpiTemplate
+     * @param MPITemplate           $mpiTemplate
+     * @param MPITemplateHelper     $mpiTemplateHelper
      *
      * @return Response
      */
-    public function getTemplate (MPITemplate $mpiTemplate) {
-        return $this->handleView($this->view($mpiTemplate, Response::HTTP_OK));
+    public function getTemplate (MPITemplate $mpiTemplate, MPITemplateHelper $mpiTemplateHelper) {
+        $result = $mpiTemplateHelper->getLiveTemplate($mpiTemplate);
+        return $this->handleView($this->view($result, Response::HTTP_OK));
     }
 
     /**

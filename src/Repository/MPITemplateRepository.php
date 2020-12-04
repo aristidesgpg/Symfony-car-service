@@ -61,4 +61,16 @@ class MPITemplateRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
+    public function getLiveSlef(MPITemplate $mpiTemplate): ?MPITemplate
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.mpiGroups', 'mg')
+            ->join('mg.mpiItems', 'mi')
+            ->where('m.id = '.$mpiTemplate->getId())
+            ->andWhere('mg.deleted = 0')
+            ->andWhere('mi.deleted = 0')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

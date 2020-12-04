@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\MPITemplate;
 use App\Entity\MPIItem;
 use App\Entity\MPIGroup;
 use App\Repository\MPIItemRepository;
@@ -92,5 +93,30 @@ class MPITemplateHelper {
         }
 
         return $mpiTemplates;
+    }
+
+    /**
+     * @param MPITemplate $mpiTemplate
+     * @param bool  $active
+     *
+     * @return MPITemplate
+     */
+    public function getLiveTemplate (MPITemplate $mpiTemplate) {
+        //get active templates
+        $mpiGroups = $mpiTemplate->getMPIGroups();
+        foreach ($mpiGroups as $mpiGroup) {
+            if ($mpiGroup->getDeleted()) {
+                $mpiTemplate->removeMPIGroup($mpiGroup);
+            } else {
+                $mpiItems = $mpiGroup->getMPIItems();
+                foreach ($mpiItems as $mpiItem) {
+                    if ($mpiItem->getDeleted()) {
+                        $mpiGroup->removeMPIItem($mpiItem);
+                    }
+                }
+            }
+        }
+
+        return $mpiTemplate;
     }
 }
