@@ -30,6 +30,7 @@ class PaymentHelper {
         $payment->setRepairOrder($ro)
                 ->setAmount($amount)
                 ->setDateCreated(new \DateTime());
+        $this->createInteraction($payment, 'Created');
         $this->commitPayment($payment);
 
         return $payment;
@@ -46,6 +47,7 @@ class PaymentHelper {
         $transactionId = $response['transaction_id'] ?? null;
         $payment->setTransactionId($transactionId);
         $payment->setDatePaid(new \DateTime());
+        $this->createInteraction($payment, 'Paid');
 
         try {
             $lookup = $this->nmi->lookupTransaction($transactionId);
@@ -84,6 +86,7 @@ class PaymentHelper {
         $this->nmi->makeRefund($transactionId, $amount);
         $payment->setDateRefunded(new \DateTime())
                 ->setRefundedAmount(isset($totalRefunded) ? $totalRefunded : $amount);
+        $this->createInteraction($payment, 'Refunded');
         $this->commitPayment($payment);
     }
 
@@ -97,12 +100,18 @@ class PaymentHelper {
 
         $payment->setDeleted(true);
         $payment->setDateDeleted(new \DateTime());
-        $interaction = new RepairOrderPaymentInteraction();
-        $interaction->setPayment($payment);
-        $interaction->setType('Deleted');
-        $payment->addInteraction($interaction);
+        $this->createInteraction($payment, 'Deleted');
 
         $this->commitPayment($payment);
+    }
+
+    private function createInteraction (RepairOrderPayment $payment, string $type): RepairOrderPaymentInteraction {
+        $interaction = new RepairOrderPaymentInteraction();
+        $interaction->setPayment($payment)
+                    ->setType($type);
+        $payment->addInteraction($interaction);
+
+        return $interaction;
     }
 
     private function commitPayment (RepairOrderPayment $payment): void {
