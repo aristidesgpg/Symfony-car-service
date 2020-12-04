@@ -113,12 +113,12 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return MPITemplate",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Updated" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"mpi_template_list"})),
+     *         description="id, name, active"
+     *     )
      * )
      *
      * @param Request                $request
@@ -209,12 +209,12 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return MPITemplate",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Updated" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"mpi_template_list"})),
+     *         description="id, name, groups, active"
+     *     )
      * )
      *
      * @param MPITemplate            $mpiTemplate
@@ -284,7 +284,7 @@ class MPIController extends AbstractFOSRestController {
      * @Rest\Put("/api/mpi-template/re-activate/{id}")
      *
      * @SWG\Tag(name="MPI Template")
-     * @SWG\Put(description="Deactivate a MPI Template")
+     * @SWG\Put(description="Reactivate a MPI Template")
      *
      * @SWG\Response(
      *     response=200,
@@ -375,12 +375,12 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return MPIGroup",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Created" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPIGroup::class, groups={"mpi_group_list"})),
+     *         description="id, name, active"
+     *     )
      * )
      *
      * @param Request                $request
@@ -414,9 +414,9 @@ class MPIController extends AbstractFOSRestController {
 
         $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Created');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Group Created'
-        ], Response::HTTP_OK));
+        $view = $this->view($mpiGroup);
+        $view->getContext()->setGroups(['mpi_group_list']);
+        return $this->handleView($view);
     }
 
     /**
@@ -435,12 +435,12 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Updated" }),
-     *         )
+     *     description="Return MPIGroup",
+      *     @SWG\Items(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPIGroup::class, groups={"mpi_group_list"})),
+     *         description="id, name, active"
+     *     )
      * )
      *
      * @param MPIGroup               $mpiGroup
@@ -465,16 +465,16 @@ class MPIController extends AbstractFOSRestController {
 
         $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Updated');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Group Updated'
-        ], Response::HTTP_OK));
+        $view = $this->view($mpiGroup);
+        $view->getContext()->setGroups(['mpi_group_list']);
+        return $this->handleView($view);
     }
 
     /**
-     * @Rest\Post("/api/mpi-group/de-activate/{id}")
+     * @Rest\Put("/api/mpi-group/de-activate/{id}")
      *
      * @SWG\Tag(name="MPI Group")
-     * @SWG\Post(description="Deactivate a MPI Group")
+     * @SWG\Put(description="Deactivate a MPI Group")
      *
      * @SWG\Response(
      *     response=200,
@@ -503,6 +503,42 @@ class MPIController extends AbstractFOSRestController {
 
         return $this->handleView($this->view([
             'message' => ' MPI Group Deactivated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Put("/api/mpi-group/re-activate/{id}")
+     *
+     * @SWG\Tag(name="MPI Group")
+     * @SWG\Put(description="Reactivate a MPI Group")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Reactivated" }),
+     *         )
+     * )
+     *
+     * @param MPIGroup               $mpiGroup
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function reactivateGroup (MPIGroup $mpiGroup, EntityManagerInterface $em) {
+
+        // deactivate group
+        $mpiGroup->setActive(true);
+
+        $em->persist($mpiGroup);
+        $em->flush();
+
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deactivated');
+
+        return $this->handleView($this->view([
+            'message' => ' MPI Group Reactivated'
         ], Response::HTTP_OK));
     }
 
