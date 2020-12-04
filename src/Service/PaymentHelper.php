@@ -42,7 +42,7 @@ class PaymentHelper {
      * @throws \Exception|PaymentException
      */
     public function payPayment (RepairOrderPayment $payment, string $paymentToken): void {
-        $response      = $this->nmi->makePayment($paymentToken, $payment->getAmount())->getParsedResponse();
+        $response      = $this->nmi->makePayment($paymentToken, $payment->getAmountString())->getParsedResponse();
         $transactionId = $response['transaction_id'] ?? null;
         $payment->setTransactionId($transactionId);
         $payment->setDatePaid(new \DateTime());
@@ -69,11 +69,21 @@ class PaymentHelper {
         if ($transactionId === null) {
             throw new \InvalidArgumentException('Missing transactionId');
         }
-        // TODO: Check amount
+        $overflow = $amount->greaterThan($payment->getAmount());
+        if ($payment->getRefundedAmount() !== null) {
+            $totalRefunded = $payment->getRefundedAmount()->add($amount);
+            $overflow = $totalRefunded->greaterThan($payment->getAmount());
+        }
+        if ($overflow === true) {
+            throw new \InvalidArgumentException(sprintf('Refund amount "%s" exceeds total amount "%s"',
+                MoneyHelper::getFormatter()->format($amount),
+                MoneyHelper::getFormatter()->format($payment->getAmount())
+            ));
+        }
 
         $this->nmi->makeRefund($transactionId, $amount);
         $payment->setDateRefunded(new \DateTime())
-                ->setRefundedAmount($amount);
+                ->setRefundedAmount(isset($totalRefunded) ? $totalRefunded : $amount);
         $this->commitPayment($payment);
     }
 
