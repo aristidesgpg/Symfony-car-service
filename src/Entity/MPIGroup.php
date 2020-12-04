@@ -46,6 +46,7 @@ class MPIGroup {
 
     /**
      * @ORM\OneToMany(targetEntity=MPIItem::class, mappedBy="mpiGroup")
+     * @Serializer\Groups(groups={"mpi_group_list"})
      */
     private $mpiItems;
 

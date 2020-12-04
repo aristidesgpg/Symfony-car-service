@@ -14,6 +14,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class MPITemplate
 {
+    public const GROUPS = ['mpi_template_list' ,'mpi_group_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -41,6 +42,7 @@ class MPITemplate
 
     /**
      * @ORM\OneToMany(targetEntity=MPIGroup::class, mappedBy="mpiTemplate")
+     * @Serializer\Groups(groups={"mpi_group_list"})
      */
     private $mpiGroups;
 

@@ -117,7 +117,7 @@ class MPIController extends AbstractFOSRestController {
      *     description="Return MPITemplate",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"mpi_template_list"})),
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups=MPITemplate::GROUPS)),
      *         description="id, name, active"
      *     )
      * )
@@ -125,10 +125,16 @@ class MPIController extends AbstractFOSRestController {
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param MPITemplateHelper      $mpiTemplateHelper
+     * @param MPITemplateRepository  $mpiTemplateRepository
      *
      * @return Response
      */
-    public function createTemplate (Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper) {
+    public function createTemplate (
+        Request $request, 
+        EntityManagerInterface $em, 
+        MPITemplateHelper $mpiTemplateHelper,
+        MPITemplateRepository  $mpiTemplateRepository
+    ) {
         $name     = $request->get('name');
         $axleInfo = str_replace("'", '"', $request->get('axleInfo'));
 
@@ -145,6 +151,7 @@ class MPIController extends AbstractFOSRestController {
         $mpiTemplate = new MPITemplate();
         $mpiTemplate->setName($name);
         $em->persist($mpiTemplate);
+        $em->flush();
 
         // create new Brakes configuration group and MPI items
         $brakeConfiguration = new MPIGroup();
@@ -191,7 +198,9 @@ class MPIController extends AbstractFOSRestController {
             }
         }
 
-        return $this->handleView($this->view($mpiTemplate, Response::HTTP_OK));
+        $view = $this->view($mpiTemplate);
+        $view->getContext()->setGroups(MPITemplate::GROUPS);
+        return $this->handleView($view);
     }
 
     /**
@@ -213,7 +222,7 @@ class MPIController extends AbstractFOSRestController {
      *     description="Return MPITemplate",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"mpi_template_list"})),
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups=MPITemplate::GROUPS)),
      *         description="id, name, groups, active"
      *     )
      * )
@@ -242,7 +251,10 @@ class MPIController extends AbstractFOSRestController {
         $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
 
         $result = $mpiTemplateHelper->getLiveTemplate($mpiTemplate);
-        return $this->handleView($this->view($result, Response::HTTP_OK));
+
+        $view = $this->view($result);
+        $view->getContext()->setGroups(MPITemplate::GROUPS);
+        return $this->handleView($view);
     }
 
     /**
