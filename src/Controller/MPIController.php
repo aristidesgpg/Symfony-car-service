@@ -155,9 +155,9 @@ class MPIController extends AbstractFOSRestController {
      * @return Response
      */
     public function createTemplate (
-        Request $request, 
+        Request                $request, 
         EntityManagerInterface $em, 
-        MPITemplateHelper $mpiTemplateHelper,
+        MPITemplateHelper      $mpiTemplateHelper,
         MPITemplateRepository  $mpiTemplateRepository
     ) {
         $name     = $request->get('name');
@@ -182,11 +182,13 @@ class MPIController extends AbstractFOSRestController {
         $brakeConfiguration = new MPIGroup();
         $brakeConfiguration->setName("Brakes Configuration")
                            ->setMPITemplate($mpiTemplate);
+        $mpiTemplate->addMPIGroup($brakeConfiguration);
         $em->persist($brakeConfiguration);
 
         $tireConfiguration = new MPIGroup();
         $tireConfiguration->setName("Tire Configuration")
                           ->setMPITemplate($mpiTemplate);
+        $mpiTemplate->addMPIGroup($tireConfiguration);
         $em->persist($tireConfiguration);
         $em->flush();
 

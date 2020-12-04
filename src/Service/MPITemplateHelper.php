@@ -63,6 +63,7 @@ class MPITemplateHelper {
                     ->setHasRange(true)
                     ->setRangeMaximum($rangeMax)
                     ->setRangeUnit($rangeUnit);
+            $mpiGroup->addMPIItem($mpiItem);
             $this->em->persist($mpiItem);
         }
         $this->em->flush();
