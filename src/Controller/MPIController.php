@@ -75,20 +75,45 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="MPI Template")
      * @SWG\Get(description="Get a Template")
+     * 
+     * @SWG\Parameter(
+     *     name="active",
+     *     in="query",
+     *     required=false,
+     *     type="boolean",
+     *     description="Get Active Groups",
+     *     enum={true, false}
+     * )
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return MPI Templates"
+     *     description="Return MPI Template",
+     *     @SWG\Items(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups=MPITemplate::GROUPS)),
+     *         description="id, name, active, groups"
+     *     )
      * )
      *
-     * @param MPITemplate           $mpiTemplate
-     * @param MPITemplateHelper     $mpiTemplateHelper
+     * @param MPITemplate       $mpiTemplate
+     * @param Request           $request
+     * @param MPITemplateHelper $mpiTemplateHelper
      *
      * @return Response
      */
-    public function getTemplate (MPITemplate $mpiTemplate, MPITemplateHelper $mpiTemplateHelper) {
-        $result = $mpiTemplateHelper->getLiveTemplate($mpiTemplate);
-        return $this->handleView($this->view($result, Response::HTTP_OK));
+    public function getTemplate (MPITemplate $mpiTemplate, Request $request, MPITemplateHelper $mpiTemplateHelper) {
+        $active = $request->query->get('active');
+        
+        if($active == "true"){
+            $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate, true);
+        }
+        else{
+            $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate, false);
+        }
+
+        $view = $this->view($result);
+        $view->getContext()->setGroups(MPITemplate::GROUPS);
+        return $this->handleView($view);
     }
 
     /**
@@ -250,7 +275,7 @@ class MPIController extends AbstractFOSRestController {
 
         $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
 
-        $result = $mpiTemplateHelper->getLiveTemplate($mpiTemplate);
+        $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate);
 
         $view = $this->view($result);
         $view->getContext()->setGroups(MPITemplate::GROUPS);

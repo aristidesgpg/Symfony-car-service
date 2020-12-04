@@ -69,43 +69,16 @@ class MPITemplateHelper {
     }
 
     /**
-     * @param array $mpiTemplates
-     * @param bool  $active
-     *
-     * @return array
-     */
-    public function getActiveTemplates (array $mpiTemplates, bool $active) {
-        //get active templates
-        foreach ($mpiTemplates as $mpiTemplate) {
-            $mpiGroups = $mpiTemplate->getMPIGroups();
-            foreach ($mpiGroups as $mpiGroup) {
-                if ($mpiGroup->getDeleted() || ($active && !$mpiGroup->getActive())) {
-                    $mpiTemplate->removeMPIGroup($mpiGroup);
-                } else {
-                    $mpiItems = $mpiGroup->getMPIItems();
-                    foreach ($mpiItems as $mpiItem) {
-                        if ($mpiItem->getDeleted()) {
-                            $mpiGroup->removeMPIItem($mpiItem);
-                        }
-                    }
-                }
-            }
-        }
-
-        return $mpiTemplates;
-    }
-
-    /**
      * @param MPITemplate $mpiTemplate
-     * @param bool  $active
+     * @param bool        $active
      *
      * @return MPITemplate
      */
-    public function getLiveTemplate (MPITemplate $mpiTemplate) {
+    public function getActiveTemplate (MPITemplate $mpiTemplate, bool $active) {
         //get active templates
         $mpiGroups = $mpiTemplate->getMPIGroups();
         foreach ($mpiGroups as $mpiGroup) {
-            if ($mpiGroup->getDeleted()) {
+            if ($mpiGroup->getDeleted() || ($active && !$mpiGroup->getActive())) {
                 $mpiTemplate->removeMPIGroup($mpiGroup);
             } else {
                 $mpiItems = $mpiGroup->getMPIItems();
