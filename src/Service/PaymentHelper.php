@@ -13,11 +13,25 @@ use Money\Money;
 use Twilio\Exceptions\TwilioException;
 
 class PaymentHelper {
+    /** @var EntityManagerInterface */
     private $em;
+
+    /** @var NMI */
     private $nmi;
+
+    /** @var ShortUrlHelper */
     private $urlHelper;
+
+    /** @var SettingsRepository */
     private $settings;
 
+    /**
+     * PaymentHelper constructor.
+     * @param EntityManagerInterface $em
+     * @param NMI                    $nmi
+     * @param ShortUrlHelper         $urlHelper
+     * @param SettingsRepository     $settings
+     */
     public function __construct (
         EntityManagerInterface $em,
         NMI $nmi,
@@ -140,6 +154,9 @@ class PaymentHelper {
         $this->commitPayment($payment);
     }
 
+    /**
+     * @param RepairOrderPayment $payment
+     */
     public function deletePayment (RepairOrderPayment $payment): void {
         if ($payment->getDatePaid() !== null) {
             throw new \InvalidArgumentException("Paid payments cannot be deleted");
@@ -155,6 +172,12 @@ class PaymentHelper {
         $this->commitPayment($payment);
     }
 
+    /**
+     * @param RepairOrderPayment $payment
+     * @param string             $type
+     *
+     * @return RepairOrderPaymentInteraction
+     */
     private function createInteraction (RepairOrderPayment $payment, string $type): RepairOrderPaymentInteraction {
         $interaction = new RepairOrderPaymentInteraction();
         $interaction->setPayment($payment)
@@ -164,6 +187,9 @@ class PaymentHelper {
         return $interaction;
     }
 
+    /**
+     * @param RepairOrderPayment $payment
+     */
     private function commitPayment (RepairOrderPayment $payment): void {
         if ($payment->getId() === null) {
             $this->em->persist($payment);
