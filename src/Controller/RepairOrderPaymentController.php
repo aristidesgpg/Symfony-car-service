@@ -131,6 +131,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      *
      * @param RepairOrder        $ro
      * @param RepairOrderPayment $payment
+     * @param PaymentHelper      $helper
      *
      * @return Response
      */
