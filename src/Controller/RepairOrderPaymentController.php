@@ -288,7 +288,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
         try {
             $helper->refundPayment($payment, $amount);
             $message = 'Refund successful';
-        } catch (PaymentException $e) {
+        } catch (\InvalidArgumentException|PaymentException $e) {
             $message = $e->getMessage();
             $code = Response::HTTP_BAD_REQUEST;
         } catch (\Exception $e) {
