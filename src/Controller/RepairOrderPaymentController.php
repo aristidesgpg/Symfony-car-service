@@ -208,6 +208,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
+        $paid = ($payment->getDatePaid() !== null);
+        $helper->viewPayment($payment, $paid);
+
         return $this->handleView($this->view([
             'message' => 'Payment view recorded',
         ]));
