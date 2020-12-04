@@ -7,16 +7,27 @@ use App\Entity\RepairOrderPayment;
 use App\Entity\RepairOrderPaymentInteraction;
 use App\Exception\PaymentException;
 use App\Money\MoneyHelper;
+use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
+use Twilio\Exceptions\TwilioException;
 
 class PaymentHelper {
     private $em;
     private $nmi;
+    private $urlHelper;
+    private $settings;
 
-    public function __construct (EntityManagerInterface $em, NMI $nmi) {
+    public function __construct (
+        EntityManagerInterface $em,
+        NMI $nmi,
+        ShortUrlHelper $urlHelper,
+        SettingsRepository $settings
+    ) {
         $this->em  = $em;
         $this->nmi = $nmi;
+        $this->urlHelper = $urlHelper;
+        $this->settings = $settings;
     }
 
     /**
@@ -34,6 +45,28 @@ class PaymentHelper {
         $this->commitPayment($payment);
 
         return $payment;
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
+     * @param bool               $resend
+     *
+     * @throws TwilioException
+     */
+    public function sendPayment (RepairOrderPayment $payment, bool $resend = false): void {
+        if ($payment->getDateSent() !== null && $resend !== true) {
+            throw new \InvalidArgumentException('Payment already sent');
+        }
+
+        $url = ''; // TODO
+        $message = $this->settings->find('serviceTextPayment')->getValue();
+        $phone = $payment->getRepairOrder()->getPrimaryCustomer()->getPhone();
+
+        $this->urlHelper->sendShortenedLink($phone, $message, $url);
+
+        $payment->setDateSent(new \DateTime());
+        $this->createInteraction($payment, 'Sent');
+        $this->commitPayment($payment);
     }
 
     /**

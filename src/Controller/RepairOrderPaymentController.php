@@ -18,6 +18,7 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Twilio\Exceptions\TwilioException;
 
 /**
  * Class RepairOrderPaymentController
@@ -155,6 +156,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      * @Rest\Post("/{payment}/send")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="Payment already sent")
+     * @SWG\Response(response="500", description="Unable to send payment")
      *
      * @SWG\Parameter(name="resend", type="boolean", in="formData", description="Resend payment")
      *
@@ -178,7 +180,17 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
             ], Response::HTTP_BAD_REQUEST));
         }
 
-        // TODO: Send payment
+        try {
+            $helper->sendPayment($payment);
+        } catch (TwilioException $e) {
+            return $this->handleView($this->view([
+                'message' => 'Unable to send payment',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR));
+        }
+
+        return $this->handleView($this->view([
+            'message' => 'Payment sent',
+        ]));
     }
 
     /**
