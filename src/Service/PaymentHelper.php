@@ -133,7 +133,7 @@ class PaymentHelper {
             ));
         }
 
-        $this->nmi->makeRefund($transactionId, $amount);
+        $this->nmi->makeRefund($transactionId, MoneyHelper::getFormatter()->format($amount));
         $payment->setDateRefunded(new \DateTime())
                 ->setRefundedAmount(isset($totalRefunded) ? $totalRefunded : $amount);
         $this->createInteraction($payment, 'Refunded');
