@@ -71,6 +71,23 @@ class PaymentHelper {
 
     /**
      * @param RepairOrderPayment $payment
+     * @param bool               $paid
+     */
+    public function viewPayment (RepairOrderPayment $payment, bool $paid = false): void {
+        $date = new \DateTime();
+        if ($paid) {
+            $payment->setDatePaidViewed($date);
+            $interaction = 'Paid Viewed';
+        } else {
+            $payment->setDateViewed($date);
+            $interaction = 'Viewed';
+        }
+        $this->createInteraction($payment, $interaction);
+        $this->commitPayment($payment);
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
      * @param string             $paymentToken
      *
      * @throws \Exception|PaymentException
