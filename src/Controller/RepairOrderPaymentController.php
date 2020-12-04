@@ -6,10 +6,13 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderPayment;
 use App\Exception\PaymentException;
 use App\Helper\FalsyTrait;
+use App\Money\MoneyHelper;
 use App\Response\ValidationResponse;
 use App\Service\PaymentHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Money\Exception\ParserException;
+use Money\Money;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
@@ -82,12 +85,14 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        $amount = $request->request->get('amount');
-        if (!preg_match(RepairOrderPayment::AMOUNT_REGEX, $amount)) {
-            return new ValidationResponse(['amount' => 'Invalid format']);
+
+        try {
+            $amount = $this->parseAmount($request->request->get('amount'));
+        } catch (\InvalidArgumentException $e) {
+            return new ValidationResponse(['amount' => $e->getMessage()]);
         }
 
-        $payment = $helper->addPayment($ro, $request->request->get('amount'));
+        $payment = $helper->addPayment($ro, $amount);
         $view = $this->view($payment);
         $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
 
@@ -271,5 +276,47 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
         if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
             throw new NotFoundHttpException();
         }
+
+        try {
+            $amount = $this->parseAmount($request->request->get('amount'));
+        } catch (\InvalidArgumentException $e) {
+            return new ValidationResponse(['amount' => $e->getMessage()]);
+        }
+
+        $code = Response::HTTP_OK;
+        $message = null;
+        try {
+            $helper->refundPayment($payment, $amount);
+            $message = 'Refund successful';
+        } catch (PaymentException $e) {
+            $message = $e->getMessage();
+            $code = Response::HTTP_BAD_REQUEST;
+        } catch (\Exception $e) {
+            $message = 'Could not contact payment server';
+            $code = Response::HTTP_INTERNAL_SERVER_ERROR;
+        }
+
+        return $this->handleView($this->view([
+            'message' => $message,
+        ], $code));
+    }
+
+    /**
+     * @param string|null $amount
+     *
+     * @return Money
+     * @throws \InvalidArgumentException
+     */
+    private function parseAmount (?string $amount): Money {
+        try {
+            $money = MoneyHelper::parse($amount);
+        } catch (ParserException $e) {
+            throw new \InvalidArgumentException('Invalid format', 0, $e);
+        }
+        if ($money->isNegative() || $money->isZero()) {
+            throw new \InvalidArgumentException('Must be greater than zero');
+        }
+
+        return $money;
     }
 }
