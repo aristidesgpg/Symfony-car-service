@@ -259,6 +259,16 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
      * @SWG\Parameter(name="internal", type="boolean", in="formData")
      * @SWG\Parameter(name="note", type="string", in="formData")
+     * @SWG\Parameter(name="finalValue", type="number", in="formData")
+     * @SWG\Parameter(name="approvedValue", type="number", in="formData")
+     * @SWG\Parameter(name="pickupDate", type="string", format="date-time", in="formData")
+     * @SWG\Parameter(name="year", type="string", in="formData")
+     * @SWG\Parameter(name="make", type="string", in="formData")
+     * @SWG\Parameter(name="model", type="string", in="formData")
+     * @SWG\Parameter(name="miles", type="integer", in="formData")
+     * @SWG\Parameter(name="vin", type="string", in="formData")
+     * @SWG\Parameter(name="dmsKey", type="string", in="formData")
+     * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
      *
      * @param Request           $req
      * @param RepairOrderHelper $helper
