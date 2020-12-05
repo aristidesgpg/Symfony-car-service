@@ -194,9 +194,13 @@ class RepairOrderHelper {
             if (!isset($params[$k]) || empty($params[$k])) {
                 continue;
             }
+            $role = ($k === 'advisor') ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
             $user = $this->users->find($params[$k]);
             if ($user === null) {
                 $errors[$k] = ucfirst($k) . ' not found';
+                continue;
+            } elseif (!in_array($role, $user->getRoles())) {
+                $errors[$k] = ucfirst($k) . ' does not have role ' . $role;
                 continue;
             }
             if ($k === 'advisor') {
