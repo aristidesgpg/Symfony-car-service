@@ -62,8 +62,11 @@ class MPIController extends AbstractFOSRestController {
         //get MPI Template
         if ($active == "true") {
             $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 1, 'deleted' => 0]);
-        } else {
+        } else if($active == "false") {
+            $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 0, 'deleted' => 0]);
+        } else{
             $mpiTemplates = $mpiTemplateRepository->findBy(['deleted' => 0]);
+
         }
         $view = $this->view($mpiTemplates);
         $view->getContext()->setGroups(['mpi_template_list']);
@@ -134,7 +137,7 @@ class MPIController extends AbstractFOSRestController {
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="Axle Information - [{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'},{'wheeles':4,'brakesRangeMaximum':12,'brakesRangeUnit':'mm','tireRangeMaximum':12,'tireRangeUnit':'s'},{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'}]",
+     *     description="Axle Information - [{'wheeles':2,'brakesRangeMaximum':10,'tireRangeMaximum':6},{'wheeles':4,'brakesRangeMaximum':12,'tireRangeMaximum':12},{'wheeles':2,'brakesRangeMaximum':10,'tireRangeMaximum':6}]",
      * )
      *
      * @SWG\Response(
