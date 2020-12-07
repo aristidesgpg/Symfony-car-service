@@ -147,7 +147,6 @@ class DMS {
 
         if ($this->usingDealerTrack) {
             $this->integration = $dealerTrack;
-            $this->integration->enableDevMode();
             return;
         }
 
@@ -217,7 +216,7 @@ class DMS {
                         $phoneValid = $this->twilio->lookupNumber($phoneNumber);
                         if ($phoneValid) {
                             $customer = new Customer();
-                            $this->customerService->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email, 'skipMobileVerification' => true]);
+                            $this->customerService->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
                         }
                         break;
                     } catch (Exception $e) {
@@ -231,7 +230,7 @@ class DMS {
             if (!$customer && isset($phoneNumbers[0])) {
                 $phoneNumber = $phoneNumbers[0];
                 $customer    = new Customer();
-                $this->customerService->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email, 'skipMobileVerification' => true]);
+                $this->customerService->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
             }
 
             // If there isn't a customer at this state, just skip the RO, something seriously weird happened
@@ -296,7 +295,8 @@ class DMS {
                         ->setMiles($dmsOpenRepairOrder->miles)
                         ->setVin($dmsOpenRepairOrder->vin)
                         ->setUpgradeQue(0)
-                        ->setInternal(0);
+                        ->setInternal(0)
+                        ->setLinkHash(\uniqid());
 
             // If the customer name has "INVENTORY" in it, skip as an internal
             if (strpos($name, 'INVENTORY') !== false) {
@@ -317,10 +317,8 @@ class DMS {
             } catch (Exception $e) {
                 continue;
             }
-
             // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
-            exit;
-            if ($settings->repairAuthorizationText() && $settings->repairAuthorization()) {
+            if ($settings->getSetting('waiverEstimateText') && $settings->repairAuthorization()) {
                 $introMessage = "Welcome to " . $settings->getName() . '. Click the link below to begin your visit. ';
                 if ($settings->repairAuthorizationTextMessage()) {
                     $introMessage = $settings->repairAuthorizationTextMessage() . ' ';
@@ -485,7 +483,8 @@ class DMS {
                     ->setModel($dmsRepairOrder->model)
                     ->setMiles($dmsRepairOrder->miles)
                     ->setVin($dmsRepairOrder->vin)
-                    ->setInternal(0);
+                    ->setInternal(0)
+                    ->setLinkHash(\uniqid());
 
         // If the customer name has "INVENTORY" in it, skip as an internal
         if (strpos($name, 'INVENTORY') !== false) {
