@@ -75,11 +75,12 @@ class CDK extends SOAP {
         $response = curl_exec($ch);
 
         // Not an error, but logs the request/response for compliance
-        // $this->soapService->logError($postUrl, $response);
 
         if ($curlError = curl_error($ch)) {
             return [];
         }
+
+        $this->soapService->logError($postUrl, $response);
 
         $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOWARNING);
         $xml = json_decode(json_encode($xml), true);
