@@ -88,18 +88,6 @@ class AddRepairOrders extends Command {
         }
         // Gets and adds repair orders
         $dms->addOpenRepairOrders();
-        // if ($cdk) {
-        //     // Delete old cdk logs
-        //     $twoDaysAgo  = (new DateTime())->modify('-2 days');
-        //     $deleteQuery = $this->em->createQueryBuilder()
-        //                       ->delete('AppBundle:SoapErrorLog', 's')
-        //                       ->where('s.date < :twoDaysAgo')
-        //                       ->andWhere('s.request LIKE :cdkUrl')
-        //                       ->setParameter('twoDaysAgo', $twoDaysAgo->format('Y-m-d'))
-        //                       ->setParameter(':cdkUrl', '%dmotorworks.com%')
-        //                       ->getQuery();
-        //     $deleteQuery->execute();
-        // }
-        // $output->writeln('Complete!');
+        $output->writeln('Complete!');
     }
 }

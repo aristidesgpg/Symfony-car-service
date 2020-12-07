@@ -73,7 +73,6 @@ class AutoMate extends SOAP {
      * @throws Exception
      */
     public function getOpenRepairOrders () {
-        echo "automate";
         $returnResult  = [];
         $xmlPostString = '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:open="http://openmate.automate-webservices.com/">
                                <soapenv:Header/>

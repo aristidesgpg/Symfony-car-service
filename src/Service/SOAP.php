@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\SoapErrorLog;
+use App\Service\ThirdPartyAPILogHelper as APILogger;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -19,12 +20,18 @@ class SOAP {
     private $em;
 
     /**
+     * @var ThirdPartyAPILogHelper
+     */
+    private $apiLogger;
+
+    /**
      * SOAP constructor.
      *
      * @param EntityManagerInterface $em
      */
     public function __construct (EntityManagerInterface $em) {
         $this->em = $em;
+        $this->apiLogger = new APILogger($em);
     }
 
     /**
@@ -55,13 +62,13 @@ class SOAP {
         $error = curl_error($ch);
 
         if ($error) {
-            $this->logError($xmlPostString, $error);
+            $this->logError($url, $error);
 
             return false;
         }
 
         if ($httpCode !== 200) {
-            $this->logError($xmlPostString, $response);
+            $this->logError($url, $response);
 
             return false;
         }
@@ -77,19 +84,10 @@ class SOAP {
      *
      * @return bool
      */
-    public function logError ($request, $response) {
-        $soapErrorLog = new SoapErrorLog();
-        $soapErrorLog->setRequest($request)->setResponse($response);
-
-        try {
-            $this->em->persist($soapErrorLog);
-            $this->em->flush();
-        } catch (OptimisticLockException $e) {
-            return false;
-        } catch (ORMException $e) {
-            return false;
-        }
-
-        return true;
+    public function logError ($request, $response, $isRest = true) {
+        if ($isRest) 
+            $this->apiLogger->commitAPILog($request, null, $response, $isRest);
+        else
+            $this->apiLogger->commitAPILog(null, $request, $response, $isRest);
     }
 }
