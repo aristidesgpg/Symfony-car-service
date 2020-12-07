@@ -97,8 +97,8 @@ class CustomerHelper {
      * @param array    $params
      */
     public function commitCustomer (Customer $customer, array $params = []): void {
-        $valid = $this->validateParams($params);
-        if (empty($valid) !== true) {
+        $errors = $this->validateParams($params);
+        if (empty($errors) !== true) {
             throw new \InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
         foreach ($params as $k => $v) {
@@ -130,7 +130,6 @@ class CustomerHelper {
         }
         $this->em->beginTransaction();
         try {
-            echo json_encode($params);
             $this->em->flush();
             $this->em->commit();
         } catch (\Exception $e) {
