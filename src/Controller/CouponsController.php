@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -29,9 +30,10 @@ class CouponsController extends AbstractFOSRestController {
      *     response=200,
      *     description="Return coupons",
      *     @SWG\Items(
-     *         type="object",
-     *             description="id, title, image, deleted value for coupons"
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=Coupon::class, groups={"coupon_list"})),
+     *         description="id, title, image"
+     *     )
      * )
      *
      * @param EntityManagerInterface $em
@@ -40,7 +42,10 @@ class CouponsController extends AbstractFOSRestController {
      * @return Response
      */
     public function list (EntityManagerInterface $em, CouponRepository $couponRepository) {
-        return $this->handleView($this->view($couponRepository->findBy(['deleted' => 0]), Response::HTTP_OK));
+        $coupons = $couponRepository->findBy(['deleted' => 0]);
+        $view = $this->view($coupons);
+        $view->getContext()->setGroups(['coupon_list']);
+        return $this->handleView($view);
     }
 
     /**
