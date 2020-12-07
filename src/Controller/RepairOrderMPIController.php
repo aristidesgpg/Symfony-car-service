@@ -102,6 +102,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
+        $obj = (array)json_decode($axleInfo);
         //store repairOrderMPI
         $repairOrderMPI = new RepairOrderMPI();
         $repairOrderMPI->setRepairOrder($repairOrder)
