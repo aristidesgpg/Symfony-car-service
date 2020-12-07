@@ -62,8 +62,11 @@ class MPIController extends AbstractFOSRestController {
         //get MPI Template
         if ($active == "true") {
             $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 1, 'deleted' => 0]);
-        } else {
+        } else if($active == "false") {
+            $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 0, 'deleted' => 0]);
+        } else{
             $mpiTemplates = $mpiTemplateRepository->findBy(['deleted' => 0]);
+
         }
         $view = $this->view($mpiTemplates);
         $view->getContext()->setGroups(['mpi_template_list']);
