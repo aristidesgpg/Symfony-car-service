@@ -198,7 +198,7 @@ class RepairOrder {
      */
     private $repairOrderMPI;
 
-    /*
+    /**
      * @ORM\Column(type="boolean")
      * @Serializer\Groups(groups={"ro_list"})
      */
