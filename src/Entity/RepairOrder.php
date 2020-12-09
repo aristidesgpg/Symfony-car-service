@@ -194,6 +194,7 @@ class RepairOrder {
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrderMPI::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $repairOrderMPI;
 

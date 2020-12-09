@@ -49,15 +49,15 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
 
             $dateCompleted        = $faker->dateTimeBetween('-1 year');
            
-            $dateSent             = $dateCompleted ? clone $dateCompleted : null;
+            $dateSent             = clone $dateCompleted;
             $dateSentModify       = random_int(1, 12);
-            $dateSent             = $dateSent && random_int(0, 100) > 30 ? $dateSent->modify('+' . $dateSentModify . ' hours') : null;
+            $dateSent             = $dateSent->modify('+' . $dateSentModify . ' hours');
            
             $repairOrderMPI = new RepairOrderMPI();
             $repairOrderMPI->setRepairOrder($this->getReference('repairOrder_' . $repairOrderReference))
                            ->setDateCompleted($dateCompleted)
                            ->setDateSent($dateSent)
-                           ->setResults($row);
+                           ->setResults($row[0]);
 
             $manager->persist($repairOrderMPI);
             $manager->flush();
