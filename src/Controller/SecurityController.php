@@ -197,7 +197,13 @@ class SecurityController extends AbstractFOSRestController {
 
         // get reset password request url with token
         $resetPasswordURL = $urlGenerator->generate('app_security_validatetoken', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-        if (!$mailerHelper->sendMail("Reset Password Link", $email, $resetPasswordURL)) {
+        try {
+            $emailBody = $mailerHelper->renderEmail('email-forgot-password.html.twig', ['link' => $resetPasswordURL]);
+            $emailBody['text'] = "Follow this link to reset password: {$resetPasswordURL}";
+            if (!$mailerHelper->sendHtmlMail("Reset Password Link", $email, $emailBody)) {
+                throw new \Exception('Could not send mail');
+            }
+        } catch (\Throwable $e) {
             return $this->handleView($this->view(
                 'Something Went Wrong Trying to Send the Email', Response::HTTP_INTERNAL_SERVER_ERROR
             ));
