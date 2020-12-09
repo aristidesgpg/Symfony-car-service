@@ -34,6 +34,7 @@
         "symfony/swiftmailer-bundle": "^3.5",
         "symfony/twig-bundle": "4.4.*",
         "symfony/yaml": "4.4.*",
+        "tijsverkoyen/css-to-inline-styles": "^2.2",
         "twilio/sdk": "^6.10"
     },
     "require-dev": {
