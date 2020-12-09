@@ -25,35 +25,6 @@ class RepairOrderMPIController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/api/repair-order-mpi")
-     *
-     * @SWG\Tag(name="Repair Order MPI")
-     * @SWG\Get(description="Get All Repair Order MPIs")
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return Repair Order MPIs",
-     *     @SWG\Items(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderMPI::class, groups=RepairOrderMPI::GROUPS)),
-     *         description="id, repair_order_id, date_completed, date_sent, results"
-     *     )
-     * )
-     *
-     * @param RepairOrderMPIRepository $repairOrderMPIRepository
-     *
-     * @return Response
-     */
-    public function getRepairOrderMPIs (RepairOrderMPIRepository $repairOrderMPIRepository) {
-        //get Repair Order MPIs
-        $repairOrderMPIs = $repairOrderMPIRepository->findAll();
-        $view            = $this->view($repairOrderMPIs);
-        $view->getContext()->setGroups(['rom_list']);
-
-        return $this->handleView($view);
-    }
-
-    /**
      * @Rest\Post("/api/repair-order-mpi")
      *
      * @SWG\Tag(name="Repair Order MPI")
