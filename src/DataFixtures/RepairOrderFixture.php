@@ -40,7 +40,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                     ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                     ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
                     ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
-                    ->setMpiStatus($statusOptions[$faker->numberBetween(0, 5)])
+                    ->setMPIStatus($statusOptions[$faker->numberBetween(0, 5)])
                     ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
                     ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
                     ->setWaiter($faker->boolean(25))
@@ -98,7 +98,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                         ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                         ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
                         ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
-                        ->setMpiStatus($statusOptions[$faker->numberBetween(0, 5)])
+                        ->setMPIStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
                         ->setWaiter($waiter)
@@ -120,6 +120,8 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
 
             $manager->persist($repairOrder);
             $manager->flush();
+
+            $this->addReference('repairOrder_' . $i, $repairOrder);
         }
     }
 

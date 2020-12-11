@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CouponRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=CouponRepository::class)
@@ -14,16 +15,19 @@ class Coupon
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"coupon_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"coupon_list"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"coupon_list"})
      */
     private $image;
 

@@ -194,6 +194,12 @@ class RepairOrder {
     private $deleted = false;
 
     /**
+     * @ORM\OneToOne(targetEntity=RepairOrderMPI::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $repairOrderMPI;
+
+    /**
      * @ORM\Column(type="boolean")
      * @Serializer\Groups(groups={"ro_list"})
      */
@@ -208,6 +214,11 @@ class RepairOrder {
      * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderPayment", mappedBy="repairOrder")
      */
     private $payments;
+
+    /**
+     * @ORM\OneToOne(targetEntity=RepairOrderQuote::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     */
+    private $repairOrderQuote;
 
     /**
      * RepairOrder constructor.
@@ -757,6 +768,23 @@ class RepairOrder {
         return $this;
     }
 
+    public function getRepairOrderMPI(): ?RepairOrderMPI
+    {
+        return $this->repairOrderMPI;
+    }
+
+    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
+    {
+        $this->repairOrderMPI = $repairOrderMPI;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newRepairOrder = null === $repairOrderMPI ? null : $this;
+        if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
+            $repairOrderMPI->setRepairOrder($newRepairOrder);
+        }
+        return $this;
+    }
+
     /**
      * @return bool
      */
@@ -771,6 +799,22 @@ class RepairOrder {
      */
     public function setArchived (bool $archived): self {
         $this->archived = $archived;
+        return $this;
+    }
+
+    public function getRepairOrderQuote(): ?RepairOrderQuote
+    {
+        return $this->repairOrderQuote;
+    }
+
+    public function setRepairOrderQuote(RepairOrderQuote $repairOrderQuote): self
+    {
+        $this->repairOrderQuote = $repairOrderQuote;
+
+        // set the owning side of the relation if necessary
+        if ($repairOrderQuote->getRepairOrder() !== $this) {
+            $repairOrderQuote->setRepairOrder($this);
+        }
 
         return $this;
     }

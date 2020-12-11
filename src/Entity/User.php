@@ -123,15 +123,33 @@ class User implements UserInterface {
     private $technicianRepairOrders;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="user")
+     */
+    private $repairOrderMPIInteractions;
+
+    /*
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pin;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
+     */
+    private $processRefund = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
+     */
+    private $shareRepairOrders = false;
 
     /**
      * User constructor.
      */
     public function __construct () {
         $this->technicianRepairOrders = new ArrayCollection();
+        $this->repairOrderMPIInteractions = new ArrayCollection();
     }
 
     /**
@@ -453,10 +471,65 @@ class User implements UserInterface {
     }
 
     /**
+     * @return Collection|RepairOrderMPIInteraction[]
+     */
+    public function getRepairOrderMPIInteractions(): Collection
+    {
+        return $this->repairOrderMPIInteractions;
+    }
+
+    public function addRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if (!$this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions[] = $repairOrderMPIInteraction;
+            $repairOrderMPIInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if ($this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions->removeElement($repairOrderMPIInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderMPIInteraction->getUser() === $this) {
+                $repairOrderMPIInteraction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    /*
      * @return bool
      */
     public function isTechnician () {
         return in_array('ROLE_TECHNICIAN', $this->getRoles());
+    }
+
+    public function getProcessRefund(): ?bool
+    {
+        return $this->processRefund;
+    }
+
+    public function setProcessRefund(bool $processRefund): self
+    {
+        $this->processRefund = $processRefund;
+
+        return $this;
+    }
+
+    public function getShareRepairOrders(): ?bool
+    {
+        return $this->shareRepairOrders;
+    }
+
+    public function setShareRepairOrders(bool $shareRepairOrders): self
+    {
+        $this->shareRepairOrders = $shareRepairOrders;
+
+        return $this;
     }
 
 }
