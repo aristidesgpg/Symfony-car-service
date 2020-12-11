@@ -167,7 +167,7 @@ class RepairOrderHelper {
      *
      * @return string
      */
-    private function generateLinkHash (string $dateCreated): string {
+    public function generateLinkHash (string $dateCreated): string {
         try {
             $hash = sha1($dateCreated . random_bytes(32));
         } catch (\Exception $e) { // Shouldn't ever happen

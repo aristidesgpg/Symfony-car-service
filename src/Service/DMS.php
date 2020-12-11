@@ -82,6 +82,11 @@ class DMS {
     private $settings;
 
     /**
+     * @var RepairOrderHelper
+     */
+    private $roHelper;
+
+    /**
      * @var bool
      */
     public $usingAutomate;
@@ -123,7 +128,7 @@ class DMS {
                                  DealerBuilt $dealerBuilt, CDK $cdk, Twilio $twilio = null,
                                  CustomerService $customerService, EntityManagerInterface $em, URLShortener $URLShortener,
                                  CustomerRepository $customerRepository, RepairOrderRepository $repairOrderRepository,
-                                 UserRepository $userRepository, SettingsHelper $settings) {
+                                 UserRepository $userRepository, SettingsHelper $settings, RepairOrderHelper $roHelper) {
         $this->twilio                 = $twilio;
         $this->customerService        = $customerService;
         $this->em                     = $em;
@@ -133,6 +138,7 @@ class DMS {
         $this->activateIntegrationSms = true;
         $this->urlShortener           = $URLShortener;
         $this->settings               = $settings;
+        $this->roHelper               = $roHelper;
         $this->customerURL            = $this->settings->getSetting('customerURL');
         $this->dmsFilter              = $this->settings->getSetting('dmsFilter');
         $this->usingAutomate          = $this->settings->getSetting('usingAutomate') === 'true';
@@ -234,7 +240,7 @@ class DMS {
             }
 
             // If there isn't a customer at this state, just skip the RO, something seriously weird happened
-            if (!$customer) {
+            if (!$customer || !$customer->getId()) {
                 continue;
             }
 
@@ -296,7 +302,7 @@ class DMS {
                         ->setVin($dmsOpenRepairOrder->vin)
                         ->setUpgradeQue(0)
                         ->setInternal(0)
-                        ->setLinkHash(\uniqid());
+                        ->setLinkHash($this->roHelper->generateLinkHash($dmsOpenRepairOrder->date->format('c')));
 
             // If the customer name has "INVENTORY" in it, skip as an internal
             if (strpos($name, 'INVENTORY') !== false) {
@@ -318,10 +324,10 @@ class DMS {
                 continue;
             }
             // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
-            if ($settings->getSetting('waiverEstimateText') && $settings->repairAuthorization()) {
+            if ($this->settings->getSetting('waiverEstimateText') && $this->settings->getSetting('waiverActivateAuthMessage')) {
                 $introMessage = "Welcome to " . $settings->getName() . '. Click the link below to begin your visit. ';
-                if ($settings->repairAuthorizationTextMessage()) {
-                    $introMessage = $settings->repairAuthorizationTextMessage() . ' ';
+                if ($this->settings->getSetting('waiverIntroText')) {
+                    $introMessage = $settings->getSetting('waiverIntroText') . ' ';
                 }
 
                 $textLink     = $this->customerURL . $repairOrder->getLinkHash() . '/repair-waiver';
@@ -340,8 +346,8 @@ class DMS {
                 //     ";
                 // }
 
-                if ($settings->getSetting('serviceTextIntro')) {
-                    $introMessage = $settings->getSetting('serviceTextIntro');
+                if ($this->settings->getSetting('serviceTextIntro')) {
+                    $introMessage = $this->settings->getSetting('serviceTextIntro');
                 }
                 if ($this->activateIntegrationSms == true) {
                     $this->twilio->sendSms($customer->getPhone(), $introMessage);
@@ -484,7 +490,7 @@ class DMS {
                     ->setMiles($dmsRepairOrder->miles)
                     ->setVin($dmsRepairOrder->vin)
                     ->setInternal(0)
-                    ->setLinkHash(\uniqid());
+                    ->setLinkHash($this->roHelper->generateLinkHash($dmsOpenRepairOrder->date->format('c')->format('c')));
 
         // If the customer name has "INVENTORY" in it, skip as an internal
         if (strpos($name, 'INVENTORY') !== false) {
@@ -499,9 +505,8 @@ class DMS {
             try {
                 $this->twilio->lookupNumber($customer->getPhone());
 
-                throw new Exception();
                 // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
-                if ($settings->repairAuthorizationText() && $settings->repairAuthorization()) {
+                if ($settings->getSettings('waiverEstimateText') && $settings->getAuthorizationMessage()) {
                     $introMessage = "Welcome to " . $settings->getSetting('generalName') . '. Click the link below to begin your visit. ';
                     if ($settings->repairAuthorizationTextMessage()) {
                         $introMessage = $settings->repairAuthorizationTextMessage() . ' ';
