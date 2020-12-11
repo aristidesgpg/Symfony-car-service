@@ -27,7 +27,8 @@ class OperationCodeController extends AbstractFOSRestController {
      *     response=200,
      *     description="Return Operation Codes",
      *     @SWG\Items(
-     *         type="object",
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"operation_code_list"})),
      *         description="code, description, labor_hours, labor_taxable, parts_price, parts_taxable, supplies_price, supplies_taxable, deleted"
      *     )
      * )
@@ -43,7 +44,7 @@ class OperationCodeController extends AbstractFOSRestController {
 
         $view->getContext()->setGroups(['operation_code_list']);
 
-        return $this->handleView($this->view($operationCodes, Response::HTTP_OK));
+        return $this->handleView($view);
     }
 
     /**
