@@ -51,7 +51,8 @@ class SOAP {
             CURLOPT_HTTPHEADER     => $headers,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_ENCODING       => 'UTF-8',
-            CURLOPT_SSL_VERIFYPEER  => false // should only be done locally
+            CURLOPT_CAINFO         => '/var/www/html/cacert.pem',
+            CURLOPT_SSL_VERIFYPEER  => true // should only be done locally
         ];
 
         $ch = curl_init();

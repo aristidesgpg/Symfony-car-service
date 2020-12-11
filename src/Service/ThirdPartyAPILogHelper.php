@@ -39,8 +39,6 @@ class ThirdPartyAPILogHelper {
         $log->setResponse($response);
         $log->setDate(new DateTime());
 
-        // echo json_encode($log->getResponse());
-
         $this->em->persist($log);
         $this->em->beginTransaction();
 
