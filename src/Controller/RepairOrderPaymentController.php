@@ -318,6 +318,53 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Post("/{payment}/sendReceipt")
+     * @SWG\Response(response="200", description="Success!")
+     * @SWG\Response(response="400", description="Payment has not been paid")
+     * @SWG\Response(response="500", description="Could not send mail")
+     *
+     * @SWG\Parameter(name="sendTo", type="string", in="formData", required=true)
+     *
+     * @param RepairOrder        $ro
+     * @param RepairOrderPayment $payment
+     * @param Request            $request
+     * @param PaymentHelper      $helper
+     *
+     * @return Response
+     */
+    public function sendReceipt (RepairOrder $ro, RepairOrderPayment $payment, Request $request,
+                                 PaymentHelper $helper): Response {
+        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
+            throw new NotFoundHttpException();
+        }
+
+        $text = null;
+        if ($payment->getDatePaid() === null) {
+            $text = 'Cannot send receipt for unpaid order';
+        } elseif (!$request->request->has('sendTo')) {
+            $text = 'Missing sendTo parameter';
+        }
+        if ($text !== null) {
+            return $this->handleView($this->view([
+                'message' => $text,
+            ], Response::HTTP_BAD_REQUEST));
+        }
+
+        $text = 'Receipt sent';
+        $code = Response::HTTP_OK;
+        try {
+            $helper->sendReceipt($payment, $request->request->get('sendTo'));
+        } catch (\Throwable $e) {
+            $text = 'Could not send receipt';
+            $code = Response::HTTP_INTERNAL_SERVER_ERROR;
+        }
+
+        return $this->handleView($this->view([
+            'message' => $text,
+        ], $code));
+    }
+
+    /**
      * @param string|null $amount
      *
      * @return Money

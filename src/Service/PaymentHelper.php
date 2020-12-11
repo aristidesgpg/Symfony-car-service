@@ -25,23 +25,29 @@ class PaymentHelper {
     /** @var SettingsRepository */
     private $settings;
 
+    /** @var MailerHelper */
+    private $mailer;
+
     /**
      * PaymentHelper constructor.
      * @param EntityManagerInterface $em
      * @param NMI                    $nmi
      * @param ShortUrlHelper         $urlHelper
      * @param SettingsRepository     $settings
+     * @param MailerHelper           $mailer
      */
     public function __construct (
         EntityManagerInterface $em,
         NMI $nmi,
         ShortUrlHelper $urlHelper,
-        SettingsRepository $settings
+        SettingsRepository $settings,
+        MailerHelper $mailer
     ) {
         $this->em  = $em;
         $this->nmi = $nmi;
         $this->urlHelper = $urlHelper;
         $this->settings = $settings;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -169,6 +175,36 @@ class PaymentHelper {
         $payment->setDateDeleted(new \DateTime());
         $this->createInteraction($payment, 'Deleted');
 
+        $this->commitPayment($payment);
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
+     * @param string             $toAddress
+     *
+     * @throws \Throwable
+     */
+    public function sendReceipt (RepairOrderPayment $payment, string $toAddress): void {
+        $date = $payment->getDatePaid();
+        if ($date === null) {
+            throw new \InvalidArgumentException('Cannot send receipt for unpaid payment');
+        }
+
+        $dealerName = $this->settings->find('generalName')->getValue();
+        $emailBody = $this->mailer->renderEmail('email-payment-receipt.html.twig', [
+           'dealer_name' => $dealerName,
+           'customer_phone' => $payment->getRepairOrder()->getPrimaryCustomer()->getPhone(),
+           'transaction_id' => $payment->getTransactionId(),
+           'ro_number' => $payment->getRepairOrder()->getNumber(),
+           'date' => $date,
+           'amount' => $payment->getAmountString(),
+        ]);
+
+        if (!$this->mailer->sendHtmlMail("iService Auto {$dealerName} Payment Receipt", $toAddress, $emailBody)) {
+            throw new \RuntimeException('Could not send email');
+        }
+
+        $this->createInteraction($payment, 'Receipt sent');
         $this->commitPayment($payment);
     }
 
