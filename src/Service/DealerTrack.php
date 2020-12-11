@@ -18,7 +18,8 @@ class DealerTrack extends SOAP {
     /**
      * @var string
      */
-    private $eventServiceUrl = "https://ot.dms.dealertrack.com/serviceapi.asmx";
+    // private $eventServiceUrl = "https://ot.dms.dealertrack.com/serviceapi.asmx";
+    private $eventServiceUrl = "https://otstaging.arkona.com/opentrack/serviceapi.asmx";
 
     /**
      * @var string
