@@ -133,6 +133,18 @@ class User implements UserInterface {
     private $pin;
 
     /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
+     */
+    private $processRefund = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
+     */
+    private $shareRepairOrders = false;
+
+    /**
      * User constructor.
      */
     public function __construct () {
@@ -494,6 +506,30 @@ class User implements UserInterface {
      */
     public function isTechnician () {
         return in_array('ROLE_TECHNICIAN', $this->getRoles());
+    }
+
+    public function getProcessRefund(): ?bool
+    {
+        return $this->processRefund;
+    }
+
+    public function setProcessRefund(bool $processRefund): self
+    {
+        $this->processRefund = $processRefund;
+
+        return $this;
+    }
+
+    public function getShareRepairOrders(): ?bool
+    {
+        return $this->shareRepairOrders;
+    }
+
+    public function setShareRepairOrders(bool $shareRepairOrders): self
+    {
+        $this->shareRepairOrders = $shareRepairOrders;
+
+        return $this;
     }
 
 }
