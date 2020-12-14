@@ -402,7 +402,7 @@ class MPIController extends AbstractFOSRestController {
      * @SWG\Post(description="Create a new MPI Group")
      *
      * @SWG\Parameter(
-     *     name="templateID",
+     *     name="id",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -434,7 +434,7 @@ class MPIController extends AbstractFOSRestController {
      */
     public function createGroup (Request $request, MPITemplateRepository $mpiTemplateRepo,
                                  EntityManagerInterface $em) {
-        $templateID = $request->get('templateID');
+        $templateID = $request->get('id');
         $name       = $request->get('name');
 
         //param is invalid
@@ -628,7 +628,7 @@ class MPIController extends AbstractFOSRestController {
      * @SWG\Post(description="Create a new MPI Item")
      *
      * @SWG\Parameter(
-     *     name="groupID",
+     *     name="id",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -659,7 +659,7 @@ class MPIController extends AbstractFOSRestController {
      * @return Response
      */
     public function createItem (Request $request, MPIGroupRepository $mpiGroupRepo, EntityManagerInterface $em) {
-        $groupID = $request->get('groupID');
+        $groupID = $request->get('id');
         $name    = $request->get('name');
 
         //param is invalid
