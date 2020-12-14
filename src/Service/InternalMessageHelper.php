@@ -43,7 +43,7 @@ class InternalMessageHelper {
             ->andWhere('im.isRead = 0')
             ->select('count(im.id)')
             ->getQuery()
-            ->getResult();
+            ->getSingleScalarResult();
         
         return $totalUnreadMessages;
     }
