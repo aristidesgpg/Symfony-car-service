@@ -25,6 +25,9 @@ class VideoHelper {
     /** @var SettingsRepository */
     private $settings;
 
+    /** @var SpacesClient */
+    private $spaces;
+
     /**
      * VideoHelper constructor.
      *
@@ -32,17 +35,20 @@ class VideoHelper {
      * @param UploadHelper           $upload
      * @param ShortUrlHelper         $urlHelper
      * @param SettingsRepository     $settings
+     * @param SpacesClient           $spaces
      */
     public function __construct (
         EntityManagerInterface $em,
         UploadHelper $upload,
         ShortUrlHelper $urlHelper,
-        SettingsRepository $settings
+        SettingsRepository $settings,
+        SpacesClient $spaces
     ) {
         $this->em        = $em;
         $this->upload    = $upload;
         $this->urlHelper = $urlHelper;
         $this->settings  = $settings;
+        $this->spaces    = $spaces;
     }
 
     /**
@@ -58,12 +64,10 @@ class VideoHelper {
         }
         $path  = $this->upload->upload($file, 'ro-videos');
         $video = new RepairOrderVideo();
-        $video->setRepairOrder($ro)
-              ->setPath($this->upload->pathToRelativeUrl($path)); // TODO: Add hostname
+        $video->setRepairOrder($ro);
         if ($tech !== null) {
             $video->setTechnician($tech);
         }
-        $video->setRepairOrder($ro);
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Created')
                     ->setRepairOrderVideo($video);
@@ -71,10 +75,13 @@ class VideoHelper {
         $ro->addVideo($video);
         $ro->updateVideoStatus();
 
+        $compressed = $this->upload->compressVideo(new File($path)); // FIXME: Defer compression to KernelEvents::TERMINATE?
+        $url = $this->spaces->upload($compressed);
+        $video->setPath($url);
+
         $this->em->persist($video);
         $this->em->flush();
 
-        $this->upload->compressVideo(new File($path)); // FIXME: Defer compression to KernelEvents::TERMINATE?
 //        if ($approvalRequired) {
 //
 //        } else {
