@@ -145,7 +145,7 @@ class User implements UserInterface {
     private $shareRepairOrders = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=InternalMessage::class, mappedBy="fromId")
+     * @ORM\OneToMany(targetEntity=InternalMessage::class, mappedBy="from")
      */
     private $internalMessages;
 
@@ -550,7 +550,7 @@ class User implements UserInterface {
     {
         if (!$this->internalMessages->contains($internalMessage)) {
             $this->internalMessages[] = $internalMessage;
-            $internalMessage->setFromId($this);
+            $internalMessage->setFrom($this);
         }
 
         return $this;
@@ -561,8 +561,8 @@ class User implements UserInterface {
         if ($this->internalMessages->contains($internalMessage)) {
             $this->internalMessages->removeElement($internalMessage);
             // set the owning side to null (unless already changed)
-            if ($internalMessage->getFromId() === $this) {
-                $internalMessage->setFromId(null);
+            if ($internalMessage->getFrom() === $this) {
+                $internalMessage->setFrom(null);
             }
         }
 

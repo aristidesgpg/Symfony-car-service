@@ -21,13 +21,13 @@ class InternalMessage
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="internalMessages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $fromId;
+    private $from;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="internalMessages")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $toId;
+    private $to;
 
     /**
      * @ORM\Column(type="text")
@@ -49,26 +49,26 @@ class InternalMessage
         return $this->id;
     }
 
-    public function getFromId(): ?User
+    public function getFrom(): ?User
     {
-        return $this->fromId;
+        return $this->from;
     }
 
-    public function setFromId(?User $fromId): self
+    public function setFrom(?User $from): self
     {
-        $this->fromId = $fromId;
+        $this->from = $from;
 
         return $this;
     }
 
-    public function getToId(): ?User
+    public function getTo(): ?User
     {
-        return $this->toId;
+        return $this->to;
     }
 
-    public function setToId(?User $toId): self
+    public function setTo(?User $to): self
     {
-        $this->toId = $toId;
+        $this->to = $to;
 
         return $this;
     }
