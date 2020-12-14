@@ -145,11 +145,17 @@ class User implements UserInterface {
     private $shareRepairOrders = false;
 
     /**
+     * @ORM\OneToMany(targetEntity=InternalMessage::class, mappedBy="fromId")
+     */
+    private $internalMessages;
+
+    /**
      * User constructor.
      */
     public function __construct () {
         $this->technicianRepairOrders = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->internalMessages = new ArrayCollection();
     }
 
     /**
@@ -528,6 +534,37 @@ class User implements UserInterface {
     public function setShareRepairOrders(bool $shareRepairOrders): self
     {
         $this->shareRepairOrders = $shareRepairOrders;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|InternalMessage[]
+     */
+    public function getInternalMessages(): Collection
+    {
+        return $this->internalMessages;
+    }
+
+    public function addInternalMessage(InternalMessage $internalMessage): self
+    {
+        if (!$this->internalMessages->contains($internalMessage)) {
+            $this->internalMessages[] = $internalMessage;
+            $internalMessage->setFromId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInternalMessage(InternalMessage $internalMessage): self
+    {
+        if ($this->internalMessages->contains($internalMessage)) {
+            $this->internalMessages->removeElement($internalMessage);
+            // set the owning side to null (unless already changed)
+            if ($internalMessage->getFromId() === $this) {
+                $internalMessage->setFromId(null);
+            }
+        }
 
         return $this;
     }
