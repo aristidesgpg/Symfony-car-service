@@ -117,86 +117,10 @@ class SMSController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/security/validate")
+     * @Rest\Get("/api/customer/{id}/services-messages")
      *
-     * @SWG\Tag(name="Security")
-     * @SWG\Post(description="Check if security answer is correct")
-     *
-     * @SWG\Parameter(
-     *     name="email",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The Email of the User",
-     * )
-     * @SWG\Parameter(
-     *     name="answer",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The Security Answer of the User",
-     * )
-     *
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Security Question Has Been Validated" }),
-     *         )
-     * )
-     *
-     * @param Request               $request
-     * @param SecurityHelper        $securityHelper
-     * @param MailerHelper          $mailerHelper
-     * @param UserRepository        $userRepo
-     * @param UrlGeneratorInterface $urlGenerator
-     *
-     * @return Response
-     */
-    public function validate (Request $request, SecurityHelper $securityHelper, MailerHelper $mailerHelper,
-                              UserRepository $userRepo, UrlGeneratorInterface $urlGenerator) {
-        $answer = $request->get('answer');
-        $email  = $request->get('email');
-
-        // check if parameter is valid
-        if (!$answer || !$email) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
-        }
-
-        // email is invalid
-        $user = $userRepo->findOneBy(['email' => $email]);
-        if (!$user) {
-            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
-        }
-
-        if (!$securityHelper->validateSecurity($user, $answer)) {
-            return $this->handleView($this->view('Invalid Security Answer', Response::HTTP_UNAUTHORIZED));
-        }
-
-        // get reset password token
-        $token = $securityHelper->generateToken($user, $email);
-
-        // get reset password request url with token
-        $resetPasswordURL = $urlGenerator->generate('app_security_validatetoken', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-        if (!$mailerHelper->sendMail("Reset Password Link", $email, $resetPasswordURL)) {
-            return $this->handleView($this->view(
-                'Something Went Wrong Trying to Send the Email', Response::HTTP_INTERNAL_SERVER_ERROR
-            ));
-        }
-
-        return $this->handleView($this->view([
-            'message' => 'Security Question Has Been Validated'
-        ], Response::HTTP_OK));
-    }
-
-    /**
-     * @Rest\Get("/api/security/reset-password/{token}")
-     *
-     * @SWG\Tag(name="Security")
-     * @SWG\Get(description="Validate Password Reset token")
+     * @SWG\Tag(name="Messages")
+     * @SWG\Get(description="Get messages by customer")
      *
      * @SWG\Response(
      *     response=200,
@@ -208,26 +132,20 @@ class SMSController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param String         $token
-     * @param SecurityHelper $securityHelper
+     * @param Customer             $customer
+     * @param SMSServiceRepository $smsServiceRepos
      * @param UserRepository $userRepo
      *
      * @return Response
      */
-    public function validateToken (string $token, SecurityHelper $securityHelper, UserRepository $userRepo) {
-        // check if parameter is valid
-        if (!$token) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
-        }
+    public function serviceMessages (
+        Customer             $customer,
+        SMSServiceRepository $smsServiceRepos
+    ) {
+        //get service messages
+        $messages = $smsServiceRepos->findBy(["customer_id" => $customer->getId()]);
 
-        // token is invalid
-        if (!$securityHelper->validateToken($token)) {
-            return $this->handleView($this->view('Invalid Token', Response::HTTP_UNAUTHORIZED));
-        }
-
-        return $this->handleView($this->view([
-            'message' => 'Reset Password Token Has Been Validated'
-        ], Response::HTTP_OK));
+        return $this->handleView($this->view($messages, Response::HTTP_OK));
     }
 
     /**
