@@ -79,11 +79,17 @@ class Customer implements UserInterface {
     private $repairOrderMPIInteractions;
 
     /**
+     * @ORM\OneToMany(targetEntity=ServiceSMS::class, mappedBy="customer")
+     */
+    private $serviceSMS;
+
+    /**
      * Customer constructor.
      */
     public function __construct () {
         $this->primaryRepairOrders = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->serviceSMS = new ArrayCollection();
     }
 
     /**
@@ -271,6 +277,36 @@ class Customer implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderMPIInteraction->getCustomer() === $this) {
                 $repairOrderMPIInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ServiceSMS[]
+     */
+    public function getServiceSMS(): Collection
+    {
+        return $this->serviceSMS;
+    }
+
+    public function addServiceSM(ServiceSMS $serviceSM): self
+    {
+        if (!$this->serviceSMS->contains($serviceSM)) {
+            $this->serviceSMS[] = $serviceSM;
+            $serviceSM->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServiceSM(ServiceSMS $serviceSM): self
+    {
+        if ($this->serviceSMS->removeElement($serviceSM)) {
+            // set the owning side to null (unless already changed)
+            if ($serviceSM->getCustomer() === $this) {
+                $serviceSM->setCustomer(null);
             }
         }
 

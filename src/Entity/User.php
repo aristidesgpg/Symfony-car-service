@@ -145,11 +145,17 @@ class User implements UserInterface {
     private $shareRepairOrders = false;
 
     /**
+     * @ORM\OneToMany(targetEntity=ServiceSMS::class, mappedBy="user")
+     */
+    private $serviceSMS;
+
+    /**
      * User constructor.
      */
     public function __construct () {
         $this->technicianRepairOrders = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->serviceSMS = new ArrayCollection();
     }
 
     /**
@@ -528,6 +534,36 @@ class User implements UserInterface {
     public function setShareRepairOrders(bool $shareRepairOrders): self
     {
         $this->shareRepairOrders = $shareRepairOrders;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ServiceSMS[]
+     */
+    public function getServiceSMS(): Collection
+    {
+        return $this->serviceSMS;
+    }
+
+    public function addServiceSM(ServiceSMS $serviceSM): self
+    {
+        if (!$this->serviceSMS->contains($serviceSM)) {
+            $this->serviceSMS[] = $serviceSM;
+            $serviceSM->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServiceSM(ServiceSMS $serviceSM): self
+    {
+        if ($this->serviceSMS->removeElement($serviceSM)) {
+            // set the owning side to null (unless already changed)
+            if ($serviceSM->getUser() === $this) {
+                $serviceSM->setUser(null);
+            }
+        }
 
         return $this;
     }
