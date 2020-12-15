@@ -69,13 +69,13 @@ class InternalMessageController extends AbstractFOSRestController
      * @SWG\Response(
      *      response=200,
      *      description="Return the list of conversations",
-     *      @SWG\Items(
+     *      @SWG\Schema(
      *          type="object",
      *          @SWG\Property(
-     *              property="items",
+     *              property="internalMessages",
      *              type="array",
-     *              @SWG\Items(ref=@Model(InternalMessage::class, groups=['internal_message']))
-     *          )
+     *              @SWG\Items(ref=@Model(type=InternalMessage::class, groups={"internal_message"}))
+     *          ),
      *          @SWG\Property(property="totalResults", type="integer", description="Total number of internal messages"),
      *          @SWG\Property(property="totalPages", type="integer", description="Total number of pages"),
      *          @SWG\Property(property="previous", type="string", description="URL of previous page of results or null"),

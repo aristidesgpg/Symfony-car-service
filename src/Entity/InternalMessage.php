@@ -15,7 +15,7 @@ class InternalMessage
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Serializer\Groups(groups={"internal_message"})
+     * @Serializer\Groups({"internal_message"})
      */
     private $id;
 
@@ -33,19 +33,19 @@ class InternalMessage
 
     /**
      * @ORM\Column(type="text")
-     * @Serializer\Groups(groups={"internal_message"})
+     * @Serializer\Groups({"internal_message"})
      */
     private $message;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Serializer\Groups(groups={"internal_message"})
+     * @Serializer\Groups({"internal_message"})
      */
     private $date;
 
     /**
      * @ORM\Column(type="boolean")
-     * @Serializer\Groups(groups={"internal_message"})
+     * @Serializer\Groups({"internal_message"})
      */
     private $isRead;
 
