@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\InternalMessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=InternalMessageRepository::class)
@@ -14,6 +15,7 @@ class InternalMessage
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"internal_message"})
      */
     private $id;
 
@@ -31,16 +33,19 @@ class InternalMessage
 
     /**
      * @ORM\Column(type="text")
+     * @Serializer\Groups(groups={"internal_message"})
      */
     private $message;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"internal_message"})
      */
     private $date;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"internal_message"})
      */
     private $isRead;
 
