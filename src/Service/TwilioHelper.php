@@ -29,7 +29,7 @@ class TwilioHelper {
      */
     public function sendSms (string $phone, string $msg): void {
         $this->twilio->messages->create('+1' . $phone, [
-            'message' => $msg,
+            'body' => $msg,
             'from' => self::FROM_NUMBER,
         ]);
     }
