@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
+use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
@@ -98,11 +100,12 @@ class RepairOrderController extends AbstractFOSRestController {
      * @param PaginatorInterface    $paginator
      *
      * @param UrlGeneratorInterface $urlGenerator
+     * @param UserRepository        $userRepo
      *
      * @return Response
      */
     public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator,
-                            UrlGeneratorInterface $urlGenerator): Response {
+                            UrlGeneratorInterface $urlGenerator, UserRepository $userRepo): Response {
         $page            = $request->query->getInt('page', 1);
         $startDate       = $request->query->get('startDate');
         $endDate         = $request->query->get('endDate');
@@ -159,6 +162,22 @@ class RepairOrderController extends AbstractFOSRestController {
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
+        }
+
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
+                if ($user->getShareRepairOrders() === true) {
+                    $qb->andWhere('ro.primaryAdvisor IN (:users)');
+                    $queryParameters['users'] = $userRepo->getSharedUsers();
+                } else {
+                    $qb->andWhere('ro.primaryAdvisor = :user');
+                    $queryParameters['user'] = $user;
+                }
+            } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
+                $qb->andWhere('ro.primaryTechnician = :user');
+                $queryParameters['user'] = $user;
+            }
         }
 
         $q = $qb->getQuery();
