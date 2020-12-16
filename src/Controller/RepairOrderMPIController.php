@@ -34,7 +34,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      * @SWG\Post(description="Create a new Repair Order MPIs")
      *
      * @SWG\Parameter(
-     *     name="repair_order",
+     *     name="repairOrderID",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -78,7 +78,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         OperationCodeRepository $operationCodeRepository, 
         EntityManagerInterface  $em
     ) {
-        $repairOrderID   = $request->get('repair_order');
+        $repairOrderID   = $request->get('repairOrderID');
         $results         = str_replace("'",'"', $request->get('results'));
         $recommendations = str_replace("'",'"', $request->get('recommendations'));
         //check if params are valid
