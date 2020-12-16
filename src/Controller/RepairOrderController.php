@@ -81,6 +81,12 @@ class RepairOrderController extends AbstractFOSRestController {
      *     in="query"
      * )
      * @SWG\Parameter(
+     *     name="needsVideo",
+     *     type="boolean",
+     *     description="Only return ROs that do not have a video",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
      *     name="startDate",
      *     type="string",
      *     format="date-time",
@@ -145,6 +151,11 @@ class RepairOrderController extends AbstractFOSRestController {
         if ($request->query->has('internal')) {
             $qb->andWhere("ro.internal = :internal");
             $queryParameters['internal'] = $this->paramToBool($request->query->get('internal'));
+        }
+
+        if ($request->query->has('needsVideo') && $this->paramToBool($request->query->get('needsVideo'))) {
+            $qb->andWhere('ro.videoStatus = :videoStatus');
+            $queryParameters['videoStatus'] = 'Not Started';
         }
 
         if ($startDate && $endDate) {
