@@ -161,7 +161,7 @@ class DealerTrack extends SOAP {
                         'email'         => !is_object($repairOrder->CustomerEmail) ? $repairOrder->CustomerEmail : null
                     ],
                     'number'     => $repairOrder->RepairOrderNumber,
-                    'ro_key'     => null,
+                    'dms_key'     => null,
                     'date'       => $openDate,
                     'waiter'     => ($pickupDate) ? false : true,
                     'pickupDate' => ($pickupDate) ? $pickupDate : null,

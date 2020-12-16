@@ -357,11 +357,11 @@ class AutoMate extends SOAP {
             $finalRoValue = 0;
 
             // Can't close historical
-            if (!$repairOrder->getRoKey()) {
+            if (!$repairOrder->getDmsKey()) {
                 continue;
             }
 
-            $targetXml = "<target legacyId='{$repairOrder->getNumber()}'>{$repairOrder->getRoKey()}</target>";
+            $targetXml = "<target legacyId='{$repairOrder->getNumber()}'>{$repairOrder->getDmsKey()}</target>";
             $response  = $this->getRepairOrderInfo($targetXml);
 
             if (!$response) {
