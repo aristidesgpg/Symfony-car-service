@@ -99,6 +99,7 @@ class CustomerHelper {
     public function commitCustomer (Customer $customer, array $params = []): void {
         $errors = $this->validateParams($params);
         if (empty($errors) !== true) {
+            return;
             throw new \InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
         foreach ($params as $k => $v) {

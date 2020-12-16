@@ -238,7 +238,7 @@ class DealerBuilt extends SOAP {
 
         /** @var RepairOrder $repairOrder */
         foreach ($repairOrders as $repairOrder) {
-            if ($repairOrder->getRoKey()) {
+            if ($repairOrder->getDmsKey()) {
                 $rosWithKeys[] = $repairOrder;
                 continue;
             }
@@ -272,7 +272,7 @@ class DealerBuilt extends SOAP {
         $repairOrderKeyString = '';
         /** @var RepairOrder $repairOrder */
         foreach ($repairOrders as $repairOrder) {
-            $repairOrderKeyString .= "<arr:string>{$repairOrder->getRoKey()}</arr:string>";
+            $repairOrderKeyString .= "<arr:string>{$repairOrder->getDmsKey()}</arr:string>";
         }
 
         $xmlPostString = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:deal="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi" xmlns:deal1="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service" xmlns:ns="http://cdx.dealerbuilt.com/Api/0.99/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
