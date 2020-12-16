@@ -38,11 +38,30 @@ class InternalMessageController extends AbstractFOSRestController
      * @SWG\Response(
      *      response=200,
      *      description="Return the list of conversations",
-     *      @SWG\Items(
+     *      @SWG\Schema(
      *          type="object",
-     *          @SWG\Property(property="internal", type="integer", description="Total # of unread internal messages"),
-     *          @SWG\Property(property="service", type="integer", description="Total # of unread service messages"),
-     *          @SWG\Property(property="sales", type="integer", description="Total # of unread sales messages")
+     *          @SWG\Property(
+     *              property="conversations",
+     *              type="array",
+     *              @SWG\Items(
+     *                  @SWG\Property(
+     *                      property="opponnetUser",
+     *                      type="object",
+     *                      @SWG\Item(ref=@Model(type=User::class, groups={"user_list"}))
+     *                  ),
+     *                  @SWG\Property(
+     *                      property="lastMessage",
+     *                      type="object",
+     *                      @SWG\Item(ref=@Model(type=InternalMessage::class, groups={"internal_message"}))
+     *                  ),
+     *                  @SWG\Property(property="unread", type="integer", description="Total number of unread internal messages")
+     *              )
+     *          ),
+     *          @SWG\Property(property="totalResults", type="integer", description="Total number of internal messages"),
+     *          @SWG\Property(property="totalPages", type="integer", description="Total number of pages"),
+     *          @SWG\Property(property="previous", type="string", description="URL of previous page of results or null"),
+     *          @SWG\Property(property="currentPage", type="integer", description="Current page number"),
+     *          @SWG\Property(property="next", type="string", description="URL of next page of results or null")
      *      )
      * )
      * 
@@ -82,12 +101,12 @@ class InternalMessageController extends AbstractFOSRestController
         $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
         $view       = $this->view([
-            'internalMessages'  => $pager->getItems(),
+            'conversations'  => $pager->getItems(),
             'totalResults'      => $pagination->totalResults,
             'totalPages'        => $pagination->totalPages,
-            'previous'          => $pagination->getPreviousPageURL('getInternalMessages', $urlParams),
+            'previous'          => $pagination->getPreviousPageURL('getInternalConversations', $urlParams),
             'currentPage'       => $pagination->currentPage,
-            'next'              => $pagination->getNextPageURL('getInternalMessages', $urlParams)
+            'next'              => $pagination->getNextPageURL('getInternalConversations', $urlParams)
         ]);
         $view->getContext()->setGroups(['internal_message']);
 
