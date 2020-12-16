@@ -76,12 +76,12 @@ class ImageUploader {
             return false;
         }
 
-        return $this->urlHelper->getAbsoluteUrl('uploads/' . $directory . '/' . $filename);
+        // return $this->urlHelper->getAbsoluteUrl('uploads/' . $directory . '/' . $filename);
         //get the route url
-        // $url = $this->urlGenerator->generate('app_coupons_new', [], UrlGeneratorInterface::ABSOLUTE_URL);
+        $url = $this->urlGenerator->generate('app_coupons_new', [], UrlGeneratorInterface::ABSOLUTE_URL);
         //make the public url for the uploaded file
-        // $publicURL = substr($url, 0, strpos($url, "api")).'uploads/'.$directory . '/' . $filename;
-        // return $publicURL;
+        $publicURL = substr($url, 0, strpos($url, "api")).'uploads/'.$directory . '/' . $filename;
+        return $publicURL;
     }
 
     /**

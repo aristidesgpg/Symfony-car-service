@@ -1,0 +1,306 @@
+<?php
+
+namespace App\Controller;
+
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\View\View;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+use FOS\RestBundle\Controller\Annotations as Rest;
+
+use App\Entity\OperationCode;
+use App\Repository\OperationCodeRepository;
+use Doctrine\ORM\EntityManagerInterface;
+
+
+class OperationCodeController extends AbstractFOSRestController {
+    /**
+     * @Rest\Get("/api/operation-code")
+     *
+     * @SWG\Tag(name="OperationCode")
+     * @SWG\Get(description="Get All Operation Codes")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return Operation Codes",
+     *     @SWG\Items(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"operation_code_list"})),
+     *         description="code, description, labor_hours, labor_taxable, parts_price, parts_taxable, supplies_price, supplies_taxable, deleted"
+     *     )
+     * )
+     *
+     * @param OperationCodeRepository $operationCodeRepo
+     *
+     * @return Response
+     */
+    public function getOperationCodes (OperationCodeRepository $operationCodeRepo) {
+        //get all active operation codes
+        $operationCodes = $operationCodeRepo->getActiveOperationCodes();
+        $view           = $this->view($operationCodes);
+
+        $view->getContext()->setGroups(['operation_code_list']);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/api/operation-code")
+     *
+     * @SWG\Tag(name="OperationCode")
+     * @SWG\Post(description="Create a New Operation Code")
+     *
+     * @SWG\Parameter(
+     *     name="code",
+     *     in="query",
+     *     required=true,
+     *     type="string",
+     *     description="Operation Code"
+     * )
+     * @SWG\Parameter(
+     *     name="description",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Description for Operation Code",
+     * )
+     * @SWG\Parameter(
+     *     name="labor_hours",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Labor Hours",
+     * )
+     * @SWG\Parameter(
+     *     name="labor_taxable",
+     *     in="formData",
+     *     required=true,
+     *     type="boolean",
+     *     description="The Labor Taxable",
+     * )
+     * @SWG\Parameter(
+     *     name="parts_price",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Parts Price",
+     * )
+     * @SWG\Parameter(
+     *     name="parts_taxable",
+     *     in="formData",
+     *     required=true,
+     *     type="boolean",
+     *     description="The Parts Taxable",
+     * )
+     * @SWG\Parameter(
+     *     name="supplies_price",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Supplies Price",
+     * )
+     * @SWG\Parameter(
+     *     name="supplies_taxable",
+     *     in="formData",
+     *     required=true,
+     *     type="boolean",
+     *     description="The Supplies Taxable",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully created" }),
+     *         )
+     * )
+     *
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function create (Request $request, EntityManagerInterface $em) {
+        $code            = $request->get('code');
+        $description     = $request->get('description');
+        $laborHours      = $request->get('labor_hours');
+        $laborTaxable    = $request->get('labor_taxable');
+        $partsPrice      = $request->get('parts_price');
+        $partsTaxable    = $request->get('parts_taxable');
+        $suppliesPrice   = $request->get('supplies_price');
+        $suppliesTaxable = $request->get('supplies_taxable');
+
+        //params are invalid
+        if (!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        //create a new operation code
+        $operationCode = new OperationCode();
+        $operationCode->setCode($code)
+                      ->setDescription($description)
+                      ->setLaborHours($laborHours)
+                      ->setLaborTaxable($laborTaxable)
+                      ->setPartsPrice($partsPrice)
+                      ->setPartsTaxable($partsTaxable)
+                      ->setSuppliesPrice($suppliesPrice)
+                      ->setSuppliesTaxable($suppliesTaxable);
+
+        $em->persist($operationCode);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'Operation Code Created'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Put("/api/operation-code/{id}")
+     *
+     * @SWG\Tag(name="OperationCode")
+     * @SWG\Put(description="Update a Operation Code")
+     *
+     * @SWG\Parameter(
+     *     name="code",
+     *     in="query",
+     *     required=true,
+     *     type="string",
+     *     description="Operation Code"
+     * )
+     * @SWG\Parameter(
+     *     name="description",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Description for Operation Code",
+     * )
+     * @SWG\Parameter(
+     *     name="labor_hours",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Labor Hours",
+     * )
+     * @SWG\Parameter(
+     *     name="labor_taxable",
+     *     in="formData",
+     *     required=true,
+     *     type="boolean",
+     *     description="The Labor Taxable",
+     * )
+     * @SWG\Parameter(
+     *     name="parts_price",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Parts Price",
+     * )
+     * @SWG\Parameter(
+     *     name="parts_taxable",
+     *     in="formData",
+     *     required=true,
+     *     type="boolean",
+     *     description="The Parts Taxable",
+     * )
+     * @SWG\Parameter(
+     *     name="supplies_price",
+     *     in="formData",
+     *     required=true,
+     *     type="number",
+     *     description="The Supplies Price",
+     * )
+     * @SWG\Parameter(
+     *     name="supplies_taxable",
+     *     in="formData",
+     *     required=true,
+     *     type="boolean",
+     *     description="The Supplies Taxable",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Updated" }),
+     *         )
+     * )
+     *
+     * @param OperationCode          $operationCode
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function edit (OperationCode $operationCode, Request $request, EntityManagerInterface $em) {
+        $code            = $request->get('code');
+        $description     = $request->get('description');
+        $laborHours      = $request->get('labor_hours');
+        $laborTaxable    = $request->get('labor_taxable');
+        $partsPrice      = $request->get('parts_price');
+        $partsTaxable    = $request->get('parts_taxable');
+        $suppliesPrice   = $request->get('supplies_price');
+        $suppliesTaxable = $request->get('supplies_taxable');
+
+        //params are invalid
+        if (!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        //update a operation code
+        $operationCode->setCode($code)
+                      ->setDescription($description)
+                      ->setLaborHours($laborHours)
+                      ->setLaborTaxable($laborTaxable)
+                      ->setPartsPrice($partsPrice)
+                      ->setPartsTaxable($partsTaxable)
+                      ->setSuppliesPrice($suppliesPrice)
+                      ->setSuppliesTaxable($suppliesTaxable);
+
+        $em->persist($operationCode);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'Operation Code Updated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Delete("/api/operation-code/{id}")
+     *
+     * @SWG\Tag(name="OperationCode")
+     * @SWG\Delete(description="Delete a Operation Code")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deleted" }),
+     *         )
+     * )
+     *
+     * @param OperationCode          $operationCode
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function delete (OperationCode $operationCode, EntityManagerInterface $em) {
+        //Delete a operation code
+        $operationCode->setDeleted(true);
+
+        $em->persist($operationCode);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'Operation Code Deleted'
+        ], Response::HTTP_OK));
+    }
+}
