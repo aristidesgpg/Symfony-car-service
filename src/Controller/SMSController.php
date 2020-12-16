@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Customer;
-use App\Entity\SMSService;
+use App\Entity\ServiceSMS;
 use App\Repository\UserRepository;
 use App\Repository\CustomerRepository;
-use App\Repository\SMSServiceRepository;
+use App\Repository\ServiceSMSRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -134,16 +134,16 @@ class SMSController extends AbstractFOSRestController {
      * )
      *
      * @param Customer             $customer
-     * @param SMSServiceRepository $smsServiceRepos
+     * @param ServiceSMSRepository $serviceSMSRepo
      *
      * @return Response
      */
     public function serviceMessages (
         Customer             $customer,
-        SMSServiceRepository $smsServiceRepos
+        ServiceSMSRepository $serviceSMSRepo
     ) {
         //get service messages
-        $messages = $smsServiceRepos->findBy(["customer_id" => $customer->getId()]);
+        $messages = $serviceSMSRepo->findBy(["customer_id" => $customer->getId()]);
 
         $view = $this->view($messages);
         $view->getContext()->setGroups(ServiceSMS::GROUPS);
@@ -167,11 +167,11 @@ class SMSController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param SMSServiceRepository $smsServiceRepos
+     * @param ServiceSMSRepository $serviceSMSRepos
      *
      * @return Response
      */
-    public function getThreads (SMSServiceRepository $smsServiceRepos) {
+    public function getThreads (ServiceSMSRepository $serviceSMSRepos) {
         $user              = $this->getUser();
         $role              = $user->getRoles();
         $shareRepairOrders = $user->getShareRepairOrders();
@@ -189,7 +189,7 @@ class SMSController extends AbstractFOSRestController {
         }
 
         //get service messages
-        $messages = $smsServiceRepos->findBy(["customer_id" => $customer->getId()]);
+        $messages = $serviceSMSRepos->findBy(["customer_id" => $customer->getId()]);
 
         $view = $this->view($messages);
         $view->getContext()->setGroups(ServiceSMS::GROUPS);
