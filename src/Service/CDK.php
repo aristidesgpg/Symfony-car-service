@@ -258,8 +258,8 @@ class CDK extends SOAP {
         $today = (new DateTime())->format('m/d/Y');
 
         // Check CDK for all closed today
-        //        $postUrl     = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-closed/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Closed_DateRange&qparamStartDate=' . $today . '&qparamEndDate=' . $today;
-        $postUrl     = 'https://3pa.dmotorworks.com/pip-extract/service-ro-closed/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Closed_DateRange&qparamStartDate=' . $today . '&qparamEndDate=' . $today;
+        $postUrl     = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-closed/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Closed_DateRange&qparamStartDate=' . $today . '&qparamEndDate=' . $today;
+        // $postUrl     = 'https://3pa.dmotorworks.com/pip-extract/service-ro-closed/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Closed_DateRange&qparamStartDate=' . $today . '&qparamEndDate=' . $today;
         $curlOptions = [
             CURLOPT_URL            => $postUrl,
             CURLOPT_POST           => true,

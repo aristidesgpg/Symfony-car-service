@@ -368,23 +368,25 @@ class DMS {
      */
     public function closeOpenRepairOrders () {
         // Get open repair orders
-        $openRepairOrders  = $this->repairOrderRepository->findBy(['phase' => [0, 1, 2, 3, 4], 'inactive' => 0]);
+        $openRepairOrders  = $this->repairOrderRepository->findBy(['dateClosed' => null, 'deleted' => 0]);
         $checkRepairOrders = [];
 
+        // if ($openRepairOrders) {
+        //     /** @var RepairOrder $openRepairOrder */
+        //     foreach ($openRepairOrders as $openRepairOrder) {
+        //         // Has a closed date so don't get the data again
+        //         if ($openRepairOrder->getDateClosed()) {
+        //             print_r($openRepairOrder);
+        //             echo PHP_EOL;
+        //             continue;
+        //         }
+
+        //         $checkRepairOrders[] = $openRepairOrder;
+        //     }
+        // }
+
         if ($openRepairOrders) {
-            /** @var RepairOrder $openRepairOrder */
-            foreach ($openRepairOrders as $openRepairOrder) {
-                // Has a closed date so don't get the data again
-                if ($openRepairOrder->getDateClosed()) {
-                    continue;
-                }
-
-                $checkRepairOrders[] = $openRepairOrder;
-            }
-        }
-
-        if ($checkRepairOrders) {
-            $this->integration->getClosedRoDetails($checkRepairOrders);
+            $this->integration->getClosedRoDetails($openRepairOrders);
         }
     }
 
