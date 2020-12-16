@@ -60,35 +60,35 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * @SWG\Post(description="Create a new Repair Order Quote")
      *
      * @SWG\Parameter(
-     *     name="repair_order",
+     *     name="repairOrderID",
      *     in="formData",
      *     required=true,
      *     type="integer",
      *     description="The Repair Order ID",
      * )
      * @SWG\Parameter(
-     *     name="date_sent",
+     *     name="dateSent",
      *     in="formData",
      *     required=false,
      *     type="string",
      *     description="The Sent Date",
      * )
      * @SWG\Parameter(
-     *     name="date_customer_viewed",
+     *     name="dateCustomerViewed",
      *     in="formData",
      *     required=false,
      *     type="string",
      *     description="The Customer Viewed Date",
      * )
      * @SWG\Parameter(
-     *     name="date_customer_completed",
+     *     name="dateCustomerCompleted",
      *     in="formData",
      *     required=false,
      *     type="string",
      *     description="The Customer Completed Date",
      * )
      * @SWG\Parameter(
-     *     name="date_completed_viewed",
+     *     name="dateCompletedViewed",
      *     in="formData",
      *     required=false,
      *     type="string",
@@ -116,11 +116,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         RepairOrderRepository                    $repairOrderRepository,
         EntityManagerInterface                   $em
     ) {
-        $repairOrderID         = $request->get('repair_order');
-        $dateSent              = $request->get('date_sent');
-        $dateCustomerViewed    = $request->get('date_customer_viewed');
-        $dateCustomerCompleted = $request->get('date_customer_completed');
-        $dateCompletedViewed   = $request->get('date_completed_viewed');
+        $repairOrderID         = $request->get('repairOrderID');
+        $dateSent              = $request->get('dateSent');
+        $dateCustomerViewed    = $request->get('dateCustomerViewed');
+        $dateCustomerCompleted = $request->get('dateCustomerCompleted');
+        $dateCompletedViewed   = $request->get('dateCompletedViewed');
         //check if params are valid
         if(!$repairOrderID){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
@@ -153,35 +153,35 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * @SWG\Put(description="Update a Repair Order Quote")
      *
      * @SWG\Parameter(
-     *     name="repair_order",
+     *     name="repairOrderID",
      *     in="formData",
      *     required=true,
      *     type="integer",
      *     description="The Repair Order ID",
      * )
      * @SWG\Parameter(
-     *     name="date_sent",
+     *     name="dateSent",
      *     in="formData",
      *     required=false,
      *     type="string",
      *     description="The Sent Date",
      * )
      * @SWG\Parameter(
-     *     name="date_customer_viewed",
+     *     name="dateCustomerViewed",
      *     in="formData",
      *     required=false,
      *     type="string",
      *     description="The Customer Viewed Date",
      * )
      * @SWG\Parameter(
-     *     name="date_customer_completed",
+     *     name="dateCustomerCompleted",
      *     in="formData",
      *     required=false,
      *     type="string",
      *     description="The Customer Completed Date",
      * )
      * @SWG\Parameter(
-     *     name="date_completed_viewed",
+     *     name="dateCompletedViewed",
      *     in="formData",
      *     required=false,
      *     type="string",
@@ -206,11 +206,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * @return Response
      */
     public function updateRepairOrderQuote (RepairOrderQuote $repairOrderQuote, Request $request, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
-        $repairOrderID         = $request->get('repair_order');
-        $dateSent              = $request->get('date_sent');
-        $dateCustomerViewed    = $request->get('date_customer_viewed');
-        $dateCustomerCompleted = $request->get('date_customer_completed');
-        $dateCompletedViewed   = $request->get('date_completed_viewed');
+        $repairOrderID         = $request->get('repairOrderID');
+        $dateSent              = $request->get('dateSent');
+        $dateCustomerViewed    = $request->get('dateCustomerViewed');
+        $dateCustomerCompleted = $request->get('dateCustomerCompleted');
+        $dateCompletedViewed   = $request->get('dateCompletedViewed');
         //check if params are valid
         if(!$repairOrderID){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));

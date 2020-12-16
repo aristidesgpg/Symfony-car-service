@@ -69,7 +69,10 @@ class MPITemplateFixture extends Fixture
                 $manager->flush();
             }
             //insert if mpi group does not exist
-            $mpiGroup = $this->mpiGroupRepo->findOneByName($row[1]);
+            $mpiGroup = $this->mpiGroupRepo->findOneBy([
+                "mpiTemplate" => $mpiTemplate->getId(),
+                "name" => $row[1]
+            ]);
             if(!$mpiGroup){
                 $mpiGroup = new MPIGroup();
                 $mpiGroup->setName($row[1])->setMPITemplate($mpiTemplate);
