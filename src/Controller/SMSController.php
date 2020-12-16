@@ -11,6 +11,7 @@ use App\Repository\SMSServiceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -27,9 +28,9 @@ class SMSController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Post("/api/messages/send")
+     * @Rest\Post("/api/service-sms/send")
      *
-     * @SWG\Tag(name="Messages")
+     * @SWG\Tag(name="Service SMS")
      * @SWG\Post(description="Send a message to a customer")
      *
      * @SWG\Parameter(
@@ -119,22 +120,21 @@ class SMSController extends AbstractFOSRestController {
     /**
      * @Rest\Get("/api/customer/{id}/services-messages")
      *
-     * @SWG\Tag(name="Messages")
+     * @SWG\Tag(name="Service SMS")
      * @SWG\Get(description="Get messages by customer")
      *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Reset Password Token Has Been Validated" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=ServiceSMS::class, groups=ServiceSMS::GROUPS)),
+     *         description="id, user, customer, phone, message, incoming, is_read, date"
+     *     )
      * )
      *
      * @param Customer             $customer
      * @param SMSServiceRepository $smsServiceRepos
-     * @param UserRepository $userRepo
      *
      * @return Response
      */
@@ -145,69 +145,55 @@ class SMSController extends AbstractFOSRestController {
         //get service messages
         $messages = $smsServiceRepos->findBy(["customer_id" => $customer->getId()]);
 
-        return $this->handleView($this->view($messages, Response::HTTP_OK));
+        $view = $this->view($messages);
+        $view->getContext()->setGroups(ServiceSMS::GROUPS);
+
+        return $this->handleView($view);
     }
 
-    /**
-     * @Rest\Post("/api/security/reset-password")
+   /**
+     * @Rest\Get("/api/service-sms/threads")
      *
-     * @SWG\Tag(name="Security")
-     * @SWG\Post(description="Reset User Password")
-     *
-     * @SWG\Parameter(
-     *     name="token",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The Reset Password Token of the User",
-     * )
-     * @SWG\Parameter(
-     *     name="password",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The New Password of the User",
-     * )
+     * @SWG\Tag(name="Service SMS")
+     * @SWG\Get(description="Get messages by customer")
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return Threads",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Password Has Been Reset" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=ServiceSMS::class, groups=ServiceSMS::GROUPS)),
+     *         description="id, user, customer, phone, message, incoming, is_read, date"
+     *     )
      * )
      *
-     * @param Request        $request
-     * @param SecurityHelper $securityHelper
-     * @param UserRepository $userRepo
+     * @param SMSServiceRepository $smsServiceRepos
      *
      * @return Response
      */
-    public function resetPassword (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
-        $token    = $request->get('token');
-        $password = $request->get('password');
+    public function getThreads (SMSServiceRepository $smsServiceRepos) {
+        $user              = $this->getUser();
+        $role              = $user->getRoles();
+        $shareRepairOrders = $user->getShareRepairOrders();
+        //check user role
+        if($role[0] == "ROLE_ADMIN" || $role[0] == "ROLE_SERVICE_MANAGER"){
 
-        // check if parameter is valid
-        if (!$password || !$token) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        else if($role[0] == "ROLE_SERVICE_ADVISOR"){
+            if($shareRepairOrders){
+
+            }
+            else{
+
+            }
         }
 
-        // token is invalid
-        if (!$securityHelper->validateToken($token)) {
-            return $this->handleView($this->view('Invalid Token', Response::HTTP_UNAUTHORIZED));
-        }
+        //get service messages
+        $messages = $smsServiceRepos->findBy(["customer_id" => $customer->getId()]);
 
-        if (!$securityHelper->resetPassword($token, $password)) {
-            return $this->handleView($this->view(
-                'Something Went Wrong Trying to Reset the Password',
-                Response::HTTP_INTERNAL_SERVER_ERROR
-            ));
-        }
+        $view = $this->view($messages);
+        $view->getContext()->setGroups(ServiceSMS::GROUPS);
 
-        return $this->handleView($this->view([
-            'message' => 'Password Has Been Reset'
-        ], Response::HTTP_OK));
+        return $this->handleView($view);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ServiceSMSRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use DateTime;
 
 /**
@@ -11,45 +12,55 @@ use DateTime;
  */
 class ServiceSMS
 {
+    public const GROUPS = ['sms_list'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups({"sms_list"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="serviceSMS")
+     * @Serializer\Groups({"sms_list"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="serviceSMS")
+     * @Serializer\Groups({"sms_list"})
      */
     private $customer;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"sms_list"})
      */
     private $phone;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups({"sms_list"})
      */
     private $message;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"sms_list"})
      */
     private $incoming;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"sms_list"})
      */
     private $is_read = false;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups({"sms_list"})
      */
     private $date;
 
