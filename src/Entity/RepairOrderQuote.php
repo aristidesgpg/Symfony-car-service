@@ -63,7 +63,6 @@ class RepairOrderQuote
 
     /**
      * @ORM\Column(type="boolean")
-     * @Serializer\Groups(groups={"roq_list"})
      */
     private $deleted = false;
 

@@ -21,31 +21,31 @@ class RepairOrderMPI
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Serializer\Groups(groups={"rom_list"})
+     * @Serializer\Groups(groups={"rom_list","ro_list"})
      */
     private $id;
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderMPI", cascade={"persist", "remove"})
-     * @Serializer\Groups(groups={"rom_list"})
+     * @Serializer\Groups(groups={"rom_list","ro_list"})
      */
     private $repairOrder;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Serializer\Groups(groups={"rom_list"})
+     * @Serializer\Groups(groups={"rom_list","ro_list"})
      */
     private $dateCompleted;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Serializer\Groups(groups={"rom_list"})
+     * @Serializer\Groups(groups={"rom_list","ro_list"})
      */
     private $dateSent;
 
     /**
      * @ORM\Column(type="text", nullable=true)
-     * @Serializer\Groups(groups={"rom_list"})
+     * @Serializer\Groups(groups={"rom_list","ro_list"})
      */
     private $results;
 

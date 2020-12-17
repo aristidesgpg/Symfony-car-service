@@ -231,7 +231,7 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="role",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
@@ -239,35 +239,35 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="firstName",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The First Name of User",
      * )
      * @SWG\Parameter(
      *     name="lastName",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Last Name of User",
      * )
      * @SWG\Parameter(
      *     name="email",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Email of User",
      * )
      * @SWG\Parameter(
      *     name="phone",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Phone of User",
      * )
      * @SWG\Parameter(
      *     name="password",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Password of User",
      * )
@@ -326,7 +326,7 @@ class UserController extends AbstractFOSRestController {
      */
     public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
         $role              = $request->get('role') ?? $user->getRoles()[0];
-        $firstName         = $request->get('firstName') ?? $user->getFirstName();
+        $firstName         = $request->get('lastName') ?? $user->getFirstName();
         $lastName          = $request->get('lastName') ?? $user->getLastName();
         $email             = $request->get('email') ?? $user->getEmail();
         $phone             = $request->get('phone') ?? $user->getPhone();
