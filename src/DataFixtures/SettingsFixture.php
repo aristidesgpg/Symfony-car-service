@@ -45,6 +45,7 @@ class SettingsFixture extends Fixture {
             'custAppAppraiseButtonText'  => 'Appraise My Car',
             'custAppPostInspectionVideo' => null,
             'custAppFinanceRepairUrl'    => null,
+            'serviceTwilioFromNumber'    => '8478137493',
             'serviceTextIntro'           => 'Welcome to (dealer name) Please text this number for status updates. Your inspection video will be sent from a separate number',
             'serviceTextVideo'           => 'Your vehicle inspection video is ready, please click the link:',
             'serviceTextVideoResend'     => 'Friendly reminder from (dealer name), you have maintenance needed, please click the link:',
