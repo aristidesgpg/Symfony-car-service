@@ -27,13 +27,17 @@ class TwilioHelper {
      * @param string $phone
      * @param string $msg
      *
-     * @throws TwilioException
+     * @throws \Exception
      */
     public function sendSms (string $phone, string $msg): void {
-        $this->twilio->messages->create('+1' . $phone, [
-            'body' => $msg,
-            'from' => $this->fromNumber,
-        ]);
+        if (preg_match('/https?:\/\//', $msg)) {
+            $this->curlIsre($phone, $msg);
+        } else {
+            $this->twilio->messages->create('+1' . $phone, [
+                'body' => $msg,
+                'from' => $this->fromNumber,
+            ]);
+        }
     }
 
     /**
@@ -62,5 +66,32 @@ class TwilioHelper {
         $this->em->flush();
 
         return $lookup;
+    }
+
+    /**
+     * @param string $phone
+     * @param string $msg
+     */
+    private function curlIsre (string $phone, string $msg): void {
+        $endpoint = 'http://isre.us/api/twilio-short-code/send';
+        $curl     = curl_init($endpoint);
+        curl_setopt_array($curl, [
+            CURLOPT_POST           => true,
+            CURLOPT_TIMEOUT        => 10,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POSTFIELDS     => [
+                'phone'   => $phone,
+                'message' => $msg,
+            ],
+            CURLOPT_HTTPHEADER     => [
+                'Authorization: Bearer W*pmwqvH&@*2vd+w',
+            ],
+        ]);
+        $response = json_decode(curl_exec($curl), true);
+        curl_close($curl);
+
+        if (!$response || isset($response['error'])) {
+            throw new \RuntimeException('Could not send message with shortcode');
+        }
     }
 }
