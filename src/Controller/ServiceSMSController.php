@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Customer;
 use App\Entity\ServiceSMS;
+use App\Entity\ServiceSMSLog;
 use App\Repository\UserRepository;
 use App\Repository\CustomerRepository;
 use App\Repository\ServiceSMSRepository;
+use App\Repository\ServiceSMSLogRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -146,6 +148,7 @@ class ServiceSMSController extends AbstractFOSRestController {
     ) {
         $message  = $request->get('Body');
         $from     = $request->get('From');
+        $to       = $request->get('To');
 
         //check if customer exists
         $customer = $customerRepo->findOneBy(["phone" => $from]);
@@ -155,15 +158,20 @@ class ServiceSMSController extends AbstractFOSRestController {
                        ->setPhone($customerNumber)
                        ->setMessage($message)
                        ->setIncoming(true);
-            
             $em->persist($serviceSMS);
             $em->flush();
 
             $response = new Response('<Response />', Response::HTTP_OK);
         }
         else {
-            //store error log
-            $response = new Response("<Response>{$message}</Response>", Response::HTTP_NOT_ACCEPTABLE);
+            $errorLog = 'Incoming message from '.$from.' to '.$to.'. No customer has this phone number.';
+            
+            $serviceSMSLog = new ServiceSMSLog();
+            $serviceSMSLog->setError($errorLog);
+            $em->persist($serviceSMSLog);
+            $em->flush();
+
+            $response = new Response("<Response>{$errorLog}</Response>", Response::HTTP_NOT_ACCEPTABLE);
         }
 
         $response->headers->set('Content-Type', 'text/xml');
