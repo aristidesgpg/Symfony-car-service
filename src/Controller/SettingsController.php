@@ -97,6 +97,7 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="custAppFinanceRepairUrl", type="string", in="formData")
      *
      * Service Text Settings
+     * @SWG\Parameter(name="serviceTwilioFromNumber", type="string", in="formData", maxLength=SettingsController::PHONE_LENGTH)
      * @SWG\Parameter(name="serviceTextIntro", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="serviceTextVideo", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      * @SWG\Parameter(name="serviceTextVideoResend", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
@@ -206,6 +207,7 @@ class SettingsController extends AbstractFOSRestController {
                         );
                     }
                     break;
+                case 'serviceTwilioFromNumber':
                 case 'generalPhone':
                     if (strlen($val) !== self::PHONE_LENGTH) {
                         $errors[$key] = sprintf('Phone number must be %d digits', self::PHONE_LENGTH);

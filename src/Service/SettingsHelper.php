@@ -21,7 +21,7 @@ class SettingsHelper {
     const VALID_SETTINGS = [
         'phase1', 'phase2', 'phase3',
         'techAppUsername', 'techAppPassword',
-        'custAppAppraiseButtonText', 'custAppFinanceRepairUrl',
+        'custAppAppraiseButtonText', 'custAppFinanceRepairUrl', 'serviceTwilioFromNumber',
         'serviceTextIntro', 'serviceTextVideo', 'serviceTextVideoResend', 'serviceTextQuote', 'serviceTextPayment',
         'pricingLaborRate', 'pricingUseMatrix', 'pricingLaborTax', 'pricingPartsTax',
         'waiverEstimateText', 'waiverActivateAuthMessage', 'waiverIntroText',

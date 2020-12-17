@@ -17,10 +17,10 @@ class TwilioHelper {
     /** @var string */
     private $fromNumber;
 
-    public function __construct(Client $twilio, EntityManagerInterface $em, string $fromNumber) {
+    public function __construct(Client $twilio, EntityManagerInterface $em, SettingsHelper $settings) {
         $this->twilio = $twilio;
         $this->em = $em;
-        $this->fromNumber = $fromNumber;
+        $this->fromNumber = '+1' . $settings->getSetting('serviceTwilioFromNumber');
     }
 
     /**
