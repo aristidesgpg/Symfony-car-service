@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -17,13 +18,13 @@ class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterfa
 
     public function load (ObjectManager $manager) {
         $faker = Factory::create();
-        $tech  = $this->getReference('user_1');
         for ($i = 1; $i < 51; $i++) {
+            /** @var RepairOrder $ro */
             $ro      = $this->getReference("repairOrder_{$i}");
             $created = $faker->dateTimeThisYear;
             $video   = new RepairOrderVideo();
             $video->setRepairOrder($ro)
-                  ->setTechnician($tech)
+                  ->setTechnician($ro->getPrimaryTechnician())
                   ->setDateCreated($created)
                   ->setPath($faker->randomElement(self::VIDEO_FIXTURES));
             $interaction = new RepairOrderVideoInteraction();
