@@ -130,7 +130,8 @@ class InternalMessageController extends AbstractFOSRestController
      *     name="opponentUserId",
      *     required=true,
      *     type="integer",
-     *     in="query"
+     *     in="query",
+     *     description="Use id 5 for test"
      * )
      * @SWG\Response(
      *      response=200,
