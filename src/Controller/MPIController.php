@@ -7,6 +7,7 @@ use App\Entity\MPIGroup;
 use App\Entity\MPIItem;
 use App\Repository\MPITemplateRepository;
 use App\Repository\MPIGroupRepository;
+use App\Repository\MPIItemRepository;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -654,11 +655,17 @@ class MPIController extends AbstractFOSRestController {
      *
      * @param Request                $request
      * @param MPIGroupRepository     $mpiGroupRepo
+     * @param MPIItemRepository      $mpiItemRepo
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function createItem (Request $request, MPIGroupRepository $mpiGroupRepo, EntityManagerInterface $em) {
+    public function createItem (
+        Request                $request, 
+        MPIGroupRepository     $mpiGroupRepo, 
+        MPIItemRepository      $mpiItemRepo,
+        EntityManagerInterface $em
+    ) {
         $groupID = $request->get('id');
         $name    = $request->get('name');
 
@@ -672,6 +679,12 @@ class MPIController extends AbstractFOSRestController {
         if (!$mpiGroup) {
             return $this->handleView($this->view('Invalid Group Parameter', Response::HTTP_BAD_REQUEST));
         }
+        //check if name is duplicated
+        $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiGroup->getId());
+        if($duplicatedItems){
+            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
+        }
+
         // create item
         $mpiItem = new MPIItem();
         $mpiItem->setName($name)
@@ -713,16 +726,27 @@ class MPIController extends AbstractFOSRestController {
      *
      * @param MPIItem                $mpiItem
      * @param Request                $request
+     * @param MPIItemRepository      $mpiItemRepo
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function editItem (MPIItem $mpiItem, Request $request, EntityManagerInterface $em) {
+    public function editItem (
+        MPIItem                $mpiItem, 
+        Request                $request, 
+        MPIItemRepository      $mpiItemRepo,
+        EntityManagerInterface $em
+    ) {
         $name = $request->get('name');
 
         //param is invalid
         if (!$name) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //check if name is duplicated
+        $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiItem->getMPIGroup()->getId());
+        if($duplicatedItems){
+            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
         }
 
         // update Item

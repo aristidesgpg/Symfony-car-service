@@ -127,7 +127,7 @@ class User implements UserInterface {
      */
     private $repairOrderMPIInteractions;
 
-    /*
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pin;
