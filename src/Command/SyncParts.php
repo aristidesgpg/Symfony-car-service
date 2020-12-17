@@ -9,38 +9,46 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Entity\Settings;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use App\Service\CDK;
+use App\Service\DMS;
+use App\Service\SettingsHelper as Settings;
 use Doctrine\ORM\EntityManagerInterface;
+use DateTime;
 
 /**
- * Class SettingsCommand
+ * Class SyncParts
  *
  * @package App\Command
  */
-class SettingsCommand extends Command {
+class SyncParts extends Command {
     /**
      * @var string
      */
-    protected static $defaultName = 'app:settings';
+    protected static $defaultName = 'dms:syncParts';
 
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
 
-    public function __construct(EntityManagerInterface $em) {
+    /**
+     * @var DMS
+     */
+    private $dms;
+
+    public function __construct (EntityManagerInterface $em, DMS $dms, CDK $cdk, Settings $settings) {
+        $this->em       = $em;
+        $this->dms      = $dms;
+
         parent::__construct();
-        $this->em = $em;
     }
 
     protected function configure () {
         $this
             // the name of the command (the part after "bin/console")
-            ->setName('app:settings_test')
+            ->setName('dms:syncParts')
             // the short description shown while running "php bin/console list"
-            ->setDescription("Settings entity test")
-            // the full command description shown when running the command with
-            // the "--help" option
-            ->setHelp("
-                This command is used to test Settings entity.");
+            ->setDescription("Gets parts information from DMS");
     }
 
     /**
@@ -51,11 +59,10 @@ class SettingsCommand extends Command {
      * @throws Exception
      */
     protected function execute (InputInterface $input, OutputInterface $output) {
+        $dms = $this->dms;
 
-        $repo = $this->em->getRepository("App:Settings");
-
-        $res = $repo->findOneBy(['key' => 'phase1']);
-        
-        $output->writeln($res->getValue());
+        // Gets and adds repair orders
+        $dms->syncParts();
+        $output->writeln('Complete!');
     }
 }
