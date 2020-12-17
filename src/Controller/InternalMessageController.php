@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\InternalMessageRepository;
 use App\Service\Pagination;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
@@ -47,12 +48,12 @@ class InternalMessageController extends AbstractFOSRestController
      *                  @SWG\Property(
      *                      property="opponnetUser",
      *                      type="object",
-     *                      @SWG\Item(ref=@Model(type=User::class, groups={"user_list"}))
+     *                      @SWG\Schema(type="object", ref=@Model(type=User::class, groups={"user_list"}))
      *                  ),
      *                  @SWG\Property(
      *                      property="lastMessage",
      *                      type="object",
-     *                      @SWG\Item(ref=@Model(type=InternalMessage::class, groups={"internal_message"}))
+     *                      @SWG\Schema(type="object", ref=@Model(type=InternalMessage::class, groups={"internal_message"}))
      *                  ),
      *                  @SWG\Property(property="unread", type="integer", description="Total number of unread internal messages")
      *              )
@@ -72,42 +73,42 @@ class InternalMessageController extends AbstractFOSRestController
      * 
      * @return Response
      */
-    public function getConversations(Request $request, InternalMessageRepository $internalMessageRepository, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator)
+    public function getConversations(Request $request, InternalMessageRepository $internalMessageRepository, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em)
     {
-        $user       = $this->getUser();
+        $userId       = $this->getUser()->getId();
         $page       = $request->query->getInt('page', 1);
 
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
+        
+        $sql = "
+            SELECT p1.* 
+            FROM internal_message p1
+            Inner JOIN
+            (
+                select reference_id, max(date) MaxDate, id, date, is_read
+                from
+                (
+                    select from_id as reference_id, id, date, is_read
+                    from internal_message
+                    WHERE to_id={$userId}
+                    union all
+                    select to_id as reference_id, id, date, is_read
+                    from internal_message
+                    WHERE from_id={$userId}
+                ) t
+                group by reference_id
+            ) p2
+            ON p1.date = p2.MaxDate
+            order BY p1.is_read DESC, p1.date DESC
+        ";
 
-        $allOpponents = $internalMessageRepository->createQueryBuilder('im')
-                                                  ->select('im.from')
-                                                  ->distinct()
-                                                  ->where('im.to = :userId')
-                                                  ->setParameter('userId', $user->getId())
-                                                  ->getQuery();
-        return $this->handleView($this->view($allOpponents->getResult()));
-
-        $urlParams  = $queryParams  = ['userId' => $user->getId()];
-        $query      = $internalMessageRepository->createQueryBuilder('im')
-                                           ->where('im.to = :userId')
-                                           ->andWhere('im.from = :opponentUserId')
-                                           ->setParameters($queryParams)
-                                           ->orderBy('im.date', 'DESC')
-                                           ->getQuery();
-
-        $pager      = $paginator->paginate($query, $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
-
-        $view       = $this->view([
-            'conversations'  => $pager->getItems(),
-            'totalResults'      => $pagination->totalResults,
-            'totalPages'        => $pagination->totalPages,
-            'previous'          => $pagination->getPreviousPageURL('getInternalConversations', $urlParams),
-            'currentPage'       => $pagination->currentPage,
-            'next'              => $pagination->getNextPageURL('getInternalConversations', $urlParams)
-        ]);
+        $query = $em->getConnection()->prepare($sql);
+        $query->execute();
+        $result = $query->fetchAllAssociative();
+        
+        $view       = $this->view($result);
         $view->getContext()->setGroups(['internal_message']);
 
         return $this->handleView($view);
