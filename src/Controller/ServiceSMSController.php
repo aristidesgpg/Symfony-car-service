@@ -20,11 +20,11 @@ use App\Helper\iServiceLoggerTrait;
 use App\Service\TwilioHelper;
 
 /**
- * Class SMSController
+ * Class ServiceSMSController
  *
  * @package App\Controller
  */
-class SMSController extends AbstractFOSRestController {
+class ServiceSMSController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
