@@ -118,6 +118,74 @@ class ServiceSMSController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Post("/api/service-sms/twilio-incoming")
+     *
+     * @SWG\Tag(name="Service SMS")
+     * @SWG\Post(description="Send a message to a customer")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Message Was Sent" }),
+     *         )
+     * )
+     *
+     * @param Request                $request
+     * @param TwilioHelper           $twilioHelper
+     * @param EntityManagerInterface $em
+     * @param CustomerRepository     $customerRepo
+     * @param UserRepository         $userRepo
+     *
+     * @return Response
+     */
+    public function incomingAction  (
+        Request                $request, 
+        TwilioHelper           $twilioHelper, 
+        EntityManagerInterface $em,
+        CustomerRepository     $customerRepo,
+        UserRepository         $userRepo
+    ) {
+        $userID     = $request->get('user_id');
+        $customerID = $request->get('customer_id');
+        $message    = $request->get('message');
+
+        //check if parameters are valid
+        if (!$customerID || !$message) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //check if user exists
+        $user     = $userRepo->findBy(["id" => $userID]);
+        if(!$user){
+            return $this->handleView($this->view('User Does Not Exist', Response::HTTP_BAD_REQUEST));
+        }
+        //check if cusomter exists
+        $customer = $customerRepo->findBy(["id" => $customerID]);
+        if(!$customer){
+            return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
+        }
+        //save message
+        $smsService = new SMSService();
+        $smsService->setUser($user)
+                   ->setCustomer($customer)
+                   ->setPhone($customer->getPhone())
+                   ->setMessage($message)
+                   ->setIncoming(false);
+
+        $em->persist($smsService);
+        $em->flush();
+
+        //send message to a customer
+        $twilioHelper->sendSms($customer->getPhone(), $message);
+
+        return $this->handleView($this->view([
+            'message' => 'Message Was Sent'
+        ], Response::HTTP_OK));
+    }
+
+    /**
      * @Rest\Get("/api/customer/{id}/services-messages")
      *
      * @SWG\Tag(name="Service SMS")
