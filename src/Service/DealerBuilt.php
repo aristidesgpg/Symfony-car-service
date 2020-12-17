@@ -105,6 +105,8 @@ class DealerBuilt extends SOAP {
 
         $result = $this->sendRequest($headers, $this->postUrl, $xmlPostString);
 
+        file_put_contents('log', $result);
+
         if ($result) {
             $response    = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $result);
             $xml         = new SimpleXMLElement($response);
