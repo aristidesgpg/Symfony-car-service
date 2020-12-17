@@ -9,6 +9,7 @@ use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=ServiceSMSRepository::class)
+ * @ORM\Table(name="service_sms")
  */
 class ServiceSMS
 {
