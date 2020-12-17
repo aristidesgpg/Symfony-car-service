@@ -24,9 +24,6 @@ class VideoHelper {
     /** @var SettingsRepository */
     private $settings;
 
-    /** @var SpacesClient */
-    private $spaces;
-
     /**
      * VideoHelper constructor.
      *
@@ -34,20 +31,17 @@ class VideoHelper {
      * @param UploadHelper           $upload
      * @param ShortUrlHelper         $urlHelper
      * @param SettingsRepository     $settings
-     * @param SpacesClient           $spaces
      */
     public function __construct (
         EntityManagerInterface $em,
         UploadHelper $upload,
         ShortUrlHelper $urlHelper,
-        SettingsRepository $settings,
-        SpacesClient $spaces
+        SettingsRepository $settings
     ) {
         $this->em        = $em;
         $this->upload    = $upload;
         $this->urlHelper = $urlHelper;
         $this->settings  = $settings;
-        $this->spaces    = $spaces;
     }
 
     /**
