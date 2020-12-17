@@ -8,17 +8,19 @@ use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 class TwilioHelper {
-    private const FROM_NUMBER = ''; // TODO
-
     /** @var Client */
     private $twilio;
 
     /** @var EntityManagerInterface */
     private $em;
 
-    public function __construct(Client $twilio, EntityManagerInterface $em) {
+    /** @var string */
+    private $fromNumber;
+
+    public function __construct(Client $twilio, EntityManagerInterface $em, string $fromNumber) {
         $this->twilio = $twilio;
         $this->em = $em;
+        $this->fromNumber = $fromNumber;
     }
 
     /**
@@ -30,7 +32,7 @@ class TwilioHelper {
     public function sendSms (string $phone, string $msg): void {
         $this->twilio->messages->create('+1' . $phone, [
             'body' => $msg,
-            'from' => self::FROM_NUMBER,
+            'from' => $this->fromNumber,
         ]);
     }
 
