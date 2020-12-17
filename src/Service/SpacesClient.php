@@ -35,16 +35,18 @@ class SpacesClient {
 
     /**
      * @param \SplFileInfo $file
-     * @param string|null  $directory
+     * @param string|null  $subDirectory
+     * @param string|null  $customDirectory - Defaults to $this->clientSubdomain
      *
      * @return string
      */
-    public function upload (\SplFileInfo $file, ?string $directory = null): string {
+    public function upload (\SplFileInfo $file, ?string $subDirectory = null, ?string $customDirectory = null): string {
         if (!$file->isReadable()) {
             throw new \InvalidArgumentException("File '{$file->getPathname()}' is not readable");
         }
-        if ($directory === null) {
-            $directory = $this->clientSubdomain;
+        $directory = rtrim(($customDirectory !== null) ? $customDirectory : $this->clientSubdomain, '/');
+        if ($subDirectory !== null) {
+            $directory .= '/' . rtrim($subDirectory, '/');
         }
         $fileStream = fopen($file->getPathname(), 'r+');
 
