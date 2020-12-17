@@ -13,7 +13,6 @@ use Symfony\Component\Process\Process;
  */
 class UploadHelper {
     public const VALID_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png'];
-    public const VALID_VIDEO_EXTENSIONS = ['mp4'];
 
     private $upload_dir;
 
@@ -40,7 +39,7 @@ class UploadHelper {
      * @return bool
      */
     public function isValidVideo (File $file): bool {
-        return $this->isValid($file, self::VALID_VIDEO_EXTENSIONS);
+        return (preg_match('/^video\/.+/', $file->getMimeType()) === 1);
     }
 
     /**
