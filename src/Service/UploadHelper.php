@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Process\Process;
@@ -14,14 +13,15 @@ use Symfony\Component\Process\Process;
 class UploadHelper {
     public const VALID_IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png'];
 
-    private $upload_dir;
+    /** @var SpacesClient */
+    private $spaces;
 
     /**
      * UploadHelper constructor.
-     * @param ContainerInterface $container
+     * @param SpacesClient $spaces
      */
-    public function __construct (ContainerInterface $container) {
-        $this->upload_dir = $this->trimDir($container->getParameter('uploads_directory'));
+    public function __construct (SpacesClient $spaces) {
+        $this->spaces = $spaces;
     }
 
     /**
@@ -49,25 +49,30 @@ class UploadHelper {
      * @return string
      */
     public function upload (UploadedFile $file, ?string $directory = null): string {
-        $targetDir = $this->upload_dir . '/' . $this->trimDir($directory);
+        if ($this->isValidVideo($file)) {
+            throw new \InvalidArgumentException(sprintf('Use %s::uploadVideo for video uploads', __CLASS__));
+        }
         $fileName = md5(uniqid()) . '.' . $this->getExtension($file);
-        $movedFile = $file->move($targetDir, $fileName);
+        $file = $file->move($file->getPath(), $fileName);
+        $url = $this->spaces->upload($file, $directory);
+        unlink($file->getPathname());
 
-        return $movedFile->getRealPath();
+        return $url;
     }
 
     /**
-     * @param string $path
+     * @param UploadedFile $file
+     * @param string|null  $directory
      *
      * @return string
      */
-    public function pathToRelativeUrl (string $path): string {
-        $matches = [];
-        if (preg_match('/\/public\/(.*)/', $path, $matches)) {
-            return '/' . $matches[1];
-        }
+    public function uploadVideo (UploadedFile $file, ?string $directory = null): string {
+        $compressed = $this->compressVideo($file);
+        $url = $this->spaces->upload($compressed, $directory);
+        unlink($file->getPathname());
+        unlink($compressed->getPathname());
 
-        return $path;
+        return $url;
     }
 
     /**
@@ -75,7 +80,7 @@ class UploadHelper {
      *
      * @return File
      */
-    public function compressVideo (File $file): File {
+    private function compressVideo (File $file): File {
         if (!$this->isValidVideo($file)) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid video format', $file->getFilename()));
         }
@@ -95,18 +100,8 @@ class UploadHelper {
         if ($exit !== 0 || !file_exists($newPath)) {
             throw new \RuntimeException('Could not compress video');
         }
-        $newFile = new File($newPath);
 
-        return $newFile->move($file->getPath(), $file->getFilename());
-    }
-
-    /**
-     * @param string $dir
-     *
-     * @return string
-     */
-    private function trimDir (string $dir): string {
-        return rtrim($dir, '/');
+        return new File($newPath);
     }
 
     /**

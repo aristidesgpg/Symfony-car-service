@@ -247,11 +247,14 @@ class SettingsController extends AbstractFOSRestController {
         // Do file uploads
         foreach ($files as $key => $file) {
             try {
-                $path           = $uploader->upload($file, 'settings');
-                $settings[$key] = $req->getSchemeAndHttpHost() . $uploader->pathToRelativeUrl($path);
+                if ($uploader->isValidVideo($file)) {
+                    $settings[$key] = $uploader->uploadVideo($file, 'settings');
+                } else {
+                    $settings[$key] = $uploader->upload($file, 'settings');
+                }
             } catch (Exception $e) {
-                $this->logger->error(sprintf('Failed to move file for key "%s": "%s"', $key, $e->getMessage()));
-                return $this->errorResponse('Failed to move file');
+                $this->logger->error(sprintf('Failed to upload file for key "%s": "%s"', $key, $e->getMessage()));
+                return $this->errorResponse('Failed to upload file');
             }
         }
 
