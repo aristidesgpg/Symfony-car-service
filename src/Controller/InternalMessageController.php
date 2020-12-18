@@ -67,13 +67,12 @@ class InternalMessageController extends AbstractFOSRestController
      * )
      * 
      * @param Request                   $request
-     * @param InternalMessageRepository $internalMessageRepository
      * @param PaginatorInterface        $paginator
      * @param UrlGeneratorInterface     $urlGenerator
      * 
      * @return Response
      */
-    public function getConversations(Request $request, InternalMessageRepository $internalMessageRepository, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em)
+    public function getConversations(Request $request, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em)
     {
         $userId     = $this->getUser()->getId();
         $page       = $request->query->getInt('page', 1);
@@ -85,9 +84,9 @@ class InternalMessageController extends AbstractFOSRestController
         $sql = "
             SELECT u.*, i.*, COUNT(case i.is_read when 0 then 1 ELSE 0 END) AS unreads FROM internal_message i 
             LEFT JOIN user u
-            ON u.id = case when i.to_id = 3 then i.from_id when i.from_id = 3 then i.to_id END
-            WHERE i.from_id = 3 OR i.to_id = 3 
-            GROUP BY case when i.to_id = 3 then i.from_id when i.from_id = 3 then i.to_id END
+            ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END
+            WHERE i.from_id = {$userId} OR i.to_id = {$userId} 
+            GROUP BY case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END
             ORDER BY i.is_read ASC, i.date DESC;
         ";
 
