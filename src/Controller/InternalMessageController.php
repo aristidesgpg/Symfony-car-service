@@ -169,12 +169,10 @@ class InternalMessageController extends AbstractFOSRestController
 
         $queryParams    = ['userId' => $user->getId(), 'opponentUserId' => $opponentUserId];
         $query          = $internalMessageRepository->createQueryBuilder('im')
-                                           ->where('im.to = :userId')
-                                           ->andWhere('im.from = :opponentUserId')
+                                           ->where('im.to = :userId and im.from = :opponentUserId OR im.to = :opponentUserId and im.from = :userId')
                                            ->setParameters($queryParams)
                                            ->orderBy('im.date', 'DESC')
                                            ->getQuery();
-                                           dd($query);
 
         $urlParams  = ['opponentUserId' => $opponentUserId];
         $pager      = $paginator->paginate($query, $page, self::PAGE_LIMIT);
