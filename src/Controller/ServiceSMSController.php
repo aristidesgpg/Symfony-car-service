@@ -36,14 +36,14 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @SWG\Post(description="Send a message to a customer")
      *
      * @SWG\Parameter(
-     *     name="user_id",
+     *     name="userID",
      *     in="formData",
      *     required=true,
      *     type="integer",
      *     description="The User ID",
      * )
      * @SWG\Parameter(
-     *     name="customer_id",
+     *     name="customerID",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -82,8 +82,8 @@ class ServiceSMSController extends AbstractFOSRestController {
         CustomerRepository     $customerRepo,
         UserRepository         $userRepo
     ) {
-        $userID     = $request->get('user_id');
-        $customerID = $request->get('customer_id');
+        $userID     = $request->get('userID');
+        $customerID = $request->get('customerID');
         $message    = $request->get('message');
 
         //check if parameters are valid
