@@ -91,28 +91,28 @@ class ServiceSMSController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //check if user exists
-        $user     = $userRepo->findBy(["id" => $userID]);
+        $user     = $userRepo->findOneBy(["id" => $userID]);
         if(!$user){
             return $this->handleView($this->view('User Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
         //check if cusomter exists
-        $customer = $customerRepo->findBy(["id" => $customerID]);
+        $customer = $customerRepo->findOneBy(["id" => $customerID]);
         if(!$customer){
             return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
         //save message
-        $smsService = new SMSService();
-        $smsService->setUser($user)
+        $serviceSMS = new ServiceSMS();
+        $serviceSMS->setUser($user)
                    ->setCustomer($customer)
                    ->setPhone($customer->getPhone())
                    ->setMessage($message)
                    ->setIncoming(false);
 
-        $em->persist($smsService);
+        $em->persist($serviceSMS);
         $em->flush();
 
         //send message to a customer
-        $twilioHelper->sendSms($customer->getPhone(), $message);
+        // $twilioHelper->sendSms($customer->getPhone(), $message);
 
         return $this->handleView($this->view([
             'message' => 'Message Was Sent'
@@ -125,6 +125,28 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @SWG\Tag(name="Service SMS")
      * @SWG\Post(description="Receive a message from a customer")
      *
+     *  @SWG\Parameter(
+     *     name="From",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The From Number",
+     * )
+     * @SWG\Parameter(
+     *     name="To",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The To Number",
+     * )
+     * @SWG\Parameter(
+     *     name="Body",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Body",
+     * )
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -150,18 +172,20 @@ class ServiceSMSController extends AbstractFOSRestController {
         $from     = $request->get('From');
         $to       = $request->get('To');
 
+        $phone    = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $from);
+        $phone    = substr($phone, 0, 10);
         //check if customer exists
-        $customer = $customerRepo->findOneBy(["phone" => $from]);
+        $customer = $customerRepo->findOneBy(["phone" => $phone]);
         if($customer){
             $serviceSMS = new ServiceSMS();
             $serviceSMS->setCustomer($customer)
-                       ->setPhone($customerNumber)
+                       ->setPhone($phone)
                        ->setMessage($message)
                        ->setIncoming(true);
             $em->persist($serviceSMS);
             $em->flush();
 
-            $response = new Response('<Response />', Response::HTTP_OK);
+            $response = new Response('<Response><Response />', Response::HTTP_OK);
         }
         else {
             $errorLog = 'Incoming message from '.$from.' to '.$to.'. No customer has this phone number.';
@@ -204,7 +228,7 @@ class ServiceSMSController extends AbstractFOSRestController {
         ServiceSMSRepository $serviceSMSRepo
     ) {
         //get service messages
-        $messages = $serviceSMSRepo->findBy(["customer_id" => $customer->getId()]);
+        $messages = $serviceSMSRepo->findBy(["customer" => $customer->getId()]);
 
         $view = $this->view($messages);
         $view->getContext()->setGroups(ServiceSMS::GROUPS);

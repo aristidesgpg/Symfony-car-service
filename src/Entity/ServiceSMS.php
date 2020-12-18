@@ -13,7 +13,7 @@ use DateTime;
  */
 class ServiceSMS
 {
-    public const GROUPS = ['sms_list'];
+    public const GROUPS = ['sms_list', 'user_list', 'customer_list'];
 
     /**
      * @ORM\Id

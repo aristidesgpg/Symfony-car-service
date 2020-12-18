@@ -31,6 +31,9 @@ class TwilioHelper {
      * @throws \Exception
      */
     public function sendSms (string $phone, string $msg): void {
+        $phone    = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $phone);
+        $phone    = substr($phone, 0, 10);
+        
         if (preg_match('/https?:\/\//', $msg)) {
             $this->curlIsre($phone, $msg);
         } else {
