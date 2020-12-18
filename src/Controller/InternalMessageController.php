@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Helper\iServiceLoggerTrait;
 use App\Repository\InternalMessageRepository;
 use App\Service\Pagination;
+use Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -22,6 +24,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class InternalMessageController extends AbstractFOSRestController
 {
+    use iServiceLoggerTrait;
+
     private const PAGE_LIMIT = 25;
 
     /**
@@ -90,11 +94,13 @@ class InternalMessageController extends AbstractFOSRestController
             ORDER BY i.is_read ASC, i.date DESC;
         ";
 
-        $query = $em->getConnection()->prepare($sql);
-        
-        $query->execute();
-        
-        $result = $query->fetchAllAssociative();
+        try {
+            $query = $em->getConnection()->prepare($sql);
+            $query->execute();
+            $result = $query->fetchAllAssociative();
+        } catch (Exception $e) {
+            $this->logInfo($e);
+        }
         
         $urlParams  = ['page' => $page];
         $pager      = $paginator->paginate($this->getThreadsFromArray($result), $page, self::PAGE_LIMIT);
