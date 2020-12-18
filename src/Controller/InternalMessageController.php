@@ -97,7 +97,7 @@ class InternalMessageController extends AbstractFOSRestController
         $result = $query->fetchAllAssociative();
         
         $urlParams  = ['page' => $page];
-        $pager      = $paginator->paginate($this->getThreads($result), $page, self::PAGE_LIMIT);
+        $pager      = $paginator->paginate($this->getThreadsFromArray($result), $page, self::PAGE_LIMIT);
         $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
         $view       = $this->view([
@@ -196,7 +196,7 @@ class InternalMessageController extends AbstractFOSRestController
      * 
      * @return array
      */
-    public function getThreads($threads)
+    public function getThreadsFromArray($threads)
     {
         $return = [];
         foreach ($threads as &$thread) {
