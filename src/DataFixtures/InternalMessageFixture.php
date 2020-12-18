@@ -30,8 +30,14 @@ class InternalMessageFixture extends Fixture implements DependentFixtureInterfac
         for ($j = 1; $j <= 3; $j++) {
             for ($i = 1; $i <= 50; $i++) {
                 $internalMessage = new InternalMessage();
+                
                 $userReferenceFrom   = $faker->numberBetween(1, 50);
                 $userReferenceTo   = $faker->numberBetween(1, 50);
+                
+                if ($j === 3) {
+                    $userReferenceFrom = $i;
+                    $userReferenceTo = 3;
+                }
 
                 if ($userReferenceFrom === $userReferenceTo) {
                     $userReferenceTo = $userReferenceFrom < 50 ? $userReferenceFrom + 1 : 1;
