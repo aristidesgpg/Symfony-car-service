@@ -24,12 +24,14 @@ class InternalMessage
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="internalMessages")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups({"internal_message"})
      */
     private $from;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="internalMessages")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups({"internal_message"})
      */
     private $to;
 

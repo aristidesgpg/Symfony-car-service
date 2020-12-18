@@ -245,6 +245,9 @@ class InternalMessageController extends AbstractFOSRestController {
         $em->persist($internalMessage);
         $em->flush();
 
-        return $this->view('Message sent!', Response::HTTP_OK);
+        $view = $this->view($internalMessage);
+        $view->getContext()->setGroups(['internal_message', 'user_list']);
+
+        return $this->handleView($view);
     }
 }
