@@ -5,17 +5,20 @@ namespace App\Controller;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\InternalMessageRepository;
 use App\Service\InternalMessageHelper;
+use App\Service\Pagination;
 use Doctrine\DBAL\Driver\Exception as DoctrineException;
 use Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
+use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class InternalMessageController
@@ -49,7 +52,7 @@ class InternalMessageController extends AbstractFOSRestController {
      *              type="array",
      *              @SWG\Items(
      *                  @SWG\Property(
-     *                      property="opponnetUser",
+     *                      property="otherUser",
      *                      type="object",
      *                      @SWG\Schema(type="object", ref=@Model(type=User::class, groups={"user_list"}))
      *                  ),
@@ -70,12 +73,15 @@ class InternalMessageController extends AbstractFOSRestController {
      * )
      *
      * @param Request                $request
+     * @param PaginatorInterface     $paginator
+     * @param UrlGeneratorInterface  $urlGenerator
      * @param EntityManagerInterface $em
      * @param InternalMessageHelper  $internalMessageHelper
      *
      * @return View|Response
      */
-    public function getThreads (Request $request, EntityManagerInterface $em, InternalMessageHelper $internalMessageHelper) {
+    public function getThreads (Request $request, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator,
+                                EntityManagerInterface $em, InternalMessageHelper $internalMessageHelper) {
         $userId = $this->getUser()->getId();
         $page   = $request->query->getInt('page', 1);
 
@@ -105,11 +111,19 @@ class InternalMessageController extends AbstractFOSRestController {
             return $this->view('Error trying to execute MySQL query', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $urlParams      = ['page' => $page];
-        $pageUrlText    = 'getInternalThreads';
-        $pageData       = $internalMessageHelper->getThreadsFromArray($result);
+        $urlParams  = ['page' => $page];
+        $pageData = $internalMessageHelper->getThreadsFromArray($result);
+        $pager      = $paginator->paginate($pageData, $page, self::PAGE_LIMIT);
+        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
-        $view = $this->view($internalMessageHelper->getPaginationView($pageData, $page, $urlParams, self::PAGE_LIMIT, $pageUrlText));
+        $view = $this->view([
+            'threads'      => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('getInternalThreads', $urlParams),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('getInternalThreads', $urlParams)
+        ]);
         $view->getContext()->setGroups(['internal_message', 'user_list']);
 
         return $this->handleView($view);
@@ -154,11 +168,12 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @param Request                   $request
      * @param InternalMessageRepository $internalMessageRepository
-     * @param InternalMessageHelper     $internalMessageHelper
+     * @param PaginatorInterface        $paginator
+     * @param UrlGeneratorInterface     $urlGenerator
      *
      * @return Response
      */
-    public function getMessagesNewest (Request $request, InternalMessageRepository $internalMessageRepository, InternalMessageHelper $internalMessageHelper) {
+    public function getMessagesNewest (Request $request, InternalMessageRepository $internalMessageRepository, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator) {
         $user        = $this->getUser();
         $page        = $request->query->getInt('page', 1);
         $otherUserId = $request->query->get('otherUserId');
@@ -174,10 +189,18 @@ class InternalMessageController extends AbstractFOSRestController {
                                                  ->orderBy('im.date', 'DESC')
                                                  ->getQuery();
 
-        $urlParams      = ['otherUserId' => $otherUserId];
-        $pageUrlText    = 'getInternalMessages';
+        $urlParams  = ['otherUserId' => $otherUserId];
+        $pager      = $paginator->paginate($query, $page, self::PAGE_LIMIT);
+        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
-        $view = $this->view($internalMessageHelper->getPaginationView($query, $page, $urlParams, self::PAGE_LIMIT, $pageUrlText));
+        $view = $this->view([
+            'internalMessages' => $pager->getItems(),
+            'totalResults'     => $pagination->totalResults,
+            'totalPages'       => $pagination->totalPages,
+            'previous'         => $pagination->getPreviousPageURL('getInternalMessages', $urlParams),
+            'currentPage'      => $pagination->currentPage,
+            'next'             => $pagination->getNextPageURL('getInternalMessages', $urlParams)
+        ]);
         $view->getContext()->setGroups(['internal_message']);
 
         return $this->handleView($view);
