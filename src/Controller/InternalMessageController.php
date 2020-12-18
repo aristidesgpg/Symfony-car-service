@@ -2,11 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\InternalMessage;
+use App\Entity\User;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\InternalMessageRepository;
+use App\Repository\UserRepository;
 use App\Service\InternalMessageHelper;
 use App\Service\Pagination;
-use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
@@ -184,5 +186,57 @@ class InternalMessageController extends AbstractFOSRestController {
         $view->getContext()->setGroups(['internal_message']);
 
         return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/api/internal-messaging/sendTo")
+     *
+     * @SWG\Tag(name="Internal Message")
+     * @SWG\Post(description="Send a message to a user")
+     * @SWG\Parameter(
+     *     name="toId",
+     *     required=true,
+     *     type="integer",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="message",
+     *     required=true,
+     *     type="string",
+     *     in="query",
+     * )
+     * @SWG\Response(
+     *      response=200,
+     *      description="Success"
+     * )
+     *
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function sendMessage (Request $request, UserRepository $userRepository) {
+        $user       = $this->getUser();
+        $toId       = $request->query->get('toId');
+        $message    = $request->query->get('message');
+        $em         = $this->getDoctrine()->getManager();
+        
+        if (!$toId || !$message) {
+            return $this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST);
+        }
+
+        $internalMessage = new InternalMessage();
+
+        $toUser = $this->getDoctrine()->getRepository(User::class)->find($user->getId());
+
+        $internalMessage->setFrom($user)
+                        ->setTo($toUser)
+                        ->setMessage($message)
+                        ->setIsRead(false)
+                        ->setDate();
+
+        $em->persist($internalMessage);
+        $em->flush();
+
+        return $this->view('Message sent!', Response::HTTP_OK);
     }
 }

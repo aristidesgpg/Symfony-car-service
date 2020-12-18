@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\InternalMessageRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
@@ -95,9 +97,17 @@ class InternalMessage
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate($date = null): self
     {
-        $this->date = $date;
+        if (!$date) {
+            try {
+                $this->date = new DateTime();
+            } catch (Exception $e) {
+                //
+            }
+        } else {
+            $this->date = $date;
+        }
 
         return $this;
     }
