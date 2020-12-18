@@ -25,11 +25,11 @@ class InternalMessageController extends AbstractFOSRestController
     private const PAGE_LIMIT = 25;
 
     /**
-     * @Rest\Get("/api/internal-messaging/conversations")
-     * @Rest\Get(name="getInternalConversations")
+     * @Rest\Get("/api/internal-messaging/threads")
+     * @Rest\Get(name="getInternalThreads")
      * 
      * @SWG\Tag(name="Internal Message")
-     * @SWG\Get(description="Get the list of conversations between multiple customers")
+     * @SWG\Get(description="Get the list of threads between multiple customers")
      * @SWG\Parameter(
      *     name="page",
      *     required=false,
@@ -38,11 +38,11 @@ class InternalMessageController extends AbstractFOSRestController
      * )
      * @SWG\Response(
      *      response=200,
-     *      description="Return the list of conversations",
+     *      description="Return the list of threads",
      *      @SWG\Schema(
      *          type="object",
      *          @SWG\Property(
-     *              property="conversations",
+     *              property="threads",
      *              type="array",
      *              @SWG\Items(
      *                  @SWG\Property(
@@ -72,7 +72,7 @@ class InternalMessageController extends AbstractFOSRestController
      * 
      * @return Response
      */
-    public function getConversations(Request $request, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em)
+    public function getThreads(Request $request, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em)
     {
         $userId     = $this->getUser()->getId();
         $page       = $request->query->getInt('page', 1);
@@ -101,12 +101,12 @@ class InternalMessageController extends AbstractFOSRestController
         $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
         $view       = $this->view([
-            'conversations'     => $pager->getItems(),
+            'threads'     => $pager->getItems(),
             'totalResults'      => $pagination->totalResults,
             'totalPages'        => $pagination->totalPages,
-            'previous'          => $pagination->getPreviousPageURL('getInternalConversations', $urlParams),
+            'previous'          => $pagination->getPreviousPageURL('getInternalThreads', $urlParams),
             'currentPage'       => $pagination->currentPage,
-            'next'              => $pagination->getNextPageURL('getInternalConversations', $urlParams)
+            'next'              => $pagination->getNextPageURL('getInternalThreads', $urlParams)
         ]);
         $view->getContext()->setGroups(['internal_message', 'user_list']);
 
