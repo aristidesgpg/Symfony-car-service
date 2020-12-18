@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 class MessageController extends AbstractFOSRestController
 {
     /**
-     * @Rest\Get("/api/messaging/unread")
+     * @Rest\Get("/api/message/unread")
      * 
      * @SWG\Tag(name="Message")
      * @SWG\Get(description="Get total unread messages")
