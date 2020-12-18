@@ -79,14 +79,14 @@ class UserController extends AbstractFOSRestController {
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
      * @SWG\Parameter(
-     *     name="first_name",
+     *     name="firstName",
      *     in="formData",
      *     required=true,
      *     type="string",
      *     description="The First Name of User",
      * )
      * @SWG\Parameter(
-     *     name="last_name",
+     *     name="lastName",
      *     in="formData",
      *     required=true,
      *     type="string",
@@ -135,14 +135,14 @@ class UserController extends AbstractFOSRestController {
      *     description="The experience of Technician",
      * )
      * @SWG\Parameter(
-     *     name="process_refund",
+     *     name="processRefund",
      *     in="formData",
      *     required=false,
      *     type="boolean",
      *     description="The process of refund",
      * )
      * @SWG\Parameter(
-     *     name="share_repair_orders",
+     *     name="shareRepairOrders",
      *     in="formData",
      *     required=false,
      *     type="boolean",
@@ -167,16 +167,16 @@ class UserController extends AbstractFOSRestController {
      */
     public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
         $role              = $request->get('role');
-        $firstName         = $request->get('first_name');
-        $lastName          = $request->get('last_name');
+        $firstName         = $request->get('firstName');
+        $lastName          = $request->get('lastName');
         $email             = $request->get('email');
         $phone             = $request->get('phone');
         $password          = $request->get('password');
         $pin               = $request->get('pin');
         $certification     = $request->get('certification');
         $experience        = $request->get('experience');
-        $processRefund     = $request->get('process_refund');
-        $shareRepairOrders = $request->get('share_repair_orders');
+        $processRefund     = $request->get('processRefund');
+        $shareRepairOrders = $request->get('shareRepairOrders');
 
         //role is invalid
         if (!$role || !$userHelper->isValidRole($role)) {
@@ -237,14 +237,14 @@ class UserController extends AbstractFOSRestController {
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
      * @SWG\Parameter(
-     *     name="first_name",
+     *     name="firstName",
      *     in="formData",
      *     required=true,
      *     type="string",
      *     description="The First Name of User",
      * )
      * @SWG\Parameter(
-     *     name="last_name",
+     *     name="lastName",
      *     in="formData",
      *     required=true,
      *     type="string",
@@ -293,14 +293,14 @@ class UserController extends AbstractFOSRestController {
      *     description="The experience of Technician",
      * )
      * @SWG\Parameter(
-     *     name="process_refund",
+     *     name="processRefund",
      *     in="formData",
      *     required=false,
      *     type="boolean",
      *     description="The process of refund",
      * )
      * @SWG\Parameter(
-     *     name="share_repair_orders",
+     *     name="shareRepairOrders",
      *     in="formData",
      *     required=false,
      *     type="boolean",
@@ -326,7 +326,7 @@ class UserController extends AbstractFOSRestController {
      */
     public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
         $role              = $request->get('role') ?? $user->getRoles()[0];
-        $firstName         = $request->get('last_name') ?? $user->getFirstName();
+        $firstName         = $request->get('lastName') ?? $user->getFirstName();
         $lastName          = $request->get('lastName') ?? $user->getLastName();
         $email             = $request->get('email') ?? $user->getEmail();
         $phone             = $request->get('phone') ?? $user->getPhone();
@@ -334,8 +334,8 @@ class UserController extends AbstractFOSRestController {
         $pin               = $request->get('pin') ?? $user->getPin();
         $certification     = $request->get('certification') ?? $user->getCertification();
         $experience        = $request->get('experience') ?? $user->getExperience();
-        $processRefund     = $request->get('process_refund') ?? $user->getProcessRefund();
-        $shareRepairOrders = $request->get('share_repair_orders') ?? $user->getShareRepairOrders();
+        $processRefund     = $request->get('processRefund') ?? $user->getProcessRefund();
+        $shareRepairOrders = $request->get('shareRepairOrders') ?? $user->getShareRepairOrders();
 
         //role is invalid
         if ($role && !$userHelper->isValidRole($role)) {

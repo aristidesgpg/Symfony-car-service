@@ -68,42 +68,42 @@ class OperationCodeController extends AbstractFOSRestController {
      *     description="The Description for Operation Code",
      * )
      * @SWG\Parameter(
-     *     name="labor_hours",
+     *     name="laborHours",
      *     in="formData",
      *     required=true,
      *     type="number",
      *     description="The Labor Hours",
      * )
      * @SWG\Parameter(
-     *     name="labor_taxable",
+     *     name="laborTaxable",
      *     in="formData",
      *     required=true,
      *     type="boolean",
      *     description="The Labor Taxable",
      * )
      * @SWG\Parameter(
-     *     name="parts_price",
+     *     name="partsPrice",
      *     in="formData",
      *     required=true,
      *     type="number",
      *     description="The Parts Price",
      * )
      * @SWG\Parameter(
-     *     name="parts_taxable",
+     *     name="partsTaxable",
      *     in="formData",
      *     required=true,
      *     type="boolean",
      *     description="The Parts Taxable",
      * )
      * @SWG\Parameter(
-     *     name="supplies_price",
+     *     name="suppliesPrice",
      *     in="formData",
      *     required=true,
      *     type="number",
      *     description="The Supplies Price",
      * )
      * @SWG\Parameter(
-     *     name="supplies_taxable",
+     *     name="suppliesTaxable",
      *     in="formData",
      *     required=true,
      *     type="boolean",
@@ -128,12 +128,12 @@ class OperationCodeController extends AbstractFOSRestController {
     public function create (Request $request, EntityManagerInterface $em) {
         $code            = $request->get('code');
         $description     = $request->get('description');
-        $laborHours      = $request->get('labor_hours');
-        $laborTaxable    = $request->get('labor_taxable');
-        $partsPrice      = $request->get('parts_price');
-        $partsTaxable    = $request->get('parts_taxable');
-        $suppliesPrice   = $request->get('supplies_price');
-        $suppliesTaxable = $request->get('supplies_taxable');
+        $laborHours      = $request->get('laborHours');
+        $laborTaxable    = $request->get('laborTaxable');
+        $partsPrice      = $request->get('partsPrice');
+        $partsTaxable    = $request->get('partsTaxable');
+        $suppliesPrice   = $request->get('suppliesPrice');
+        $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
         if (!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable) {
@@ -180,42 +180,42 @@ class OperationCodeController extends AbstractFOSRestController {
      *     description="The Description for Operation Code",
      * )
      * @SWG\Parameter(
-     *     name="labor_hours",
+     *     name="laborHours",
      *     in="formData",
      *     required=true,
      *     type="number",
      *     description="The Labor Hours",
      * )
      * @SWG\Parameter(
-     *     name="labor_taxable",
+     *     name="laborTaxable",
      *     in="formData",
      *     required=true,
      *     type="boolean",
      *     description="The Labor Taxable",
      * )
      * @SWG\Parameter(
-     *     name="parts_price",
+     *     name="partsPrice",
      *     in="formData",
      *     required=true,
      *     type="number",
      *     description="The Parts Price",
      * )
      * @SWG\Parameter(
-     *     name="parts_taxable",
+     *     name="partsTaxable",
      *     in="formData",
      *     required=true,
      *     type="boolean",
      *     description="The Parts Taxable",
      * )
      * @SWG\Parameter(
-     *     name="supplies_price",
+     *     name="suppliesPrice",
      *     in="formData",
      *     required=true,
      *     type="number",
      *     description="The Supplies Price",
      * )
      * @SWG\Parameter(
-     *     name="supplies_taxable",
+     *     name="suppliesTaxable",
      *     in="formData",
      *     required=true,
      *     type="boolean",
@@ -241,12 +241,12 @@ class OperationCodeController extends AbstractFOSRestController {
     public function edit (OperationCode $operationCode, Request $request, EntityManagerInterface $em) {
         $code            = $request->get('code');
         $description     = $request->get('description');
-        $laborHours      = $request->get('labor_hours');
-        $laborTaxable    = $request->get('labor_taxable');
-        $partsPrice      = $request->get('parts_price');
-        $partsTaxable    = $request->get('parts_taxable');
-        $suppliesPrice   = $request->get('supplies_price');
-        $suppliesTaxable = $request->get('supplies_taxable');
+        $laborHours      = $request->get('laborHours');
+        $laborTaxable    = $request->get('laborTaxable');
+        $partsPrice      = $request->get('partsPrice');
+        $partsTaxable    = $request->get('partsTaxable');
+        $suppliesPrice   = $request->get('suppliesPrice');
+        $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
         if (!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable) {

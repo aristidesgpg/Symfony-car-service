@@ -1,4 +1,7 @@
 {
+    "aws/aws-sdk-php": {
+        "version": "3.168.3"
+    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -184,6 +187,9 @@
     },
     "monolog/monolog": {
         "version": "1.25.5"
+    },
+    "mtdowling/jmespath.php": {
+        "version": "2.6.0"
     },
     "namshi/jose": {
         "version": "7.2.3"

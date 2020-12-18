@@ -9,7 +9,6 @@ use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class VideoHelper {
@@ -56,14 +55,13 @@ class VideoHelper {
         if (!$this->upload->isValidVideo($file)) {
             throw new \InvalidArgumentException('Invalid file format');
         }
-        $path  = $this->upload->upload($file, 'ro-videos');
+        $url = $this->upload->uploadVideo($file, 'ro-videos');
         $video = new RepairOrderVideo();
         $video->setRepairOrder($ro)
-              ->setPath($this->upload->pathToRelativeUrl($path)); // TODO: Add hostname
+              ->setPath($url);
         if ($tech !== null) {
             $video->setTechnician($tech);
         }
-        $video->setRepairOrder($ro);
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Created')
                     ->setRepairOrderVideo($video);
@@ -74,7 +72,6 @@ class VideoHelper {
         $this->em->persist($video);
         $this->em->flush();
 
-        $this->upload->compressVideo(new File($path)); // FIXME: Defer compression to KernelEvents::TERMINATE?
 //        if ($approvalRequired) {
 //
 //        } else {
