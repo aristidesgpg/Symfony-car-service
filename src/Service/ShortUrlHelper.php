@@ -56,12 +56,15 @@ class ShortUrlHelper {
      * @return string
      */
     public function generateShortUrl (string $url): string {
+        if (!preg_match('/^http/', $url)) {
+            $url = 'https://' . $url;
+        }
         $response = $this->curl(self::ENDPOINT, [
             'access_token' => $this->accessToken,
             'url'          => $url,
         ]);
         if (!isset($response['url']) || empty($response['url'])) {
-            throw new \RuntimeException('Did not get shortcode');
+            throw new \RuntimeException('Did not get short URL');
         }
 
         return $response['url'];
@@ -88,6 +91,11 @@ class ShortUrlHelper {
         }
         curl_close($curl);
 
-        return json_decode($response, true);
+        $json = json_decode($response, true);
+        if (is_array($json)) {
+            return $json;
+        } else {
+            return [];
+        }
     }
 }
