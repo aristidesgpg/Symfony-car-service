@@ -4,20 +4,18 @@ namespace App\Controller;
 
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\InternalMessageRepository;
-use App\Service\Pagination;
+use App\Service\InternalMessageHelper;
 use Doctrine\DBAL\Driver\Exception as DoctrineException;
 use Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
-use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class InternalMessageController
@@ -72,14 +70,12 @@ class InternalMessageController extends AbstractFOSRestController {
      * )
      *
      * @param Request                $request
-     * @param PaginatorInterface     $paginator
-     * @param UrlGeneratorInterface  $urlGenerator
      * @param EntityManagerInterface $em
+     * @param InternalMessageHelper  $internalMessageHelper
      *
      * @return View|Response
      */
-    public function getThreads (Request $request, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator,
-                                EntityManagerInterface $em) {
+    public function getThreads (Request $request, EntityManagerInterface $em, InternalMessageHelper $internalMessageHelper) {
         $userId = $this->getUser()->getId();
         $page   = $request->query->getInt('page', 1);
 
@@ -109,18 +105,11 @@ class InternalMessageController extends AbstractFOSRestController {
             return $this->view('Error trying to execute MySQL query', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
-        $urlParams  = ['page' => $page];
-        $pager      = $paginator->paginate($this->getThreadsFromArray($result), $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $urlParams      = ['page' => $page];
+        $pageUrlText    = 'getInternalThreads';
+        $pageData       = $internalMessageHelper->getThreadsFromArray($result);
 
-        $view = $this->view([
-            'threads'      => $pager->getItems(),
-            'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getInternalThreads', $urlParams),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getInternalThreads', $urlParams)
-        ]);
+        $view = $this->view($internalMessageHelper->getPaginationView($pageData, $page, $urlParams, self::PAGE_LIMIT, $pageUrlText));
         $view->getContext()->setGroups(['internal_message', 'user_list']);
 
         return $this->handleView($view);
@@ -165,12 +154,11 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @param Request                   $request
      * @param InternalMessageRepository $internalMessageRepository
-     * @param PaginatorInterface        $paginator
-     * @param UrlGeneratorInterface     $urlGenerator
+     * @param InternalMessageHelper     $internalMessageHelper
      *
      * @return Response
      */
-    public function getMessagesNewest (Request $request, InternalMessageRepository $internalMessageRepository, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator) {
+    public function getMessagesNewest (Request $request, InternalMessageRepository $internalMessageRepository, InternalMessageHelper $internalMessageHelper) {
         $user        = $this->getUser();
         $page        = $request->query->getInt('page', 1);
         $otherUserId = $request->query->get('otherUserId');
@@ -186,56 +174,12 @@ class InternalMessageController extends AbstractFOSRestController {
                                                  ->orderBy('im.date', 'DESC')
                                                  ->getQuery();
 
-        $urlParams  = ['otherUserId' => $otherUserId];
-        $pager      = $paginator->paginate($query, $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $urlParams      = ['otherUserId' => $otherUserId];
+        $pageUrlText    = 'getInternalMessages';
 
-        $view = $this->view([
-            'internalMessages' => $pager->getItems(),
-            'totalResults'     => $pagination->totalResults,
-            'totalPages'       => $pagination->totalPages,
-            'previous'         => $pagination->getPreviousPageURL('getInternalMessages', $urlParams),
-            'currentPage'      => $pagination->currentPage,
-            'next'             => $pagination->getNextPageURL('getInternalMessages', $urlParams)
-        ]);
+        $view = $this->view($internalMessageHelper->getPaginationView($query, $page, $urlParams, self::PAGE_LIMIT, $pageUrlText));
         $view->getContext()->setGroups(['internal_message']);
 
         return $this->handleView($view);
-    }
-
-    /**
-     * @param array
-     *
-     * @return array
-     */
-    public function getThreadsFromArray ($threads) {
-        $return = [];
-        foreach ($threads as &$thread) {
-            $return[] = [
-                "user"    => [
-                    "id"            => $thread["id"],
-                    "firstName"     => $thread["first_name"],
-                    "lastName"      => $thread["last_name"],
-                    "email"         => $thread["email"],
-                    "phone"         => $thread["phone"],
-                    "role"          => $thread["role"],
-                    "certification" => $thread["certification"],
-                    "experience"    => $thread["experience"],
-                    "lastLogin"     => $thread["last_login"],
-                    "active"        => $thread["active"],
-                    "pin"           => $thread["pin"]
-                ],
-                "message" => [
-                    "fromId"  => $thread["from_id"],
-                    "toId"    => $thread["to_id"],
-                    "message" => $thread["message"],
-                    "date"    => $thread["date"],
-                    "isRead"  => $thread["is_read"]
-                ],
-                "unreads" => $thread["unreads"]
-            ];
-        }
-
-        return $return;
     }
 }
