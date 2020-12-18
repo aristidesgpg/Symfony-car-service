@@ -75,7 +75,7 @@ class InternalMessageController extends AbstractFOSRestController
      */
     public function getConversations(Request $request, InternalMessageRepository $internalMessageRepository, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em)
     {
-        $userId       = $this->getUser()->getId();
+        $userId     = $this->getUser()->getId();
         $page       = $request->query->getInt('page', 1);
 
         if ($page < 1) {
@@ -83,33 +83,33 @@ class InternalMessageController extends AbstractFOSRestController
         }
         
         $sql = "
-            SELECT p1.* 
-            FROM internal_message p1
-            Inner JOIN
-            (
-                select reference_id, max(date) MaxDate, id, date, is_read
-                from
-                (
-                    select from_id as reference_id, id, date, is_read
-                    from internal_message
-                    WHERE to_id={$userId}
-                    union all
-                    select to_id as reference_id, id, date, is_read
-                    from internal_message
-                    WHERE from_id={$userId}
-                ) t
-                group by reference_id
-            ) p2
-            ON p1.date = p2.MaxDate
-            order BY p1.is_read DESC, p1.date DESC
+            SELECT u.*, i.*, COUNT(case i.is_read when 0 then 1 ELSE 0 END) AS unreads FROM internal_message i 
+            LEFT JOIN user u
+            ON u.id = case when i.to_id = 3 then i.from_id when i.from_id = 3 then i.to_id END
+            WHERE i.from_id = 3 OR i.to_id = 3 
+            GROUP BY case when i.to_id = 3 then i.from_id when i.from_id = 3 then i.to_id END
+            ORDER BY i.is_read ASC, i.date DESC;
         ";
 
         $query = $em->getConnection()->prepare($sql);
+        
         $query->execute();
+        
         $result = $query->fetchAllAssociative();
         
-        $view       = $this->view($result);
-        $view->getContext()->setGroups(['internal_message']);
+        $urlParams  = ['page' => $page];
+        $pager      = $paginator->paginate($this->getThreads($result), $page, self::PAGE_LIMIT);
+        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+
+        $view       = $this->view([
+            'conversations'     => $pager->getItems(),
+            'totalResults'      => $pagination->totalResults,
+            'totalPages'        => $pagination->totalPages,
+            'previous'          => $pagination->getPreviousPageURL('getInternalConversations', $urlParams),
+            'currentPage'       => $pagination->currentPage,
+            'next'              => $pagination->getNextPageURL('getInternalConversations', $urlParams)
+        ]);
+        $view->getContext()->setGroups(['internal_message', 'user_list']);
 
         return $this->handleView($view);
     }
@@ -168,14 +168,16 @@ class InternalMessageController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        $urlParams      = $queryParams  = ['userId' => $user->getId(), 'opponentUserId' => $opponentUserId];
+        $queryParams    = ['userId' => $user->getId(), 'opponentUserId' => $opponentUserId];
         $query          = $internalMessageRepository->createQueryBuilder('im')
                                            ->where('im.to = :userId')
                                            ->andWhere('im.from = :opponentUserId')
                                            ->setParameters($queryParams)
                                            ->orderBy('im.date', 'DESC')
                                            ->getQuery();
+                                           dd($query);
 
+        $urlParams  = ['opponentUserId' => $opponentUserId];
         $pager      = $paginator->paginate($query, $page, self::PAGE_LIMIT);
         $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
@@ -190,5 +192,42 @@ class InternalMessageController extends AbstractFOSRestController
         $view->getContext()->setGroups(['internal_message']);
 
         return $this->handleView($view);
+    }
+
+    /**
+     * @param array
+     * 
+     * @return array
+     */
+    public function getThreads($threads)
+    {
+        $return = [];
+        foreach ($threads as &$thread) {
+            $return[] = [
+                "user" => [
+                    "id" => $thread["id"],
+                    "first_name" => $thread["first_name"],
+                    "last_name" => $thread["last_name"],
+                    "email" => $thread["email"],
+                    "phone" => $thread["phone"],
+                    "role" => $thread["role"],
+                    "certification" => $thread["certification"],
+                    "experience" => $thread["experience"],
+                    "last_login" => $thread["last_login"],
+                    "active" => $thread["active"],
+                    "pin" => $thread["pin"]
+                ],
+                "message" => [
+                    "from_id" => $thread["from_id"],
+                    "to_id" => $thread["to_id"],
+                    "message" => $thread["message"],
+                    "date" => $thread["date"],
+                    "is_read" => $thread["is_read"]
+                ],
+                "unreads" => $thread["unreads"]
+            ];
+        }
+
+        return $return;
     }
 }
