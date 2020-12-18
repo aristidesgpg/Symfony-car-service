@@ -6,8 +6,6 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\InternalMessageRepository;
 use App\Service\InternalMessageHelper;
 use App\Service\Pagination;
-use Doctrine\DBAL\Driver\Exception as DoctrineException;
-use Exception;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -75,13 +73,12 @@ class InternalMessageController extends AbstractFOSRestController {
      * @param Request                $request
      * @param PaginatorInterface     $paginator
      * @param UrlGeneratorInterface  $urlGenerator
-     * @param EntityManagerInterface $em
      * @param InternalMessageHelper  $internalMessageHelper
      *
      * @return View|Response
      */
     public function getThreads (Request $request, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator,
-                                EntityManagerInterface $em, InternalMessageHelper $internalMessageHelper) {
+                                InternalMessageHelper $internalMessageHelper) {
         $userId = $this->getUser()->getId();
         $page   = $request->query->getInt('page', 1);
 
@@ -89,31 +86,14 @@ class InternalMessageController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
-        $sql = "
-            SELECT u.*, i.*, COUNT(case i.is_read when 0 then 1 ELSE 0 END) AS unreads FROM internal_message i 
-            LEFT JOIN user u
-            ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END
-            WHERE i.from_id = {$userId} OR i.to_id = {$userId} 
-            GROUP BY case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END
-            ORDER BY i.is_read ASC, i.date DESC;
-        ";
+        $threads = $internalMessageHelper->getThreads($userId);
 
-        try {
-            $query = $em->getConnection()->prepare($sql);
-        } catch (Exception $e) {
-            return $this->view('Error trying to prepare MySQL query', Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-
-        try {
-            $query->execute();
-            $result = $query->fetchAllAssociative();
-        } catch (DoctrineException $e) {
+        if ($threads === false) {
             return $this->view('Error trying to execute MySQL query', Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         $urlParams  = ['page' => $page];
-        $pageData = $internalMessageHelper->getThreadsFromArray($result);
-        $pager      = $paginator->paginate($pageData, $page, self::PAGE_LIMIT);
+        $pager      = $paginator->paginate($threads, $page, self::PAGE_LIMIT);
         $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
         $view = $this->view([
