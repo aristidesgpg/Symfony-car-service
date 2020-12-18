@@ -126,7 +126,7 @@ class InternalMessageController extends AbstractFOSRestController
      *     in="query"
      * )
      * @SWG\Parameter(
-     *     name="opponentUserId",
+     *     name="otherUserId",
      *     required=true,
      *     type="integer",
      *     in="query",
@@ -161,20 +161,20 @@ class InternalMessageController extends AbstractFOSRestController
     {
         $user           = $this->getUser();
         $page           = $request->query->getInt('page', 1);
-        $opponentUserId = $request->query->get('opponentUserId');
+        $otherUserId = $request->query->get('otherUserId');
 
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $queryParams    = ['userId' => $user->getId(), 'opponentUserId' => $opponentUserId];
+        $queryParams    = ['userId' => $user->getId(), 'otherUserId' => $otherUserId];
         $query          = $internalMessageRepository->createQueryBuilder('im')
-                                           ->where('im.to = :userId and im.from = :opponentUserId OR im.to = :opponentUserId and im.from = :userId')
+                                           ->where('im.to = :userId and im.from = :otherUserId OR im.to = :otherUserId and im.from = :userId')
                                            ->setParameters($queryParams)
                                            ->orderBy('im.date', 'DESC')
                                            ->getQuery();
 
-        $urlParams  = ['opponentUserId' => $opponentUserId];
+        $urlParams  = ['otherUserId' => $otherUserId];
         $pager      = $paginator->paginate($query, $page, self::PAGE_LIMIT);
         $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
