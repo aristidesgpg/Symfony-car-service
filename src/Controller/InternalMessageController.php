@@ -71,6 +71,10 @@ class InternalMessageController extends AbstractFOSRestController {
      *          @SWG\Property(property="next", type="string", description="URL of next page of results or null")
      *      )
      * )
+     * @SWG\Response(
+     *     response=500, 
+     *     description="Internal Server Error"
+     * )
      *
      * @param Request                $request
      * @param PaginatorInterface     $paginator
@@ -209,6 +213,10 @@ class InternalMessageController extends AbstractFOSRestController {
      *      response=200,
      *      description="Success"
      * )
+     * @SWG\Response(
+     *     response=400, 
+     *     description="Missing Required Parameter(s)"
+     * )
      *
      * @param Request $request
      *
@@ -221,7 +229,7 @@ class InternalMessageController extends AbstractFOSRestController {
         $em         = $this->getDoctrine()->getManager();
         
         if (!$toId || !$message) {
-            return $this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST);
+            return $this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST);
         }
 
         $internalMessage = new InternalMessage();
