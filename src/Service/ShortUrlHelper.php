@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Controller\SettingsController;
-use Twilio\Exceptions\TwilioException;
 
 class ShortUrlHelper {
     public const  MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
@@ -32,7 +31,7 @@ class ShortUrlHelper {
      * @param string $url
      * @param bool   $urlIsShort
      *
-     * @throws TwilioException
+     * @throws \Exception
      */
     public function sendShortenedLink (string $phone, string $msg, string $url, bool $urlIsShort = false): void {
         $msg = rtrim($msg);
