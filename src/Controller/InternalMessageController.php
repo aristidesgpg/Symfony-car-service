@@ -31,7 +31,7 @@ class InternalMessageController extends AbstractFOSRestController {
     private const PAGE_LIMIT = 25;
 
     /**
-     * @Rest\Get("/api/internal-messaging/threads")
+     * @Rest\Get("/api/internal-message/threads")
      * @Rest\Get(name="getInternalThreads")
      *
      * @SWG\Tag(name="Internal Message")
@@ -112,7 +112,7 @@ class InternalMessageController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Get("/api/internal-messaging/messages")
+     * @Rest\Get("/api/internal-message/messages")
      * @Rest\Get(name="getInternalMessages")
      *
      * @SWG\Tag(name="Internal Message")
@@ -189,7 +189,7 @@ class InternalMessageController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/internal-messaging/sendTo")
+     * @Rest\Post("/api/internal-message")
      *
      * @SWG\Tag(name="Internal Message")
      * @SWG\Post(description="Send a message to a user")
