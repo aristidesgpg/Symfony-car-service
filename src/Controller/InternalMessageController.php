@@ -203,23 +203,23 @@ class InternalMessageController extends AbstractFOSRestController
             $return[] = [
                 "user" => [
                     "id" => $thread["id"],
-                    "first_name" => $thread["first_name"],
-                    "last_name" => $thread["last_name"],
+                    "firstName" => $thread["first_name"],
+                    "lastName" => $thread["last_name"],
                     "email" => $thread["email"],
                     "phone" => $thread["phone"],
                     "role" => $thread["role"],
                     "certification" => $thread["certification"],
                     "experience" => $thread["experience"],
-                    "last_login" => $thread["last_login"],
+                    "lastLogin" => $thread["last_login"],
                     "active" => $thread["active"],
                     "pin" => $thread["pin"]
                 ],
                 "message" => [
-                    "from_id" => $thread["from_id"],
-                    "to_id" => $thread["to_id"],
+                    "fromId" => $thread["from_id"],
+                    "toId" => $thread["to_id"],
                     "message" => $thread["message"],
                     "date" => $thread["date"],
-                    "is_read" => $thread["is_read"]
+                    "isRead" => $thread["is_read"]
                 ],
                 "unreads" => $thread["unreads"]
             ];
