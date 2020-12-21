@@ -47,4 +47,16 @@ class ServiceSMSRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function getThreads($user){
+        return $this->createQueryBuilder('ss')
+                    ->select('c.id, c.name, ss.message, ss.date, COUNT(case ss.is_read when 0 then 1 ELSE 0 END) AS unreads')
+                    ->leftJoin('customer','c','WITH','c.id = ss.customer')
+                    ->where('ss.user = :val')
+                    ->setParameter('val', 65)
+                    ->groupBy('ss.customer')
+                    ->orderBy('ss.is_read', 'ASC')
+                    ->orderBy('ss.date', 'DESC')
+                    ->getQuery();
+    }
 }

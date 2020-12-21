@@ -17,9 +17,11 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Swagger\Annotations as SWG;
 use App\Helper\iServiceLoggerTrait;
 use App\Service\TwilioHelper;
+use App\Service\Pagination;
 
 /**
  * Class ServiceSMSController
@@ -28,6 +30,7 @@ use App\Service\TwilioHelper;
  */
 class ServiceSMSController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
+    private const PAGE_LIMIT = 100;
 
     /**
      * @Rest\Post("/api/service-sms/send")
@@ -242,6 +245,13 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @SWG\Tag(name="Service SMS")
      * @SWG\Get(description="Get messages by customer")
      *
+     * @SWG\Parameter(
+     *     name="page",
+     *     type="integer",
+     *     description="Page of results",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return Threads",
@@ -252,32 +262,51 @@ class ServiceSMSController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param ServiceSMSRepository $serviceSMSRepos
-     *
+     * @param Request               $request
+     * @param ServiceSMSRepository  $serviceSMSRepos
+     * @param PaginatorInterface    $paginator
+     * @param UrlGeneratorInterface $urlGenerator
+     * 
      * @return Response
      */
-    public function getThreads (ServiceSMSRepository $serviceSMSRepos) {
+    public function getThreads (
+        Request               $request,
+        ServiceSMSRepository  $serviceSMSRepos,
+        PaginatorInterface    $paginator,
+        UrlGeneratorInterface $urlGenerator
+    ) {
+        $page              = $request->query->getInt('page', 1);
         $user              = $this->getUser();
         $role              = $user->getRoles();
         $shareRepairOrders = $user->getShareRepairOrders();
         //check user role
-        if($role[0] == "ROLE_ADMIN" || $role[0] == "ROLE_SERVICE_MANAGER"){
+        // if($role[0] == "ROLE_ADMIN" || $role[0] == "ROLE_SERVICE_MANAGER"){
 
-        }
-        else if($role[0] == "ROLE_SERVICE_ADVISOR"){
-            if($shareRepairOrders){
+        // }
+        // else if($role[0] == "ROLE_SERVICE_ADVISOR"){
+        //     if($shareRepairOrders){
+        //         $threadQuery = $serviceSMSRepos->getThreads($user->getId())
+        //     }
+        //     else{
 
-            }
-            else{
+        //     }
+        // }
+        $threadQuery = $serviceSMSRepos->getThreads($user->getId());
 
-            }
-        }
+        $pager      = $paginator->paginate($threadQuery, $page, self::PAGE_LIMIT);
+        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
-        //get service messages
-        $messages = $serviceSMSRepos->findBy(["customer_id" => $customer->getId()]);
+        $json = [
+            'threads'    => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('/api/service-sms/threads', $urlParameters),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('/api/service-sms/threads', $urlParameters)
+        ];
 
-        $view = $this->view($messages);
-        $view->getContext()->setGroups(ServiceSMS::GROUPS);
+        $view = $this->view($json);
+        // $view->getContext()->setGroups(Customer::GROUPS);
 
         return $this->handleView($view);
     }
