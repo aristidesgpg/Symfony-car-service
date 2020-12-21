@@ -67,7 +67,6 @@ class VideoHelper {
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction);
         $ro->addVideo($video);
-        $ro->updateVideoStatus();
 
         $this->em->persist($video);
         $this->em->flush();
@@ -112,7 +111,6 @@ class VideoHelper {
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction)
               ->setShortUrl($shortUrl);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }
@@ -134,7 +132,6 @@ class VideoHelper {
         $interaction->setRepairOrderVideo($video)
                     ->setType('Viewed');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }
@@ -149,7 +146,6 @@ class VideoHelper {
                     ->setUser($user)
                     ->setType('Advisor Approved');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
 
@@ -166,7 +162,6 @@ class VideoHelper {
                     ->setUser($user)
                     ->setType('Advisor Confirmed Viewed');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }

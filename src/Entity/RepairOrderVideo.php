@@ -11,15 +11,6 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderVideo {
     public const GROUPS   = ['rov_list'];
-    public const STATUSES = [
-        0 => 'Created',
-        1 => 'Awaiting Approval',
-        2 => 'Advisor Viewed',
-        3 => 'Advisor Approved',
-        4 => 'Customer Sent',
-        5 => 'Customer Viewed',
-        6 => 'Advisor Confirmed Viewed',
-    ];
 
     /**
      * @ORM\Id
@@ -229,7 +220,9 @@ class RepairOrderVideo {
      * @return $this
      */
     public function addInteraction (RepairOrderVideoInteraction $interaction): self {
-        $this->setStatus($interaction->getType());
+        $status = $interaction->getType();
+        $this->setStatus($status);
+        $this->getRepairOrder()->setVideoStatus($status);
         $this->interactions->add($interaction);
 
         return $this;
