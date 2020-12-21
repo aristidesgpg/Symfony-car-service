@@ -83,7 +83,9 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         }
         $file = $request->files->get('video');
         if (!$file instanceof UploadedFile) {
-            return new ValidationResponse(['video' => 'File not found']);
+            return new ValidationResponse(['video' => 'File upload failed']);
+        } elseif ($file->getError() !== UPLOAD_ERR_OK) {
+            return new ValidationResponse(['video' => $file->getErrorMessage()]);
         }
         $user = $this->getUser();
         if (!$user instanceof User || $user->getId() === null) {
