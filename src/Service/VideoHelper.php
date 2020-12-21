@@ -101,7 +101,11 @@ class VideoHelper {
         $message = $this->settings->find('serviceTextVideo')->getValue();
         $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $video->getRepairOrder()->getLinkHash();
         $shortUrl = $this->urlHelper->generateShortUrl($url);
-        $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
+        try {
+            $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
+        } catch (\Exception $e) {
+            // Do nothing
+        }
 
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Customer Sent')
