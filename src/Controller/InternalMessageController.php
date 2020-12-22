@@ -235,11 +235,14 @@ class InternalMessageController extends AbstractFOSRestController {
 
         if ($toId == $user->getId()) {
             return $this->handleView($this->view('You are sending to you!', Response::HTTP_BAD_REQUEST));
-            
         }
 
         $internalMessage = new InternalMessage();
         $toUser          = $this->getDoctrine()->getRepository(User::class)->find($toId);
+
+        if (!$toUser) {
+            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_BAD_REQUEST));
+        }
 
         $internalMessage->setFrom($user)
                         ->setTo($toUser)
