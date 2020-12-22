@@ -28,8 +28,8 @@ class InternalMessageHelper {
      */
     public function __construct(Security $security, EntityManagerInterface $em)
     {
-        $this->user         = $security->getUser();
-        $this->em           = $em;
+        $this->user = $security->getUser();
+        $this->em   = $em;
     }
 
     /**
@@ -41,6 +41,7 @@ class InternalMessageHelper {
         
         $totalUnreadMessages = $internalMessageRepository->createQueryBuilder('im')
             ->where('im.to = :userId')
+            ->orWhere('im.from = :userId')
             ->setParameter('userId', $userId)
             ->andWhere('im.isRead = 0')
             ->select('count(im.id)')
