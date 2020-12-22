@@ -65,18 +65,20 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Request                 $request
-     * @param RepairOrderRepository   $repairOrderRepository
-     * @param OperationCodeRepository $operationCodeRepository
-     * @param EntityManagerInterface  $em
+     * @param Request                  $request
+     * @param RepairOrderRepository    $repairOrderRepository
+     * @param OperationCodeRepository  $operationCodeRepository
+     * @param RepairOrderMPIRepository $repairOrderMPIRepos
+     * @param EntityManagerInterface   $em
      *
      * @return Response
      */
     public function createRepairOrderMPI (
-        Request                 $request, 
-        RepairOrderRepository   $repairOrderRepository,
-        OperationCodeRepository $operationCodeRepository, 
-        EntityManagerInterface  $em
+        Request                  $request, 
+        RepairOrderRepository    $repairOrderRepository,
+        OperationCodeRepository  $operationCodeRepository, 
+        RepairOrderMPIRepository $repairOrderMPIRepos,
+        EntityManagerInterface   $em
     ) {
         $repairOrderID   = $request->get('repairOrderID');
         $results         = str_replace("'",'"', $request->get('results'));
@@ -89,6 +91,11 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         $repairOrder  = $repairOrderRepository->find($repairOrderID);
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //check if repair Order is duplicated
+        $isDuplicated = $repairOrderMPIRepos->findBy(['repairOrder' => $repairOrderID]);
+        if($isDuplicated){
+            return $this->handleView($this->view('Duplicated repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         $obj    = json_decode($results);
