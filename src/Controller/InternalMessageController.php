@@ -50,16 +50,20 @@ class InternalMessageController extends AbstractFOSRestController {
      *              property="threads",
      *              type="array",
      *              @SWG\Items(
-     *                  type="object",
      *                  @SWG\Property(
      *                      property="otherUser",
      *                      type="object",
-     *                      @SWG\Items(ref=@Model(type=User::class, groups={"user_list"}))
+     *                      ref=@Model(type=User::class, groups={"user_list"})
      *                  ),
      *                  @SWG\Property(
      *                      property="lastMessage",
      *                      type="object",
-     *                      @SWG\Items(ref=@Model(type=InternalMessage::class, groups={"internal_message"}))
+     *                      @SWG\Property(property="id", type="string"),
+     *                      @SWG\Property(property="fromId", type="string"),
+     *                      @SWG\Property(property="toId", type="string"),
+     *                      @SWG\Property(property="message", type="string"),
+     *                      @SWG\Property(property="date", type="string"),
+     *                      @SWG\Property(property="isRead", type="string")
      *                  ),
      *                  @SWG\Property(property="unread", type="integer", description="Total number of unread internal messages")
      *              )
