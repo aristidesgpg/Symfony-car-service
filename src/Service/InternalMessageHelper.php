@@ -58,12 +58,24 @@ class InternalMessageHelper {
      */
     public function getThreads ($userId) {
         $sql = "
-            SELECT u.*, i.id AS im_id, i.from_id, i.to_id, i.message, i.date, i.is_read, COUNT(case i.is_read when 0 then 1 ELSE 0 END) AS unreads FROM internal_message i
-            LEFT JOIN user u
+            SELECT  u.*, i.id AS im_id, i.from_id, i.to_id, i.message, i.date, i.is_read, im.unreads
+            FROM internal_message i
+            INNER JOIN 
+            (
+                SELECT MAX(date) MaxDate,  COUNT(CASE WHEN is_read = 0 THEN 1 END) AS unreads
+                FROM 
+                (
+                    SELECT date, to_id, from_id, is_read
+                    FROM  
+                    internal_message
+                    WHERE from_id = {$userId} OR to_id = {$userId}
+                ) jj
+                GROUP BY case when jj.to_id = {$userId} then jj.from_id when jj.from_id = {$userId} then jj.to_id END
+            ) im
+            ON i.date = im.MaxDate
+            Left JOIN user u
             ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END
-            WHERE i.from_id = {$userId} OR i.to_id = {$userId} 
-            GROUP BY case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END
-            ORDER BY i.is_read ASC, i.date DESC;
+            ORDER BY i.is_read ASC, i.date DESC
         ";
 
         try {
