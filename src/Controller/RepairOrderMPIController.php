@@ -95,7 +95,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         //check if repair Order is duplicated
         $isDuplicated = $repairOrderMPIRepos->findBy(['repairOrder' => $repairOrderID]);
         if($isDuplicated){
-            return $this->handleView($this->view('Duplicated repair_order Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('MPI results already exist on this Repair Order.', Response::HTTP_BAD_REQUEST));
         }
 
         $obj    = json_decode($results);
