@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Controller\SettingsController;
-use Twilio\Exceptions\TwilioException;
 
 class ShortUrlHelper {
     public const  MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
@@ -32,7 +31,7 @@ class ShortUrlHelper {
      * @param string $url
      * @param bool   $urlIsShort
      *
-     * @throws TwilioException
+     * @throws \Exception
      */
     public function sendShortenedLink (string $phone, string $msg, string $url, bool $urlIsShort = false): void {
         $msg = rtrim($msg);
@@ -56,12 +55,15 @@ class ShortUrlHelper {
      * @return string
      */
     public function generateShortUrl (string $url): string {
+        if (!preg_match('/^http/', $url)) {
+            $url = 'https://' . $url;
+        }
         $response = $this->curl(self::ENDPOINT, [
             'access_token' => $this->accessToken,
             'url'          => $url,
         ]);
         if (!isset($response['url']) || empty($response['url'])) {
-            throw new \RuntimeException('Did not get shortcode');
+            throw new \RuntimeException('Did not get short URL');
         }
 
         return $response['url'];
@@ -88,6 +90,11 @@ class ShortUrlHelper {
         }
         curl_close($curl);
 
-        return json_decode($response, true);
+        $json = json_decode($response, true);
+        if (is_array($json)) {
+            return $json;
+        } else {
+            return [];
+        }
     }
 }
