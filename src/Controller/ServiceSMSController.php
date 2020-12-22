@@ -277,32 +277,19 @@ class ServiceSMSController extends AbstractFOSRestController {
     ) {
         $page              = $request->query->getInt('page', 1);
         $user              = $this->getUser();
-        $role              = $user->getRoles();
-        $shareRepairOrders = $user->getShareRepairOrders();
-        //check user role
-        // if($role[0] == "ROLE_ADMIN" || $role[0] == "ROLE_SERVICE_MANAGER"){
-
-        // }
-        // else if($role[0] == "ROLE_SERVICE_ADVISOR"){
-        //     if($shareRepairOrders){
-        //         $threadQuery = $serviceSMSRepos->getThreads($user->getId())
-        //     }
-        //     else{
-
-        //     }
-        // }
-        $threadQuery = $serviceSMSRepos->getThreads($user->getId());
+        
+        $threadQuery = $serviceSMSRepos->getThreads($user);
 
         $pager      = $paginator->paginate($threadQuery, $page, self::PAGE_LIMIT);
         $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
         $json = [
-            'threads'    => $pager->getItems(),
+            'threads'      => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('/api/service-sms/threads', $urlParameters),
+            'previous'     => $pagination->getPreviousPageURL('/api/service-sms/threads'),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('/api/service-sms/threads', $urlParameters)
+            'next'         => $pagination->getNextPageURL('/api/service-sms/threads')
         ];
 
         $view = $this->view($json);
