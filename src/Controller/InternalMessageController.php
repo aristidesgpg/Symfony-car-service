@@ -211,7 +211,8 @@ class InternalMessageController extends AbstractFOSRestController {
      * )
      * @SWG\Response(
      *      response=200,
-     *      description="Success"
+     *      description="Message sent. Return InternalMessage object.",
+     *      @SWG\Schema(ref=@Model(type=InternalMessage::class, groups={"internal_message", "user_list"}))
      * )
      * @SWG\Response(
      *     response=400, 
@@ -223,18 +224,22 @@ class InternalMessageController extends AbstractFOSRestController {
      * @return Response
      */
     public function sendMessage (Request $request, UserRepository $userRepository) {
-        $user       = $this->getUser();
-        $toId       = $request->query->get('toId');
-        $message    = $request->query->get('message');
-        $em         = $this->getDoctrine()->getManager();
+        $user    = $this->getUser();
+        $toId    = $request->query->get('toId');
+        $message = $request->query->get('message');
+        $em      = $this->getDoctrine()->getManager();
         
         if (!$toId || !$message) {
-            return $this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST);
+            return $this->handleView($this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST));
+        }
+
+        if ($toId == $user->getId()) {
+            return $this->handleView($this->view('You are sending to you!', Response::HTTP_BAD_REQUEST));
+            
         }
 
         $internalMessage = new InternalMessage();
-
-        $toUser = $this->getDoctrine()->getRepository(User::class)->find($user->getId());
+        $toUser          = $this->getDoctrine()->getRepository(User::class)->find($toId);
 
         $internalMessage->setFrom($user)
                         ->setTo($toUser)
