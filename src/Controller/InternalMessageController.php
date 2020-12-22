@@ -142,7 +142,7 @@ class InternalMessageController extends AbstractFOSRestController {
      *          @SWG\Property(
      *              property="internalMessages",
      *              type="array",
-     *              @SWG\Items(ref=@Model(type=InternalMessage::class, groups={"internal_message"}))
+     *              @SWG\Items(ref=@Model(type=InternalMessage::class, groups={"internal_message", "user_list"}))
      *          ),
      *          @SWG\Property(property="totalResults", type="integer", description="Total number of internal messages"),
      *          @SWG\Property(property="totalPages", type="integer", description="Total number of pages"),
@@ -151,6 +151,11 @@ class InternalMessageController extends AbstractFOSRestController {
      *          @SWG\Property(property="next", type="string", description="URL of next page of results or null")
      *      )
      * )
+     * @SWG\Response(
+     *     response=400, 
+     *     description="Missing Required Parameter(s)"
+     * )
+     * @SWG\Response(response="404", description="Page does not exist")
      *
      * @param Request                   $request
      * @param InternalMessageRepository $internalMessageRepository
@@ -166,6 +171,15 @@ class InternalMessageController extends AbstractFOSRestController {
 
         if ($page < 1) {
             throw new NotFoundHttpException();
+        }
+
+        if (!$otherUserId) {
+            return $this->handleView($this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST));
+        }
+
+        $otherUser = $this->getDoctrine()->getRepository(User::class)->find($otherUserId);
+        if (!$otherUser) {
+            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_BAD_REQUEST));
         }
 
         $queryParams = ['userId' => $user->getId(), 'otherUserId' => $otherUserId];
@@ -187,7 +201,7 @@ class InternalMessageController extends AbstractFOSRestController {
             'currentPage'      => $pagination->currentPage,
             'next'             => $pagination->getNextPageURL('getInternalMessages', $urlParams)
         ]);
-        $view->getContext()->setGroups(['internal_message']);
+        $view->getContext()->setGroups(['internal_message', 'user_list']);
 
         return $this->handleView($view);
     }
@@ -223,7 +237,7 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function sendMessage (Request $request, UserRepository $userRepository) {
+    public function sendMessage (Request $request) {
         $user    = $this->getUser();
         $toId    = $request->query->get('toId');
         $message = $request->query->get('message');
