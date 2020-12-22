@@ -63,7 +63,7 @@ class InternalMessageController extends AbstractFOSRestController {
      *                      @SWG\Property(property="toId", type="string"),
      *                      @SWG\Property(property="message", type="string"),
      *                      @SWG\Property(property="date", type="string"),
-     *                      @SWG\Property(property="isRead", type="string")
+     *                      @SWG\Property(property="isRead", type="boolean")
      *                  ),
      *                  @SWG\Property(property="unread", type="integer", description="Total number of unread internal messages")
      *              )
