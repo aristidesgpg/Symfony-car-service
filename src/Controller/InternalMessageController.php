@@ -6,7 +6,6 @@ use App\Entity\InternalMessage;
 use App\Entity\User;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\InternalMessageRepository;
-use App\Repository\UserRepository;
 use App\Service\InternalMessageHelper;
 use App\Service\Pagination;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -51,15 +50,16 @@ class InternalMessageController extends AbstractFOSRestController {
      *              property="threads",
      *              type="array",
      *              @SWG\Items(
+     *                  type="object",
      *                  @SWG\Property(
      *                      property="otherUser",
      *                      type="object",
-     *                      @SWG\Schema(type="object", ref=@Model(type=User::class, groups={"user_list"}))
+     *                      @SWG\Items(ref=@Model(type=User::class, groups={"user_list"}))
      *                  ),
      *                  @SWG\Property(
      *                      property="lastMessage",
      *                      type="object",
-     *                      @SWG\Schema(type="object", ref=@Model(type=InternalMessage::class, groups={"internal_message"}))
+     *                      @SWG\Items(ref=@Model(type=InternalMessage::class, groups={"internal_message"}))
      *                  ),
      *                  @SWG\Property(property="unread", type="integer", description="Total number of unread internal messages")
      *              )
@@ -71,6 +71,7 @@ class InternalMessageController extends AbstractFOSRestController {
      *          @SWG\Property(property="next", type="string", description="URL of next page of results or null")
      *      )
      * )
+     * @SWG\Response(response="404", description="Page does not exist")
      * @SWG\Response(
      *     response=500, 
      *     description="Internal Server Error"
@@ -95,7 +96,7 @@ class InternalMessageController extends AbstractFOSRestController {
         $threads = $internalMessageHelper->getThreads($userId);
 
         if ($threads === false) {
-            return $this->view('Error trying to execute MySQL query', Response::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->handleView($this->view('Error trying to execute MySQL query', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
         $urlParams  = ['page' => $page];
