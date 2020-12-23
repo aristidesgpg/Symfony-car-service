@@ -32,7 +32,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
      * @SWG\Post(description="Create new Repair Order Quote Recommendations")
      *
      * @SWG\Parameter(
-     *     name="repairorderQuoteID",
+     *     name="repairOrderQuoteID",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -71,7 +71,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
         OperationCodeRepository                  $operationCodeRepository, 
         EntityManagerInterface                   $em
     ) {
-        $repairOrderQuoteID    = $request->get('repairOrderQuoteID');
+        $repairOrderQuoteID    = $request->get('repairOrderQuoteID');        
         $recommendations       = str_replace("'",'"', $request->get('recommendations'));
         $obj                   = (array)json_decode($recommendations);
 
