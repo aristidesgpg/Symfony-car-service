@@ -42,9 +42,10 @@ class CustomerFixture extends Fixture {
 
         // Load some customers
         for ($i = 1; $i <= 50; $i++) {
-            $customer = new Customer();
-            $phone    = $faker->unique(true)->phoneNumber;
-            $phone    = $this->phoneValidator->clean($phone);
+            $customer     = new Customer();
+            $areaCode     = $faker->numberBetween(100, 999);
+            $restOfNumber = $faker->numberBetween(1000, 9999);
+            $phone        = $areaCode . 555 . $restOfNumber;
 
             $customer->setName($faker->name)
                      ->setPhone($phone)
