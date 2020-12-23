@@ -322,27 +322,6 @@ class RepairOrder {
     }
 
     /**
-     * @return $this
-     */
-    public function updateVideoStatus (): self {
-        $min = PHP_INT_MAX;
-        foreach ($this->getVideos() as $video) {
-            if ($video->isDeleted()) {
-                continue;
-            }
-            $index = array_search($video->getStatus(), RepairOrderVideo::STATUSES);
-            if ($index !== false && $index < $min) {
-                $min = $index;
-            }
-        }
-        if ($min !== PHP_INT_MAX) {
-            $this->videoStatus = RepairOrderVideo::STATUSES[$min];
-        }
-
-        return $this;
-    }
-
-    /**
      * @return string|null
      */
     public function getMpiStatus (): ?string {

@@ -3,11 +3,14 @@
 namespace App\Service;
 
 use App\Entity\PhoneLookup;
+use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 class TwilioHelper {
+    use iServiceLoggerTrait;
+
     /** @var Client */
     private $twilio;
 
@@ -91,9 +94,13 @@ class TwilioHelper {
         curl_close($curl);
 
         if (!$response || isset($response['error'])) {
-            $error = isset($response['error']) ? ':' . $response['error'] : null;
-
-            throw new \RuntimeException('Could not send message with shortcode' . $error);
+            $error = sprintf(
+                'Could not send message with shortcode. Error: (%s) %s',
+                $response['error'] ?? 'Unknown',
+                $response['message'] ?? 'Unknown'
+            );
+            $this->logInfo($error);
+            throw new \RuntimeException($error);
         }
     }
 }
