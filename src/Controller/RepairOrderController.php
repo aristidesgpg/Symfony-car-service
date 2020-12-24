@@ -57,6 +57,12 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
      *     name="open",
      *     type="boolean",
      *     description="0=Closed, 1=Open, Omit for all",
@@ -193,10 +199,11 @@ class RepairOrderController extends AbstractFOSRestController {
 
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
-        $pager         = $paginator->paginate($q, $page, self::PAGE_LIMIT);
-        $pagination    = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $pager         = $paginator->paginate($q, $page, $pageLimit);
+        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'repairOrders' => $pager->getItems(),
