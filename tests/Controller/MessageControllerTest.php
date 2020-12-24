@@ -37,7 +37,7 @@ class MessageControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
 
-        $this->assertEquals(6, $unreadData->internal);
+        $this->assertEquals(97, $unreadData->internal);
     }
 
     /**

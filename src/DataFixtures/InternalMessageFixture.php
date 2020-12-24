@@ -16,42 +16,64 @@ class InternalMessageFixture extends Fixture implements DependentFixtureInterfac
 
         for ($i = 1; $i <= 50; $i++) {
             $internalMessage = new InternalMessage();
+
+            $from = 'user_5';
+            $to   = 'user_3';
+
+            if ($i % 3 === 0)
+            {
+                $from = 'user_3';
+                $to   = 'user_5';
+            }
        
-            $internalMessage->setFrom($this->getReference('user_5')) // for get messages test
-                        ->setTo($this->getReference('user_3')) // test logged in user
+            $internalMessage->setFrom($this->getReference($from)) // for get messages test
+                        ->setTo($this->getReference($to)) // test logged in user
                         ->setMessage($faker->sentence())
                         ->setDate($faker->dateTimeBetween('-1 year'))
-                        ->setIsRead($faker->boolean(50));
+                        ->setIsRead($i % 2 === 0);
         
+            $manager->persist($internalMessage);
+            $manager->flush();
+
+            $internalMessage = new InternalMessage();
+
+            $from = 'user_8';
+            $to   = 'user_3';
+
+            if ($i % 2 === 0)
+            {
+                $from = 'user_3';
+                $to   = 'user_8';
+            }
+
+            $internalMessage->setFrom($this->getReference($from)) // for get messages test
+            ->setTo($this->getReference($to)) // test logged in user
+            ->setMessage($faker->sentence())
+                ->setDate($faker->dateTimeBetween('-1 year'))
+                ->setIsRead($i % 3 === 0);
+
             $manager->persist($internalMessage);
             $manager->flush();
         }
 
-        for ($j = 1; $j <= 3; $j++) {
-            for ($i = 1; $i <= 50; $i++) {
-                $internalMessage = new InternalMessage();
-                
-                $userReferenceFrom   = $faker->numberBetween(1, 50);
-                $userReferenceTo   = $faker->numberBetween(1, 50);
-                
-                if ($j === 3) {
-                    $userReferenceFrom = $i;
-                    $userReferenceTo = 3;
-                }
+        for ($i = 1; $i <= 50; $i++) {
+            $internalMessage = new InternalMessage();
 
-                if ($userReferenceFrom === $userReferenceTo) {
-                    $userReferenceTo = $userReferenceFrom < 50 ? $userReferenceFrom + 1 : 1;
-                }
-            
-                $internalMessage->setFrom($this->getReference('user_' . $userReferenceFrom))
-                            ->setTo($this->getReference('user_' . $userReferenceTo))
-                            ->setMessage($faker->sentence())
-                            ->setDate($faker->dateTimeBetween('-1 year'))
-                            ->setIsRead($faker->boolean(50));
-            
-                $manager->persist($internalMessage);
-                $manager->flush();
+            $userReferenceFrom = $i;
+            $userReferenceTo = 3;
+
+            if ($userReferenceFrom === $userReferenceTo) {
+                $userReferenceTo = $userReferenceFrom < 50 ? $userReferenceFrom + 1 : 1;
             }
+
+            $internalMessage->setFrom($this->getReference('user_' . $userReferenceFrom))
+                        ->setTo($this->getReference('user_' . $userReferenceTo))
+                        ->setMessage($faker->sentence())
+                        ->setDate($faker->dateTimeBetween('-1 year'))
+                        ->setIsRead($i % 4 === 0);
+
+            $manager->persist($internalMessage);
+            $manager->flush();
         }
     }
 

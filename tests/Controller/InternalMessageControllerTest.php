@@ -36,7 +36,7 @@ class InternalMessageControllerTest extends WebTestCase {
         $this->requestGetThreads($page);
         $threadsData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertEquals(2, $threadsData->totalResults);
+        $this->assertEquals(49, $threadsData->totalResults);
     }
 
     public function testGetMessagesNewest() {
@@ -54,7 +54,7 @@ class InternalMessageControllerTest extends WebTestCase {
         $this->requestGetMessagesNewest($otherUserId, $page);
         $messagesData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertEquals(8, $messagesData->totalResults);
+        $this->assertEquals(51, $messagesData->totalResults);
         
         // User Not Found
         $otherUserId = 1005;

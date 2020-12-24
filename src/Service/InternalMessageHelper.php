@@ -91,9 +91,7 @@ class InternalMessageHelper {
             return false;
         }
 
-        $threads = $this->getThreadsFromArray($result);
-
-        return $threads;
+        return $this->getThreadsFromArray($result);
     }
     
     /**
