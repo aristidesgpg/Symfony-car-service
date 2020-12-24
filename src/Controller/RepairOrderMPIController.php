@@ -155,4 +155,51 @@ class RepairOrderMPIController extends AbstractFOSRestController {
             'message' => 'RepairOrderMPI Created'
         ], Response::HTTP_OK));
     }
+
+    /**
+     * @Rest\Delete("/api/repair-order-mpi/{id}")
+     *
+     * @SWG\Tag(name="Repair Order MPI")
+     * @SWG\Delete(description="Delete a Repair Order MPI")
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deleted" }),
+     *         )
+     * )
+     *
+     * @param RepairOrderMPI           $repairOrderMPI
+     * @param EntityManagerInterface   $em
+     *
+     * @return Response
+     */
+    public function deleteRepairOrderMPI (
+        RepairOrderMPI           $repairOrderMPI,
+        EntityManagerInterface   $em
+    ) {
+
+        
+
+        $repairOrder = $repairOrderMPI->getRepairOrder();
+        $repairOrder->setMpiStatus('Not Started');
+        // return $this->handleView($this->view([
+        //     "results" => $repairOrder->getMpiStatus()
+        // ], Response::HTTP_OK));
+
+        $em->persist($repairOrder);
+        $em->remove($repairOrderMPI);
+        // $em->flush();
+
+        // $repairOrder->setMpiStatus('Not Started');
+        // $em->persist($repairOrder);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'RepairOrderMPI Deleted'
+        ], Response::HTTP_OK));
+    }
 }
