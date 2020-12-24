@@ -25,21 +25,19 @@ class MessageControllerTest extends WebTestCase
         ]);
 
         $authData = json_decode($this->client->getResponse()->getContent());
-        error_log($authData->token);
 
         $unReadCrawler = $this->client->request('GET', '/api/message/unread', [], [], [
                 'HTTP_Authorization' => 'Bearer '.$authData->token,
-                'HTTP_CONTENT_TYPE' => 'application/json',
-                'HTTP_ACCEPT'       => 'application/json',
+                'HTTP_CONTENT_TYPE'  => 'application/json',
+                'HTTP_ACCEPT'        => 'application/json',
             ]);
         
-        print_r($this->client->getResponse());
         $unreadData = json_decode($this->client->getResponse()->getContent());
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
 
-        $this->assertEquals(5, $unreadData->internal);
+        $this->assertEquals(6, $unreadData->internal);
     }
 
     /**
