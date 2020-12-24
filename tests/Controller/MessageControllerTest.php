@@ -2,25 +2,19 @@
 
 namespace App\Tests;
 
-use App\Entity\User;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class MessageControllerTest extends WebTestCase
 {
     private $client = null;
 
     /**
-     * @var \Doctrine\ORM\EntityManager
+     * {@inheritDoc}
      */
-    private $entityManager;
-
     public function setUp()
     {
         $this->client = static::createClient();
-        $this->entityManager = $this->client->getContainer()
-             ->get('doctrine')
-             ->getManager();
     }
 
     public function testUnread()
@@ -40,40 +34,20 @@ class MessageControllerTest extends WebTestCase
             ]);
         
         print_r($this->client->getResponse());
+        $unreadData = json_decode($this->client->getResponse()->getContent());
 
-        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
-
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
         $this->assertResponseIsSuccessful();
+
+        $this->assertEquals(5, $unreadData->internal);
     }
 
-    private function logIn()
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
     {
-        $username = "tperson@iserviceauto.com";
-        $password = "test";
-
-        if ($username && $password) {
-            /** @var User $user */
-            $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $username]);
-
-            // User was found
-            if ($user) {
-                $isValid = $this->passwordEncoder->isPasswordValid($user, $password);
-
-                if ($isValid) {
-                    // Successful regular user login
-                    $tokenUsername = $user->getEmail();
-                    $ttl           = 28800; // Default 8 hours
-
-                    try {
-                        $this->token = $this->JWTEncoder->encode([
-                            'username' => $tokenUsername,
-                            'exp'      => time() + $ttl
-                        ]);
-                    } catch (JWTEncodeFailureException $e) {
-                        $this->token = null;
-                    }
-                }
-            }
-        }
+        parent::tearDown();
+        $this->client = null;
     }
 }
