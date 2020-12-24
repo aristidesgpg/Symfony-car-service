@@ -173,24 +173,24 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      * )
      *
      * @param RepairOrderMPI           $repairOrderMPI
-     * @param Request                  $request
-     * @param RepairOrderRepository    $repairOrderRepository
-     * @param OperationCodeRepository  $operationCodeRepository
      * @param EntityManagerInterface   $em
      *
      * @return Response
      */
     public function deleteRepairOrderMPI (
         RepairOrderMPI           $repairOrderMPI,
-        Request                  $request, 
         EntityManagerInterface   $em
     ) {
-        $repairOrder = $repairOrderMPI->getRepairOrder();
-        $repairOrder->setMpiStatus('Not Started');
-        $em->persist($repairOrder);
 
+        return $this->handleView($this->view($repairOrderMPI, Response::HTTP_OK));
+
+        // $repairOrder = $repairOrderMPI->getRepairOrder();
         $em->remove($repairOrderMPI);
         $em->flush();
+
+        // $repairOrder->setMpiStatus('Not Started');
+        // $em->persist($repairOrder);
+        // $em->flush();
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderMPI Deleted'
