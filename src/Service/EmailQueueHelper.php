@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
-
 class EmailQueueHelper {
     private const EMAIL_QUE_ENDPOINT = 'http://isre.us/api/add-to-email-que';
 
@@ -11,7 +9,7 @@ class EmailQueueHelper {
     private $accessToken;
 
     /**
-     * ShortcodeHelper constructor.
+     * EmailQueueHelper constructor.
      *
      * @param string $accessToken
      */
