@@ -251,6 +251,12 @@ class ServiceSMSController extends AbstractFOSRestController {
      *     description="Page of results",
      *     in="query"
      * )
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
      * 
      * @SWG\Response(
      *     response=200,
@@ -275,13 +281,17 @@ class ServiceSMSController extends AbstractFOSRestController {
         PaginatorInterface    $paginator,
         UrlGeneratorInterface $urlGenerator
     ) {
-        $page              = $request->query->getInt('page', 1);
-        $user              = $this->getUser();
-        
+        $page        = $request->query->getInt('page', 1);
+        $user        = $this->getUser();
+        $pageLimit   = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $threadQuery = $serviceSMSRepos->getThreads($user);
 
-        $pager      = $paginator->paginate($threadQuery, $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $pager       = $paginator->paginate($threadQuery, $page, $pageLimit);
+        $pagination  = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        // return $this->handleView($this->view([
+        //     "query" => $threadQuery->getSql()
+        // ]), Response::HTTP_OK);
 
         $json = [
             'threads'      => $pager->getItems(),
@@ -292,9 +302,6 @@ class ServiceSMSController extends AbstractFOSRestController {
             'next'         => $pagination->getNextPageURL('/api/service-sms/threads')
         ];
 
-        $view = $this->view($json);
-        // $view->getContext()->setGroups(Customer::GROUPS);
-
-        return $this->handleView($view);
+        return $this->handleView($this->view($json), Response::HTTP_OK);
     }
 }
