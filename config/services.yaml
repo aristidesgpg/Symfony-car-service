@@ -34,9 +34,6 @@ services:
   App\Service\ShortUrlHelper:
     arguments:
       - '%env(SHORT_URL_ACCESS_TOKEN)%'
-  App\Service\EmailQueueHelper:
-    arguments:
-      - '%env(SHORT_URL_ACCESS_TOKEN)%'
   App\Service\SpacesClient:
     arguments:
       - '%env(CUSTOMER_URL)%'
