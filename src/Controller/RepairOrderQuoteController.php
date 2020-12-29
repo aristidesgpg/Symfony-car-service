@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Entity\OperationCode;
 use App\Entity\RepairOrderQuote;
 use App\Repository\RepairOrderRepository;
+use App\Entity\RepairOrderQuoteRecommendation;
 use App\Repository\RepairOrderQuoteRepository;
+use App\Repository\OperationCodeRepository;
+use App\Repository\RepairOrderQuoteRecommendationRepository;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -84,16 +88,18 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Request                                  $request
-     * @param RepairOrderRepository                    $repairOrderRepository
-     * @param EntityManagerInterface                   $em
+     * @param Request                 $request
+     * @param RepairOrderRepository   $repairOrderRepository
+     * @param OperationCodeRepository $operationCodeRepository
+     * @param EntityManagerInterface  $em
      *
      * @return Response
      */
     public function createRepairOrderQuote (
-        Request                                  $request, 
-        RepairOrderRepository                    $repairOrderRepository,
-        EntityManagerInterface                   $em
+        Request                 $request, 
+        RepairOrderRepository   $repairOrderRepository,
+        OperationCodeRepository $operationCodeRepository,
+        EntityManagerInterface  $em
     ) {
         $repairOrderID         = $request->get('repairOrderID');
         $recommendations       = str_replace("'",'"', $request->get('recommendations'));
@@ -169,15 +175,24 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param RepairOrderQuote       $repairOrderQuote
-     * @param Request                $request
-     * @param RepairOrderRepository  $repairOrderRepository
-     * @param EntityManagerInterface $em
+     * @param RepairOrderQuote        $repairOrderQuote
+     * @param Request                 $request
+     * @param RepairOrderRepository   $repairOrderRepository
+     * @param OperationCodeRepository $operationCodeRepository
+     * @param EntityManagerInterface  $em
      *
      * @return Response
      */
-    public function updateRepairOrderQuote (RepairOrderQuote $repairOrderQuote, Request $request, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
+    public function updateRepairOrderQuote (
+            RepairOrderQuote        $repairOrderQuote, 
+            Request                 $request, 
+            RepairOrderRepository   $repairOrderRepository, 
+            OperationCodeRepository $operationCodeRepository,
+            EntityManagerInterface  $em
+        ) {
         $repairOrderID         = $request->get('repairOrderID');
+        $recommendations       = str_replace("'",'"', $request->get('recommendations'));
+        $obj                   = (array)json_decode($recommendations);
         //check if params are valid
         if(!$repairOrderID){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
