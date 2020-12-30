@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\CheckIn;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class CheckInHelper
@@ -51,14 +52,13 @@ class CheckInHelper {
      * @param array    $params
      */
     public function createCheckIn (array $params = []): void {
-        $valid = empty($this->validateParams($params));
+        $valid      = empty($this->validateParams($params));
+
         if ($valid !== true) {
             throw new \InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
 
-        $checkin = new CheckIn();
-
-        $checkin->setDate(new Date("Y-m-d H:i:s"));
+        $checkin    = new CheckIn();
 
         foreach ($params as $k => $v) {
             switch ($k) {
@@ -74,9 +74,8 @@ class CheckInHelper {
             }
         }
 
-        if ($checkin->getId() === null) {
-            $this->em->persist($checkin);
-        }
+        $this->em->persist($checkin);
+ 
         $this->em->beginTransaction();
         try {
             $this->em->flush();

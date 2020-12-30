@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CheckInController
@@ -146,29 +148,33 @@ class CheckInController extends AbstractFOSRestController {
      * )
      * 
      * @param Request               $request
-     * @param CheckInRepository     $checkInRepository
-     * @param PaginatorInterface    $paginator
-     * @param UrlGeneratorInterface $urlGenerator
-     *
+     * @param CheckInHelper         $helper
+     * @param EntityManagerInterface $em
+     * 
      * @return Response
      */
 
-    public function createCheckIn (Request $request, CheckInHelper $helper) {
+    public function createCheckIn (Request $request, CheckInHelper $helper, EntityManagerInterface $em) {
         $file           = $request->files->get('video');
         $identification = $request->get('identification');
+
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
         } elseif ($file->getError() !== UPLOAD_ERR_OK) {
             return new ValidationResponse(['video' => $file->getErrorMessage()]);
         }
+
         $user  = $this->getUser();
         
         $video = $helper->createVideo($file);
 
-        $ch    = $helper->createCheckIn(['identification' => $identification, 'video' => $video, 'user_id' => $user->getId() ]);
-        
-        // $view = $this->view($ch);
-        // $view->getContext()->setGroups(CheckIn::GROUPS);
+        $coupon = new CheckIn();
+        $coupon->setIdentification($identification);
+        $coupon->setVideo($video);
+        $coupon->setDate(new \DateTime());
+
+        $em->persist($coupon);
+        $em->flush();
 
         return $this->handleView($this->view('Checkin Created', Response::HTTP_OK));
     }
