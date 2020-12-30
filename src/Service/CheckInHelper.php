@@ -55,16 +55,21 @@ class CheckInHelper {
         if ($valid !== true) {
             throw new \InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
+
+        $checkin = new CheckIn();
+
+        $checkin->setDate(new Date("Y-m-d H:i:s"));
+
         foreach ($params as $k => $v) {
             switch ($k) {
                 case 'identification':
-                    $customer->setIdentification($v);
+                    $checkin->setIdentification($v);
                     break;
                 case 'video':
-                    $customer->setVideo($v);
+                    $checkin->setVideo($v);
                     break;
                 case 'user_id':
-                    $customer->setUserId($v);
+                    $checkin->setUserId($v);
                     break;
             }
         }

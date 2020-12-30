@@ -22,14 +22,16 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  * Class CheckInController
  *
  * @package App\Controller
- * @Rest\Route("/api/checkin")
- * @SWG\Tag(name="CheckIn")
+ * 
  */
 class CheckInController extends AbstractFOSRestController {
     private const PAGE_LIMIT = 100;
 
     /**
-     * @Rest\Get(name="getCheckIns")
+     * @Rest\Get("/api/check-in")
+     *
+     * @SWG\Tag(name="CheckIns")
+     * @SWG\Get(description="Get checkins")
      * @SWG\Parameter(
      *     name="startDate",
      *     type="string",
@@ -77,20 +79,20 @@ class CheckInController extends AbstractFOSRestController {
                             PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
         $page          = $request->query->getInt('page', 1);
         $urlParameters = [];
-        $startDate       = $request->query->get('startDate');
-        $endDate         = $request->query->get('endDate');
+        $startDate     = $request->query->get('startDate');
+        $endDate       = $request->query->get('endDate');
 
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $checkInQuery = $checkInRepository->getAllItems(startDate, endDate);
+        $checkInQuery  = $checkInRepository->getAllItems(startDate, endDate);
 
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $pager      = $paginator->paginate($checkInQuery, $page, $pageLimit);
-        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager         = $paginator->paginate($checkInQuery, $page, $pageLimit);
+        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
             'checkIns'     => $pager->getItems(),
@@ -101,46 +103,74 @@ class CheckInController extends AbstractFOSRestController {
             'next'         => $pagination->getNextPageURL('getCheckIns', $urlParameters)
         ];
 
-        $view = $this->view($json);
+        $view         = $this->view($json);
         $view->getContext()->setGroups(CheckIn::GROUPS);
 
         return $this->handleView($view);
     }
 
     /**
-     * @Rest\Post
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(ref=@Model(type=CheckIn::class)
-     * )
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
-     * @SWG\Parameter(name="video", type="file", in="formData", required=true)
-     * @SWG\Parameter(name="identification", type="string", in="formData", required=true)
+     * @Rest\Post("/api/check-in")
      *
-     * @param Request     $request
-     * @param CheckInHelper $helper
+     * @SWG\Tag(name="CheckIn")
+     * @SWG\Post(description="Create a chekin")
+     * 
+     * @SWG\Parameter(
+     *     name="identification",
+     *     type="string",
+     *     description="Identification of customer",
+     *     in="formData",
+     *     required=true
+     * )
+     * 
+     * @SWG\Parameter(
+     *     name="video", 
+     *     type="file", 
+     *     in="formData", 
+     *     required=true
+     * )
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully created" }),
+     *         )
+     * )
+     * 
+     * @SWG\Response(
+     *     response="404",
+     *     description="Invalid page parameter"
+     * )
+     * 
+     * @param Request               $request
+     * @param CheckInRepository     $checkInRepository
+     * @param PaginatorInterface    $paginator
+     * @param UrlGeneratorInterface $urlGenerator
      *
      * @return Response
      */
-    public function create (Request $request, CheckInHelper $helper): Response {
-        $file = $request->files->get('video');
+
+    public function createCheckIn (Request $request, CheckInHelper $helper) {
+        $file           = $request->files->get('video');
         $identification = $request->get('identification');
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
         } elseif ($file->getError() !== UPLOAD_ERR_OK) {
             return new ValidationResponse(['video' => $file->getErrorMessage()]);
         }
-        $user = $this->getUser();
+        $user  = $this->getUser();
         
         $video = $helper->createVideo($file);
 
-        $ch = $helper->createCheckIn(['identification' => $identification, 'video' => $video, 'user_id' => $user->getId() ]);
+        $ch    = $helper->createCheckIn(['identification' => $identification, 'video' => $video, 'user_id' => $user->getId() ]);
         
-        $view = $this->view($ch);
-        $view->getContext()->setGroups(CheckIn::GROUPS);
+        // $view = $this->view($ch);
+        // $view->getContext()->setGroups(CheckIn::GROUPS);
 
-        return $this->handleView($view);
+        return $this->handleView($this->view('Checkin Created', Response::HTTP_OK));
     }
 
 }
