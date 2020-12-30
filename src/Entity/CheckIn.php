@@ -4,16 +4,19 @@ namespace App\Entity;
 
 use App\Repository\CheckInRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=CheckInRepository::class)
  */
 class CheckIn
 {
+    public const GROUPS = ['check_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"check_list"})
      */
     private $id;
 
@@ -25,21 +28,25 @@ class CheckIn
     /**
      * @ORM\OneToMany(targetEntity="User", mappedBy="id")
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"check_list"})
      */
     private $identification;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"check_list"})
      */
     private $video;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"check_list"})
      */
     private $date;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups(groups={"check_list"})
      */
     private $deleted = false;
 

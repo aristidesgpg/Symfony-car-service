@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Repository\CheckInRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
+use App\Service\CheckInHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
@@ -101,7 +102,7 @@ class CheckInController extends AbstractFOSRestController {
         ];
 
         $view = $this->view($json);
-        // $view->getContext()->setGroups(CheckIn::GROUPS);
+        $view->getContext()->setGroups(CheckIn::GROUPS);
 
         return $this->handleView($view);
     }
@@ -118,12 +119,11 @@ class CheckInController extends AbstractFOSRestController {
      * @SWG\Parameter(name="identification", type="string", in="formData", required=true)
      *
      * @param Request     $request
-     * @param CheckIn $ro
-     * @param VideoHelper $helper
+     * @param CheckInHelper $helper
      *
      * @return Response
      */
-    public function uploadVideo (Request $request, CheckIn $ch, VideoHelper $helper): Response {
+    public function create (Request $request, CheckInHelper $helper): Response {
         $file = $request->files->get('video');
         $identification = $request->get('identification');
         if (!$file instanceof UploadedFile) {
@@ -133,10 +133,12 @@ class CheckInController extends AbstractFOSRestController {
         }
         $user = $this->getUser();
         
-        $video = $helper->createVideo($ro, $file, $user);
+        $video = $helper->createVideo($file);
 
-        $view = $this->view($video);
-        $view->getContext()->setGroups(RepairOrderVideo::GROUPS);
+        $ch = $helper->createCheckIn(['identification' => $identification, 'video' => $video, 'user_id' => $user->getId() ]);
+        
+        $view = $this->view($ch);
+        $view->getContext()->setGroups(CheckIn::GROUPS);
 
         return $this->handleView($view);
     }
