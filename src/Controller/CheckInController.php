@@ -89,7 +89,7 @@ class CheckInController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
-        $checkInQuery  = $checkInRepository->getAllItems(startDate, endDate);
+        $checkInQuery  = $checkInRepository->getAllItems($startDate, $endDate);
 
         $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
@@ -168,12 +168,12 @@ class CheckInController extends AbstractFOSRestController {
         
         $video = $helper->createVideo($file);
 
-        $coupon = new CheckIn();
-        $coupon->setIdentification($identification);
-        $coupon->setVideo($video);
-        $coupon->setDate(new \DateTime());
-
-        $em->persist($coupon);
+        $checkin = new CheckIn();
+        $checkin->setIdentification($identification);
+        $checkin->setVideo($video);
+        $checkin->setDate(new \DateTime());
+        $checkin->setUser($user);
+        $em->persist($checkin);
         $em->flush();
 
         return $this->handleView($this->view('Checkin Created', Response::HTTP_OK));

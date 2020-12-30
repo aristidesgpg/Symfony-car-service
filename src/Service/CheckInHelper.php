@@ -19,13 +19,17 @@ class CheckInHelper {
     /** @var EntityManagerInterface */
     private $em;
 
+    /** @var UploadHelper */
+    private $upload;
+
    /**
      * CheckInHelper constructor.
      *
      * @param EntityManagerInterface $em
      */
-    public function __construct (EntityManagerInterface $em) {
+    public function __construct (EntityManagerInterface $em, UploadHelper $upload) {
         $this->em             = $em;
+        $this->upload         = $upload;
     }
 
     /**
@@ -93,11 +97,10 @@ class CheckInHelper {
      * @return String
      */
     public function createVideo (UploadedFile $file) {
-        return 'Sample url';
         if (!$this->upload->isValidVideo($file)) {
             throw new \InvalidArgumentException('Invalid file format');
         }
-        $url = $this->upload->uploadVideo($file, 'ro-videos');
+        $url = $this->upload->uploadVideo($file, 'checkin');
         
         return $url;
     }

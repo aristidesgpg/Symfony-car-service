@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class CheckIn
 {
-    public const GROUPS = ['check_list'];
+    public const GROUPS = ['check_list', 'user_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -21,12 +21,12 @@ class CheckIn
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\ManyToOne(targetEntity=User::class)
+     * @Serializer\Groups(groups={"check_list"})
      */
-    private $user_id;
+    private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity="User", mappedBy="id")
      * @ORM\Column(type="string", length=255)
      * @Serializer\Groups(groups={"check_list"})
      */
@@ -55,14 +55,14 @@ class CheckIn
         return $this->id;
     }
 
-    public function getUserId(): ?int
+    public function getUser(): ?User
     {
-        return $this->user_id;
+        return $this->user;
     }
 
-    public function setUserId(?int $user_id): self
+    public function setUser(?User $user): self
     {
-        $this->user_id = $user_id;
+        $this->user = $user;
 
         return $this;
     }

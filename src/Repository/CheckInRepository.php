@@ -53,20 +53,33 @@ class CheckInRepository extends ServiceEntityRepository
      * 
      * @return CheckIn[] REturns array of CheckIn ojbects
      */
-    public function getAllItems($start, $end){
+    public function getAllItems($start=null, $end=null){
         if($end === null)
         {
-            $end = new DateTime("Y-m-d H:i");
+            $end   = new \DateTime();
+        } else{
+            $end   = new \DateTime($end);
         }
+
+        if($start)
+            $start = new \DateTime($start);
+
         try {
-            return $this->createQueryBuilder('ch')
-                        ->where('ch.date BETWEEN :start AND :end')
-                        ->setParameter('start', $start->format('Y-m-d H:i'))
-                        ->setParameter('end', $end->format('Y-m-d H:i'))
-                        ->leftJoin('ch.user_id', 'user')
-                        ->orderBy('ch.date', 'DESC')
-                        ->getQuery()
-                        ->getResult();
+            $db = $this->createQueryBuilder('ch');
+            
+            if($start && $end){
+                $db->andWhere('ch.date BETWEEN :start AND :end')
+                   ->setParameter('start', $start->format('Y-m-d H:i'))
+                   ->setParameter('end', $end->format('Y-m-d H:i'));
+            } else{
+                $db->andWhere('ch.date < :end')
+                   ->setParameter('end', $end->format('Y-m-d H:i'));
+            }
+
+            return $db->orderBy('ch.date', 'DESC')
+                      ->getQuery()
+                      ->getResult();
+
         } catch (NonUniqueResultException $e) {
             return null;
         }
