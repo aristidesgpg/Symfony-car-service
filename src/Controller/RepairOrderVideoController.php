@@ -49,11 +49,12 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        $videos = $ro->getVideos();
-        foreach ($videos as $key => $video) {
+        $videos = [];
+        foreach ($ro->getVideos() as $video) {
             if ($video->isDeleted()) {
-                unset($videos[$key]);
+                continue;
             }
+            $videos[] = $video;
         }
         $view = $this->view($videos);
         $view->getContext()->setGroups(RepairOrderVideo::GROUPS);
