@@ -138,7 +138,7 @@ class MPIController extends AbstractFOSRestController {
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="Axle Information - [{'wheeles':2,'brakesRangeMaximum':10,'tireRangeMaximum':6},{'wheeles':4,'brakesRangeMaximum':12,'tireRangeMaximum':12},{'wheeles':2,'brakesRangeMaximum':10,'tireRangeMaximum':6}]",
+     *     description="Axle Information - [{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6},{'wheels':4,'brakesRangeMaximum':12,'tireRangeMaximum':12},{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6}]",
      * )
      *
      * @SWG\Response(
@@ -205,7 +205,7 @@ class MPIController extends AbstractFOSRestController {
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
                 //craete tire items
-                if ($axle->wheeles == 2) {
+                if ($axle->wheels == 2) {
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
                 }
             } else if ($numberOfAxles > 2) {
@@ -215,9 +215,9 @@ class MPIController extends AbstractFOSRestController {
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
                 //create tire items
-                if ($axle->wheeles == 2) {
+                if ($axle->wheels == 2) {
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
-                } else if ($axle->wheeles == 4) {
+                } else if ($axle->wheels == 4) {
                     $itemPassengerInner = "Axle" . ($index + 1) . " - Passenger Inner";
                     $itemPassengerOuter = "Axle" . ($index + 1) . " - Passenger Outer";
                     $itemDriverInner    = "Axle" . ($index + 1) . " - Driver Inner";
