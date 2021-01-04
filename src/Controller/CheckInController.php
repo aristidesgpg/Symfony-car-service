@@ -80,9 +80,9 @@ class CheckInController extends AbstractFOSRestController {
     public function getAll (Request $request, CheckInRepository $checkInRepository,
                             PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
         $page          = $request->query->getInt('page', 1);
-        $urlParameters = [];
         $startDate     = $request->query->get('startDate');
         $endDate       = $request->query->get('endDate');
+        $urlParameters = [];
 
         // Invalid page
         if ($page < 1) {
@@ -147,8 +147,8 @@ class CheckInController extends AbstractFOSRestController {
      *     description="Invalid page parameter"
      * )
      * 
-     * @param Request               $request
-     * @param CheckInHelper         $helper
+     * @param Request                $request
+     * @param CheckInHelper          $helper
      * @param EntityManagerInterface $em
      * 
      * @return Response
