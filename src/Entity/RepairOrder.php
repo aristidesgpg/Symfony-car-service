@@ -183,12 +183,6 @@ class RepairOrder {
     private $upgradeQue = false;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Serializer\Groups(groups={"ro_list"})
-     */
-    private $note;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $deleted = false;
@@ -203,6 +197,12 @@ class RepairOrder {
      * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderVideo", mappedBy="repairOrder")
      */
     private $videos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderNote", mappedBy="repairOrder")
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $notes;
 
     /**
      * RepairOrder constructor.
@@ -778,6 +778,19 @@ class RepairOrder {
 
     public function addVideo(RepairOrderVideo $video): self {
         $this->videos->add($video);
+
+        return $this;
+    }
+
+    /**
+     * @return RepairOrderNote[]
+     */
+    public function getNotes(): array {
+        return $this->notes->toArray();
+    }
+
+    public function addNote(RepairOrderNote $note): self {
+        $this->notes->add($note);
 
         return $this;
     }
