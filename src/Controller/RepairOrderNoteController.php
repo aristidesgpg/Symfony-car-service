@@ -72,4 +72,10 @@ class RepairOrderNoteController extends AbstractFOSRestController
      *
      * @return Response
      */
+    public function deleteNote(RepairOrderNote $roNote, RONoteHelper $helper) {
+        $helper->deleteRepairOrderNote($roNote);
+        return $this->handleView($this->view([
+            'message' => 'Repair Order Note deleted',
+        ], Response::HTTP_OK));
+    }
 }

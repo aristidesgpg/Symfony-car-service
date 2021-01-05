@@ -716,24 +716,6 @@ class RepairOrder {
     }
 
     /**
-     * @return string|null
-     */
-    public function getNote (): ?string {
-        return $this->note;
-    }
-
-    /**
-     * @param string|null $note
-     *
-     * @return $this
-     */
-    public function setNote (?string $note): self {
-        $this->note = $note;
-
-        return $this;
-    }
-
-    /**
      * @return bool|null
      */
     public function getDeleted (): ?bool {
