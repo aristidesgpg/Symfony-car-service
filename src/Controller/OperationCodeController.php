@@ -257,11 +257,11 @@ class OperationCodeController extends AbstractFOSRestController {
         $operationCode->setCode($code)
                       ->setDescription($description)
                       ->setLaborHours($laborHours)
-                      ->setLaborTaxable($laborTaxable)
+                      ->setLaborTaxable(filter_var($laborTaxable, FILTER_VALIDATE_BOOLEAN))
                       ->setPartsPrice($partsPrice)
-                      ->setPartsTaxable($partsTaxable)
+                      ->setPartsTaxable(filter_var($partsTaxable, FILTER_VALIDATE_BOOLEAN))
                       ->setSuppliesPrice($suppliesPrice)
-                      ->setSuppliesTaxable($suppliesTaxable);
+                      ->setSuppliesTaxable(filter_var($suppliesTaxable, FILTER_VALIDATE_BOOLEAN));
 
         $em->persist($operationCode);
         $em->flush();
