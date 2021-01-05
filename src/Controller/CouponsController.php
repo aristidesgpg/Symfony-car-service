@@ -108,10 +108,11 @@ class CouponsController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/coupons/{id}")
+     * @Rest\Post("/api/coupons/{id}")
      *
      * @SWG\Tag(name="Coupons")
-     * @SWG\Put(description="Update a coupon")
+     * @SWG\Post(description="Update a coupon")
+     * 
      * @SWG\Parameter(
      *     name="title",
      *     in="formData",
@@ -146,6 +147,7 @@ class CouponsController extends AbstractFOSRestController {
      */
     public function edit (Coupon $coupon, Request $request, EntityManagerInterface $em,
                           ImageUploader $imageUploader) {
+                        
         $title = $request->get('title');
         $image = $request->files->get('image');
 
