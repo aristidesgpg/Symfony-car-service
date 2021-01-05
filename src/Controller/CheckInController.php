@@ -131,13 +131,9 @@ class CheckInController extends AbstractFOSRestController {
      * )
      *
      * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(type="object", ref=@Model(type=CheckIn::class, groups=CheckIn::GROUPS))
      * )
      *
      * @SWG\Response(
@@ -170,10 +166,14 @@ class CheckInController extends AbstractFOSRestController {
         $checkin->setVideo($video);
         $checkin->setDate(new \DateTime());
         $checkin->setUser($user);
+        
         $em->persist($checkin);
         $em->flush();
 
-        return $this->handleView($this->view('Checkin Created', Response::HTTP_OK));
+        $view = $this->view($checkin);
+        $view->getContext()->setGroups(CheckIn::GROUPS);
+
+        return $this->handleView($view);
     }
 
 }
