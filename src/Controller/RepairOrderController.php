@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
+use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
@@ -55,6 +57,12 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
      *     name="open",
      *     type="boolean",
      *     description="0=Closed, 1=Open, Omit for all",
@@ -79,6 +87,12 @@ class RepairOrderController extends AbstractFOSRestController {
      *     in="query"
      * )
      * @SWG\Parameter(
+     *     name="needsVideo",
+     *     type="boolean",
+     *     description="Only return ROs that do not have a video",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
      *     name="startDate",
      *     type="string",
      *     format="date-time",
@@ -98,11 +112,12 @@ class RepairOrderController extends AbstractFOSRestController {
      * @param PaginatorInterface    $paginator
      *
      * @param UrlGeneratorInterface $urlGenerator
+     * @param UserRepository        $userRepo
      *
      * @return Response
      */
     public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator,
-                            UrlGeneratorInterface $urlGenerator): Response {
+                            UrlGeneratorInterface $urlGenerator, UserRepository $userRepo): Response {
         $page            = $request->query->getInt('page', 1);
         $startDate       = $request->query->get('startDate');
         $endDate         = $request->query->get('endDate');
@@ -144,6 +159,11 @@ class RepairOrderController extends AbstractFOSRestController {
             $queryParameters['internal'] = $this->paramToBool($request->query->get('internal'));
         }
 
+        if ($request->query->has('needsVideo') && $this->paramToBool($request->query->get('needsVideo'))) {
+            $qb->andWhere('ro.videoStatus = :videoStatus');
+            $queryParameters['videoStatus'] = 'Not Started';
+        }
+
         if ($startDate && $endDate) {
             try {
                 $startDate = new DateTime($startDate);
@@ -161,12 +181,29 @@ class RepairOrderController extends AbstractFOSRestController {
             return new ValidationResponse($errors);
         }
 
+        $user = $this->getUser();
+        if ($user instanceof User) {
+            if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
+                if ($user->getShareRepairOrders() === true) {
+                    $qb->andWhere('ro.primaryAdvisor IN (:users)');
+                    $queryParameters['users'] = $userRepo->getSharedUsers();
+                } else {
+                    $qb->andWhere('ro.primaryAdvisor = :user');
+                    $queryParameters['user'] = $user;
+                }
+            } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
+                $qb->andWhere('ro.primaryTechnician = :user');
+                $queryParameters['user'] = $user;
+            }
+        }
+
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
-        $pager         = $paginator->paginate($q, $page, self::PAGE_LIMIT);
-        $pagination    = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $pager         = $paginator->paginate($q, $page, $pageLimit);
+        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'repairOrders' => $pager->getItems(),
@@ -259,6 +296,16 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
      * @SWG\Parameter(name="internal", type="boolean", in="formData")
      * @SWG\Parameter(name="note", type="string", in="formData")
+     * @SWG\Parameter(name="finalValue", type="number", in="formData")
+     * @SWG\Parameter(name="approvedValue", type="number", in="formData")
+     * @SWG\Parameter(name="pickupDate", type="string", format="date-time", in="formData")
+     * @SWG\Parameter(name="year", type="string", in="formData")
+     * @SWG\Parameter(name="make", type="string", in="formData")
+     * @SWG\Parameter(name="model", type="string", in="formData")
+     * @SWG\Parameter(name="miles", type="integer", in="formData")
+     * @SWG\Parameter(name="vin", type="string", in="formData")
+     * @SWG\Parameter(name="dmsKey", type="string", in="formData")
+     * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
      *
      * @param Request           $req
      * @param RepairOrderHelper $helper

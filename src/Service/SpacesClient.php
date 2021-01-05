@@ -30,7 +30,7 @@ class SpacesClient {
                 'secret' => self::SECRET,
             ]
         ]);
-        $this->clientSubdomain = preg_replace('~https?://(.+).iserviceauto.com/~', '$1', $customerURL);
+        $this->clientSubdomain = preg_replace('~(https?://)?(.+)\.iserviceauto.com~', '$2', $customerURL);
     }
 
     /**

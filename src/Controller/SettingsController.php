@@ -227,7 +227,10 @@ class SettingsController extends AbstractFOSRestController {
 
             $file = $req->files->get($key);
             if (!$file instanceof UploadedFile) {
-                $errors[$key] = 'Could not find file';
+                $errors[$key] = 'File upload failed';
+                continue;
+            } elseif ($file->getError() !== UPLOAD_ERR_OK) {
+                $errors[$key] = $file->getErrorMessage();
                 continue;
             }
 

@@ -26,7 +26,7 @@ class RepairOrderMPI
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderMPI", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderMPI")
      * @Serializer\Groups(groups={"rom_list","ro_list"})
      */
     private $repairOrder;
@@ -50,7 +50,7 @@ class RepairOrderMPI
     private $results;
 
     /**
-     * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="repairOrderMPI")
+     * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="repairOrderMPI", cascade={"persist", "remove"})
      */
     private $repairOrderMPIInteractions;
 

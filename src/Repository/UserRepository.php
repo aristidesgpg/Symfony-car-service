@@ -52,6 +52,16 @@ class UserRepository extends ServiceEntityRepository {
                     ->getResult();
     }
 
+    /**
+     * @return User[]
+     */
+    public function getSharedUsers (): array {
+        return $this->createQueryBuilder('u')
+                    ->where('u.shareRepairOrders = 1')
+                    ->getQuery()
+                    ->getResult();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

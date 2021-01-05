@@ -8,6 +8,7 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class UploadHelper
+ *
  * @package App\Service
  */
 class UploadHelper {
@@ -18,6 +19,7 @@ class UploadHelper {
 
     /**
      * UploadHelper constructor.
+     *
      * @param SpacesClient $spaces
      */
     public function __construct (SpacesClient $spaces) {
@@ -53,8 +55,8 @@ class UploadHelper {
             throw new \InvalidArgumentException(sprintf('Use %s::uploadVideo for video uploads', __CLASS__));
         }
         $fileName = md5(uniqid()) . '.' . $this->getExtension($file);
-        $file = $file->move($file->getPath(), $fileName);
-        $url = $this->spaces->upload($file, $directory);
+        $file     = $file->move($file->getPath(), $fileName);
+        $url      = $this->spaces->upload($file, $directory);
         unlink($file->getPathname());
 
         return $url;
@@ -68,7 +70,8 @@ class UploadHelper {
      */
     public function uploadVideo (UploadedFile $file, ?string $directory = null): string {
         $compressed = $this->compressVideo($file);
-        $url = $this->spaces->upload($compressed, $directory);
+        $url        = $this->spaces->upload($compressed, $directory);
+
         unlink($file->getPathname());
         unlink($compressed->getPathname());
 
@@ -96,7 +99,7 @@ class UploadHelper {
             '-2',
             $newPath,
         ]);
-        $exit = $process->run();
+        $exit    = $process->run();
         if ($exit !== 0 || !file_exists($newPath)) {
             throw new \RuntimeException('Could not compress video');
         }

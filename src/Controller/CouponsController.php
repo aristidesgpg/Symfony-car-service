@@ -120,13 +120,6 @@ class CouponsController extends AbstractFOSRestController {
      *     description="The title of coupon",
      * )
      *
-     * @SWG\Parameter(
-     *     name="image",
-     *     in="formData",
-     *     type="file",
-     *     description="The image of coupon",
-     * )
-     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -147,31 +140,14 @@ class CouponsController extends AbstractFOSRestController {
     public function edit (Coupon $coupon, Request $request, EntityManagerInterface $em,
                           ImageUploader $imageUploader) {
         $title = $request->get('title');
-        $image = $request->files->get('image');
 
         // Validation
         if (!$title) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        // Only if image is passed do we update it
-        if ($image) {
-            if (!$image instanceof UploadedFile) {
-                return $this->handleView($this->view('Invalid Image Passed', Response::HTTP_BAD_REQUEST));
-            }
-        }
-
         $coupon->setTitle($title);
-
-        if ($image) {
-            $path = $imageUploader->uploadImage($image, 'coupons');
-            if (!$path) {
-                return $this->handleView($this->view('Something Went Wrong Trying to Upload the Image', Response::HTTP_INTERNAL_SERVER_ERROR));
-            }
-
-            $coupon->setImage($path);
-        }
-
+        
         $em->persist($coupon);
         $em->flush();
 
