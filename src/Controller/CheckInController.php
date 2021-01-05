@@ -32,7 +32,7 @@ class CheckInController extends AbstractFOSRestController {
     /**
      * @Rest\Get("/api/check-in")
      *
-     * @SWG\Tag(name="CheckIns")
+     * @SWG\Tag(name="CHECKin")
      * @SWG\Get(description="Get checkins")
      * @SWG\Parameter(
      *     name="startDate",
@@ -114,7 +114,7 @@ class CheckInController extends AbstractFOSRestController {
     /**
      * @Rest\Post("/api/check-in")
      *
-     * @SWG\Tag(name="CheckIn")
+     * @SWG\Tag(name="CHECKin")
      * @SWG\Post(description="Create a chekin")
      * 
      * @SWG\Parameter(
