@@ -24,7 +24,7 @@ use Doctrine\ORM\EntityManagerInterface;
  * Class CheckInController
  *
  * @package App\Controller
- * 
+ *
  */
 class CheckInController extends AbstractFOSRestController {
     private const PAGE_LIMIT = 100;
@@ -77,8 +77,8 @@ class CheckInController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getAll (Request $request, CheckInRepository $checkInRepository,
-                            PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
+    public function list (Request $request, CheckInRepository $checkInRepository,
+                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
         $page          = $request->query->getInt('page', 1);
         $startDate     = $request->query->get('startDate');
         $endDate       = $request->query->get('endDate');
@@ -89,12 +89,10 @@ class CheckInController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
-        $checkInQuery  = $checkInRepository->getAllItems($startDate, $endDate);
-
-        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-
-        $pager         = $paginator->paginate($checkInQuery, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+        $checkInQuery = $checkInRepository->getAllItems($startDate, $endDate);
+        $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pager        = $paginator->paginate($checkInQuery, $page, $pageLimit);
+        $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
             'checkIns'     => $pager->getItems(),
@@ -105,7 +103,8 @@ class CheckInController extends AbstractFOSRestController {
             'next'         => $pagination->getNextPageURL('getCheckIns', $urlParameters)
         ];
 
-        $view         = $this->view($json);
+        $view = $this->view($json);
+
         $view->getContext()->setGroups(CheckIn::GROUPS);
 
         return $this->handleView($view);
@@ -116,22 +115,21 @@ class CheckInController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="CHECKin")
      * @SWG\Post(description="Create a chekin")
-     * 
+     *
      * @SWG\Parameter(
      *     name="identification",
      *     type="string",
-     *     description="Identification of customer",
+     *     description="Identification of the vehicle",
      *     in="formData",
      *     required=true
      * )
-     * 
      * @SWG\Parameter(
-     *     name="video", 
-     *     type="file", 
-     *     in="formData", 
+     *     name="video",
+     *     type="file",
+     *     in="formData",
      *     required=true
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -141,34 +139,33 @@ class CheckInController extends AbstractFOSRestController {
      *                                              "Successfully created" }),
      *         )
      * )
-     * 
+     *
      * @SWG\Response(
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     * 
+     *
      * @param Request                $request
      * @param CheckInHelper          $helper
      * @param EntityManagerInterface $em
-     * 
+     *
      * @return Response
      */
 
-    public function createCheckIn (Request $request, CheckInHelper $helper, EntityManagerInterface $em) {
+    public function new (Request $request, CheckInHelper $helper, EntityManagerInterface $em) {
         $file           = $request->files->get('video');
         $identification = $request->get('identification');
 
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
-        } elseif ($file->getError() !== UPLOAD_ERR_OK) {
+        } else if ($file->getError() !== UPLOAD_ERR_OK) {
             return new ValidationResponse(['video' => $file->getErrorMessage()]);
         }
 
-        $user  = $this->getUser();
-        
-        $video = $helper->createVideo($file);
-
+        $user    = $this->getUser();
+        $video   = $helper->createVideo($file);
         $checkin = new CheckIn();
+
         $checkin->setIdentification($identification);
         $checkin->setVideo($video);
         $checkin->setDate(new \DateTime());

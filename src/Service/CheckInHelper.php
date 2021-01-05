@@ -5,6 +5,9 @@ namespace App\Service;
 use App\Entity\CheckIn;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -22,14 +25,15 @@ class CheckInHelper {
     /** @var UploadHelper */
     private $upload;
 
-   /**
+    /**
      * CheckInHelper constructor.
      *
      * @param EntityManagerInterface $em
+     * @param UploadHelper           $upload
      */
     public function __construct (EntityManagerInterface $em, UploadHelper $upload) {
-        $this->em             = $em;
-        $this->upload         = $upload;
+        $this->em     = $em;
+        $this->upload = $upload;
     }
 
     /**
@@ -52,17 +56,16 @@ class CheckInHelper {
     }
 
     /**
-     * @param CheckIn $checkin
-     * @param array    $params
+     * @param array $params
      */
     public function createCheckIn (array $params = []): void {
-        $valid      = empty($this->validateParams($params));
+        $valid = empty($this->validateParams($params));
 
         if ($valid !== true) {
-            throw new \InvalidArgumentException('Params did not validate. Call validateParams first.');
+            throw new InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
 
-        $checkin    = new CheckIn();
+        $checkin = new CheckIn();
 
         foreach ($params as $k => $v) {
             switch ($k) {
@@ -73,36 +76,35 @@ class CheckInHelper {
                     $checkin->setVideo($v);
                     break;
                 case 'user_id':
-                    $checkin->setUserId($v);
+                    $checkin->setUser($v);
                     break;
             }
         }
 
         $this->em->persist($checkin);
- 
+
         $this->em->beginTransaction();
         try {
             $this->em->flush();
             $this->em->commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->em->rollback();
-            throw new \RuntimeException('Caught exception during flush', 0, $e);
+            throw new RuntimeException('Caught exception during flush', 0, $e);
         }
     }
 
-   /**
+    /**
      * @param UploadedFile $file
      * @param User ID|string    $current user
      *
      * @return String
      */
-    public function createVideo (UploadedFile $file) {
+    public function createVideo (UploadedFile $file): string {
         if (!$this->upload->isValidVideo($file)) {
-            throw new \InvalidArgumentException('Invalid file format');
+            throw new InvalidArgumentException('Invalid file format');
         }
-        $url = $this->upload->uploadVideo($file, 'checkin');
-        
-        return $url;
+
+        return $this->upload->uploadVideo($file, 'checkin');
     }
 
 }
