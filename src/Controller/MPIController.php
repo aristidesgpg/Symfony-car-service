@@ -281,7 +281,7 @@ class MPIController extends AbstractFOSRestController {
 
         $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
 
-        $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate);
+        $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate, false);
 
         $view = $this->view($result);
         $view->getContext()->setGroups(MPITemplate::GROUPS);
