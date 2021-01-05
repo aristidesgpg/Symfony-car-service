@@ -103,7 +103,7 @@ class VideoHelper {
         try {
             $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
         } catch (\Exception $e) {
-            // Do nothing
+            return;
         }
 
         $interaction = new RepairOrderVideoInteraction();
