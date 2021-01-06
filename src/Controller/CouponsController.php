@@ -69,6 +69,9 @@ class CouponsController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=Coupon::class, groups={"coupon_list"})),
+     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
+     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
+     *         @SWG\Property(property="total", type="integer", description="Total number of items for query"),
      *         description="id, title, image"
      *     )
      * )
@@ -95,7 +98,7 @@ class CouponsController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
-        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+        $columns                        = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
@@ -103,9 +106,9 @@ class CouponsController extends AbstractFOSRestController {
             
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
-                $errors['sortField'] = 'Invalid sort field name';
+                $errors['sortField']   = 'Invalid sort field name';
             
-            $sortDirection = $request->query->get('sortDirection');
+            $sortDirection             = $request->query->get('sortDirection');
         }
 
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
@@ -123,15 +126,15 @@ class CouponsController extends AbstractFOSRestController {
             return new ValidationResponse($errors);
         }
 
-        $qb = $repairOrderRepo->createQueryBuilder('co');
+        $qb = $couponRepository->createQueryBuilder('co');
         $qb->andWhere('co.deleted = 0');
 
         if($searchTerm)
         {
             $qb->andWhere('co.'.$searchField.' LIKE :searchTerm');
-            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            $queryParameters['searchTerm']  = '%'.$searchTerm.'%';
             
-            $urlParameters['searchField']  = $searchField;
+            $urlParameters['searchField']   = $searchField;
         }
        
         if($sortDirection)
@@ -145,25 +148,25 @@ class CouponsController extends AbstractFOSRestController {
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
 
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
         if($searchTerm){
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
-        $pager         = $paginator->paginate($q, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager          = $paginator->paginate($q, $page, $pageLimit);
+        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
-            'repairOrders' => $pager->getItems(),
+            'coupons'      => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+            'previous'     => $pagination->getPreviousPageURL('getCoupons', $urlParameters),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters)
+            'next'         => $pagination->getNextPageURL('getCoupons', $urlParameters)
         ]);
-        $view->getContext()->setGroups(RepairOrder::GROUPS);
+        $view->getContext()->setGroups(Coupon::GROUPS);
 
         return $this->handleView($view);
     }

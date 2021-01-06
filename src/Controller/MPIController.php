@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\MPITemplate;
 use App\Entity\MPIGroup;
 use App\Entity\MPIItem;
+use App\Service\Pagination;
 use App\Repository\MPITemplateRepository;
 use App\Repository\MPIGroupRepository;
 use App\Repository\MPIItemRepository;
@@ -17,7 +18,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Service\MPITemplateHelper;
-
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Class MPIController
@@ -41,36 +43,148 @@ class MPIController extends AbstractFOSRestController {
      *     description="Get Active Templates",
      *     enum={true, false}
      * )
-     *
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Return MPI Templates",
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"mpi_template_list"})),
+     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
+     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
+     *         @SWG\Property(property="total", type="integer", description="Total number of items for query"),
      *         description="id, name, active"
      *     )
      * )
      *
      * @param Request               $request
      * @param MPITemplateRepository $mpiTemplateRepository
-     *
+     * @param PaginatorInterface    $paginator
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function getTemplates (Request $request, MPITemplateRepository $mpiTemplateRepository) {
+    public function getTemplates (Request $request, MPITemplateRepository $mpiTemplateRepository,PaginatorInterface $paginator,
+    UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
+        $page            = $request->query->getInt('page', 1);
+        $urlParameters   = [];
+        $queryParameters = [];
+        $errors          = [];
+        $sortField       = "";
+        $sortDirection   = "";
+        $searchField     = "";
+        $searchTerm      = "";
+
         $active = $request->query->get('active');
+        
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+        $qb = $mpiTemplateRepository->createQueryBuilder('mp');
+        $qb->andWhere('mp.deleted = 0');
 
         //get MPI Template
         if ($active == "true") {
-            $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 1, 'deleted' => 0]);
+            $qb->andWhere('mp.active = 1');
         } else if($active == "false") {
-            $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 0, 'deleted' => 0]);
-        } else{
-            $mpiTemplates = $mpiTemplateRepository->findBy(['deleted' => 0]);
+            $qb->andWhere('mp.active = 0');
+        } 
 
+        //get all field names of RepairOrder Entity
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField               = $request->query->get('searchField');
+           
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField'] = 'Invalid search field name';
+            else{
+                $searchTerm  = $request->query->get('searchTerm');
+
+                $qb->andWhere('mp.'.$searchField.' LIKE :searchTerm');
+                $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            
+                $urlParameters['searchField']  = $searchField;
+            }
+            
         }
-        $view = $this->view($mpiTemplates);
-        $view->getContext()->setGroups(['mpi_template_list']);
+
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField                  = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField'] = 'Invalid sort field name';
+            else{
+                $sortDirection = $request->query->get('sortDirection');
+                $qb->orderBy('mp.'.$sortField, $sortDirection);
+
+                $urlParameters['sortField']     = $sortField;
+                $urlParameters['sortDirection'] = $sortDirection;
+            }
+           
+        }
+  
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        $q = $qb->getQuery();
+        $q->setParameters($queryParameters);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+
+        $urlParameters += $queryParameters;
+
+        if($searchTerm){
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+        $pager         = $paginator->paginate($q, $page, $pageLimit);
+        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $view = $this->view([
+            'mpiTemplates' => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('getMPITemplates', $urlParameters),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('getMPITemplates', $urlParameters)
+        ]);
+        $view->getContext()->setGroups(MPITemplate::GROUPS);
+
         return $this->handleView($view);
     }
 
