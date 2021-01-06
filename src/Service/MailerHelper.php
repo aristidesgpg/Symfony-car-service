@@ -2,17 +2,15 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
 /**
- * Class MailerHelper
+ * Class MailerHelper.
  *
  * @package App\Service
  */
-class MailerHelper {
-
+class MailerHelper
+{
     /**
      * @var Container
      */
@@ -24,24 +22,25 @@ class MailerHelper {
     private $mailer;
 
     /**
-     * @var String
+     * @var string
      */
     private $sender;
 
-    public function __construct (Container $container, \Swift_Mailer $mailer) {
+    public function __construct(Container $container, \Swift_Mailer $mailer)
+    {
         $this->container = $container;
-        $this->sender    = $this->container->getParameter('sender');
-        $this->mailer    = $mailer;
+        $this->sender = $this->container->getParameter('sender');
+        $this->mailer = $mailer;
     }
 
     /**
-     * @param  String $title
-     * @param  String $email
-     * @param  String $body
-     * 
-     * @return Boolean
+     * @param string $title
+     * @param string $email
+     * @param string $body
+     *
+     * @return bool
      */
-    public function sendMail($title, $email, $body)
+    public function sendMail(string $title, string $email, string $body): bool
     {
         $message = (new \Swift_Message($title))
             ->setFrom($this->sender)
@@ -50,11 +49,11 @@ class MailerHelper {
                 $body,
                 'text/plain'
             );
-    
+
         if (!$this->mailer->send($message)) {
             return false;
-        } 
-        
+        }
+
         return true;
     }
 }

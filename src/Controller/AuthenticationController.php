@@ -14,17 +14,17 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Swagger\Annotations as SWG;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class AuthenticationController
+ * Class AuthenticationController.
  *
  * @package App\Controller
  */
-class AuthenticationController extends AbstractFOSRestController {
+class AuthenticationController extends AbstractFOSRestController
+{
     use iServiceLoggerTrait;
 
     /**
@@ -84,27 +84,27 @@ class AuthenticationController extends AbstractFOSRestController {
      *     description="Login Failed. Please try again later."
      * )
      *
-     * @param Request                      $request
+     * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param JWTEncoderInterface          $JWTEncoder
-     * @param RepairOrderRepository        $repairOrderRepository
-     * @param SettingsHelper               $settingsHelper
-     * @param PasswordHelper               $passwordHelper
-     * @param WordpressLogin               $wordpressLogin
-     *
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param RepairOrderRepository $repairOrderRepository
+     * @param SettingsHelper $settingsHelper
+     * @param PasswordHelper $passwordHelper
+     * @param WordpressLogin $wordpressLogin
      * @return Response
      */
-    public function authenticateAction (Request $request, UserPasswordEncoderInterface $passwordEncoder,
+    public function authenticateAction(Request $request, UserPasswordEncoderInterface $passwordEncoder,
                                         JWTEncoderInterface $JWTEncoder, RepairOrderRepository $repairOrderRepository,
                                         SettingsHelper $settingsHelper, PasswordHelper $passwordHelper,
-                                        WordpressLogin $wordpressLogin) {
-        $username      = $request->get('username');  // tperson@iserviceauto.com
-        $password      = $request->get('password');  // test
-        $linkHash      = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
-        $pin           = $request->get('pin');       // 1234
+                                        WordpressLogin $wordpressLogin): Response
+    {
+        $username = $request->get('username');  // tperson@iserviceauto.com
+        $password = $request->get('password');  // test
+        $linkHash = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+        $pin = $request->get('pin');       // 1234
         $tokenUsername = null;
-        $roles         = null;
-        $ttl           = 28800; // Default 8 hours
+        $roles = null;
+        $ttl = 28800; // Default 8 hours
 
         if ((!$username || !$password) && !$linkHash && (!$username || !$pin)) {
             goto INVALID;
@@ -126,7 +126,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
-                $roles         = $user->getRoles();
+                $roles = $user->getRoles();
                 goto TOKEN;
             }
         }
@@ -152,8 +152,8 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
-                $roles         = $user->getRoles();
-                $ttl           = 3600; // Techs get logged in 1 hour
+                $roles = $user->getRoles();
+                $ttl = 3600; // Techs get logged in 1 hour
                 goto TOKEN;
             }
         }
@@ -167,7 +167,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
             // Successful customer "login"
             $tokenUsername = $repairOrder->getPrimaryCustomer()->getPhone();
-            $roles         = ['ROLE_CUSTOMER'];
+            $roles = ['ROLE_CUSTOMER'];
             goto TOKEN;
         }
 
@@ -180,8 +180,8 @@ class AuthenticationController extends AbstractFOSRestController {
                 if ($username === $techAppUsername) {
                     if ($passwordHelper->validatePassword($password, $techAppPassword)) {
                         $tokenUsername = 'technician';
-                        $roles         = ['ROLE_TECHNICIAN'];
-                        $ttl           = 31536000; // 1 year
+                        $roles = ['ROLE_TECHNICIAN'];
+                        $ttl = 31536000; // 1 year
                         goto TOKEN;
                     } else {
                         goto INVALID;
@@ -199,7 +199,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
             if ($dealerResponse) {
                 $tokenUsername = 'dealer';
-                $roles         = ['ROLE_ADMIN'];
+                $roles = ['ROLE_ADMIN'];
                 goto TOKEN;
             }
 
@@ -218,7 +218,7 @@ class AuthenticationController extends AbstractFOSRestController {
         try {
             $token = $JWTEncoder->encode([
                 'username' => $tokenUsername,
-                'exp'      => time() + $ttl
+                'exp' => time() + $ttl,
             ]);
         } catch (JWTEncodeFailureException $e) {
             return $this->handleView($this->view('Login Failed. Please try again later.', Response::HTTP_INTERNAL_SERVER_ERROR));
@@ -226,7 +226,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
         return $this->handleView($this->view([
             'token' => $token,
-            'roles' => $roles
+            'roles' => $roles,
         ], Response::HTTP_OK));
     }
 }

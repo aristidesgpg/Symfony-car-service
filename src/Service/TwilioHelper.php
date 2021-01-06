@@ -8,7 +8,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
-class TwilioHelper {
+class TwilioHelper
+{
     use iServiceLoggerTrait;
 
     /** @var Client */
@@ -20,36 +21,33 @@ class TwilioHelper {
     /** @var string */
     private $fromNumber;
 
-    public function __construct (Client $twilio, EntityManagerInterface $em, SettingsHelper $settings) {
-        $this->twilio     = $twilio;
-        $this->em         = $em;
-        $this->fromNumber = '+1' . $settings->getSetting('serviceTwilioFromNumber');
+    public function __construct(Client $twilio, EntityManagerInterface $em, SettingsHelper $settings)
+    {
+        $this->twilio = $twilio;
+        $this->em = $em;
+        $this->fromNumber = '+1'.$settings->getSetting('serviceTwilioFromNumber');
     }
 
     /**
      * @param string $phone
      * @param string $msg
-     *
-     * @throws \Exception
+     * @throws TwilioException
      */
-    public function sendSms (string $phone, string $msg): void {
+    public function sendSms(string $phone, string $msg): void
+    {
         if (preg_match('/https?:\/\//', $msg)) {
             $this->curlIsre($phone, $msg);
         } else {
-            $this->twilio->messages->create('+1' . $phone, [
+            $this->twilio->messages->create('+1'.$phone, [
                 'body' => $msg,
                 'from' => $this->fromNumber,
             ]);
         }
     }
 
-    /**
-     * @param string $phone
-     *
-     * @return PhoneLookup
-     */
-    public function lookupNumber (string $phone): PhoneLookup {
-        $phone  = '+1' . $phone;
+    public function lookupNumber(string $phone): PhoneLookup
+    {
+        $phone = '+1'.$phone;
         $lookup = $this->em->find(PhoneLookup::class, $phone);
         if ($lookup instanceof PhoneLookup) {
             return $lookup;
@@ -57,9 +55,9 @@ class TwilioHelper {
 
         try {
             $instance = $this->twilio->lookups->v1->phoneNumbers($phone)->fetch(['type' => 'carrier']);
-            $lookup   = new PhoneLookup($phone, $instance);
+            $lookup = new PhoneLookup($phone, $instance);
         } catch (TwilioException $e) {
-            if ($e->getCode() === 20404) { // Technically a 404, can mean a bad/non-existent phone number
+            if (20404 === $e->getCode()) { // Technically a 404, can mean a bad/non-existent phone number
                 $lookup = new PhoneLookup($phone);
             } else {
                 throw new \RuntimeException('Caught twilio exception', 0, $e);
@@ -71,22 +69,19 @@ class TwilioHelper {
         return $lookup;
     }
 
-    /**
-     * @param string $phone
-     * @param string $msg
-     */
-    private function curlIsre (string $phone, string $msg): void {
+    private function curlIsre(string $phone, string $msg): void
+    {
         $endpoint = 'http://isre.us/api/twilio-short-code/send';
-        $curl     = curl_init($endpoint);
+        $curl = curl_init($endpoint);
         curl_setopt_array($curl, [
-            CURLOPT_POST           => true,
-            CURLOPT_TIMEOUT        => 10,
+            CURLOPT_POST => true,
+            CURLOPT_TIMEOUT => 10,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POSTFIELDS     => [
-                'phone'   => $phone,
+            CURLOPT_POSTFIELDS => [
+                'phone' => $phone,
                 'message' => $msg,
             ],
-            CURLOPT_HTTPHEADER     => [
+            CURLOPT_HTTPHEADER => [
                 'Authorization: Bearer W*pmwqvH&@*2vd+w',
             ],
         ]);

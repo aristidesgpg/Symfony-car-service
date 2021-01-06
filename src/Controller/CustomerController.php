@@ -19,13 +19,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Class CustomerController
+ * Class CustomerController.
  *
  * @package App\Controller
  * @Rest\Route("/api/customer")
  * @SWG\Tag(name="Customer")
  */
-class CustomerController extends AbstractFOSRestController {
+class CustomerController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 100;
 
     /**
@@ -48,7 +49,7 @@ class CustomerController extends AbstractFOSRestController {
      *     description="Page Limit",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -70,17 +71,16 @@ class CustomerController extends AbstractFOSRestController {
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     *
-     * @param Request               $request
-     * @param CustomerRepository    $customerRepository
-     * @param PaginatorInterface    $paginator
+     * @param Request $request
+     * @param CustomerRepository $customerRepository
+     * @param PaginatorInterface $paginator
      * @param UrlGeneratorInterface $urlGenerator
-     *
      * @return Response
      */
-    public function getAll (Request $request, CustomerRepository $customerRepository,
-                            PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
-        $page          = $request->query->getInt('page', 1);
+    public function getAll(Request $request, CustomerRepository $customerRepository,
+                            PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response
+    {
+        $page = $request->query->getInt('page', 1);
         $urlParameters = [];
 
         // Invalid page
@@ -90,24 +90,24 @@ class CustomerController extends AbstractFOSRestController {
 
         // Build query
         if ($request->query->has('search')) {
-            $customersQuery          = $customerRepository->search($request->query->get('search'));
+            $customersQuery = $customerRepository->search($request->query->get('search'));
             $urlParameters['search'] = $request->query->get('search');
         } else {
             $customersQuery = $customerRepository->findAllActive();
         }
 
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $pager      = $paginator->paginate($customersQuery, $page, $pageLimit);
+        $pager = $paginator->paginate($customersQuery, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
-            'customers'    => $pager->getItems(),
+            'customers' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getCustomers', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getCustomers', $urlParameters)
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('getCustomers', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('getCustomers', $urlParameters),
         ];
 
         $view = $this->view($json);
@@ -124,12 +124,11 @@ class CustomerController extends AbstractFOSRestController {
      *     @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      * )
      * @SWG\Response(response="404", description="Customer does not exist")
-     *
      * @param Customer $customer
-     *
      * @return Response
      */
-    public function getCustomer (Customer $customer): Response {
+    public function getCustomer(Customer $customer): Response
+    {
         if ($customer->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -153,21 +152,20 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
-     *
-     * @param Request        $req
+     * @param Request $req
      * @param CustomerHelper $helper
-     *
      * @return Response
      */
-    public function addCustomer (Request $req, CustomerHelper $helper): Response {
+    public function addCustomer(Request $req, CustomerHelper $helper): Response
+    {
         $validation = $helper->validateParams($req->request->all(), true);
         if (!empty($validation)) {
             return new ValidationResponse($validation);
         }
 
         $customer = new Customer();
-        $user     = $this->getUser();
-        if ($user instanceof User && $user->getId() !== null) {
+        $user = $this->getUser();
+        if ($user instanceof User && null !== $user->getId()) {
             $customer->setAddedBy($user);
         }
         $helper->commitCustomer($customer, $req->request->all());
@@ -190,14 +188,13 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
-     *
-     * @param Customer       $customer
-     * @param Request        $req
+     * @param Customer $customer
+     * @param Request $req
      * @param CustomerHelper $helper
-     *
      * @return Response
      */
-    public function updateCustomer (Customer $customer, Request $req, CustomerHelper $helper): Response {
+    public function updateCustomer(Customer $customer, Request $req, CustomerHelper $helper): Response
+    {
         if ($customer->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -209,7 +206,7 @@ class CustomerController extends AbstractFOSRestController {
         $helper->commitCustomer($customer, $req->request->all());
 
         return $this->handleView($this->view([
-            'message' => 'User Updated'
+            'message' => 'User Updated',
         ], Response::HTTP_OK));
     }
 
@@ -217,13 +214,12 @@ class CustomerController extends AbstractFOSRestController {
      * @Rest\Delete("/{id}")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="Customer does not exist")
-     *
-     * @param Customer       $customer
+     * @param Customer $customer
      * @param CustomerHelper $helper
-     *
      * @return Response
      */
-    public function deleteCustomer (Customer $customer, CustomerHelper $helper): Response {
+    public function deleteCustomer(Customer $customer, CustomerHelper $helper): Response
+    {
         if ($customer->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -232,7 +228,7 @@ class CustomerController extends AbstractFOSRestController {
         $helper->commitCustomer($customer);
 
         return $this->handleView($this->view([
-            'message' => 'Customer Deleted'
+            'message' => 'Customer Deleted',
         ], Response::HTTP_OK));
     }
 }

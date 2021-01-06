@@ -11,11 +11,12 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * Class SettingsHelper
+ * Class SettingsHelper.
  *
  * @package App\Service
  */
-class SettingsHelper {
+class SettingsHelper
+{
     use iServiceLoggerTrait;
 
     const VALID_SETTINGS = [
@@ -48,21 +49,20 @@ class SettingsHelper {
 
     /**
      * SettingsHelper constructor.
-     *
      * @param EntityManagerInterface $em
-     * @param SettingsRepository     $settingsRepository
+     * @param SettingsRepository $settingsRepository
      */
-    public function __construct (EntityManagerInterface $em, SettingsRepository $settingsRepository) {
-        $this->em                 = $em;
+    public function __construct(EntityManagerInterface $em, SettingsRepository $settingsRepository)
+    {
+        $this->em = $em;
         $this->settingsRepository = $settingsRepository;
     }
 
     /**
      * @param array $settings
-     *
-     * @throws
      */
-    public function commitSettings (array $settings): void {
+    public function commitSettings(array $settings): void
+    {
         foreach ($settings as $key => $value) {
             if (!is_string($key)) {
                 throw new InvalidArgumentException('"key" must be string');
@@ -93,29 +93,31 @@ class SettingsHelper {
      * @param $key
      *
      * @return string|null
+     *
      * @throws Exception
      */
-    public function getSetting ($key) {
+    public function getSetting($key)
+    {
         // Throw exception because false is a valid option
         if (!in_array($key, self::VALID_SETTINGS) && !in_array($key, self::VALID_FILE_SETTINGS)) {
             throw new Exception('Invalid Setting Requested');
         }
 
         $setting = $this->settingsRepository->findOneBy([
-            'key' => $key
+            'key' => $key,
         ]);
 
         if (!$setting) {
             // Create it because it's valid if we got here
             $settingArray = [
-                $key => ''
+                $key => '',
             ];
 
             $this->commitSettings($settingArray);
 
             // Now get it again
             $setting = $this->settingsRepository->findOneBy([
-                'key' => $key
+                'key' => $key,
             ]);
 
             // Throw exception because false is a valid option

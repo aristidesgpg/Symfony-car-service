@@ -2,11 +2,16 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\OperationCode;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\OperationCode;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
+/**
+ * Class OperationCodeFixture.
+ *
+ * @package App\DataFixtures
+ */
 class OperationCodeFixture extends Fixture
 {
     /**
@@ -16,24 +21,25 @@ class OperationCodeFixture extends Fixture
 
     /**
      * CouponFixtures constructor.
-     *
-     * @param Container     $container
+     * @param Container $container
      */
-    public function __construct (Container $container) {
+    public function __construct(Container $container)
+    {
         $this->container = $container;
     }
 
-    public function load(ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
         //read a csv file
         $filepath = $this->container->getParameter('csv_directory').'operationCode.csv';
-        $csv      = fopen($filepath, 'r');
+        $csv = fopen($filepath, 'r');
 
         //load data from a csv file
         $i = 0;
         while (!feof($csv)) {
             $row = fgetcsv($csv);
-            if($i++ == 0){
+            if (0 == $i++) {
                 continue;
             }
 
@@ -49,7 +55,7 @@ class OperationCodeFixture extends Fixture
             $manager->persist($operationCode);
             $manager->flush();
 
-            $this->addReference('operationCode_' . $i, $operationCode);
+            $this->addReference('operationCode_'.$i, $operationCode);
         }
 
         fclose($csv);

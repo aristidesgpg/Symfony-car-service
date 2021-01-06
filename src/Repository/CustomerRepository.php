@@ -16,28 +16,22 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Customer[]    findAll()
  * @method Customer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CustomerRepository extends ServiceEntityRepository {
-    public function __construct (ManagerRegistry $registry) {
+class CustomerRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, Customer::class);
     }
 
-    /**
-     * @param User|null $user
-     *
-     * @return Query
-     */
-    public function findAllActive (?User $user = null): Query {
+    public function findAllActive(?User $user = null): Query
+    {
         return $this->getBaseQueryBuilder($user)->getQuery();
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Customer|null
-     */
-    public function findActive (int $id): ?Customer {
+    public function findActive(int $id): ?Customer
+    {
         $customer = $this->find($id);
-        if ($customer === null || $customer->isDeleted()) {
+        if (null === $customer || $customer->isDeleted()) {
             return null;
         }
 
@@ -45,12 +39,12 @@ class CustomerRepository extends ServiceEntityRepository {
     }
 
     /**
-     * @param string    $query - Name, Phone Number, or Email
+     * @param string $query - Name, Phone Number, or Email
      * @param User|null $user
-     *
      * @return Query
      */
-    public function search (string $query, ?User $user = null): Query {
+    public function search(string $query, ?User $user = null): Query
+    {
         $qb = $this->getBaseQueryBuilder($user);
         $or = $qb->expr()->orX();
         $or->add('c.name LIKE :fname')
@@ -59,18 +53,14 @@ class CustomerRepository extends ServiceEntityRepository {
            ->add('c.email = :query');
         $qb->andWhere($or)
            ->setParameter('query', $query)
-           ->setParameter('fname', $query . '%')
-           ->setParameter('lname', '%' . $query);
+           ->setParameter('fname', $query.'%')
+           ->setParameter('lname', '%'.$query);
 
         return $qb->getQuery();
     }
 
-    /**
-     * @param string $phone
-     *
-     * @return Customer|null
-     */
-    public function findByPhone (string $phone): ?Customer {
+    public function findByPhone(string $phone): ?Customer
+    {
         try {
             return $this->getBaseQueryBuilder()
                         ->andWhere('c.phone = :phone')
@@ -83,15 +73,11 @@ class CustomerRepository extends ServiceEntityRepository {
         }
     }
 
-    /**
-     * @param User|null $user
-     *
-     * @return QueryBuilder
-     */
-    private function getBaseQueryBuilder (?User $user = null): QueryBuilder {
+    private function getBaseQueryBuilder(?User $user = null): QueryBuilder
+    {
         $qb = $this->createQueryBuilder('c')
                    ->andWhere('c.deleted = 0');
-        if ($user !== null) {
+        if (null !== $user) {
             $qb->andWhere('c.addedBy = :user');
             $qb->setParameter('user', $user);
         }

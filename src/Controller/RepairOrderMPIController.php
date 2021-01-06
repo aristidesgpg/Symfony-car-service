@@ -2,29 +2,27 @@
 
 namespace App\Controller;
 
-use App\Entity\RepairOrder;
 use App\Entity\RepairOrderMPI;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
-use App\Repository\RepairOrderRepository;
-use App\Repository\RepairOrderMPIRepository;
-use App\Repository\OperationCodeRepository;
-use App\Service\MPIInteractionHelper;
 use App\Helper\iServiceLoggerTrait;
+use App\Repository\OperationCodeRepository;
+use App\Repository\RepairOrderMPIRepository;
+use App\Repository\RepairOrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Swagger\Annotations as SWG;
 
 /**
- * Class RepairOrderMPIController
+ * Class RepairOrderMPIController.
  *
  * @package App\Controller
  */
-class RepairOrderMPIController extends AbstractFOSRestController {
+class RepairOrderMPIController extends AbstractFOSRestController
+{
     use iServiceLoggerTrait;
 
     /**
@@ -54,7 +52,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *     type="string",
      *     description="[{'operationCode':14, 'description':'Neque maxime ex dolorem ut.','preApproved':true,'approved':true,'partsPrice':1.0,'suppliesPrice':14.02,'laborPrice':5.3,'notes':'Cumque tempora ut nobis.'},{'operationCode':11, 'description':'Quidem earum sapiente at dolores quia natus.','preApproved':false,'approved':true,'partsPrice':2.6,'suppliesPrice':509.02,'laborPrice':36.9,'notes':'Et accusantium rerum.'},{'operationCode':4, 'description':'Mollitia unde nobis doloribus sed.','preApproved':true,'approved':false,'partsPrice':1.1,'suppliesPrice':71.7,'laborPrice':55.1,'notes':'Voluptates et aut debitis.'}]",
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -64,52 +62,51 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *                                              "Successfully Created" }),
      *         )
      * )
-     *
-     * @param Request                  $request
-     * @param RepairOrderRepository    $repairOrderRepository
-     * @param OperationCodeRepository  $operationCodeRepository
+     * @param Request $request
+     * @param RepairOrderRepository $repairOrderRepository
+     * @param OperationCodeRepository $operationCodeRepository
      * @param RepairOrderMPIRepository $repairOrderMPIRepos
-     * @param EntityManagerInterface   $em
-     *
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function createRepairOrderMPI (
-        Request                  $request, 
-        RepairOrderRepository    $repairOrderRepository,
-        OperationCodeRepository  $operationCodeRepository, 
+    public function createRepairOrderMPI(
+        Request $request,
+        RepairOrderRepository $repairOrderRepository,
+        OperationCodeRepository $operationCodeRepository,
         RepairOrderMPIRepository $repairOrderMPIRepos,
-        EntityManagerInterface   $em
-    ) {
-        $repairOrderID   = $request->get('repairOrderID');
-        $results         = str_replace("'",'"', $request->get('results'));
-        $recommendations = str_replace("'",'"', $request->get('recommendations'));
+        EntityManagerInterface $em
+    ): Response {
+        $repairOrderID = $request->get('repairOrderID');
+        $results = str_replace("'", '"', $request->get('results'));
+        $recommendations = str_replace("'", '"', $request->get('recommendations'));
         //check if params are valid
-        if(!$repairOrderID || !$results){
+        if (!$repairOrderID || !$results) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order exists
-        $repairOrder  = $repairOrderRepository->find($repairOrderID);
+        $repairOrder = $repairOrderRepository->find($repairOrderID);
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
         //check if repair Order is duplicated
         $isDuplicated = $repairOrderMPIRepos->findBy(['repairOrder' => $repairOrderID]);
-        if($isDuplicated){
+        if ($isDuplicated) {
             return $this->handleView($this->view('MPI results already exist on this Repair Order.', Response::HTTP_BAD_REQUEST));
         }
 
-        $obj    = json_decode($results);
+        $obj = json_decode($results);
         $result = $obj->results;
 
         foreach ($result as $index => $group) {
             $items = $group->items;
-            foreach($items as $key => $item){
-                if($group->group == "Brakes")
-                    $item->text = $item->value." / 10 - ".$item->name;
-                else if($group->group == "Tires")
-                    $item->text = $item->value." / 32 - ".$item->name;
-                else
+            foreach ($items as $key => $item) {
+                if ('Brakes' == $group->group) {
+                    $item->text = $item->value.' / 10 - '.$item->name;
+                } elseif ('Tires' == $group->group) {
+                    $item->text = $item->value.' / 32 - '.$item->name;
+                } else {
                     $item->text = $item->name;
+                }
             }
         }
         $res = json_encode($obj);
@@ -130,11 +127,11 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         $em->flush();
 
         //create repairOrderQuoteRecommendations
-        $recommendationsObj = (array)json_decode($recommendations);
-        foreach ($recommendationsObj as $index => $recommendation){
+        $recommendationsObj = (array) json_decode($recommendations);
+        foreach ($recommendationsObj as $index => $recommendation) {
             $rOQRecom = new RepairOrderQuoteRecommendation();
             //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
+            $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
             if (!$operationCode) {
                 return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
             }
@@ -152,7 +149,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         }
 
         return $this->handleView($this->view([
-            'message' => 'RepairOrderMPI Created'
+            'message' => 'RepairOrderMPI Created',
         ], Response::HTTP_OK));
     }
 
@@ -161,7 +158,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Repair Order MPI")
      * @SWG\Delete(description="Delete a Repair Order MPI")
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -171,16 +168,14 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @param RepairOrderMPI           $repairOrderMPI
-     * @param EntityManagerInterface   $em
-     *
+     * @param RepairOrderMPI $repairOrderMPI
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function deleteRepairOrderMPI (
-        RepairOrderMPI           $repairOrderMPI,
-        EntityManagerInterface   $em
-    ) {
+    public function deleteRepairOrderMPI(
+        RepairOrderMPI $repairOrderMPI,
+        EntityManagerInterface $em
+    ): Response {
         $repairOrder = $repairOrderMPI->getRepairOrder();
         $repairOrder->setMpiStatus('Not Started');
 
@@ -190,7 +185,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'RepairOrderMPI Deleted'
+            'message' => 'RepairOrderMPI Deleted',
         ], Response::HTTP_OK));
     }
 }

@@ -10,7 +10,8 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Entity(repositoryClass=MPIItemRepository::class)
  * @ORM\Table(name="mpi_item")
  */
-class MPIItem {
+class MPIItem
+{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -54,116 +55,102 @@ class MPIItem {
      */
     private $deleted = false;
 
-    /**
-     * @return int|null
-     */
-    public function getId (): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    /**
-     * @return MPIGroup|null
-     */
-    public function getMPIGroup (): ?MPIGroup {
+    public function getMPIGroup(): ?MPIGroup
+    {
         return $this->mpiGroup;
     }
 
     /**
      * @param MPIGroup|null $mpiGroup
-     *
      * @return $this
      */
-    public function setMPIGroup (?MPIGroup $mpiGroup): self {
+    public function setMPIGroup(?MPIGroup $mpiGroup): self
+    {
         $this->mpiGroup = $mpiGroup;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getName (): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
     /**
      * @param string $name
-     *
      * @return $this
      */
-    public function setName (string $name): self {
+    public function setName(string $name): self
+    {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getHasRange (): ?bool {
+    public function getHasRange(): ?bool
+    {
         return $this->hasRange;
     }
 
     /**
      * @param bool $hasRange
-     *
      * @return $this
      */
-    public function setHasRange (bool $hasRange): self {
+    public function setHasRange(bool $hasRange): self
+    {
         $this->hasRange = $hasRange;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getRangeMaximum (): ?int {
+    public function getRangeMaximum(): ?int
+    {
         return $this->rangeMaximum;
     }
 
     /**
      * @param int $rangeMaximum
-     *
      * @return $this
      */
-    public function setRangeMaximum (int $rangeMaximum): self {
+    public function setRangeMaximum(int $rangeMaximum): self
+    {
         $this->rangeMaximum = $rangeMaximum;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRangeUnit (): ?string {
+    public function getRangeUnit(): ?string
+    {
         return $this->rangeUnit;
     }
 
     /**
      * @param string|null $rangeUnit
-     *
      * @return $this
      */
-    public function setRangeUnit (?string $rangeUnit): self {
+    public function setRangeUnit(?string $rangeUnit): self
+    {
         $this->rangeUnit = $rangeUnit;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getDeleted (): ?bool {
+    public function getDeleted(): ?bool
+    {
         return $this->deleted;
     }
 
     /**
      * @param bool $deleted
-     *
      * @return $this
      */
-    public function setDeleted (bool $deleted): self {
+    public function setDeleted(bool $deleted): self
+    {
         $this->deleted = $deleted;
 
         return $this;

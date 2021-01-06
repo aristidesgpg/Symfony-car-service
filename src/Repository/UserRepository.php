@@ -13,15 +13,18 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository {
-    public function __construct (ManagerRegistry $registry) {
+class UserRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, User::class);
     }
 
     /**
      * @return int|mixed|string
      */
-    public function getActiveUsers () {
+    public function getActiveUsers()
+    {
         return $this->queryBuilder()
                     ->andWhere('u.active = 1')
                     ->orderBy('u.id', 'ASC')
@@ -31,19 +34,19 @@ class UserRepository extends ServiceEntityRepository {
 
     /**
      * @param QueryBuilder|null $qb
-     *
      * @return QueryBuilder
      */
-    private function queryBuilder (QueryBuilder $qb = null) {
+    private function queryBuilder(QueryBuilder $qb = null): QueryBuilder
+    {
         return $qb ? $qb : $this->createQueryBuilder('u');
     }
 
     /**
-     * @param String $role
-     *
+     * @param string $role
      * @return User[]
      */
-    public function getUserByRole (string $role) {
+    public function getUserByRole(string $role)
+    {
         return $this->createQueryBuilder('u')
                     ->where('u.role = :role')
                     ->andWhere('u.active = 1')
@@ -55,7 +58,8 @@ class UserRepository extends ServiceEntityRepository {
     /**
      * @return User[]
      */
-    public function getSharedUsers (): array {
+    public function getSharedUsers(): array
+    {
         return $this->createQueryBuilder('u')
                     ->where('u.shareRepairOrders = 1')
                     ->getQuery()

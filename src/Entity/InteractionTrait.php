@@ -5,7 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
-trait InteractionTrait {
+trait InteractionTrait
+{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -38,83 +39,63 @@ trait InteractionTrait {
      */
     private $date;
 
-    public function __construct () {
+    public function __construct()
+    {
         $this->date = new \DateTime();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId (): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    /**
-     * @return User|null
-     */
-    public function getUser (): ?User {
+    public function getUser(): ?User
+    {
         return $this->user;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return self
-     */
-    public function setUser (User $user): self {
+    public function setUser(User $user): self
+    {
         $this->user = $user;
 
         return $this;
     }
 
-    /**
-     * @return Customer|null
-     */
-    public function getCustomer (): ?Customer {
+    public function getCustomer(): ?Customer
+    {
         return $this->customer;
     }
 
     /**
      * @param Customer $customer
-     *
      * @return InteractionTrait
      */
-    public function setCustomer (Customer $customer) {
+    public function setCustomer(Customer $customer): InteractionTrait
+    {
         $this->customer = $customer;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getType (): string {
+    public function getType(): string
+    {
         return $this->type;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return self
-     */
-    public function setType (string $type): self {
+    public function setType(string $type): self
+    {
         $this->type = $type;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDate (): \DateTime {
+    public function getDate(): \DateTime
+    {
         return $this->date;
     }
 
-    /**
-     * @param \DateTime $date
-     *
-     * @return self
-     */
-    public function setDate (\DateTime $date): self {
+    public function setDate(\DateTime $date): self
+    {
         $this->date = $date;
 
         return $this;

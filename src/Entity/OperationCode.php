@@ -11,7 +11,8 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * @ORM\Entity(repositoryClass=OperationCodeRepository::class)
  */
-class OperationCode {
+class OperationCode
+{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -81,99 +82,119 @@ class OperationCode {
     /**
      * OperationCode constructor.
      */
-    public function __construct () {
-        $this->RepairOrderQuoteRecommendations = new ArrayCollection();
+    public function __construct()
+    {
+        $this->repairOrderQuoteRecommendations = new ArrayCollection();
     }
 
-    public function getId (): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    public function getCode (): ?string {
+    public function getCode(): ?string
+    {
         return $this->code;
     }
 
-    public function setCode (string $code): self {
+    public function setCode(string $code): self
+    {
         $this->code = $code;
 
         return $this;
     }
 
-    public function getDescription (): ?string {
+    public function getDescription(): ?string
+    {
         return $this->description;
     }
 
-    public function setDescription (?string $description): self {
+    public function setDescription(?string $description): self
+    {
         $this->description = $description;
 
         return $this;
     }
 
-    public function getLaborHours (): ?float {
+    public function getLaborHours(): ?float
+    {
         return $this->laborHours;
     }
 
-    public function setLaborHours (float $laborHours): self {
+    public function setLaborHours(float $laborHours): self
+    {
         $this->laborHours = $laborHours;
 
         return $this;
     }
 
-    public function getLaborTaxable (): ?bool {
+    public function getLaborTaxable(): ?bool
+    {
         return $this->laborTaxable;
     }
 
-    public function setLaborTaxable (bool $laborTaxable): self {
+    public function setLaborTaxable(bool $laborTaxable): self
+    {
         $this->laborTaxable = $laborTaxable;
 
         return $this;
     }
 
-    public function getPartsPrice (): ?float {
+    public function getPartsPrice(): ?float
+    {
         return $this->partsPrice;
     }
 
-    public function setPartsPrice (float $partsPrice): self {
+    public function setPartsPrice(float $partsPrice): self
+    {
         $this->partsPrice = $partsPrice;
 
         return $this;
     }
 
-    public function getPartsTaxable (): ?bool {
+    public function getPartsTaxable(): ?bool
+    {
         return $this->partsTaxable;
     }
 
-    public function setPartsTaxable (bool $partsTaxable): self {
+    public function setPartsTaxable(bool $partsTaxable): self
+    {
         $this->partsTaxable = $partsTaxable;
 
         return $this;
     }
 
-    public function getSuppliesPrice (): ?float {
+    public function getSuppliesPrice(): ?float
+    {
         return $this->suppliesPrice;
     }
 
-    public function setSuppliesPrice (float $suppliesPrice): self {
+    public function setSuppliesPrice(float $suppliesPrice): self
+    {
         $this->suppliesPrice = $suppliesPrice;
 
         return $this;
     }
 
-    public function getSuppliesTaxable (): ?bool {
+    public function getSuppliesTaxable(): ?bool
+    {
         return $this->suppliesTaxable;
     }
 
-    public function setSuppliesTaxable (bool $suppliesTaxable): self {
+    public function setSuppliesTaxable(bool $suppliesTaxable): self
+    {
         $this->suppliesTaxable = $suppliesTaxable;
 
         return $this;
     }
 
-    public function getDeleted (): ?bool {
+    public function getDeleted(): ?bool
+    {
         return $this->deleted;
     }
 
-    public function setDeleted (bool $deleted): self {
+    public function setDeleted(bool $deleted): self
+    {
         $this->deleted = $deleted;
 
         return $this;
@@ -182,21 +203,24 @@ class OperationCode {
     /**
      * @return Collection|RepairOrderQuoteRecommendation[]
      */
-    public function getRepairOrderQuoteRecommendations (): Collection {
-        return $this->RepairOrderQuoteRecommendations;
+    public function getRepairOrderQuoteRecommendations(): Collection
+    {
+        return $this->repairOrderQuoteRecommendations;
     }
 
-    public function addRepairOrderQuoteRecommendation (RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self {
-        if (!$this->RepairOrderQuoteRecommendations->contains($repairOrderQuoteRecommendation)) {
-            $this->RepairOrderQuoteRecommendations[] = $repairOrderQuoteRecommendation;
+    public function addRepairOrderQuoteRecommendation(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self
+    {
+        if (!$this->repairOrderQuoteRecommendations->contains($repairOrderQuoteRecommendation)) {
+            $this->repairOrderQuoteRecommendations[] = $repairOrderQuoteRecommendation;
             $repairOrderQuoteRecommendation->setOperationCode($this);
         }
 
         return $this;
     }
 
-    public function removeRepairOrderQuoteRecommendation (RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self {
-        if ($this->RepairOrderQuoteRecommendations->removeElement($repairOrderQuoteRecommendation)) {
+    public function removeRepairOrderQuoteRecommendation(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self
+    {
+        if ($this->repairOrderQuoteRecommendations->removeElement($repairOrderQuoteRecommendation)) {
             // set the owning side to null (unless already changed)
             if ($repairOrderQuoteRecommendation->getOperationCode() === $this) {
                 $repairOrderQuoteRecommendation->setOperationCode(null);

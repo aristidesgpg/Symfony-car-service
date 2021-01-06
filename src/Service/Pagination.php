@@ -2,16 +2,16 @@
 
 namespace App\Service;
 
-use Exception;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Class Pagination
+ * Class Pagination.
  *
  * @package App\Service
  */
-class Pagination {
+class Pagination
+{
     /**
      * @var PaginationInterface
      */
@@ -63,21 +63,22 @@ class Pagination {
     public $urlGenerator;
 
     /**
-     * Pagination constructor
+     * Pagination constructor.
      *
-     * @param PaginationInterface        $pager
-     * @param int                        $pageLimit
+     * @param PaginationInterface $pager
+     * @param int $pageLimit
      * @param UrlGeneratorInterface|null $urlGenerator <p>Pass if you are going to be building page URLs</p>
      */
-    public function __construct (PaginationInterface $pager, int $pageLimit, UrlGeneratorInterface $urlGenerator = null) {
-        $this->pager        = $pager;
-        $this->pageLimit    = $pageLimit;
+    public function __construct(PaginationInterface $pager, int $pageLimit, UrlGeneratorInterface $urlGenerator = null)
+    {
+        $this->pager = $pager;
+        $this->pageLimit = $pageLimit;
         $this->totalResults = $pager->getTotalItemCount();
-        $this->totalPages   = $this->totalResults / $this->pageLimit;
-        $this->totalPages   = ceil($this->totalPages);
-        $this->currentPage  = $pager->getCurrentPageNumber();
+        $this->totalPages = $this->totalResults / $this->pageLimit;
+        $this->totalPages = ceil($this->totalPages);
+        $this->currentPage = $pager->getCurrentPageNumber();
         $this->previousPage = $this->currentPage - 1;
-        $this->nextPage     = $this->currentPage + 1;
+        $this->nextPage = $this->currentPage + 1;
         $this->urlGenerator = $urlGenerator;
 
         if ($this->previousPage <= 0) {
@@ -89,20 +90,19 @@ class Pagination {
         }
     }
 
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     */
-    public function setURLGenerator (UrlGeneratorInterface $urlGenerator) {
+    public function setURLGenerator(UrlGeneratorInterface $urlGenerator)
+    {
         $this->urlGenerator = $urlGenerator;
     }
 
     /**
      * @param string $route
-     * @param array  $parameters
+     * @param array $parameters
      *
      * @return string|null
      */
-    public function getNextPageURL (string $route, $parameters = []) {
+    public function getNextPageURL(string $route, $parameters = [])
+    {
         if (!$this->nextPage || !$this->urlGenerator) {
             return null;
         }
@@ -114,11 +114,12 @@ class Pagination {
 
     /**
      * @param string $route
-     * @param array  $parameters
+     * @param array $parameters
      *
      * @return string|null
      */
-    public function getPreviousPageURL (string $route, $parameters = []) {
+    public function getPreviousPageURL(string $route, $parameters = [])
+    {
         if (!$this->previousPage || !$this->urlGenerator) {
             return null;
         }
@@ -132,20 +133,19 @@ class Pagination {
      * Gets any page requested. Not sure if we'll need this.
      *
      * @param string $route
-     * @param int    $page
-     * @param array  $parameters
+     * @param int $page
+     * @param array $parameters
      *
      * @return string|null
      */
-    public function getPageURL (string $route, int $page, $parameters = []) {
+    public function getPageURL(string $route, int $page, $parameters = [])
+    {
         if ($page <= 0 || $page > $this->totalPages || !$this->urlGenerator) {
             return null;
         }
 
         $parameters['page'] = $page;
 
-
         return $this->urlGenerator->generate($route, $parameters);
     }
-
 }
