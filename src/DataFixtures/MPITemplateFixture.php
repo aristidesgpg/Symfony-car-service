@@ -45,6 +45,9 @@ class MPITemplateFixture extends Fixture
         $this->mpiItemRepo = $mpiItemRepo;
     }
 
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         //read a csv file

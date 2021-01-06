@@ -240,6 +240,9 @@ class Customer implements UserInterface
         return $this->getName();
     }
 
+    /**
+     * @return void
+     */
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.

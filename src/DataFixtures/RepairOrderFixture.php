@@ -21,6 +21,8 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
      * @param ObjectManager $manager
      *
      * @throws Exception
+     *
+     * @return void
      */
     public function load(ObjectManager $manager)
     {

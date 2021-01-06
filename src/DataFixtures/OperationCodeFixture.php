@@ -22,6 +22,9 @@ class OperationCodeFixture extends Fixture
         $this->container = $container;
     }
 
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);

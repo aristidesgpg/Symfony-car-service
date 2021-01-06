@@ -13,6 +13,9 @@ use Faker\Factory;
  */
 class RepairOrderQuoteRecommendationFixture extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
