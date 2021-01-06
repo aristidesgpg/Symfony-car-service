@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class RepairOrderController
@@ -106,6 +107,31 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="Get ROs created before supplied date-time",
      *     in="query"
      * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
+     * 
      *
      * @param Request               $request
      * @param RepairOrderRepository $repairOrderRepo
@@ -113,18 +139,22 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @param UrlGeneratorInterface $urlGenerator
      * @param UserRepository        $userRepo
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
     public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator,
-                            UrlGeneratorInterface $urlGenerator, UserRepository $userRepo): Response {
+                            UrlGeneratorInterface $urlGenerator, UserRepository $userRepo, EntityManagerInterface $em): Response {
         $page            = $request->query->getInt('page', 1);
         $startDate       = $request->query->get('startDate');
         $endDate         = $request->query->get('endDate');
         $urlParameters   = [];
         $queryParameters = [];
         $errors          = [];
-
+        $sortField       = "";
+        $sortDirection   = "";
+        $searchField     = "";
+        $searchTerm      = "";
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
@@ -176,9 +206,40 @@ class RepairOrderController extends AbstractFOSRestController {
                 $errors['date'] = 'Invalid date format';
             }
         }
+       
+        //get all field names of RepairOrder Entity
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField               = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField'] = 'Invalid sort field name';
+            
+            $sortDirection = $request->query->get('sortDirection');
+        }
+
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField               = $request->query->get('searchField');
+           
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField'] = 'Invalid search field name';
+
+            $searchTerm  = $request->query->get('searchTerm');
+        }
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
+        }
+
+        if($searchTerm)
+        {
+            $qb->andWhere('ro.'.$searchField.' LIKE :searchTerm');
+            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
         }
 
         $user = $this->getUser();
@@ -195,6 +256,11 @@ class RepairOrderController extends AbstractFOSRestController {
                 $qb->andWhere('ro.primaryTechnician = :user');
                 $queryParameters['user'] = $user;
             }
+        }
+
+        if($sortDirection)
+        {
+            $qb->orderBy('ro.'.$sortField, $sortDirection);
         }
 
         $q = $qb->getQuery();
