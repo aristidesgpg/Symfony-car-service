@@ -155,6 +155,7 @@ class RepairOrderController extends AbstractFOSRestController {
         $sortDirection   = "";
         $searchField     = "";
         $searchTerm      = "";
+        
         if ($page < 1) {
             throw new NotFoundHttpException();
         }

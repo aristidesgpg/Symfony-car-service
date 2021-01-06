@@ -48,6 +48,30 @@ class CheckInController extends AbstractFOSRestController {
      *     description="Get ROs created before supplied date-time",
      *     in="query"
      * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -74,22 +98,55 @@ class CheckInController extends AbstractFOSRestController {
      * @param CheckInRepository     $checkInRepository
      * @param PaginatorInterface    $paginator
      * @param UrlGeneratorInterface $urlGenerator
-     *
+     * @param EntityManagerInterface $em
      * @return Response
      */
     public function list (Request $request, CheckInRepository $checkInRepository,
-                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
+                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em): Response {
         $page          = $request->query->getInt('page', 1);
         $startDate     = $request->query->get('startDate');
         $endDate       = $request->query->get('endDate');
         $urlParameters = [];
-
+        $sortField     = "";
+        $sortDirection = "";
+        $searchField   = "";
+        $searchTerm    = "";      
+        $errors          = [];              
+    
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $checkInQuery = $checkInRepository->getAllItems($startDate, $endDate);
+        $columns = $em->getClassMetadata('App\Entity\CheckIn')->getFieldNames();
+
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField               = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField'] = 'Invalid sort field name';
+            
+            $sortDirection = $request->query->get('sortDirection');
+        }
+
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField               = $request->query->get('searchField');
+           
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField'] = 'Invalid search field name';
+
+            $searchTerm  = $request->query->get('searchTerm');
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        $checkInQuery = $checkInRepository->getAllItems($startDate, $endDate,$sortField, $sortDirection, $searchField, $searchTerm);
         $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $pager        = $paginator->paginate($checkInQuery, $page, $pageLimit);
         $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
