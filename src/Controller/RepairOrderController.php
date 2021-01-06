@@ -241,6 +241,8 @@ class RepairOrderController extends AbstractFOSRestController {
         {
             $qb->andWhere('ro.'.$searchField.' LIKE :searchTerm');
             $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            
+            urlParameters['searchField'] = $searchField;
         }
 
         $user = $this->getUser();
@@ -262,6 +264,9 @@ class RepairOrderController extends AbstractFOSRestController {
         if($sortDirection)
         {
             $qb->orderBy('ro.'.$sortField, $sortDirection);
+
+            urlParameters['sortField'] = $sortField;
+            urlParameters['sortDirection'] = $sortDirection;
         }
 
         $q = $qb->getQuery();
@@ -269,6 +274,10 @@ class RepairOrderController extends AbstractFOSRestController {
         $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
+
+        if($searchTerm){
+            urlParameters['searchTerm'] = $searchTerm;
+        }
         $pager         = $paginator->paginate($q, $page, $pageLimit);
         $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
