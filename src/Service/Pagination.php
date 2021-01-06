@@ -90,7 +90,7 @@ class Pagination
         }
     }
 
-    public function setURLGenerator(UrlGeneratorInterface $urlGenerator)
+    public function setURLGenerator(UrlGeneratorInterface $urlGenerator): void
     {
         $this->urlGenerator = $urlGenerator;
     }

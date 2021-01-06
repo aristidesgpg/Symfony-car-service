@@ -399,7 +399,7 @@ class User implements UserInterface
      *
      * @return $this
      */
-    public function setPin($pin): User
+    public function setPin(int $pin): User
     {
         $this->pin = $pin;
 
@@ -444,6 +444,9 @@ class User implements UserInterface
         return $this->email;
     }
 
+    /**
+     * @return void
+     */
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.

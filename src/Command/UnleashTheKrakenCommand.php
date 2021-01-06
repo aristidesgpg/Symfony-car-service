@@ -23,6 +23,9 @@ class UnleashTheKrakenCommand extends Command
      */
     protected static $defaultName = 'app:unleash-the-kraken';
 
+    /**
+     * @return void
+     */
     protected function configure()
     {
         $this

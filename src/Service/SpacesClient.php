@@ -19,7 +19,6 @@ class SpacesClient
 
     /**
      * SpacesClient constructor.
-     * @param string $customerURL
      */
     public function __construct(string $customerURL)
     {
@@ -39,9 +38,10 @@ class SpacesClient
      * @param \SplFileInfo $file
      * @param string|null $subDirectory
      * @param string|null $customDirectory - Defaults to $this->clientSubdomain
-     * @return string
+     *
+     * @return string|null
      */
-    public function upload(\SplFileInfo $file, ?string $subDirectory = null, ?string $customDirectory = null): string
+    public function upload(\SplFileInfo $file, ?string $subDirectory = null, ?string $customDirectory = null): ?string
     {
         if (!$file->isReadable()) {
             throw new \InvalidArgumentException("File '{$file->getPathname()}' is not readable");

@@ -45,7 +45,7 @@ class CouponFixture extends Fixture
      *
      * @var array
      */
-    public function createFileObject($url): ?UploadedFile
+    public function createFileObject(string $url): ?UploadedFile
     {
         $rawData = file_get_contents($url);
         $imgRaw = imagecreatefromstring($rawData);
@@ -60,6 +60,10 @@ class CouponFixture extends Fixture
         return null;
     }
 
+    /**
+     * @param ObjectManager $manager
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();

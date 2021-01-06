@@ -31,7 +31,10 @@ class SettingsFixture extends Fixture
 
     /**
      * @param ObjectManager $manager
+     *
      * @throws Exception
+     *
+     * @return void
      */
     public function load(ObjectManager $manager)
     {

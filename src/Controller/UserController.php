@@ -408,7 +408,8 @@ class UserController extends AbstractFOSRestController
     }
 
     /**
-     * @param mixed $data
+     * @param User|User[] $data
+     *
      * @return Response
      * @return Response
      */

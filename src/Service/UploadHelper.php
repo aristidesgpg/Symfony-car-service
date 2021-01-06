@@ -37,7 +37,7 @@ class UploadHelper
         return 1 === preg_match('/^video\/.+/', $file->getMimeType());
     }
 
-    public function upload(UploadedFile $file, ?string $directory = null): string
+    public function upload(UploadedFile $file, ?string $directory = null): ?string
     {
         if ($this->isValidVideo($file)) {
             throw new \InvalidArgumentException(sprintf('Use %s::uploadVideo for video uploads', __CLASS__));
@@ -50,7 +50,7 @@ class UploadHelper
         return $url;
     }
 
-    public function uploadVideo(UploadedFile $file, ?string $directory = null): string
+    public function uploadVideo(UploadedFile $file, ?string $directory = null): ?string
     {
         $compressed = $this->compressVideo($file);
         $url = $this->spaces->upload($compressed, $directory);
@@ -91,7 +91,7 @@ class UploadHelper
         return in_array($this->getExtension($file), $extensions);
     }
 
-    private function getExtension(File $file): string
+    private function getExtension(File $file): ?string
     {
         return $file->guessExtension();
     }

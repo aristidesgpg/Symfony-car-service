@@ -30,6 +30,9 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
         $this->container = $container;
     }
 
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
