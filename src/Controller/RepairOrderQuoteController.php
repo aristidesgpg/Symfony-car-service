@@ -19,7 +19,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use DateTime;
-
+use App\Response\ValidationResponse;
+use Knp\Component\Pager\PaginatorInterface;
+use App\Service\Pagination;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * Class RepairOrderQuoteController
  *
@@ -34,25 +37,148 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * @SWG\Tag(name="Repair Order Quote")
      * @SWG\Get(description="Get All Repair Order Quotes")
      *
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * 
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return Repair Order Quotes",
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=RepairOrderQuote::class, groups=RepairOrderQuote::GROUPS)),
+     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="next", type="string", description="URL for next page"),
      *         description="id, repair_order_id, date_created, date_sent, date_customer_viewed, date_customer_completed, date_completed_viewed, deleted"
      *     )
      * )
-     *
+     * 
+     * @SWG\Response(response="404", description="Invalid page parameter")
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
+     * 
      * @param RepairOrderQuoteRepository $repairOrderQuoteRepository
+     * @param PaginatorInterface    $paginator
      *
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param EntityManagerInterface $em
+     * 
      * @return Response
      */
-    public function getRepairOrderQuotes (RepairOrderQuoteRepository $repairOrderQuoteRepository) {
-        //get Repair Order MPIs
-        $repairOrderQuotes = $repairOrderQuoteRepository->findBy(['deleted' => 0]);
-        $view              = $this->view($repairOrderQuotes);
-        $view->getContext()->setGroups(['roq_list']);
+    public function getRepairOrderQuotes (RepairOrderQuoteRepository $repairOrderQuoteRepository, PaginatorInterface $paginator,
+    UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
+        $page            = $request->query->getInt('page', 1);
+        $startDate       = $request->query->get('startDate');
+        $endDate         = $request->query->get('endDate');
+        $urlParameters   = [];
+        $queryParameters = [];
+        $errors          = [];
+        $sortField       = "";
+        $sortDirection   = "";
+        $searchField     = "";
+        $searchTerm      = "";
+        
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        $qb = $repairOrderQuoteRepository->createQueryBuilder('rq');
+        $qb->andWhere('rq.deleted = 0');
+
+        //get all field names of RepairOrderQuote Entity
+        $columns = $em->getClassMetadata('App\Entity\RepairOrderQuote')->getFieldNames();
+
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField               = $request->query->get('searchField');
+           
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField'] = 'Invalid search field name';
+            else{
+                $searchTerm  = $request->query->get('searchTerm');
+
+                $qb->andWhere('rq.'.$searchField.' LIKE :searchTerm');
+                $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            
+                $urlParameters['searchField']  = $searchField;
+            }
+            
+        }
+
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField                  = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField'] = 'Invalid sort field name';
+            else{
+                $sortDirection = $request->query->get('sortDirection');
+                $qb->orderBy('rq.'.$sortField, $sortDirection);
+
+                $urlParameters['sortField']     = $sortField;
+                $urlParameters['sortDirection'] = $sortDirection;
+            }
+           
+        }
+  
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        $q = $qb->getQuery();
+        $q->setParameters($queryParameters);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+
+        $urlParameters += $queryParameters;
+
+        if($searchTerm){
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+        $pager         = $paginator->paginate($q, $page, $pageLimit);
+        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $view = $this->view([
+            'mpiTemplates' => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('getRepairOrderQuotes', $urlParameters),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('getRepairOrderQuotes', $urlParameters)
+        ]);
+        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
 
         return $this->handleView($view);
     }

@@ -82,12 +82,17 @@ class MPIController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"mpi_template_list"})),
-     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
-     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
-     *         @SWG\Property(property="total", type="integer", description="Total number of items for query"),
+     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="next", type="string", description="URL for next page"),
      *         description="id, name, active"
      *     )
      * )
+     * 
+     * @SWG\Response(response="404", description="Invalid page parameter")
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @param Request               $request
      * @param MPITemplateRepository $mpiTemplateRepository
@@ -122,8 +127,8 @@ class MPIController extends AbstractFOSRestController {
             $qb->andWhere('mp.active = 0');
         } 
 
-        //get all field names of RepairOrder Entity
-        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+        //get all field names of MPITemplate Entity
+        $columns = $em->getClassMetadata('App\Entity\MPITemplate')->getFieldNames();
 
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
         {
