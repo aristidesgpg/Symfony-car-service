@@ -48,6 +48,13 @@ class CheckInController extends AbstractFOSRestController {
      *     description="Get ROs created before supplied date-time",
      *     in="query"
      * )
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
      * @SWG\Parameter(
      *     name="sortField",
      *     type="string",
@@ -154,7 +161,7 @@ class CheckInController extends AbstractFOSRestController {
             return new ValidationResponse($errors);
         }
 
-        $checkInQuery = $checkInRepository->getAllItems($startDate, $endDate,$sortField, $sortDirection, $searchField, $searchTerm);
+        $checkInQuery = $checkInRepository->getAllItems($startDate, $endDate, $sortField, $sortDirection, $searchField, $searchTerm);
         $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $pager        = $paginator->paginate($checkInQuery, $page, $pageLimit);
         $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);

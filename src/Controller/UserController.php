@@ -117,7 +117,7 @@ class UserController extends AbstractFOSRestController {
         if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
-        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+        $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
@@ -140,7 +140,7 @@ class UserController extends AbstractFOSRestController {
             if(!in_array($searchField, $columns))
                 $errors['searchField']        = 'Invalid search field name';
 
-            $searchTerm  = $request->query->get('searchTerm');
+            $searchTerm                       = $request->query->get('searchTerm');
             $urlParameters['searchField']     = $searchField;
             $urlParameters['searchTerm']      = $searchTerm;
         }
