@@ -17,6 +17,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Pagination;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Class RepairOrderVideoController
@@ -32,20 +36,70 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RepairOrderVideoController extends AbstractFOSRestController {
     /**
      * @Rest\Get
+     * 
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS))
+     *         @SWG\Items(ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS)),
+     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="next", type="string", description="URL for next page"),
      *     )
      * )
      *
      * @param RepairOrder $ro
+     * @param RepairOrderRepository $repairOrderRepo
+     * @param PaginatorInterface    $paginator
      *
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param EntityManagerInterface $em
+     * 
      * @return Response
      */
-    public function getAll (RepairOrder $ro): Response {
+    public function getAll (RepairOrder $ro, PaginatorInterface $paginator,
+    UrlGeneratorInterface $urlGenerator,): Response {
+        $page            = $request->query->getInt('page', 1);
+         
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -56,8 +110,21 @@ class RepairOrderVideoController extends AbstractFOSRestController {
             }
             $videos[] = $video;
         }
-        $view = $this->view($videos);
-        $view->getContext()->setGroups(RepairOrderVideo::GROUPS);
+
+        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+
+        $pager          = $paginator->paginate($videos, $page, $pageLimit);
+        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $view = $this->view([
+            'repairOrderVidoes' => $pager->getItems(),
+            'totalResults'      => $pagination->totalResults,
+            'totalPages'        => $pagination->totalPages,
+            'previous'          => $pagination->getPreviousPageURL('getRepairOrderVideos', $urlParameters),
+            'currentPage'       => $pagination->currentPage,
+            'next'              => $pagination->getNextPageURL('getRepairOrderVideos', $urlParameters)
+        ]);
+        $view->getContext()->setGroups(RepairOrder::GROUPS);
 
         return $this->handleView($view);
     }
