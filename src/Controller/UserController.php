@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use App\Service\UserHelper;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Knp\Component\Pager\PaginatorInterface;
+use App\Response\ValidationResponse;
+use App\Service\Pagination;
 
 /**
  * Class UserController
@@ -35,15 +39,55 @@ class UserController extends AbstractFOSRestController {
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return users",
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
+     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="next", type="string", description="URL for next page"),
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
+     * @SWG\Response(response="404", description="Invalid page parameter")
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @param Request        $request
      * @param UserRepository $userRepo
@@ -52,16 +96,80 @@ class UserController extends AbstractFOSRestController {
      * @return Response
      */
     public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper) {
-        $role = $request->query->get('role');
+        $page            = $request->query->getInt('page', 1);
+        $startDate       = $request->query->get('startDate');
+        $endDate         = $request->query->get('endDate');
+        $urlParameters   = [];
+        $queryParameters = [];
+        $errors          = [];
+        $sortField       = "";
+        $sortDirection   = "";
+        $searchField     = "";
+        $searchTerm      = "";
+        
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        $role    = $request->query->get('role');
 
         // role is invalid
         if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
-        $users = $userRepo->getUserByRole($role);
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField                        = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField']          = 'Invalid sort field name';
+            
+            $sortDirection                    = $request->query->get('sortDirection');
+            $urlParameters['sortField']       = $sortField;
+            $urlParameters['sortDirection']   = $sortDirection;
+        }
 
-        return $this->userView($users);
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField                      = $request->query->get('searchField');
+           
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField']        = 'Invalid search field name';
+
+            $searchTerm  = $request->query->get('searchTerm');
+            $urlParameters['searchField']     = $searchField;
+            $urlParameters['searchTerm']      = $searchTerm;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        $users = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchField, $searchTerm);
+
+        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+
+        if($searchTerm){
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+        $pager          = $paginator->paginate($users, $page, $pageLimit);
+        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $view = $this->view([
+            'users' => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('getUsers', $urlParameters),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('getUsers', $urlParameters)
+        ]);
+        $view->getContext()->setGroups(User::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**

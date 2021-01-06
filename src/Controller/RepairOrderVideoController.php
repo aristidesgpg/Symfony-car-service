@@ -88,12 +88,11 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      * @param PaginatorInterface    $paginator
      *
      * @param UrlGeneratorInterface $urlGenerator
-     * @param EntityManagerInterface $em
      * 
      * @return Response
      */
     public function getAll (RepairOrder $ro, PaginatorInterface $paginator,
-    UrlGeneratorInterface $urlGenerator,): Response {
+    UrlGeneratorInterface $urlGenerator): Response {
         $page            = $request->query->getInt('page', 1);
          
         if ($page < 1) {

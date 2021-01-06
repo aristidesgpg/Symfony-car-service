@@ -82,9 +82,8 @@ class CheckInRepository extends ServiceEntityRepository
 
             $qb->orderBy('ch.'.$sortField, $sortDirection);
 
-            return $qb->getQuery()
-                      ->getResult();
-
+            return $qb->getQuery();
+ 
         } catch (NonUniqueResultException $e) {
             return null;
         }

@@ -19,10 +19,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use DateTime;
-use App\Response\ValidationResponse;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Service\Pagination;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use App\Response\ValidationResponse;
+
 /**
  * Class RepairOrderQuoteController
  *
@@ -43,7 +44,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *     type="integer",
      *     description="Page Limit",
      *     in="query"
-     * 
+     * )
      * @SWG\Parameter(
      *     name="sortField",
      *     type="string",
@@ -69,7 +70,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *     description="The value of search",
      *     in="query"
      * )
-     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return Repair Order Quotes",
@@ -84,7 +84,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      *         description="id, repair_order_id, date_created, date_sent, date_customer_viewed, date_customer_completed, date_completed_viewed, deleted"
      *     )
      * )
-     * 
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      * 
@@ -97,7 +96,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * @return Response
      */
     public function getRepairOrderQuotes (RepairOrderQuoteRepository $repairOrderQuoteRepository, PaginatorInterface $paginator,
-    UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
+    UrlGeneratorInterface $urlGenerator,  EntityManagerInterface $em) {
         $page            = $request->query->getInt('page', 1);
         $startDate       = $request->query->get('startDate');
         $endDate         = $request->query->get('endDate');
@@ -112,7 +111,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
-
         $qb = $repairOrderQuoteRepository->createQueryBuilder('rq');
         $qb->andWhere('rq.deleted = 0');
 
@@ -171,12 +169,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
-            'mpiTemplates' => $pager->getItems(),
-            'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getRepairOrderQuotes', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getRepairOrderQuotes', $urlParameters)
+            'repairOrderQuotes' => $pager->getItems(),
+            'totalResults'      => $pagination->totalResults,
+            'totalPages'        => $pagination->totalPages,
+            'previous'          => $pagination->getPreviousPageURL('getRepairOrderQuotes', $urlParameters),
+            'currentPage'       => $pagination->currentPage,
+            'next'              => $pagination->getNextPageURL('getRepairOrderQuotes', $urlParameters)
         ]);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
 

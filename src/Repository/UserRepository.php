@@ -43,13 +43,24 @@ class UserRepository extends ServiceEntityRepository {
      *
      * @return User[]
      */
-    public function getUserByRole (string $role) {
-        return $this->createQueryBuilder('u')
-                    ->where('u.role = :role')
-                    ->andWhere('u.active = 1')
-                    ->setParameter('role', $role)
-                    ->getQuery()
-                    ->getResult();
+    public function getUserByRole (string $role, $sortField = null, $sortDirection = null, $searchField = null, $searchTerm = null) {
+        $qb = $this->createQueryBuilder('u');
+        
+        $qb->where('u.role = :role')
+           ->andWhere('u.active = 1')
+           ->setParameter('role', $role);
+        
+        if($searchTerm)
+        {
+            $qb->andWhere('u.'.$searchField.' LIKE :searchTerm')
+                ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        }
+        
+        if($sortDirection){
+            $qb->orderBy('u.'.$sortField, $sortDirection);
+        }
+
+        return $qb->getQuery();
     }
 
     /**
