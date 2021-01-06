@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\View\View;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,40 +16,43 @@ use App\Repository\OperationCodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-class OperationCodeController extends AbstractFOSRestController
-{
+class OperationCodeController extends AbstractFOSRestController {
     /**
-     * @Rest\Get("/api/operaction-code")
+     * @Rest\Get("/api/operation-code")
      *
      * @SWG\Tag(name="OperationCode")
      * @SWG\Get(description="Get All Operation Codes")
-     *     
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return Operation Codes",
      *     @SWG\Items(
-     *         type="object",
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"operation_code_list"})),
      *         description="code, description, labor_hours, labor_taxable, parts_price, parts_taxable, supplies_price, supplies_taxable, deleted"
      *     )
      * )
      *
-     * @param OperationCodeRepository operationCodeRepo
+     * @param OperationCodeRepository $operationCodeRepo
      *
      * @return Response
      */
     public function getOperationCodes (OperationCodeRepository $operationCodeRepo) {
         //get all active operation codes
         $operationCodes = $operationCodeRepo->getActiveOperationCodes();
+        $view           = $this->view($operationCodes);
 
-        return $this->handleView($this->view($operationCodes, Response::HTTP_OK));
+        $view->getContext()->setGroups(['operation_code_list']);
+
+        return $this->handleView($view);
     }
 
     /**
-     * @Rest\Post("/api/operaction-code")
+     * @Rest\Post("/api/operation-code")
      *
      * @SWG\Tag(name="OperationCode")
      * @SWG\Post(description="Create a New Operation Code")
-     * 
+     *
      * @SWG\Parameter(
      *     name="code",
      *     in="query",
@@ -105,7 +109,7 @@ class OperationCodeController extends AbstractFOSRestController
      *     type="boolean",
      *     description="The Supplies Taxable",
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -116,13 +120,13 @@ class OperationCodeController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param Request                 $request
-     * @param OperationCodeRepository $operationCodeRepo
-     * 
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     *
      * @return Response
      */
     public function create (Request $request, EntityManagerInterface $em) {
-        $code            = $request->get('code'); 
+        $code            = $request->get('code');
         $description     = $request->get('description');
         $laborHours      = $request->get('laborHours');
         $laborTaxable    = $request->get('laborTaxable');
@@ -132,7 +136,7 @@ class OperationCodeController extends AbstractFOSRestController
         $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
-        if(!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable){
+        if (!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -156,11 +160,11 @@ class OperationCodeController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Put("/api/operaction-code/{id}")
+     * @Rest\Put("/api/operation-code/{id}")
      *
      * @SWG\Tag(name="OperationCode")
      * @SWG\Put(description="Update a Operation Code")
-     * 
+     *
      * @SWG\Parameter(
      *     name="code",
      *     in="query",
@@ -217,7 +221,7 @@ class OperationCodeController extends AbstractFOSRestController
      *     type="boolean",
      *     description="The Supplies Taxable",
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -227,15 +231,15 @@ class OperationCodeController extends AbstractFOSRestController
      *                                              "Successfully Updated" }),
      *         )
      * )
-     * 
-     * @param OperationCode           $operationCode 
-     * @param Request                 $request
-     * @param EntityManagerInterface  $em
-     * 
+     *
+     * @param OperationCode          $operationCode
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     *
      * @return Response
      */
     public function edit (OperationCode $operationCode, Request $request, EntityManagerInterface $em) {
-        $code            = $request->get('code'); 
+        $code            = $request->get('code');
         $description     = $request->get('description');
         $laborHours      = $request->get('laborHours');
         $laborTaxable    = $request->get('laborTaxable');
@@ -245,7 +249,7 @@ class OperationCodeController extends AbstractFOSRestController
         $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
-        if(!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable){
+        if (!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -253,11 +257,11 @@ class OperationCodeController extends AbstractFOSRestController
         $operationCode->setCode($code)
                       ->setDescription($description)
                       ->setLaborHours($laborHours)
-                      ->setLaborTaxable($laborTaxable)
+                      ->setLaborTaxable(filter_var($laborTaxable, FILTER_VALIDATE_BOOLEAN))
                       ->setPartsPrice($partsPrice)
-                      ->setPartsTaxable($partsTaxable)
+                      ->setPartsTaxable(filter_var($partsTaxable, FILTER_VALIDATE_BOOLEAN))
                       ->setSuppliesPrice($suppliesPrice)
-                      ->setSuppliesTaxable($suppliesTaxable);
+                      ->setSuppliesTaxable(filter_var($suppliesTaxable, FILTER_VALIDATE_BOOLEAN));
 
         $em->persist($operationCode);
         $em->flush();
@@ -268,11 +272,11 @@ class OperationCodeController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Delete("/api/operaction-code/{id}")
+     * @Rest\Delete("/api/operation-code/{id}")
      *
      * @SWG\Tag(name="OperationCode")
      * @SWG\Delete(description="Delete a Operation Code")
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -282,10 +286,10 @@ class OperationCodeController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     * 
-     * @param OperationCode           $operationCode
-     * @param EntityManagerInterface  $em
-     * 
+     *
+     * @param OperationCode          $operationCode
+     * @param EntityManagerInterface $em
+     *
      * @return Response
      */
     public function delete (OperationCode $operationCode, EntityManagerInterface $em) {

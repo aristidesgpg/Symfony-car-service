@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Entity(repositoryClass=RepairOrderRepository::class)
  */
 class RepairOrder {
-    public const GROUPS = ['ro_list', 'customer_list', 'user_list'];
+    public const GROUPS = ['ro_list', 'customer_list', 'user_list', 'roq_list'];
 
     /**
      * @ORM\Id
@@ -195,10 +195,11 @@ class RepairOrder {
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrderMPI::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $repairOrderMPI;
 
-    /*
+    /**
      * @ORM\Column(type="boolean")
      * @Serializer\Groups(groups={"ro_list"})
      */
@@ -211,6 +212,7 @@ class RepairOrder {
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrderQuote::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $repairOrderQuote;
 
@@ -315,27 +317,6 @@ class RepairOrder {
      */
     public function setVideoStatus (string $videoStatus): self {
         $this->videoStatus = $videoStatus;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function updateVideoStatus (): self {
-        $min = PHP_INT_MAX;
-        foreach ($this->getVideos() as $video) {
-            if ($video->isDeleted()) {
-                continue;
-            }
-            $index = array_search($video->getStatus(), RepairOrderVideo::STATUSES);
-            if ($index !== false && $index < $min) {
-                $min = $index;
-            }
-        }
-        if ($min !== PHP_INT_MAX) {
-            $this->videoStatus = RepairOrderVideo::STATUSES[$min];
-        }
 
         return $this;
     }

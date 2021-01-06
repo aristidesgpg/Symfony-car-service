@@ -231,7 +231,7 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="role",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
@@ -239,35 +239,35 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="firstName",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The First Name of User",
      * )
      * @SWG\Parameter(
      *     name="lastName",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Last Name of User",
      * )
      * @SWG\Parameter(
      *     name="email",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Email of User",
      * )
      * @SWG\Parameter(
      *     name="phone",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Phone of User",
      * )
      * @SWG\Parameter(
      *     name="password",
      *     in="formData",
-     *     required=false,
+     *     required=true,
      *     type="string",
      *     description="The Password of User",
      * )
@@ -325,17 +325,20 @@ class UserController extends AbstractFOSRestController {
      * @return Response
      */
     public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
-        $role              = $request->get('role') ?? $user->getRoles()[0];
-        $firstName         = $request->get('firstName') ?? $user->getFirstName();
-        $lastName          = $request->get('lastName') ?? $user->getLastName();
-        $email             = $request->get('email') ?? $user->getEmail();
-        $phone             = $request->get('phone') ?? $user->getPhone();
-        $password          = $request->get('password') ?? $user->getPassword();
-        $pin               = $request->get('pin') ?? $user->getPin();
-        $certification     = $request->get('certification') ?? $user->getCertification();
-        $experience        = $request->get('experience') ?? $user->getExperience();
-        $processRefund     = $request->get('processRefund') ?? $user->getProcessRefund();
-        $shareRepairOrders = $request->get('shareRepairOrders') ?? $user->getShareRepairOrders();
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $role              = $data['role'] ?? $user->getRoles()[0];
+        $firstName         = $data['firstName'] ?? $user->getFirstName();
+        $lastName          = $data['lastName'] ?? $user->getLastName();
+        $email             = $data['email'] ?? $user->getEmail();
+        $phone             = $data['phone'] ?? $user->getPhone();
+        $password          = $data['password'] ?? $user->getPassword();
+        $pin               = $data['pin'] ?? $user->getPin();
+        $certification     = $data['certification'] ?? $user->getCertification();
+        $experience        = $data['experience'] ?? $user->getExperience();
+        $processRefund     = $data['processRefund'] ?? $user->getProcessRefund();
+        $shareRepairOrders = $data['shareRepairOrders'] ?? $user->getShareRepairOrders();
 
         //role is invalid
         if ($role && !$userHelper->isValidRole($role)) {
@@ -349,6 +352,7 @@ class UserController extends AbstractFOSRestController {
         if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
+
 
         // update user
         $user->setFirstName($firstName)

@@ -7,6 +7,7 @@ use App\Entity\MPIGroup;
 use App\Entity\MPIItem;
 use App\Repository\MPITemplateRepository;
 use App\Repository\MPIGroupRepository;
+use App\Repository\MPIItemRepository;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -62,8 +63,11 @@ class MPIController extends AbstractFOSRestController {
         //get MPI Template
         if ($active == "true") {
             $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 1, 'deleted' => 0]);
-        } else {
+        } else if($active == "false") {
+            $mpiTemplates = $mpiTemplateRepository->findBy(['active' => 0, 'deleted' => 0]);
+        } else{
             $mpiTemplates = $mpiTemplateRepository->findBy(['deleted' => 0]);
+
         }
         $view = $this->view($mpiTemplates);
         $view->getContext()->setGroups(['mpi_template_list']);
@@ -134,7 +138,7 @@ class MPIController extends AbstractFOSRestController {
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="Axle Information - [{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'},{'wheeles':4,'brakesRangeMaximum':12,'brakesRangeUnit':'mm','tireRangeMaximum':12,'tireRangeUnit':'s'},{'wheeles':2,'brakesRangeMaximum':10,'brakesRangeUnit':'mm','tireRangeMaximum':6,'tireRangeUnit':'s'}]",
+     *     description="Axle Information - [{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6},{'wheels':4,'brakesRangeMaximum':12,'tireRangeMaximum':12},{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6}]",
      * )
      *
      * @SWG\Response(
@@ -201,7 +205,7 @@ class MPIController extends AbstractFOSRestController {
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
                 //craete tire items
-                if ($axle->wheeles == 2) {
+                if ($axle->wheels == 2) {
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
                 }
             } else if ($numberOfAxles > 2) {
@@ -211,9 +215,9 @@ class MPIController extends AbstractFOSRestController {
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
                 //create tire items
-                if ($axle->wheeles == 2) {
+                if ($axle->wheels == 2) {
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
-                } else if ($axle->wheeles == 4) {
+                } else if ($axle->wheels == 4) {
                     $itemPassengerInner = "Axle" . ($index + 1) . " - Passenger Inner";
                     $itemPassengerOuter = "Axle" . ($index + 1) . " - Passenger Outer";
                     $itemDriverInner    = "Axle" . ($index + 1) . " - Driver Inner";
@@ -277,7 +281,7 @@ class MPIController extends AbstractFOSRestController {
 
         $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
 
-        $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate);
+        $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate, false);
 
         $view = $this->view($result);
         $view->getContext()->setGroups(MPITemplate::GROUPS);
@@ -399,7 +403,7 @@ class MPIController extends AbstractFOSRestController {
      * @SWG\Post(description="Create a new MPI Group")
      *
      * @SWG\Parameter(
-     *     name="templateID",
+     *     name="id",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -431,7 +435,7 @@ class MPIController extends AbstractFOSRestController {
      */
     public function createGroup (Request $request, MPITemplateRepository $mpiTemplateRepo,
                                  EntityManagerInterface $em) {
-        $templateID = $request->get('templateID');
+        $templateID = $request->get('id');
         $name       = $request->get('name');
 
         //param is invalid
@@ -625,7 +629,7 @@ class MPIController extends AbstractFOSRestController {
      * @SWG\Post(description="Create a new MPI Item")
      *
      * @SWG\Parameter(
-     *     name="groupID",
+     *     name="id",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -651,12 +655,18 @@ class MPIController extends AbstractFOSRestController {
      *
      * @param Request                $request
      * @param MPIGroupRepository     $mpiGroupRepo
+     * @param MPIItemRepository      $mpiItemRepo
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function createItem (Request $request, MPIGroupRepository $mpiGroupRepo, EntityManagerInterface $em) {
-        $groupID = $request->get('groupID');
+    public function createItem (
+        Request                $request, 
+        MPIGroupRepository     $mpiGroupRepo, 
+        MPIItemRepository      $mpiItemRepo,
+        EntityManagerInterface $em
+    ) {
+        $groupID = $request->get('id');
         $name    = $request->get('name');
 
         //param is invalid
@@ -669,6 +679,12 @@ class MPIController extends AbstractFOSRestController {
         if (!$mpiGroup) {
             return $this->handleView($this->view('Invalid Group Parameter', Response::HTTP_BAD_REQUEST));
         }
+        //check if name is duplicated
+        $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiGroup->getId());
+        if($duplicatedItems){
+            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
+        }
+
         // create item
         $mpiItem = new MPIItem();
         $mpiItem->setName($name)
@@ -710,16 +726,27 @@ class MPIController extends AbstractFOSRestController {
      *
      * @param MPIItem                $mpiItem
      * @param Request                $request
+     * @param MPIItemRepository      $mpiItemRepo
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function editItem (MPIItem $mpiItem, Request $request, EntityManagerInterface $em) {
+    public function editItem (
+        MPIItem                $mpiItem, 
+        Request                $request, 
+        MPIItemRepository      $mpiItemRepo,
+        EntityManagerInterface $em
+    ) {
         $name = $request->get('name');
 
         //param is invalid
         if (!$name) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //check if name is duplicated
+        $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiItem->getMPIGroup()->getId());
+        if($duplicatedItems){
+            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
         }
 
         // update Item

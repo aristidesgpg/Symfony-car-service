@@ -4,8 +4,12 @@ namespace App\Controller;
 
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderMPI;
+use App\Entity\RepairOrderQuote;
+use App\Entity\RepairOrderQuoteRecommendation;
 use App\Repository\RepairOrderRepository;
 use App\Repository\RepairOrderMPIRepository;
+use App\Repository\OperationCodeRepository;
+use App\Service\MPIInteractionHelper;
 use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -14,7 +18,6 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
-use App\Service\MPIInteractionHelper;
 
 /**
  * Class RepairOrderMPIController
@@ -25,42 +28,13 @@ class RepairOrderMPIController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/api/repair-order-mpi")
-     *
-     * @SWG\Tag(name="Repair Order MPI")
-     * @SWG\Get(description="Get All Repair Order MPIs")
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return Repair Order MPIs",
-     *     @SWG\Items(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderMPI::class, groups=RepairOrderMPI::GROUPS)),
-     *         description="id, repair_order_id, date_completed, date_sent, results"
-     *     )
-     * )
-     *
-     * @param RepairOrderMPIRepository $repairOrderMPIRepository
-     *
-     * @return Response
-     */
-    public function getRepairOrderMPIs (RepairOrderMPIRepository $repairOrderMPIRepository) {
-        //get Repair Order MPIs
-        $repairOrderMPIs = $repairOrderMPIRepository->findAll();
-        $view            = $this->view($repairOrderMPIs);
-        $view->getContext()->setGroups(['rom_list']);
-
-        return $this->handleView($view);
-    }
-
-    /**
      * @Rest\Post("/api/repair-order-mpi")
      *
      * @SWG\Tag(name="Repair Order MPI")
      * @SWG\Post(description="Create a new Repair Order MPIs")
      *
      * @SWG\Parameter(
-     *     name="repair_order",
+     *     name="repairOrderID",
      *     in="formData",
      *     required=true,
      *     type="integer",
@@ -71,7 +45,14 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="{'name':'Toyota MPI','results':[{'group':'Brakes','items':[{'name':'Driver Front','value':10,'special':true},{'name':'Passenger Front','value':10,'special':true},{'name':'Driver Rear','value':10,'special':true},{'name':'Passenger Rear','value':10,'special':true}]},{'group':'Tires','items':[{'name':'Driver Front','value':7,'special':true},{'name':'Passenger Front','value':7,'special':true},{'name':'Driver Rear','value':7,'special':true},{'name':'Passenger Rear','value':7,'special':true}]},{'group':'Exterior','items':[{'name':'Horn operation','value':'green','special':false},{'name':'Head lights \/ tail lights \/ turn signals \/ brake lights \/ hazard warning lights \/ exterior lamps','value':'green','special':false},{'name':'Windshield wiper and washer operation','value':'green','special':false},{'name':'Windshield glass','value':'green','special':false},{'name':'Fuel tank cap gasket','value':'green','special':false}]},{'group':'Interior','items':[{'name':'Dome light \/ amp light \/ dimmer combination meter','value':'green','special':false},{'name':'Cabin air filter','value':'green','special':false},{'name':'Parking brake operation','value':'green','special':false},{'name':'Check installation of driver's floor mat','value':'green','special':false}]},{'group':'Under Hood','items':[{'name':'Air filter','value':'green','special':false},{'name':'Battery condition (cables \/ clamps \/ corrosion)','value':'green','special':false},{'name':'Battery state of health','value':'green','special':false},{'name':'Cooling System (leaks)','value':'green','special':false},{'name':'Hoses (cracks \/ damage \/ leaks)','value':'green','special':false},{'name':'Drive belts (cracks \/ damage \/ wear)','value':'green','special':false},{'name':'Radiator core \/ air condition condenser','value':'green','special':false}]},{'group':'Fluids','items':[{'name':'Windshield washer','value':'green','special':false},{'name':'Coolant','value':'green','special':false},{'name':'Power steering','value':'grey','special':false},{'name':'Brake reservoir','value':'green','special':false},{'name':'Clutch reservoir','value':'grey','special':false},{'name':'Transmission \/ transaxle','value':'green','special':false},{'name':'Differential','value':'grey','special':false},{'name':'Transfer case (4WD models)','value':'grey','special':false}]},{'group':'Under Vehicle','items':[{'name':'Propeller \/ driveshaft (damage \/ leaks \/ U-joints)','value':'grey','special':false},{'name':'Drive \/ CV shaft (damage \/ leaks \/boots)','value':'grey','special':false},{'name':'Axle hub & bearing (damage \/ leaks \/ boots)','value':'green','special':false},{'name':'Steering linkage (damage \/ leaks \/ noise)','value':'green','special':false},{'name':'Suspension (damage \/ leaks \/ worn components)','value':'green','special':false},{'name':'Fluid leaks (engine \/ transmission \/ differential)','value':'green','special':false},{'name':'Exhaust system (damage \/ leaks \/ corrosion)','value':'green','special':false},{'name':'Fuel lines & connections \/ fuel tank bands \/ fuel tank vapor vent system hoses (damage \/ leaks \/ corrosion)','value':'green','special':false}]}]}",
+     *     description="{'name':'Toyota MPI','results':[{'group':'Brakes','items':[{'name':'Driver Front','value':10,'special':true,'status':'green'},{'name':'Passenger Front','value':10,'special':true,'status':'green'},{'name':'Driver Rear','value':10,'special':true,'status':'green'},{'name':'Passenger Rear','value':10,'special':true,'status':'green'}]},{'group':'Tires','items':[{'name':'Driver Front','value':7,'special':true,'status':'yellow'},{'name':'Passenger Front','value':7,'special':true,'status':'yellow'},{'name':'Driver Rear','value':7,'special':true,'status':'yellow'},{'name':'Passenger Rear','value':7,'special':true,'status':'yellow'}]},{'group':'Exterior','items':[{'name':'Horn operation','status':'green','special':false},{'name':'Head lights \/ tail lights \/ turn signals \/ brake lights \/ hazard warning lights \/ exterior lamps','status':'green','special':false},{'name':'Windshield wiper and washer operation','status':'green','special':false},{'name':'Windshield glass','status':'green','special':false},{'name':'Fuel tank cap gasket','status':'green','special':false}]},{'group':'Interior','items':[{'name':'Dome light \/ amp light \/ dimmer combination meter','status':'green','special':false},{'name':'Cabin air filter','status':'green','special':false},{'name':'Parking brake operation','status':'green','special':false},{'name':'Check installation of driver s floor mat','status':'green','special':false}]},{'group':'Under Hood','items':[{'name':'Air filter','status':'green','special':false},{'name':'Battery condition (cables \/ clamps \/ corrosion)','status':'green','special':false},{'name':'Battery state of health','status':'green','special':false},{'name':'Cooling System (leaks)','status':'green','special':false},{'name':'Hoses (cracks \/ damage \/ leaks)','status':'green','special':false},{'name':'Drive belts (cracks \/ damage \/ wear)','status':'green','special':false},{'name':'Radiator core \/ air condition condenser','status':'green','special':false}]},{'group':'Fluids','items':[{'name':'Windshield washer','status':'green','special':false},{'name':'Coolant','status':'green','special':false},{'name':'Power steering','status':'grey','special':false},{'name':'Brake reservoir','status':'green','special':false},{'name':'Clutch reservoir','status':'grey','special':false},{'name':'Transmission \/ transaxle','status':'green','special':false},{'name':'Differential','status':'grey','special':false},{'name':'Transfer case (4WD models)','status':'grey','special':false}]},{'group':'Under Vehicle','items':[{'name':'Propeller \/ driveshaft (damage \/ leaks \/ U-joints)','status':'grey','special':false},{'name':'Drive \/ CV shaft (damage \/ leaks \/boots)','status':'grey','special':false},{'name':'Axle hub & bearing (damage \/ leaks \/ boots)','status':'green','special':false},{'name':'Steering linkage (damage \/ leaks \/ noise)','status':'green','special':false},{'name':'Suspension (damage \/ leaks \/ worn components)','status':'green','special':false},{'name':'Fluid leaks (engine \/ transmission \/ differential)','status':'green','special':false},{'name':'Exhaust system (damage \/ leaks \/ corrosion)','status':'green','special':false},{'name':'Fuel lines & connections \/ fuel tank bands \/ fuel tank vapor vent system hoses (damage \/ leaks \/ corrosion)','status':'green','special':false}]}]}",
+     * )
+     * @SWG\Parameter(
+     *     name="recommendations",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="[{'operationCode':14, 'description':'Neque maxime ex dolorem ut.','preApproved':true,'approved':true,'partsPrice':1.0,'suppliesPrice':14.02,'laborPrice':5.3,'notes':'Cumque tempora ut nobis.'},{'operationCode':11, 'description':'Quidem earum sapiente at dolores quia natus.','preApproved':false,'approved':true,'partsPrice':2.6,'suppliesPrice':509.02,'laborPrice':36.9,'notes':'Et accusantium rerum.'},{'operationCode':4, 'description':'Mollitia unde nobis doloribus sed.','preApproved':true,'approved':false,'partsPrice':1.1,'suppliesPrice':71.7,'laborPrice':55.1,'notes':'Voluptates et aut debitis.'}]",
      * )
      * 
      * @SWG\Response(
@@ -84,15 +65,24 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Request                $request
-     * @param RepairOrderRepository  $repairOrderRepository
-     * @param EntityManagerInterface $em
+     * @param Request                  $request
+     * @param RepairOrderRepository    $repairOrderRepository
+     * @param OperationCodeRepository  $operationCodeRepository
+     * @param RepairOrderMPIRepository $repairOrderMPIRepos
+     * @param EntityManagerInterface   $em
      *
      * @return Response
      */
-    public function createRepairOrderMPI (Request $request, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
-        $repairOrderID = $request->get('repair_order');
-        $results       = str_replace("'",'"', $request->get('results'));
+    public function createRepairOrderMPI (
+        Request                  $request, 
+        RepairOrderRepository    $repairOrderRepository,
+        OperationCodeRepository  $operationCodeRepository, 
+        RepairOrderMPIRepository $repairOrderMPIRepos,
+        EntityManagerInterface   $em
+    ) {
+        $repairOrderID   = $request->get('repairOrderID');
+        $results         = str_replace("'",'"', $request->get('results'));
+        $recommendations = str_replace("'",'"', $request->get('recommendations'));
         //check if params are valid
         if(!$repairOrderID || !$results){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
@@ -102,16 +92,105 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
+        //check if repair Order is duplicated
+        $isDuplicated = $repairOrderMPIRepos->findBy(['repairOrder' => $repairOrderID]);
+        if($isDuplicated){
+            return $this->handleView($this->view('MPI results already exist on this Repair Order.', Response::HTTP_BAD_REQUEST));
+        }
+
+        $obj    = json_decode($results);
+        $result = $obj->results;
+
+        foreach ($result as $index => $group) {
+            $items = $group->items;
+            foreach($items as $key => $item){
+                if($group->group == "Brakes")
+                    $item->text = $item->value." / 10 - ".$item->name;
+                else if($group->group == "Tires")
+                    $item->text = $item->value." / 32 - ".$item->name;
+                else
+                    $item->text = $item->name;
+            }
+        }
+        $res = json_encode($obj);
+
         //store repairOrderMPI
         $repairOrderMPI = new RepairOrderMPI();
         $repairOrderMPI->setRepairOrder($repairOrder)
-                       ->setResults($results);
+                       ->setResults($res);
 
         $em->persist($repairOrderMPI);
         $em->flush();
 
+        //create repairOrderQuote
+        $repairOrderQuote = new RepairOrderQuote();
+        $repairOrderQuote->setRepairOrder($repairOrder);
+
+        $em->persist($repairOrderQuote);
+        $em->flush();
+
+        //create repairOrderQuoteRecommendations
+        $recommendationsObj = (array)json_decode($recommendations);
+        foreach ($recommendationsObj as $index => $recommendation){
+            $rOQRecom = new RepairOrderQuoteRecommendation();
+            //Check if Operation Code exists
+            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
+            if (!$operationCode) {
+                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
+            }
+            $rOQRecom->setRepairOrderQuote($repairOrderQuote)
+                     ->setOperationCode($operationCode)
+                     ->setDescription($recommendation->description)
+                     ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
+                     ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
+                     ->setPartsPrice($recommendation->partsPrice)
+                     ->setSuppliesPrice($recommendation->suppliesPrice)
+                     ->setNotes($recommendation->notes);
+
+            $em->persist($rOQRecom);
+            $em->flush();
+        }
+
         return $this->handleView($this->view([
             'message' => 'RepairOrderMPI Created'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Delete("/api/repair-order-mpi/{id}")
+     *
+     * @SWG\Tag(name="Repair Order MPI")
+     * @SWG\Delete(description="Delete a Repair Order MPI")
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Deleted" }),
+     *         )
+     * )
+     *
+     * @param RepairOrderMPI           $repairOrderMPI
+     * @param EntityManagerInterface   $em
+     *
+     * @return Response
+     */
+    public function deleteRepairOrderMPI (
+        RepairOrderMPI           $repairOrderMPI,
+        EntityManagerInterface   $em
+    ) {
+        $repairOrder = $repairOrderMPI->getRepairOrder();
+        $repairOrder->setMpiStatus('Not Started');
+
+        $em->persist($repairOrder);
+        $em->remove($repairOrderMPI);
+
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'RepairOrderMPI Deleted'
         ], Response::HTTP_OK));
     }
 }

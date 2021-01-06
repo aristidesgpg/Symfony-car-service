@@ -50,10 +50,10 @@ class MPITemplateHelper {
 
         if ($type == "brake") {
             $rangeMax  = isset($axle->brakesRangeMaximum) ? $axle->brakesRangeMaximum : 0;
-            $rangeUnit = isset($axle->brakesRangeUnit) ? $axle->brakesRangeUnit : "";
+            $rangeUnit = "mm";
         } else if ($type == "tire") {
             $rangeMax  = isset($axle->tireRangeMaximum) ? $axle->tireRangeMaximum : 0;
-            $rangeUnit = isset($axle->tireRangeUnit) ? $axle->tireRangeUnit : "";
+            $rangeUnit = "s";
         }
 
         foreach ($names as $name) {
