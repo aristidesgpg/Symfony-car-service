@@ -122,31 +122,31 @@ class CheckInController extends AbstractFOSRestController {
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
-            $sortField               = $request->query->get('sortField');
+            $sortField                      = $request->query->get('sortField');
             
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
                 $errors['sortField'] = 'Invalid sort field name';
             
-            $sortDirection = $request->query->get('sortDirection');
+            $sortDirection                  = $request->query->get('sortDirection');
 
             $urlParameters['sortDirection'] = $sortDirection;
-            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortField']     = $sortField;
 
         }
 
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
         {
-            $searchField               = $request->query->get('searchField');
+            $searchField                    = $request->query->get('searchField');
            
             //check if the searchfield exist
             if(!in_array($searchField, $columns))
-                $errors['searchField'] = 'Invalid search field name';
+                $errors['searchField']      = 'Invalid search field name';
 
             $searchTerm  = $request->query->get('searchTerm');
 
-            $urlParameters['searchField'] = $searchField;
-            $urlParameters['searchTerm'] = $searchTerm;
+            $urlParameters['searchField']   = $searchField;
+            $urlParameters['searchTerm']    = $searchTerm;
         }
 
         if (!empty($errors)) {

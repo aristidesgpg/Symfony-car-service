@@ -32,12 +32,6 @@ class CustomerController extends AbstractFOSRestController {
     /**
      * @Rest\Get(name="getCustomers")
      * @SWG\Parameter(
-     *     name="search",
-     *     type="string",
-     *     description="Name, Phone Number, or Email",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="page",
      *     type="integer",
      *     description="Page of results",
@@ -47,6 +41,30 @@ class CustomerController extends AbstractFOSRestController {
      *     name="pageLimit",
      *     type="integer",
      *     description="Page Limit",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
      *     in="query"
      * )
      * 
@@ -76,27 +94,62 @@ class CustomerController extends AbstractFOSRestController {
      * @param CustomerRepository    $customerRepository
      * @param PaginatorInterface    $paginator
      * @param UrlGeneratorInterface $urlGenerator
-     *
+     * @param EntityManagerInterface $em
      * @return Response
      */
     public function getAll (Request $request, CustomerRepository $customerRepository,
-                            PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
+                            PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em): Response {
         $page          = $request->query->getInt('page', 1);
         $urlParameters = [];
+        $errors          = [];
+        $sortField       = "";
+        $sortDirection   = "";
+        $searchField     = "";
+        $searchTerm      = "";
 
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        // Build query
-        if ($request->query->has('search')) {
-            $customersQuery          = $customerRepository->search($request->query->get('search'));
-            $urlParameters['search'] = $request->query->get('search');
-        } else {
-            $customersQuery = $customerRepository->findAllActive();
+        //get all field names of RepairOrder Entity
+        $columns = $em->getClassMetadata('App\Entity\Customer')->getFieldNames();
+
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField               = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField'] = 'Invalid sort field name';
+            
+            $sortDirection                  = $request->query->get('sortDirection');
+
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField']     = $sortField;
         }
 
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField                    = $request->query->get('searchField');
+           
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField']      = 'Invalid search field name';
+
+            $searchTerm                     = $request->query->get('searchTerm');
+
+            $urlParameters['searchField']   = $searchField;
+            $urlParameters['searchTerm']    = $searchTerm;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        // Build query
+        $customersQuery = $customerRepository->findAllActive(null,$sortField, $sortDirection, $searchField, $searchTerm);
+ 
         $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $pager      = $paginator->paginate($customersQuery, $page, $pageLimit);

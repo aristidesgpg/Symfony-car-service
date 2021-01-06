@@ -213,7 +213,7 @@ class RepairOrderController extends AbstractFOSRestController {
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
-            $sortField               = $request->query->get('sortField');
+            $sortField                  = $request->query->get('sortField');
             
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
@@ -242,7 +242,7 @@ class RepairOrderController extends AbstractFOSRestController {
             $qb->andWhere('ro.'.$searchField.' LIKE :searchTerm');
             $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
             
-            urlParameters['searchField'] = $searchField;
+            $urlParameters['searchField']  = $searchField;
         }
 
         $user = $this->getUser();
@@ -265,8 +265,8 @@ class RepairOrderController extends AbstractFOSRestController {
         {
             $qb->orderBy('ro.'.$sortField, $sortDirection);
 
-            urlParameters['sortField'] = $sortField;
-            urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField']     = $sortField;
+            $urlParameters['sortDirection'] = $sortDirection;
         }
 
         $q = $qb->getQuery();
@@ -276,7 +276,7 @@ class RepairOrderController extends AbstractFOSRestController {
         $urlParameters += $queryParameters;
 
         if($searchTerm){
-            urlParameters['searchTerm'] = $searchTerm;
+            $urlParameters['searchTerm'] = $searchTerm;
         }
         $pager         = $paginator->paginate($q, $page, $pageLimit);
         $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);

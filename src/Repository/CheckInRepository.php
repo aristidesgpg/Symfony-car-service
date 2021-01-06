@@ -53,7 +53,7 @@ class CheckInRepository extends ServiceEntityRepository
      * 
      * @return CheckIn[] REturns array of CheckIn ojbects
      */
-    public function getAllItems($start=null, $end=null, $sortField='date', $sortDirection='DESC',$searchField=null, $searchTerm=null ){
+    public function getAllItems($start = null, $end = null, $sortField = 'date', $sortDirection = 'DESC',$searchField = null, $searchTerm = null ){
         if($end === null) {
             $end = new \DateTime();
         } else{
