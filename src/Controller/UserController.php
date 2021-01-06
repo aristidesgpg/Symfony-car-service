@@ -325,17 +325,20 @@ class UserController extends AbstractFOSRestController {
      * @return Response
      */
     public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
-        $role              = $request->get('role') ?? $user->getRoles()[0];
-        $firstName         = $request->get('lastName') ?? $user->getFirstName();
-        $lastName          = $request->get('lastName') ?? $user->getLastName();
-        $email             = $request->get('email') ?? $user->getEmail();
-        $phone             = $request->get('phone') ?? $user->getPhone();
-        $password          = $request->get('password') ?? $user->getPassword();
-        $pin               = $request->get('pin') ?? $user->getPin();
-        $certification     = $request->get('certification') ?? $user->getCertification();
-        $experience        = $request->get('experience') ?? $user->getExperience();
-        $processRefund     = $request->get('processRefund') ?? $user->getProcessRefund();
-        $shareRepairOrders = $request->get('shareRepairOrders') ?? $user->getShareRepairOrders();
+        $data = $request->getContent();
+        $data = json_decode($data, true);
+
+        $role              = $data['role'] ?? $user->getRoles()[0];
+        $firstName         = $data['firstName'] ?? $user->getFirstName();
+        $lastName          = $data['lastName'] ?? $user->getLastName();
+        $email             = $data['email'] ?? $user->getEmail();
+        $phone             = $data['phone'] ?? $user->getPhone();
+        $password          = $data['password'] ?? $user->getPassword();
+        $pin               = $data['pin'] ?? $user->getPin();
+        $certification     = $data['certification'] ?? $user->getCertification();
+        $experience        = $data['experience'] ?? $user->getExperience();
+        $processRefund     = $data['processRefund'] ?? $user->getProcessRefund();
+        $shareRepairOrders = $data['shareRepairOrders'] ?? $user->getShareRepairOrders();
 
         //role is invalid
         if ($role && !$userHelper->isValidRole($role)) {
@@ -349,6 +352,7 @@ class UserController extends AbstractFOSRestController {
         if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
+
 
         // update user
         $user->setFirstName($firstName)
