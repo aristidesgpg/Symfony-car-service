@@ -218,14 +218,14 @@ class RepairOrderController extends AbstractFOSRestController {
             
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
-                $errors['sortField'] = 'Invalid sort field name';
+                $errors['sortField']    = 'Invalid sort field name';
             
             $sortDirection = $request->query->get('sortDirection');
         }
 
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
         {
-            $searchField               = $request->query->get('searchField');
+            $searchField                = $request->query->get('searchField');
            
             //check if the searchfield exist
             if(!in_array($searchField, $columns))
@@ -254,11 +254,11 @@ class RepairOrderController extends AbstractFOSRestController {
                     $queryParameters['users'] = $userRepo->getSharedUsers();
                 } else {
                     $qb->andWhere('ro.primaryAdvisor = :user');
-                    $queryParameters['user'] = $user;
+                    $queryParameters['user']  = $user;
                 }
             } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
                 $qb->andWhere('ro.primaryTechnician = :user');
-                $queryParameters['user'] = $user;
+                $queryParameters['user']      = $user;
             }
         }
 
@@ -266,21 +266,21 @@ class RepairOrderController extends AbstractFOSRestController {
         {
             $qb->orderBy('ro.'.$sortField, $sortDirection);
 
-            $urlParameters['sortField']     = $sortField;
-            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField']       = $sortField;
+            $urlParameters['sortDirection']   = $sortDirection;
         }
 
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
 
         if($searchTerm){
             $urlParameters['searchTerm'] = $searchTerm;
         }
-        $pager         = $paginator->paginate($q, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager          = $paginator->paginate($q, $page, $pageLimit);
+        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'repairOrders' => $pager->getItems(),

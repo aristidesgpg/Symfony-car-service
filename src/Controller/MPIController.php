@@ -20,6 +20,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use App\Service\MPITemplateHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Response\ValidationResponse;
 
 /**
  * Class MPIController

@@ -14,7 +14,10 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use App\Entity\OperationCode;
 use App\Repository\OperationCodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
-
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use App\Service\Pagination;
+use App\Response\ValidationResponse;
+use Knp\Component\Pager\PaginatorInterface;
 
 class OperationCodeController extends AbstractFOSRestController {
     /**
@@ -22,6 +25,39 @@ class OperationCodeController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="OperationCode")
      * @SWG\Get(description="Get All Operation Codes")
+     * 
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
      *
      * @SWG\Response(
      *     response=200,
@@ -29,20 +65,86 @@ class OperationCodeController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"operation_code_list"})),
+     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
+     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
+     *         @SWG\Property(property="total", type="integer", description="Total number of items for query"),
      *         description="code, description, labor_hours, labor_taxable, parts_price, parts_taxable, supplies_price, supplies_taxable, deleted"
      *     )
      * )
      *
      * @param OperationCodeRepository $operationCodeRepo
+     * @param PaginatorInterface    $paginator
      *
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function getOperationCodes (OperationCodeRepository $operationCodeRepo) {
-        //get all active operation codes
-        $operationCodes = $operationCodeRepo->getActiveOperationCodes();
-        $view           = $this->view($operationCodes);
+    public function getOperationCodes (OperationCodeRepository $operationCodeRepo, PaginatorInterface $paginator,
+    UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
+        $page            = $request->query->getInt('page', 1);
+        $startDate       = $request->query->get('startDate');
+        $endDate         = $request->query->get('endDate');
+        $urlParameters   = [];
+        $errors          = [];
+        $sortField       = "";
+        $sortDirection   = "";
+        $searchField     = "";
+        $searchTerm      = "";
+        
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
 
-        $view->getContext()->setGroups(['operation_code_list']);
+        //get all field names of RepairOrder Entity
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField                        = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField']          = 'Invalid sort field name';
+            
+            $sortDirection = $request->query->get('sortDirection');
+            $urlParameters['sortField']       = $sortField;
+            $urlParameters['sortDirection']   = $sortDirection;
+        }
+
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField                      = $request->query->get('searchField');
+           
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField']        = 'Invalid search field name';
+
+            $searchTerm  = $request->query->get('searchTerm');
+            $urlParameters['searchField']     = $searchField;
+            $urlParameters['searchTerm']      = $searchTerm;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        //get all active operation codes
+        $operationCodes = $operationCodeRepo->getActiveOperationCodes($sortField, $sortDirection, $searchField, $searchTerm);
+       
+        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+
+        $pager          = $paginator->paginate($q, $page, $pageLimit);
+        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $view = $this->view([
+            'operationCodes' => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('getOperationCodes', $urlParameters),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('getOperationCodes', $urlParameters)
+        ]);
+        $view->getContext()->setGroups(OperationCode::GROUPS);
 
         return $this->handleView($view);
     }
