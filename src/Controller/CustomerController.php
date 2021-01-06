@@ -53,7 +53,8 @@ class CustomerController extends AbstractFOSRestController {
      *     name="sortDirection",
      *     type="string",
      *     description="The direction of sort",
-     *     in="query"
+     *     in="query",
+     *     enum={"ASC", "DESC"}
      * )
      *  @SWG\Parameter(
      *     name="searchField",
