@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Entity\Coupon;
+use App\Service\Pagination;
 
 /**
  * Class CouponsController
@@ -26,6 +27,40 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Coupons")
      * @SWG\Get(description="Get all coupons")
+     * 
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * 
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Return coupons",
@@ -39,12 +74,95 @@ class CouponsController extends AbstractFOSRestController {
      * @param EntityManagerInterface $em
      * @param CouponRepository       $couponRepository
      *
+     * @param PaginatorInterface    $paginator
+     * @param UrlGeneratorInterface $urlGenerator
      * @return Response
      */
-    public function list (EntityManagerInterface $em, CouponRepository $couponRepository) {
-        $coupons = $couponRepository->findBy(['deleted' => 0]);
-        $view = $this->view($coupons);
-        $view->getContext()->setGroups(['coupon_list']);
+    public function list (EntityManagerInterface $em, CouponRepository $couponRepository,PaginatorInterface $paginator,
+    UrlGeneratorInterface $urlGenerator) {
+        $page            = $request->query->getInt('page', 1);
+        $urlParameters   = [];
+        $queryParameters = [];
+        $errors          = [];
+        $sortField       = "";
+        $sortDirection   = "";
+        $searchField     = "";
+        $searchTerm      = "";
+
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField                  = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField'] = 'Invalid sort field name';
+            
+            $sortDirection = $request->query->get('sortDirection');
+        }
+
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField               = $request->query->get('searchField');
+           
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField'] = 'Invalid search field name';
+
+            $searchTerm  = $request->query->get('searchTerm');
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        $qb = $repairOrderRepo->createQueryBuilder('co');
+        $qb->andWhere('co.deleted = 0');
+
+        if($searchTerm)
+        {
+            $qb->andWhere('co.'.$searchField.' LIKE :searchTerm');
+            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            
+            $urlParameters['searchField']  = $searchField;
+        }
+       
+        if($sortDirection)
+        {
+            $qb->orderBy('co.'.$sortField, $sortDirection);
+
+            $urlParameters['sortField']     = $sortField;
+            $urlParameters['sortDirection'] = $sortDirection;
+        }
+
+        $q = $qb->getQuery();
+        $q->setParameters($queryParameters);
+
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+
+        $urlParameters += $queryParameters;
+        if($searchTerm){
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+
+        $pager         = $paginator->paginate($q, $page, $pageLimit);
+        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $view = $this->view([
+            'repairOrders' => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages'   => $pagination->totalPages,
+            'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+            'currentPage'  => $pagination->currentPage,
+            'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters)
+        ]);
+        $view->getContext()->setGroups(RepairOrder::GROUPS);
+
         return $this->handleView($view);
     }
 
