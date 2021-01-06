@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use App\Entity\Coupon;
 use App\Service\Pagination;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * Class CouponsController
