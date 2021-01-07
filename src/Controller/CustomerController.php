@@ -160,9 +160,9 @@ class CustomerController extends AbstractFOSRestController {
             'customers'    => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getCustomers', $urlParameters),
+            'previous'     => $pagination->getPreviousPageURL('getCustomer', $urlParameters),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getCustomers', $urlParameters)
+            'next'         => $pagination->getNextPageURL('getCustomer', $urlParameters)
         ];
 
         $view = $this->view($json);

@@ -21,7 +21,7 @@ use Knp\Component\Pager\PaginatorInterface;
 
 class OperationCodeController extends AbstractFOSRestController {
     private const PAGE_LIMIT = 100;
-    
+
     /**
      * @Rest\Get("/api/operation-code")
      *
@@ -145,9 +145,9 @@ class OperationCodeController extends AbstractFOSRestController {
             'operationCodes' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getOperationCodes', $urlParameters),
+            'previous'     => $pagination->getPreviousPageURL('app_operationcode_getoperationcodes', $urlParameters),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getOperationCodes', $urlParameters)
+            'next'         => $pagination->getNextPageURL('app_operationcode_getoperationcodes', $urlParameters)
         ]);
         $view->getContext()->setGroups(OperationCode::GROUPS);
 

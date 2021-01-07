@@ -26,7 +26,7 @@ use App\Service\Pagination;
 class UserController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
     private const PAGE_LIMIT = 100;
-    
+
     /**
      * @Rest\Get("/api/users")
      *
@@ -160,9 +160,9 @@ class UserController extends AbstractFOSRestController {
             'users' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getUsers', $urlParameters),
+            'previous'     => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getUsers', $urlParameters)
+            'next'         => $pagination->getNextPageURL('app_user_getusers', $urlParameters)
         ]);
         $view->getContext()->setGroups(User::GROUPS);
 

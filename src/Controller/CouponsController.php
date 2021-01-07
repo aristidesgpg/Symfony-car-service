@@ -165,12 +165,12 @@ class CouponsController extends AbstractFOSRestController {
             'coupons'      => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getCoupons', $urlParameters),
+            'previous'     => $pagination->getPreviousPageURL('app_coupons_list', $urlParameters),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getCoupons', $urlParameters)
+            'next'         => $pagination->getNextPageURL('app_coupons_list', $urlParameters)
         ]);
         
-        $view->getContext()->setGroups(Coupon::GROUPS);
+        $view->getContext()->setGroups(['coupon_list']);
 
         return $this->handleView($view);
     }

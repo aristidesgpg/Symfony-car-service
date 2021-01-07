@@ -35,7 +35,7 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class RepairOrderVideoController extends AbstractFOSRestController {
     private const PAGE_LIMIT = 100;
-    
+
     /**
      * @Rest\Get
      * 
@@ -96,9 +96,9 @@ class RepairOrderVideoController extends AbstractFOSRestController {
             'repairOrderVidoes' => $pager->getItems(),
             'totalResults'      => $pagination->totalResults,
             'totalPages'        => $pagination->totalPages,
-            'previous'          => $pagination->getPreviousPageURL('getRepairOrderVideos', $urlParameters),
+            'previous'          => $pagination->getPreviousPageURL('app_repairordervideo_getall', $urlParameters),
             'currentPage'       => $pagination->currentPage,
-            'next'              => $pagination->getNextPageURL('getRepairOrderVideos', $urlParameters)
+            'next'              => $pagination->getNextPageURL('app_repairordervideo_getall', $urlParameters)
         ]);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 

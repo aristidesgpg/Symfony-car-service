@@ -32,7 +32,7 @@ use App\Response\ValidationResponse;
 class RepairOrderQuoteController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
     private const PAGE_LIMIT = 100;
-    
+
     /**
      * @Rest\Get("/api/repair-order-quote")
      *
@@ -173,9 +173,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
             'repairOrderQuotes' => $pager->getItems(),
             'totalResults'      => $pagination->totalResults,
             'totalPages'        => $pagination->totalPages,
-            'previous'          => $pagination->getPreviousPageURL('getRepairOrderQuotes', $urlParameters),
+            'previous'          => $pagination->getPreviousPageURL('app_repairorderquote_getrepairorderquotes', $urlParameters),
             'currentPage'       => $pagination->currentPage,
-            'next'              => $pagination->getNextPageURL('getRepairOrderQuotes', $urlParameters)
+            'next'              => $pagination->getNextPageURL('app_repairorderquote_getrepairorderquotes', $urlParameters)
         ]);
         
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
