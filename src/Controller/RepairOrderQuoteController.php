@@ -88,6 +88,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      * 
+     * @param Request               $request
      * @param RepairOrderQuoteRepository $repairOrderQuoteRepository
      * @param PaginatorInterface    $paginator
      *
@@ -96,7 +97,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      * 
      * @return Response
      */
-    public function getRepairOrderQuotes (RepairOrderQuoteRepository $repairOrderQuoteRepository, PaginatorInterface $paginator,
+    public function getRepairOrderQuotes (Request $request, RepairOrderQuoteRepository $repairOrderQuoteRepository, PaginatorInterface $paginator,
     UrlGeneratorInterface $urlGenerator,  EntityManagerInterface $em) {
         $page            = $request->query->getInt('page', 1);
         $urlParameters   = [];

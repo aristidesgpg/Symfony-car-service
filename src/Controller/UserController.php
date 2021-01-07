@@ -93,10 +93,13 @@ class UserController extends AbstractFOSRestController {
      * @param Request        $request
      * @param UserRepository $userRepo
      * @param UserHelper     $userHelper
-     *
+     * @param PaginatorInterface    $paginator
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper) {
+    public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper, PaginatorInterface $paginator,
+    UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
         $page            = $request->query->getInt('page', 1);
         $startDate       = $request->query->get('startDate');
         $endDate         = $request->query->get('endDate');
@@ -164,7 +167,7 @@ class UserController extends AbstractFOSRestController {
             'currentPage'  => $pagination->currentPage,
             'next'         => $pagination->getNextPageURL('app_user_getusers', $urlParameters)
         ]);
-        $view->getContext()->setGroups(User::GROUPS);
+        $view->getContext()->setGroups(['user_list']);
 
         return $this->handleView($view);
     }

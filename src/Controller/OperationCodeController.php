@@ -79,6 +79,7 @@ class OperationCodeController extends AbstractFOSRestController {
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      * 
+     * @param Request               $request
      * @param OperationCodeRepository $operationCodeRepo
      * @param PaginatorInterface    $paginator
      *
@@ -86,7 +87,7 @@ class OperationCodeController extends AbstractFOSRestController {
      * @param EntityManagerInterface $em
      * @return Response
      */
-    public function getOperationCodes (OperationCodeRepository $operationCodeRepo, PaginatorInterface $paginator,
+    public function getOperationCodes (Request $request,OperationCodeRepository $operationCodeRepo, PaginatorInterface $paginator,
     UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
         $page            = $request->query->getInt('page', 1);
         $urlParameters   = [];
@@ -138,7 +139,7 @@ class OperationCodeController extends AbstractFOSRestController {
        
         $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $pager          = $paginator->paginate($q, $page, $pageLimit);
+        $pager          = $paginator->paginate($operationCodes, $page, $pageLimit);
         $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
@@ -149,7 +150,7 @@ class OperationCodeController extends AbstractFOSRestController {
             'currentPage'  => $pagination->currentPage,
             'next'         => $pagination->getNextPageURL('app_operationcode_getoperationcodes', $urlParameters)
         ]);
-        $view->getContext()->setGroups(OperationCode::GROUPS);
+        $view->getContext()->setGroups(['operation_code_list']);
 
         return $this->handleView($view);
     }
