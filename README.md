@@ -38,6 +38,9 @@ MySQL Version: 5.7.31
         `php bin/console assets:install --symlink`
         This command will set up the symlinks for swagger-ui (if necessary)
 
+        `chmod -R 755 config/jwt`
+        This command will allow you to read jwt key files
+
 6. NOTE: Occasionally as things change you will have to remove containers and images created by docker-compose using the commands below
 
         `docker kill $(docker ps -aq)`
