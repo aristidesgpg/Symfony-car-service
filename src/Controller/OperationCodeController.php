@@ -20,6 +20,8 @@ use App\Response\ValidationResponse;
 use Knp\Component\Pager\PaginatorInterface;
 
 class OperationCodeController extends AbstractFOSRestController {
+    private const PAGE_LIMIT = 100;
+    
     /**
      * @Rest\Get("/api/operation-code")
      *

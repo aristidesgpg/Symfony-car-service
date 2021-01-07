@@ -119,7 +119,7 @@ class CheckInController extends AbstractFOSRestController {
         $sortDirection = "";
         $searchField   = "";
         $searchTerm    = "";      
-        $errors          = [];              
+        $errors        = [];              
     
         // Invalid page
         if ($page < 1) {
@@ -170,9 +170,9 @@ class CheckInController extends AbstractFOSRestController {
             'checkIns'     => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getCheckIns', $urlParameters),
+            'previous'     => $pagination->getPreviousPageURL('app_checkin_list', $urlParameters),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getCheckIns', $urlParameters)
+            'next'         => $pagination->getNextPageURL('app_checkin_list', $urlParameters)
         ];
 
         $view = $this->view($json);

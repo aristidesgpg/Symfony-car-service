@@ -29,6 +29,7 @@ use App\Response\ValidationResponse;
  */
 class MPIController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
+    private const PAGE_LIMIT = 100;
 
     /**
      * @Rest\Get("/api/mpi-template")

@@ -31,7 +31,8 @@ use App\Response\ValidationResponse;
  */
 class RepairOrderQuoteController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
-
+    private const PAGE_LIMIT = 100;
+    
     /**
      * @Rest\Get("/api/repair-order-quote")
      *

@@ -34,6 +34,8 @@ use Knp\Component\Pager\PaginatorInterface;
  * )
  */
 class RepairOrderVideoController extends AbstractFOSRestController {
+    private const PAGE_LIMIT = 100;
+    
     /**
      * @Rest\Get
      * 

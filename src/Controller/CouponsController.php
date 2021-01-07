@@ -24,7 +24,7 @@ use App\Response\ValidationResponse;
  * @package App\Controller
  */
 class CouponsController extends AbstractFOSRestController {
-
+    private const PAGE_LIMIT = 100;
     /**
      * @Rest\Get("/api/coupons")
      *
@@ -82,6 +82,7 @@ class CouponsController extends AbstractFOSRestController {
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      * 
+     * @param Request                $request
      * @param EntityManagerInterface $em
      * @param CouponRepository       $couponRepository
      *
@@ -89,7 +90,7 @@ class CouponsController extends AbstractFOSRestController {
      * @param UrlGeneratorInterface $urlGenerator
      * @return Response
      */
-    public function list (EntityManagerInterface $em, CouponRepository $couponRepository,PaginatorInterface $paginator,
+    public function list (Request $request,EntityManagerInterface $em, CouponRepository $couponRepository,PaginatorInterface $paginator,
     UrlGeneratorInterface $urlGenerator) {
         $page            = $request->query->getInt('page', 1);
         $urlParameters   = [];

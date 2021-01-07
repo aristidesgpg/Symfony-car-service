@@ -25,7 +25,8 @@ use App\Service\Pagination;
  */
 class UserController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
-
+    private const PAGE_LIMIT = 100;
+    
     /**
      * @Rest\Get("/api/users")
      *
