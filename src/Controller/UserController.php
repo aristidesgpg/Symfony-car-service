@@ -151,12 +151,12 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return users",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
+     *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
+     *     )
      * )
      *
      * @param Request                $request
@@ -217,9 +217,7 @@ class UserController extends AbstractFOSRestController {
 
         $this->logInfo('New User "' . $user->getFirstName() . '" Created');
 
-        return $this->handleView($this->view([
-            'message' => 'New User Created'
-        ]));
+        return $this->userView($user);
     }
 
     /**
@@ -309,12 +307,12 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return users",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Updated" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
+     *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
+     *     )
      * )
      *
      * @param User                   $user
@@ -325,20 +323,17 @@ class UserController extends AbstractFOSRestController {
      * @return Response
      */
     public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
-        $data = $request->getContent();
-        $data = json_decode($data, true);
-
-        $role              = $data['role'] ?? $user->getRoles()[0];
-        $firstName         = $data['firstName'] ?? $user->getFirstName();
-        $lastName          = $data['lastName'] ?? $user->getLastName();
-        $email             = $data['email'] ?? $user->getEmail();
-        $phone             = $data['phone'] ?? $user->getPhone();
-        $password          = $data['password'] ?? $user->getPassword();
-        $pin               = $data['pin'] ?? $user->getPin();
-        $certification     = $data['certification'] ?? $user->getCertification();
-        $experience        = $data['experience'] ?? $user->getExperience();
-        $processRefund     = $data['processRefund'] ?? $user->getProcessRefund();
-        $shareRepairOrders = $data['shareRepairOrders'] ?? $user->getShareRepairOrders();
+        $role              = $request->get('role') ?? $user->getRoles()[0];
+        $firstName         = $request->get('firstName') ?? $user->getFirstName();
+        $lastName          = $request->get('lastName') ?? $user->getLastName();
+        $email             = $request->get('email') ?? $user->getEmail();
+        $phone             = $request->get('phone') ?? $user->getPhone();
+        $password          = $request->get('password') ?? $user->getPassword();
+        $pin               = $request->get('pin') ?? $user->getPin();
+        $certification     = $request->get('certification') ?? $user->getCertification();
+        $experience        = $request->get('experience') ?? $user->getExperience();
+        $processRefund     = $request->get('processRefund') ?? $user->getProcessRefund();
+        $shareRepairOrders = $request->get('shareRepairOrders') ?? $user->getShareRepairOrders();
 
         //role is invalid
         if ($role && !$userHelper->isValidRole($role)) {
@@ -352,7 +347,6 @@ class UserController extends AbstractFOSRestController {
         if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-
 
         // update user
         $user->setFirstName($firstName)
@@ -377,9 +371,7 @@ class UserController extends AbstractFOSRestController {
 
         $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
 
-        return $this->handleView($this->view([
-            'message' => 'User Updated'
-        ], Response::HTTP_OK));
+        return $this->userView($user);
     }
 
     /**
