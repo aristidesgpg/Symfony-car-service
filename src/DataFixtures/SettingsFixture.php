@@ -87,6 +87,7 @@ class SettingsFixture extends Fixture {
             'reviewGoogleUrl'            => null,
             'reviewFacebookUrl'          => null,
             'reviewText'                 => null,
+            'reviewActivated'            => false,
         ];
 
         foreach ($settings as $k => $v) {

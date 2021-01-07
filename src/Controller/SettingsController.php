@@ -150,6 +150,7 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="reviewFacebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
+     * @SWG\Parameter(name="reviewActivated", type="boolean", in="formData")
      *
      * @param Request        $req
      * @param SettingsHelper $helper
