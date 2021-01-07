@@ -50,7 +50,7 @@ class CouponFixture extends Fixture
             imagejpeg($imgRaw, $this->container->getParameter('uploads_directory').'tmp.jpg', 100);
             imagedestroy($imgRaw);
 
-            return new UploadedFile($this->container->getParameter('uploads_directory').'tmp.jpg', 'tmp.jpg', 'image/jpeg', null, null, true);
+            return new UploadedFile($this->container->getParameter('uploads_directory').'tmp.jpg', 'tmp.jpg', 'image/jpeg');
         }
 
         return null;

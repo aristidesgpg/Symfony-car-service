@@ -89,7 +89,7 @@ class CheckInHelper
     /**
      * @param User ID|string $current user
      */
-    public function createVideo(UploadedFile $file): string
+    public function createVideo(UploadedFile $file): ?string
     {
         if (!$this->upload->isValidVideo($file)) {
             throw new InvalidArgumentException('Invalid file format');
