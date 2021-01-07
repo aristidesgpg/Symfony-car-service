@@ -44,31 +44,6 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      *     description="Page Limit",
      *     in="query"
      * )
-     * @SWG\Parameter(
-     *     name="sortField",
-     *     type="string",
-     *     description="The name of sort field",
-     *     in="query"
-     * )
-     *  @SWG\Parameter(
-     *     name="sortDirection",
-     *     type="string",
-     *     description="The direction of sort",
-     *     in="query",
-     *     enum={"ASC", "DESC"}
-     * )
-     *  @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
-     *     name="searchTerm",
-     *     type="string",
-     *     description="The value of search",
-     *     in="query"
-     * )
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -102,12 +77,12 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        $videos = [];
+        $videos         = [];
         foreach ($ro->getVideos() as $video) {
             if ($video->isDeleted()) {
                 continue;
             }
-            $videos[] = $video;
+            $videos[]   = $video;
         }
 
         $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);

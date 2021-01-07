@@ -100,7 +100,6 @@ class UserController extends AbstractFOSRestController {
         $startDate       = $request->query->get('startDate');
         $endDate         = $request->query->get('endDate');
         $urlParameters   = [];
-        $queryParameters = [];
         $errors          = [];
         $sortField       = "";
         $sortDirection   = "";
@@ -153,9 +152,6 @@ class UserController extends AbstractFOSRestController {
 
         $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        if($searchTerm){
-            $urlParameters['searchTerm'] = $searchTerm;
-        }
         $pager          = $paginator->paginate($users, $page, $pageLimit);
         $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
