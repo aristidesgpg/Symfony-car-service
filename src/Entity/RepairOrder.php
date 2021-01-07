@@ -217,6 +217,11 @@ class RepairOrder {
     private $repairOrderQuote;
 
     /**
+     * @ORM\OneToOne(targetEntity=RepairOrderReview::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     */
+    private $repairOrderReview;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct () {
@@ -802,6 +807,23 @@ class RepairOrder {
 
     public function addVideo(RepairOrderVideo $video): self {
         $this->videos->add($video);
+
+        return $this;
+    }
+
+    public function getRepairOrderReview(): ?RepairOrderReview
+    {
+        return $this->repairOrderReview;
+    }
+
+    public function setRepairOrderReview(RepairOrderReview $repairOrderReview): self
+    {
+        $this->repairOrderReview = $repairOrderReview;
+
+        // set the owning side of the relation if necessary
+        if ($repairOrderReview->getRepairOrder() !== $this) {
+            $repairOrderReview->setRepairOrder($this);
+        }
 
         return $this;
     }
