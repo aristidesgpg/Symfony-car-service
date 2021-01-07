@@ -127,7 +127,7 @@ class AuthenticationController extends AbstractFOSRestController {
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
                 $roles         = $user->getRoles();
-                returnToken($tokenUsername, $roles);
+                return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder, $user);
             }
         }
 
@@ -154,7 +154,7 @@ class AuthenticationController extends AbstractFOSRestController {
                 $tokenUsername = $user->getEmail();
                 $roles         = $user->getRoles();
                 $ttl           = 3600; // Techs get logged in 1 hour
-                goto TOKEN;
+                return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder, $user);
             }
         }
 
@@ -168,7 +168,7 @@ class AuthenticationController extends AbstractFOSRestController {
             // Successful customer "login"
             $tokenUsername = $repairOrder->getPrimaryCustomer()->getPhone();
             $roles         = ['ROLE_CUSTOMER'];
-            goto TOKEN;
+            return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
         }
 
         // Logging in from tech app
@@ -182,7 +182,7 @@ class AuthenticationController extends AbstractFOSRestController {
                         $tokenUsername = 'technician';
                         $roles         = ['ROLE_TECHNICIAN'];
                         $ttl           = 31536000; // 1 year
-                        goto TOKEN;
+                        return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
                     } else {
                         return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                     }
@@ -200,7 +200,7 @@ class AuthenticationController extends AbstractFOSRestController {
             if ($dealerResponse) {
                 $tokenUsername = 'dealer';
                 $roles         = ['ROLE_ADMIN'];
-                goto TOKEN;
+                return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
             }
 
             // Now try iService agent
@@ -215,12 +215,13 @@ class AuthenticationController extends AbstractFOSRestController {
     /**
      * @param String              $tokenUsername
      * @param Array               $roles
-     * @param User                $user
+     * @param Integer             $ttl
      * @param JWTEncoderInterface $JWTEncoder
+     * @param User                $user
      *
      * @return Response
      */
-    public function returnToken(String $tokenUsername, Array $roles, User $user, JWTEncoderInterface $JWTEncoder){
+    public function returnToken(String $tokenUsername, Array $roles, $ttl, JWTEncoderInterface $JWTEncoder, User $user = null){
         try {
             $token = $JWTEncoder->encode([
                 'username' => $tokenUsername,
@@ -230,10 +231,14 @@ class AuthenticationController extends AbstractFOSRestController {
             return $this->handleView($this->view('Login Failed. Please try again later.', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
-        return $this->handleView($this->view([
-            'token' => $token,
-            'roles' => $roles
-        ], Response::HTTP_OK));
+        if(!$user || !$user->getSecurityQuestion()){
+            return $this->handleView($this->view([
+                'token' => $token,
+                'roles' => $roles
+            ], Response::HTTP_OK));
+        }
+
+        return $this->handleView($this->view($user->getSecurityQuestion(), Response::HTTP_OK));
     }
 }
 
