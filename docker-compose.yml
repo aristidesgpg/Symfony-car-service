@@ -8,7 +8,7 @@ services:
       container_name: iService3 # Container Name
       ports:
         - "8000:80" # bind port
-        - "443:433"
+        - "4443:433"
       volumes:
         - ./:/var/www/html   # copy root directory to /var/www/html in docker container
         - ./docker/app/php.ini:/usr/local/etc/php/php.ini # copy php.ini
