@@ -107,7 +107,7 @@ class AuthenticationController extends AbstractFOSRestController {
         $ttl           = 28800; // Default 8 hours
 
         if ((!$username || !$password) && !$linkHash && (!$username || !$pin)) {
-            goto INVALID;
+            return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
         }
 
         // Standard login
@@ -121,13 +121,13 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // But it was invalid
                 if (!$isValid) {
-                    goto INVALID;
+                    return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                 }
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
                 $roles         = $user->getRoles();
-                goto TOKEN;
+                returnToken($tokenUsername, $roles);
             }
         }
 
@@ -140,14 +140,14 @@ class AuthenticationController extends AbstractFOSRestController {
             if ($user) {
                 // Validate if tech
                 if (!$user->isTechnician()) {
-                    goto INVALID;
+                    return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                 }
 
                 $isValid = $pin === $user->getPin();
 
                 // But it was invalid
                 if (!$isValid) {
-                    goto INVALID;
+                    return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                 }
 
                 // Successful regular user login
@@ -162,7 +162,7 @@ class AuthenticationController extends AbstractFOSRestController {
         if ($linkHash) {
             $repairOrder = $repairOrderRepository->findByUID($linkHash);
             if (!$repairOrder) {
-                goto INVALID;
+                return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
             }
 
             // Successful customer "login"
@@ -184,7 +184,7 @@ class AuthenticationController extends AbstractFOSRestController {
                         $ttl           = 31536000; // 1 year
                         goto TOKEN;
                     } else {
-                        goto INVALID;
+                        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                     }
                 }
             } catch (Exception $e) {
@@ -210,11 +210,17 @@ class AuthenticationController extends AbstractFOSRestController {
             //                goto TOKEN;
             //            }
         }
+    }
 
-        INVALID:
-        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
-
-        TOKEN:
+    /**
+     * @param String              $tokenUsername
+     * @param Array               $roles
+     * @param User                $user
+     * @param JWTEncoderInterface $JWTEncoder
+     *
+     * @return Response
+     */
+    public function returnToken(String $tokenUsername, Array $roles, User $user, JWTEncoderInterface $JWTEncoder){
         try {
             $token = $JWTEncoder->encode([
                 'username' => $tokenUsername,
@@ -230,3 +236,5 @@ class AuthenticationController extends AbstractFOSRestController {
         ], Response::HTTP_OK));
     }
 }
+
+
