@@ -93,7 +93,7 @@ class Customer implements UserInterface
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -222,14 +222,16 @@ class Customer implements UserInterface
     public function getPassword(): ?string
     {
         // TODO: Implement getPassword() method.
+        return null;
     }
 
     public function getSalt(): ?string
     {
         // TODO: Implement getSalt() method.
+        return null;
     }
 
-    public function getUsername(): ?string
+    public function getUsername(): string
     {
         return $this->getName();
     }

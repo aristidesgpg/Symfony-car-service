@@ -11,8 +11,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class ImageUploader.
- *
- * @package App\Service
  */
 class ImageUploader
 {
@@ -38,10 +36,6 @@ class ImageUploader
 
     /**
      * ImageUploader constructor.
-     * @param EntityManagerInterface $em
-     * @param Container $container
-     * @param UrlHelper $urlHelper
-     * @param UrlGeneratorInterface $urlGenerator
      */
     public function __construct(EntityManagerInterface $em, Container $container, UrlHelper $urlHelper,
                                  UrlGeneratorInterface $urlGenerator)
@@ -53,8 +47,7 @@ class ImageUploader
     }
 
     /**
-     * @param UploadedFile $file
-     * @param null $directory
+     * @param string|null $directory
      *
      * @return false|string
      */
@@ -85,10 +78,6 @@ class ImageUploader
         return $publicURL;
     }
 
-    /**
-     * @param UploadedFile $file
-     * @return bool
-     */
     public function isValidImage(UploadedFile $file): bool
     {
         // all the image extension types in array

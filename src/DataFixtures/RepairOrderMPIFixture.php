@@ -69,9 +69,9 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
     }
 
     /**
-     * @return string[]
+     * @return class-string[]
      */
-    public function getDependencies(): array
+    public function getDependencies(): string
     {
         return [
             RepairOrderFixture::class,

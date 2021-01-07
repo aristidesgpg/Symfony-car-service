@@ -45,9 +45,9 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
     }
 
     /**
-     * @return string[]
+     * @return class-string[]
      */
-    public function getDependencies(): array
+    public function getDependencies(): string
     {
         return [
             RepairOrderQuoteFixture::class,

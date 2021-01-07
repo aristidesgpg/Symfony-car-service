@@ -422,10 +422,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTechnicianRepairOrders(): Collection
+    public function getTechnicianRepairOrders()
     {
         $criteria = Criteria::create()
                             ->andWhere(Criteria::expr()->eq('deleted', false))
@@ -437,6 +434,7 @@ class User implements UserInterface
     public function getSalt(): ?string
     {
         // TODO: Implement getSalt() method.
+        return null;
     }
 
     public function getUsername(): string

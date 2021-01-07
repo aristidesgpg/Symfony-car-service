@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\CheckIn;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -66,23 +67,19 @@ class CheckInRepository extends ServiceEntityRepository
             $start = new \DateTime($start);
         }
 
-        try {
-            $db = $this->createQueryBuilder('ch');
+        $db = $this->createQueryBuilder('ch');
 
-            if ($start && $end) {
-                $db->andWhere('ch.date BETWEEN :start AND :end')
-                   ->setParameter('start', $start->format('Y-m-d H:i'))
-                   ->setParameter('end', $end->format('Y-m-d H:i'));
-            } else {
-                $db->andWhere('ch.date < :end')
-                   ->setParameter('end', $end->format('Y-m-d H:i'));
-            }
-
-            return $db->orderBy('ch.date', 'DESC')
-                      ->getQuery()
-                      ->getResult();
-        } catch (NonUniqueResultException $e) {
-            return null;
+        if ($start && $end) {
+            $db->andWhere('ch.date BETWEEN :start AND :end')
+               ->setParameter('start', $start->format('Y-m-d H:i'))
+               ->setParameter('end', $end->format('Y-m-d H:i'));
+        } else {
+            $db->andWhere('ch.date < :end')
+               ->setParameter('end', $end->format('Y-m-d H:i'));
         }
+
+        return $db->orderBy('ch.date', 'DESC')
+                  ->getQuery()
+                  ->getResult();
     }
 }
