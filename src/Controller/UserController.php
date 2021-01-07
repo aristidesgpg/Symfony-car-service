@@ -96,6 +96,7 @@ class UserController extends AbstractFOSRestController {
      * @param PaginatorInterface    $paginator
      * @param UrlGeneratorInterface $urlGenerator
      * @param EntityManagerInterface $em
+     * 
      * @return Response
      */
     public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper, PaginatorInterface $paginator,
@@ -120,6 +121,7 @@ class UserController extends AbstractFOSRestController {
         if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
+        
         $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
@@ -152,7 +154,7 @@ class UserController extends AbstractFOSRestController {
             return new ValidationResponse($errors);
         }
 
-        $users = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchField, $searchTerm);
+        $users          = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchField, $searchTerm);
 
         $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
@@ -160,13 +162,14 @@ class UserController extends AbstractFOSRestController {
         $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
-            'users' => $pager->getItems(),
+            'users'        => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
             'previous'     => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
             'currentPage'  => $pagination->currentPage,
             'next'         => $pagination->getNextPageURL('app_user_getusers', $urlParameters)
         ]);
+
         $view->getContext()->setGroups(['user_list']);
 
         return $this->handleView($view);

@@ -142,7 +142,7 @@ class CouponsController extends AbstractFOSRestController {
             $queryParameters['searchTerm']  = '%'.$searchTerm.'%';
             
             $urlParameters['searchField']   = $searchField;
-            $urlParameters['searchTerm']   = $searchTerm;
+            $urlParameters['searchTerm']    = $searchTerm;
         }
        
         if($sortDirection)

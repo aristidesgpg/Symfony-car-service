@@ -99,6 +99,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      */
     public function getRepairOrderQuotes (Request $request, RepairOrderQuoteRepository $repairOrderQuoteRepository, PaginatorInterface $paginator,
     UrlGeneratorInterface $urlGenerator,  EntityManagerInterface $em) {
+       
         $page            = $request->query->getInt('page', 1);
         $urlParameters   = [];
         $queryParameters = [];
@@ -116,29 +117,29 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         $qb->andWhere('rq.deleted = 0');
 
         //get all field names of RepairOrderQuote Entity
-        $columns                       = $em->getClassMetadata('App\Entity\RepairOrderQuote')->getFieldNames();
+        $columns                                = $em->getClassMetadata('App\Entity\RepairOrderQuote')->getFieldNames();
 
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
         {
-            $searchField                       = $request->query->get('searchField');
+            $searchField                        = $request->query->get('searchField');
            
             //check if the searchfield exist
             if(!in_array($searchField, $columns))
-                $errors['searchField']         = 'Invalid search field name';
+                $errors['searchField']          = 'Invalid search field name';
             else{
                 $searchTerm  = $request->query->get('searchTerm');
 
                 $qb->andWhere('rq.'.$searchField.' LIKE :searchTerm');
-                $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+                $queryParameters['searchTerm']  = '%'.$searchTerm.'%';
             
-                $urlParameters['searchField']  = $searchField;
+                $urlParameters['searchField']   = $searchField;
             }
             
         }
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
-            $sortField                         = $request->query->get('sortField');
+            $sortField                          = $request->query->get('sortField');
             
             //check if the sortfield exist
             if(!in_array($sortField, $columns))

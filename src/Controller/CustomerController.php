@@ -101,7 +101,7 @@ class CustomerController extends AbstractFOSRestController {
     public function getAll (Request $request, CustomerRepository $customerRepository,
                             PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em): Response {
         $page          = $request->query->getInt('page', 1);
-        $urlParameters = [];
+        $urlParameters   = [];
         $errors          = [];
         $sortField       = "";
         $sortDirection   = "";
@@ -118,7 +118,7 @@ class CustomerController extends AbstractFOSRestController {
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
-            $sortField               = $request->query->get('sortField');
+            $sortField                      = $request->query->get('sortField');
             
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
@@ -151,10 +151,10 @@ class CustomerController extends AbstractFOSRestController {
         // Build query
         $customersQuery = $customerRepository->findAllActive(null,$sortField, $sortDirection, $searchField, $searchTerm);
  
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $pager      = $paginator->paginate($customersQuery, $page, $pageLimit);
-        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager          = $paginator->paginate($customersQuery, $page, $pageLimit);
+        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
             'customers'    => $pager->getItems(),
@@ -165,7 +165,7 @@ class CustomerController extends AbstractFOSRestController {
             'next'         => $pagination->getNextPageURL('getCustomers', $urlParameters)
         ];
 
-        $view = $this->view($json);
+        $view           = $this->view($json);
         $view->getContext()->setGroups(Customer::GROUPS);
 
         return $this->handleView($view);

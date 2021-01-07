@@ -53,7 +53,7 @@ class UserRepository extends ServiceEntityRepository {
         if($searchTerm)
         {
             $qb->andWhere('u.'.$searchField.' LIKE :searchTerm')
-                ->setParameter('searchTerm', '%'.$searchTerm.'%');
+               ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
         
         if($sortDirection){

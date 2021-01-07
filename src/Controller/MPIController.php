@@ -113,11 +113,12 @@ class MPIController extends AbstractFOSRestController {
         $searchField     = "";
         $searchTerm      = "";
 
-        $active = $request->query->get('active');
+        $active          = $request->query->get('active');
         
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
+        
         $qb = $mpiTemplateRepository->createQueryBuilder('mp');
         $qb->andWhere('mp.deleted = 0');
 

@@ -125,7 +125,7 @@ class OperationCodeController extends AbstractFOSRestController {
             if(!in_array($searchField, $columns))
                 $errors['searchField']        = 'Invalid search field name';
 
-            $searchTerm  = $request->query->get('searchTerm');
+            $searchTerm                       = $request->query->get('searchTerm');
             $urlParameters['searchField']     = $searchField;
             $urlParameters['searchTerm']      = $searchTerm;
         }
@@ -144,11 +144,11 @@ class OperationCodeController extends AbstractFOSRestController {
 
         $view = $this->view([
             'operationCodes' => $pager->getItems(),
-            'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('app_operationcode_getoperationcodes', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('app_operationcode_getoperationcodes', $urlParameters)
+            'totalResults'   => $pagination->totalResults,
+            'totalPages'     => $pagination->totalPages,
+            'previous'       => $pagination->getPreviousPageURL('app_operationcode_getoperationcodes', $urlParameters),
+            'currentPage'    => $pagination->currentPage,
+            'next'           => $pagination->getNextPageURL('app_operationcode_getoperationcodes', $urlParameters)
         ]);
         $view->getContext()->setGroups(['operation_code_list']);
 

@@ -30,7 +30,7 @@ class OperationCodeRepository extends ServiceEntityRepository
         if($searchTerm)
         {
             $qb->andWhere('o.'.$searchField.' LIKE :searchTerm')
-                ->setParameter('searchTerm', '%'.$searchTerm.'%');
+               ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
 
         if($sortDirection)

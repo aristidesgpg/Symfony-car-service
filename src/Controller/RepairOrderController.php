@@ -229,7 +229,7 @@ class RepairOrderController extends AbstractFOSRestController {
            
             //check if the searchfield exist
             if(!in_array($searchField, $columns))
-                $errors['searchField'] = 'Invalid search field name';
+                $errors['searchField']  = 'Invalid search field name';
 
             $searchTerm  = $request->query->get('searchTerm');
         }
@@ -270,7 +270,7 @@ class RepairOrderController extends AbstractFOSRestController {
             $urlParameters['sortDirection']   = $sortDirection;
         }
 
-        $q = $qb->getQuery();
+        $q              = $qb->getQuery();
         $q->setParameters($queryParameters);
         $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
@@ -279,6 +279,7 @@ class RepairOrderController extends AbstractFOSRestController {
         if($searchTerm){
             $urlParameters['searchTerm'] = $searchTerm;
         }
+        
         $pager          = $paginator->paginate($q, $page, $pageLimit);
         $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
@@ -290,6 +291,7 @@ class RepairOrderController extends AbstractFOSRestController {
             'currentPage'  => $pagination->currentPage,
             'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters)
         ]);
+
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
         return $this->handleView($view);
