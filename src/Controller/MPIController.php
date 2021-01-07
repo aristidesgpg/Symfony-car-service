@@ -132,31 +132,32 @@ class MPIController extends AbstractFOSRestController {
 
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
         {
-            $searchField               = $request->query->get('searchField');
+            $searchField                        = $request->query->get('searchField');
            
             //check if the searchfield exist
             if(!in_array($searchField, $columns))
-                $errors['searchField'] = 'Invalid search field name';
+                $errors['searchField']          = 'Invalid search field name';
             else{
-                $searchTerm  = $request->query->get('searchTerm');
+                $searchTerm                     = $request->query->get('searchTerm');
 
                 $qb->andWhere('mp.'.$searchField.' LIKE :searchTerm');
-                $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+                $queryParameters['searchTerm']  = '%'.$searchTerm.'%';
             
-                $urlParameters['searchField']  = $searchField;
+                $urlParameters['searchField']   = $searchField;
+                $urlParameters['searchTerm']    = $searchTerm;
             }
             
         }
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
-            $sortField                  = $request->query->get('sortField');
+            $sortField                          = $request->query->get('sortField');
             
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
                 $errors['sortField'] = 'Invalid sort field name';
             else{
-                $sortDirection = $request->query->get('sortDirection');
+                $sortDirection                  = $request->query->get('sortDirection');
                 $qb->orderBy('mp.'.$sortField, $sortDirection);
 
                 $urlParameters['sortField']     = $sortField;
@@ -171,24 +172,20 @@ class MPIController extends AbstractFOSRestController {
 
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $urlParameters += $queryParameters;
-
-        if($searchTerm){
-            $urlParameters['searchTerm'] = $searchTerm;
-        }
         $pager         = $paginator->paginate($q, $page, $pageLimit);
         $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
-            'mpiTemplates' => $pager->getItems(),
+            'MPITemplates' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
             'previous'     => $pagination->getPreviousPageURL('getMPITemplates', $urlParameters),
             'currentPage'  => $pagination->currentPage,
             'next'         => $pagination->getNextPageURL('getMPITemplates', $urlParameters)
         ]);
+
         $view->getContext()->setGroups(MPITemplate::GROUPS);
 
         return $this->handleView($view);

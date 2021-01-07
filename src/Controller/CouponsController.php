@@ -141,6 +141,7 @@ class CouponsController extends AbstractFOSRestController {
             $queryParameters['searchTerm']  = '%'.$searchTerm.'%';
             
             $urlParameters['searchField']   = $searchField;
+            $urlParameters['searchTerm']   = $searchTerm;
         }
        
         if($sortDirection)
@@ -156,11 +157,6 @@ class CouponsController extends AbstractFOSRestController {
 
         $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $urlParameters += $queryParameters;
-        if($searchTerm){
-            $urlParameters['searchTerm'] = $searchTerm;
-        }
-
         $pager          = $paginator->paginate($q, $page, $pageLimit);
         $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
@@ -172,6 +168,7 @@ class CouponsController extends AbstractFOSRestController {
             'currentPage'  => $pagination->currentPage,
             'next'         => $pagination->getNextPageURL('getCoupons', $urlParameters)
         ]);
+        
         $view->getContext()->setGroups(Coupon::GROUPS);
 
         return $this->handleView($view);

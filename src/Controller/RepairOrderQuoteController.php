@@ -98,8 +98,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
     public function getRepairOrderQuotes (RepairOrderQuoteRepository $repairOrderQuoteRepository, PaginatorInterface $paginator,
     UrlGeneratorInterface $urlGenerator,  EntityManagerInterface $em) {
         $page            = $request->query->getInt('page', 1);
-        $startDate       = $request->query->get('startDate');
-        $endDate         = $request->query->get('endDate');
         $urlParameters   = [];
         $queryParameters = [];
         $errors          = [];
@@ -111,19 +109,20 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
-        $qb = $repairOrderQuoteRepository->createQueryBuilder('rq');
+
+        $qb                            = $repairOrderQuoteRepository->createQueryBuilder('rq');
         $qb->andWhere('rq.deleted = 0');
 
         //get all field names of RepairOrderQuote Entity
-        $columns = $em->getClassMetadata('App\Entity\RepairOrderQuote')->getFieldNames();
+        $columns                       = $em->getClassMetadata('App\Entity\RepairOrderQuote')->getFieldNames();
 
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
         {
-            $searchField               = $request->query->get('searchField');
+            $searchField                       = $request->query->get('searchField');
            
             //check if the searchfield exist
             if(!in_array($searchField, $columns))
-                $errors['searchField'] = 'Invalid search field name';
+                $errors['searchField']         = 'Invalid search field name';
             else{
                 $searchTerm  = $request->query->get('searchTerm');
 
@@ -137,7 +136,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
-            $sortField                  = $request->query->get('sortField');
+            $sortField                         = $request->query->get('sortField');
             
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
@@ -158,15 +157,16 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
 
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
 
         if($searchTerm){
             $urlParameters['searchTerm'] = $searchTerm;
         }
-        $pager         = $paginator->paginate($q, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $pager          = $paginator->paginate($q, $page, $pageLimit);
+        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'repairOrderQuotes' => $pager->getItems(),
@@ -176,6 +176,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
             'currentPage'       => $pagination->currentPage,
             'next'              => $pagination->getNextPageURL('getRepairOrderQuotes', $urlParameters)
         ]);
+        
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
 
         return $this->handleView($view);

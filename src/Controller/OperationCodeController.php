@@ -87,8 +87,6 @@ class OperationCodeController extends AbstractFOSRestController {
     public function getOperationCodes (OperationCodeRepository $operationCodeRepo, PaginatorInterface $paginator,
     UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
         $page            = $request->query->getInt('page', 1);
-        $startDate       = $request->query->get('startDate');
-        $endDate         = $request->query->get('endDate');
         $urlParameters   = [];
         $errors          = [];
         $sortField       = "";
