@@ -30,36 +30,34 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  * )
  */
 class RepairOrderVideoController extends AbstractFOSRestController {
-     /**
+    /**
      * @Rest\Get
-     * 
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS)),
+     *         @SWG\Items(ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS))
      *     )
      * )
      *
      * @param RepairOrder $ro
+     *
      * @return Response
      */
     public function getAll (RepairOrder $ro): Response {
-       
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        $videos         = [];
+        $videos = [];
         foreach ($ro->getVideos() as $video) {
             if ($video->isDeleted()) {
                 continue;
             }
-            $videos[]   = $video;
+            $videos[] = $video;
         }
-
         $view = $this->view($videos);
-        $view->getContext()->setGroups(RepairOrder::GROUPS);
+        $view->getContext()->setGroups(RepairOrderVideo::GROUPS);
 
         return $this->handleView($view);
     }
