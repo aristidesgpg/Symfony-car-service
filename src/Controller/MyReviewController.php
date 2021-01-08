@@ -6,6 +6,7 @@ use App\Entity\RepairOrderReview;
 use App\Repository\RepairOrderReviewRepository;
 use App\Entity\RepairOrderReviewInteractions;
 use App\Repository\RepairOrderReviewInteractionsRepository;
+use App\Service\MyReviewHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -107,13 +108,17 @@ class MyReviewController extends AbstractFOSRestController {
      * @param RepairOrderReview      $repairOrderReview
      * @param EntityManagerInterface $em
      * @param RepairOrderReviewInteractionsRepository $reviewInteractions
+     * @param MyReviewHelper $myReviewHelper
      *
      * @return Response
      */
 
-    public function resendMessage (RepairOrderReview $repairOrderReview, EntityManagerInterface $em, RepairOrderReviewInteractionsRepository $reviewInteractions) {
+    public function resendMessage (RepairOrderReview $repairOrderReview, EntityManagerInterface $em, 
+                                   RepairOrderReviewInteractionsRepository $reviewInteractions, MyReviewHelper $myReviewHelper) {
         $reviewInteractions->new($repairOrderReview, 'Sent');
-
+        
+        $repairOrder = $repairOrderReview->getRepairOrder();
+        $myReviewHelper->sendMessage($repairOrder->getPrimaryCustomer()->number);
         return $this->handleView($this->view([
             'message' => 'Success'
         ], Response::HTTP_OK));
