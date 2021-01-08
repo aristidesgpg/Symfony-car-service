@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\RepairOrderReviewInteractions;
 use App\Entity\RepairOrderReview;
+use App\Entity\User;
+use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -51,15 +53,23 @@ class RepairOrderReviewInteractionsRepository extends ServiceEntityRepository
 
     /** 
      * @param RepairOrderReview $repairOrder
+     * @param String $status
      * @param EntityManagerInterface $em
      * 
      * @return null
     */
-    public function new(RepairOrderReview $review, EntityManagerInterface $em){
+    public function new(RepairOrderReview $review, $status, EntityManagerInterface $em){
         $reviewInteraction = new RepairOrderReviewInteractions();
         $user    = $this->getUser();
-
-        $reviewInteraction->setType('Sent');
+       
+        if ( ($status === 'Sent' ) && (!$user instanceof User) ){
+            throw new \InvalidArgumentException('This is not instance of User');
+        }
+        else if ( ($status !== 'Sent' ) && (!$user instanceof Customer) ){
+            throw new \InvalidArgumentException('This is not instance of Customer');
+        }
+        
+        $reviewInteraction->setType($status);
         $reviewInteraction->setUser($user);
         $reviewInteraction->setRepairOrderReview($review);
 
