@@ -16,7 +16,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 class RepairOrderReviewFixture extends Fixture implements DependentFixtureInterface {
     private const STATUS_FIXTURES  = ['Sent', 'Viewd', 'Completed'] ;
     private const RATING_FIXTURES = ['', 'poor', 'average', 'great'];
-    private const PLATFORM_FIXTURES = ['', 'facebook', 'google'];
+    private const PLATFORM_FIXTURES = ['facebook', 'google'];
     /**
      * @param ObjectManager $manager
      */

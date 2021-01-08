@@ -8,6 +8,8 @@ use App\Entity\User;
 use App\Entity\Customer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
+use DateTime;
 
 /**
  * @method RepairOrderReviewInteractions|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,9 +19,13 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RepairOrderReviewInteractionsRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    /** @var EntityManagerInterface */
+    private $em;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, RepairOrderReviewInteractions::class);
+        $this->em = $em;
     }
 
     // /**
@@ -54,11 +60,10 @@ class RepairOrderReviewInteractionsRepository extends ServiceEntityRepository
     /** 
      * @param RepairOrderReview $repairOrder
      * @param String $status
-     * @param EntityManagerInterface $em
      * 
      * @return null
     */
-    public function new(RepairOrderReview $review,string $status, EntityManagerInterface $em){
+    public function new(RepairOrderReview $review, string $status){
         $reviewInteraction = new RepairOrderReviewInteractions();
         $user    = $this->getUser();
        
@@ -81,7 +86,7 @@ class RepairOrderReviewInteractionsRepository extends ServiceEntityRepository
         $reviewInteraction->setType($status);
         $reviewInteraction->setRepairOrderReview($review);
 
-        $em->persist($reviewInteraction);
-        $em->flush();
+        $this->em->persist($reviewInteraction);
+        $this->em->flush();
     }
 }

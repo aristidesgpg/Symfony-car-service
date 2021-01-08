@@ -22,7 +22,7 @@ class RepairOrderReviewInteractionsFixture extends Fixture implements DependentF
         $faker = Factory::create();
  
         // Load some RepairOrderReviews
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 20; $i++) {
             $reviewInteractions = new RepairOrderReviewInteractions();
 
             $status = $faker->randomElement(self::STATUS_FIXTURES);
