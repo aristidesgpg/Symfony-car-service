@@ -80,3 +80,36 @@ MySQL Version: 5.7.31
     8. In the text box type "Bearer " then paste the token you copied
     9. Click "Authorize" 
     10. All calls after this will automatically have the bearer token in the "Autorization" header
+
+
+
+9. Installing PHP-CS-Fixer globally.
+   1. Open a terminal and run: composer global require friendsofphp/php-cs-fixer
+
+   Configuring PHPStorm.
+      1. File->Settings and search for "fixer"
+      2. Select Languages & Frameworks->PHP->Quality Tools and expand PHP CS Fixer.
+      3. Click the 3 dots and put in the path of the php-cs-fixer.bat file. Usually in your global Composer\vendor\bin\ folder.
+      ie: %USERPROFILE%\AppData\Roaming\Composer\vendor\bin\php-cs-fixer.bat
+      4. After selecting the .bat file, click validate and resolve any errors if any.
+      5. Click Apply
+      6. Click the quick link: PP CS Fixer inspection to navigate there.
+      7. Check the box to use the tool.
+      8. Change the Ruleset to use Symfony and click OK then Apply.
+
+   To validate a file from within php storm.
+      1. Open a file and paste:
+         ```` 
+         /**
+         * Comment without a period
+         */
+         ````
+      2. PHPStorm should underline the comment.
+      3. Place the cursor within the underlined area and press: alt + enter and then choose the appropriate option.
+
+
+
+Links:  
+   https://symfony.com/doc/current/contributing/code/standards.html  
+   https://github.com/FriendsOfPHP/PHP-CS-Fixer   
+   https://cs.symfony.com/
