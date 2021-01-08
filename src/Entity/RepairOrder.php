@@ -211,6 +211,11 @@ class RepairOrder {
     private $videos;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderPayment", mappedBy="repairOrder")
+     */
+    private $payments;
+
+    /**
      * @ORM\OneToOne(targetEntity=RepairOrderQuote::class, mappedBy="repairOrder", cascade={"persist", "remove"})
      * @Serializer\Groups(groups={"ro_list"})
      */
@@ -222,6 +227,7 @@ class RepairOrder {
     public function __construct () {
         $this->dateCreated = new DateTime();
         $this->videos = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     /**
@@ -802,6 +808,24 @@ class RepairOrder {
 
     public function addVideo(RepairOrderVideo $video): self {
         $this->videos->add($video);
+
+        return $this;
+    }
+
+    /**
+     * @return RepairOrderPayment[]
+     */
+    public function getPayments (): array {
+        return $this->payments->toArray();
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
+     *
+     * @return $this
+     */
+    public function addPayment (RepairOrderPayment $payment): self {
+        $this->payments->add($payment);
 
         return $this;
     }
