@@ -44,7 +44,7 @@ class RepairOrderReviewInteractionsFixture extends Fixture implements DependentF
     public function getDependencies()
     {
         return [
-            RepairOrderFixture::class
+            RepairOrderReviewFixture::class
         ];
     }
 }
