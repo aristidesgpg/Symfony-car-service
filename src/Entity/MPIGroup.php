@@ -12,7 +12,8 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Entity(repositoryClass=MPIGroupRepository::class)
  * @ORM\Table(name="mpi_group")
  */
-class MPIGroup {
+class MPIGroup
+{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -53,84 +54,71 @@ class MPIGroup {
     /**
      * MPIGroup constructor.
      */
-    public function __construct () {
+    public function __construct()
+    {
         $this->mpiItems = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId (): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    /**
-     * @return MPITemplate|null
-     */
-    public function getMPITemplate (): ?MPITemplate {
+    public function getMPITemplate(): ?MPITemplate
+    {
         return $this->mpiTemplate;
     }
 
     /**
-     * @param MPITemplate|null $mpiTemplate
-     *
      * @return $this
      */
-    public function setMPITemplate (?MPITemplate $mpiTemplate): self {
+    public function setMPITemplate(?MPITemplate $mpiTemplate): self
+    {
         $this->mpiTemplate = $mpiTemplate;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getName (): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
     /**
-     * @param string $name
-     *
      * @return $this
      */
-    public function setName (string $name): self {
+    public function setName(string $name): self
+    {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getActive (): ?bool {
+    public function getActive(): ?bool
+    {
         return $this->active;
     }
 
     /**
-     * @param bool $active
-     *
      * @return $this
      */
-    public function setActive (bool $active): self {
+    public function setActive(bool $active): self
+    {
         $this->active = $active;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getDeleted (): ?bool {
+    public function getDeleted(): ?bool
+    {
         return $this->deleted;
     }
 
     /**
-     * @param bool $deleted
-     *
      * @return $this
      */
-    public function setDeleted (bool $deleted): self {
+    public function setDeleted(bool $deleted): self
+    {
         $this->deleted = $deleted;
 
         return $this;
@@ -139,16 +127,16 @@ class MPIGroup {
     /**
      * @return Collection|MPIItem[]
      */
-    public function getMPIItems (): Collection {
+    public function getMPIItems(): Collection
+    {
         return $this->mpiItems;
     }
 
     /**
-     * @param MPIItem $mpiItem
-     *
      * @return $this
      */
-    public function addMPIItem (MPIItem $mpiItem): self {
+    public function addMPIItem(MPIItem $mpiItem): self
+    {
         if (!$this->mpiItems->contains($mpiItem)) {
             $this->mpiItems[] = $mpiItem;
             $mpiItem->setMPIGroup($this);
@@ -158,11 +146,10 @@ class MPIGroup {
     }
 
     /**
-     * @param MPIItem $mpiItem
-     *
      * @return $this
      */
-    public function removeMPIItem (MPIItem $mpiItem): self {
+    public function removeMPIItem(MPIItem $mpiItem): self
+    {
         if ($this->mpiItems->contains($mpiItem)) {
             $this->mpiItems->removeElement($mpiItem);
             // set the owning side to null (unless already changed)

@@ -11,7 +11,8 @@ use Money\Money;
 /**
  * @ORM\Entity
  */
-class RepairOrderPayment {
+class RepairOrderPayment
+{
     public const GROUPS = ['rop_list'];
 
     /**
@@ -118,90 +119,74 @@ class RepairOrderPayment {
      */
     private $interactions;
 
-    public function __construct () {
+    public function __construct()
+    {
         $this->interactions = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId (): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    /**
-     * @return RepairOrder
-     */
-    public function getRepairOrder (): RepairOrder {
+    public function getRepairOrder(): RepairOrder
+    {
         return $this->repairOrder;
     }
 
     /**
-     * @param RepairOrder $repairOrder
-     *
      * @return $this
      */
-    public function setRepairOrder (RepairOrder $repairOrder): self {
+    public function setRepairOrder(RepairOrder $repairOrder): self
+    {
         $this->repairOrder = $repairOrder;
 
         return $this;
     }
 
-    /**
-     * @return Money
-     */
-    public function getAmount (): Money {
+    public function getAmount(): Money
+    {
         return $this->amount;
     }
 
-    /**
-     * @return string
-     */
-    public function getAmountString (): string {
+    public function getAmountString(): string
+    {
         return MoneyHelper::getFormatter()->format($this->amount);
     }
 
     /**
-     * @param Money $amount
-     *
      * @return $this
      */
-    public function setAmount (Money $amount): self {
+    public function setAmount(Money $amount): self
+    {
         $this->amount = $amount;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTransactionId (): ?string {
+    public function getTransactionId(): ?string
+    {
         return $this->transactionId;
     }
 
     /**
-     * @param string $transactionId
-     *
      * @return $this
      */
-    public function setTransactionId (string $transactionId): self {
+    public function setTransactionId(string $transactionId): self
+    {
         $this->transactionId = $transactionId;
 
         return $this;
     }
 
-    /**
-     * @return Money|null
-     */
-    public function getRefundedAmount (): ?Money {
+    public function getRefundedAmount(): ?Money
+    {
         return $this->refundedAmount;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getRefundedAmountString (): ?string {
-        if ($this->refundedAmount === null) {
+    public function getRefundedAmountString(): ?string
+    {
+        if (null === $this->refundedAmount) {
             return null;
         }
 
@@ -209,173 +194,145 @@ class RepairOrderPayment {
     }
 
     /**
-     * @param Money $refundedAmount
-     *
      * @return $this
      */
-    public function setRefundedAmount (Money $refundedAmount): self {
+    public function setRefundedAmount(Money $refundedAmount): self
+    {
         $this->refundedAmount = $refundedAmount;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreated (): \DateTime {
+    public function getDateCreated(): \DateTime
+    {
         return $this->dateCreated;
     }
 
     /**
-     * @param \DateTime $dateCreated
-     *
      * @return $this
      */
-    public function setDateCreated (\DateTime $dateCreated): self {
+    public function setDateCreated(\DateTime $dateCreated): self
+    {
         $this->dateCreated = $dateCreated;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateSent (): ?\DateTime {
+    public function getDateSent(): ?\DateTime
+    {
         return $this->dateSent;
     }
 
     /**
-     * @param \DateTime $dateSent
-     *
      * @return $this
      */
-    public function setDateSent (\DateTime $dateSent): self {
+    public function setDateSent(\DateTime $dateSent): self
+    {
         $this->dateSent = $dateSent;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateViewed (): ?\DateTime {
+    public function getDateViewed(): ?\DateTime
+    {
         return $this->dateViewed;
     }
 
     /**
-     * @param \DateTime $dateViewed
-     *
      * @return $this
      */
-    public function setDateViewed (\DateTime $dateViewed): self {
+    public function setDateViewed(\DateTime $dateViewed): self
+    {
         $this->dateViewed = $dateViewed;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDatePaid (): ?\DateTime {
+    public function getDatePaid(): ?\DateTime
+    {
         return $this->datePaid;
     }
 
     /**
-     * @param \DateTime $datePaid
-     *
      * @return $this
      */
-    public function setDatePaid (\DateTime $datePaid) {
+    public function setDatePaid(\DateTime $datePaid)
+    {
         $this->datePaid = $datePaid;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDatePaidViewed (): ?\DateTime {
+    public function getDatePaidViewed(): ?\DateTime
+    {
         return $this->datePaidViewed;
     }
 
     /**
-     * @param \DateTime $datePaidViewed
-     *
      * @return $this
      */
-    public function setDatePaidViewed (\DateTime $datePaidViewed): self {
+    public function setDatePaidViewed(\DateTime $datePaidViewed): self
+    {
         $this->datePaidViewed = $datePaidViewed;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateRefunded (): ?\DateTime {
+    public function getDateRefunded(): ?\DateTime
+    {
         return $this->dateRefunded;
     }
 
     /**
-     * @param \DateTime $dateRefunded
-     *
      * @return $this
      */
-    public function setDateRefunded (\DateTime $dateRefunded): self {
+    public function setDateRefunded(\DateTime $dateRefunded): self
+    {
         $this->dateRefunded = $dateRefunded;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getDateDeleted (): ?\DateTime {
+    public function getDateDeleted(): ?\DateTime
+    {
         return $this->dateDeleted;
     }
 
     /**
-     * @param \DateTime $dateDeleted
-     *
      * @return $this
      */
-    public function setDateDeleted (\DateTime $dateDeleted): self {
+    public function setDateDeleted(\DateTime $dateDeleted): self
+    {
         $this->dateDeleted = $dateDeleted;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDeleted (): bool {
+    public function isDeleted(): bool
+    {
         return $this->deleted;
     }
 
     /**
-     * @param bool $deleted
-     *
      * @return $this
      */
-    public function setDeleted (bool $deleted): self {
+    public function setDeleted(bool $deleted): self
+    {
         $this->deleted = $deleted;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getCardType (): ?int {
+    public function getCardType(): ?int
+    {
         return $this->cardType;
     }
 
     /**
-     * @param int $cardType
-     *
      * @return $this
      */
-    public function setCardType (int $cardType): self {
+    public function setCardType(int $cardType): self
+    {
         $this->cardType = $cardType;
 
         return $this;
@@ -384,16 +341,16 @@ class RepairOrderPayment {
     /**
      * @return ?string
      */
-    public function getCardNumber (): ?string {
+    public function getCardNumber(): ?string
+    {
         return $this->cardNumber;
     }
 
     /**
-     * @param string $cardNumber
-     *
      * @return $this
      */
-    public function setCardNumber (string $cardNumber): self {
+    public function setCardNumber(string $cardNumber): self
+    {
         $this->cardNumber = $cardNumber;
 
         return $this;
@@ -402,16 +359,16 @@ class RepairOrderPayment {
     /**
      * @return RepairOrderPaymentInteraction[]
      */
-    public function getInteractions (): array {
+    public function getInteractions(): array
+    {
         return $this->interactions->toArray();
     }
 
     /**
-     * @param RepairOrderPaymentInteraction $interaction
-     *
      * @return $this
      */
-    public function addInteraction (RepairOrderPaymentInteraction $interaction): self {
+    public function addInteraction(RepairOrderPaymentInteraction $interaction): self
+    {
         $this->interactions->add($interaction);
 
         return $this;

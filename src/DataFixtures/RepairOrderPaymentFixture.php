@@ -10,18 +10,17 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-class RepairOrderPaymentFixture extends Fixture implements DependentFixtureInterface {
-    /**
-     * @param ObjectManager $manager
-     */
-    public function load (ObjectManager $manager) {
+class RepairOrderPaymentFixture extends Fixture implements DependentFixtureInterface
+{
+    public function load(ObjectManager $manager)
+    {
         $faker = Factory::create();
 
-        for ($i=1; $i<51; $i++) {
+        for ($i = 1; $i < 51; ++$i) {
             $ro = $this->getReference("repairOrder_{$i}");
             $created = $faker->dateTimeThisYear;
             $payment = new RepairOrderPayment();
-            $payment->setAmount(MoneyHelper::parse(rand(1, 2000) . '.' . rand(10, 99)))
+            $payment->setAmount(MoneyHelper::parse(rand(1, 2000).'.'.rand(10, 99)))
                     ->setRepairOrder($ro)
                     ->setDateCreated($created);
             $this->addInteraction('Created', $payment, $created);
@@ -49,7 +48,7 @@ class RepairOrderPaymentFixture extends Fixture implements DependentFixtureInter
                 $receiptSent = (clone $paidViewed)->add($minInterval);
                 $this->addInteraction('Receipt sent', $payment, $receiptSent);
 
-                if (rand(1, 4) === 1) {
+                if (1 === rand(1, 4)) {
                     $refunded = (clone $paid)->add($dayInterval);
                     $payment->setDateRefunded($refunded);
 
@@ -62,7 +61,8 @@ class RepairOrderPaymentFixture extends Fixture implements DependentFixtureInter
         $manager->flush();
     }
 
-    private function addInteraction (string $type, RepairOrderPayment $payment, \DateTime $date): void {
+    private function addInteraction(string $type, RepairOrderPayment $payment, \DateTime $date): void
+    {
         $interaction = new RepairOrderPaymentInteraction();
         $interaction->setPayment($payment)
             ->setType($type)
@@ -73,7 +73,8 @@ class RepairOrderPaymentFixture extends Fixture implements DependentFixtureInter
     /**
      * @return string[]
      */
-    public function getDependencies (): array {
+    public function getDependencies(): array
+    {
         return [
             RepairOrderFixture::class,
         ];

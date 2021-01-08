@@ -4,11 +4,13 @@ namespace App\Exception;
 
 use App\Entity\PaymentResponse;
 
-class PaymentException extends \RuntimeException {
+class PaymentException extends \RuntimeException
+{
     private $response;
 
-    public function __construct (PaymentResponse $response, ?string $message = null) {
-        if ($message === null) {
+    public function __construct(PaymentResponse $response, ?string $message = null)
+    {
+        if (null === $message) {
             $message = "Transaction failed. Reason: {$response->getResponseText()}";
         }
         parent::__construct($message, $response->getCode());
@@ -16,7 +18,8 @@ class PaymentException extends \RuntimeException {
         $this->response = $response;
     }
 
-    public function getResponse (): PaymentResponse {
+    public function getResponse(): PaymentResponse
+    {
         return $this->response;
     }
 }

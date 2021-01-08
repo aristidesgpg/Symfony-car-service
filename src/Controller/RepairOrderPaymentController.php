@@ -21,8 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twilio\Exceptions\TwilioException;
 
 /**
- * Class RepairOrderPaymentController
- * @package App\Controller
+ * Class RepairOrderPaymentController.
  *
  * @Rest\Route("/api/repair-order/{ro}/payment")
  * @SWG\Tag(name="Repair Order Payment")
@@ -31,7 +30,8 @@ use Twilio\Exceptions\TwilioException;
  *     description="Repair Order or Payment does not exist"
  * )
  */
-class RepairOrderPaymentController extends AbstractFOSRestController {
+class RepairOrderPaymentController extends AbstractFOSRestController
+{
     use FalsyTrait;
 
     /**
@@ -44,12 +44,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      *         @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
      *     )
      * )
-     *
-     * @param RepairOrder $ro
-     *
-     * @return Response
      */
-    public function getAll (RepairOrder $ro): Response {
+    public function getAll(RepairOrder $ro): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -75,14 +72,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="amount", type="string", in="formData", required=true)
-     *
-     * @param RepairOrder   $ro
-     * @param Request       $request
-     * @param PaymentHelper $helper
-     *
-     * @return Response
      */
-    public function createPayment (RepairOrder $ro, Request $request, PaymentHelper $helper): Response {
+    public function createPayment(RepairOrder $ro, Request $request, PaymentHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -107,13 +99,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      *     description="Success!",
      *     @SWG\Schema(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
      * )
-     *
-     * @param RepairOrder        $ro
-     * @param RepairOrderPayment $payment
-     *
-     * @return Response
      */
-    public function getOne (RepairOrder $ro, RepairOrderPayment $payment): Response {
+    public function getOne(RepairOrder $ro, RepairOrderPayment $payment): Response
+    {
         if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
             throw new NotFoundHttpException();
         }
@@ -128,19 +116,14 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      * @Rest\Delete("/{payment}")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="Paid payments cannot be deleted")
-     *
-     * @param RepairOrder        $ro
-     * @param RepairOrderPayment $payment
-     * @param PaymentHelper      $helper
-     *
-     * @return Response
      */
-    public function delete (RepairOrder $ro, RepairOrderPayment $payment, PaymentHelper $helper): Response {
+    public function delete(RepairOrder $ro, RepairOrderPayment $payment, PaymentHelper $helper): Response
+    {
         if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
             throw new NotFoundHttpException();
         }
 
-        if ($payment->getDatePaid() !== null) {
+        if (null !== $payment->getDatePaid()) {
             return $this->handleView($this->view([
                 'message' => 'Paid payments cannot be deleted',
             ], Response::HTTP_BAD_REQUEST));
@@ -160,22 +143,19 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      * @SWG\Response(response="500", description="Unable to send payment")
      *
      * @SWG\Parameter(name="resend", type="boolean", in="formData", description="Resend payment")
-     *
-     * @param RepairOrder        $ro
-     * @param RepairOrderPayment $payment
-     * @param Request            $request
-     * @param PaymentHelper      $helper
-     *
-     * @return Response
      */
-    public function sendPayment (RepairOrder $ro, RepairOrderPayment $payment, Request $request,
-                                 PaymentHelper $helper): Response {
+    public function sendPayment(
+        RepairOrder $ro,
+        RepairOrderPayment $payment,
+        Request $request,
+        PaymentHelper $helper
+    ): Response {
         if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
             throw new NotFoundHttpException();
         }
 
         $resend = $this->paramToBool($request->request->get('resend', false));
-        if ($resend !== true && $payment->getDateSent() !== null) {
+        if (true !== $resend && null !== $payment->getDateSent()) {
             return $this->handleView($this->view([
                 'message' => 'Payment already sent',
             ], Response::HTTP_BAD_REQUEST));
@@ -197,19 +177,14 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
     /**
      * @Rest\Post("/{payment}/view")
      * @SWG\Response(response="200", description="Success!")
-     *
-     * @param RepairOrder        $ro
-     * @param RepairOrderPayment $payment
-     * @param PaymentHelper      $helper
-     *
-     * @return Response
      */
-    public function viewPayment (RepairOrder $ro, RepairOrderPayment $payment, PaymentHelper $helper): Response {
+    public function viewPayment(RepairOrder $ro, RepairOrderPayment $payment, PaymentHelper $helper): Response
+    {
         if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
             throw new NotFoundHttpException();
         }
 
-        $paid = ($payment->getDatePaid() !== null);
+        $paid = (null !== $payment->getDatePaid());
         $helper->viewPayment($payment, $paid);
 
         return $this->handleView($this->view([
@@ -230,31 +205,28 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      * @SWG\Response(response="500", description="Could not contact payment server")
      *
      * @SWG\Parameter(name="paymentToken", type="string", in="formData", required=true)
-     *
-     * @param RepairOrder        $ro
-     * @param RepairOrderPayment $payment
-     * @param Request            $request
-     * @param PaymentHelper      $helper
-     *
-     * @return Response
      */
-    public function payPayment (RepairOrder $ro, RepairOrderPayment $payment, Request $request,
-                                PaymentHelper $helper): Response {
+    public function payPayment(
+        RepairOrder $ro,
+        RepairOrderPayment $payment,
+        Request $request,
+        PaymentHelper $helper
+    ): Response {
         if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
             throw new NotFoundHttpException();
         }
-        if ($payment->getDatePaid() !== null) {
+        if (null !== $payment->getDatePaid()) {
             return $this->handleView($this->view([
                 'message' => 'Payment already paid',
             ], Response::HTTP_BAD_REQUEST));
         }
 
         $message = null;
-        $code    = Response::HTTP_BAD_REQUEST;
+        $code = Response::HTTP_BAD_REQUEST;
         try {
             $helper->payPayment($payment, $request->request->get('paymentToken'));
             $message = 'Payment successful!';
-            $code    = Response::HTTP_OK;
+            $code = Response::HTTP_OK;
         } catch (PaymentException $e) {
             $message = $e->getMessage();
         } catch (\Exception $e) {
@@ -279,16 +251,13 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      * @SWG\Response(response="500", description="Could not contact payment server")
      *
      * @SWG\Parameter(name="amount", type="string", in="formData", required=true)
-     *
-     * @param RepairOrder        $ro
-     * @param RepairOrderPayment $payment
-     * @param Request            $request
-     * @param PaymentHelper      $helper
-     *
-     * @return Response
      */
-    public function refundPayment (RepairOrder $ro, RepairOrderPayment $payment, Request $request,
-                                   PaymentHelper $helper): Response {
+    public function refundPayment(
+        RepairOrder $ro,
+        RepairOrderPayment $payment,
+        Request $request,
+        PaymentHelper $helper
+    ): Response {
         if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
             throw new NotFoundHttpException();
         }
@@ -304,7 +273,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
         try {
             $helper->refundPayment($payment, $amount);
             $message = 'Refund successful';
-        } catch (\InvalidArgumentException|PaymentException $e) {
+        } catch (\InvalidArgumentException | PaymentException $e) {
             $message = $e->getMessage();
             $code = Response::HTTP_BAD_REQUEST;
         } catch (\Exception $e) {
@@ -324,27 +293,24 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
      * @SWG\Response(response="500", description="Could not send mail")
      *
      * @SWG\Parameter(name="sendTo", type="string", in="formData", required=true)
-     *
-     * @param RepairOrder        $ro
-     * @param RepairOrderPayment $payment
-     * @param Request            $request
-     * @param PaymentHelper      $helper
-     *
-     * @return Response
      */
-    public function sendReceipt (RepairOrder $ro, RepairOrderPayment $payment, Request $request,
-                                 PaymentHelper $helper): Response {
+    public function sendReceipt(
+        RepairOrder $ro,
+        RepairOrderPayment $payment,
+        Request $request,
+        PaymentHelper $helper
+    ): Response {
         if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
             throw new NotFoundHttpException();
         }
 
         $text = null;
-        if ($payment->getDatePaid() === null) {
+        if (null === $payment->getDatePaid()) {
             $text = 'Cannot send receipt for unpaid order';
         } elseif (!$request->request->has('sendTo')) {
             $text = 'Missing sendTo parameter';
         }
-        if ($text !== null) {
+        if (null !== $text) {
             return $this->handleView($this->view([
                 'message' => $text,
             ], Response::HTTP_BAD_REQUEST));
@@ -365,12 +331,10 @@ class RepairOrderPaymentController extends AbstractFOSRestController {
     }
 
     /**
-     * @param string|null $amount
-     *
-     * @return Money
      * @throws \InvalidArgumentException
      */
-    private function parseAmount (?string $amount): Money {
+    private function parseAmount(?string $amount): Money
+    {
         try {
             $money = MoneyHelper::parse($amount);
         } catch (ParserException $e) {

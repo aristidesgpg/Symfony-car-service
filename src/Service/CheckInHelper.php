@@ -11,11 +11,10 @@ use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Class CheckInHelper
- *
- * @package App\Service
+ * Class CheckInHelper.
  */
-class CheckInHelper {
+class CheckInHelper
+{
     /** @var string[] */
     private const REQUIRED_FIELDS = ['identification', 'video'];
 
@@ -27,24 +26,20 @@ class CheckInHelper {
 
     /**
      * CheckInHelper constructor.
-     *
-     * @param EntityManagerInterface $em
-     * @param UploadHelper           $upload
      */
-    public function __construct (EntityManagerInterface $em, UploadHelper $upload) {
-        $this->em     = $em;
+    public function __construct(EntityManagerInterface $em, UploadHelper $upload)
+    {
+        $this->em = $em;
         $this->upload = $upload;
     }
 
     /**
-     * @param array $params
-     * @param bool  $checkRequiredFields
-     *
      * @return array Empty on successful validation
      */
-    public function validateParams (array $params, bool $checkRequiredFields = false): array {
+    public function validateParams(array $params, bool $checkRequiredFields = false): array
+    {
         $errors = [];
-        if ($checkRequiredFields === true) {
+        if (true === $checkRequiredFields) {
             foreach (self::REQUIRED_FIELDS as $field) {
                 if (!isset($params[$field])) {
                     $errors[$field] = 'Field missing';
@@ -55,13 +50,11 @@ class CheckInHelper {
         return $errors;
     }
 
-    /**
-     * @param array $params
-     */
-    public function createCheckIn (array $params = []): void {
+    public function createCheckIn(array $params = []): void
+    {
         $valid = empty($this->validateParams($params));
 
-        if ($valid !== true) {
+        if (true !== $valid) {
             throw new InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
 
@@ -94,17 +87,14 @@ class CheckInHelper {
     }
 
     /**
-     * @param UploadedFile $file
-     * @param User ID|string    $current user
-     *
-     * @return String
+     * @param User ID|string $current user
      */
-    public function createVideo (UploadedFile $file): string {
+    public function createVideo(UploadedFile $file): string
+    {
         if (!$this->upload->isValidVideo($file)) {
             throw new InvalidArgumentException('Invalid file format');
         }
 
         return $this->upload->uploadVideo($file, 'checkin');
     }
-
 }

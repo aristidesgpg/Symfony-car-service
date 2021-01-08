@@ -12,7 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Money\Money;
 use Twilio\Exceptions\TwilioException;
 
-class PaymentHelper {
+class PaymentHelper
+{
     /** @var EntityManagerInterface */
     private $em;
 
@@ -30,33 +31,23 @@ class PaymentHelper {
 
     /**
      * PaymentHelper constructor.
-     * @param EntityManagerInterface $em
-     * @param NMI                    $nmi
-     * @param ShortUrlHelper         $urlHelper
-     * @param SettingsRepository     $settings
-     * @param MailerHelper           $mailer
      */
-    public function __construct (
+    public function __construct(
         EntityManagerInterface $em,
         NMI $nmi,
         ShortUrlHelper $urlHelper,
         SettingsRepository $settings,
         MailerHelper $mailer
     ) {
-        $this->em  = $em;
+        $this->em = $em;
         $this->nmi = $nmi;
         $this->urlHelper = $urlHelper;
         $this->settings = $settings;
         $this->mailer = $mailer;
     }
 
-    /**
-     * @param RepairOrder $ro
-     * @param Money       $amount
-     *
-     * @return RepairOrderPayment
-     */
-    public function addPayment (RepairOrder $ro, Money $amount): RepairOrderPayment {
+    public function addPayment(RepairOrder $ro, Money $amount): RepairOrderPayment
+    {
         $payment = new RepairOrderPayment();
         $payment->setRepairOrder($ro)
                 ->setAmount($amount)
@@ -68,13 +59,11 @@ class PaymentHelper {
     }
 
     /**
-     * @param RepairOrderPayment $payment
-     * @param bool               $resend
-     *
      * @throws TwilioException
      */
-    public function sendPayment (RepairOrderPayment $payment, bool $resend = false): void {
-        if ($payment->getDateSent() !== null && $resend !== true) {
+    public function sendPayment(RepairOrderPayment $payment, bool $resend = false): void
+    {
+        if (null !== $payment->getDateSent() && true !== $resend) {
             throw new \InvalidArgumentException('Payment already sent');
         }
 
@@ -89,11 +78,8 @@ class PaymentHelper {
         $this->commitPayment($payment);
     }
 
-    /**
-     * @param RepairOrderPayment $payment
-     * @param bool               $paid
-     */
-    public function viewPayment (RepairOrderPayment $payment, bool $paid = false): void {
+    public function viewPayment(RepairOrderPayment $payment, bool $paid = false): void
+    {
         $date = new \DateTime();
         if ($paid) {
             $payment->setDatePaidViewed($date);
@@ -107,13 +93,11 @@ class PaymentHelper {
     }
 
     /**
-     * @param RepairOrderPayment $payment
-     * @param string             $paymentToken
-     *
      * @throws \Exception|PaymentException
      */
-    public function payPayment (RepairOrderPayment $payment, string $paymentToken): void {
-        $response      = $this->nmi->makePayment($paymentToken, $payment->getAmountString())->getParsedResponse();
+    public function payPayment(RepairOrderPayment $payment, string $paymentToken): void
+    {
+        $response = $this->nmi->makePayment($paymentToken, $payment->getAmountString())->getParsedResponse();
         $transactionId = $response['transaction_id'] ?? null;
         $payment->setTransactionId($transactionId);
         $payment->setDatePaid(new \DateTime());
@@ -131,26 +115,21 @@ class PaymentHelper {
     }
 
     /**
-     * @param RepairOrderPayment $payment
-     * @param Money              $amount
-     *
      * @throws \Exception|PaymentException
      */
-    public function refundPayment (RepairOrderPayment $payment, Money $amount): void {
+    public function refundPayment(RepairOrderPayment $payment, Money $amount): void
+    {
         $transactionId = $payment->getTransactionId();
-        if ($transactionId === null) {
+        if (null === $transactionId) {
             throw new \InvalidArgumentException('Missing transactionId');
         }
         $overflow = $amount->greaterThan($payment->getAmount());
-        if ($payment->getRefundedAmount() !== null) {
+        if (null !== $payment->getRefundedAmount()) {
             $totalRefunded = $payment->getRefundedAmount()->add($amount);
             $overflow = $totalRefunded->greaterThan($payment->getAmount());
         }
-        if ($overflow === true) {
-            throw new \InvalidArgumentException(sprintf('Refund amount "%s" exceeds total amount "%s"',
-                MoneyHelper::getFormatter()->format($amount),
-                MoneyHelper::getFormatter()->format($payment->getAmount())
-            ));
+        if (true === $overflow) {
+            throw new \InvalidArgumentException(sprintf('Refund amount "%s" exceeds total amount "%s"', MoneyHelper::getFormatter()->format($amount), MoneyHelper::getFormatter()->format($payment->getAmount())));
         }
 
         $this->nmi->makeRefund($transactionId, MoneyHelper::getFormatter()->format($amount));
@@ -160,15 +139,13 @@ class PaymentHelper {
         $this->commitPayment($payment);
     }
 
-    /**
-     * @param RepairOrderPayment $payment
-     */
-    public function deletePayment (RepairOrderPayment $payment): void {
-        if ($payment->getDatePaid() !== null) {
-            throw new \InvalidArgumentException("Paid payments cannot be deleted");
+    public function deletePayment(RepairOrderPayment $payment): void
+    {
+        if (null !== $payment->getDatePaid()) {
+            throw new \InvalidArgumentException('Paid payments cannot be deleted');
         }
         if ($payment->isDeleted()) {
-            throw new \InvalidArgumentException("Payment already deleted");
+            throw new \InvalidArgumentException('Payment already deleted');
         }
 
         $payment->setDeleted(true);
@@ -179,14 +156,12 @@ class PaymentHelper {
     }
 
     /**
-     * @param RepairOrderPayment $payment
-     * @param string             $toAddress
-     *
      * @throws \Throwable
      */
-    public function sendReceipt (RepairOrderPayment $payment, string $toAddress): void {
+    public function sendReceipt(RepairOrderPayment $payment, string $toAddress): void
+    {
         $date = $payment->getDatePaid();
-        if ($date === null) {
+        if (null === $date) {
             throw new \InvalidArgumentException('Cannot send receipt for unpaid payment');
         }
 
@@ -208,13 +183,8 @@ class PaymentHelper {
         $this->commitPayment($payment);
     }
 
-    /**
-     * @param RepairOrderPayment $payment
-     * @param string             $type
-     *
-     * @return RepairOrderPaymentInteraction
-     */
-    private function createInteraction (RepairOrderPayment $payment, string $type): RepairOrderPaymentInteraction {
+    private function createInteraction(RepairOrderPayment $payment, string $type): RepairOrderPaymentInteraction
+    {
         $interaction = new RepairOrderPaymentInteraction();
         $interaction->setPayment($payment)
                     ->setType($type);
@@ -223,11 +193,9 @@ class PaymentHelper {
         return $interaction;
     }
 
-    /**
-     * @param RepairOrderPayment $payment
-     */
-    private function commitPayment (RepairOrderPayment $payment): void {
-        if ($payment->getId() === null) {
+    private function commitPayment(RepairOrderPayment $payment): void
+    {
+        if (null === $payment->getId()) {
             $this->em->persist($payment);
         }
 

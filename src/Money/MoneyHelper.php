@@ -11,7 +11,8 @@ use Money\MoneyFormatter;
 use Money\MoneyParser;
 use Money\Parser\DecimalMoneyParser;
 
-abstract class MoneyHelper {
+abstract class MoneyHelper
+{
     /** @var MoneyParser */
     private static $parser;
 
@@ -24,19 +25,13 @@ abstract class MoneyHelper {
     /** @var Currencies */
     private static $currencies;
 
-    /**
-     * @param string $number
-     *
-     * @return Money
-     */
-    public static function parse (string $number): Money {
+    public static function parse(string $number): Money
+    {
         return self::getParser()->parse($number, self::getCurrency());
     }
 
-    /**
-     * @return MoneyParser
-     */
-    public static function getParser (): MoneyParser {
+    public static function getParser(): MoneyParser
+    {
         if (self::$parser instanceof MoneyParser) {
             return self::$parser;
         }
@@ -44,10 +39,8 @@ abstract class MoneyHelper {
         return self::$parser = new DecimalMoneyParser(self::getCurrencies());
     }
 
-    /**
-     * @return MoneyFormatter
-     */
-    public static function getFormatter (): MoneyFormatter {
+    public static function getFormatter(): MoneyFormatter
+    {
         if (self::$formatter instanceof MoneyFormatter) {
             return self::$formatter;
         }
@@ -55,10 +48,8 @@ abstract class MoneyHelper {
         return self::$formatter = new DecimalMoneyFormatter(self::getCurrencies());
     }
 
-    /**
-     * @return Currency
-     */
-    public static function getCurrency (): Currency {
+    public static function getCurrency(): Currency
+    {
         if (self::$currency instanceof Currency) {
             return self::$currency;
         }
@@ -66,10 +57,8 @@ abstract class MoneyHelper {
         return self::$currency = new Currency('USD');
     }
 
-    /**
-     * @return Currencies
-     */
-    private static function getCurrencies (): Currencies {
+    private static function getCurrencies(): Currencies
+    {
         if (self::$currencies instanceof Currencies) {
             return self::$currencies;
         }
