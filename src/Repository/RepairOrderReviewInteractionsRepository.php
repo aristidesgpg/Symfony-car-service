@@ -58,7 +58,7 @@ class RepairOrderReviewInteractionsRepository extends ServiceEntityRepository
      * 
      * @return null
     */
-    public function new(RepairOrderReview $review, $status, EntityManagerInterface $em){
+    public function new(RepairOrderReview $review,string $status, EntityManagerInterface $em){
         $reviewInteraction = new RepairOrderReviewInteractions();
         $user    = $this->getUser();
        
