@@ -9,8 +9,9 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * @ORM\Entity
  */
-class RepairOrderVideo {
-    public const GROUPS   = ['rov_list'];
+class RepairOrderVideo
+{
+    public const GROUPS = ['rov_list'];
 
     /**
      * @ORM\Id
@@ -69,139 +70,117 @@ class RepairOrderVideo {
      */
     private $interactions;
 
-    public function __construct () {
-        $this->dateCreated  = new \DateTime();
+    public function __construct()
+    {
+        $this->dateCreated = new \DateTime();
         $this->interactions = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId (): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    /**
-     * @return RepairOrder|null
-     */
-    public function getRepairOrder (): ?RepairOrder {
+    public function getRepairOrder(): ?RepairOrder
+    {
         return $this->repairOrder;
     }
 
     /**
-     * @param RepairOrder $repairOrder
-     *
      * @return $this
      */
-    public function setRepairOrder (RepairOrder $repairOrder): self {
+    public function setRepairOrder(RepairOrder $repairOrder): self
+    {
         $this->repairOrder = $repairOrder;
 
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
-    public function getTechnician (): ?User {
+    public function getTechnician(): ?User
+    {
         return $this->technician;
     }
 
     /**
-     * @param User $technician
-     *
      * @return $this
      */
-    public function setTechnician (User $technician): self {
+    public function setTechnician(User $technician): self
+    {
         $this->technician = $technician;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPath (): ?string {
+    public function getPath(): ?string
+    {
         return $this->path;
     }
 
     /**
-     * @param string $path
-     *
      * @return $this
      */
-    public function setPath (string $path): self {
+    public function setPath(string $path): self
+    {
         $this->path = $path;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatus (): string {
+    public function getStatus(): string
+    {
         return $this->status;
     }
 
     /**
-     * @param string $status
-     *
      * @return $this
      */
-    public function setStatus (string $status): self {
+    public function setStatus(string $status): self
+    {
         $this->status = $status;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getShortUrl (): ?string {
+    public function getShortUrl(): ?string
+    {
         return $this->shortUrl;
     }
 
     /**
-     * @param string $shortUrl
-     *
      * @return $this
      */
-    public function setShortUrl (string $shortUrl): self {
+    public function setShortUrl(string $shortUrl): self
+    {
         $this->shortUrl = $shortUrl;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreated (): \DateTime {
+    public function getDateCreated(): \DateTime
+    {
         return $this->dateCreated;
     }
 
     /**
-     * @param \DateTime $dateCreated
-     *
      * @return $this
      */
-    public function setDateCreated (\DateTime $dateCreated): self {
+    public function setDateCreated(\DateTime $dateCreated): self
+    {
         $this->dateCreated = $dateCreated;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDeleted (): bool {
+    public function isDeleted(): bool
+    {
         return $this->deleted;
     }
 
     /**
-     * @param bool $deleted
-     *
      * @return $this
      */
-    public function setDeleted (bool $deleted): self {
+    public function setDeleted(bool $deleted): self
+    {
         $this->deleted = $deleted;
 
         return $this;
@@ -210,16 +189,16 @@ class RepairOrderVideo {
     /**
      * @return RepairOrderVideoInteraction[]
      */
-    public function getInteractions (): array {
+    public function getInteractions(): array
+    {
         return $this->interactions->toArray();
     }
 
     /**
-     * @param RepairOrderVideoInteraction $interaction
-     *
      * @return $this
      */
-    public function addInteraction (RepairOrderVideoInteraction $interaction): self {
+    public function addInteraction(RepairOrderVideoInteraction $interaction): self
+    {
         $status = $interaction->getType();
         $this->setStatus($status);
         $this->getRepairOrder()->setVideoStatus($status);

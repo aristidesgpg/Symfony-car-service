@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderQuoteRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderQuoteRepository::class)
@@ -73,7 +73,7 @@ class RepairOrderQuote
 
     public function __construct()
     {
-        $this->dateCreated              = new DateTime();
+        $this->dateCreated = new DateTime();
         $this->repairOrderQuoteRecommendations = new ArrayCollection();
     }
 

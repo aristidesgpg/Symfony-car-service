@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class RepairOrderPaymentInteraction {
+class RepairOrderPaymentInteraction
+{
     public const GROUPS = ['int_list'];
 
     use InteractionTrait;
@@ -18,20 +19,17 @@ class RepairOrderPaymentInteraction {
     private $repairOrderPayment;
 
     /**
-     * @param RepairOrderPayment $payment
-     *
      * @return $this
      */
-    public function setPayment (RepairOrderPayment $payment): self {
+    public function setPayment(RepairOrderPayment $payment): self
+    {
         $this->repairOrderPayment = $payment;
 
         return $this;
     }
 
-    /**
-     * @return RepairOrderPayment
-     */
-    public function getPayment (): RepairOrderPayment {
+    public function getPayment(): RepairOrderPayment
+    {
         return $this->repairOrderPayment;
     }
 }

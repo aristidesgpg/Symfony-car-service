@@ -5,21 +5,20 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\UserRepository;
+use App\Service\UserHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Swagger\Annotations as SWG;
-use App\Service\UserHelper;
 
 /**
- * Class UserController
- *
- * @package App\Controller
+ * Class UserController.
  */
-class UserController extends AbstractFOSRestController {
+class UserController extends AbstractFOSRestController
+{
     use iServiceLoggerTrait;
 
     /**
@@ -45,13 +44,10 @@ class UserController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param Request        $request
-     * @param UserRepository $userRepo
-     * @param UserHelper     $userHelper
-     *
      * @return Response
      */
-    public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper) {
+    public function getUsers(Request $request, UserRepository $userRepo, UserHelper $userHelper)
+    {
         $role = $request->query->get('role');
 
         // role is invalid
@@ -159,23 +155,20 @@ class UserController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     * @param UserHelper             $userHelper
-     *
      * @return Response
      */
-    public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
-        $role              = $request->get('role');
-        $firstName         = $request->get('firstName');
-        $lastName          = $request->get('lastName');
-        $email             = $request->get('email');
-        $phone             = $request->get('phone');
-        $password          = $request->get('password');
-        $pin               = $request->get('pin');
-        $certification     = $request->get('certification');
-        $experience        = $request->get('experience');
-        $processRefund     = $request->get('processRefund');
+    public function new(Request $request, EntityManagerInterface $em, UserHelper $userHelper)
+    {
+        $role = $request->get('role');
+        $firstName = $request->get('firstName');
+        $lastName = $request->get('lastName');
+        $email = $request->get('email');
+        $phone = $request->get('phone');
+        $password = $request->get('password');
+        $pin = $request->get('pin');
+        $certification = $request->get('certification');
+        $experience = $request->get('experience');
+        $processRefund = $request->get('processRefund');
         $shareRepairOrders = $request->get('shareRepairOrders');
 
         //role is invalid
@@ -187,10 +180,10 @@ class UserController extends AbstractFOSRestController {
         if (!$firstName || !$lastName || !$email || !$phone || !$password) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        if ($role == 'ROLE_TECHNICIAN' && (!$certification || !$experience)) {
+        if ('ROLE_TECHNICIAN' == $role && (!$certification || !$experience)) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
+        if ('ROLE_SERVICE_ADVISOR' == $role && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -203,11 +196,11 @@ class UserController extends AbstractFOSRestController {
              ->setPassword($userHelper->passwordEncoder($user, $password))
              ->setRole($role);
 
-        if ($role == 'ROLE_TECHNICIAN') {
+        if ('ROLE_TECHNICIAN' == $role) {
             $user->setCertification($certification)
                  ->setExperience($experience);
         }
-        if ($role == 'ROLE_SERVICE_ADVISOR') {
+        if ('ROLE_SERVICE_ADVISOR' == $role) {
             $user->setProcessRefund(filter_var($processRefund, FILTER_VALIDATE_BOOLEAN))
                  ->setShareRepairOrders(filter_var($shareRepairOrders, FILTER_VALIDATE_BOOLEAN));
         }
@@ -215,7 +208,7 @@ class UserController extends AbstractFOSRestController {
         $em->persist($user);
         $em->flush();
 
-        $this->logInfo('New User "' . $user->getFirstName() . '" Created');
+        $this->logInfo('New User "'.$user->getFirstName().'" Created');
 
         return $this->userView($user);
     }
@@ -315,24 +308,20 @@ class UserController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param User                   $user
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     * @param UserHelper             $userHelper
-     *
      * @return Response
      */
-    public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
-        $role              = $request->get('role') ?? $user->getRoles()[0];
-        $firstName         = $request->get('firstName') ?? $user->getFirstName();
-        $lastName          = $request->get('lastName') ?? $user->getLastName();
-        $email             = $request->get('email') ?? $user->getEmail();
-        $phone             = $request->get('phone') ?? $user->getPhone();
-        $password          = $request->get('password') ?? $user->getPassword();
-        $pin               = $request->get('pin') ?? $user->getPin();
-        $certification     = $request->get('certification') ?? $user->getCertification();
-        $experience        = $request->get('experience') ?? $user->getExperience();
-        $processRefund     = $request->get('processRefund') ?? $user->getProcessRefund();
+    public function edit(User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper)
+    {
+        $role = $request->get('role') ?? $user->getRoles()[0];
+        $firstName = $request->get('firstName') ?? $user->getFirstName();
+        $lastName = $request->get('lastName') ?? $user->getLastName();
+        $email = $request->get('email') ?? $user->getEmail();
+        $phone = $request->get('phone') ?? $user->getPhone();
+        $password = $request->get('password') ?? $user->getPassword();
+        $pin = $request->get('pin') ?? $user->getPin();
+        $certification = $request->get('certification') ?? $user->getCertification();
+        $experience = $request->get('experience') ?? $user->getExperience();
+        $processRefund = $request->get('processRefund') ?? $user->getProcessRefund();
         $shareRepairOrders = $request->get('shareRepairOrders') ?? $user->getShareRepairOrders();
 
         //role is invalid
@@ -341,10 +330,10 @@ class UserController extends AbstractFOSRestController {
         }
 
         //check if parameters are valid
-        if ($role != 'ROLE_TECHNICIAN' && ($certification || $experience)) {
+        if ('ROLE_TECHNICIAN' != $role && ($certification || $experience)) {
             return $this->handleView($this->view('Certification and Experience is Only for Technicians', Response::HTTP_BAD_REQUEST));
         }
-        if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
+        if ('ROLE_SERVICE_ADVISOR' == $role && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -357,11 +346,11 @@ class UserController extends AbstractFOSRestController {
              ->setPin($pin)
              ->setRole($role);
 
-        if ($role == 'ROLE_TECHNICIAN') {
+        if ('ROLE_TECHNICIAN' == $role) {
             $user->setCertification($certification)
                  ->setExperience($experience);
         }
-        if ($role == 'ROLE_SERVICE_ADVISOR') {
+        if ('ROLE_SERVICE_ADVISOR' == $role) {
             $user->setProcessRefund(filter_var($processRefund, FILTER_VALIDATE_BOOLEAN))
                  ->setShareRepairOrders(filter_var($shareRepairOrders, FILTER_VALIDATE_BOOLEAN));
         }
@@ -369,7 +358,7 @@ class UserController extends AbstractFOSRestController {
         $em->persist($user);
         $em->flush();
 
-        $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
+        $this->logInfo('User "'.$user->getFirstName().'" Has Been Updated');
 
         return $this->userView($user);
     }
@@ -390,28 +379,25 @@ class UserController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param User                   $user
-     * @param EntityManagerInterface $em
-     *
      * @return object|void
      */
-    public function delete (User $user, EntityManagerInterface $em) {
+    public function delete(User $user, EntityManagerInterface $em)
+    {
         $user->setActive(false);
 
         $em->persist($user);
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'User Deleted'
+            'message' => 'User Deleted',
         ], Response::HTTP_OK));
     }
 
     /**
      * @param mixed $data
-     *
-     * @return Response
      */
-    private function userView ($data): Response {
+    private function userView($data): Response
+    {
         $view = $this->view($data);
         $view->getContext()->setGroups(['user_list']);
 

@@ -8,11 +8,10 @@ use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class NMI
- *
- * @package App\Service
+ * Class NMI.
  */
-class NMI {
+class NMI
+{
     private const ENDPOINT_URL = 'https://secure.networkmerchants.com/api/';
 
     use iServiceLoggerTrait;
@@ -34,28 +33,22 @@ class NMI {
 
     /**
      * NMI constructor.
-     *
-     * @param string                 $username
-     * @param string                 $password
-     * @param EntityManagerInterface $em
      */
-    public function __construct (string $username, string $password, EntityManagerInterface $em) {
+    public function __construct(string $username, string $password, EntityManagerInterface $em)
+    {
         $this->username = $username;
         $this->password = $password;
-        $this->em       = $em;
+        $this->em = $em;
     }
 
     /**
-     * @param string $paymentToken
-     * @param string $amount
-     *
-     * @return PaymentResponse
      * @throws \Exception|PaymentException
      */
-    public function makePayment (string $paymentToken, string $amount): PaymentResponse {
+    public function makePayment(string $paymentToken, string $amount): PaymentResponse
+    {
         $response = $this->curl('sale', [
             'payment_token' => $paymentToken,
-            'amount'        => $amount,
+            'amount' => $amount,
         ]);
         if ($response->isOk()) {
             return $response;
@@ -73,16 +66,13 @@ class NMI {
     }
 
     /**
-     * @param string $transactionId
-     * @param string $amount
-     *
-     * @return PaymentResponse
      * @throws \Exception|PaymentException
      */
-    public function makeRefund (string $transactionId, string $amount): PaymentResponse {
+    public function makeRefund(string $transactionId, string $amount): PaymentResponse
+    {
         $response = $this->curl('refund', [
             'transaction_id' => $transactionId,
-            'amount'         => $amount,
+            'amount' => $amount,
         ]);
         if ($response->isOk()) {
             return $response;
@@ -90,7 +80,7 @@ class NMI {
 
         switch ($response->getCode()) {
             case 300:
-                $reason = "Refund amount can not surpass the original payment amount.";
+                $reason = 'Refund amount can not surpass the original payment amount.';
                 break;
             default:
                 $reason = "Refund failed. Reason: {$response->getResponseText()}";
@@ -100,34 +90,29 @@ class NMI {
     }
 
     /**
-     * @param string $transactionId
-     *
-     * @return array
      * @throws \Exception
      */
-    public function lookupTransaction (string $transactionId): array {
+    public function lookupTransaction(string $transactionId): array
+    {
         return $this->query($transactionId);
     }
 
     /**
-     * @param string $type
-     * @param array  $data
-     *
-     * @return PaymentResponse
      * @throws \Exception
      */
-    protected function curl (string $type, array $data): PaymentResponse {
+    protected function curl(string $type, array $data): PaymentResponse
+    {
         $data = array_merge($data, [
-            'type'     => $type,
+            'type' => $type,
             'username' => $this->username,
             'password' => $this->password,
         ]);
 
         $ch = curl_init();
         curl_setopt_array($ch, [
-            CURLOPT_URL            => self::ENDPOINT_URL . 'transact.php',
-            CURLOPT_POST           => true,
-            CURLOPT_POSTFIELDS     => http_build_query($data),
+            CURLOPT_URL => self::ENDPOINT_URL.'transact.php',
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => http_build_query($data),
             CURLOPT_RETURNTRANSFER => true,
         ]);
 
@@ -144,19 +129,17 @@ class NMI {
     }
 
     /**
-     * @param string $transactionId
-     *
-     * @return array
      * @throws \Exception
      */
-    protected function query (string $transactionId): array {
+    protected function query(string $transactionId): array
+    {
         $data = [
-            'username'       => $this->username,
-            'password'       => $this->password,
+            'username' => $this->username,
+            'password' => $this->password,
             'transaction_id' => $transactionId,
         ];
 
-        $ch = curl_init(self::ENDPOINT_URL . 'query.php?' . http_build_query($data));
+        $ch = curl_init(self::ENDPOINT_URL.'query.php?'.http_build_query($data));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($ch);
         if (!$response) {
@@ -173,11 +156,11 @@ class NMI {
 
     /**
      * @param resource $ch
-     * @param string   $operation
      *
      * @throws \Exception
      */
-    private function handleCurlError ($ch, string $operation): void {
+    private function handleCurlError($ch, string $operation): void
+    {
         $msg = sprintf('Encountered cURL error during %s: "%s"', $operation, curl_error($ch));
         $this->logger->critical($msg);
 

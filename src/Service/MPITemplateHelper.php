@@ -2,19 +2,17 @@
 
 namespace App\Service;
 
-use App\Entity\MPITemplate;
-use App\Entity\MPIItem;
 use App\Entity\MPIGroup;
+use App\Entity\MPIItem;
+use App\Entity\MPITemplate;
 use App\Repository\MPIItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class MPITemplateHelper
- *
- * @package App\Service
+ * Class MPITemplateHelper.
  */
-class MPITemplateHelper {
-
+class MPITemplateHelper
+{
     /**
      * @var MPIItemRepository
      */
@@ -27,33 +25,29 @@ class MPITemplateHelper {
 
     /**
      * MPITemplateHelper constructor.
-     *
-     * @param MPIItemRepository      $mpiItemRepository
-     * @param EntityManagerInterface $em
      */
-    public function __construct (MPIItemRepository $mpiItemRepository, EntityManagerInterface $em) {
+    public function __construct(MPIItemRepository $mpiItemRepository, EntityManagerInterface $em)
+    {
         $this->mpiItemRepository = $mpiItemRepository;
-        $this->em                = $em;
+        $this->em = $em;
     }
 
     /**
-     * @param string   $type
-     * @param array    $names
-     * @param Object   $axle
-     * @param MPIGroup $mpiGroup
+     * @param object $axle
      *
      * @return void
      */
-    public function createMPIItems (string $type, array $names, $axle, MPIGroup $mpiGroup) {
-        $rangeMax  = null;
+    public function createMPIItems(string $type, array $names, $axle, MPIGroup $mpiGroup)
+    {
+        $rangeMax = null;
         $rangeUnit = null;
 
-        if ($type == "brake") {
-            $rangeMax  = isset($axle->brakesRangeMaximum) ? $axle->brakesRangeMaximum : 0;
-            $rangeUnit = "mm";
-        } else if ($type == "tire") {
-            $rangeMax  = isset($axle->tireRangeMaximum) ? $axle->tireRangeMaximum : 0;
-            $rangeUnit = "s";
+        if ('brake' == $type) {
+            $rangeMax = isset($axle->brakesRangeMaximum) ? $axle->brakesRangeMaximum : 0;
+            $rangeUnit = 'mm';
+        } elseif ('tire' == $type) {
+            $rangeMax = isset($axle->tireRangeMaximum) ? $axle->tireRangeMaximum : 0;
+            $rangeUnit = 's';
         }
 
         foreach ($names as $name) {
@@ -70,12 +64,10 @@ class MPITemplateHelper {
     }
 
     /**
-     * @param MPITemplate $mpiTemplate
-     * @param bool        $active
-     *
      * @return MPITemplate
      */
-    public function getActiveTemplate (MPITemplate $mpiTemplate, bool $active) {
+    public function getActiveTemplate(MPITemplate $mpiTemplate, bool $active)
+    {
         //get active templates
         $mpiGroups = $mpiTemplate->getMPIGroups();
         foreach ($mpiGroups as $mpiGroup) {

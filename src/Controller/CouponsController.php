@@ -2,25 +2,23 @@
 
 namespace App\Controller;
 
+use App\Entity\Coupon;
 use App\Repository\CouponRepository;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use App\Entity\Coupon;
 
 /**
- * Class CouponsController
- *
- * @package App\Controller
+ * Class CouponsController.
  */
-class CouponsController extends AbstractFOSRestController {
-
+class CouponsController extends AbstractFOSRestController
+{
     /**
      * @Rest\Get("/api/coupons")
      *
@@ -36,15 +34,14 @@ class CouponsController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param EntityManagerInterface $em
-     * @param CouponRepository       $couponRepository
-     *
      * @return Response
      */
-    public function list (EntityManagerInterface $em, CouponRepository $couponRepository) {
+    public function list(EntityManagerInterface $em, CouponRepository $couponRepository)
+    {
         $coupons = $couponRepository->findBy(['deleted' => 0]);
         $view = $this->view($coupons);
         $view->getContext()->setGroups(['coupon_list']);
+
         return $this->handleView($view);
     }
 
@@ -79,13 +76,10 @@ class CouponsController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param EntityManagerInterface $em
-     * @param Request                $request
-     * @param ImageUploader          $imageUploader
-     *
      * @return Response
      */
-    public function new (EntityManagerInterface $em, Request $request, ImageUploader $imageUploader) {
+    public function new(EntityManagerInterface $em, Request $request, ImageUploader $imageUploader)
+    {
         $title = $request->get('title');
         $image = $request->files->get('image');
 
@@ -130,15 +124,14 @@ class CouponsController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Coupon                 $coupon
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     * @param ImageUploader          $imageUploader
-     *
      * @return Response
      */
-    public function edit (Coupon $coupon, Request $request, EntityManagerInterface $em,
-                          ImageUploader $imageUploader) {
+    public function edit(
+        Coupon $coupon,
+        Request $request,
+        EntityManagerInterface $em,
+        ImageUploader $imageUploader
+    ) {
         $title = $request->get('title');
 
         // Validation
@@ -147,7 +140,7 @@ class CouponsController extends AbstractFOSRestController {
         }
 
         $coupon->setTitle($title);
-        
+
         $em->persist($coupon);
         $em->flush();
 
@@ -169,12 +162,10 @@ class CouponsController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Coupon                 $coupon
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-    public function delete (Coupon $coupon, EntityManagerInterface $em) {
+    public function delete(Coupon $coupon, EntityManagerInterface $em)
+    {
         $coupon->setDeleted(true);
 
         $em->persist($coupon);
@@ -182,5 +173,4 @@ class CouponsController extends AbstractFOSRestController {
 
         return $this->handleView($this->view('Coupon Deleted', Response::HTTP_OK));
     }
-
 }

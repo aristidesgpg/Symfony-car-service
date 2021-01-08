@@ -2,21 +2,18 @@
 
 namespace App\Controller;
 
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use FOS\RestBundle\View\View;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
-use FOS\RestBundle\Controller\Annotations as Rest;
-
 use App\Entity\OperationCode;
 use App\Repository\OperationCodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-
-class OperationCodeController extends AbstractFOSRestController {
+class OperationCodeController extends AbstractFOSRestController
+{
     /**
      * @Rest\Get("/api/operation-code")
      *
@@ -33,14 +30,13 @@ class OperationCodeController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param OperationCodeRepository $operationCodeRepo
-     *
      * @return Response
      */
-    public function getOperationCodes (OperationCodeRepository $operationCodeRepo) {
+    public function getOperationCodes(OperationCodeRepository $operationCodeRepo)
+    {
         //get all active operation codes
         $operationCodes = $operationCodeRepo->getActiveOperationCodes();
-        $view           = $this->view($operationCodes);
+        $view = $this->view($operationCodes);
 
         $view->getContext()->setGroups(['operation_code_list']);
 
@@ -120,19 +116,17 @@ class OperationCodeController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-    public function create (Request $request, EntityManagerInterface $em) {
-        $code            = $request->get('code');
-        $description     = $request->get('description');
-        $laborHours      = $request->get('laborHours');
-        $laborTaxable    = $request->get('laborTaxable');
-        $partsPrice      = $request->get('partsPrice');
-        $partsTaxable    = $request->get('partsTaxable');
-        $suppliesPrice   = $request->get('suppliesPrice');
+    public function create(Request $request, EntityManagerInterface $em)
+    {
+        $code = $request->get('code');
+        $description = $request->get('description');
+        $laborHours = $request->get('laborHours');
+        $laborTaxable = $request->get('laborTaxable');
+        $partsPrice = $request->get('partsPrice');
+        $partsTaxable = $request->get('partsTaxable');
+        $suppliesPrice = $request->get('suppliesPrice');
         $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
@@ -155,7 +149,7 @@ class OperationCodeController extends AbstractFOSRestController {
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'Operation Code Created'
+            'message' => 'Operation Code Created',
         ], Response::HTTP_OK));
     }
 
@@ -232,20 +226,17 @@ class OperationCodeController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param OperationCode          $operationCode
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-    public function edit (OperationCode $operationCode, Request $request, EntityManagerInterface $em) {
-        $code            = $request->get('code');
-        $description     = $request->get('description');
-        $laborHours      = $request->get('laborHours');
-        $laborTaxable    = $request->get('laborTaxable');
-        $partsPrice      = $request->get('partsPrice');
-        $partsTaxable    = $request->get('partsTaxable');
-        $suppliesPrice   = $request->get('suppliesPrice');
+    public function edit(OperationCode $operationCode, Request $request, EntityManagerInterface $em)
+    {
+        $code = $request->get('code');
+        $description = $request->get('description');
+        $laborHours = $request->get('laborHours');
+        $laborTaxable = $request->get('laborTaxable');
+        $partsPrice = $request->get('partsPrice');
+        $partsTaxable = $request->get('partsTaxable');
+        $suppliesPrice = $request->get('suppliesPrice');
         $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
@@ -267,7 +258,7 @@ class OperationCodeController extends AbstractFOSRestController {
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'Operation Code Updated'
+            'message' => 'Operation Code Updated',
         ], Response::HTTP_OK));
     }
 
@@ -287,12 +278,10 @@ class OperationCodeController extends AbstractFOSRestController {
      *         )
      * )
      *
-     * @param OperationCode          $operationCode
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-    public function delete (OperationCode $operationCode, EntityManagerInterface $em) {
+    public function delete(OperationCode $operationCode, EntityManagerInterface $em)
+    {
         //Delete a operation code
         $operationCode->setDeleted(true);
 
@@ -300,7 +289,7 @@ class OperationCodeController extends AbstractFOSRestController {
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'Operation Code Deleted'
+            'message' => 'Operation Code Deleted',
         ], Response::HTTP_OK));
     }
 }

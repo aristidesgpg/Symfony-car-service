@@ -20,10 +20,10 @@ class OperationCodeRepository extends ServiceEntityRepository
     }
 
     /**
-     *
      * @return QueryBuilder
      */
-    public function getActiveOperationCodes () {
+    public function getActiveOperationCodes()
+    {
         return $this->createQueryBuilder('o')
                     ->andWhere('o.deleted = 0')
                     ->getQuery()

@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
+use App\Repository\SettingsRepository;
 use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
-use App\Repository\SettingsRepository;
 use App\Service\UploadHelper;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -20,9 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class SettingsController
+ * Class SettingsController.
  *
- * @package App\Controller
  * @Rest\Route("/api/settings")
  * @SWG\Tag(name="Settings")
  * @SWG\Response(
@@ -34,13 +33,14 @@ use Symfony\Component\HttpFoundation\Response;
  *     )
  * )
  */
-class SettingsController extends AbstractFOSRestController {
-    public const  SMS_MAX_LENGTH       = 160;
-    public const  SMS_EXTRA_MAX_LENGTH = 109;
-    public const  ZIP_LENGTH           = 5;
-    public const  ZIP_P4_LENGTH        = 10;
-    public const  PHONE_LENGTH         = 10;
-    private const TOO_LONG_MSG         = 'Value cannot exceed %d characters';
+class SettingsController extends AbstractFOSRestController
+{
+    public const SMS_MAX_LENGTH = 160;
+    public const SMS_EXTRA_MAX_LENGTH = 109;
+    public const ZIP_LENGTH = 5;
+    public const ZIP_P4_LENGTH = 10;
+    public const PHONE_LENGTH = 10;
+    private const TOO_LONG_MSG = 'Value cannot exceed %d characters';
 
     use iServiceLoggerTrait;
 
@@ -54,12 +54,9 @@ class SettingsController extends AbstractFOSRestController {
      *         @SWG\Items(ref=@Model(type=Settings::class))
      *     )
      * )
-     *
-     * @param SettingsRepository $repo
-     *
-     * @return Response
      */
-    public function getSettings (SettingsRepository $repo): Response {
+    public function getSettings(SettingsRepository $repo): Response
+    {
         return $this->settingsResponse($repo->findAll());
     }
 
@@ -150,23 +147,18 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="reviewFacebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
-     *
-     * @param Request        $req
-     * @param SettingsHelper $helper
-     * @param UploadHelper   $uploader
-     *
-     * @return Response
      */
-    public function setSettings (Request $req, SettingsHelper $helper, UploadHelper $uploader): Response {
+    public function setSettings(Request $req, SettingsHelper $helper, UploadHelper $uploader): Response
+    {
         $parameterList = SettingsHelper::VALID_SETTINGS;
-        $fileList      = SettingsHelper::VALID_FILE_SETTINGS;
-        $settings      = [];
-        $errors        = [];
+        $fileList = SettingsHelper::VALID_FILE_SETTINGS;
+        $settings = [];
+        $errors = [];
 
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {
             // Doesn't exist, move along
-            if ($req->request->has($key) !== true) {
+            if (true !== $req->request->has($key)) {
                 continue;
             }
 
@@ -209,7 +201,7 @@ class SettingsController extends AbstractFOSRestController {
                     break;
                 case 'serviceTwilioFromNumber':
                 case 'generalPhone':
-                    if (strlen($val) !== self::PHONE_LENGTH) {
+                    if (self::PHONE_LENGTH !== strlen($val)) {
                         $errors[$key] = sprintf('Phone number must be %d digits', self::PHONE_LENGTH);
                     }
                     break;
@@ -218,10 +210,9 @@ class SettingsController extends AbstractFOSRestController {
             $settings[$key] = $val;
         }
 
-
         $files = [];
         foreach ($fileList as $key) {
-            if ($req->files->has($key) !== true) {
+            if (true !== $req->files->has($key)) {
                 continue;
             }
 
@@ -229,13 +220,13 @@ class SettingsController extends AbstractFOSRestController {
             if (!$file instanceof UploadedFile) {
                 $errors[$key] = 'File upload failed';
                 continue;
-            } elseif ($file->getError() !== UPLOAD_ERR_OK) {
+            } elseif (UPLOAD_ERR_OK !== $file->getError()) {
                 $errors[$key] = $file->getErrorMessage();
                 continue;
             }
 
-            $isValid = ($key === 'custAppPostInspectionVideo') ? $uploader->isValidVideo($file) : $uploader->isValidImage($file);
-            if ($isValid !== true) {
+            $isValid = ('custAppPostInspectionVideo' === $key) ? $uploader->isValidVideo($file) : $uploader->isValidImage($file);
+            if (true !== $isValid) {
                 $errors[$key] = 'Invalid file type';
                 continue;
             }
@@ -257,6 +248,7 @@ class SettingsController extends AbstractFOSRestController {
                 }
             } catch (Exception $e) {
                 $this->logger->error(sprintf('Failed to upload file for key "%s": "%s"', $key, $e->getMessage()));
+
                 return $this->errorResponse('Failed to upload file');
             }
         }
@@ -273,10 +265,9 @@ class SettingsController extends AbstractFOSRestController {
 
     /**
      * @param Settings[] $settings
-     *
-     * @return Response
      */
-    private function settingsResponse (array $settings): Response {
+    private function settingsResponse(array $settings): Response
+    {
         $json = [];
 
         foreach ($settings as $setting) {
@@ -285,20 +276,16 @@ class SettingsController extends AbstractFOSRestController {
             }
 
             $json[] = [
-                'key'   => $setting->getKey(),
-                'value' => ($setting->getValue() === null) ? '' : $setting->getValue(),
+                'key' => $setting->getKey(),
+                'value' => (null === $setting->getValue()) ? '' : $setting->getValue(),
             ];
         }
 
         return $this->json($json, Response::HTTP_OK);
     }
 
-    /**
-     * @param array $errors
-     *
-     * @return JsonResponse
-     */
-    private function validationErrorResponse (array $errors): JsonResponse {
+    private function validationErrorResponse(array $errors): JsonResponse
+    {
         $json = [];
         foreach ($errors as $k => $v) {
             $json[] = ['key' => $k, 'msg' => $v];
@@ -307,12 +294,8 @@ class SettingsController extends AbstractFOSRestController {
         return $this->json($json, Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * @param string $msg
-     *
-     * @return JsonResponse
-     */
-    private function errorResponse (string $msg): JsonResponse {
+    private function errorResponse(string $msg): JsonResponse
+    {
         return $this->json(['error' => $msg], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }

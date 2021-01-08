@@ -3,11 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderMPIRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderMPIRepository::class)
@@ -57,7 +57,7 @@ class RepairOrderMPI
     public function __construct()
     {
         $this->dateCompleted = new DateTime();
-        $this->repairOrderMPIInteractions = new ArrayCollection(); 
+        $this->repairOrderMPIInteractions = new ArrayCollection();
     }
 
     public function getId(): ?int

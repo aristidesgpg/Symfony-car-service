@@ -23,14 +23,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Class RepairOrderController
- *
- * @package App\Controller
+ * Class RepairOrderController.
  *
  * @Rest\Route("/api/repair-order")
  * @SWG\Tag(name="Repair Order")
  */
-class RepairOrderController extends AbstractFOSRestController {
+class RepairOrderController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 50;
 
     use FalsyTrait;
@@ -106,24 +105,20 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="Get ROs created before supplied date-time",
      *     in="query"
      * )
-     *
-     * @param Request               $request
-     * @param RepairOrderRepository $repairOrderRepo
-     * @param PaginatorInterface    $paginator
-     *
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param UserRepository        $userRepo
-     *
-     * @return Response
      */
-    public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator,
-                            UrlGeneratorInterface $urlGenerator, UserRepository $userRepo): Response {
-        $page            = $request->query->getInt('page', 1);
-        $startDate       = $request->query->get('startDate');
-        $endDate         = $request->query->get('endDate');
-        $urlParameters   = [];
+    public function getAll(
+        Request $request,
+        RepairOrderRepository $repairOrderRepo,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        UserRepository $userRepo
+    ): Response {
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $urlParameters = [];
         $queryParameters = [];
-        $errors          = [];
+        $errors = [];
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -150,12 +145,12 @@ class RepairOrderController extends AbstractFOSRestController {
         }
 
         if ($request->query->has('waiter')) {
-            $qb->andWhere("ro.waiter = :waiter");
+            $qb->andWhere('ro.waiter = :waiter');
             $queryParameters['waiter'] = $this->paramToBool($request->query->get('waiter'));
         }
 
         if ($request->query->has('internal')) {
-            $qb->andWhere("ro.internal = :internal");
+            $qb->andWhere('ro.internal = :internal');
             $queryParameters['internal'] = $this->paramToBool($request->query->get('internal'));
         }
 
@@ -167,11 +162,11 @@ class RepairOrderController extends AbstractFOSRestController {
         if ($startDate && $endDate) {
             try {
                 $startDate = new DateTime($startDate);
-                $endDate   = new DateTime($endDate);
+                $endDate = new DateTime($endDate);
 
-                $qb->andWhere("ro.dateCreated BETWEEN :startDate AND :endDate");
+                $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate');
                 $queryParameters['startDate'] = $startDate;
-                $queryParameters['endDate']   = $endDate;
+                $queryParameters['endDate'] = $endDate;
             } catch (Exception $e) {
                 $errors['date'] = 'Invalid date format';
             }
@@ -184,7 +179,7 @@ class RepairOrderController extends AbstractFOSRestController {
         $user = $this->getUser();
         if ($user instanceof User) {
             if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
-                if ($user->getShareRepairOrders() === true) {
+                if (true === $user->getShareRepairOrders()) {
                     $qb->andWhere('ro.primaryAdvisor IN (:users)');
                     $queryParameters['users'] = $userRepo->getSharedUsers();
                 } else {
@@ -199,19 +194,19 @@ class RepairOrderController extends AbstractFOSRestController {
 
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
-        $pager         = $paginator->paginate($q, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager = $paginator->paginate($q, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'repairOrders' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters)
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
         ]);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -226,12 +221,9 @@ class RepairOrderController extends AbstractFOSRestController {
      *     @SWG\Schema(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder $ro
-     *
-     * @return Response
      */
-    public function getOne (RepairOrder $ro): Response {
+    public function getOne(RepairOrder $ro): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -249,19 +241,15 @@ class RepairOrderController extends AbstractFOSRestController {
      *     @SWG\Schema(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param string                $linkHash
-     * @param RepairOrderRepository $repairOrderRepo
-     *
-     * @return Response
      */
-    public function getByLinkHash (string $linkHash, RepairOrderRepository $repairOrderRepo): Response {
-        if (!$linkHash){
+    public function getByLinkHash(string $linkHash, RepairOrderRepository $repairOrderRepo): Response
+    {
+        if (!$linkHash) {
             throw new NotFoundHttpException();
         }
 
         $repairOrder = $repairOrderRepo->findByUID($linkHash);
-        if (!$repairOrder){
+        if (!$repairOrder) {
             throw new NotFoundHttpException();
         }
 
@@ -306,13 +294,9 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     *
-     * @param Request           $req
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
-    public function add (Request $req, RepairOrderHelper $helper): Response {
+    public function add(Request $req, RepairOrderHelper $helper): Response
+    {
         $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
             return new ValidationResponse($ro);
@@ -351,14 +335,9 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     *
-     * @param RepairOrder       $ro
-     * @param Request           $req
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
-    public function update (RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response {
+    public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -377,13 +356,9 @@ class RepairOrderController extends AbstractFOSRestController {
      * @Rest\Delete("/{id}")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder       $ro
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
-    public function delete (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function delete(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -399,17 +374,13 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="RO is already archived")
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder       $ro
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
-    public function archive (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function archive(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        if ($ro->isArchived() === true) {
+        if (true === $ro->isArchived()) {
             return $this->handleView($this->view([
                 'message' => 'RO already archived',
             ], Response::HTTP_BAD_REQUEST));
@@ -426,17 +397,13 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="RO is already closed")
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder       $ro
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
-    public function close (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function close(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        if ($ro->isClosed() === true) {
+        if (true === $ro->isClosed()) {
             return $this->handleView($this->view([
                 'message' => 'RO already closed',
             ], Response::HTTP_BAD_REQUEST));

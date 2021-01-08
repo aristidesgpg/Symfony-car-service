@@ -11,7 +11,8 @@ use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class VideoHelper {
+class VideoHelper
+{
     /** @var EntityManagerInterface */
     private $em;
 
@@ -26,32 +27,21 @@ class VideoHelper {
 
     /**
      * VideoHelper constructor.
-     *
-     * @param EntityManagerInterface $em
-     * @param UploadHelper           $upload
-     * @param ShortUrlHelper         $urlHelper
-     * @param SettingsRepository     $settings
      */
-    public function __construct (
+    public function __construct(
         EntityManagerInterface $em,
         UploadHelper $upload,
         ShortUrlHelper $urlHelper,
         SettingsRepository $settings
     ) {
-        $this->em        = $em;
-        $this->upload    = $upload;
+        $this->em = $em;
+        $this->upload = $upload;
         $this->urlHelper = $urlHelper;
-        $this->settings  = $settings;
+        $this->settings = $settings;
     }
 
-    /**
-     * @param RepairOrder  $ro
-     * @param UploadedFile $file
-     * @param User|null    $tech
-     *
-     * @return RepairOrderVideo
-     */
-    public function createVideo (RepairOrder $ro, UploadedFile $file, ?User $tech = null): RepairOrderVideo {
+    public function createVideo(RepairOrder $ro, UploadedFile $file, ?User $tech = null): RepairOrderVideo
+    {
         if (!$this->upload->isValidVideo($file)) {
             throw new \InvalidArgumentException('Invalid file format');
         }
@@ -59,7 +49,7 @@ class VideoHelper {
         $video = new RepairOrderVideo();
         $video->setRepairOrder($ro)
               ->setPath($url);
-        if ($tech !== null) {
+        if (null !== $tech) {
             $video->setTechnician($tech);
         }
         $interaction = new RepairOrderVideoInteraction();
@@ -74,16 +64,14 @@ class VideoHelper {
 //        if ($approvalRequired) {
 //
 //        } else {
-            $this->sendVideo($video);
+        $this->sendVideo($video);
 //        }
 
         return $video;
     }
 
-    /**
-     * @param RepairOrderVideo $video
-     */
-    public function deleteVideo (RepairOrderVideo $video): void {
+    public function deleteVideo(RepairOrderVideo $video): void
+    {
         if ($video->isDeleted()) {
             throw new \InvalidArgumentException('Video already deleted');
         }
@@ -92,13 +80,11 @@ class VideoHelper {
         $this->em->flush();
     }
 
-    /**
-     * @param RepairOrderVideo $video
-     */
-    public function sendVideo (RepairOrderVideo $video): void {
+    public function sendVideo(RepairOrderVideo $video): void
+    {
         $phone = $video->getRepairOrder()->getPrimaryCustomer()->getPhone();
         $message = $this->settings->find('serviceTextVideo')->getValue();
-        $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $video->getRepairOrder()->getLinkHash();
+        $url = rtrim($_SERVER['CUSTOMER_URL'], '/').'/'.$video->getRepairOrder()->getLinkHash();
         $shortUrl = $this->urlHelper->generateShortUrl($url);
         try {
             $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
@@ -116,10 +102,10 @@ class VideoHelper {
     }
 
     /**
-     * @param RepairOrderVideo $video
-     * @param Customer|User    $user
+     * @param Customer|User $user
      */
-    public function viewVideo (RepairOrderVideo $video, $user): void {
+    public function viewVideo(RepairOrderVideo $video, $user): void
+    {
         $interaction = new RepairOrderVideoInteraction();
         if ($user instanceof Customer) {
             $interaction->setCustomer($user);
@@ -136,11 +122,8 @@ class VideoHelper {
         $this->em->flush();
     }
 
-    /**
-     * @param RepairOrderVideo $video
-     * @param User             $user
-     */
-    public function approveVideo (RepairOrderVideo $video, User $user): void {
+    public function approveVideo(RepairOrderVideo $video, User $user): void
+    {
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setRepairOrderVideo($video)
                     ->setUser($user)
@@ -152,11 +135,8 @@ class VideoHelper {
         $this->sendVideo($video);
     }
 
-    /**
-     * @param RepairOrderVideo $video
-     * @param User             $user
-     */
-    public function confirmViewed (RepairOrderVideo $video, User $user): void {
+    public function confirmViewed(RepairOrderVideo $video, User $user): void
+    {
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setRepairOrderVideo($video)
                     ->setUser($user)

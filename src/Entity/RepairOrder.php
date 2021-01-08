@@ -11,7 +11,8 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * @ORM\Entity(repositoryClass=RepairOrderRepository::class)
  */
-class RepairOrder {
+class RepairOrder
+{
     public const GROUPS = ['ro_list', 'customer_list', 'user_list', 'roq_list'];
 
     /**
@@ -224,32 +225,31 @@ class RepairOrder {
     /**
      * RepairOrder constructor.
      */
-    public function __construct () {
+    public function __construct()
+    {
         $this->dateCreated = new DateTime();
         $this->videos = new ArrayCollection();
         $this->payments = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId (): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
     /**
      * @return Customer
      */
-    public function getPrimaryCustomer (): ?Customer {
+    public function getPrimaryCustomer(): ?Customer
+    {
         return $this->primaryCustomer;
     }
 
     /**
-     * @param Customer $primaryCustomer
-     *
      * @return $this
      */
-    public function setPrimaryCustomer (Customer $primaryCustomer): self {
+    public function setPrimaryCustomer(Customer $primaryCustomer): self
+    {
         $this->primaryCustomer = $primaryCustomer;
 
         return $this;
@@ -258,491 +258,411 @@ class RepairOrder {
     /**
      * @return User
      */
-    public function getPrimaryTechnician (): ?User {
+    public function getPrimaryTechnician(): ?User
+    {
         return $this->primaryTechnician;
     }
 
     /**
-     * @param User $primaryTechnician
-     *
      * @return $this
      */
-    public function setPrimaryTechnician (User $primaryTechnician): self {
+    public function setPrimaryTechnician(User $primaryTechnician): self
+    {
         $this->primaryTechnician = $primaryTechnician;
 
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
-    public function getPrimaryAdvisor (): ?User {
+    public function getPrimaryAdvisor(): ?User
+    {
         return $this->primaryAdvisor;
     }
 
     /**
-     * @param User $primaryAdvisor
-     *
      * @return $this
      */
-    public function setPrimaryAdvisor (User $primaryAdvisor): self {
+    public function setPrimaryAdvisor(User $primaryAdvisor): self
+    {
         $this->primaryAdvisor = $primaryAdvisor;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getNumber (): ?string {
+    public function getNumber(): ?string
+    {
         return $this->number;
     }
 
     /**
-     * @param string $number
-     *
      * @return $this
      */
-    public function setNumber (string $number): self {
+    public function setNumber(string $number): self
+    {
         $this->number = $number;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getVideoStatus (): ?string {
+    public function getVideoStatus(): ?string
+    {
         return $this->videoStatus;
     }
 
     /**
-     * @param string $videoStatus
-     *
      * @return $this
      */
-    public function setVideoStatus (string $videoStatus): self {
+    public function setVideoStatus(string $videoStatus): self
+    {
         $this->videoStatus = $videoStatus;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMpiStatus (): ?string {
+    public function getMpiStatus(): ?string
+    {
         return $this->mpiStatus;
     }
 
     /**
-     * @param string $mpiStatus
-     *
      * @return $this
      */
-    public function setMpiStatus (string $mpiStatus): self {
+    public function setMpiStatus(string $mpiStatus): self
+    {
         $this->mpiStatus = $mpiStatus;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getQuoteStatus (): ?string {
+    public function getQuoteStatus(): ?string
+    {
         return $this->quoteStatus;
     }
 
     /**
-     * @param string $quoteStatus
-     *
      * @return $this
      */
-    public function setQuoteStatus (string $quoteStatus): self {
+    public function setQuoteStatus(string $quoteStatus): self
+    {
         $this->quoteStatus = $quoteStatus;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPaymentStatus (): ?string {
+    public function getPaymentStatus(): ?string
+    {
         return $this->paymentStatus;
     }
 
     /**
-     * @param string $paymentStatus
-     *
      * @return $this
      */
-    public function setPaymentStatus (string $paymentStatus): self {
+    public function setPaymentStatus(string $paymentStatus): self
+    {
         $this->paymentStatus = $paymentStatus;
 
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
-    public function getStartValue (): ?float {
+    public function getStartValue(): ?float
+    {
         return $this->startValue;
     }
 
     /**
-     * @param float|null $startValue
-     *
      * @return $this
      */
-    public function setStartValue (?float $startValue): self {
+    public function setStartValue(?float $startValue): self
+    {
         $this->startValue = $startValue;
 
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
-    public function getFinalValue (): ?float {
+    public function getFinalValue(): ?float
+    {
         return $this->finalValue;
     }
 
     /**
-     * @param float|null $finalValue
-     *
      * @return $this
      */
-    public function setFinalValue (?float $finalValue): self {
+    public function setFinalValue(?float $finalValue): self
+    {
         $this->finalValue = $finalValue;
 
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
-    public function getApprovedValue (): ?float {
+    public function getApprovedValue(): ?float
+    {
         return $this->approvedValue;
     }
 
     /**
-     * @param float|null $approvedValue
-     *
      * @return $this
      */
-    public function setApprovedValue (?float $approvedValue): self {
+    public function setApprovedValue(?float $approvedValue): self
+    {
         $this->approvedValue = $approvedValue;
 
         return $this;
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getDateCreated (): ?DateTime {
+    public function getDateCreated(): ?DateTime
+    {
         return $this->dateCreated;
     }
 
     /**
-     * @param DateTime $dateCreated
-     *
      * @return $this
      */
-    public function setDateCreated (DateTime $dateCreated): self {
+    public function setDateCreated(DateTime $dateCreated): self
+    {
         $this->dateCreated = $dateCreated;
 
         return $this;
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getDateClosed (): ?DateTime {
+    public function getDateClosed(): ?DateTime
+    {
         return $this->dateClosed;
     }
 
-    /**
-     * @return bool
-     */
-    public function isClosed (): bool {
-        return ($this->dateClosed !== null);
+    public function isClosed(): bool
+    {
+        return null !== $this->dateClosed;
     }
 
     /**
-     * @param DateTime|null $dateClosed
-     *
      * @return $this
      */
-    public function setDateClosed (?DateTime $dateClosed): self {
+    public function setDateClosed(?DateTime $dateClosed): self
+    {
         $this->dateClosed = $dateClosed;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getWaiter (): ?bool {
+    public function getWaiter(): ?bool
+    {
         return $this->waiter;
     }
 
     /**
-     * @param bool $waiter
-     *
      * @return $this
      */
-    public function setWaiter (bool $waiter): self {
+    public function setWaiter(bool $waiter): self
+    {
         $this->waiter = $waiter;
 
         return $this;
     }
 
-    /**
-     * @return DateTime|null
-     */
-    public function getPickupDate (): ?DateTime {
+    public function getPickupDate(): ?DateTime
+    {
         return $this->pickupDate;
     }
 
     /**
-     * @param DateTime|null $pickupDate
-     *
      * @return $this
      */
-    public function setPickupDate (?DateTime $pickupDate): self {
+    public function setPickupDate(?DateTime $pickupDate): self
+    {
         $this->pickupDate = $pickupDate;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getLinkHash (): ?string {
+    public function getLinkHash(): ?string
+    {
         return $this->linkHash;
     }
 
     /**
-     * @param string $linkHash
-     *
      * @return $this
      */
-    public function setLinkHash (string $linkHash): self {
+    public function setLinkHash(string $linkHash): self
+    {
         $this->linkHash = $linkHash;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getYear (): ?int {
+    public function getYear(): ?int
+    {
         return $this->year;
     }
 
     /**
-     * @param int|null $year
-     *
      * @return $this
      */
-    public function setYear (?int $year): self {
+    public function setYear(?int $year): self
+    {
         $this->year = $year;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMake (): ?string {
+    public function getMake(): ?string
+    {
         return $this->make;
     }
 
     /**
-     * @param string|null $make
-     *
      * @return $this
      */
-    public function setMake (?string $make): self {
+    public function setMake(?string $make): self
+    {
         $this->make = $make;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getModel (): ?string {
+    public function getModel(): ?string
+    {
         return $this->model;
     }
 
     /**
-     * @param string|null $model
-     *
      * @return $this
      */
-    public function setModel (?string $model): self {
+    public function setModel(?string $model): self
+    {
         $this->model = $model;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getMiles (): ?int {
+    public function getMiles(): ?int
+    {
         return $this->miles;
     }
 
     /**
-     * @param int|null $miles
-     *
      * @return $this
      */
-    public function setMiles (?int $miles): self {
+    public function setMiles(?int $miles): self
+    {
         $this->miles = $miles;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getVin (): ?string {
+    public function getVin(): ?string
+    {
         return $this->vin;
     }
 
     /**
-     * @param string|null $vin
-     *
      * @return $this
      */
-    public function setVin (?string $vin): self {
+    public function setVin(?string $vin): self
+    {
         $this->vin = $vin;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getInternal (): ?bool {
+    public function getInternal(): ?bool
+    {
         return $this->internal;
     }
 
     /**
-     * @param bool $internal
-     *
      * @return $this
      */
-    public function setInternal (bool $internal): self {
+    public function setInternal(bool $internal): self
+    {
         $this->internal = $internal;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDmsKey (): ?string {
+    public function getDmsKey(): ?string
+    {
         return $this->dmsKey;
     }
 
     /**
-     * @param string|null $dmsKey
-     *
      * @return $this
      */
-    public function setDmsKey (?string $dmsKey): self {
+    public function setDmsKey(?string $dmsKey): self
+    {
         $this->dmsKey = $dmsKey;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getWaiver (): ?string {
+    public function getWaiver(): ?string
+    {
         return $this->waiver;
     }
 
     /**
-     * @param string|null $waiver
-     *
      * @return $this
      */
-    public function setWaiver (?string $waiver): self {
+    public function setWaiver(?string $waiver): self
+    {
         $this->waiver = $waiver;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getWaiverVerbiage (): ?string {
+    public function getWaiverVerbiage(): ?string
+    {
         return $this->waiverVerbiage;
     }
 
     /**
-     * @param string|null $waiverVerbiage
-     *
      * @return $this
      */
-    public function setWaiverVerbiage (?string $waiverVerbiage): self {
+    public function setWaiverVerbiage(?string $waiverVerbiage): self
+    {
         $this->waiverVerbiage = $waiverVerbiage;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getUpgradeQue (): ?bool {
+    public function getUpgradeQue(): ?bool
+    {
         return $this->upgradeQue;
     }
 
     /**
-     * @param bool $upgradeQue
-     *
      * @return $this
      */
-    public function setUpgradeQue (bool $upgradeQue): self {
+    public function setUpgradeQue(bool $upgradeQue): self
+    {
         $this->upgradeQue = $upgradeQue;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getNote (): ?string {
+    public function getNote(): ?string
+    {
         return $this->note;
     }
 
     /**
-     * @param string|null $note
-     *
      * @return $this
      */
-    public function setNote (?string $note): self {
+    public function setNote(?string $note): self
+    {
         $this->note = $note;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getDeleted (): ?bool {
+    public function getDeleted(): ?bool
+    {
         return $this->deleted;
     }
 
     /**
-     * @param bool $deleted
-     *
      * @return $this
      */
-    public function setDeleted (bool $deleted): self {
+    public function setDeleted(bool $deleted): self
+    {
         $this->deleted = $deleted;
 
         return $this;
@@ -762,23 +682,22 @@ class RepairOrder {
         if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
             $repairOrderMPI->setRepairOrder($newRepairOrder);
         }
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isArchived (): bool {
-        return ($this->archived === true);
+    public function isArchived(): bool
+    {
+        return true === $this->archived;
     }
 
     /**
-     * @param bool $archived
-     *
      * @return $this
      */
-    public function setArchived (bool $archived): self {
+    public function setArchived(bool $archived): self
+    {
         $this->archived = $archived;
+
         return $this;
     }
 
@@ -802,11 +721,13 @@ class RepairOrder {
     /**
      * @return RepairOrderVideo[]
      */
-    public function getVideos(): array {
+    public function getVideos(): array
+    {
         return $this->videos->toArray();
     }
 
-    public function addVideo(RepairOrderVideo $video): self {
+    public function addVideo(RepairOrderVideo $video): self
+    {
         $this->videos->add($video);
 
         return $this;
@@ -815,16 +736,16 @@ class RepairOrder {
     /**
      * @return RepairOrderPayment[]
      */
-    public function getPayments (): array {
+    public function getPayments(): array
+    {
         return $this->payments->toArray();
     }
 
     /**
-     * @param RepairOrderPayment $payment
-     *
      * @return $this
      */
-    public function addPayment (RepairOrderPayment $payment): self {
+    public function addPayment(RepairOrderPayment $payment): self
+    {
         $this->payments->add($payment);
 
         return $this;

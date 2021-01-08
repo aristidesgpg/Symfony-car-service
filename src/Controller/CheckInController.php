@@ -3,30 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\CheckIn;
-use App\Entity\User;
 use App\Repository\CheckInRepository;
 use App\Response\ValidationResponse;
-use App\Service\Pagination;
 use App\Service\CheckInHelper;
+use App\Service\Pagination;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class CheckInController
- *
- * @package App\Controller
- *
+ * Class CheckInController.
  */
-class CheckInController extends AbstractFOSRestController {
+class CheckInController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 100;
 
     /**
@@ -69,19 +66,16 @@ class CheckInController extends AbstractFOSRestController {
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     *
-     * @param Request               $request
-     * @param CheckInRepository     $checkInRepository
-     * @param PaginatorInterface    $paginator
-     * @param UrlGeneratorInterface $urlGenerator
-     *
-     * @return Response
      */
-    public function list (Request $request, CheckInRepository $checkInRepository,
-                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
-        $page          = $request->query->getInt('page', 1);
-        $startDate     = $request->query->get('startDate');
-        $endDate       = $request->query->get('endDate');
+    public function list(
+        Request $request,
+        CheckInRepository $checkInRepository,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
         $urlParameters = [];
 
         // Invalid page
@@ -90,17 +84,17 @@ class CheckInController extends AbstractFOSRestController {
         }
 
         $checkInQuery = $checkInRepository->getAllItems($startDate, $endDate);
-        $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $pager        = $paginator->paginate($checkInQuery, $page, $pageLimit);
-        $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pager = $paginator->paginate($checkInQuery, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
-            'checkIns'     => $pager->getItems(),
+            'checkIns' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getCheckIns', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getCheckIns', $urlParameters)
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('getCheckIns', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('getCheckIns', $urlParameters),
         ];
 
         $view = $this->view($json);
@@ -141,32 +135,28 @@ class CheckInController extends AbstractFOSRestController {
      *     description="Invalid page parameter"
      * )
      *
-     * @param Request                $request
-     * @param CheckInHelper          $helper
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-
-    public function new (Request $request, CheckInHelper $helper, EntityManagerInterface $em) {
-        $file           = $request->files->get('video');
+    public function new(Request $request, CheckInHelper $helper, EntityManagerInterface $em)
+    {
+        $file = $request->files->get('video');
         $identification = $request->get('identification');
 
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
-        } else if ($file->getError() !== UPLOAD_ERR_OK) {
+        } elseif (UPLOAD_ERR_OK !== $file->getError()) {
             return new ValidationResponse(['video' => $file->getErrorMessage()]);
         }
 
-        $user    = $this->getUser();
-        $video   = $helper->createVideo($file);
+        $user = $this->getUser();
+        $video = $helper->createVideo($file);
         $checkin = new CheckIn();
 
         $checkin->setIdentification($identification);
         $checkin->setVideo($video);
         $checkin->setDate(new \DateTime());
         $checkin->setUser($user);
-        
+
         $em->persist($checkin);
         $em->flush();
 
@@ -175,5 +165,4 @@ class CheckInController extends AbstractFOSRestController {
 
         return $this->handleView($view);
     }
-
 }

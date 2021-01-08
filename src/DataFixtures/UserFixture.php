@@ -10,12 +10,10 @@ use Faker\Factory;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * Class UserFixtures
- *
- * @package App\DataFixtures
+ * Class UserFixtures.
  */
-class UserFixture extends Fixture {
-
+class UserFixture extends Fixture
+{
     /**
      * @var UserPasswordEncoderInterface
      */
@@ -31,23 +29,20 @@ class UserFixture extends Fixture {
 
     /**
      * UserFixtures constructor.
-     *
-     * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct (UserPasswordEncoderInterface $passwordEncoder, UserHelper $userHelper) {
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserHelper $userHelper)
+    {
         $this->passwordEncoder = $passwordEncoder;
-        $this->userHelper      = $userHelper;
-        $this->userRoles       = $userHelper::USER_ROLES;
+        $this->userHelper = $userHelper;
+        $this->userRoles = $userHelper::USER_ROLES;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
-    public function load (ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $faker = Factory::create();
 
         // Load some employees
-        $user     = new User();
+        $user = new User();
         $password = $this->passwordEncoder->encodePassword($user, 'test');
         $user->setFirstName('Laramie')
              ->setLastName('Rugen')
@@ -58,7 +53,7 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
-        $user     = new User();
+        $user = new User();
         $password = $this->passwordEncoder->encodePassword($user, 'test');
         $user->setFirstName('Joe')
              ->setLastName('Mule')
@@ -69,7 +64,7 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
-        $user     = new User();
+        $user = new User();
         $password = $this->passwordEncoder->encodePassword($user, 'test');
         $user->setFirstName('Test')
              ->setLastName('Person')
@@ -80,7 +75,7 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
-        $user     = new User();
+        $user = new User();
         $password = $this->passwordEncoder->encodePassword($user, 'test');
         $user->setFirstName('Test')
              ->setLastName('Technician')
@@ -92,15 +87,15 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
-        for ($i = 1; $i <= 50; $i++) {
-            $user     = new User();
-            $phone    = $faker->phoneNumber;
-            $phone    = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $phone);
-            $phone    = substr($phone, 0, 10);
+        for ($i = 1; $i <= 50; ++$i) {
+            $user = new User();
+            $phone = $faker->phoneNumber;
+            $phone = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $phone);
+            $phone = substr($phone, 0, 10);
             $password = $this->passwordEncoder->encodePassword($user, 'test');
-            $role     = $faker->randomElement($this->userRoles);
+            $role = $faker->randomElement($this->userRoles);
 
-            if ($role == 'ROLE_TECHNICIAN') {
+            if ('ROLE_TECHNICIAN' == $role) {
                 $user->setPin(1234)
                      ->setExperience('10')
                      ->setCertification('Master');
@@ -118,7 +113,7 @@ class UserFixture extends Fixture {
             $manager->persist($user);
             $manager->flush();
 
-            $this->addReference('user_' . $i, $user);
+            $this->addReference('user_'.$i, $user);
         }
     }
 }
