@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\RepairOrderReviewInteractions;
+use App\Entity\RepairOrderReview;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,22 @@ class RepairOrderReviewInteractionsRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /** 
+     * @param RepairOrderReview $repairOrder
+     * @param EntityManagerInterface $em
+     * 
+     * @return null
+    */
+    public function new(RepairOrderReview $review, EntityManagerInterface $em){
+        $reviewInteraction = new RepairOrderReviewInteractions();
+        $user    = $this->getUser();
+
+        $reviewInteraction->setType('Sent');
+        $reviewInteraction->setUser($user);
+        $reviewInteraction->setRepairOrderReview($review);
+
+        $em->persist($reviewInteraction);
+        $em->flush();
+    }
 }
