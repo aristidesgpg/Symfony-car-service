@@ -231,14 +231,20 @@ class AuthenticationController extends AbstractFOSRestController {
             return $this->handleView($this->view('Login Failed. Please try again later.', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
-        if(!$user || !$user->getSecurityQuestion()){
+        if(!$user){
             return $this->handleView($this->view([
                 'token' => $token,
                 'roles' => $roles
             ], Response::HTTP_OK));
         }
 
-        return $this->handleView($this->view($user->getSecurityQuestion(), Response::HTTP_OK));
+        return $this->handleView($this->view([
+            'token'            => $token,
+            'roles'            => $roles,
+            'id'               => $user->getId(),
+            'fullname'         => $user->getFirstName().' '.$user->getlastName(),
+            'securityQuestion' => $user->getSecurityQuestion()
+        ], Response::HTTP_OK));
     }
 }
 
