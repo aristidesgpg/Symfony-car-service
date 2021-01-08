@@ -4,52 +4,63 @@ namespace App\Entity;
 
 use App\Repository\RepairOrderReviewRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderReviewRepository::class)
  */
 class RepairOrderReview
 {
+    public const GROUPS = ['ro_list', 'ror_list'];
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"ror_list"})
      */
     private $id;
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderReview", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"ror_list"})
      */
     private $repairOrder;
 
     /**
      * @ORM\Column(type="string", length=15)
+     * @Serializer\Groups(groups={"ror_list"})
      */
-    private $status;
+    private $status='Sent';
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ror_list"})
      */
     private $dateSent;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ror_list"})
      */
     private $dateViewed;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ror_list"})
      */
     private $dateCompleted;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Serializer\Groups(groups={"ror_list"})
      */
     private $rating;
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Serializer\Groups(groups={"ror_list"})
      */
     private $platform;
 

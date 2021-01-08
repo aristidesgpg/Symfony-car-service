@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderReview;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * @method RepairOrderReview|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,4 +49,21 @@ class RepairOrderReviewRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /** 
+     * @param RepairOrder $repairOrder
+     * @param EntityManagerInterface $em
+     * 
+     * @return null
+    */
+    public function new(RepairOrder $repairOrder, EntityManagerInterface $em){
+        $repairOrderReview = new RepairOrderReview();
+        
+        $repairOrderReview->setStatus('Sent');
+        $repairOrderReview->setDateSent(new \DateTime());
+        $repairOrderReview->setRepairOrder($repairOrder);
+
+        $em->persist($repairOrderReview);
+        $em->flush();
+    }
 }
