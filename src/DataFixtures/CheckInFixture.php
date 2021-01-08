@@ -43,6 +43,9 @@ class CheckInFixture extends Fixture implements DependentFixtureInterface
         }
     }
 
+    /**
+     * @return array<array-key, class-string>
+     */
     public function getDependencies(): array
     {
         return [

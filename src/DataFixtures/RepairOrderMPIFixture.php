@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class RepairOrderMPIFixture.
@@ -17,17 +17,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
 {
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * CouponFixtures constructor.
-     * @param Container $container
+     * @param ParameterBagInterface $parameterBag
      */
-    public function __construct(Container $container)
+    public function __construct(ParameterBagInterface $parameterBag)
     {
-        $this->container = $container;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -38,7 +38,7 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
         $faker = Factory::create();
 
         //read a csv file
-        $filepath = $this->container->getParameter('csv_directory').'repairOrderMPI.csv';
+        $filepath = $this->parameterBag->get('csv_directory').'repairOrderMPI.csv';
         $csv = fopen($filepath, 'r');
 
         //load data from a csv file
@@ -69,9 +69,9 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
     }
 
     /**
-     * @return class-string[]
+     * @return array<array-key, class-string>
      */
-    public function getDependencies(): string
+    public function getDependencies(): array
     {
         return [
             RepairOrderFixture::class,

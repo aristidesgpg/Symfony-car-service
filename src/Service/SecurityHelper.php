@@ -8,7 +8,7 @@ use App\Repository\ForgotPasswordRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -19,9 +19,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityHelper
 {
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * @var string
@@ -50,16 +50,16 @@ class SecurityHelper
 
     /**
      * SecurityHelper constructor.
-     * @param Container $container
+     * @param ParameterBagInterface $parameterBag
      * @param UserPasswordEncoderInterface $passwordEncoder
      * @param UserRepository $userRepository
      * @param ForgotPasswordRepository $forgotPasswordRepository
      * @param EntityManagerInterface $em
      */
-    public function __construct(Container $container, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ForgotPasswordRepository $forgotPasswordRepository, EntityManagerInterface $em)
+    public function __construct(ParameterBagInterface $parameterBag, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ForgotPasswordRepository $forgotPasswordRepository, EntityManagerInterface $em)
     {
-        $this->container = $container;
-        $this->secret = $this->container->getParameter('reset_password_secret');
+        $this->parameterBag = $parameterBag;
+        $this->secret = $this->parameterBag->get('reset_password_secret');
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
         $this->forgotPasswordRepository = $forgotPasswordRepository;

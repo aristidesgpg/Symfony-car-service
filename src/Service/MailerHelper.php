@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+
+
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class MailerHelper.
@@ -12,9 +14,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 class MailerHelper
 {
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * @var \Swift_Mailer
@@ -26,10 +28,10 @@ class MailerHelper
      */
     private $sender;
 
-    public function __construct(Container $container, \Swift_Mailer $mailer)
+    public function __construct(ParameterBagInterface $parameterBag, \Swift_Mailer $mailer)
     {
-        $this->container = $container;
-        $this->sender = $this->container->getParameter('sender');
+        $this->parameterBag = $parameterBag;
+        $this->sender = $this->parameterBag->get('sender');
         $this->mailer = $mailer;
     }
 

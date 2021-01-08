@@ -7,13 +7,11 @@ use App\Service\ImageUploader;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class CouponFixtures.
- *
- * @package App\DataFixtures
  */
 class CouponFixture extends Fixture
 {
@@ -23,19 +21,17 @@ class CouponFixture extends Fixture
     private $imageUploader;
 
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * CouponFixtures constructor.
-     * @param ImageUploader $imageUploader
-     * @param Container $container
      */
-    public function __construct(ImageUploader $imageUploader, Container $container)
+    public function __construct(ImageUploader $imageUploader, ParameterBagInterface $parameterBag)
     {
         $this->imageUploader = $imageUploader;
-        $this->container = $container;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -45,25 +41,21 @@ class CouponFixture extends Fixture
      *
      * @var array
      */
-    public function createFileObject(string $url): ?UploadedFile
+    public function createFileObject($url)
     {
         $rawData = file_get_contents($url);
         $imgRaw = imagecreatefromstring($rawData);
 
         if (false !== $imgRaw) {
-            imagejpeg($imgRaw, $this->container->getParameter('uploads_directory').'tmp.jpg', 100);
+            imagejpeg($imgRaw, $this->parameterBag->get('uploads_directory').'tmp.jpg', 100);
             imagedestroy($imgRaw);
 
-            return new UploadedFile($this->container->getParameter('uploads_directory').'tmp.jpg', 'tmp.jpg', 'image/jpeg');
+            return new UploadedFile($this->parameterBag->get('uploads_directory').'tmp.jpg', 'tmp.jpg', 'image/jpeg', null, null, true);
         }
 
         return null;
     }
 
-    /**
-     * @param ObjectManager $manager
-     * @return void
-     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
@@ -85,8 +77,8 @@ class CouponFixture extends Fixture
             }
 
             $coupon->setTitle($faker->sentence($nbWords = 3, $variableNbWords = true))
-                   ->setImage($path)
-                   ->setDeleted($faker->boolean(30));
+                ->setImage($path)
+                ->setDeleted($faker->boolean(30));
 
             $manager->persist($coupon);
             $manager->flush();
