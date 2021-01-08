@@ -30,15 +30,15 @@ class RepairOrderReviewInteractionsFixture extends Fixture implements DependentF
                                ->setType($status);
 
             if($status ==='Sent')
-                $repairOrderReview->setUser($this->getReference('user_' . $faker->numberBetween(50,1)));
+                $reviewInteractions->setUser($this->getReference('user_' . $faker->numberBetween(50,1)));
             else{
-                $repairOrderReview->setCustomer($this->getReference('customer' . $faker->numberBetween(50,1)));
+                $reviewInteractions->setCustomer($this->getReference('customer_' . $faker->numberBetween(50,1)));
             }
 
-            $manager->persist($repairOrderReview);
+            $manager->persist($reviewInteractions);
             $manager->flush();
 
-            $this->addReference('repairOrderReviewInteractions_' . $i, $repairOrderReview);
+            $this->addReference('repairOrderReviewInteractions_' . $i, $reviewInteractions);
         }
     }
     public function getDependencies()
