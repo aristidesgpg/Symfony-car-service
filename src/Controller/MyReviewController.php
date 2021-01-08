@@ -97,7 +97,7 @@ class MyReviewController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/myreview/resendMessage")
+     * @Rest\Put("/api/myreview/{id}/resendMessage")
      *
      * @SWG\Tag(name="MyReview")
      * @SWG\Put(description="Resend a message to the customer and create a new interaction")
@@ -118,7 +118,7 @@ class MyReviewController extends AbstractFOSRestController {
         $reviewInteractions->new($repairOrderReview, 'Sent');
         
         $repairOrder = $repairOrderReview->getRepairOrder();
-        $myReviewHelper->sendMessage($repairOrder->getPrimaryCustomer()->number);
+        $myReviewHelper->sendMessage( $repairOrder );
         return $this->handleView($this->view([
             'message' => 'Success'
         ], Response::HTTP_OK));

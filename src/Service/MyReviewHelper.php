@@ -23,8 +23,8 @@ class MyReviewHelper {
     /** @var RepairOrderReviewInteractionsRepository */
     private $reviewInteractions;
     
-    /** @var TwilioHelper */
-    private $twilioHelper;
+    /** @var ShortUrlHelper */
+    private $urlHelper;
 
     /** @var SettingsHelper */
     private $settingsHelper;
@@ -36,11 +36,11 @@ class MyReviewHelper {
      * @param EntityManagerInterface $em
      * @param RepairOrderReviewRepository $review
      */
-    public function __construct (EntityManagerInterface $em, RepairOrderReviewRepository $review, TwilioHelper $twilio, SettingsHelper $settings) {
+    public function __construct (EntityManagerInterface $em, RepairOrderReviewRepository $review, ShortUrlHelper $urlHelper, SettingsHelper $settings) {
         $this->em             = $em;
         $this->review         = $review;
-        $this->twilioHelper   = $twilio;
-        $this->settingsHelper   = $settings;
+        $this->urlHelper      = $urlHelper;
+        $this->settingsHelper = $settings;
     }
 
     /**
@@ -50,13 +50,24 @@ class MyReviewHelper {
         $review->new($repairOrder, $this->$em);
         $reviewInteractions->new($review, 'Sent', $this->$em);
 
-        $number = $repairOrder->getPrimaryCustomer()->number;
-        $this->sendMessage($number);
+        $this->sendMessage($repairOrder);
     }
 
-    public function sendMessage(string $number){
+    /**
+     * @param RepairOrder $repairOrder
+     */
+    public function sendMessage(RepairOrder $repairOrder){
         $msg = $this->settingsHelper->getSetting('reviewText');
+        $phone = $repairOrder->getNumber();
+        $linkhash = $repairOrder->getLinkHash();
         
-        $this->twilioHelper->sendSms($number, $msg);
+        $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $linkhash;
+        
+        $shortUrl = $this->urlHelper->generateShortUrl($url);
+        try {
+            $this->urlHelper->sendShortenedLink($phone, $msg, $shortUrl, true);
+        } catch (\Exception $e) {
+            return;
+        }
     }
 }
