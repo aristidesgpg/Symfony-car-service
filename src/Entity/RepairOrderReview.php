@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderReviewRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -63,6 +65,16 @@ class RepairOrderReview
      * @Serializer\Groups(groups={"ror_list"})
      */
     private $platform;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderReviewInteractions::class, mappedBy="repairOrderReview")
+     */
+    private $repairOrderReviewInteractions;
+
+    public function __construct()
+    {
+        $this->repairOrderReviewInteractions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -149,6 +161,37 @@ class RepairOrderReview
     public function setPlatform(?string $platform): self
     {
         $this->platform = $platform;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setRepairOrderReview($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getRepairOrderReview() === $this) {
+                $repairOrderReviewInteraction->setRepairOrderReview(null);
+            }
+        }
 
         return $this;
     }

@@ -145,11 +145,17 @@ class User implements UserInterface {
     private $shareRepairOrders = false;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderReviewInteractions::class, mappedBy="user")
+     */
+    private $repairOrderReviewInteractions;
+
+    /**
      * User constructor.
      */
     public function __construct () {
         $this->technicianRepairOrders = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->repairOrderReviewInteractions = new ArrayCollection();
     }
 
     /**
@@ -528,6 +534,37 @@ class User implements UserInterface {
     public function setShareRepairOrders(bool $shareRepairOrders): self
     {
         $this->shareRepairOrders = $shareRepairOrders;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getUser() === $this) {
+                $repairOrderReviewInteraction->setUser(null);
+            }
+        }
 
         return $this;
     }
