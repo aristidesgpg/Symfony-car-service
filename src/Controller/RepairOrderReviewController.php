@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\ORM\EntityManagerInterface;
+use DateTime;
 
 /**
  * Class RepairOrderReviewController
@@ -24,7 +25,7 @@ class RepairOrderReviewController extends AbstractFOSRestController {
     /**
      * @Rest\Put("/api/repair-order-view/{id}/view")
      *
-     * @SWG\Tag(name="RepairOrderView")
+     * @SWG\Tag(name="Repair Order View")
      * @SWG\Put(description="Update a repairOrderView")
      *
      * @SWG\Response(
