@@ -62,15 +62,23 @@ class RepairOrderReviewInteractionsRepository extends ServiceEntityRepository
         $reviewInteraction = new RepairOrderReviewInteractions();
         $user    = $this->getUser();
        
-        if ( ($status === 'Sent' ) && (!$user instanceof User) ){
-            throw new \InvalidArgumentException('This is not instance of User');
+        if ($status === 'Sent' ){
+            if (!$user instanceof User){
+                throw new \InvalidArgumentException('This is not instance of User');
+            }else{
+                $reviewInteraction->setUser($user);
+            }
         }
-        else if ( ($status !== 'Sent' ) && (!$user instanceof Customer) ){
-            throw new \InvalidArgumentException('This is not instance of Customer');
-        }
-        
+        else if ($status !== 'Sent' ){
+            if (!$user instanceof Customer){
+                throw new \InvalidArgumentException('This is not instance of Customer');
+            }
+            else{
+                $reviewInteraction->setCustomer($user);
+            }
+        } 
+
         $reviewInteraction->setType($status);
-        $reviewInteraction->setUser($user);
         $reviewInteraction->setRepairOrderReview($review);
 
         $em->persist($reviewInteraction);

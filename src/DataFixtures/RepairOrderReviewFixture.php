@@ -54,7 +54,7 @@ class RepairOrderReviewFixture extends Fixture implements DependentFixtureInterf
             $manager->persist($repairOrderReview);
             $manager->flush();
 
-            $this->addReference('repairorderreview_' . $i, $repairOrderReview);
+            $this->addReference('repairRrderReview_' . $i, $repairOrderReview);
         }
     }
     public function getDependencies()
