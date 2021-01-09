@@ -33,8 +33,6 @@ class PhoneLookup
 
     /**
      * PhoneLookup constructor.
-     * @param string $phoneNumber
-     * @param PhoneNumberInstance|null $instance
      */
     public function __construct(string $phoneNumber, ?PhoneNumberInstance $instance = null)
     {

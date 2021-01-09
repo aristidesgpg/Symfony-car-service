@@ -8,8 +8,6 @@ use Symfony\Component\Process\Process;
 
 /**
  * Class UploadHelper.
- *
- * @package App\Service
  */
 class UploadHelper
 {
@@ -20,7 +18,6 @@ class UploadHelper
 
     /**
      * UploadHelper constructor.
-     * @param SpacesClient $spaces
      */
     public function __construct(SpacesClient $spaces)
     {

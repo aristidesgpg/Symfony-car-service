@@ -6,7 +6,7 @@ use App\Controller\SettingsController;
 
 class ShortUrlHelper
 {
-    public const  MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
+    public const MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
     private const ENDPOINT = 'http://isre.us/api/create-short-url';
 
     /** @var string */
@@ -17,8 +17,6 @@ class ShortUrlHelper
 
     /**
      * ShortcodeHelper constructor.
-     * @param string $accessToken
-     * @param TwilioHelper $twilio
      */
     public function __construct(string $accessToken, TwilioHelper $twilio)
     {
@@ -27,10 +25,6 @@ class ShortUrlHelper
     }
 
     /**
-     * @param string $phone
-     * @param string $msg
-     * @param string $url
-     * @param bool $urlIsShort
      * @throws \Exception
      */
     public function sendShortenedLink(string $phone, string $msg, string $url, bool $urlIsShort = false): void

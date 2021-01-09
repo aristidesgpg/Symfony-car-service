@@ -21,7 +21,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 /**
  * Class CustomerController.
  *
- * @package App\Controller
  * @Rest\Route("/api/customer")
  * @SWG\Tag(name="Customer")
  */
@@ -71,15 +70,13 @@ class CustomerController extends AbstractFOSRestController
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     * @param Request $request
-     * @param CustomerRepository $customerRepository
-     * @param PaginatorInterface $paginator
-     * @param UrlGeneratorInterface $urlGenerator
-     * @return Response
      */
-    public function getAll(Request $request, CustomerRepository $customerRepository,
-                            PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response
-    {
+    public function getAll(
+        Request $request,
+        CustomerRepository $customerRepository,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
         $page = $request->query->getInt('page', 1);
         $urlParameters = [];
 
@@ -124,8 +121,6 @@ class CustomerController extends AbstractFOSRestController
      *     @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      * )
      * @SWG\Response(response="404", description="Customer does not exist")
-     * @param Customer $customer
-     * @return Response
      */
     public function getCustomer(Customer $customer): Response
     {
@@ -152,9 +147,6 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
-     * @param Request $req
-     * @param CustomerHelper $helper
-     * @return Response
      */
     public function addCustomer(Request $req, CustomerHelper $helper): Response
     {
@@ -188,10 +180,6 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
-     * @param Customer $customer
-     * @param Request $req
-     * @param CustomerHelper $helper
-     * @return Response
      */
     public function updateCustomer(Customer $customer, Request $req, CustomerHelper $helper): Response
     {
@@ -214,9 +202,6 @@ class CustomerController extends AbstractFOSRestController
      * @Rest\Delete("/{id}")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="Customer does not exist")
-     * @param Customer $customer
-     * @param CustomerHelper $helper
-     * @return Response
      */
     public function deleteCustomer(Customer $customer, CustomerHelper $helper): Response
     {

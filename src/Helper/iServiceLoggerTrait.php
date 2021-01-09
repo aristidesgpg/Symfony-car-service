@@ -16,10 +16,6 @@ trait iServiceLoggerTrait
 
     /**
      * @required
-     *
-     * @param LoggerInterface $iserviceLogger
-     *
-     * @return void
      */
     public function setLogger(LoggerInterface $iserviceLogger): void
     {

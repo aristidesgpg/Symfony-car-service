@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class CouponsController.
- *
- * @package App\Controller
  */
 class CouponsController extends AbstractFOSRestController
 {
@@ -35,10 +33,6 @@ class CouponsController extends AbstractFOSRestController
      *         description="id, title, image"
      *     )
      * )
-     *
-     * @param EntityManagerInterface $em
-     * @param CouponRepository $couponRepository
-     * @return Response
      */
     public function list(EntityManagerInterface $em, CouponRepository $couponRepository): Response
     {
@@ -79,11 +73,6 @@ class CouponsController extends AbstractFOSRestController
      *                                              "Successfully created" }),
      *         )
      * )
-     *
-     * @param EntityManagerInterface $em
-     * @param Request $request
-     * @param ImageUploader $imageUploader
-     * @return Response
      */
     public function new(EntityManagerInterface $em, Request $request, ImageUploader $imageUploader): Response
     {
@@ -130,16 +119,13 @@ class CouponsController extends AbstractFOSRestController
      *                                              "Successfully created" }),
      *         )
      * )
-     *
-     * @param Coupon $coupon
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param ImageUploader $imageUploader
-     * @return Response
      */
-    public function edit(Coupon $coupon, Request $request, EntityManagerInterface $em,
-                          ImageUploader $imageUploader): Response
-    {
+    public function edit(
+        Coupon $coupon,
+        Request $request,
+        EntityManagerInterface $em,
+        ImageUploader $imageUploader
+    ): Response {
         $title = $request->get('title');
 
         // Validation
@@ -169,10 +155,6 @@ class CouponsController extends AbstractFOSRestController
      *                                              "Successfully deleted" }),
      *         )
      * )
-     *
-     * @param Coupon $coupon
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function delete(Coupon $coupon, EntityManagerInterface $em): Response
     {

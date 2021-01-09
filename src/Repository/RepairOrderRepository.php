@@ -17,17 +17,12 @@ class RepairOrderRepository extends ServiceEntityRepository
 {
     /**
      * RepairOrderRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, RepairOrder::class);
     }
 
-    /**
-     * @param string $uid
-     * @return RepairOrder|null
-     */
     public function findByUID(string $uid): ?RepairOrder
     {
         try {

@@ -10,8 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class MPITemplateHelper.
- *
- * @package App\Service
  */
 class MPITemplateHelper
 {
@@ -27,8 +25,6 @@ class MPITemplateHelper
 
     /**
      * MPITemplateHelper constructor.
-     * @param MPIItemRepository $mpiItemRepository
-     * @param EntityManagerInterface $em
      */
     public function __construct(MPIItemRepository $mpiItemRepository, EntityManagerInterface $em)
     {
@@ -37,10 +33,8 @@ class MPITemplateHelper
     }
 
     /**
-     * @param string $type
-     * @param array $names
      * @param object $axle
-     * @param MPIGroup $mpiGroup
+     *
      * @return void
      */
     public function createMPIItems(string $type, array $names, $axle, MPIGroup $mpiGroup)
@@ -69,11 +63,6 @@ class MPITemplateHelper
         $this->em->flush();
     }
 
-    /**
-     * @param MPITemplate $mpiTemplate
-     * @param bool $active
-     * @return MPITemplate
-     */
     public function getActiveTemplate(MPITemplate $mpiTemplate, bool $active): MPITemplate
     {
         //get active templates

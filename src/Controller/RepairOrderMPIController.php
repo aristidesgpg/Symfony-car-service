@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class RepairOrderMPIController.
- *
- * @package App\Controller
  */
 class RepairOrderMPIController extends AbstractFOSRestController
 {
@@ -62,12 +60,6 @@ class RepairOrderMPIController extends AbstractFOSRestController
      *                                              "Successfully Created" }),
      *         )
      * )
-     * @param Request $request
-     * @param RepairOrderRepository $repairOrderRepository
-     * @param OperationCodeRepository $operationCodeRepository
-     * @param RepairOrderMPIRepository $repairOrderMPIRepos
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function createRepairOrderMPI(
         Request $request,
@@ -168,9 +160,6 @@ class RepairOrderMPIController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     * @param RepairOrderMPI $repairOrderMPI
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function deleteRepairOrderMPI(
         RepairOrderMPI $repairOrderMPI,

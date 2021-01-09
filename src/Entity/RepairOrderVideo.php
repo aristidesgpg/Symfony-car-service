@@ -87,7 +87,6 @@ class RepairOrderVideo
     }
 
     /**
-     * @param RepairOrder $repairOrder
      * @return $this
      */
     public function setRepairOrder(RepairOrder $repairOrder): self
@@ -103,7 +102,6 @@ class RepairOrderVideo
     }
 
     /**
-     * @param User $technician
      * @return $this
      */
     public function setTechnician(User $technician): self
@@ -119,7 +117,6 @@ class RepairOrderVideo
     }
 
     /**
-     * @param string $path
      * @return $this
      */
     public function setPath(string $path): self
@@ -135,7 +132,6 @@ class RepairOrderVideo
     }
 
     /**
-     * @param string $status
      * @return $this
      */
     public function setStatus(string $status): self
@@ -151,7 +147,6 @@ class RepairOrderVideo
     }
 
     /**
-     * @param string $shortUrl
      * @return $this
      */
     public function setShortUrl(string $shortUrl): self
@@ -167,7 +162,6 @@ class RepairOrderVideo
     }
 
     /**
-     * @param \DateTime $dateCreated
      * @return $this
      */
     public function setDateCreated(\DateTime $dateCreated): self
@@ -183,7 +177,6 @@ class RepairOrderVideo
     }
 
     /**
-     * @param bool $deleted
      * @return $this
      */
     public function setDeleted(bool $deleted): self
@@ -202,7 +195,6 @@ class RepairOrderVideo
     }
 
     /**
-     * @param RepairOrderVideoInteraction $interaction
      * @return $this
      */
     public function addInteraction(RepairOrderVideoInteraction $interaction): self

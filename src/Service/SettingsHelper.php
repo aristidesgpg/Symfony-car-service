@@ -12,8 +12,6 @@ use RuntimeException;
 
 /**
  * Class SettingsHelper.
- *
- * @package App\Service
  */
 class SettingsHelper
 {
@@ -49,8 +47,6 @@ class SettingsHelper
 
     /**
      * SettingsHelper constructor.
-     * @param EntityManagerInterface $em
-     * @param SettingsRepository $settingsRepository
      */
     public function __construct(EntityManagerInterface $em, SettingsRepository $settingsRepository)
     {
@@ -58,9 +54,6 @@ class SettingsHelper
         $this->settingsRepository = $settingsRepository;
     }
 
-    /**
-     * @param array $settings
-     */
     public function commitSettings(array $settings): void
     {
         foreach ($settings as $key => $value) {
@@ -91,8 +84,6 @@ class SettingsHelper
 
     /**
      * @param $key
-     *
-     * @return string|null
      *
      * @throws Exception
      */

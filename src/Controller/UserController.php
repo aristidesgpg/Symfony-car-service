@@ -16,8 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UserController.
- *
- * @package App\Controller
  */
 class UserController extends AbstractFOSRestController
 {
@@ -45,11 +43,6 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-     *
-     * @param Request $request
-     * @param UserRepository $userRepo
-     * @param UserHelper $userHelper
-     * @return Response
      */
     public function getUsers(Request $request, UserRepository $userRepo, UserHelper $userHelper): Response
     {
@@ -159,11 +152,6 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param UserHelper $userHelper
-     * @return Response
      */
     public function new(Request $request, EntityManagerInterface $em, UserHelper $userHelper): Response
     {
@@ -315,12 +303,6 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-     *
-     * @param User $user
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @param UserHelper $userHelper
-     * @return Response
      */
     public function edit(User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper): Response
     {
@@ -391,8 +373,6 @@ class UserController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param User $user
-     * @param EntityManagerInterface $em
      * @return object|void
      */
     public function delete(User $user, EntityManagerInterface $em)
@@ -409,9 +389,6 @@ class UserController extends AbstractFOSRestController
 
     /**
      * @param User|User[] $data
-     *
-     * @return Response
-     * @return Response
      */
     private function userView($data): Response
     {

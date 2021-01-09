@@ -7,8 +7,6 @@ use Exception;
 
 /**
  * Class PhoneValidator.
- *
- * @package App\Service
  */
 class PhoneValidator
 {
@@ -24,8 +22,6 @@ class PhoneValidator
 
     /**
      * PhoneValidator constructor.
-     * @param TwilioHelper $twilio
-     * @param EntityManagerInterface $em
      */
     public function __construct(TwilioHelper $twilio, EntityManagerInterface $em)
     {
@@ -34,9 +30,6 @@ class PhoneValidator
     }
 
     /**
-     * @param string $phone
-     * @return string
-     *
      * @throws Exception
      */
     public function clean(string $phone): string

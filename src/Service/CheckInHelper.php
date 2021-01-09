@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\CheckIn;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
@@ -12,8 +11,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class CheckInHelper.
- *
- * @package App\Service
  */
 class CheckInHelper
 {
@@ -28,8 +25,6 @@ class CheckInHelper
 
     /**
      * CheckInHelper constructor.
-     * @param EntityManagerInterface $em
-     * @param UploadHelper $upload
      */
     public function __construct(EntityManagerInterface $em, UploadHelper $upload)
     {
@@ -38,8 +33,6 @@ class CheckInHelper
     }
 
     /**
-     * @param array $params
-     * @param bool $checkRequiredFields
      * @return array Empty on successful validation
      */
     public function validateParams(array $params, bool $checkRequiredFields = false): array
@@ -93,7 +86,6 @@ class CheckInHelper
     }
 
     /**
-     * @param UploadedFile $file
      * @return string
      */
     public function createVideo(UploadedFile $file): ?string

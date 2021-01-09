@@ -4,8 +4,6 @@ namespace App\Service;
 
 /**
  * Class WordpressLogin.
- *
- * @package App\Service
  */
 class WordpressLogin
 {
@@ -20,11 +18,7 @@ class WordpressLogin
     private $internalAgentWPEndpoint = ''; // TBD
 
     /**
-     * @param string $username
-     * @param string $password
      * @param bool $dealer
-     *
-     * @return bool
      */
     public function validateUserPassword(string $username, string $password, $dealer = true): bool
     {

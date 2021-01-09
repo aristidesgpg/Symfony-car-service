@@ -20,3 +20,4 @@ public/uploads
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 /psalm.txt
+/tools/vendor/

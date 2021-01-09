@@ -80,10 +80,20 @@ MySQL Version: 5.7.31
     8. In the text box type "Bearer " then paste the token you copied
     9. Click "Authorize" 
     10. All calls after this will automatically have the bearer token in the "Autorization" header
+  
+
+9. Installing project tools.
+   1. composer --working-dir=./tools/ install
+   
+   Common terminal usage.  
+      Psalm, to see current errors:  
+          ./tools/vendor/bin/psalm  
+      php-cs-fixer:  
+         ./tools/vendor/bin/php-cs-fixer --dry-run fix  
+         ./tools/vendor/bin/php-cs-fixer fix  
 
 
-
-9. Installing PHP-CS-Fixer globally.
+10. Installing PHP-CS-Fixer globally for PHPStorm.
    1. Open a terminal and run: composer global require friendsofphp/php-cs-fixer
 
    Configuring PHPStorm.

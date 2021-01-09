@@ -35,11 +35,7 @@ class SpacesClient
     }
 
     /**
-     * @param \SplFileInfo $file
-     * @param string|null $subDirectory
      * @param string|null $customDirectory - Defaults to $this->clientSubdomain
-     *
-     * @return string|null
      */
     public function upload(\SplFileInfo $file, ?string $subDirectory = null, ?string $customDirectory = null): ?string
     {

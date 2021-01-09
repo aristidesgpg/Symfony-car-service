@@ -10,8 +10,6 @@ use Faker\Factory;
 
 /**
  * Class CheckInFixtures.
- *
- * @package App\DataFixtures
  */
 class CheckInFixture extends Fixture implements DependentFixtureInterface
 {

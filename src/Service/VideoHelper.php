@@ -27,10 +27,6 @@ class VideoHelper
 
     /**
      * VideoHelper constructor.
-     * @param EntityManagerInterface $em
-     * @param UploadHelper $upload
-     * @param ShortUrlHelper $urlHelper
-     * @param SettingsRepository $settings
      */
     public function __construct(
         EntityManagerInterface $em,
@@ -106,7 +102,6 @@ class VideoHelper
     }
 
     /**
-     * @param RepairOrderVideo $video
      * @param Customer|User $user
      */
     public function viewVideo(RepairOrderVideo $video, $user): void

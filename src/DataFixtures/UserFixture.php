@@ -11,8 +11,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserFixtures.
- *
- * @package App\DataFixtures
  */
 class UserFixture extends Fixture
 {
@@ -31,8 +29,6 @@ class UserFixture extends Fixture
 
     /**
      * UserFixtures constructor.
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param UserHelper $userHelper
      */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder, UserHelper $userHelper)
     {

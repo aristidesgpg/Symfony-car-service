@@ -240,7 +240,6 @@ class RepairOrder
     }
 
     /**
-     * @param Customer $primaryCustomer
      * @return $this
      */
     public function setPrimaryCustomer(Customer $primaryCustomer): self
@@ -259,7 +258,6 @@ class RepairOrder
     }
 
     /**
-     * @param User $primaryTechnician
      * @return $this
      */
     public function setPrimaryTechnician(User $primaryTechnician): self
@@ -275,7 +273,6 @@ class RepairOrder
     }
 
     /**
-     * @param User $primaryAdvisor
      * @return $this
      */
     public function setPrimaryAdvisor(User $primaryAdvisor): self
@@ -291,7 +288,6 @@ class RepairOrder
     }
 
     /**
-     * @param string $number
      * @return $this
      */
     public function setNumber(string $number): self
@@ -307,7 +303,6 @@ class RepairOrder
     }
 
     /**
-     * @param string $videoStatus
      * @return $this
      */
     public function setVideoStatus(string $videoStatus): self
@@ -323,7 +318,6 @@ class RepairOrder
     }
 
     /**
-     * @param string $mpiStatus
      * @return $this
      */
     public function setMpiStatus(string $mpiStatus): self
@@ -339,7 +333,6 @@ class RepairOrder
     }
 
     /**
-     * @param string $quoteStatus
      * @return $this
      */
     public function setQuoteStatus(string $quoteStatus): self
@@ -355,7 +348,6 @@ class RepairOrder
     }
 
     /**
-     * @param string $paymentStatus
      * @return $this
      */
     public function setPaymentStatus(string $paymentStatus): self
@@ -371,7 +363,6 @@ class RepairOrder
     }
 
     /**
-     * @param float|null $startValue
      * @return $this
      */
     public function setStartValue(?float $startValue): self
@@ -387,7 +378,6 @@ class RepairOrder
     }
 
     /**
-     * @param float|null $finalValue
      * @return $this
      */
     public function setFinalValue(?float $finalValue): self
@@ -403,7 +393,6 @@ class RepairOrder
     }
 
     /**
-     * @param float|null $approvedValue
      * @return $this
      */
     public function setApprovedValue(?float $approvedValue): self
@@ -419,7 +408,6 @@ class RepairOrder
     }
 
     /**
-     * @param DateTime $dateCreated
      * @return $this
      */
     public function setDateCreated(DateTime $dateCreated): self
@@ -440,7 +428,6 @@ class RepairOrder
     }
 
     /**
-     * @param DateTime|null $dateClosed
      * @return $this
      */
     public function setDateClosed(?DateTime $dateClosed): self
@@ -456,7 +443,6 @@ class RepairOrder
     }
 
     /**
-     * @param bool $waiter
      * @return $this
      */
     public function setWaiter(bool $waiter): self
@@ -472,7 +458,6 @@ class RepairOrder
     }
 
     /**
-     * @param DateTime|null $pickupDate
      * @return $this
      */
     public function setPickupDate(?DateTime $pickupDate): self
@@ -488,7 +473,6 @@ class RepairOrder
     }
 
     /**
-     * @param string $linkHash
      * @return $this
      */
     public function setLinkHash(string $linkHash): self
@@ -504,7 +488,6 @@ class RepairOrder
     }
 
     /**
-     * @param int|null $year
      * @return $this
      */
     public function setYear(?int $year): self
@@ -520,7 +503,6 @@ class RepairOrder
     }
 
     /**
-     * @param string|null $make
      * @return $this
      */
     public function setMake(?string $make): self
@@ -536,7 +518,6 @@ class RepairOrder
     }
 
     /**
-     * @param string|null $model
      * @return $this
      */
     public function setModel(?string $model): self
@@ -552,7 +533,6 @@ class RepairOrder
     }
 
     /**
-     * @param int|null $miles
      * @return $this
      */
     public function setMiles(?int $miles): self
@@ -568,7 +548,6 @@ class RepairOrder
     }
 
     /**
-     * @param string|null $vin
      * @return $this
      */
     public function setVin(?string $vin): self
@@ -584,7 +563,6 @@ class RepairOrder
     }
 
     /**
-     * @param bool $internal
      * @return $this
      */
     public function setInternal(bool $internal): self
@@ -600,7 +578,6 @@ class RepairOrder
     }
 
     /**
-     * @param string|null $dmsKey
      * @return $this
      */
     public function setDmsKey(?string $dmsKey): self
@@ -616,7 +593,6 @@ class RepairOrder
     }
 
     /**
-     * @param string|null $waiver
      * @return $this
      */
     public function setWaiver(?string $waiver): self
@@ -632,7 +608,6 @@ class RepairOrder
     }
 
     /**
-     * @param string|null $waiverVerbiage
      * @return $this
      */
     public function setWaiverVerbiage(?string $waiverVerbiage): self
@@ -648,7 +623,6 @@ class RepairOrder
     }
 
     /**
-     * @param bool $upgradeQue
      * @return $this
      */
     public function setUpgradeQue(bool $upgradeQue): self
@@ -664,7 +638,6 @@ class RepairOrder
     }
 
     /**
-     * @param string|null $note
      * @return $this
      */
     public function setNote(?string $note): self
@@ -680,7 +653,6 @@ class RepairOrder
     }
 
     /**
-     * @param bool $deleted
      * @return $this
      */
     public function setDeleted(bool $deleted): self
@@ -714,7 +686,6 @@ class RepairOrder
     }
 
     /**
-     * @param bool $archived
      * @return $this
      */
     public function setArchived(bool $archived): self

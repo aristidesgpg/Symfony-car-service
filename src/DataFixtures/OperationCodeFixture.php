@@ -9,8 +9,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class OperationCodeFixture.
- *
- * @package App\DataFixtures
  */
 class OperationCodeFixture extends Fixture
 {
@@ -21,7 +19,6 @@ class OperationCodeFixture extends Fixture
 
     /**
      * CouponFixtures constructor.
-     * @param ParameterBagInterface $parameterBag
      */
     public function __construct(ParameterBagInterface $parameterBag)
     {
@@ -29,7 +26,6 @@ class OperationCodeFixture extends Fixture
     }
 
     /**
-     * @param ObjectManager $manager
      * @return void
      */
     public function load(ObjectManager $manager)

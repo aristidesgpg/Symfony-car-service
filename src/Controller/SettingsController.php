@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Class SettingsController.
  *
- * @package App\Controller
  * @Rest\Route("/api/settings")
  * @SWG\Tag(name="Settings")
  * @SWG\Response(
@@ -36,11 +35,11 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SettingsController extends AbstractFOSRestController
 {
-    public const  SMS_MAX_LENGTH = 160;
-    public const  SMS_EXTRA_MAX_LENGTH = 109;
-    public const  ZIP_LENGTH = 5;
-    public const  ZIP_P4_LENGTH = 10;
-    public const  PHONE_LENGTH = 10;
+    public const SMS_MAX_LENGTH = 160;
+    public const SMS_EXTRA_MAX_LENGTH = 109;
+    public const ZIP_LENGTH = 5;
+    public const ZIP_P4_LENGTH = 10;
+    public const PHONE_LENGTH = 10;
     private const TOO_LONG_MSG = 'Value cannot exceed %d characters';
 
     use iServiceLoggerTrait;
@@ -55,8 +54,6 @@ class SettingsController extends AbstractFOSRestController
      *         @SWG\Items(ref=@Model(type=Settings::class))
      *     )
      * )
-     * @param SettingsRepository $repo
-     * @return Response
      */
     public function getSettings(SettingsRepository $repo): Response
     {
@@ -150,10 +147,6 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="reviewFacebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
-     * @param Request $req
-     * @param SettingsHelper $helper
-     * @param UploadHelper $uploader
-     * @return Response
      */
     public function setSettings(Request $req, SettingsHelper $helper, UploadHelper $uploader): Response
     {
@@ -272,8 +265,6 @@ class SettingsController extends AbstractFOSRestController
 
     /**
      * @param Settings[] $settings
-     * @return Response
-     * @return Response
      */
     private function settingsResponse(array $settings): Response
     {

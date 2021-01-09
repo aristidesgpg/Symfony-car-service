@@ -18,8 +18,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class RepairOrderQuoteController.
- *
- * @package App\Controller
  */
 class RepairOrderQuoteController extends AbstractFOSRestController
 {
@@ -40,8 +38,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *         description="id, repair_order_id, date_created, date_sent, date_customer_viewed, date_customer_completed, date_completed_viewed, deleted"
      *     )
      * )
-     * @param RepairOrderQuoteRepository $repairOrderQuoteRepository
-     * @return Response
      */
     public function getRepairOrderQuotes(RepairOrderQuoteRepository $repairOrderQuoteRepository): Response
     {
@@ -83,11 +79,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Created" }),
      *         )
      * )
-     * @param Request $request
-     * @param RepairOrderRepository $repairOrderRepository
-     * @param OperationCodeRepository $operationCodeRepository
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function createRepairOrderQuote(
         Request $request,
@@ -168,20 +159,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Updated" }),
      *         )
      * )
-     * @param RepairOrderQuote $repairOrderQuote
-     * @param Request $request
-     * @param RepairOrderRepository $repairOrderRepository
-     * @param OperationCodeRepository $operationCodeRepository
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function updateRepairOrderQuote(
-            RepairOrderQuote $repairOrderQuote,
-            Request $request,
-            RepairOrderRepository $repairOrderRepository,
-            OperationCodeRepository $operationCodeRepository,
-            EntityManagerInterface $em
-        ): Response {
+        RepairOrderQuote $repairOrderQuote,
+        Request $request,
+        RepairOrderRepository $repairOrderRepository,
+        OperationCodeRepository $operationCodeRepository,
+        EntityManagerInterface $em
+    ): Response {
         $repairOrderID = $request->get('repairOrderID');
         $recommendations = str_replace("'", '"', $request->get('recommendations'));
         $obj = (array) json_decode($recommendations);
@@ -245,9 +230,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     * @param RepairOrderQuote $repairOrderQuote
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function deleteRepairOrderQuote(RepairOrderQuote $repairOrderQuote, EntityManagerInterface $em): Response
     {

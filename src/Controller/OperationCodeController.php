@@ -14,8 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class OperationCodeController.
- *
- * @package App\Controller
  */
 class OperationCodeController extends AbstractFOSRestController
 {
@@ -34,9 +32,6 @@ class OperationCodeController extends AbstractFOSRestController
      *         description="code, description, labor_hours, labor_taxable, parts_price, parts_taxable, supplies_price, supplies_taxable, deleted"
      *     )
      * )
-     *
-     * @param OperationCodeRepository $operationCodeRepo
-     * @return Response
      */
     public function getOperationCodes(OperationCodeRepository $operationCodeRepo): Response
     {
@@ -121,10 +116,6 @@ class OperationCodeController extends AbstractFOSRestController
      *                                              "Successfully created" }),
      *         )
      * )
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function create(Request $request, EntityManagerInterface $em): Response
     {
@@ -233,11 +224,6 @@ class OperationCodeController extends AbstractFOSRestController
      *                                              "Successfully Updated" }),
      *         )
      * )
-     *
-     * @param OperationCode $operationCode
-     * @param Request $request
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function edit(OperationCode $operationCode, Request $request, EntityManagerInterface $em): Response
     {
@@ -288,10 +274,6 @@ class OperationCodeController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @param OperationCode $operationCode
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function delete(OperationCode $operationCode, EntityManagerInterface $em): Response
     {

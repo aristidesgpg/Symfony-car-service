@@ -16,7 +16,6 @@ class SettingsRepository extends ServiceEntityRepository
 {
     /**
      * SettingsRepository constructor.
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {

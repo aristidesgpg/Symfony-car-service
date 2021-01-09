@@ -18,8 +18,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class SecurityController.
- *
- * @package App\Controller
  */
 class SecurityController extends AbstractFOSRestController
 {
@@ -55,12 +53,6 @@ class SecurityController extends AbstractFOSRestController
      *                                              "Security Question Has Been Updated" }),
      *         )
      * )
-     *
-     * @param User $user
-     * @param Request $request
-     * @param UserHelper $userHelper
-     * @param EntityManagerInterface $em
-     * @return Response
      */
     public function security(User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em): Response
     {
@@ -107,10 +99,6 @@ class SecurityController extends AbstractFOSRestController
      *                                              "What is your name?" }),
      *         )
      * )
-     *
-     * @param Request $request
-     * @param UserRepository $userRepo
-     * @return Response
      */
     public function getSecurityQuestion(Request $request, UserRepository $userRepo): Response
     {
@@ -162,17 +150,14 @@ class SecurityController extends AbstractFOSRestController
      *                                              "Security Question Has Been Validated" }),
      *         )
      * )
-     *
-     * @param Request $request
-     * @param SecurityHelper $securityHelper
-     * @param MailerHelper $mailerHelper
-     * @param UserRepository $userRepo
-     * @param UrlGeneratorInterface $urlGenerator
-     * @return Response
      */
-    public function validate(Request $request, SecurityHelper $securityHelper, MailerHelper $mailerHelper,
-                              UserRepository $userRepo, UrlGeneratorInterface $urlGenerator): Response
-    {
+    public function validate(
+        Request $request,
+        SecurityHelper $securityHelper,
+        MailerHelper $mailerHelper,
+        UserRepository $userRepo,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
         $answer = $request->get('answer');
         $email = $request->get('email');
 
@@ -198,7 +183,8 @@ class SecurityController extends AbstractFOSRestController
         $resetPasswordURL = $urlGenerator->generate('app_security_validatetoken', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
         if (!$mailerHelper->sendMail('Reset Password Link', $email, $resetPasswordURL)) {
             return $this->handleView($this->view(
-                'Something Went Wrong Trying to Send the Email', Response::HTTP_INTERNAL_SERVER_ERROR
+                'Something Went Wrong Trying to Send the Email',
+                Response::HTTP_INTERNAL_SERVER_ERROR
             ));
         }
 
@@ -222,11 +208,6 @@ class SecurityController extends AbstractFOSRestController
      *                                              "Reset Password Token Has Been Validated" }),
      *         )
      * )
-     *
-     * @param string $token
-     * @param SecurityHelper $securityHelper
-     * @param UserRepository $userRepo
-     * @return Response
      */
     public function validateToken(string $token, SecurityHelper $securityHelper, UserRepository $userRepo): Response
     {
@@ -275,11 +256,6 @@ class SecurityController extends AbstractFOSRestController
      *                                              "Password Has Been Reset" }),
      *         )
      * )
-     *
-     * @param Request $request
-     * @param SecurityHelper $securityHelper
-     * @param UserRepository $userRepo
-     * @return Response
      */
     public function resetPassword(Request $request, SecurityHelper $securityHelper, UserRepository $userRepo): Response
     {

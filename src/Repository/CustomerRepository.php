@@ -40,8 +40,6 @@ class CustomerRepository extends ServiceEntityRepository
 
     /**
      * @param string $query - Name, Phone Number, or Email
-     * @param User|null $user
-     * @return Query
      */
     public function search(string $query, ?User $user = null): Query
     {

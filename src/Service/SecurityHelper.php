@@ -13,8 +13,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class SecurityHelper.
- *
- * @package App\Service
  */
 class SecurityHelper
 {
@@ -50,11 +48,6 @@ class SecurityHelper
 
     /**
      * SecurityHelper constructor.
-     * @param ParameterBagInterface $parameterBag
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param UserRepository $userRepository
-     * @param ForgotPasswordRepository $forgotPasswordRepository
-     * @param EntityManagerInterface $em
      */
     public function __construct(ParameterBagInterface $parameterBag, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ForgotPasswordRepository $forgotPasswordRepository, EntityManagerInterface $em)
     {
@@ -66,11 +59,6 @@ class SecurityHelper
         $this->em = $em;
     }
 
-    /**
-     * @param User $user
-     * @param string $answer
-     * @return bool
-     */
     public function validateSecurity(User $user, string $answer): bool
     {
         //validate params
@@ -85,11 +73,6 @@ class SecurityHelper
         return true;
     }
 
-    /**
-     * @param User $user
-     * @param string $email
-     * @return string
-     */
     public function generateToken(User $user, string $email): string
     {
         //generate token
@@ -115,10 +98,6 @@ class SecurityHelper
         return $token;
     }
 
-    /**
-     * @param string $token
-     * @return bool
-     */
     public function validateToken(string $token): bool
     {
         //find the token on the table
@@ -146,11 +125,6 @@ class SecurityHelper
         return true;
     }
 
-    /**
-     * @param string $token
-     * @param string $password
-     * @return bool
-     */
     public function resetPassword(string $token, string $password): bool
     {
         //find the token on the table

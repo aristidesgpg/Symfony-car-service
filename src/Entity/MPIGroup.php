@@ -70,7 +70,6 @@ class MPIGroup
     }
 
     /**
-     * @param MPITemplate|null $mpiTemplate
      * @return $this
      */
     public function setMPITemplate(?MPITemplate $mpiTemplate): self
@@ -86,7 +85,6 @@ class MPIGroup
     }
 
     /**
-     * @param string $name
      * @return $this
      */
     public function setName(string $name): self
@@ -102,7 +100,6 @@ class MPIGroup
     }
 
     /**
-     * @param bool $active
      * @return $this
      */
     public function setActive(bool $active): self
@@ -118,7 +115,6 @@ class MPIGroup
     }
 
     /**
-     * @param bool $deleted
      * @return $this
      */
     public function setDeleted(bool $deleted): self
@@ -137,7 +133,6 @@ class MPIGroup
     }
 
     /**
-     * @param MPIItem $mpiItem
      * @return $this
      */
     public function addMPIItem(MPIItem $mpiItem): self
@@ -151,7 +146,6 @@ class MPIGroup
     }
 
     /**
-     * @param MPIItem $mpiItem
      * @return $this
      */
     public function removeMPIItem(MPIItem $mpiItem): self

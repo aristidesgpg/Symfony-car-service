@@ -6,8 +6,6 @@ trait FalsyTrait
 {
     /**
      * @param $param
-     * @return bool
-     * @return bool
      */
     private function paramToBool($param): bool
     {

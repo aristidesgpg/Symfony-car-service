@@ -21,8 +21,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class CheckInController.
- *
- * @package App\Controller
  */
 class CheckInController extends AbstractFOSRestController
 {
@@ -68,15 +66,13 @@ class CheckInController extends AbstractFOSRestController
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     * @param Request $request
-     * @param CheckInRepository $checkInRepository
-     * @param PaginatorInterface $paginator
-     * @param UrlGeneratorInterface $urlGenerator
-     * @return Response
      */
-    public function list(Request $request, CheckInRepository $checkInRepository,
-                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response
-    {
+    public function list(
+        Request $request,
+        CheckInRepository $checkInRepository,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
         $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
@@ -139,9 +135,6 @@ class CheckInController extends AbstractFOSRestController
      *     description="Invalid page parameter"
      * )
      *
-     * @param Request $request
-     * @param CheckInHelper $helper
-     * @param EntityManagerInterface $em
      * @return Response
      */
     public function new(Request $request, CheckInHelper $helper, EntityManagerInterface $em)

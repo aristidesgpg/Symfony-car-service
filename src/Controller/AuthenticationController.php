@@ -20,8 +20,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class AuthenticationController.
- *
- * @package App\Controller
  */
 class AuthenticationController extends AbstractFOSRestController
 {
@@ -83,21 +81,16 @@ class AuthenticationController extends AbstractFOSRestController
      *     response=500,
      *     description="Login Failed. Please try again later."
      * )
-     *
-     * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param JWTEncoderInterface $JWTEncoder
-     * @param RepairOrderRepository $repairOrderRepository
-     * @param SettingsHelper $settingsHelper
-     * @param PasswordHelper $passwordHelper
-     * @param WordpressLogin $wordpressLogin
-     * @return Response
      */
-    public function authenticateAction(Request $request, UserPasswordEncoderInterface $passwordEncoder,
-                                        JWTEncoderInterface $JWTEncoder, RepairOrderRepository $repairOrderRepository,
-                                        SettingsHelper $settingsHelper, PasswordHelper $passwordHelper,
-                                        WordpressLogin $wordpressLogin): Response
-    {
+    public function authenticateAction(
+        Request $request,
+        UserPasswordEncoderInterface $passwordEncoder,
+        JWTEncoderInterface $JWTEncoder,
+        RepairOrderRepository $repairOrderRepository,
+        SettingsHelper $settingsHelper,
+        PasswordHelper $passwordHelper,
+        WordpressLogin $wordpressLogin
+    ): Response {
         $username = $request->get('username');  // tperson@iserviceauto.com
         $password = $request->get('password');  // test
         $linkHash = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3

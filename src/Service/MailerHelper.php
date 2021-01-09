@@ -2,14 +2,10 @@
 
 namespace App\Service;
 
-
-
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class MailerHelper.
- *
- * @package App\Service
  */
 class MailerHelper
 {
@@ -35,13 +31,6 @@ class MailerHelper
         $this->mailer = $mailer;
     }
 
-    /**
-     * @param string $title
-     * @param string $email
-     * @param string $body
-     *
-     * @return bool
-     */
     public function sendMail(string $title, string $email, string $body): bool
     {
         $message = (new \Swift_Message($title))

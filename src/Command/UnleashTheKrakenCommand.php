@@ -12,9 +12,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class UnleashTheKrakenCommand.
- *
- * @package App\Command
- *
  */
 class UnleashTheKrakenCommand extends Command
 {
@@ -35,9 +32,6 @@ class UnleashTheKrakenCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output): int

@@ -21,8 +21,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Class RepairOrderVideoController.
  *
- * @package App\Controller
- *
  * @Rest\Route("/api/repair-order/{ro}/video")
  * @SWG\Tag(name="Repair Order Video")
  * @SWG\Response(
@@ -42,8 +40,6 @@ class RepairOrderVideoController extends AbstractFOSRestController
      *         @SWG\Items(ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS))
      *     )
      * )
-     * @param RepairOrder $ro
-     * @return Response
      */
     public function getAll(RepairOrder $ro): Response
     {
@@ -72,10 +68,6 @@ class RepairOrderVideoController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      * @SWG\Parameter(name="video", type="file", in="formData", required=true)
-     * @param Request $request
-     * @param RepairOrder $ro
-     * @param VideoHelper $helper
-     * @return Response
      */
     public function uploadVideo(Request $request, RepairOrder $ro, VideoHelper $helper): Response
     {
@@ -107,9 +99,6 @@ class RepairOrderVideoController extends AbstractFOSRestController
      *     description="Success!",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS))
      * )
-     * @param RepairOrder $ro
-     * @param RepairOrderVideo $video
-     * @return Response
      */
     public function getOne(RepairOrder $ro, RepairOrderVideo $video): Response
     {
@@ -125,10 +114,6 @@ class RepairOrderVideoController extends AbstractFOSRestController
     /**
      * @Rest\Delete("/{video}")
      * @SWG\Response(response="200", description="Success!")
-     * @param RepairOrder $ro
-     * @param RepairOrderVideo $video
-     * @param VideoHelper $helper
-     * @return Response
      */
     public function deleteVideo(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response
     {
@@ -145,10 +130,6 @@ class RepairOrderVideoController extends AbstractFOSRestController
     /**
      * @Rest\Post("/{video}/view")
      * @SWG\Response(response="200", description="Success!")
-     * @param RepairOrder $ro
-     * @param RepairOrderVideo $video
-     * @param VideoHelper $helper
-     * @return Response
      */
     public function viewVideo(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response
     {
@@ -169,10 +150,6 @@ class RepairOrderVideoController extends AbstractFOSRestController
     /**
      * @Rest\Post("/{video}/approve")
      * @SWG\Response(response="200", description="Success!")
-     * @param RepairOrder $ro
-     * @param RepairOrderVideo $video
-     * @param VideoHelper $helper
-     * @return Response
      */
     public function approveVideo(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response
     {
@@ -193,10 +170,6 @@ class RepairOrderVideoController extends AbstractFOSRestController
     /**
      * @Rest\Post("/{video}/confirm")
      * @SWG\Response(response="200", description="Success!")
-     * @param RepairOrder $ro
-     * @param RepairOrderVideo $video
-     * @param VideoHelper $helper
-     * @return Response
      */
     public function confirmViewed(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response
     {
@@ -226,9 +199,6 @@ class RepairOrderVideoController extends AbstractFOSRestController
      *         )
      *     )
      * )
-     * @param RepairOrder $ro
-     * @param RepairOrderVideo $video
-     * @return Response
      */
     public function getInteractions(RepairOrder $ro, RepairOrderVideo $video): Response
     {

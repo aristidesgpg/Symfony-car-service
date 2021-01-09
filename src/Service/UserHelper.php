@@ -9,8 +9,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * Class UserHelper.
- *
- * @package App\Service
  */
 class UserHelper
 {
@@ -42,22 +40,17 @@ class UserHelper
 
     /**
      * UserHelper constructor.
-     * @param UserRepository $userRepository
-     * @param EntityManagerInterface $em
-     * @param UserPasswordEncoderInterface $passwordEncoder
      */
-    public function __construct(UserRepository $userRepository, EntityManagerInterface $em,
-                                 UserPasswordEncoderInterface $passwordEncoder)
-    {
+    public function __construct(
+        UserRepository $userRepository,
+        EntityManagerInterface $em,
+        UserPasswordEncoderInterface $passwordEncoder
+    ) {
         $this->userRepository = $userRepository;
         $this->em = $em;
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    /**
-     * @param string $role
-     * @return bool
-     */
     public function isValidRole(string $role): bool
     {
         $roles = self::USER_ROLES;
@@ -70,11 +63,6 @@ class UserHelper
         return true;
     }
 
-    /**
-     * @param User $user
-     * @param string $password
-     * @return string
-     */
     public function passwordEncoder(User $user, string $password): string
     {
         return $this->passwordEncoder->encodePassword($user, $password);

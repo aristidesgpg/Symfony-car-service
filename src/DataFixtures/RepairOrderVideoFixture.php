@@ -12,7 +12,6 @@ use Faker\Factory;
 
 /**
  * Class RepairOrderVideoFixture.
- * @package App\DataFixtures
  */
 class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterface
 {

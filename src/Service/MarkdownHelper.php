@@ -7,8 +7,6 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 
 /**
  * Class MarkdownHelper.
- *
- * @package App\Service
  */
 class MarkdownHelper
 {
@@ -24,8 +22,6 @@ class MarkdownHelper
 
     /**
      * MarkdownHelper constructor.
-     * @param AdapterInterface $cache
-     * @param LoggerInterface $iserviceLogger
      */
     public function __construct(AdapterInterface $cache, LoggerInterface $iserviceLogger)
     {

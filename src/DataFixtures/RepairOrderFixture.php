@@ -11,14 +11,10 @@ use Faker\Factory;
 
 /**
  * Class RepairOrderFixture.
- *
- * @package App\DataFixtures
  */
 class RepairOrderFixture extends Fixture implements DependentFixtureInterface
 {
     /**
-     * @param ObjectManager $manager
-     *
      * @throws Exception
      *
      * @return void

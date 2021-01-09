@@ -8,8 +8,6 @@ use Nexy\Slack\Client;
 
 /**
  * Class SlackClient.
- *
- * @package App\Service
  */
 class SlackClient
 {
@@ -22,18 +20,12 @@ class SlackClient
 
     /**
      * SlackClient constructor.
-     * @param Client $slack
      */
     public function __construct(Client $slack)
     {
         $this->slack = $slack;
     }
 
-    /**
-     * @param string $from
-     * @param string $message
-     * @return bool
-     */
     public function sendMessage(string $from, string $message): bool
     {
         $slackMessage = $this->slack->createMessage()

@@ -8,8 +8,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class CustomerHelper.
- *
- * @package App\Service
  */
 class CustomerHelper
 {
@@ -24,8 +22,6 @@ class CustomerHelper
 
     /**
      * CustomerHelper constructor.
-     * @param EntityManagerInterface $em
-     * @param PhoneValidator $phoneValidator
      */
     public function __construct(EntityManagerInterface $em, PhoneValidator $phoneValidator)
     {
@@ -34,8 +30,6 @@ class CustomerHelper
     }
 
     /**
-     * @param array $params
-     * @param bool $checkRequiredFields
      * @return array Empty on successful validation
      */
     public function validateParams(array $params, bool $checkRequiredFields = false): array

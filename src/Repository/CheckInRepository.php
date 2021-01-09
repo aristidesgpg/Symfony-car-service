@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\CheckIn;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -52,7 +51,9 @@ class CheckInRepository extends ServiceEntityRepository
     /**
      * @param null $start
      * @param null $end
+     *
      * @return CheckIn[] Returns array of CheckIn objects
+     *
      * @throws \Exception
      */
     public function getAllItems($start = null, $end = null): ?array

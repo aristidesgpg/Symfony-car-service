@@ -165,7 +165,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $firstName
      * @return $this
      */
     public function setFirstName(string $firstName): self
@@ -181,7 +180,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $lastName
      * @return $this
      */
     public function setLastName(string $lastName): self
@@ -197,7 +195,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $email
      * @return $this
      */
     public function setEmail(string $email): self
@@ -213,7 +210,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $phone
      * @return $this
      */
     public function setPhone(string $phone): self
@@ -229,7 +225,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string|null $extension
      * @return $this
      */
     public function setExtension(?string $extension): self
@@ -245,7 +240,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string $password
      * @return $this
      */
     public function setPassword(string $password): self
@@ -263,10 +257,6 @@ class User implements UserInterface
         return [$this->role];
     }
 
-    /**
-     * @param string $role
-     * @return User
-     */
     public function setRole(string $role): User
     {
         $this->role = $role;
@@ -280,7 +270,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string|null $certification
      * @return $this
      */
     public function setCertification(?string $certification): self
@@ -296,7 +285,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string|null $experience
      * @return $this
      */
     public function setExperience(?string $experience): self
@@ -312,7 +300,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string|null $securityQuestion
      * @return $this
      */
     public function setSecurityQuestion(?string $securityQuestion): self
@@ -328,7 +315,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param string|null $securityAnswer
      * @return $this
      */
     public function setSecurityAnswer(?string $securityAnswer): self
@@ -344,7 +330,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param array|null $previewDeviceTokens
      * @return $this
      */
     public function setPreviewDeviceTokens(?array $previewDeviceTokens): self
@@ -360,7 +345,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param bool $forceAuthentication
      * @return $this
      */
     public function setForceAuthentication(bool $forceAuthentication): self
@@ -376,7 +360,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param DateTime $lastLogin
      * @return User
      */
     public function setLastLogin(DateTime $lastLogin): self
@@ -412,7 +395,6 @@ class User implements UserInterface
     }
 
     /**
-     * @param bool $active
      * @return $this
      */
     public function setActive(bool $active): self

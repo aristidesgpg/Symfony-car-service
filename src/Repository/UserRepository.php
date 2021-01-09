@@ -32,17 +32,12 @@ class UserRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
-    /**
-     * @param QueryBuilder|null $qb
-     * @return QueryBuilder
-     */
     private function queryBuilder(QueryBuilder $qb = null): QueryBuilder
     {
         return $qb ? $qb : $this->createQueryBuilder('u');
     }
 
     /**
-     * @param string $role
      * @return User[]
      */
     public function getUserByRole(string $role)

@@ -10,8 +10,6 @@ use Faker\Factory;
 
 /**
  * Class UserFixtures.
- *
- * @package App\DataFixtures
  */
 class CustomerFixture extends Fixture
 {
@@ -22,7 +20,6 @@ class CustomerFixture extends Fixture
 
     /**
      * CustomerFixture constructor.
-     * @param PhoneValidator $phoneValidator
      */
     public function __construct(PhoneValidator $phoneValidator)
     {
@@ -30,8 +27,6 @@ class CustomerFixture extends Fixture
     }
 
     /**
-     * @param ObjectManager $manager
-     *
      * @return void
      */
     public function load(ObjectManager $manager)

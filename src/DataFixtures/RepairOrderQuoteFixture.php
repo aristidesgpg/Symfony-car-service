@@ -10,8 +10,6 @@ use Faker\Factory;
 
 /**
  * Class RepairOrderQuoteFixture.
- *
- * @package App\DataFixtures
  */
 class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterface
 {

@@ -11,8 +11,6 @@ use Symfony\Component\Security\Core\Security;
 
 /**
  * Class MPIInteractionHelper.
- *
- * @package App\Service
  */
 class MPIInteractionHelper
 {
@@ -33,9 +31,6 @@ class MPIInteractionHelper
 
     /**
      * MPIInteractionHelper constructor.
-     * @param RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo
-     * @param EntityManagerInterface $em
-     * @param Security $security
      */
     public function __construct(RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo, EntityManagerInterface $em, Security $security)
     {
@@ -44,11 +39,6 @@ class MPIInteractionHelper
         $this->user = $security->getUser();
     }
 
-    /**
-     * @param RepairOrderMPI $repairOrderMPI
-     * @param string $type
-     * @return bool
-     */
     public function log(RepairOrderMPI $repairOrderMPI, string $type): bool
     {
         $repairOrder = $repairOrderMPI->getRepairOrder();
@@ -66,9 +56,6 @@ class MPIInteractionHelper
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function getMPIInteractions(): array
     {
         $repairOrderMPIInteractions = $this->repairOrderMPIInteractionRepo->findAll();

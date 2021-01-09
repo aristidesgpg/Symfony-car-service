@@ -7,8 +7,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class Pagination.
- *
- * @package App\Service
  */
 class Pagination
 {
@@ -65,8 +63,6 @@ class Pagination
     /**
      * Pagination constructor.
      *
-     * @param PaginationInterface $pager
-     * @param int $pageLimit
      * @param UrlGeneratorInterface|null $urlGenerator <p>Pass if you are going to be building page URLs</p>
      */
     public function __construct(PaginationInterface $pager, int $pageLimit, UrlGeneratorInterface $urlGenerator = null)
@@ -96,7 +92,6 @@ class Pagination
     }
 
     /**
-     * @param string $route
      * @param array $parameters
      *
      * @return string|null
@@ -113,7 +108,6 @@ class Pagination
     }
 
     /**
-     * @param string $route
      * @param array $parameters
      *
      * @return string|null
@@ -132,8 +126,6 @@ class Pagination
     /**
      * Gets any page requested. Not sure if we'll need this.
      *
-     * @param string $route
-     * @param int $page
      * @param array $parameters
      *
      * @return string|null

@@ -4,8 +4,6 @@ namespace App\Service;
 
 /**
  * Class PasswordHelper.
- *
- * @package App\Service
  */
 class PasswordHelper
 {
@@ -13,7 +11,6 @@ class PasswordHelper
     private const OPTIONS = [];
 
     /**
-     * @param string $plaintext
      * @return string Password hash
      *
      * @throws \Exception

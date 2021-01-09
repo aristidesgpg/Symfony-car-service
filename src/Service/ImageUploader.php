@@ -4,7 +4,6 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\UrlHelper;
@@ -38,9 +37,12 @@ class ImageUploader
     /**
      * ImageUploader constructor.
      */
-    public function __construct(EntityManagerInterface $em, ParameterBagInterface $parameterBag, UrlHelper $urlHelper,
-                                 UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        ParameterBagInterface $parameterBag,
+        UrlHelper $urlHelper,
+        UrlGeneratorInterface $urlGenerator
+    ) {
         $this->em = $em;
         $this->parameterBag = $parameterBag;
         $this->urlHelper = $urlHelper;

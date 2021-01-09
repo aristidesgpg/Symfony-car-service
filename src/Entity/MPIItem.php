@@ -66,7 +66,6 @@ class MPIItem
     }
 
     /**
-     * @param MPIGroup|null $mpiGroup
      * @return $this
      */
     public function setMPIGroup(?MPIGroup $mpiGroup): self
@@ -82,7 +81,6 @@ class MPIItem
     }
 
     /**
-     * @param string $name
      * @return $this
      */
     public function setName(string $name): self
@@ -98,7 +96,6 @@ class MPIItem
     }
 
     /**
-     * @param bool $hasRange
      * @return $this
      */
     public function setHasRange(bool $hasRange): self
@@ -114,7 +111,6 @@ class MPIItem
     }
 
     /**
-     * @param int $rangeMaximum
      * @return $this
      */
     public function setRangeMaximum(int $rangeMaximum): self
@@ -130,7 +126,6 @@ class MPIItem
     }
 
     /**
-     * @param string|null $rangeUnit
      * @return $this
      */
     public function setRangeUnit(?string $rangeUnit): self
@@ -146,7 +141,6 @@ class MPIItem
     }
 
     /**
-     * @param bool $deleted
      * @return $this
      */
     public function setDeleted(bool $deleted): self

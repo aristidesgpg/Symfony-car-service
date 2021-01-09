@@ -14,8 +14,6 @@ use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class RepairOrderHelper.
- *
- * @package App\Service
  */
 class RepairOrderHelper
 {
@@ -30,11 +28,6 @@ class RepairOrderHelper
 
     /**
      * RepairOrderHelper constructor.
-     * @param EntityManagerInterface $em
-     * @param RepairOrderRepository $repo
-     * @param CustomerRepository $customers
-     * @param UserRepository $users
-     * @param CustomerHelper $customerHelper
      */
     public function __construct(
         EntityManagerInterface $em,
@@ -58,7 +51,6 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array $params
      * @return RepairOrder|array Array on validation failure
      */
     public function addRepairOrder(array $params)
@@ -169,8 +161,6 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array $params
-     * @param RepairOrder $ro
      * @return array Array on validation failure
      */
     private function buildRO(array $params, RepairOrder $ro): array
@@ -260,7 +250,6 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array $params
      * @return Customer|array Array on validation failure
      */
     private function handleCustomer(array $params)

@@ -10,8 +10,6 @@ use Exception;
 
 /**
  * Class SettingFixture.
- *
- * @package App\DataFixtures
  */
 class SettingsFixture extends Fixture
 {
@@ -22,7 +20,6 @@ class SettingsFixture extends Fixture
 
     /**
      * SettingsFixture constructor.
-     * @param PasswordHelper $passwordHelper
      */
     public function __construct(PasswordHelper $passwordHelper)
     {
@@ -30,8 +27,6 @@ class SettingsFixture extends Fixture
     }
 
     /**
-     * @param ObjectManager $manager
-     *
      * @throws Exception
      *
      * @return void

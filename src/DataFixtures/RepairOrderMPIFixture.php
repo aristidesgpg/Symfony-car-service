@@ -11,8 +11,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class RepairOrderMPIFixture.
- *
- * @package App\DataFixtures
  */
 class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
 {
@@ -23,7 +21,6 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
 
     /**
      * CouponFixtures constructor.
-     * @param ParameterBagInterface $parameterBag
      */
     public function __construct(ParameterBagInterface $parameterBag)
     {

@@ -29,8 +29,6 @@ class TwilioHelper
     }
 
     /**
-     * @param string $phone
-     * @param string $msg
      * @throws TwilioException
      */
     public function sendSms(string $phone, string $msg): void

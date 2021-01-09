@@ -99,7 +99,6 @@ class Customer implements UserInterface
     }
 
     /**
-     * @param string $name
      * @return $this
      */
     public function setName(string $name): self
@@ -115,7 +114,6 @@ class Customer implements UserInterface
     }
 
     /**
-     * @param string $phone
      * @return $this
      */
     public function setPhone(string $phone): self
@@ -131,7 +129,6 @@ class Customer implements UserInterface
     }
 
     /**
-     * @param bool $mobileConfirmed
      * @return $this
      */
     public function setMobileConfirmed(bool $mobileConfirmed): self
@@ -147,7 +144,6 @@ class Customer implements UserInterface
     }
 
     /**
-     * @param string|null $email
      * @return $this
      */
     public function setEmail(?string $email): self
@@ -163,7 +159,6 @@ class Customer implements UserInterface
     }
 
     /**
-     * @param bool $doNotContact
      * @return Customer
      */
     public function setDoNotContact(bool $doNotContact): self
@@ -191,7 +186,6 @@ class Customer implements UserInterface
     }
 
     /**
-     * @param bool $deleted
      * @return $this
      */
     public function setDeleted(bool $deleted): self

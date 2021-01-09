@@ -64,7 +64,7 @@ class MPIItemRepository extends ServiceEntityRepository
 
     /**
      * @param $name
-     * @param int|null $groupID
+     *
      * @return int|mixed|string
      */
     public function findDuplication($name, ?int $groupID)
