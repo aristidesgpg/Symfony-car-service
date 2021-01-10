@@ -86,7 +86,7 @@ class SettingsFixture extends Fixture {
             'generalPhone'               => null,
             'reviewGoogleUrl'            => null,
             'reviewFacebookUrl'          => null,
-            'reviewText'                 => null,
+            'reviewText'                 => "Please leave your review for our company.",
             'reviewActivated'            => false,
         ];
 

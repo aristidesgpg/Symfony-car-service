@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderReview;
 use App\Repository\RepairOrderReviewRepository;
 use App\Repository\RepairOrderReviewInteractionsRepository;
@@ -35,20 +36,25 @@ class MyReviewHelper {
      *
      * @param EntityManagerInterface $em
      * @param RepairOrderReviewRepository $review
+     * @param RepairOrderReviewInteractionsRepository $reviewInteractions
+     * @param ShortUrlHelper $urlHelper
+     * @param SettingsHelper $settings
      */
-    public function __construct (EntityManagerInterface $em, RepairOrderReviewRepository $review, ShortUrlHelper $urlHelper, SettingsHelper $settings) {
-        $this->em             = $em;
-        $this->review         = $review;
-        $this->urlHelper      = $urlHelper;
-        $this->settingsHelper = $settings;
+    public function __construct (EntityManagerInterface $em, RepairOrderReviewRepository $review, ShortUrlHelper $urlHelper, 
+                                RepairOrderReviewInteractionsRepository $reviewInteractions, SettingsHelper $settings) {
+        $this->em                 = $em;
+        $this->review             = $review;
+        $this->reviewInteractions = $reviewInteractions;
+        $this->urlHelper          = $urlHelper;
+        $this->settingsHelper     = $settings;
     }
 
     /**
      * @param RepairOrder $repairOrder
      */
-    public function new(RepairOrder $repairOrder){
-        $review->new($repairOrder, $this->$em);
-        $reviewInteractions->new($review, 'Sent', $this->$em);
+    public function new(RepairOrder $repairOrder, $user){
+        $review = $this->review->new($repairOrder);
+        $this->reviewInteractions->new($review, 'Sent', $user);
 
         $this->sendMessage($repairOrder);
     }
@@ -57,11 +63,11 @@ class MyReviewHelper {
      * @param RepairOrder $repairOrder
      */
     public function sendMessage(RepairOrder $repairOrder){
-        $msg = $this->settingsHelper->getSetting('reviewText');
-        $phone = $repairOrder->getNumber();
+        $msg      = $this->settingsHelper->getSetting('reviewText');
+        $phone    = $repairOrder->getPrimaryCustomer()->getPhone();
         $linkhash = $repairOrder->getLinkHash();
         
-        $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $linkhash;
+        $url      = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $linkhash;
         
         $shortUrl = $this->urlHelper->generateShortUrl($url);
         try {

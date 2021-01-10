@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Entity(repositoryClass=RepairOrderRepository::class)
  */
 class RepairOrder {
-    public const GROUPS = ['ro_list', 'customer_list', 'user_list', 'roq_list'];
+    public const GROUPS = ['ro_list', 'customer_list', 'user_list', 'roq_list','ror_list'];
 
     /**
      * @ORM\Id

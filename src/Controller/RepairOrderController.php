@@ -10,6 +10,8 @@ use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
+use App\Service\MyReviewHelper;
+use App\Service\SettingsHelper;
 use DateTime;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -429,10 +431,12 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @param RepairOrder       $ro
      * @param RepairOrderHelper $helper
+     * @param MyReviewHelper    $myReviewHelper
+     * @param SettingsHelper    $settingsHelper
      *
      * @return Response
      */
-    public function close (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function close (RepairOrder $ro, RepairOrderHelper $helper, MyReviewHelper $myReviewHelper, SettingsHelper $settingsHelper): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -442,6 +446,14 @@ class RepairOrderController extends AbstractFOSRestController {
             ], Response::HTTP_BAD_REQUEST));
         }
         $helper->closeRepairOrder($ro);
+
+        //if reviewActivated is true, proceed with review action
+        $isActivated = $settingsHelper->getSetting('reviewActivated');
+        if($isActivated){
+            $user    = $this->getUser();
+            $myReviewHelper->new($ro, $user);
+        }
+       
 
         return $this->handleView($this->view([
             'message' => 'RO Closed',

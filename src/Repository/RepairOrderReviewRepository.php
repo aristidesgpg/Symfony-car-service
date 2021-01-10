@@ -16,9 +16,14 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class RepairOrderReviewRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    /** @var EntityManagerInterface */
+    private $em;
+
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, RepairOrderReview::class);
+        $this->em = $em;
     }
 
     // /**
@@ -52,18 +57,19 @@ class RepairOrderReviewRepository extends ServiceEntityRepository
 
     /** 
      * @param RepairOrder $repairOrder
-     * @param EntityManagerInterface $em
      * 
      * @return null
     */
-    public function new(RepairOrder $repairOrder, EntityManagerInterface $em){
+    public function new(RepairOrder $repairOrder){
         $repairOrderReview = new RepairOrderReview();
         
-        $repairOrderReview->setStatus('Sent');
-        $repairOrderReview->setDateSent(new \DateTime());
-        $repairOrderReview->setRepairOrder($repairOrder);
+        $repairOrderReview->setStatus('Sent')
+                          ->setDateSent(new \DateTime())
+                          ->setRepairOrder($repairOrder);
 
-        $em->persist($repairOrderReview);
-        $em->flush();
+        $this->em->persist($repairOrderReview);
+        $this->em->flush();
+
+        return $repairOrderReview;
     }
 }
