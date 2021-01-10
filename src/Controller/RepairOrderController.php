@@ -448,13 +448,12 @@ class RepairOrderController extends AbstractFOSRestController {
         $helper->closeRepairOrder($ro);
 
         //if reviewActivated is true, proceed with review action
-        $isActivated = $settingsHelper->getSetting('reviewActivated');
-        if($isActivated){
-            $user    = $this->getUser();
+        $isReviewActivated = $settingsHelper->getSetting('reviewActivated');
+        if($isReviewActivated){
+            $user          = $this->getUser();
             $myReviewHelper->new($ro, $user);
         }
        
-
         return $this->handleView($this->view([
             'message' => 'RO Closed',
         ]));
