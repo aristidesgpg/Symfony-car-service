@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
