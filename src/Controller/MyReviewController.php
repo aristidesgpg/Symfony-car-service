@@ -45,7 +45,7 @@ class MyReviewController extends AbstractFOSRestController {
         $user = $this->getUser();
 
         if(!$user instanceof Customer){
-            return $this->handleView($this->view('The type of user should be Customer', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
         }
 
         $repairOrderReview = $repairOrder->getRepairOrderReview();
@@ -91,13 +91,17 @@ class MyReviewController extends AbstractFOSRestController {
         $user     = $this->getUser();
 
         if(!$user instanceof Customer){
-            return $this->handleView($this->view('The type of user should be Customer', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
         }
 
         $repairOrderReview = $repairOrder->getRepairOrderReview();
 
         if(!$repairOrderReview){
             return $this->handleView($this->view('The review of this repairOrder was not created yet.', Response::HTTP_BAD_REQUEST));
+        }
+
+        if($repairOrderReview->getStatus() === 'Completed'){
+            return $this->handleView($this->view('This review was already completed.', Response::HTTP_BAD_REQUEST));
         }
 
         $rating            = $request->get('rating');

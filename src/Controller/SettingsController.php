@@ -219,7 +219,6 @@ class SettingsController extends AbstractFOSRestController {
             $settings[$key] = $val;
         }
 
-
         $files = [];
         foreach ($fileList as $key) {
             if ($req->files->has($key) !== true) {
