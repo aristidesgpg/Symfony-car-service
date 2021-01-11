@@ -37,7 +37,7 @@ class SpacesClient
     /**
      * @param string|null $customDirectory - Defaults to $this->clientSubdomain
      */
-    public function upload(\SplFileInfo $file, ?string $subDirectory = null, ?string $customDirectory = null): string
+    public function upload(\SplFileInfo $file, ?string $subDirectory = null, ?string $customDirectory = null): ?string
     {
         if (!$file->isReadable()) {
             throw new \InvalidArgumentException("File '{$file->getPathname()}' is not readable");

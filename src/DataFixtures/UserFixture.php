@@ -37,6 +37,9 @@ class UserFixture extends Fixture
         $this->userRoles = $userHelper::USER_ROLES;
     }
 
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();

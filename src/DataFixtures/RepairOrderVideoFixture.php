@@ -10,6 +10,9 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
+/**
+ * Class RepairOrderVideoFixture.
+ */
 class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterface
 {
     private const VIDEO_FIXTURES = [
@@ -17,6 +20,9 @@ class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterfa
         'https://autoboost.sfo2.digitaloceanspaces.com/fixtures/fixture-video-2.mp4',
     ];
 
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
@@ -40,7 +46,7 @@ class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterfa
     }
 
     /**
-     * @return string[]
+     * @return array<array-key, class-string>
      */
     public function getDependencies(): array
     {

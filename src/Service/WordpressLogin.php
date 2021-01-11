@@ -19,10 +19,8 @@ class WordpressLogin
 
     /**
      * @param bool $dealer
-     *
-     * @return bool
      */
-    public function validateUserPassword(string $username, string $password, $dealer = true)
+    public function validateUserPassword(string $username, string $password, $dealer = true): bool
     {
         $endpoint = $dealer ? $this->dealerWPEndpoint : $this->internalAgentWPEndpoint;
         $data = [

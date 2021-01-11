@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use App\Entity\CheckIn;
-use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
@@ -87,9 +86,9 @@ class CheckInHelper
     }
 
     /**
-     * @param User ID|string $current user
+     * @return string
      */
-    public function createVideo(UploadedFile $file): string
+    public function createVideo(UploadedFile $file): ?string
     {
         if (!$this->upload->isValidVideo($file)) {
             throw new InvalidArgumentException('Invalid file format');

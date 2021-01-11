@@ -49,11 +49,14 @@ class CheckInRepository extends ServiceEntityRepository
     */
 
     /**
-     * @param
+     * @param null $start
+     * @param null $end
      *
-     * @return CheckIn[] REturns array of CheckIn ojbects
+     * @return CheckIn[] Returns array of CheckIn objects
+     *
+     * @throws \Exception
      */
-    public function getAllItems($start = null, $end = null)
+    public function getAllItems($start = null, $end = null): ?array
     {
         if (null === $end) {
             $end = new \DateTime();
@@ -65,23 +68,19 @@ class CheckInRepository extends ServiceEntityRepository
             $start = new \DateTime($start);
         }
 
-        try {
-            $db = $this->createQueryBuilder('ch');
+        $db = $this->createQueryBuilder('ch');
 
-            if ($start && $end) {
-                $db->andWhere('ch.date BETWEEN :start AND :end')
-                   ->setParameter('start', $start->format('Y-m-d H:i'))
-                   ->setParameter('end', $end->format('Y-m-d H:i'));
-            } else {
-                $db->andWhere('ch.date < :end')
-                   ->setParameter('end', $end->format('Y-m-d H:i'));
-            }
-
-            return $db->orderBy('ch.date', 'DESC')
-                      ->getQuery()
-                      ->getResult();
-        } catch (NonUniqueResultException $e) {
-            return null;
+        if ($start && $end) {
+            $db->andWhere('ch.date BETWEEN :start AND :end')
+               ->setParameter('start', $start->format('Y-m-d H:i'))
+               ->setParameter('end', $end->format('Y-m-d H:i'));
+        } else {
+            $db->andWhere('ch.date < :end')
+               ->setParameter('end', $end->format('Y-m-d H:i'));
         }
+
+        return $db->orderBy('ch.date', 'DESC')
+                  ->getQuery()
+                  ->getResult();
     }
 }

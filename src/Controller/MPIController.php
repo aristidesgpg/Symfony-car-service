@@ -49,10 +49,8 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function getTemplates(Request $request, MPITemplateRepository $mpiTemplateRepository)
+    public function getTemplates(Request $request, MPITemplateRepository $mpiTemplateRepository): Response
     {
         $active = $request->query->get('active');
 
@@ -94,10 +92,8 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active, groups"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function getTemplate(MPITemplate $mpiTemplate, Request $request, MPITemplateHelper $mpiTemplateHelper)
+    public function getTemplate(MPITemplate $mpiTemplate, Request $request, MPITemplateHelper $mpiTemplateHelper): Response
     {
         $active = $request->query->get('active');
 
@@ -143,15 +139,13 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
-     *
-     * @return Response
      */
     public function createTemplate(
         Request $request,
         EntityManagerInterface $em,
         MPITemplateHelper $mpiTemplateHelper,
         MPITemplateRepository $mpiTemplateRepository
-    ) {
+    ): Response {
         $name = $request->get('name');
         $axleInfo = str_replace("'", '"', $request->get('axleInfo'));
 
@@ -192,7 +186,7 @@ class MPIController extends AbstractFOSRestController
                 $itemNames = [$itemPassenger, $itemDriver];
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
-                //craete tire items
+                //create tire items
                 if (2 == $axle->wheels) {
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
                 }
@@ -246,10 +240,8 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, groups, active"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function editTemplate(MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper)
+    public function editTemplate(MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper): Response
     {
         $name = $request->get('name');
 
@@ -289,10 +281,8 @@ class MPIController extends AbstractFOSRestController
      *                                              "Successfully Deactivated" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function deactivateTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em)
+    public function deactivateTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em): Response
     {
         // deactivate template
         $mpiTemplate->setActive(false);
@@ -322,10 +312,8 @@ class MPIController extends AbstractFOSRestController
      *                                              "Successfully Reactivated" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function reactivateTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em)
+    public function reactivateTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em): Response
     {
         // reactivate template
         $mpiTemplate->setActive(true);
@@ -355,10 +343,8 @@ class MPIController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function deleteTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em)
+    public function deleteTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em): Response
     {
         // delete template
         $mpiTemplate->setDeleted(true);
@@ -403,14 +389,12 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
-     *
-     * @return Response
      */
     public function createGroup(
         Request $request,
         MPITemplateRepository $mpiTemplateRepo,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         $templateID = $request->get('id');
         $name = $request->get('name');
 
@@ -463,10 +447,8 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function editGroup(MPIGroup $mpiGroup, Request $request, EntityManagerInterface $em)
+    public function editGroup(MPIGroup $mpiGroup, Request $request, EntityManagerInterface $em): Response
     {
         $name = $request->get('name');
 
@@ -504,10 +486,8 @@ class MPIController extends AbstractFOSRestController
      *                                              "Successfully Deactivated" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function deactivateGroup(MPIGroup $mpiGroup, EntityManagerInterface $em)
+    public function deactivateGroup(MPIGroup $mpiGroup, EntityManagerInterface $em): Response
     {
         // deactivate group
         $mpiGroup->setActive(false);
@@ -537,10 +517,8 @@ class MPIController extends AbstractFOSRestController
      *                                              "Successfully Reactivated" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function reactivateGroup(MPIGroup $mpiGroup, EntityManagerInterface $em)
+    public function reactivateGroup(MPIGroup $mpiGroup, EntityManagerInterface $em): Response
     {
         // deactivate group
         $mpiGroup->setActive(true);
@@ -570,10 +548,8 @@ class MPIController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function deleteGroup(MPIGroup $mpiGroup, EntityManagerInterface $em)
+    public function deleteGroup(MPIGroup $mpiGroup, EntityManagerInterface $em): Response
     {
         // delete group
         $mpiGroup->setDeleted(true);
@@ -618,15 +594,13 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
-     *
-     * @return Response
      */
     public function createItem(
         Request $request,
         MPIGroupRepository $mpiGroupRepo,
         MPIItemRepository $mpiItemRepo,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         $groupID = $request->get('id');
         $name = $request->get('name');
 
@@ -685,15 +659,13 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
-     *
-     * @return Response
      */
     public function editItem(
         MPIItem $mpiItem,
         Request $request,
         MPIItemRepository $mpiItemRepo,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         $name = $request->get('name');
 
         //param is invalid
@@ -735,10 +707,8 @@ class MPIController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function deleteItem(MPIItem $mpiItem, EntityManagerInterface $em)
+    public function deleteItem(MPIItem $mpiItem, EntityManagerInterface $em): Response
     {
         // delete Item
         $mpiItem->setDeleted(true);

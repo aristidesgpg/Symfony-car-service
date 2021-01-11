@@ -30,11 +30,9 @@ class PhoneValidator
     }
 
     /**
-     * @return string
-     *
      * @throws Exception
      */
-    public function clean(string $phone)
+    public function clean(string $phone): string
     {
         // Remove +1 if it's there. Remove non-integers
         $phone = ltrim($phone, '+1');

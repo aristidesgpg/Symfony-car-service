@@ -53,10 +53,8 @@ class SecurityController extends AbstractFOSRestController
      *                                              "Security Question Has Been Updated" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function security(User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em)
+    public function security(User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em): Response
     {
         $question = $request->get('question');
         $answer = $request->get('answer');
@@ -101,10 +99,8 @@ class SecurityController extends AbstractFOSRestController
      *                                              "What is your name?" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function getSecurityQuestion(Request $request, UserRepository $userRepo)
+    public function getSecurityQuestion(Request $request, UserRepository $userRepo): Response
     {
         $email = $request->get('email');
 
@@ -154,8 +150,6 @@ class SecurityController extends AbstractFOSRestController
      *                                              "Security Question Has Been Validated" }),
      *         )
      * )
-     *
-     * @return Response
      */
     public function validate(
         Request $request,
@@ -163,7 +157,7 @@ class SecurityController extends AbstractFOSRestController
         MailerHelper $mailerHelper,
         UserRepository $userRepo,
         UrlGeneratorInterface $urlGenerator
-    ) {
+    ): Response {
         $answer = $request->get('answer');
         $email = $request->get('email');
 
@@ -187,13 +181,7 @@ class SecurityController extends AbstractFOSRestController
 
         // get reset password request url with token
         $resetPasswordURL = $urlGenerator->generate('app_security_validatetoken', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-        try {
-            $emailBody = $mailerHelper->renderEmail('email-forgot-password.html.twig', ['link' => $resetPasswordURL]);
-            $emailBody['text'] = "Follow this link to reset password: {$resetPasswordURL}";
-            if (!$mailerHelper->sendHtmlMail('Reset Password Link', $email, $emailBody)) {
-                throw new \Exception('Could not send mail');
-            }
-        } catch (\Throwable $e) {
+        if (!$mailerHelper->sendMail('Reset Password Link', $email, $resetPasswordURL)) {
             return $this->handleView($this->view(
                 'Something Went Wrong Trying to Send the Email',
                 Response::HTTP_INTERNAL_SERVER_ERROR
@@ -220,10 +208,8 @@ class SecurityController extends AbstractFOSRestController
      *                                              "Reset Password Token Has Been Validated" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function validateToken(string $token, SecurityHelper $securityHelper, UserRepository $userRepo)
+    public function validateToken(string $token, SecurityHelper $securityHelper, UserRepository $userRepo): Response
     {
         // check if parameter is valid
         if (!$token) {
@@ -270,10 +256,8 @@ class SecurityController extends AbstractFOSRestController
      *                                              "Password Has Been Reset" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function resetPassword(Request $request, SecurityHelper $securityHelper, UserRepository $userRepo)
+    public function resetPassword(Request $request, SecurityHelper $securityHelper, UserRepository $userRepo): Response
     {
         $token = $request->get('token');
         $password = $request->get('password');

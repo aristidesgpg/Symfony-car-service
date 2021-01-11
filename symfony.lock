@@ -1,4 +1,10 @@
 {
+    "amphp/amp": {
+        "version": "v2.5.1"
+    },
+    "amphp/byte-stream": {
+        "version": "v1.8.0"
+    },
     "aws/aws-sdk-php": {
         "version": "3.168.3"
     },
@@ -7,6 +13,15 @@
     },
     "clue/stream-filter": {
         "version": "v1.4.1"
+    },
+    "composer/semver": {
+        "version": "3.2.4"
+    },
+    "composer/xdebug-handler": {
+        "version": "1.4.5"
+    },
+    "dnoegel/php-xdg-base-dir": {
+        "version": "v0.1.1"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -107,6 +122,12 @@
     },
     "exsyst/swagger": {
         "version": "v0.4.1"
+    },
+    "felixfbecker/advanced-json-rpc": {
+        "version": "v3.1.1"
+    },
+    "felixfbecker/language-server-protocol": {
+        "version": "v1.5.0"
     },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
@@ -222,6 +243,9 @@
             "./config/packages/nelmio_cors.yaml"
         ]
     },
+    "netresearch/jsonmapper": {
+        "version": "v2.1.0"
+    },
     "nexylan/slack": {
         "version": "v2.3.0"
     },
@@ -233,6 +257,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.3"
+    },
+    "openlss/lib-array2xml": {
+        "version": "1.0.0"
     },
     "php": {
         "version": "7.3"
@@ -285,6 +312,9 @@
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
     },
+    "psalm/plugin-symfony": {
+        "version": "v2.1.1"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -299,6 +329,9 @@
     },
     "ralouphie/getallheaders": {
         "version": "3.0.3"
+    },
+    "sebastian/diff": {
+        "version": "4.0.4"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -617,11 +650,17 @@
     "twilio/sdk": {
         "version": "6.10.3"
     },
+    "vimeo/psalm": {
+        "version": "4.3.2"
+    },
     "webimpress/safe-writer": {
         "version": "2.1.0"
     },
     "webmozart/assert": {
         "version": "1.9.1"
+    },
+    "webmozart/path-util": {
+        "version": "2.3.0"
     },
     "willdurand/jsonp-callback-validator": {
         "version": "v1.1.0"

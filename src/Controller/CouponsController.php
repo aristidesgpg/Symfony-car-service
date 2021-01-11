@@ -33,10 +33,8 @@ class CouponsController extends AbstractFOSRestController
      *         description="id, title, image"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function list(EntityManagerInterface $em, CouponRepository $couponRepository)
+    public function list(EntityManagerInterface $em, CouponRepository $couponRepository): Response
     {
         $coupons = $couponRepository->findBy(['deleted' => 0]);
         $view = $this->view($coupons);
@@ -75,10 +73,8 @@ class CouponsController extends AbstractFOSRestController
      *                                              "Successfully created" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function new(EntityManagerInterface $em, Request $request, ImageUploader $imageUploader)
+    public function new(EntityManagerInterface $em, Request $request, ImageUploader $imageUploader): Response
     {
         $title = $request->get('title');
         $image = $request->files->get('image');
@@ -123,15 +119,13 @@ class CouponsController extends AbstractFOSRestController
      *                                              "Successfully created" }),
      *         )
      * )
-     *
-     * @return Response
      */
     public function edit(
         Coupon $coupon,
         Request $request,
         EntityManagerInterface $em,
         ImageUploader $imageUploader
-    ) {
+    ): Response {
         $title = $request->get('title');
 
         // Validation
@@ -161,10 +155,8 @@ class CouponsController extends AbstractFOSRestController
      *                                              "Successfully deleted" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function delete(Coupon $coupon, EntityManagerInterface $em)
+    public function delete(Coupon $coupon, EntityManagerInterface $em): Response
     {
         $coupon->setDeleted(true);
 

@@ -66,10 +66,7 @@ trait InteractionTrait
         return $this->customer;
     }
 
-    /**
-     * @return InteractionTrait
-     */
-    public function setCustomer(Customer $customer)
+    public function setCustomer(Customer $customer): InteractionTrait
     {
         $this->customer = $customer;
 

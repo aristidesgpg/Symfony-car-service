@@ -6,7 +6,6 @@ use App\Entity\Customer;
 use App\Service\PhoneValidator;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Exception;
 use Faker\Factory;
 
 /**
@@ -28,7 +27,7 @@ class CustomerFixture extends Fixture
     }
 
     /**
-     * @throws Exception
+     * @return void
      */
     public function load(ObjectManager $manager)
     {

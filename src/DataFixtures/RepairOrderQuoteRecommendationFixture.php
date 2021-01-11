@@ -13,11 +13,14 @@ use Faker\Factory;
  */
 class RepairOrderQuoteRecommendationFixture extends Fixture implements DependentFixtureInterface
 {
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < 50; ++$i ) {
+        for ($i = 0; $i < 50; ++$i) {
             $repairOrderQuoteReference = $faker->numberBetween(1, 49);
             $operationCodeReference = $faker->numberBetween(2, 50);
 
@@ -40,9 +43,9 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
     }
 
     /**
-     * @return string[]
+     * @return array<array-key, class-string>
      */
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             RepairOrderQuoteFixture::class,

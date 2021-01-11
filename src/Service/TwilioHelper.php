@@ -29,7 +29,7 @@ class TwilioHelper
     }
 
     /**
-     * @throws \Exception
+     * @throws TwilioException
      */
     public function sendSms(string $phone, string $msg): void
     {

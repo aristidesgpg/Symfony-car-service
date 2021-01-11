@@ -39,12 +39,7 @@ class MPIInteractionHelper
         $this->user = $security->getUser();
     }
 
-    /**
-     * @param RepairOrderMPI $repairOrderMpi
-     *
-     * @return void
-     */
-    public function log(RepairOrderMPI $repairOrderMPI, string $type)
+    public function log(RepairOrderMPI $repairOrderMPI, string $type): bool
     {
         $repairOrder = $repairOrderMPI->getRepairOrder();
         $customer = $repairOrder->getPrimaryCustomer();
@@ -61,10 +56,7 @@ class MPIInteractionHelper
         return true;
     }
 
-    /**
-     * @return array
-     */
-    public function getMPIInteractions()
+    public function getMPIInteractions(): array
     {
         $repairOrderMPIInteractions = $this->repairOrderMPIInteractionRepo->findAll();
 

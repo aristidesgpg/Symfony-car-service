@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\RepairOrder;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,10 +23,7 @@ class RepairOrderRepository extends ServiceEntityRepository
         parent::__construct($registry, RepairOrder::class);
     }
 
-    /**
-     * @return RepairOrder|null
-     */
-    public function findByUID(string $uid)
+    public function findByUID(string $uid): ?RepairOrder
     {
         try {
             return $this->createQueryBuilder('r')

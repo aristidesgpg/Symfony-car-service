@@ -250,17 +250,14 @@ class User implements UserInterface
     }
 
     /**
-     * @return array
+     * @return array (Role|string)[]
      */
-    public function getRoles()
+    public function getRoles(): array
     {
         return [$this->role];
     }
 
-    /**
-     * @return User
-     */
-    public function setRole(string $role)
+    public function setRole(string $role): User
     {
         $this->role = $role;
 
@@ -385,7 +382,7 @@ class User implements UserInterface
      *
      * @return $this
      */
-    public function setPin($pin)
+    public function setPin(int $pin): User
     {
         $this->pin = $pin;
 
@@ -407,10 +404,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTechnicianRepairOrders(): Collection
+    public function getTechnicianRepairOrders()
     {
         $criteria = Criteria::create()
                             ->andWhere(Criteria::expr()->eq('deleted', false))
@@ -419,16 +413,20 @@ class User implements UserInterface
         $this->technicianRepairOrders->matching($criteria);
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         // TODO: Implement getSalt() method.
+        return null;
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->email;
     }
 
+    /**
+     * @return void
+     */
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
@@ -468,7 +466,7 @@ class User implements UserInterface
     /*
      * @return bool
      */
-    public function isTechnician()
+    public function isTechnician(): bool
     {
         return in_array('ROLE_TECHNICIAN', $this->getRoles());
     }

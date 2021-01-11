@@ -12,6 +12,9 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class OperationCodeController.
+ */
 class OperationCodeController extends AbstractFOSRestController
 {
     /**
@@ -29,10 +32,8 @@ class OperationCodeController extends AbstractFOSRestController
      *         description="code, description, labor_hours, labor_taxable, parts_price, parts_taxable, supplies_price, supplies_taxable, deleted"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function getOperationCodes(OperationCodeRepository $operationCodeRepo)
+    public function getOperationCodes(OperationCodeRepository $operationCodeRepo): Response
     {
         //get all active operation codes
         $operationCodes = $operationCodeRepo->getActiveOperationCodes();
@@ -115,10 +116,8 @@ class OperationCodeController extends AbstractFOSRestController
      *                                              "Successfully created" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function create(Request $request, EntityManagerInterface $em)
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
         $code = $request->get('code');
         $description = $request->get('description');
@@ -225,10 +224,8 @@ class OperationCodeController extends AbstractFOSRestController
      *                                              "Successfully Updated" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function edit(OperationCode $operationCode, Request $request, EntityManagerInterface $em)
+    public function edit(OperationCode $operationCode, Request $request, EntityManagerInterface $em): Response
     {
         $code = $request->get('code');
         $description = $request->get('description');
@@ -277,10 +274,8 @@ class OperationCodeController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @return Response
      */
-    public function delete(OperationCode $operationCode, EntityManagerInterface $em)
+    public function delete(OperationCode $operationCode, EntityManagerInterface $em): Response
     {
         //Delete a operation code
         $operationCode->setDeleted(true);

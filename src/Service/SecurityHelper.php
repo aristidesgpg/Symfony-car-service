@@ -8,7 +8,7 @@ use App\Repository\ForgotPasswordRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -17,9 +17,9 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class SecurityHelper
 {
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * @var string
@@ -49,20 +49,17 @@ class SecurityHelper
     /**
      * SecurityHelper constructor.
      */
-    public function __construct(Container $container, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ForgotPasswordRepository $forgotPasswordRepository, EntityManagerInterface $em)
+    public function __construct(ParameterBagInterface $parameterBag, UserPasswordEncoderInterface $passwordEncoder, UserRepository $userRepository, ForgotPasswordRepository $forgotPasswordRepository, EntityManagerInterface $em)
     {
-        $this->container = $container;
-        $this->secret = $this->container->getParameter('reset_password_secret');
+        $this->parameterBag = $parameterBag;
+        $this->secret = $this->parameterBag->get('reset_password_secret');
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
         $this->forgotPasswordRepository = $forgotPasswordRepository;
         $this->em = $em;
     }
 
-    /**
-     * @return bool
-     */
-    public function validateSecurity(User $user, string $answer)
+    public function validateSecurity(User $user, string $answer): bool
     {
         //validate params
         if (!$user || !$answer) {
@@ -76,10 +73,7 @@ class SecurityHelper
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function generateToken(User $user, string $email)
+    public function generateToken(User $user, string $email): string
     {
         //generate token
         $raw = password_hash($email, PASSWORD_DEFAULT);
@@ -104,10 +98,7 @@ class SecurityHelper
         return $token;
     }
 
-    /**
-     * @return bool
-     */
-    public function validateToken(string $token)
+    public function validateToken(string $token): bool
     {
         //find the token on the table
         $forgotPassword = $this->forgotPasswordRepository->findOneBy([
@@ -134,10 +125,7 @@ class SecurityHelper
         return true;
     }
 
-    /**
-     * @return bool
-     */
-    public function resetPassword(string $token, string $password)
+    public function resetPassword(string $token, string $password): bool
     {
         //find the token on the table
         $forgotPassword = $this->forgotPasswordRepository->findOneBy([
@@ -153,7 +141,7 @@ class SecurityHelper
         // get User
         $user = $this->userRepository->find($forgotPassword->getUser());
 
-        //reset pasword for the User
+        //reset password for the User
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
         //once verified, set used true
         $forgotPassword->setUsed(true);

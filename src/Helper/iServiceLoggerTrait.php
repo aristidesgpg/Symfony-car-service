@@ -17,12 +17,12 @@ trait iServiceLoggerTrait
     /**
      * @required
      */
-    public function setLogger(LoggerInterface $iserviceLogger)
+    public function setLogger(LoggerInterface $iserviceLogger): void
     {
         $this->logger = $iserviceLogger;
     }
 
-    private function logInfo(string $message, array $context = [])
+    private function logInfo(string $message, array $context = []): void
     {
         $this->logger->info($message, $context);
     }

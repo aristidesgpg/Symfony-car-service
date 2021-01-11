@@ -51,10 +51,7 @@ class UserHelper
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    /**
-     * @return bool
-     */
-    public function isValidRole(string $role)
+    public function isValidRole(string $role): bool
     {
         $roles = self::USER_ROLES;
 
@@ -66,10 +63,7 @@ class UserHelper
         return true;
     }
 
-    /**
-     * @return string
-     */
-    public function passwordEncoder(User $user, string $password)
+    public function passwordEncoder(User $user, string $password): string
     {
         return $this->passwordEncoder->encodePassword($user, $password);
     }

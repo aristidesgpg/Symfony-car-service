@@ -84,7 +84,7 @@ class OperationCode
      */
     public function __construct()
     {
-        $this->RepairOrderQuoteRecommendations = new ArrayCollection();
+        $this->repairOrderQuoteRecommendations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -205,13 +205,13 @@ class OperationCode
      */
     public function getRepairOrderQuoteRecommendations(): Collection
     {
-        return $this->RepairOrderQuoteRecommendations;
+        return $this->repairOrderQuoteRecommendations;
     }
 
     public function addRepairOrderQuoteRecommendation(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self
     {
-        if (!$this->RepairOrderQuoteRecommendations->contains($repairOrderQuoteRecommendation)) {
-            $this->RepairOrderQuoteRecommendations[] = $repairOrderQuoteRecommendation;
+        if (!$this->repairOrderQuoteRecommendations->contains($repairOrderQuoteRecommendation)) {
+            $this->repairOrderQuoteRecommendations[] = $repairOrderQuoteRecommendation;
             $repairOrderQuoteRecommendation->setOperationCode($this);
         }
 
@@ -220,7 +220,7 @@ class OperationCode
 
     public function removeRepairOrderQuoteRecommendation(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation): self
     {
-        if ($this->RepairOrderQuoteRecommendations->removeElement($repairOrderQuoteRecommendation)) {
+        if ($this->repairOrderQuoteRecommendations->removeElement($repairOrderQuoteRecommendation)) {
             // set the owning side to null (unless already changed)
             if ($repairOrderQuoteRecommendation->getOperationCode() === $this) {
                 $repairOrderQuoteRecommendation->setOperationCode(null);

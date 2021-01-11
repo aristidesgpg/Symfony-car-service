@@ -93,7 +93,7 @@ class Customer implements UserInterface
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -208,26 +208,31 @@ class Customer implements UserInterface
         return $this->primaryRepairOrders->toArray();
     }
 
-    public function getRoles()
+    public function getRoles(): array
     {
         return ['ROLE_CUSTOMER'];
     }
 
-    public function getPassword()
+    public function getPassword(): ?string
     {
         // TODO: Implement getPassword() method.
+        return null;
     }
 
-    public function getSalt()
+    public function getSalt(): ?string
     {
         // TODO: Implement getSalt() method.
+        return null;
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->getName();
     }
 
+    /**
+     * @return void
+     */
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.

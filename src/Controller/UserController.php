@@ -43,10 +43,8 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function getUsers(Request $request, UserRepository $userRepo, UserHelper $userHelper)
+    public function getUsers(Request $request, UserRepository $userRepo, UserHelper $userHelper): Response
     {
         $role = $request->query->get('role');
 
@@ -154,10 +152,8 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function new(Request $request, EntityManagerInterface $em, UserHelper $userHelper)
+    public function new(Request $request, EntityManagerInterface $em, UserHelper $userHelper): Response
     {
         $role = $request->get('role');
         $firstName = $request->get('firstName');
@@ -307,10 +303,8 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-     *
-     * @return Response
      */
-    public function edit(User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper)
+    public function edit(User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper): Response
     {
         $role = $request->get('role') ?? $user->getRoles()[0];
         $firstName = $request->get('firstName') ?? $user->getFirstName();
@@ -394,7 +388,7 @@ class UserController extends AbstractFOSRestController
     }
 
     /**
-     * @param mixed $data
+     * @param User|User[] $data
      */
     private function userView($data): Response
     {

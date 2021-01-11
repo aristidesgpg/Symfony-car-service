@@ -26,10 +26,7 @@ class SlackClient
         $this->slack = $slack;
     }
 
-    /**
-     * @return bool
-     */
-    public function sendMessage(string $from, string $message)
+    public function sendMessage(string $from, string $message): bool
     {
         $slackMessage = $this->slack->createMessage()
                                     ->from($from)

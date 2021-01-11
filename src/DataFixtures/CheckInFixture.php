@@ -18,6 +18,9 @@ class CheckInFixture extends Fixture implements DependentFixtureInterface
         'https://autoboost.sfo2.digitaloceanspaces.com/fixtures/fixture-video-2.mp4',
     ];
 
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
@@ -38,7 +41,10 @@ class CheckInFixture extends Fixture implements DependentFixtureInterface
         }
     }
 
-    public function getDependencies()
+    /**
+     * @return array<array-key, class-string>
+     */
+    public function getDependencies(): array
     {
         return [
             UserFixture::class,

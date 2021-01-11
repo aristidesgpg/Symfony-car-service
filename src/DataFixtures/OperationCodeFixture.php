@@ -5,28 +5,34 @@ namespace App\DataFixtures;
 use App\Entity\OperationCode;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+/**
+ * Class OperationCodeFixture.
+ */
 class OperationCodeFixture extends Fixture
 {
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * CouponFixtures constructor.
      */
-    public function __construct(Container $container)
+    public function __construct(ParameterBagInterface $parameterBag)
     {
-        $this->container = $container;
+        $this->parameterBag = $parameterBag;
     }
 
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
         //read a csv file
-        $filepath = $this->container->getParameter('csv_directory').'operationCode.csv';
+        $filepath = $this->parameterBag->get('csv_directory').'operationCode.csv';
         $csv = fopen($filepath, 'r');
 
         //load data from a csv file

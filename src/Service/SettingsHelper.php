@@ -54,9 +54,6 @@ class SettingsHelper
         $this->settingsRepository = $settingsRepository;
     }
 
-    /**
-     * @throws
-     */
     public function commitSettings(array $settings): void
     {
         foreach ($settings as $key => $value) {
@@ -88,11 +85,9 @@ class SettingsHelper
     /**
      * @param $key
      *
-     * @return string|null
-     *
      * @throws Exception
      */
-    public function getSetting($key)
+    public function getSetting(string $key): ?string
     {
         // Throw exception because false is a valid option
         if (!in_array($key, self::VALID_SETTINGS) && !in_array($key, self::VALID_FILE_SETTINGS)) {

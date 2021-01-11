@@ -60,8 +60,6 @@ class RepairOrderMPIController extends AbstractFOSRestController
      *                                              "Successfully Created" }),
      *         )
      * )
-     *
-     * @return Response
      */
     public function createRepairOrderMPI(
         Request $request,
@@ -69,7 +67,7 @@ class RepairOrderMPIController extends AbstractFOSRestController
         OperationCodeRepository $operationCodeRepository,
         RepairOrderMPIRepository $repairOrderMPIRepos,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         $repairOrderID = $request->get('repairOrderID');
         $results = str_replace("'", '"', $request->get('results'));
         $recommendations = str_replace("'", '"', $request->get('recommendations'));
@@ -162,13 +160,11 @@ class RepairOrderMPIController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @return Response
      */
     public function deleteRepairOrderMPI(
         RepairOrderMPI $repairOrderMPI,
         EntityManagerInterface $em
-    ) {
+    ): Response {
         $repairOrder = $repairOrderMPI->getRepairOrder();
         $repairOrder->setMpiStatus('Not Started');
 

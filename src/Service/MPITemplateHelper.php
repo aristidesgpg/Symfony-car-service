@@ -63,10 +63,7 @@ class MPITemplateHelper
         $this->em->flush();
     }
 
-    /**
-     * @return MPITemplate
-     */
-    public function getActiveTemplate(MPITemplate $mpiTemplate, bool $active)
+    public function getActiveTemplate(MPITemplate $mpiTemplate, bool $active): MPITemplate
     {
         //get active templates
         $mpiGroups = $mpiTemplate->getMPIGroups();

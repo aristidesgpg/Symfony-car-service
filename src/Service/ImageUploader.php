@@ -4,7 +4,7 @@ namespace App\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -20,9 +20,9 @@ class ImageUploader
     private $em;
 
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * @var UrlHelper
@@ -39,24 +39,24 @@ class ImageUploader
      */
     public function __construct(
         EntityManagerInterface $em,
-        Container $container,
+        ParameterBagInterface $parameterBag,
         UrlHelper $urlHelper,
         UrlGeneratorInterface $urlGenerator
     ) {
         $this->em = $em;
-        $this->container = $container;
+        $this->parameterBag = $parameterBag;
         $this->urlHelper = $urlHelper;
         $this->urlGenerator = $urlGenerator;
     }
 
     /**
-     * @param null $directory
+     * @param string|null $directory
      *
      * @return false|string
      */
     public function uploadImage(UploadedFile $file, $directory = null)
     {
-        $uploadsDirectory = $this->container->getParameter('uploads_directory').$directory;
+        $uploadsDirectory = $this->parameterBag->get('uploads_directory').$directory;
         $filename = md5(uniqid()).'.'.$file->guessExtension();
 
         if (!$this->isValidImage($file)) {
@@ -81,10 +81,7 @@ class ImageUploader
         return $publicURL;
     }
 
-    /**
-     * @return bool
-     */
-    public function isValidImage(UploadedFile $file)
+    public function isValidImage(UploadedFile $file): bool
     {
         // all the image extension types in array
         $validExtensions = ['jpg', 'jpeg', 'png'];

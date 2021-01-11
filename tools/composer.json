@@ -1,0 +1,7 @@
+{
+    "require": {
+        "friendsofphp/php-cs-fixer": "^2.17",
+        "vimeo/psalm": "^4.3",
+        "psalm/plugin-symfony": "^2.1"
+    }
+}

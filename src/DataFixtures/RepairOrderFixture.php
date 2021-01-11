@@ -16,6 +16,8 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
 {
     /**
      * @throws Exception
+     *
+     * @return void
      */
     public function load(ObjectManager $manager)
     {
@@ -149,7 +151,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
     }
 
     /**
-     * @return string[]
+     * @return array<array-key, class-string>
      */
     public function getDependencies(): array
     {

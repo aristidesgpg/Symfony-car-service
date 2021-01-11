@@ -10,14 +10,14 @@ use App\Repository\MPIItemRepository;
 use App\Repository\MPITemplateRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class MPITemplateFixture extends Fixture
 {
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * @var MPITemplateRepository
@@ -37,18 +37,21 @@ class MPITemplateFixture extends Fixture
     /**
      * CouponFixtures constructor.
      */
-    public function __construct(Container $container, MPITemplateRepository $mpiTemplateRepo, MPIGroupRepository $mpiGroupRepo, MPIItemRepository $mpiItemRepo)
+    public function __construct(ParameterBagInterface $parameterBag, MPITemplateRepository $mpiTemplateRepo, MPIGroupRepository $mpiGroupRepo, MPIItemRepository $mpiItemRepo)
     {
-        $this->container = $container;
+        $this->parameterBag = $parameterBag;
         $this->mpiTemplateRepo = $mpiTemplateRepo;
         $this->mpiGroupRepo = $mpiGroupRepo;
         $this->mpiItemRepo = $mpiItemRepo;
     }
 
+    /**
+     * @return void
+     */
     public function load(ObjectManager $manager)
     {
         //read a csv file
-        $filepath = $this->container->getParameter('csv_directory').'MPITemplates.csv';
+        $filepath = $this->parameterBag->get('csv_directory').'MPITemplates.csv';
         $csv = fopen($filepath, 'r');
 
         //load data from a csv file
