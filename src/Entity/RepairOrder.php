@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RepairOrderRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -217,11 +218,17 @@ class RepairOrder {
     private $repairOrderQuote;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderInteraction::class, mappedBy="repairOrder")
+     */
+    private $repairOrderInteractions;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct () {
         $this->dateCreated = new DateTime();
         $this->videos = new ArrayCollection();
+        $this->repairOrderInteractions = new ArrayCollection();
     }
 
     /**
@@ -802,6 +809,37 @@ class RepairOrder {
 
     public function addVideo(RepairOrderVideo $video): self {
         $this->videos->add($video);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderInteraction[]
+     */
+    public function getRepairOrderInteractions(): Collection
+    {
+        return $this->repairOrderInteractions;
+    }
+
+    public function addRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if (!$this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions[] = $repairOrderInteraction;
+            $repairOrderInteraction->setRepairOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if ($this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions->removeElement($repairOrderInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderInteraction->getRepairOrder() === $this) {
+                $repairOrderInteraction->setRepairOrder(null);
+            }
+        }
 
         return $this;
     }

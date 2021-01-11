@@ -3,14 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderInteraction;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
+use App\Repository\RepairOrderInteractionRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
+use App\Service\SettingsHelper;
+use App\Service\ShortUrlHelper;
+use App\Service\TwilioHelper;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -307,16 +313,57 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
      *
-     * @param Request           $req
-     * @param RepairOrderHelper $helper
+     * @param Request                           $req
+     * @param RepairOrderHelper                 $helper
+     * @param RepairOrderInteractionRepository  $roInteractionRepo
+     * @param EntityManagerInterface            $em
+     * @param TwilioHelper                      $twilioHelper
+     * @param ShortUrlHelper                    $shortUrlHelper
      *
      * @return Response
      */
-    public function add (Request $req, RepairOrderHelper $helper): Response {
+    public function add (Request $req, RepairOrderHelper $helper, 
+                         RepairOrderInteractionRepository $roInteractionRepo,
+                         EntityManagerInterface $em, TwilioHelper $twilioHelper, 
+                         ShortUrlHelper $shortUrlHelper): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
             return new ValidationResponse($ro);
         }
+        
+        // TODO: waiver disabled
+        // $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
+        // $twilioHelper->sendSms($ro->getPrimaryCustomer->getPhone(), $welcomeMessage);
+
+        // TODO: waiver enabled
+        $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $ro->getLinkHash();
+        $shortUrl = $shortUrlHelper->generateShortUrl($url);
+        try {
+            $message = 'Welcome to waiver!';
+            $phone   = $ro->getPrimaryCustomer()->getPhone();
+            $shortUrlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
+        } catch (\Exception $e) {
+            //
+        }
+
+
+        // Add an interaction waiver_sent
+        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+
+        if ($roInteraction) // if in db
+        {
+            $roInteraction->setType("waiver_sent");
+        }
+        else { // if not in db
+            $roInteraction = new RepairOrderInteraction();
+            $roInteraction->setRepairOrder($ro)
+                           ->setCustomer($ro->getPrimaryCustomer())
+                           ->setUser($this->getUser())
+                           ->setType("waiver_sent")
+                           ->setDate();
+        }
+        $em->persist($roInteraction);
+        $em->flush();
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -369,6 +416,224 @@ class RepairOrderController extends AbstractFOSRestController {
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
+
+        return $this->handleView($view);
+    }
+    
+    /**
+     * @Rest\Patch("/{id}/waiver/signed")
+     * 
+     * @SWG\Parameter(name="signature", type="string", in="formData", required=true)
+     * @SWG\Response(
+     *     response="200",
+     *     description="Return updated RepairOrder object",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     * )
+     * @SWG\Response(
+     *     response="400",
+     *     description="Required missing parameter",
+     * )
+     * 
+     * @param Request                          $request
+     * @param RepairOrder                      $ro
+     * @param RepairOrderHelper                $helper
+     * @param SettingsHelper                   $settingsHelper
+     * @param TwilioHelper                     $twilioHelper
+     * @param RepairOrderInteractionRepository $roInteractionRepo
+     * @param EntityManagerInterface           $em
+     * 
+     * @return response
+     */
+    public function waiverSigned (RepairOrder $ro, Request $req, RepairOrderHelper $helper, SettingsHelper $settingsHelper, 
+                            TwilioHelper $twilioHelper, RepairOrderInteractionRepository $roInteractionRepo, EntityManagerInterface $em){
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        $signature = $req->get('signature');
+
+        if (!$signature){
+            return $this->handleView($this->view('Input signature', Response::HTTP_BAD_REQUEST));
+        }
+
+        if ( base64_encode(base64_decode($signature, true)) === $signature){
+            // $signature is valid
+        } else {
+            // $signature is invalid
+            return $this->handleView($this->view('Input valid signature (base64 svg)', Response::HTTP_BAD_REQUEST));
+        }
+
+        $waiverText = $settingsHelper->getSetting('waiverEstimateText');
+
+        $errors = $helper->updateRepairOrder(['waiver' => $signature, 'waiverVerbiage' => $waiverText], $ro);
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        // Add an interaction waiver_signed
+        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+
+        if ($roInteraction)
+        {
+            $roInteraction->setType("waiver_signed");
+        }
+        else {
+            $roInteraction = new RepairOrderInteraction();
+            $roInteraction->setRepairOrder($ro)
+                           ->setCustomer($ro->getPrimaryCustomer())
+                           ->setUser($this->getUser())
+                           ->setType("waiver_signed")
+                           ->setDate(); 
+        }
+        $em->persist($roInteraction);
+        $em->flush();
+
+        // $welcomeMessage = $settingsHelper->getSetting('previewSalesVideoText');
+        
+        // $twilioHelper->sendSms($ro->getPrimaryCustomer->getPhone(), $welcomeMessage);
+
+        $view = $this->view($ro);
+        $view->getContext()->setGroups(RepairOrder::GROUPS);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/{id}/waiver/viewed")
+     * 
+     * @SWG\Response(
+     *     response="200",
+     *     description="Add an interaction waiver_viewed",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
+     * )
+     * 
+     * @param Request                          $request
+     * @param RepairOrder                      $ro
+     * @param RepairOrderInteractionRepository $roInteractionRepo
+     * @param EntityManagerInterface           $em
+     * 
+     * @return response
+     */
+    public function waiverViewed (RepairOrder $ro, Request $req, RepairOrderInteractionRepository $roInteractionRepo, EntityManagerInterface $em){
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        // Add an interaction waiver_viewed
+        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+
+        if ($roInteraction)
+        {
+            $roInteraction->setType("waiver_viewed");
+        }
+        else {
+            $roInteraction = new RepairOrderInteraction();
+            $roInteraction->setRepairOrder($ro)
+                           ->setCustomer($ro->getPrimaryCustomer())
+                           ->setUser($this->getUser())
+                           ->setType("waiver_viewed")
+                           ->setDate(); 
+        }
+        $em->persist($roInteraction);
+        $em->flush();
+
+        $view = $this->view($roInteraction);
+        $view->getContext()->setGroups(RepairOrderInteraction::GROUPS);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/{id}/waiver/acknowledged")
+     * 
+     * @SWG\Response(
+     *     response="200",
+     *     description="Add an interaction waiver_viewed",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
+     * )
+     * 
+     * @param Request                          $request
+     * @param RepairOrder                      $ro
+     * @param RepairOrderInteractionRepository $roInteractionRepo
+     * @param EntityManagerInterface           $em
+     * 
+     * @return response
+     */
+    public function waiverAcknowledged  (RepairOrder $ro, Request $req, RepairOrderInteractionRepository $roInteractionRepo, EntityManagerInterface $em){
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        // Add an interaction waiver_acknowledged
+        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+
+        if ($roInteraction)
+        {
+            $roInteraction->setType("waiver_acknowledged");
+        }
+        else {
+            $roInteraction = new RepairOrderInteraction();
+            $roInteraction->setRepairOrder($ro)
+                           ->setCustomer($ro->getPrimaryCustomer())
+                           ->setUser($this->getUser())
+                           ->setType("waiver_acknowledged")
+                           ->setDate(); 
+        }
+        $em->persist($roInteraction);
+        $em->flush();
+
+        $view = $this->view($roInteraction);
+        $view->getContext()->setGroups(RepairOrderInteraction::GROUPS);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/{id}/waiver/re-send")
+     * 
+     * @SWG\Response(
+     *     response="200",
+     *     description="Add an interaction waiver_viewed",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
+     * )
+     * @SWG\Response(response="400", description="Waiver is already signed")
+     * 
+     * @param Request                          $request
+     * @param RepairOrder                      $ro
+     * @param RepairOrderInteractionRepository $roInteractionRepo
+     * @param EntityManagerInterface           $em
+     * 
+     * @return response
+     */
+    public function waiverResend (RepairOrder $ro, Request $req, RepairOrderInteractionRepository $roInteractionRepo, EntityManagerInterface $em){
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        // Add an interaction waiver_re-sent
+        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+
+        if ($roInteraction)
+        {
+            if ($roInteraction->getType() === "waiver_signed")
+            {
+                return $this->handleView($this->view('Waiver is already signed', Response::HTTP_BAD_REQUEST));
+            }
+            $roInteraction->setType("waiver_re-sent");
+        }
+        else {
+            $roInteraction = new RepairOrderInteraction();
+            $roInteraction->setRepairOrder($ro)
+                           ->setCustomer($ro->getPrimaryCustomer())
+                           ->setUser($this->getUser())
+                           ->setType("waiver_re-sent")
+                           ->setDate(); 
+        }
+        $em->persist($roInteraction);
+        $em->flush();
+
+        $view = $this->view($roInteraction);
+        $view->getContext()->setGroups(RepairOrderInteraction::GROUPS);
 
         return $this->handleView($view);
     }
