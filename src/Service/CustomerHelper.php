@@ -151,12 +151,12 @@ class CustomerHelper
      * @param Customer $customer
      * @param array    $params
      */
-    public function commitCustomer (Customer $customer, array $params = []): void {
+    public function commitCustomer (Customer $customer, array $params = []) {
         $errors = $this->validateParams($params);
         if (empty($errors) !== true) {
             return;
-            throw new \InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
+
         foreach ($params as $k => $v) {
             switch ($k) {
                 case 'name':
@@ -184,6 +184,7 @@ class CustomerHelper
         if ($customer->getId() === null) {
             $this->em->persist($customer);
         }
+
         $this->em->beginTransaction();
         try {
             $this->em->flush();
@@ -192,6 +193,8 @@ class CustomerHelper
             $this->em->rollback();
             throw new \RuntimeException('Caught exception during flush', 0, $e);
         }
+
+        return $customer;
     }
 
     private function stripPhone(string $phone): string

@@ -7,6 +7,7 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
@@ -18,8 +19,7 @@ class DealerTrack extends SOAP {
     /**
      * @var string
      */
-    // private $eventServiceUrl = "https://ot.dms.dealertrack.com/serviceapi.asmx";
-    private $eventServiceUrl = "https://otstaging.arkona.com/opentrack/serviceapi.asmx";
+    private $eventServiceUrl = "https://ot.dms.dealertrack.com/serviceapi.asmx";
 
     /**
      * @var string
@@ -55,26 +55,21 @@ class DealerTrack extends SOAP {
      * DealerTrack constructor.
      *
      * @param EntityManagerInterface $em
-     * @param               $enterprise
-     * @param               $company
+     * @param ParameterBagInterface  $parameterBag
      */
-    public function __construct (EntityManagerInterface $em) {
+    public function __construct (EntityManagerInterface $em, ParameterBagInterface $parameterBag) {
         $this->em         = $em;
+        $this->company    = $parameterBag->get('dealertrack_company');
+        $this->enterprise = $parameterBag->get('dealertrack_enterprise');
+        $env              = $parameterBag->get('app_env');
 
-        $dotenv = new Dotenv();
-        $dotenv->load(__DIR__ . '/../../.env');
-        
-        $this->company = $_ENV['DEALERTRACK_COMPANY'];
-        $this->enterprise = $_ENV['DEALERTRACK_ENTERPRISE'];
+        if ($env == 'dev') {
+            $this->company         = 'ZE7';
+            $this->enterprise      = 'ZE';
+            $this->eventServiceUrl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx';
+        }
 
         parent::__construct($em);
-    }
-
-    /**
-     * Enables Dev mode. Generally will break it unless you have params set to a valid staging account
-     */
-    public function enableDevMode () {
-        $this->eventServiceUrl = "https://otstaging.arkona.com/opentrack/serviceapi.asmx";
     }
 
     /**
@@ -156,12 +151,12 @@ class DealerTrack extends SOAP {
 
                 $return[] = (object)[
                     'customer'   => (object)[
-                        'name'          => $repairOrder->CustomerName,
-                        'phone_numbers' => $repairOrder->CustomerPhoneNumber ? [$repairOrder->CustomerPhoneNumber] : null,
-                        'email'         => !is_object($repairOrder->CustomerEmail) ? $repairOrder->CustomerEmail : null
+                        'name'         => $repairOrder->CustomerName,
+                        'phoneNumbers' => $repairOrder->CustomerPhoneNumber ? [$repairOrder->CustomerPhoneNumber] : null,
+                        'email'        => !is_object($repairOrder->CustomerEmail) ? $repairOrder->CustomerEmail : null
                     ],
                     'number'     => $repairOrder->RepairOrderNumber,
-                    'dms_key'     => null,
+                    'roKey'      => null,
                     'date'       => $openDate,
                     'waiter'     => ($pickupDate) ? false : true,
                     'pickupDate' => ($pickupDate) ? $pickupDate : null,
@@ -171,9 +166,9 @@ class DealerTrack extends SOAP {
                     'miles'      => $repairOrder->OdometerIn,
                     'vin'        => $repairOrder->VIN,
                     'advisor'    => (object)[
-                        'id'         => $repairOrder->ServiceWriterID,
-                        'first_name' => null,
-                        'last_name'  => null
+                        'id'        => $repairOrder->ServiceWriterID,
+                        'firstName' => null,
+                        'lastName'  => null
                     ]
                 ];
             }
@@ -250,7 +245,7 @@ class DealerTrack extends SOAP {
                 continue;
             }
 
-            $repairOrder->setClosedDate($closedDate)->setFinalValue($details->TotalSale);
+            $repairOrder->setDateClosed($closedDate)->setFinalValue($details->TotalSale);
 
             try {
                 $this->em->persist($repairOrder);
