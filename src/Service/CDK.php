@@ -5,10 +5,9 @@ namespace App\Service;
 use App\Entity\RepairOrder;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
 use Exception;
-use SimpleXMLElement;
-use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class CDK
@@ -23,47 +22,87 @@ class CDK extends SOAP {
     private $em;
 
     /**
-     * @var SOAP
+     * @var PhoneValidator
      */
-    private $soapService;
+    private $phoneValidator;
 
     /**
      * @var string
      */
-    private $dealerId;
+    private $username = 'iserviceauto';
+
+    /**
+     * @var string
+     */
+    private $password = 'jSarJLFv0rkL';
+
+    /**
+     * @var string
+     */
+    private $authentication;
+
+    /**
+     * @var string
+     */
+    private $dealerID;
+
+    /**
+     * @var string
+     */
+    private $openROExtractURL;
+
+    /**
+     * @var string
+     */
+    private $singleROExtractURL;
+
+    /**
+     * @var string
+     */
+    private $closedROExtractURL;
 
     /**
      * CDK constructor.
      *
      * @param EntityManagerInterface $em
-     * @param SOAP          $soapService
-     * @param               $dealerId
+     * @param PhoneValidator         $phoneValidator
+     * @param ParameterBagInterface  $parameterBag
+     *
+     * @throws ParameterNotFoundException
      */
-    public function __construct (EntityManagerInterface $em, SOAP $soapService) {
-        $this->em          = $em;
-        $this->soapService = $soapService;
+    public function __construct (EntityManagerInterface $em, PhoneValidator $phoneValidator,
+                                 ParameterBagInterface $parameterBag) {
+        $this->em             = $em;
+        $this->phoneValidator = $phoneValidator;
+        $env                  = $parameterBag->get('app_env');
+        $this->dealerID       = $parameterBag->get('cdk_dealer_id');
+        $this->authentication = $this->username . ':' . $this->password;
+        $today                = (new DateTime())->format('m/d/Y');
 
-        $dotenv = new Dotenv();
-        $dotenv->load(__DIR__ . '/../../.env');
-        
-        $this->dealerId = $_ENV['CDK_DEALER_ID'];
+        $this->openROExtractURL   = 'https://3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerID . '&queryId=SROD_Open_WIP';
+        $this->singleROExtractURL = 'https://3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerID . '&queryId=SROD_ByRONumber&timeoutSeconds=2700&qparamRONum=';
+        $this->closedROExtractURL = 'https://3pa.dmotorworks.com/pip-extract/service-ro-closed/extract?dealerId=' . $this->dealerID . '&queryId=SROD_Closed_DateRange&qparamStartDate=' . $today . '&qparamEndDate=' . $today;
+
+        if ($env == 'dev') {
+            $this->openROExtractURL   = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerID . '&queryId=SROD_Open_WIP';
+            $this->singleROExtractURL = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerID . '&queryId=SROD_ByRONumber&timeoutSeconds=2700&qparamRONum=';
+            $this->closedROExtractURL = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-closed/extract?dealerId=' . $this->dealerID . '&queryId=SROD_Closed_DateRange&qparamStartDate=' . $today . '&qparamEndDate=' . $today;
+        }
 
         parent::__construct($em);
     }
 
     /**
-     * @return array
+     * Gets all open repair orders from CDK, parses what we need from it, then returns an array of objects
      *
-     * @throws Exception
+     * @return array
      */
-    public function getOpenRepairOrders () {
+    public function getOpenRepairOrders (): array {
         $returnResult = [];
-        $postUrl      = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Open_WIP';
-        // $postUrl     = 'https://3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Open_WIP';
-        $curlOptions = [
-            CURLOPT_URL            => $postUrl,
+        $curlOptions  = [
+            CURLOPT_URL            => $this->openROExtractURL,
             CURLOPT_POST           => true,
-            CURLOPT_USERPWD        => 'iserviceauto:jSarJLFv0rkL',
+            CURLOPT_USERPWD        => $this->authentication,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_ENCODING       => 'UTF-8',
             CURLOPT_SSL_VERIFYHOST => false,
@@ -75,195 +114,51 @@ class CDK extends SOAP {
         $response = curl_exec($ch);
 
         // Not an error, but logs the request/response for compliance
+        $this->logError($this->openROExtractURL, $response);
 
         if ($curlError = curl_error($ch)) {
             return [];
         }
 
-        $this->soapService->logError($postUrl, $response);
-
-        $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOWARNING);
-        $xml = json_decode(json_encode($xml), true);
-
+        $xml          = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOWARNING);
+        $xml          = json_decode(json_encode($xml), true);
         $repairOrders = $xml['service-repair-order-open'];
+
         foreach ($repairOrders as $repairOrder) {
-            $name = false;
+            $roData = $this->extractROInfo($repairOrder);
 
-            // Try to set name
-            if (isset($repairOrder['Name1']) && !empty($repairOrder['Name1'])) {
-                $name = $repairOrder['Name1'];
-            }
-
-            // No name, try this one
-            if (!$name) {
-                if (isset($repairOrder['Name2']) && !empty($repairOrder['Name2'])) {
-                    $name = $repairOrder['Name2'];
-                }
-            }
-
-            // Still no name, probably an internal RO, skip
-            if (!$name) {
+            if (!$roData) {
                 continue;
             }
 
-            $namePieces = explode(',', $name);
-            // Probably an internal RO, skip
-            if (!isset($namePieces[1])) {
-                continue;
-            }
-            $firstName = $namePieces[1];
-            $lastname  = $namePieces[0];
-
-            $phoneNumbers = [];
-            if (isset($repairOrder['PhoneNumber']) && !empty($repairOrder['PhoneNumber'])) {
-                foreach ($repairOrder['PhoneNumber'] as $record) {
-                    foreach ($record as $number) {
-                        $phoneNumbers[] = $number;
-                    }
-                }
-            }
-            $phoneNumbers = array_unique($phoneNumbers);
-
-            $email = '';
-            if (isset($repairOrder['ContactEmailAddress']) && !empty($repairOrder['ContactEmailAddress'])) {
-                $email = $repairOrder['ContactEmailAddress'];
-            }
-
-            if (isset($repairOrder['RONumber']) && !empty($repairOrder['RONumber'])) {
-                $roNumber = $repairOrder['RONumber'];
-            } else {
-                // Couldn't find ro number
-                continue;
-            }
-
-            $openDate = new DateTime();
-            if (isset($repairOrder['OpenDate']) && !empty($repairOrder['OpenDate'])) {
-                $openDateString = $repairOrder['OpenDate']; // Formatted yyyy-mm-dd :thumbs-up:
-                if (isset($repairOrder['OpenTime']) && !empty($repairOrder['OpenTime'])) {
-                    $openDateString .= ' ' . $repairOrder['OpenTime'];
-                }
-                try {
-                    $openDate = new DateTime($openDateString);
-                } catch (Exception $e) {
-                    // Nothing
-                }
-            }
-
-            $waiter = false;
-            if (isset($repairOrder['WaiterFlag']) && !empty($repairOrder['WaiterFlag'])) {
-                $waiter = $repairOrder['WaiterFlag'] == 'N' ? false : true;
-            }
-
-            $pickUpDate = null;
-            if (isset($repairOrder['EstComplDate']) && !empty($repairOrder['EstComplDate'])) {
-                $pickUpDateString = $repairOrder['EstComplDate']; // Formatted yyyy-mm-dd :thumbs-up:
-                if (isset($repairOrder['EstComplTime']) && !empty($repairOrder['EstComplTime'])) {
-                    $pickUpDateString .= ' ' . $repairOrder['EstComplTime'];
-                }
-                try {
-                    $pickUpDate = new DateTime($pickUpDateString);
-                } catch (Exception $e) {
-                    // Nothing
-                }
-            }
-
-            $year = null;
-            if (isset($repairOrder['Year']) && !empty($repairOrder['Year'])) {
-                $year = $repairOrder['Year'];
-            }
-
-            $make = null;
-            if (isset($repairOrder['MakeDesc']) && !empty($repairOrder['MakeDesc'])) {
-                $make = $repairOrder['MakeDesc'];
-            }
-
-            // No MakeDesc, it's preferred because this is usually an abbreviation
-            if (!$make) {
-                if (isset($repairOrder['Make']) && !empty($repairOrder['Make'])) {
-                    $make = $repairOrder['Make'];
-                }
-            }
-
-            $model = null;
-            if (isset($repairOrder['ModelDesc']) && !empty($repairOrder['ModelDesc'])) {
-                $model = $repairOrder['ModelDesc'];
-            }
-
-            // No ModelDesc, it's preferred because this is usually an abbreviation
-            if (!$model) {
-                if (isset($repairOrder['Model']) && !empty($repairOrder['Model'])) {
-                    $model = $repairOrder['Model'];
-                }
-            }
-
-            $vin = null;
-            if (isset($repairOrder['VIN']) && !empty($repairOrder['VIN'])) {
-                $vin = $repairOrder['VIN'];
-            }
-
-            // Can't find miles, just leave it null for now
-            $miles = null;
-            if (isset($repairOrder['Mileage']) && !empty($repairOrder['Mileage'])) {
-                $miles = $repairOrder['Mileage'];
-            }
-
-            $advisorId        = null;
-            $advisorFirstName = null; // Not passed(?)
-            $advisorLastName  = null; // Not passed(?)
-            if (isset($repairOrder['ServiceAdvisor']) && !empty($repairOrder['ServiceAdvisor'])) {
-                $advisorId = $repairOrder['ServiceAdvisor'];
-            }
-
-            $returnResult[] = (object)[
-                'customer'   => (object)[
-                    'name'          => $firstName . ' ' . $lastname,
-                    'phone_numbers' => $phoneNumbers,
-                    'email'         => $email
-                ],
-                'number'     => $roNumber,
-                'ro_key'     => '', // Skip for now I guess
-                'date'       => $openDate,
-                'waiter'     => $waiter,
-                'pickupDate' => $pickUpDate,
-                'year'       => $year,
-                'make'       => $make,
-                'model'      => $model,
-                'miles'      => $miles,
-                'vin'        => $vin,
-                'advisor'    => (object)[
-                    'id'         => $advisorId,
-                    'first_name' => $advisorFirstName,
-                    'last_name'  => $advisorLastName
-                ]
-            ];
+            $returnResult[] = $roData;
         }
 
         return $returnResult;
     }
 
     /**
-     * @param $repairOrders
+     * Checks if passed ROs are closed. If they are it closes them and returns an array of RO Objects that were closed
      *
-     * @throws Exception
+     * @param array $repairOrders Array of RO objects
+     *
+     * @return array
      */
-    public function getClosedRoDetails ($repairOrders) {
+    public function getClosedRoDetails (array $repairOrders): array {
         // Collect all the ro numbers in an array to compare against
         $openRepairOrderNumbers = [];
+        $closedRepairOrders     = [];
 
         /** @var RepairOrder $repairOrder */
         foreach ($repairOrders as $repairOrder) {
             $openRepairOrderNumbers[] = $repairOrder->getNumber();
         }
 
-        $today = (new DateTime())->format('m/d/Y');
-
         // Check CDK for all closed today
-        $postUrl     = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-closed/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Closed_DateRange&qparamStartDate=' . $today . '&qparamEndDate=' . $today;
-        // $postUrl     = 'https://3pa.dmotorworks.com/pip-extract/service-ro-closed/extract?dealerId=' . $this->dealerId . '&queryId=SROD_Closed_DateRange&qparamStartDate=' . $today . '&qparamEndDate=' . $today;
         $curlOptions = [
-            CURLOPT_URL            => $postUrl,
+            CURLOPT_URL            => $this->closedROExtractURL,
             CURLOPT_POST           => true,
-            CURLOPT_USERPWD        => 'iserviceauto:jSarJLFv0rkL',
+            CURLOPT_USERPWD        => $this->authentication,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_ENCODING       => 'UTF-8',
             CURLOPT_SSL_VERIFYHOST => false,
@@ -275,10 +170,10 @@ class CDK extends SOAP {
         $response = curl_exec($ch);
 
         // Not an error, but logs the request/response for compliance
-        $this->soapService->logError($postUrl, $response);
+        $this->logError($this->closedROExtractURL, $response);
 
         if ($curlError = curl_error($ch)) {
-            return;
+            return [];
         }
 
         $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOWARNING);
@@ -286,7 +181,7 @@ class CDK extends SOAP {
 
         // No results means no closed ros today, return
         if (!isset($xml['service-repair-order-closed'])) {
-            return;
+            return [];
         }
         $dmsClosedRepairOrders = $xml['service-repair-order-closed'];
 
@@ -345,29 +240,29 @@ class CDK extends SOAP {
             $closedDate      = $roClosedResults['closed_date'];
             $finalRoValue    = $roClosedResults['closed_value'];
 
-            $repairOrder->setClosedDate($closedDate)->setFinalValue($finalRoValue);
+            $repairOrder->setDateClosed($closedDate)->setFinalValue($finalRoValue);
             $this->em->persist($repairOrder);
-            try {
-                $this->em->flush();
-            } catch (OptimisticLockException $e) {
-                continue;
-            }
+            $this->em->flush();
+
+            $closedRepairOrders[] = $repairOrder;
         }
+
+        return $closedRepairOrders;
     }
 
     /**
+     * Checks if the passed RO# exists in the DMS and pulls it if it does
+     *
      * @param $RONumber
      *
-     * @return array
-     * @throws Exception
+     * @return false|object
      */
     public function addRepairOrderByNumber ($RONumber) {
-        //        $postUrl     = 'https://uat-3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_ByRONumber&qparamRONum=' . $RONumber . '&timeoutSeconds=2700';
-        $postUrl     = 'https://3pa.dmotorworks.com/pip-extract/service-ro-open/extract?dealerId=' . $this->dealerId . '&queryId=SROD_ByRONumber&qparamRONum=' . $RONumber . '&timeoutSeconds=2700';
+        $postUrl     = $this->singleROExtractURL . $RONumber;
         $curlOptions = [
             CURLOPT_URL            => $postUrl,
             CURLOPT_POST           => true,
-            CURLOPT_USERPWD        => 'iserviceauto:jSarJLFv0rkL',
+            CURLOPT_USERPWD        => $this->authentication,
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_ENCODING       => 'UTF-8',
             CURLOPT_SSL_VERIFYHOST => false,
@@ -379,20 +274,50 @@ class CDK extends SOAP {
         $response = curl_exec($ch);
 
         // Not an error, but logs the request/response for compliance
-        $this->soapService->logError($postUrl, $response);
+        $this->logError($postUrl, $response);
 
         if ($curlError = curl_error($ch)) {
-            return [];
+            return (object)[];
         }
 
-        $xml = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOWARNING);
-        $xml = json_decode(json_encode($xml), true);
+        $xml             = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOWARNING);
+        $xml             = json_decode(json_encode($xml), true);
+        $repairOrderData = $xml['service-repair-order-open'];
 
-        $repairOrder = $xml['service-repair-order-open'];
+        return $this->extractROInfo($repairOrderData);
+    }
 
-        $name = false;
+    /**
+     * @param $repairOrder
+     *
+     * @return false|object
+     */
+    private function extractROInfo ($repairOrder) {
+        $roObject = (object)[
+            'customer'   => (object)[
+                'name'         => null,
+                'phoneNumbers' => [],
+                'email'        => null
+            ],
+            'number'     => null,
+            'roKey'      => null,
+            'date'       => new Datetime(),
+            'waiter'     => false,
+            'pickupDate' => null,
+            'year'       => null,
+            'make'       => null,
+            'model'      => null,
+            'miles'      => null,
+            'vin'        => null,
+            'advisor'    => (object)[
+                'id'        => null,
+                'firstName' => null,
+                'lastName'  => null
+            ]
+        ];
 
         // Try to set name
+        $name = false;
         if (isset($repairOrder['Name1']) && !empty($repairOrder['Name1'])) {
             $name = $repairOrder['Name1'];
         }
@@ -406,138 +331,113 @@ class CDK extends SOAP {
 
         // Still no name, probably an internal RO, skip
         if (!$name) {
-            return [];
+            return false;
         }
 
         $namePieces = explode(',', $name);
         // Probably an internal RO, skip
         if (!isset($namePieces[1])) {
-            return [];
+            return false;
         }
-        $firstName = $namePieces[1];
-        $lastname  = $namePieces[0];
+
+        $roObject->customer->name = $namePieces[1] . ' ' . $namePieces[0];
 
         $phoneNumbers = [];
         if (isset($repairOrder['PhoneNumber']) && !empty($repairOrder['PhoneNumber'])) {
             foreach ($repairOrder['PhoneNumber'] as $record) {
                 foreach ($record as $number) {
-                    $phoneNumbers[] = $number;
+                    try {
+                        $phoneNumbers[] = $this->phoneValidator->clean($number);
+                    } catch (Exception $e) {
+                        continue;
+                    }
                 }
             }
         }
-        $phoneNumbers = array_unique($phoneNumbers);
 
-        $email = '';
+        // Only get unique numbers
+        $roObject->customer->phoneNumbers = array_unique($phoneNumbers);
+
         if (isset($repairOrder['ContactEmailAddress']) && !empty($repairOrder['ContactEmailAddress'])) {
-            $email = $repairOrder['ContactEmailAddress'];
+            $roObject->customer->email = $repairOrder['ContactEmailAddress'];
         }
 
         if (isset($repairOrder['RONumber']) && !empty($repairOrder['RONumber'])) {
-            $roNumber = $repairOrder['RONumber'];
+            $roObject->number = $repairOrder['RONumber'];
         } else {
             // Couldn't find ro number
-            return [];
+            return false;
         }
 
-        $openDate = new DateTime();
         if (isset($repairOrder['OpenDate']) && !empty($repairOrder['OpenDate'])) {
             $openDateString = $repairOrder['OpenDate']; // Formatted yyyy-mm-dd :thumbs-up:
             if (isset($repairOrder['OpenTime']) && !empty($repairOrder['OpenTime'])) {
                 $openDateString .= ' ' . $repairOrder['OpenTime'];
             }
+
             try {
-                $openDate = new DateTime($openDateString);
+                $roObject->date = new DateTime($openDateString);
             } catch (Exception $e) {
                 // Nothing
             }
         }
 
-        $waiter = false;
         if (isset($repairOrder['WaiterFlag']) && !empty($repairOrder['WaiterFlag'])) {
-            $waiter = $repairOrder['WaiterFlag'] == 'N' ? false : true;
+            $roObject->waiter = $repairOrder['WaiterFlag'] == 'N' ? false : true;
         }
 
-        $pickUpDate = null;
         if (isset($repairOrder['EstComplDate']) && !empty($repairOrder['EstComplDate'])) {
             $pickUpDateString = $repairOrder['EstComplDate']; // Formatted yyyy-mm-dd :thumbs-up:
             if (isset($repairOrder['EstComplTime']) && !empty($repairOrder['EstComplTime'])) {
                 $pickUpDateString .= ' ' . $repairOrder['EstComplTime'];
             }
+
             try {
-                $pickUpDate = new DateTime($pickUpDateString);
+                $roObject->pickupDate = new DateTime($pickUpDateString);
             } catch (Exception $e) {
                 // Nothing
             }
         }
 
-        $year = null;
         if (isset($repairOrder['Year']) && !empty($repairOrder['Year'])) {
-            $year = $repairOrder['Year'];
+            $roObject->year = $repairOrder['Year'];
         }
 
-        $make = null;
         if (isset($repairOrder['MakeDesc']) && !empty($repairOrder['MakeDesc'])) {
-            $make = $repairOrder['MakeDesc'];
+            $roObject->make = $repairOrder['MakeDesc'];
         }
 
         // No MakeDesc, it's preferred because this is usually an abbreviation
-        if (!$make) {
+        if (!$roObject->make) {
             if (isset($repairOrder['Make']) && !empty($repairOrder['Make'])) {
-                $make = $repairOrder['Make'];
+                $roObject->make = $repairOrder['Make'];
             }
         }
 
-        $model = null;
         if (isset($repairOrder['ModelDesc']) && !empty($repairOrder['ModelDesc'])) {
-            $model = $repairOrder['ModelDesc'];
+            $roObject->model = $repairOrder['ModelDesc'];
         }
 
         // No ModelDesc, it's preferred because this is usually an abbreviation
-        if (!$model) {
+        if (!$roObject->model) {
             if (isset($repairOrder['Model']) && !empty($repairOrder['Model'])) {
-                $model = $repairOrder['Model'];
+                $roObject->model = $repairOrder['Model'];
             }
         }
 
-        $vin = null;
         if (isset($repairOrder['VIN']) && !empty($repairOrder['VIN'])) {
-            $vin = $repairOrder['VIN'];
+            $roObject->vin = $repairOrder['VIN'];
         }
 
         // Can't find miles, just leave it null for now
-        $miles = null;
         if (isset($repairOrder['Mileage']) && !empty($repairOrder['Mileage'])) {
-            $miles = $repairOrder['Mileage'];
+            $roObject->miles = $repairOrder['Mileage'];
         }
 
-        $advisorId        = null;
-        $advisorFirstName = null; // Not passed(?)
-        $advisorLastName  = null; // Not passed(?)
         if (isset($repairOrder['ServiceAdvisor']) && !empty($repairOrder['ServiceAdvisor'])) {
-            $advisorId = $repairOrder['ServiceAdvisor'];
+            $roObject->advisor->id = $repairOrder['ServiceAdvisor'];
         }
 
-        return (object)[
-            'customer'   => (object)[
-                'name'          => $firstName . ' ' . $lastname,
-                'phone_numbers' => $phoneNumbers,
-                'email'         => $email
-            ],
-            'number'     => $roNumber,
-            'ro_key'     => '', // Skip for now I guess
-            'date'       => $openDate,
-            'waiter'     => $waiter,
-            'pickupDate' => $pickUpDate,
-            'year'       => $year,
-            'make'       => $make,
-            'model'      => $model,
-            'miles'      => $miles,
-            'vin'        => $vin,
-            'advisor'    => (object)[
-                'id'         => $advisorId,
-                'first_name' => $advisorFirstName,
-                'last_name'  => $advisorLastName
-            ]
-        ];
+        return $roObject;
     }
 }

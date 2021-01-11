@@ -5,10 +5,10 @@ namespace App\Service;
 use App\Entity\RepairOrder;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use SimpleXMLElement;
-use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class DealerBuilt
@@ -35,6 +35,11 @@ class DealerBuilt extends SOAP {
     /**
      * @var string
      */
+    private $timeFrame = 'PT5M';
+
+    /**
+     * @var string
+     */
     private $serviceLocationId;
 
     /**
@@ -43,27 +48,36 @@ class DealerBuilt extends SOAP {
     private $em;
 
     /**
+     * @var PhoneValidator
+     */
+    private $phoneValidator;
+
+    /**
      * AutoMate constructor.
      *
      * @param EntityManagerInterface $em
-     * @param               $username
-     * @param               $password
-     * @param               $serviceLocationId
+     * @param PhoneValidator         $phoneValidator
+     * @param ParameterBagInterface  $parameterBag
+     *
+     * @throws ParameterNotFoundException
      */
-    public function __construct (EntityManagerInterface $em) {
-        $this->em = $em;
+    public function __construct (EntityManagerInterface $em, PhoneValidator $phoneValidator,
+                                 ParameterBagInterface $parameterBag) {
+        $this->em                = $em;
+        $this->phoneValidator    = $phoneValidator;
+        $env                     = $parameterBag->get('app_env');
+        $this->serviceLocationId = $parameterBag->get('dealerbuilt_location_id');
 
-        $dotenv =  new Dotenv();
-        $dotenv->load(__DIR__ . '/../../.env');
-
-        $this->serviceLocationId = $_ENV['DEALERBUILT_LOCATION_ID'];
+        // Won't grab any from dev unless we up the time frame
+        if ($env == 'dev') {
+            $this->timeFrame = 'PT8760H';
+        }
 
         parent::__construct($em);
     }
 
     /**
      * @return array
-     * @throws Exception
      */
     public function getOpenRepairOrders () {
         $return  = [];
@@ -89,7 +103,7 @@ class DealerBuilt extends SOAP {
             <SOAP-ENV:Body>
                 <ns:PullRepairOrders>
                     <ns:searchCriteria>
-                        <deal:MaxElapsedSinceUpdate>PT8760H</deal:MaxElapsedSinceUpdate>
+                        <deal:MaxElapsedSinceUpdate>' . $this->timeFrame . '</deal:MaxElapsedSinceUpdate>
                         <deal:ServiceLocationIds>
                             <arr:long>' . $this->serviceLocationId . '</arr:long>
                         </deal:ServiceLocationIds>
@@ -115,6 +129,29 @@ class DealerBuilt extends SOAP {
 
             if ($masterArray['PullRepairOrdersResponse']['PullRepairOrdersResult']) {
                 foreach ($masterArray['PullRepairOrdersResponse']['PullRepairOrdersResult']['aRepairOrder'] as $repairOrder) {
+                    $roObject = (object)[
+                        'customer'   => (object)[
+                            'name'         => null,
+                            'phoneNumbers' => [],
+                            'email'        => null
+                        ],
+                        'number'     => null,
+                        'roKey'      => null,
+                        'date'       => new Datetime(),
+                        'waiter'     => false,
+                        'pickupDate' => null,
+                        'year'       => null,
+                        'make'       => null,
+                        'model'      => null,
+                        'miles'      => null,
+                        'vin'        => null,
+                        'advisor'    => (object)[
+                            'id'        => null,
+                            'firstName' => null,
+                            'lastName'  => null
+                        ]
+                    ];
+
                     if (!is_array($repairOrder)) {
                         $repairOrder = $masterArray['PullRepairOrdersResponse']['PullRepairOrdersResult']['aRepairOrder'];
                     }
@@ -126,99 +163,83 @@ class DealerBuilt extends SOAP {
                             continue;
                         }
 
-                        $firstName        = '';
-                        $lastName         = '';
-                        $email            = '';
-                        $customer         = $repairOrder['aReferences']['aROCustomer']['aAttributes']['bIdentity'];
-                        $roNumber         = $repairOrder['aAttributes']['bRepairOrderNumber'];
-                        $vehicle          = $repairOrder['aReferences']['aROVehicle']['aAttributes'];
-                        $year             = !is_array($vehicle['bYear']) ? $vehicle['bYear'] : null;
-                        $make             = !is_array($vehicle['bMake']) ? $vehicle['bMake'] : null;
-                        $model            = !is_array($vehicle['bModel']) ? $vehicle['bModel'] : null;
-                        $miles            = !is_array($repairOrder['aAttributes']['bMilesIn']) ? $repairOrder['aAttributes']['bMilesIn'] : null;
-                        $vin              = !is_array($vehicle['bVin']) ? $vehicle['bVin'] : null;
-                        $advisor          = $repairOrder['aAttributes']['bServiceAdvisor'];
-                        $advisorFirstName = $advisor['cPersonalName']['cFirstName'];
-                        $advisorLastName  = $advisor['cPersonalName']['cLastName'];
-                        $date             = new DateTime();
-                        $customerNumber   = '';
-                        $roKey            = '';
+                        $customer                     = $repairOrder['aReferences']['aROCustomer']['aAttributes']['bIdentity'];
+                        $roObject->number             = $repairOrder['aAttributes']['bRepairOrderNumber'];
+                        $vehicle                      = $repairOrder['aReferences']['aROVehicle']['aAttributes'];
+                        $roObject->year               = !is_array($vehicle['bYear']) ? $vehicle['bYear'] : null;
+                        $roObject->make               = !is_array($vehicle['bMake']) ? $vehicle['bMake'] : null;
+                        $roObject->modeal             = !is_array($vehicle['bModel']) ? $vehicle['bModel'] : null;
+                        $roObject->miles              = !is_array($repairOrder['aAttributes']['bMilesIn']) ? $repairOrder['aAttributes']['bMilesIn'] : null;
+                        $roObject->vin                = !is_array($vehicle['bVin']) ? $vehicle['bVin'] : null;
+                        $advisor                      = $repairOrder['aAttributes']['bServiceAdvisor'];
+                        $roObject->advisor->firstName = $advisor['cPersonalName']['cFirstName'];
+                        $roObject->advisor->lastName  = $advisor['cPersonalName']['cLastName'];
 
                         if (isset($customer['cPersonalName']['cFirstName'])) {
-                            $firstName = $customer['cPersonalName']['cFirstName'];
+                            $roObject->customer->name = $customer['cPersonalName']['cFirstName'];
                         }
 
                         if (isset($customer['cPersonalName']['cLastName'])) {
-                            $lastName = $customer['cPersonalName']['cLastName'];
+                            $roObject->customer->name .= ' ' . $customer['cPersonalName']['cLastName'];
                         }
 
-                        // No first name, it's an internal RO so skip
-                        if (!$firstName) {
+                        // No customer name, it's an internal RO so skip
+                        if (!$roObject->customer->name) {
                             continue;
                         }
 
-                        if (!$lastName) {
-                            $lastName = '';
-                        }
-
                         if ($customer['cEmailAddress']) {
-                            $email = $customer['cEmailAddress'];
+                            $roObject->customer->email = $customer['cEmailAddress'];
                         }
 
+                        $phoneNumbers = [];
                         if (isset($customer['cPhoneNumbers']['cPhoneNumber'])) {
-                            $phoneNumbers = $customer['cPhoneNumbers']['cPhoneNumber'];
+                            $roPhoneNumbers = $customer['cPhoneNumbers']['cPhoneNumber'];
 
                             // Try to find a cell #
-                            foreach ($phoneNumbers as $numberArray) {
-                                // Not an array, just a number
+                            foreach ($roPhoneNumbers as $numberArray) {
+                                // The number isn't an array, it's just a phone number so clean it and add it
                                 if (!is_array($numberArray)) {
-                                    $customerNumber = $numberArray;
-                                    break;
+                                    try {
+                                        $phoneNumbers[] = $this->phoneValidator->clean($numberArray);
+                                        break;
+                                    } catch (Exception $e) {
+                                        continue;
+                                    }
                                 }
 
-                                $number = $numberArray['cDigits'];
-                                $type   = $numberArray['cNumberType'];
+                                // Since the number
+                                try {
+                                    $number = $this->phoneValidator->clean($numberArray['cDigits']);
+                                } catch (Exception $e) {
+                                    continue;
+                                }
 
-                                // An array, return a number
+                                $type = $numberArray['cNumberType'];
+
+                                // It's mobile we only need this one
                                 if ($type == 'Mobile' || $type == 'Cell') {
-                                    $customerNumber = $number;
+                                    $phoneNumbers = [$number];
                                     break;
                                 }
-                            }
 
-                            $customerNumber = str_replace(['(', ')', ' ', '-'], '', $customerNumber);
+                                $phoneNumbers[] = $number;
+                            }
                         }
 
+                        $roObject->customer->phoneNumbers = $phoneNumbers;
+
                         if (isset($repairOrder['aAttributes']['bOpenedStamp']) && !empty($repairOrder['aAttributes']['bOpenedStamp'])) {
-                            $date = new DateTime($repairOrder['aAttributes']['bOpenedStamp']);
+                            try {
+                                $roObject->date = new DateTime($repairOrder['aAttributes']['bOpenedStamp']);
+                            } catch (Exception $e) {
+                                // Nothing, handling it by default
+                            }
                         }
 
                         if (isset($repairOrder['aROKey']) && !empty($repairOrder['aROKey'])) {
-                            $roKey = $repairOrder['aROKey'];
+                            $roObject->roKey = $repairOrder['aROKey'];
                         }
-
-                        $return[] = (object)[
-                            'customer'   => (object)[
-                                'name'          => $firstName . ' ' . $lastName,
-                                'phone_numbers' => [$customerNumber],
-                                'email'         => $email
-                            ],
-                            'number'     => $roNumber,
-                            'ro_key'     => $roKey,
-                            'date'       => $date,
-                            'waiter'     => true, // boolean
-                            'pickupDate' => null, // null|datetime object
-                            'year'       => $year,
-                            'make'       => $make,
-                            'model'      => $model,
-                            'miles'      => $miles,
-                            'vin'        => $vin,
-                            'advisor'    => (object)[
-                                'id'         => null,
-                                'first_name' => $advisorFirstName,
-                                'last_name'  => $advisorLastName
-                            ]
-                        ];
                     }
                 }
             }
@@ -234,7 +255,7 @@ class DealerBuilt extends SOAP {
      *
      * @return void
      */
-    public function getClosedRoDetails ($repairOrders) {
+    public function getClosedRoDetails (array $repairOrders) {
         $rosWithKeys    = [];
         $rosWithoutKeys = [];
 
@@ -261,9 +282,12 @@ class DealerBuilt extends SOAP {
 
     /**
      * @param $repairOrders
+     *
+     * @return array
      */
-    public function closeRosWithKeys ($repairOrders) {
-        $headers = [
+    public function closeRosWithKeys ($repairOrders): array {
+        $closedRepairOrders = [];
+        $headers            = [
             "Accept-Encoding: gzip,deflate",
             "Content-Type: text/xml; charset=UTF-8",
             "SOAPAction: http://cdx.dealerbuilt.com/Api/0.99/IStandardApi/PullRepairOrdersByKey",
@@ -315,14 +339,22 @@ class DealerBuilt extends SOAP {
                     $roNumber         = $roAttributes['bRepairOrderNumber'];
 
                     if ($status == 'Posted' || $status == 'Closed') {
-                        $closedDate = $roAttributes['bClosedStamp'];
-                        $closedDate = new DateTime($closedDate);
-                        $roValue    = 0;
+                        $closedDate = new DateTime();
+
+                        try {
+                            $roClosedDate = $roAttributes['bClosedStamp'];
+                            $closedDate   = new DateTime($roClosedDate);
+                        } catch (Exception $e) {
+                            // Nothing
+                        }
+
+                        $roValue = 0;
 
                         if (isset($roAttributes['bTotalAmount']['cAmount'])) {
                             $roValue = $roAttributes['bTotalAmount']['cAmount'];
                         }
 
+                        // Try to set the technician that recorded it when closing
                         if (array_key_exists("bJobs", $roAttributes)) {
                             if (array_key_exists("bRepairOrderJob", $roAttributes['bJobs'])) {
                                 if (array_key_exists("0", $roAttributes['bJobs']['bRepairOrderJob'])) {
@@ -355,7 +387,6 @@ class DealerBuilt extends SOAP {
                             }
                         }
 
-
                         // Loop over all passed ROs to get the RO in question
                         $referenceRepairOrder = null;
                         /** @var RepairOrder $repairOrder */
@@ -370,26 +401,31 @@ class DealerBuilt extends SOAP {
                             continue;
                         }
 
-                        $referenceRepairOrder->setClosedDate($closedDate)->setFinalValue($roValue);
+                        $referenceRepairOrder->setDateClosed($closedDate)->setFinalValue($roValue);
                         if ($technicianRecord) {
-                            $referenceRepairOrder->setTechnician($technicianRecord);
+                            $referenceRepairOrder->setPrimaryTechnician($technicianRecord);
                         }
+
                         $this->em->persist($repairOrder);
-                        try {
-                            $this->em->flush();
-                        } catch (OptimisticLockException $e) {
-                            continue;
-                        }
+                        $this->em->flush();
+
+                        $closedRepairOrders[] = $repairOrder;
                     }
                 }
             }
         }
+
+        return $closedRepairOrders;
     }
 
     /**
      * @param $repairOrders
+     *
+     * @return array
      */
-    public function closeRosWithoutKeys ($repairOrders) {
+    public function closeRosWithoutKeys ($repairOrders): array {
+        $closedRepairOrders = [];
+
         /** @var RepairOrder $repairOrder */
         foreach ($repairOrders as $repairOrder) {
             $headers = [
@@ -426,33 +462,39 @@ class DealerBuilt extends SOAP {
             $result = $this->sendRequest($headers, $this->postUrl, $xmlPostString);
 
             if ($result) {
-                $response    = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $result);
-                $xml         = new SimpleXMLElement($response);
-                $body        = $xml->xpath('//sBody')[0];
-                $masterArray = json_decode(json_encode((array)$body), true);
-
+                $response     = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $result);
+                $xml          = new SimpleXMLElement($response);
+                $body         = $xml->xpath('//sBody')[0];
+                $masterArray  = json_decode(json_encode((array)$body), true);
                 $roAttributes = $masterArray['PullRepairOrderByNumberResponse']['PullRepairOrderByNumberResult']['aAttributes'];
                 $status       = $roAttributes['bStatus'];
 
                 if ($status == 'Posted' || $status == 'Closed') {
-                    $closedDate = $roAttributes['bClosedStamp'];
-                    $closedDate = new DateTime($closedDate);
-                    $roValue    = 0;
+                    $closedDate = new DateTime();
+
+                    try {
+                        $roClosedDate = $roAttributes['bClosedStamp'];
+                        $closedDate   = new DateTime($roClosedDate);
+                    } catch (Exception $e) {
+                        // nothing
+                    }
+
+                    $roValue = 0;
 
                     if (isset($roAttributes['bTotalAmount']['cAmount'])) {
                         $roValue = $roAttributes['bTotalAmount']['cAmount'];
                     }
 
-                    $repairOrder->setClosedDate($closedDate)->setFinalValue($roValue);
+                    $repairOrder->setDateClosed($closedDate)->setFinalValue($roValue);
 
                     $this->em->persist($repairOrder);
-                    try {
-                        $this->em->flush();
-                    } catch (OptimisticLockException $e) {
-                        continue;
-                    }
+                    $this->em->flush();
+
+                    $closedRepairOrders[] = $repairOrder;
                 }
             }
         }
+
+        return $closedRepairOrders;
     }
 }
