@@ -41,7 +41,7 @@ class RepairOrderTeamController extends AbstractFOSRestController {
      *     description="Invalid repairOrderId"
      * )
      *
-     * @param RepairOrder                $repairOrder
+     * @param RepairOrder            $repairOrder
      * @param RepairOrderTeam        $repairOrderTeam
      * @param RepairOrderRepository  $repairOrderRepository
      * @param EntityManagerInterface $em
@@ -50,12 +50,10 @@ class RepairOrderTeamController extends AbstractFOSRestController {
      */
 
     public function new (RepairOrder $repairOrder, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
-        if(!$repairOrder)
-            throw new NotFoundHttpException();
         $user        = $this->getUser();
 
         $repairOrderTeam = new RepairOrderTeam();
-        
+
         $repairOrderTeam->setUser($user);
         $repairOrderTeam->setRepairOrder($repairOrder);
         
@@ -66,6 +64,34 @@ class RepairOrderTeamController extends AbstractFOSRestController {
         $view->getContext()->setGroups(RepairOrderTeam::GROUPS);
 
         return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Delete("/api/repair-order-team/{id}")
+     *
+     * @SWG\Tag(name="RepairOrderTeam")
+     * @SWG\Delete(description="Delete a repairOrderTeam")
+     *
+     * @SWG\Response(response="200", description="Success!")
+     *
+     * @SWG\Response(
+     *     response="404",
+     *     description="Invalid repairOrderId"
+     * )
+     *
+     * @param RepairOrderTeam        $repairOrderTeam
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+
+    public function delete (RepairOrderTeam $repairOrderTeam, EntityManagerInterface $em) {
+        $em->remove($repairOrderTeam);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'Successfully removed',
+        ]));
     }
 
 }
