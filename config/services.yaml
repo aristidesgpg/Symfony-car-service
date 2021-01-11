@@ -8,6 +8,12 @@ parameters:
   csv_directory: '%kernel.project_dir%/public/csv/'
   reset_password_secret: '%env(RESET_PASSWORD_TOKEN_SECRET)%'
   sender: '%env(SENDER)%'
+  app_env: '%env(APP_ENV)%'
+  automate_endpoint_id: '%env(AUTOMATE_ENDPOINT_ID)%'
+  cdk_dealer_id: '%env(CDK_DEALER_ID)%'
+  dealerbuilt_location_id: '%env(DEALERBUILT_LOCATION_ID)%'
+  dealertrack_company: '%env(DEALERTRACK_COMPANY)%'
+  dealertrack_enterprise: '%env(DEALERTRACK_ENTERPRISE)%'
 services:
   # default configuration for services in *this* file
   _defaults:
