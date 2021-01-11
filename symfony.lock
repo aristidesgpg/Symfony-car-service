@@ -129,6 +129,9 @@
     "felixfbecker/language-server-protocol": {
         "version": "v1.5.0"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.2"
+    },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
         "recipe": {
@@ -311,6 +314,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "0.4.10"
     },
     "psalm/plugin-symfony": {
         "version": "v2.1.1"

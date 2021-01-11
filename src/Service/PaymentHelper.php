@@ -67,7 +67,7 @@ class PaymentHelper
             throw new \InvalidArgumentException('Payment already sent');
         }
 
-        $url = ''; // TODO
+        $url = 'http://localhost:8000/'; // TODO
         $message = $this->settings->find('serviceTextPayment')->getValue();
         $phone = $payment->getRepairOrder()->getPrimaryCustomer()->getPhone();
 
