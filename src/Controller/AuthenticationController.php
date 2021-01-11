@@ -202,26 +202,19 @@ class AuthenticationController extends AbstractFOSRestController {
                 $roles         = ['ROLE_ADMIN'];
                 return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
             }
-
-            // Now try iService agent
-            //            $agentResponse = $wordpressLogin->validateUserPassword($username, $password, false);
-            //            if ($agentResponse) {
-            //                $tokenUsername = 'iservice';
-            //                goto TOKEN;
-            //            }
         }
     }
 
     /**
      * @param String              $tokenUsername
-     * @param Array               $roles
+     * @param array               $roles
      * @param Integer             $ttl
      * @param JWTEncoderInterface $JWTEncoder
      * @param User                $user
      *
      * @return Response
      */
-    public function returnToken(String $tokenUsername, Array $roles, $ttl, JWTEncoderInterface $JWTEncoder, User $user = null){
+    public function returnToken(String $tokenUsername, array $roles, $ttl, JWTEncoderInterface $JWTEncoder, User $user = null){
         try {
             $token = $JWTEncoder->encode([
                 'username' => $tokenUsername,
@@ -239,11 +232,9 @@ class AuthenticationController extends AbstractFOSRestController {
         }
 
         return $this->handleView($this->view([
-            'token'            => $token,
-            'roles'            => $roles,
-            'id'               => $user->getId(),
-            'fullname'         => $user->getFirstName().' '.$user->getlastName(),
-            'securityQuestion' => $user->getSecurityQuestion()
+            'token' => $token,
+            'roles' => $roles,
+            'user'  => $user
         ], Response::HTTP_OK));
     }
 }
