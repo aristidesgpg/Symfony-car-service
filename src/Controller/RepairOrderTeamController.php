@@ -50,7 +50,7 @@ class RepairOrderTeamController extends AbstractFOSRestController {
      */
 
     public function new (RepairOrder $repairOrder, RepairOrderRepository $repairOrderRepository, EntityManagerInterface $em) {
-        $user        = $this->getUser();
+        $user            = $this->getUser();
 
         $repairOrderTeam = new RepairOrderTeam();
 
@@ -60,7 +60,7 @@ class RepairOrderTeamController extends AbstractFOSRestController {
         $em->persist($repairOrderTeam);
         $em->flush();
 
-        $view        = $this->view($repairOrderTeam);
+        $view            = $this->view($repairOrderTeam);
         $view->getContext()->setGroups(RepairOrderTeam::GROUPS);
 
         return $this->handleView($view);
