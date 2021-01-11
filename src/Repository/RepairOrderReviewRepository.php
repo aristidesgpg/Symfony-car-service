@@ -58,7 +58,7 @@ class RepairOrderReviewRepository extends ServiceEntityRepository
     /** 
      * @param RepairOrder $repairOrder
      * 
-     * @return null
+     * @return RepairOrderReview
     */
     public function new(RepairOrder $repairOrder){
         $repairOrderReview = new RepairOrderReview();

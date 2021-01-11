@@ -15,6 +15,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  */
 class RepairOrderReviewInteractionsFixture extends Fixture implements DependentFixtureInterface {
     private const STATUS_FIXTURES  = ['Sent', 'Viewd', 'Completed'] ;
+
     /**
      * @param ObjectManager $manager
      */
@@ -41,6 +42,7 @@ class RepairOrderReviewInteractionsFixture extends Fixture implements DependentF
             $this->addReference('repairOrderReviewInteractions_' . $i, $reviewInteractions);
         }
     }
+    
     public function getDependencies()
     {
         return [

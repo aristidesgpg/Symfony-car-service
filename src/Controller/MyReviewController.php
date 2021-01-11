@@ -40,7 +40,6 @@ class MyReviewController extends AbstractFOSRestController {
      *
      * @return Response
      */
-
     public function viewed (RepairOrder $repairOrder, EntityManagerInterface $em, RepairOrderReviewInteractionsRepository $reviewInteractions) {
         $user = $this->getUser();
 
@@ -53,7 +52,6 @@ class MyReviewController extends AbstractFOSRestController {
         if(!$repairOrderReview){
             return $this->handleView($this->view('The review of this repairOrder was not created yet.', Response::HTTP_BAD_REQUEST));
         }
-
 
         if($repairOrderReview->getStatus() !=='Completed') {
             $repairOrderReview->setStatus('Viewd');
@@ -86,7 +84,6 @@ class MyReviewController extends AbstractFOSRestController {
      *
      * @return Response
      */
-
     public function outcome (RepairOrder $repairOrder, Request $request, EntityManagerInterface $em, RepairOrderReviewInteractionsRepository $reviewInteractions) {
         $user     = $this->getUser();
 
@@ -135,7 +132,6 @@ class MyReviewController extends AbstractFOSRestController {
      *
      * @return Response
      */
-
     public function resendMessage (RepairOrder $repairOrder, EntityManagerInterface $em, 
                                    RepairOrderReviewInteractionsRepository $reviewInteractions, MyReviewHelper $myReviewHelper) {
         $user = $this->getUser();
