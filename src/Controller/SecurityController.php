@@ -84,6 +84,55 @@ class SecurityController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Post("/api/security/get-security-question")
+     *
+     * @SWG\Tag(name="Security")
+     * @SWG\Post(description="Return Security Question")
+     *
+     * @SWG\Parameter(
+     *     name="email",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Email of the User",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return Security Question",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="security question", example={"status":
+     *                                              "What is your name?" }),
+     *         )
+     * )
+     *
+     * @param Request        $request
+     * @param UserRepository $userRepo
+     *
+     * @return Response
+     */
+    public function getSecurityQuestion (Request $request, UserRepository $userRepo) {
+        $email  = $request->get('email');
+
+        // check if parameter is valid
+        if (!$email) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // email is invalid
+        $user = $userRepo->findOneBy(['email' => $email]);
+        if (!$user) {
+            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        return $this->handleView($this->view([
+            'securityQuestion' => $user->getSecurityQuestion()
+        ], Response::HTTP_OK));
+    }
+
+
+    /**
      * @Rest\Post("/api/security/validate")
      *
      * @SWG\Tag(name="Security")

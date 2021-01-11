@@ -151,12 +151,12 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return users",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
+     *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
+     *     )
      * )
      *
      * @param Request                $request
@@ -217,9 +217,7 @@ class UserController extends AbstractFOSRestController {
 
         $this->logInfo('New User "' . $user->getFirstName() . '" Created');
 
-        return $this->handleView($this->view([
-            'message' => 'New User Created'
-        ]));
+        return $this->userView($user);
     }
 
     /**
@@ -309,12 +307,12 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
+     *     description="Return users",
      *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Updated" }),
-     *         )
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
+     *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
+     *     )
      * )
      *
      * @param User                   $user
@@ -326,7 +324,7 @@ class UserController extends AbstractFOSRestController {
      */
     public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
         $role              = $request->get('role') ?? $user->getRoles()[0];
-        $firstName         = $request->get('lastName') ?? $user->getFirstName();
+        $firstName         = $request->get('firstName') ?? $user->getFirstName();
         $lastName          = $request->get('lastName') ?? $user->getLastName();
         $email             = $request->get('email') ?? $user->getEmail();
         $phone             = $request->get('phone') ?? $user->getPhone();
@@ -373,9 +371,7 @@ class UserController extends AbstractFOSRestController {
 
         $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
 
-        return $this->handleView($this->view([
-            'message' => 'User Updated'
-        ], Response::HTTP_OK));
+        return $this->userView($user);
     }
 
     /**
