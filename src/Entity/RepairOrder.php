@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\RepairOrderRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -217,11 +218,17 @@ class RepairOrder {
     private $repairOrderQuote;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="repairOrder", orphanRemoval=true)
+     */
+    private $repairOrderTeams;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct () {
         $this->dateCreated = new DateTime();
         $this->videos = new ArrayCollection();
+        $this->repairOrderTeams = new ArrayCollection();
     }
 
     /**
@@ -802,6 +809,37 @@ class RepairOrder {
 
     public function addVideo(RepairOrderVideo $video): self {
         $this->videos->add($video);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderTeam[]
+     */
+    public function getRepairOrderTeams(): Collection
+    {
+        return $this->repairOrderTeams;
+    }
+
+    public function addRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
+    {
+        if (!$this->repairOrderTeams->contains($repairOrderTeam)) {
+            $this->repairOrderTeams[] = $repairOrderTeam;
+            $repairOrderTeam->setRepairOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
+    {
+        if ($this->repairOrderTeams->contains($repairOrderTeam)) {
+            $this->repairOrderTeams->removeElement($repairOrderTeam);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderTeam->getRepairOrder() === $this) {
+                $repairOrderTeam->setRepairOrder(null);
+            }
+        }
 
         return $this;
     }
