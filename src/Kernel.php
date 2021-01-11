@@ -2,33 +2,18 @@
 
 namespace App;
 
-use App\Service\Mock\MockNMI;
-use App\Service\NMI;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
-class Kernel extends BaseKernel implements CompilerPassInterface
+class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
-    private const MOCKED_SERVICES = [
-        NMI::class => MockNMI::class,
-    ];
-
-    public function process(ContainerBuilder $container)
-    {
-        if ($this->isDebug()) {
-            foreach (self::MOCKED_SERVICES as $original => $mock) {
-                $container->getDefinition($original)->setClass($mock);
-            }
-        }
-    }
 
     public function registerBundles(): iterable
     {
