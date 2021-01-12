@@ -214,7 +214,7 @@ class AuthenticationController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function returnToken(String $tokenUsername, array $roles, $ttl, JWTEncoderInterface $JWTEncoder, User $user = null){
+    public function returnToken(String $tokenUsername, array $roles, $ttl, JWTEncoderInterface $JWTEncoder, User $user = null): Response {
         try {
             $token = $JWTEncoder->encode([
                 'username' => $tokenUsername,
