@@ -63,11 +63,12 @@ class PaymentHelper
      */
     public function sendPayment(RepairOrderPayment $payment, bool $resend = false): void
     {
+
         if (null !== $payment->getDateSent() && true !== $resend) {
             throw new \InvalidArgumentException('Payment already sent');
         }
 
-        $url = 'http://localhost:8000/'; // TODO
+        $url = $_ENV['CUSTOMER_URL'] . $payment->getRepairOrder()->getLinkHash();
         $message = $this->settings->find('serviceTextPayment')->getValue();
         $phone = $payment->getRepairOrder()->getPrimaryCustomer()->getPhone();
 
@@ -166,18 +167,28 @@ class PaymentHelper
         }
 
         $dealerName = $this->settings->find('generalName')->getValue();
-        $emailBody = $this->mailer->renderEmail('email-payment-receipt.html.twig', [
-           'dealer_name' => $dealerName,
-           'customer_phone' => $payment->getRepairOrder()->getPrimaryCustomer()->getPhone(),
-           'transaction_id' => $payment->getTransactionId(),
-           'ro_number' => $payment->getRepairOrder()->getNumber(),
-           'date' => $date,
-           'amount' => $payment->getAmountString(),
-        ]);
 
-        if (!$this->mailer->sendHtmlMail("iService Auto {$dealerName} Payment Receipt", $toAddress, $emailBody)) {
+
+        $sent = $this->mailer->sendMailFromTemplate(
+            "iService Auto {$dealerName} Payment Receipt",
+            $toAddress,
+            'email-payment-receipt.html.twig',
+            [
+                'dealer_name' => $dealerName,
+                'customer_phone' => $payment->getRepairOrder()->getPrimaryCustomer()->getPhone(),
+                'transaction_id' => $payment->getTransactionId(),
+                'ro_number' => $payment->getRepairOrder()->getNumber(),
+                'date' => $date,
+                'amount' => $payment->getAmountString(),
+            ]
+        );
+
+        if (!$sent) {
             throw new \RuntimeException('Could not send email');
         }
+
+
+
 
         $this->createInteraction($payment, 'Receipt sent');
         $this->commitPayment($payment);

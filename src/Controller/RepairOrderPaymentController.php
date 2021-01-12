@@ -162,7 +162,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         }
 
         try {
-            $helper->sendPayment($payment);
+            $helper->sendPayment($payment, $resend);
         } catch (TwilioException $e) {
             return $this->handleView($this->view([
                 'message' => 'Unable to send payment',
@@ -174,7 +174,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         ]));
     }
 
-    /**
+
+
+    /*
      * @Rest\Post("/{payment}/view")
      * @SWG\Response(response="200", description="Success!")
      */
