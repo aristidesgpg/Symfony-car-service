@@ -206,7 +206,7 @@ class RepairOrderController extends AbstractFOSRestController {
                 $item->setRepairOrderQuote(null);
             }
         }
-        
+
         $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
@@ -280,6 +280,10 @@ class RepairOrderController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
+        if($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()){
+            $repairOrder->setRepairOrderQuote(null);
+        }
+        
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
