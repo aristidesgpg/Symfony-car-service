@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Helper\iServiceLoggerTrait;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -13,6 +14,8 @@ use Symfony\Component\Mime\Email;
  */
 class MailerHelper
 {
+    use iServiceLoggerTrait;
+
     /**
      * @var ParameterBagInterface
      */
@@ -85,8 +88,9 @@ class MailerHelper
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
-            //TODO Log error
+            $this->logger->critical('Email unsuccessfully sent.'.$e->getMessage());
             dd($e->getMessage() );
+
             return false;
         }
 
