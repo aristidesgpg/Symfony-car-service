@@ -212,7 +212,6 @@ class RepairOrder {
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrderQuote::class, mappedBy="repairOrder", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
      * @Serializer\Groups(groups={"ro_list"})
      */
     private $repairOrderQuote;
@@ -782,8 +781,13 @@ class RepairOrder {
         return $this->repairOrderQuote;
     }
 
-    public function setRepairOrderQuote(RepairOrderQuote $repairOrderQuote): self
+    public function setRepairOrderQuote($repairOrderQuote): self
     {
+        if($repairOrderQuote === null)
+        {
+            $this->repairOrderQuote = null;    
+            return $this;
+        }
         $this->repairOrderQuote = $repairOrderQuote;
 
         // set the owning side of the relation if necessary
