@@ -210,7 +210,7 @@ class AuthenticationController extends AbstractFOSRestController {
      * @param array               $roles
      * @param mixed               $ttl
      * @param JWTEncoderInterface $JWTEncoder
-     * @param User                $user
+     * @param User|null           $user
      *
      * @return Response
      */
