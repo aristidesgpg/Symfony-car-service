@@ -25,7 +25,7 @@ class RepairOrderQuote
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderQuote", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderQuote")
      * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups(groups={"roq_list"})
      */
@@ -67,7 +67,7 @@ class RepairOrderQuote
     private $deleted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendation::class, mappedBy="repairOrderQuote")
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendation::class, mappedBy="repairOrderQuote", cascade={"persist", "remove"})
      */
     private $repairOrderQuoteRecommendations;
 
