@@ -208,7 +208,7 @@ class AuthenticationController extends AbstractFOSRestController {
     /**
      * @param String              $tokenUsername
      * @param array               $roles
-     * @param Integer             $ttl
+     * @param mixed               $ttl
      * @param JWTEncoderInterface $JWTEncoder
      * @param User                $user
      *
@@ -231,11 +231,23 @@ class AuthenticationController extends AbstractFOSRestController {
             ], Response::HTTP_OK));
         }
 
-        return $this->handleView($this->view([
+        return $this->userView([
             'token' => $token,
             'roles' => $roles,
             'user'  => $user
-        ], Response::HTTP_OK));
+        ]);
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return Response
+     */
+    private function userView ($data): Response {
+        $view = $this->view($data);
+        $view->getContext()->setGroups(['user_list']);
+
+        return $this->handleView($view);
     }
 }
 
