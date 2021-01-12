@@ -212,6 +212,7 @@ class RepairOrder {
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrderQuote::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      * @Serializer\Groups(groups={"ro_list"})
      */
     private $repairOrderQuote;
