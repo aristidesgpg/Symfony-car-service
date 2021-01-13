@@ -146,8 +146,9 @@ class User implements UserInterface {
 
     /**
      * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
      */
-    private $externalAuthentication;
+    private $externalAuthentication = false;
 
     /**
      * User constructor.
