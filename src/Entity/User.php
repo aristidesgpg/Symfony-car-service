@@ -10,9 +10,15 @@ use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(
+ *      fields={"email"},
+ *      message="Already used. Try another email!"
+ * )
  *
  * @TODO: Look into doctrine event subscriber for automatically doing things when entities are created/updated
  *        'composer require antishov/doctrine-extensions-bundle'
@@ -40,7 +46,9 @@ class User implements UserInterface {
     private $lastName;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="Please enter an email")
+     * @Assert\Email()
      * @Serializer\Groups({"user_list"})
      */
     private $email;
