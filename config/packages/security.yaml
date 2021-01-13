@@ -52,5 +52,7 @@ security:
     - { path: ^/api/authentication/authenticate, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/doc, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/security/reset-password, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/security/validate, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/security/get-security-question, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api, role: IS_AUTHENTICATED_FULLY }
     

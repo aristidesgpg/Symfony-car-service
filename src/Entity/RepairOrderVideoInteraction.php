@@ -41,9 +41,6 @@ class RepairOrderVideoInteraction {
      * @return $this
      */
     public function setType (string $type): self {
-        if (!in_array($type, RepairOrderVideo::STATUSES)) {
-            throw new \InvalidArgumentException(sprintf('Invalid type: %s', $type));
-        }
         $this->type = $type;
 
         return $this;

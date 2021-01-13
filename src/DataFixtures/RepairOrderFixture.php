@@ -6,6 +6,7 @@ use App\Entity\RepairOrder;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 use Faker\Factory;
 
 /**
@@ -16,16 +17,40 @@ use Faker\Factory;
 class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
     /**
      * @param ObjectManager $manager
+     *
+     * @throws Exception
      */
     public function load (ObjectManager $manager) {
-        $faker         = Factory::create();
-        $statusOptions = [
+        $faker          = Factory::create();
+        $mpiOptions     = [
             'Not Started',
-            'In Progress',
-            'Sent to Customer',
-            'Customer Viewed',
-            'Customer Complete',
-            'Advisor Viewed Complete'
+            'Complete',
+            'Sent',
+            'Viewed'
+        ];
+        $videoOptions   = [
+            'Not Started',
+            'Uploaded',
+            'Sent',
+            'Viewed'
+        ];
+        $quoteOptions   = [
+            'Not Started',
+            'Technician In Progress',
+            'Parts In Progress',
+            'Advisor In Progress',
+            'Sent',
+            'Viewed',
+            'Complete',
+            'Confirmed'
+        ];
+        $paymentOptions = [
+            'Not Started',
+            'Sent',
+            'Viewed',
+            'Paid',
+            'Complete',
+            'Confirmed'
         ];
 
         // @TODO: Make this better w/ optional completions/values/cars/etc.
@@ -39,10 +64,10 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                     ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                     ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                     ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
-                    ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
-                    ->setMPIStatus($statusOptions[$faker->numberBetween(0, 5)])
-                    ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
-                    ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
+                    ->setVideoStatus($videoOptions[$faker->numberBetween(0, 3)])
+                    ->setMPIStatus($mpiOptions[$faker->numberBetween(0, 3)])
+                    ->setPaymentStatus($paymentOptions[$faker->numberBetween(0, 5)])
+                    ->setQuoteStatus($quoteOptions[$faker->numberBetween(0, 7)])
                     ->setWaiter($faker->boolean(25))
                     ->setLinkHash(sha1('test'))
                     ->setDeleted($faker->boolean(2))
@@ -97,10 +122,10 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                         ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                         ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                         ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
-                        ->setVideoStatus($statusOptions[$faker->numberBetween(0, 5)])
-                        ->setMPIStatus($statusOptions[$faker->numberBetween(0, 5)])
-                        ->setPaymentStatus($statusOptions[$faker->numberBetween(0, 5)])
-                        ->setQuoteStatus($statusOptions[$faker->numberBetween(0, 5)])
+                        ->setVideoStatus($videoOptions[$faker->numberBetween(0, 3)])
+                        ->setMPIStatus($mpiOptions[$faker->numberBetween(0, 3)])
+                        ->setPaymentStatus($paymentOptions[$faker->numberBetween(0, 5)])
+                        ->setQuoteStatus($quoteOptions[$faker->numberBetween(0, 7)])
                         ->setWaiter($waiter)
                         ->setPickupDate($pickupDate)
                         ->setLinkHash(sha1($faker->unique(true)->randomAscii))
@@ -128,7 +153,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
     /**
      * @return string[]
      */
-    public function getDependencies () {
+    public function getDependencies (): array {
         return [
             UserFixture::class,
             CustomerFixture::class

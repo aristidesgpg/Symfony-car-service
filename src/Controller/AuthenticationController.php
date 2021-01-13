@@ -107,7 +107,7 @@ class AuthenticationController extends AbstractFOSRestController {
         $ttl           = 28800; // Default 8 hours
 
         if ((!$username || !$password) && !$linkHash && (!$username || !$pin)) {
-            goto INVALID;
+            return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
         }
 
         // Standard login
@@ -121,13 +121,13 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // But it was invalid
                 if (!$isValid) {
-                    goto INVALID;
+                    return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                 }
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
                 $roles         = $user->getRoles();
-                goto TOKEN;
+                return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder, $user);
             }
         }
 
@@ -140,21 +140,21 @@ class AuthenticationController extends AbstractFOSRestController {
             if ($user) {
                 // Validate if tech
                 if (!$user->isTechnician()) {
-                    goto INVALID;
+                    return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                 }
 
                 $isValid = $pin === $user->getPin();
 
                 // But it was invalid
                 if (!$isValid) {
-                    goto INVALID;
+                    return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                 }
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
                 $roles         = $user->getRoles();
                 $ttl           = 3600; // Techs get logged in 1 hour
-                goto TOKEN;
+                return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder, $user);
             }
         }
 
@@ -162,13 +162,13 @@ class AuthenticationController extends AbstractFOSRestController {
         if ($linkHash) {
             $repairOrder = $repairOrderRepository->findByUID($linkHash);
             if (!$repairOrder) {
-                goto INVALID;
+                return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
             }
 
             // Successful customer "login"
             $tokenUsername = $repairOrder->getPrimaryCustomer()->getPhone();
             $roles         = ['ROLE_CUSTOMER'];
-            goto TOKEN;
+            return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
         }
 
         // Logging in from tech app
@@ -182,9 +182,9 @@ class AuthenticationController extends AbstractFOSRestController {
                         $tokenUsername = 'technician';
                         $roles         = ['ROLE_TECHNICIAN'];
                         $ttl           = 31536000; // 1 year
-                        goto TOKEN;
+                        return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
                     } else {
-                        goto INVALID;
+                        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
                     }
                 }
             } catch (Exception $e) {
@@ -200,21 +200,21 @@ class AuthenticationController extends AbstractFOSRestController {
             if ($dealerResponse) {
                 $tokenUsername = 'dealer';
                 $roles         = ['ROLE_ADMIN'];
-                goto TOKEN;
+                return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
             }
-
-            // Now try iService agent
-            //            $agentResponse = $wordpressLogin->validateUserPassword($username, $password, false);
-            //            if ($agentResponse) {
-            //                $tokenUsername = 'iservice';
-            //                goto TOKEN;
-            //            }
         }
+    }
 
-        INVALID:
-        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
-
-        TOKEN:
+    /**
+     * @param String              $tokenUsername
+     * @param array               $roles
+     * @param Integer             $ttl
+     * @param JWTEncoderInterface $JWTEncoder
+     * @param User                $user
+     *
+     * @return Response
+     */
+    public function returnToken(String $tokenUsername, array $roles, $ttl, JWTEncoderInterface $JWTEncoder, User $user = null){
         try {
             $token = $JWTEncoder->encode([
                 'username' => $tokenUsername,
@@ -224,9 +224,19 @@ class AuthenticationController extends AbstractFOSRestController {
             return $this->handleView($this->view('Login Failed. Please try again later.', Response::HTTP_INTERNAL_SERVER_ERROR));
         }
 
+        if(!$user){
+            return $this->handleView($this->view([
+                'token' => $token,
+                'roles' => $roles
+            ], Response::HTTP_OK));
+        }
+
         return $this->handleView($this->view([
             'token' => $token,
-            'roles' => $roles
+            'roles' => $roles,
+            'user'  => $user
         ], Response::HTTP_OK));
     }
 }
+
+

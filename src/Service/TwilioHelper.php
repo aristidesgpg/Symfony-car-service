@@ -3,11 +3,14 @@
 namespace App\Service;
 
 use App\Entity\PhoneLookup;
+use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 
 class TwilioHelper {
+    use iServiceLoggerTrait;
+
     /** @var Client */
     private $twilio;
 
@@ -17,9 +20,9 @@ class TwilioHelper {
     /** @var string */
     private $fromNumber;
 
-    public function __construct(Client $twilio, EntityManagerInterface $em, SettingsHelper $settings) {
-        $this->twilio = $twilio;
-        $this->em = $em;
+    public function __construct (Client $twilio, EntityManagerInterface $em, SettingsHelper $settings) {
+        $this->twilio     = $twilio;
+        $this->em         = $em;
         $this->fromNumber = '+1' . $settings->getSetting('serviceTwilioFromNumber');
     }
 
@@ -46,7 +49,7 @@ class TwilioHelper {
      * @return PhoneLookup
      */
     public function lookupNumber (string $phone): PhoneLookup {
-        $phone = '+1' . $phone;
+        $phone  = '+1' . $phone;
         $lookup = $this->em->find(PhoneLookup::class, $phone);
         if ($lookup instanceof PhoneLookup) {
             return $lookup;
@@ -54,7 +57,7 @@ class TwilioHelper {
 
         try {
             $instance = $this->twilio->lookups->v1->phoneNumbers($phone)->fetch(['type' => 'carrier']);
-            $lookup = new PhoneLookup($phone, $instance);
+            $lookup   = new PhoneLookup($phone, $instance);
         } catch (TwilioException $e) {
             if ($e->getCode() === 20404) { // Technically a 404, can mean a bad/non-existent phone number
                 $lookup = new PhoneLookup($phone);
@@ -91,7 +94,13 @@ class TwilioHelper {
         curl_close($curl);
 
         if (!$response || isset($response['error'])) {
-            throw new \RuntimeException('Could not send message with shortcode');
+            $error = sprintf(
+                'Could not send message with shortcode. Error: (%s) %s',
+                $response['error'] ?? 'Unknown',
+                $response['message'] ?? 'Unknown'
+            );
+            $this->logInfo($error);
+            throw new \RuntimeException($error);
         }
     }
 }

@@ -63,11 +63,10 @@ class VideoHelper {
             $video->setTechnician($tech);
         }
         $interaction = new RepairOrderVideoInteraction();
-        $interaction->setType('Created')
+        $interaction->setType('Uploaded')
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction);
         $ro->addVideo($video);
-        $ro->updateVideoStatus();
 
         $this->em->persist($video);
         $this->em->flush();
@@ -101,14 +100,17 @@ class VideoHelper {
         $message = $this->settings->find('serviceTextVideo')->getValue();
         $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $video->getRepairOrder()->getLinkHash();
         $shortUrl = $this->urlHelper->generateShortUrl($url);
-        $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
+        try {
+            $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
+        } catch (\Exception $e) {
+            return;
+        }
 
         $interaction = new RepairOrderVideoInteraction();
-        $interaction->setType('Customer Sent')
+        $interaction->setType('Sent')
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction)
               ->setShortUrl($shortUrl);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }
@@ -120,19 +122,16 @@ class VideoHelper {
     public function viewVideo (RepairOrderVideo $video, $user): void {
         $interaction = new RepairOrderVideoInteraction();
         if ($user instanceof Customer) {
-            $type = 'Customer Viewed';
             $interaction->setCustomer($user);
         } elseif ($user instanceof User) {
-            $type = 'Advisor Viewed';
             $interaction->setUser($user);
         } else {
             throw new \InvalidArgumentException(sprintf('Invalid type for $user: %s', get_class($user)));
         }
 
         $interaction->setRepairOrderVideo($video)
-                    ->setType($type);
+                    ->setType('Viewed');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }
@@ -147,7 +146,6 @@ class VideoHelper {
                     ->setUser($user)
                     ->setType('Advisor Approved');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
 
@@ -164,7 +162,6 @@ class VideoHelper {
                     ->setUser($user)
                     ->setType('Advisor Confirmed Viewed');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }
