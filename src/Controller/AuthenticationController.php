@@ -205,6 +205,8 @@ class AuthenticationController extends AbstractFOSRestController {
                 $this->logInfo('Technician App Username not found in settings and wasn\'t created.');
             }
         }
+
+        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
     }
 
     /**
