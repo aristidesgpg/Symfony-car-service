@@ -359,6 +359,24 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
+        // check email duplication
+        if ($email !== $user->getEmail()) {
+            $isEmailValid = $userHelper->isValidEmail($email);
+            if ($isEmailValid === false) {
+                return $this->handleView($this->view('Email already registered. Try another email!', Response::HTTP_BAD_REQUEST));
+            }
+            else if ($isEmailValid instanceof User) {
+                // Deactivate current user
+                $user->setActive(false);
+                $em->persist($user);
+                $em->flush();
+
+                // Activate another user
+                $user = $isEmailValid;
+                $user->setActive(true);
+            }
+        }
+
         // update user
         $user->setFirstName($firstName)
              ->setLastName($lastName)

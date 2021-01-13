@@ -80,7 +80,7 @@ class UserHelper {
     }
 
     /**
-     * Check if email is unique while creating a user, not for updating user
+     * Check if email is unique while creating/updating a user
      * 
      * @param string $email
      * 
