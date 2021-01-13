@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use App\Service\UserHelper;
-use Symfony\Component\Validator\Constraints\Email;
-use Symfony\Component\Validator\Constraints\EmailValidator;
 
 /**
  * Class UserController
@@ -196,15 +194,18 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        // Check if email is valid
-        $emailValidator = new EmailValidator();
-
-        if(!$emailValidator->isValid($email, new Email())) 
-        { 
-            return $this->handleView($this->view('Invalid Email', Response::HTTP_BAD_REQUEST));
+        // check email duplication
+        $user = $userHelper->isValidEmail($email);
+        if ($user === false) {
+            return $this->handleView($this->view('Email already registered. Try another email!', Response::HTTP_BAD_REQUEST));
+        }
+        else if ($user === true) {
+            $user = new User();
+        }
+        else {
+            $user->setActive(true);
         }
 
-        $user = new User();
         $user->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
