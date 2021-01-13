@@ -117,8 +117,22 @@ class AuthenticationController extends AbstractFOSRestController {
 
             // User was found
             if ($user) {
-                $isValid = $passwordEncoder->isPasswordValid($user, $password);
+                //check if wp login
+                if($user->getExternalAuthentication()){
+                    // First try dealer
+                    $dealerResponse = $wordpressLogin->validateUserPassword($username, $password);
 
+                    if (!$dealerResponse) 
+                        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
+
+                    $tokenUsername = 'dealer';
+                    $roles         = ['ROLE_ADMIN'];
+                    return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
+                    
+                }
+                //system login
+
+                $isValid = $passwordEncoder->isPasswordValid($user, $password);
                 // But it was invalid
                 if (!$isValid) {
                     return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
@@ -189,18 +203,6 @@ class AuthenticationController extends AbstractFOSRestController {
                 }
             } catch (Exception $e) {
                 $this->logInfo('Technician App Username not found in settings and wasn\'t created.');
-            }
-        }
-
-        // WP admin
-        if ($username && $password) {
-            // First try dealer
-            $dealerResponse = $wordpressLogin->validateUserPassword($username, $password);
-
-            if ($dealerResponse) {
-                $tokenUsername = 'dealer';
-                $roles         = ['ROLE_ADMIN'];
-                return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
             }
         }
     }
