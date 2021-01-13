@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use App\Service\UserHelper;
+use App\Service\SecurityHelper;
 
 /**
  * Class UserController
@@ -469,10 +470,10 @@ class UserController extends AbstractFOSRestController {
         }
         $userRole            = $user->getRoles();
         $authRole            = $auth->getRoles();
-        $serviceManagerRoles = ["ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR"];
+        $serviceManagerRoles = ["ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR"];
         $salesManagerRoles   = ["ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"];
         //check if user has permission
-        if(!($users->getId() == $auth->getId()) && !($authRole[0] == "ROLE_ADMIN") && !($auth[0] == "ROLE_SERVICE_MANAGER" && in_array($userRole[0], $serviceManagerRoles)) && !($auth[0] == "ROLE_SALES_MANAGER" && in_array($userRole[0], $salesManagerRoles))){
+        if(!($user->getId() == $auth->getId()) && !($authRole[0] == "ROLE_ADMIN") && !($authRole[0] == "ROLE_SERVICE_MANAGER" && in_array($userRole[0], $serviceManagerRoles)) && !($authRole[0] == "ROLE_SALES_MANAGER" && in_array($userRole[0], $salesManagerRoles))){
             return $this->handleView($this->view('Authenticated User Has No Permission to Perform This Action', Response::HTTP_FORBIDDEN));
         }
 
