@@ -268,6 +268,11 @@ class ServiceSMSController extends AbstractFOSRestController {
      *     )
      * )
      *
+     * * @SWG\Response(
+     *     response=403,
+     *     description="Permision Denied",
+     * )
+     * 
      * @param Request               $request
      * @param ServiceSMSRepository  $serviceSMSRepos
      * @param PaginatorInterface    $paginator
@@ -315,6 +320,8 @@ class ServiceSMSController extends AbstractFOSRestController {
                             group by ss.user_id, ss.customer_id
                             order by ss2.unreads DESC, ss.date DESC";  
             }
+        }else{
+            return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
         }
 
         $em = $this->getDoctrine()->getManager();
