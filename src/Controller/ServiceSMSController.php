@@ -384,14 +384,14 @@ class ServiceSMSController extends AbstractFOSRestController {
                 $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unreads
                             FROM (select * from service_sms where date In (select max(date) from service_sms group by user_id ,customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
-                            LEFT JOIN (select user_id, customer_id, COUNT(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
+                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
                             Where ss.user_id In (select id from user where share_repair_orders=1) ";
              }
             else{
                 $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unreads
                             FROM (select * from service_sms where date In (select max(date) from service_sms group by user_id ,customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
-                            LEFT JOIN (select user_id, customer_id, COUNT(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
+                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
                             Where ss.user_id = '" . $user->getId() ;
             }
         }else{
