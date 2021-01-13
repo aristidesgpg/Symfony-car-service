@@ -17,6 +17,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Swagger\Annotations as SWG;
 use DateTime;
 
@@ -53,6 +54,35 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         $repairOrderQuotes = $repairOrderQuoteRepository->findBy(['deleted' => 0]);
         $view              = $this->view($repairOrderQuotes);
         $view->getContext()->setGroups(['roq_list']);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Get("/api/repair-order-quote/{id}")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Get(description="Get Repair Order Quote")
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(ref=@Model(type=RepairOrderQuote::class, groups=RepairOrderQuote::GROUPS))
+     * )
+     *
+     * @SWG\Response(response="404", description="ROQ does not exist")
+     * 
+     * @param RepairOrderQuote           $repairOrderQuote
+     *
+     * @return Response
+     */
+    public function getRepairOrderQuote ( RepairOrderQuote $repairOrderQuote) {
+        if ( $repairOrderQuote->getDeleted() ) {
+            throw new NotFoundHttpException();
+        }
+
+        $view = $this->view($repairOrderQuote);
+        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
 
         return $this->handleView($view);
     }
@@ -261,9 +291,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
      */
     public function deleteRepairOrderQuote (RepairOrderQuote $repairOrderQuote, EntityManagerInterface $em) {
         //delete repairOrderQuote
-        $repairOrderQuote->setDeleted(true);
-
-        $em->persist($repairOrderQuote);
+        $em->remove($repairOrderQuote);
         $em->flush();
 
         return $this->handleView($this->view([

@@ -117,8 +117,22 @@ class AuthenticationController extends AbstractFOSRestController {
 
             // User was found
             if ($user) {
-                $isValid = $passwordEncoder->isPasswordValid($user, $password);
+                //check if wp login
+                if($user->getExternalAuthentication()){
+                    // First try dealer
+                    $dealerResponse = $wordpressLogin->validateUserPassword($username, $password);
 
+                    if (!$dealerResponse) 
+                        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
+
+                    $tokenUsername = 'dealer';
+                    $roles         = ['ROLE_ADMIN'];
+                    return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
+                    
+                }
+                //system login
+
+                $isValid = $passwordEncoder->isPasswordValid($user, $password);
                 // But it was invalid
                 if (!$isValid) {
                     return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
@@ -191,30 +205,18 @@ class AuthenticationController extends AbstractFOSRestController {
                 $this->logInfo('Technician App Username not found in settings and wasn\'t created.');
             }
         }
-
-        // WP admin
-        if ($username && $password) {
-            // First try dealer
-            $dealerResponse = $wordpressLogin->validateUserPassword($username, $password);
-
-            if ($dealerResponse) {
-                $tokenUsername = 'dealer';
-                $roles         = ['ROLE_ADMIN'];
-                return $this->returnToken($tokenUsername, $roles, $ttl, $JWTEncoder);
-            }
-        }
     }
 
     /**
      * @param String              $tokenUsername
      * @param array               $roles
-     * @param Integer             $ttl
+     * @param mixed               $ttl
      * @param JWTEncoderInterface $JWTEncoder
-     * @param User                $user
+     * @param User|null           $user
      *
      * @return Response
      */
-    public function returnToken(String $tokenUsername, array $roles, $ttl, JWTEncoderInterface $JWTEncoder, User $user = null){
+    public function returnToken(String $tokenUsername, array $roles, $ttl, JWTEncoderInterface $JWTEncoder, User $user = null): Response {
         try {
             $token = $JWTEncoder->encode([
                 'username' => $tokenUsername,
@@ -231,11 +233,23 @@ class AuthenticationController extends AbstractFOSRestController {
             ], Response::HTTP_OK));
         }
 
-        return $this->handleView($this->view([
+        return $this->userView([
             'token' => $token,
             'roles' => $roles,
             'user'  => $user
-        ], Response::HTTP_OK));
+        ]);
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return Response
+     */
+    private function userView ($data): Response {
+        $view = $this->view($data);
+        $view->getContext()->setGroups(['user_list']);
+
+        return $this->handleView($view);
     }
 }
 
