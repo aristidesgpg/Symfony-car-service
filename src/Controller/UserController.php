@@ -162,10 +162,12 @@ class UserController extends AbstractFOSRestController {
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
+     * @param UserRepository         $userRepo
      *
      * @return Response
      */
-    public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
+    public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper,
+                         UserRepository $userRepo) {
         $role              = $request->get('role');
         $firstName         = $request->get('firstName');
         $lastName          = $request->get('lastName');
@@ -194,16 +196,16 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        // check email duplication
-        $user = $userHelper->isValidEmail($email);
-        if ($user === false) {
-            return $this->handleView($this->view('Email already registered. Try another email!', Response::HTTP_BAD_REQUEST));
-        }
-        else if ($user === true) {
+        // Make sure it wasn't a duplicate
+        $user = $userRepo->findOneBy(['email' => $email]);
+        if ($user) {
+            if ($user->getActive()) {
+                return $this->handleView($this->view('Email already registered. Try another email!', Response::HTTP_NOT_ACCEPTABLE));
+            } else {
+                $user->setActive(true);
+            }
+        } else {
             $user = new User();
-        }
-        else {
-            $user->setActive(true);
         }
 
         $user->setFirstName($firstName)
@@ -330,10 +332,12 @@ class UserController extends AbstractFOSRestController {
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
+     * @param UserRepository         $userRepo
      *
      * @return Response
      */
-    public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
+    public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper,
+                          UserRepository $userRepo) {
         $role              = $request->get('role') ?? $user->getRoles()[0];
         $firstName         = $request->get('firstName') ?? $user->getFirstName();
         $lastName          = $request->get('lastName') ?? $user->getLastName();
@@ -359,21 +363,13 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        // check email duplication
+        // They tried to change the email
         if ($email !== $user->getEmail()) {
-            $isEmailValid = $userHelper->isValidEmail($email);
-            if ($isEmailValid === false) {
-                return $this->handleView($this->view('Email already registered. Try another email!', Response::HTTP_BAD_REQUEST));
-            }
-            else if ($isEmailValid instanceof User) {
-                // Deactivate current user
-                $user->setActive(false);
-                $em->persist($user);
-                $em->flush();
+            $existingUser = $userRepo->findOneBy(['email' => $email]);
 
-                // Activate another user
-                $user = $isEmailValid;
-                $user->setActive(true);
+            // Email was already used by someone else in the system
+            if ($existingUser) {
+                return $this->handleView($this->view('This email has already been used by someone else. Try another email!', Response::HTTP_NOT_ACCEPTABLE));
             }
         }
 

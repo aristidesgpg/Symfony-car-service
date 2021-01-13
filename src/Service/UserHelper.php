@@ -78,26 +78,4 @@ class UserHelper {
     public function passwordEncoder (User $user, string $password) {
         return $this->passwordEncoder->encodePassword($user, $password);
     }
-
-    /**
-     * Check if email is unique while creating/updating a user
-     * 
-     * @param string $email
-     * 
-     * @return mixed
-     */
-    public function isValidEmail (string $email) {
-        $user = $this->userRepository->findOneBy(['email' => $email]);
-        if($user) {
-            if($user->getActive()) {
-                return false;
-            }
-            else {
-                return $user;
-            }
-        }
-        else {
-            return true;
-        }
-    }
 }
