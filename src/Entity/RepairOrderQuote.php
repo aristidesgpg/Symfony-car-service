@@ -73,7 +73,7 @@ class RepairOrderQuote
 
     public function __construct()
     {
-        $this->dateCreated              = new DateTime();
+        $this->dateCreated                     = new DateTime();
         $this->repairOrderQuoteRecommendations = new ArrayCollection();
     }
 
