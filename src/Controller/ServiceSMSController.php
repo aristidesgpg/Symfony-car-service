@@ -280,18 +280,49 @@ class ServiceSMSController extends AbstractFOSRestController {
         ServiceSMSRepository  $serviceSMSRepos,
         PaginatorInterface    $paginator,
         UrlGeneratorInterface $urlGenerator
-    ) {
+     ) {
         $page        = $request->query->getInt('page', 1);
         $user        = $this->getUser();
+        $role              = $user->getRoles();
+        $shareRepairOrders = $user->getShareRepairOrders();
+
         $pageLimit   = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $threadQuery = $serviceSMSRepos->getThreads($user);
 
-        $pager       = $paginator->paginate($threadQuery, $page, $pageLimit);
+        if($role[0] == "ROLE_ADMIN" || $role[0] == "ROLE_SERVICE_MANAGER"){                         
+            $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unreads
+                            FROM (select * from service_sms where date In (select max(date) from service_sms group by user_id ,customer_id)) ss
+                            LEFT JOIN customer c ON c.id = ss.customer_id
+                            LEFT JOIN (select user_id, customer_id, COUNT(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
+                            group by ss.user_id, ss.customer_id
+                            order by ss2.unreads DESC, ss.date DESC";
+                            
+        }else if($role[0] == "ROLE_SERVICE_ADVISOR"){
+            if($shareRepairOrders){
+                $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unreads
+                            FROM (select * from service_sms where date In (select max(date) from service_sms group by user_id ,customer_id)) ss
+                            LEFT JOIN customer c ON c.id = ss.customer_id
+                            LEFT JOIN (select user_id, customer_id, COUNT(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
+                            Where ss.user_id In (select id from user where share_repair_orders=1)
+                            group by ss.user_id, ss.customer_id
+                            order by ss2.unreads DESC, ss.date DESC";  
+             }
+            else{
+                $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unreads
+                            FROM (select * from service_sms where date In (select max(date) from service_sms group by user_id ,customer_id)) ss
+                            LEFT JOIN customer c ON c.id = ss.customer_id
+                            LEFT JOIN (select user_id, customer_id, COUNT(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
+                            Where ss.user_id = '" . $user->getId() . "'
+                            group by ss.user_id, ss.customer_id
+                            order by ss2.unreads DESC, ss.date DESC";  
+            }
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $statement = $em->getConnection()->prepare($threadQuery);
+        $statement->execute();
+ 
+        $pager       = $paginator->paginate( $statement->fetchAll() , $page, $pageLimit);
         $pagination  = new Pagination($pager, $pageLimit, $urlGenerator);
-
-        // return $this->handleView($this->view([
-        //     "query" => $threadQuery->getSql()
-        // ]), Response::HTTP_OK);
 
         $json = [
             'threads'      => $pager->getItems(),
