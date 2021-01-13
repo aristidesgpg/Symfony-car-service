@@ -527,7 +527,7 @@ class UserController extends AbstractFOSRestController {
         }
 
         // email is invalid
-        $user = $userRepo->findOneBy(['email' => $email]);
+        $user = $userRepo->findOneBy(['email' => $email, 'active' => true]);
         if (!$user) {
             return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
         }
