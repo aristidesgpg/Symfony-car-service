@@ -58,6 +58,8 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
+        $this->addReference('user_1', $user);
+
         $user     = new User();
         $password = $this->passwordEncoder->encodePassword($user, 'test');
         $user->setFirstName('Joe')
@@ -69,6 +71,8 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
+        $this->addReference('user_2', $user);
+
         $user     = new User();
         $password = $this->passwordEncoder->encodePassword($user, 'test');
         $user->setFirstName('Test')
@@ -79,6 +83,8 @@ class UserFixture extends Fixture {
              ->setRole('ROLE_ADMIN');
         $manager->persist($user);
         $manager->flush();
+
+        $this->addReference('user_3', $user);
 
         $user     = new User();
         $password = $this->passwordEncoder->encodePassword($user, 'test');
@@ -92,7 +98,9 @@ class UserFixture extends Fixture {
         $manager->persist($user);
         $manager->flush();
 
-        for ($i = 1; $i <= 50; $i++) {
+        $this->addReference('user_4', $user);
+
+        for ($i = 5; $i <= 50; $i++) {
             $user     = new User();
             $phone    = $faker->phoneNumber;
             $phone    = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $phone);
