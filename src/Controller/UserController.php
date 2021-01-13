@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use App\Service\UserHelper;
+use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\EmailValidator;
 
 /**
  * Class UserController
@@ -192,6 +194,14 @@ class UserController extends AbstractFOSRestController {
         }
         if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // Check if email is valid
+        $emailValidator = new EmailValidator();
+
+        if(!$emailValidator->isValid($email, new Email())) 
+        { 
+            return $this->handleView($this->view('Invalid Email', Response::HTTP_BAD_REQUEST));
         }
 
         $user = new User();
