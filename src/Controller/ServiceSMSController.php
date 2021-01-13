@@ -328,9 +328,9 @@ class ServiceSMSController extends AbstractFOSRestController {
             'threads'      => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('/api/service-sms/threads'),
+            'previous'     => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('/api/service-sms/threads')
+            'next'         => $pagination->getNextPageURL('app_servicesms_getthreads')
         ];
 
         return $this->handleView($this->view($json), Response::HTTP_OK);
