@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
 use App\Service\UserHelper;
+use App\Service\SecurityHelper;
 
 /**
  * Class UserController
@@ -416,5 +417,186 @@ class UserController extends AbstractFOSRestController {
         $view->getContext()->setGroups(['user_list']);
 
         return $this->handleView($view);
+    }
+
+    //Security
+
+    /**
+     * @Rest\Patch("/api/security/{id}/set")
+     *
+     * @SWG\Tag(name="Security")
+     * @SWG\Patch(description="Set Security question and answer for a User")
+     *
+     * @SWG\Parameter(
+     *     name="question",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Security Question of a User",
+     * )
+     * @SWG\Parameter(
+     *     name="answer",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Security Answer of a User",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Security Question Has Been Updated" }),
+     *         )
+     * )
+     *
+     * @param User                   $user
+     * @param Request                $request
+     * @param UserHelper             $userHelper
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function security (User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em) {
+        $question = $request->get('question');
+        $answer   = $request->get('answer');
+        $auth     = $this->getUser();
+
+        //check if parameters are valid
+        if (!$question || !$answer) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        $userRole            = $user->getRoles();
+        $authRole            = $auth->getRoles();
+        $serviceManagerRoles = ["ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR"];
+        $salesManagerRoles   = ["ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"];
+        //check if user has permission
+        if(!($user->getId() == $auth->getId()) && !($authRole[0] == "ROLE_ADMIN") && !($authRole[0] == "ROLE_SERVICE_MANAGER" && in_array($userRole[0], $serviceManagerRoles)) && !($authRole[0] == "ROLE_SALES_MANAGER" && in_array($userRole[0], $salesManagerRoles))){
+            return $this->handleView($this->view('Authenticated User Has No Permission to Perform This Action', Response::HTTP_FORBIDDEN));
+        }
+
+        //set security question and answer
+        $user->setSecurityQuestion($question)
+             ->setSecurityAnswer($userHelper->passwordEncoder($user, strtolower($answer)));
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'Security Question Has Been Updated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Post("/api/security/get-security-question")
+     *
+     * @SWG\Tag(name="Security")
+     * @SWG\Post(description="Return Security Question")
+     *
+     * @SWG\Parameter(
+     *     name="email",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Email of the User",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return Security Question",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="security question", example={"status":
+     *                                              "What is your name?" }),
+     *         )
+     * )
+     *
+     * @param Request        $request
+     * @param UserRepository $userRepo
+     *
+     * @return Response
+     */
+    public function getSecurityQuestion (Request $request, UserRepository $userRepo) {
+        $email  = $request->get('email');
+
+        // check if parameter is valid
+        if (!$email) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // email is invalid
+        $user = $userRepo->findOneBy(['email' => $email]);
+        if (!$user) {
+            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        return $this->handleView($this->view([
+            'securityQuestion' => $user->getSecurityQuestion()
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Patch("/api/security/reset-password")
+     *
+     * @SWG\Tag(name="Security")
+     * @SWG\Patch(description="Reset User Password")
+     *
+     * @SWG\Parameter(
+     *     name="token",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Reset Password Token of the User",
+     * )
+     * @SWG\Parameter(
+     *     name="password",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The New Password of the User",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Password Has Been Reset" }),
+     *         )
+     * )
+     *
+     * @param Request        $request
+     * @param SecurityHelper $securityHelper
+     * @param UserRepository $userRepo
+     *
+     * @return Response
+     */
+    public function resetPassword (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
+        $token    = $request->get('token');
+        $password = $request->get('password');
+
+        // check if parameter is valid
+        if (!$password || !$token) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // token is invalid
+        if (!$securityHelper->validateToken($token)) {
+            return $this->handleView($this->view('Invalid Token', Response::HTTP_UNAUTHORIZED));
+        }
+
+        if (!$securityHelper->resetPassword($token, $password)) {
+            return $this->handleView($this->view(
+                'Something Went Wrong Trying to Reset the Password',
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            ));
+        }
+
+        return $this->handleView($this->view([
+            'message' => 'Password Has Been Reset'
+        ], Response::HTTP_OK));
     }
 }
