@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderMPI;
+use App\Entity\RepairOrderMPIInteraction;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Repository\RepairOrderRepository;
@@ -92,6 +93,8 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
+        //update RepairOrder MPI Status
+        $repairOrder->setMpiStatus("Completed");
         //check if repair Order is duplicated
         $isDuplicated = $repairOrderMPIRepos->findBy(['repairOrder' => $repairOrderID]);
         if($isDuplicated){
@@ -150,6 +153,13 @@ class RepairOrderMPIController extends AbstractFOSRestController {
             $em->persist($rOQRecom);
             $em->flush();
         }
+
+        //Create RepairOrderMPIInteraction
+        $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
+        $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
+                                  ->setUser($repairOrder->getPrimaryTechnician())
+                                  ->setCustomer($repairOrder->getPrimaryCustomer())
+                                  ->setType("Completed");
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderMPI Created'
