@@ -167,6 +167,52 @@ class RepairOrderMPIController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Post("/api/repair-order-mpi/{id}/view")
+     *
+     * @SWG\Tag(name="Repair Order MPI")
+     * @SWG\Post(description="Create a new Repair Order MPIs")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Created" }),
+     *         )
+     * )
+     *
+     * @param RepairOrderMPI           $repairOrderMPI
+     * @param RepairOrderRepository    $repairOrderRepository
+     * @param OperationCodeRepository  $operationCodeRepository
+     * @param RepairOrderMPIRepository $repairOrderMPIRepos
+     * @param EntityManagerInterface   $em
+     *
+     * @return Response
+     */
+    public function customerViewed (
+        RepairOrderMPI           $repairOrderMPI, 
+        RepairOrderRepository    $repairOrderRepository,
+        OperationCodeRepository  $operationCodeRepository, 
+        RepairOrderMPIRepository $repairOrderMPIRepos,
+        EntityManagerInterface   $em
+    ) {
+        $repairOrder = $repairOrderMPI->getRepairOrder();
+        //Create RepairOrderMPIInteraction
+        $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
+        $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType("Viewed");
+        //update RepairOrder MPI Status
+        $repairOrder->setMpiStatus("Viewed");
+
+        return $this->handleView($this->view([
+            'message' => 'RepairOrderMPI Status Updated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
      * @Rest\Delete("/api/repair-order-mpi/{id}")
      *
      * @SWG\Tag(name="Repair Order MPI")

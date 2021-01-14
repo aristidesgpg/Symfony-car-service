@@ -54,6 +54,11 @@ class RepairOrderMPI
      */
     private $repairOrderMPIInteractions;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateViewed;
+
     public function __construct()
     {
         $this->dateCompleted = new DateTime();
@@ -140,6 +145,18 @@ class RepairOrderMPI
                 $repairOrderMPIInteraction->setRepairOrderMPI(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateViewed(): ?\DateTimeInterface
+    {
+        return $this->dateViewed;
+    }
+
+    public function setDateViewed(\DateTimeInterface $dateViewed): self
+    {
+        $this->dateViewed = $dateViewed;
 
         return $this;
     }
