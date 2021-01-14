@@ -56,6 +56,7 @@ class RepairOrderMPI
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"rom_list","ro_list"})
      */
     private $dateViewed;
 

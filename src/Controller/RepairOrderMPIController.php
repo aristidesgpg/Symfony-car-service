@@ -19,6 +19,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Swagger\Annotations as SWG;
+use DateTime;
 
 /**
  * Class RepairOrderMPIController
@@ -161,6 +162,9 @@ class RepairOrderMPIController extends AbstractFOSRestController {
                                   ->setCustomer($repairOrder->getPrimaryCustomer())
                                   ->setType("Completed");
 
+        $em->persist($repairOrderMPIInteraction);
+        $em->flush();
+
         return $this->handleView($this->view([
             'message' => 'RepairOrderMPI Created'
         ], Response::HTTP_OK));
@@ -178,7 +182,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Created" }),
+     *                                              "RepairOrderMPI Status Updated" }),
      *         )
      * )
      *
@@ -198,14 +202,21 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         EntityManagerInterface   $em
     ) {
         $repairOrder = $repairOrderMPI->getRepairOrder();
+        //update RepairOrder MPI Status
+        $repairOrder->setMpiStatus("Viewed");
+        //set RepairOrderMPI dateViewed
+        $repairOrderMPI->setDateViewed(new DateTime());
+
         //Create RepairOrderMPIInteraction
         $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
         $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
                                     ->setUser($repairOrder->getPrimaryTechnician())
                                     ->setCustomer($repairOrder->getPrimaryCustomer())
                                     ->setType("Viewed");
-        //update RepairOrder MPI Status
-        $repairOrder->setMpiStatus("Viewed");
+                                    
+        $em->persist($repairOrderMPIInteraction);
+        $em->flush();
+
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderMPI Status Updated'
