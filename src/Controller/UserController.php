@@ -265,6 +265,7 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="password",
      *     in="formData",
+     *     required=true,
      *     type="string",
      *     description="The Password of User",
      * )
