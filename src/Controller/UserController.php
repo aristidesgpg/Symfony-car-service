@@ -31,7 +31,6 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="role",
      *     in="query",
-     *     required=true,
      *     type="string",
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
@@ -55,12 +54,14 @@ class UserController extends AbstractFOSRestController {
     public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper) {
         $role = $request->query->get('role');
 
-        // role is invalid
-        if (!$role || !$userHelper->isValidRole($role)) {
-            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+        if(!$role){
+            $users = $userRepo->getActiveUsers();
         }
-
-        $users = $userRepo->getUserByRole($role);
+        else if (!$userHelper->isValidRole($role)) {
+            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+        }else{
+            $users = $userRepo->getUserByRole($role);
+        }
 
         return $this->userView($users);
     }
