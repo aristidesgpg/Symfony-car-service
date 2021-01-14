@@ -59,9 +59,9 @@ class RepairOrderCustomerController extends AbstractFOSRestController {
 
     public function new (RepairOrder $repairOrder, Request $request, CustomerRepository $customerRepository, 
                         EntityManagerInterface $em) {
-        $id = $request->get('customer');
+        $id                  = $request->get('customer');
 
-        $customer  = $customerRepository->findActive($id);
+        $customer            = $customerRepository->findActive($id);
         if(!$customer){
             throw new NotFoundHttpException();
         }
