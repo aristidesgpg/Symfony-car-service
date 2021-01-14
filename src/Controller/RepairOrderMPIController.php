@@ -47,14 +47,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *     type="string",
      *     description="{'name':'Toyota MPI','results':[{'group':'Brakes','items':[{'name':'Driver Front','value':10,'special':true,'status':'green'},{'name':'Passenger Front','value':10,'special':true,'status':'green'},{'name':'Driver Rear','value':10,'special':true,'status':'green'},{'name':'Passenger Rear','value':10,'special':true,'status':'green'}]},{'group':'Tires','items':[{'name':'Driver Front','value':7,'special':true,'status':'yellow'},{'name':'Passenger Front','value':7,'special':true,'status':'yellow'},{'name':'Driver Rear','value':7,'special':true,'status':'yellow'},{'name':'Passenger Rear','value':7,'special':true,'status':'yellow'}]},{'group':'Exterior','items':[{'name':'Horn operation','status':'green','special':false},{'name':'Head lights \/ tail lights \/ turn signals \/ brake lights \/ hazard warning lights \/ exterior lamps','status':'green','special':false},{'name':'Windshield wiper and washer operation','status':'green','special':false},{'name':'Windshield glass','status':'green','special':false},{'name':'Fuel tank cap gasket','status':'green','special':false}]},{'group':'Interior','items':[{'name':'Dome light \/ amp light \/ dimmer combination meter','status':'green','special':false},{'name':'Cabin air filter','status':'green','special':false},{'name':'Parking brake operation','status':'green','special':false},{'name':'Check installation of driver s floor mat','status':'green','special':false}]},{'group':'Under Hood','items':[{'name':'Air filter','status':'green','special':false},{'name':'Battery condition (cables \/ clamps \/ corrosion)','status':'green','special':false},{'name':'Battery state of health','status':'green','special':false},{'name':'Cooling System (leaks)','status':'green','special':false},{'name':'Hoses (cracks \/ damage \/ leaks)','status':'green','special':false},{'name':'Drive belts (cracks \/ damage \/ wear)','status':'green','special':false},{'name':'Radiator core \/ air condition condenser','status':'green','special':false}]},{'group':'Fluids','items':[{'name':'Windshield washer','status':'green','special':false},{'name':'Coolant','status':'green','special':false},{'name':'Power steering','status':'grey','special':false},{'name':'Brake reservoir','status':'green','special':false},{'name':'Clutch reservoir','status':'grey','special':false},{'name':'Transmission \/ transaxle','status':'green','special':false},{'name':'Differential','status':'grey','special':false},{'name':'Transfer case (4WD models)','status':'grey','special':false}]},{'group':'Under Vehicle','items':[{'name':'Propeller \/ driveshaft (damage \/ leaks \/ U-joints)','status':'grey','special':false},{'name':'Drive \/ CV shaft (damage \/ leaks \/boots)','status':'grey','special':false},{'name':'Axle hub & bearing (damage \/ leaks \/ boots)','status':'green','special':false},{'name':'Steering linkage (damage \/ leaks \/ noise)','status':'green','special':false},{'name':'Suspension (damage \/ leaks \/ worn components)','status':'green','special':false},{'name':'Fluid leaks (engine \/ transmission \/ differential)','status':'green','special':false},{'name':'Exhaust system (damage \/ leaks \/ corrosion)','status':'green','special':false},{'name':'Fuel lines & connections \/ fuel tank bands \/ fuel tank vapor vent system hoses (damage \/ leaks \/ corrosion)','status':'green','special':false}]}]}",
      * )
-     * @SWG\Parameter(
-     *     name="recommendations",
-     *     in="formData",
-     *     required=false,
-     *     type="string",
-     *     description="[{'operationCode':14, 'description':'Neque maxime ex dolorem ut.','preApproved':true,'approved':true,'partsPrice':1.0,'suppliesPrice':14.02,'laborPrice':5.3,'notes':'Cumque tempora ut nobis.'},{'operationCode':11, 'description':'Quidem earum sapiente at dolores quia natus.','preApproved':false,'approved':true,'partsPrice':2.6,'suppliesPrice':509.02,'laborPrice':36.9,'notes':'Et accusantium rerum.'},{'operationCode':4, 'description':'Mollitia unde nobis doloribus sed.','preApproved':true,'approved':false,'partsPrice':1.1,'suppliesPrice':71.7,'laborPrice':55.1,'notes':'Voluptates et aut debitis.'}]",
-     * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -67,7 +60,6 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      *
      * @param Request                  $request
      * @param RepairOrderRepository    $repairOrderRepository
-     * @param OperationCodeRepository  $operationCodeRepository
      * @param RepairOrderMPIRepository $repairOrderMPIRepos
      * @param EntityManagerInterface   $em
      *
@@ -76,13 +68,12 @@ class RepairOrderMPIController extends AbstractFOSRestController {
     public function createRepairOrderMPI (
         Request                  $request, 
         RepairOrderRepository    $repairOrderRepository,
-        OperationCodeRepository  $operationCodeRepository, 
         RepairOrderMPIRepository $repairOrderMPIRepos,
         EntityManagerInterface   $em
     ) {
         $repairOrderID   = $request->get('repairOrderID');
         $results         = str_replace("'",'"', $request->get('results'));
-        $recommendations = str_replace("'",'"', $request->get('recommendations'));
+
         //check if params are valid
         if(!$repairOrderID || !$results){
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
@@ -121,35 +112,6 @@ class RepairOrderMPIController extends AbstractFOSRestController {
 
         $em->persist($repairOrderMPI);
         $em->flush();
-
-        //create repairOrderQuote
-        $repairOrderQuote = new RepairOrderQuote();
-        $repairOrderQuote->setRepairOrder($repairOrder);
-
-        $em->persist($repairOrderQuote);
-        $em->flush();
-
-        //create repairOrderQuoteRecommendations
-        $recommendationsObj = (array)json_decode($recommendations);
-        foreach ($recommendationsObj as $index => $recommendation){
-            $rOQRecom = new RepairOrderQuoteRecommendation();
-            //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
-            if (!$operationCode) {
-                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
-            }
-            $rOQRecom->setRepairOrderQuote($repairOrderQuote)
-                     ->setOperationCode($operationCode)
-                     ->setDescription($recommendation->description)
-                     ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
-                     ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
-                     ->setPartsPrice($recommendation->partsPrice)
-                     ->setSuppliesPrice($recommendation->suppliesPrice)
-                     ->setNotes($recommendation->notes);
-
-            $em->persist($rOQRecom);
-            $em->flush();
-        }
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderMPI Created'
