@@ -79,11 +79,17 @@ class Customer implements UserInterface {
     private $repairOrderMPIInteractions;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderCustomer::class, mappedBy="customer", orphanRemoval=true)
+     */
+    private $repairOrderCustomers;
+
+    /**
      * Customer constructor.
      */
     public function __construct () {
         $this->primaryRepairOrders = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->repairOrderCustomers = new ArrayCollection();
     }
 
     /**
@@ -271,6 +277,37 @@ class Customer implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderMPIInteraction->getCustomer() === $this) {
                 $repairOrderMPIInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderCustomer[]
+     */
+    public function getRepairOrderCustomers(): Collection
+    {
+        return $this->repairOrderCustomers;
+    }
+
+    public function addRepairOrderCustomer(RepairOrderCustomer $repairOrderCustomer): self
+    {
+        if (!$this->repairOrderCustomers->contains($repairOrderCustomer)) {
+            $this->repairOrderCustomers[] = $repairOrderCustomer;
+            $repairOrderCustomer->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderCustomer(RepairOrderCustomer $repairOrderCustomer): self
+    {
+        if ($this->repairOrderCustomers->contains($repairOrderCustomer)) {
+            $this->repairOrderCustomers->removeElement($repairOrderCustomer);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderCustomer->getCustomer() === $this) {
+                $repairOrderCustomer->setCustomer(null);
             }
         }
 
