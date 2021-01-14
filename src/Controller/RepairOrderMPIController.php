@@ -174,7 +174,7 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      * @Rest\Post("/api/repair-order-mpi/{id}/view")
      *
      * @SWG\Tag(name="Repair Order MPI")
-     * @SWG\Post(description="Create a new Repair Order MPIs")
+     * @SWG\Post(description="Set RepairOrderMPI status as Viewed")
      *
      * @SWG\Response(
      *     response=200,
@@ -187,18 +187,12 @@ class RepairOrderMPIController extends AbstractFOSRestController {
      * )
      *
      * @param RepairOrderMPI           $repairOrderMPI
-     * @param RepairOrderRepository    $repairOrderRepository
-     * @param OperationCodeRepository  $operationCodeRepository
-     * @param RepairOrderMPIRepository $repairOrderMPIRepos
      * @param EntityManagerInterface   $em
      *
      * @return Response
      */
     public function customerViewed (
         RepairOrderMPI           $repairOrderMPI, 
-        RepairOrderRepository    $repairOrderRepository,
-        OperationCodeRepository  $operationCodeRepository, 
-        RepairOrderMPIRepository $repairOrderMPIRepos,
         EntityManagerInterface   $em
     ) {
         $repairOrder = $repairOrderMPI->getRepairOrder();
@@ -213,6 +207,53 @@ class RepairOrderMPIController extends AbstractFOSRestController {
                                     ->setUser($repairOrder->getPrimaryTechnician())
                                     ->setCustomer($repairOrder->getPrimaryCustomer())
                                     ->setType("Viewed");
+                                    
+        $em->persist($repairOrderMPIInteraction);
+        $em->flush();
+
+
+        return $this->handleView($this->view([
+            'message' => 'RepairOrderMPI Status Updated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Post("/api/repair-order-mpi/{id}/send")
+     *
+     * @SWG\Tag(name="Repair Order MPI")
+     * @SWG\Post(description="Set RepairOrderMPI status as Sent")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "RepairOrderMPI Status Updated" }),
+     *         )
+     * )
+     *
+     * @param RepairOrderMPI           $repairOrderMPI
+     * @param EntityManagerInterface   $em
+     *
+     * @return Response
+     */
+    public function sendToCustomer (
+        RepairOrderMPI           $repairOrderMPI, 
+        EntityManagerInterface   $em
+    ) {
+        $repairOrder = $repairOrderMPI->getRepairOrder();
+        //update RepairOrder MPI Status
+        $repairOrder->setMpiStatus("Sent");
+        //set RepairOrderMPI dateViewed
+        $repairOrderMPI->setDateSent(new DateTime());
+
+        //Create RepairOrderMPIInteraction
+        $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
+        $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType("Sent");
                                     
         $em->persist($repairOrderMPIInteraction);
         $em->flush();
