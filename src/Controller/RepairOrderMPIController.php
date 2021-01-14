@@ -204,13 +204,12 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         //Create RepairOrderMPIInteraction
         $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
         $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType("Viewed");
+                                ->setUser($repairOrder->getPrimaryTechnician())
+                                ->setCustomer($repairOrder->getPrimaryCustomer())
+                                ->setType("Viewed");
                                     
         $em->persist($repairOrderMPIInteraction);
         $em->flush();
-
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderMPI Status Updated'
@@ -251,13 +250,12 @@ class RepairOrderMPIController extends AbstractFOSRestController {
         //Create RepairOrderMPIInteraction
         $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
         $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType("Sent");
+                                  ->setUser($repairOrder->getPrimaryTechnician())
+                                  ->setCustomer($repairOrder->getPrimaryCustomer())
+                                  ->setType("Sent");
                                     
         $em->persist($repairOrderMPIInteraction);
         $em->flush();
-
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderMPI Status Updated'
