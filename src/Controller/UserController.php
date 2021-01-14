@@ -265,7 +265,6 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="password",
      *     in="formData",
-     *     required=true,
      *     type="string",
      *     description="The Password of User",
      * )
@@ -328,7 +327,7 @@ class UserController extends AbstractFOSRestController {
         $lastName          = $request->get('lastName') ?? $user->getLastName();
         $email             = $request->get('email') ?? $user->getEmail();
         $phone             = $request->get('phone') ?? $user->getPhone();
-        $password          = $request->get('password') ?? $user->getPassword();
+        $password          = $request->get('password');
         $pin               = $request->get('pin') ?? $user->getPin();
         $certification     = $request->get('certification') ?? $user->getCertification();
         $experience        = $request->get('experience') ?? $user->getExperience();
@@ -353,9 +352,11 @@ class UserController extends AbstractFOSRestController {
              ->setLastName($lastName)
              ->setEmail($email)
              ->setPhone($phone)
-             ->setPassword($userHelper->passwordEncoder($user, $password))
              ->setPin($pin)
              ->setRole($role);
+        if($password){
+            $user->setPassword($userHelper->passwordEncoder($user, $password));
+        }
 
         if ($role == 'ROLE_TECHNICIAN') {
             $user->setCertification($certification)
