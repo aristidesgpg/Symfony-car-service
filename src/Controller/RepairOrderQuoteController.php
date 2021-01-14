@@ -146,8 +146,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
         //store repairOrderQuote
         $repairOrderQuote = new RepairOrderQuote();
         $repairOrderQuote->setRepairOrder($repairOrder);
-        $em->persist($repairOrderQuote);
-        $em->flush();
         //add recommendations
         foreach ($obj as $index => $recommendation){
             $rOQRecom = new RepairOrderQuoteRecommendation();
@@ -168,6 +166,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController {
             $em->persist($rOQRecom);
             $em->flush();
         }
+
+        $em->persist($repairOrderQuote);
+        $em->flush();
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderQuote Created'
