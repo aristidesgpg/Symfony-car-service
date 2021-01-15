@@ -70,12 +70,8 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
+     *     description="Return a coupon",
+     *     @SWG\Schema(ref=@Model(type=Coupon::class, groups={"coupon_list"})))
      * )
      *
      * @param EntityManagerInterface $em
@@ -103,7 +99,10 @@ class CouponsController extends AbstractFOSRestController {
         $em->persist($coupon);
         $em->flush();
 
-        return $this->handleView($this->view('Coupon Created', Response::HTTP_OK));
+        $view = $this->view($coupon, Response::HTTP_OK);
+        $view->getContext()->setGroups(['coupon_list']);
+
+        return $this->handleView($view);
     }
 
     /**
