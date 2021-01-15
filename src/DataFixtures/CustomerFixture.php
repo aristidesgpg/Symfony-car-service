@@ -41,7 +41,7 @@ class CustomerFixture extends Fixture {
         $faker = Factory::create();
 
         // Load some customers
-        for ($i = 1; $i <= 50; $i++) {
+        for ($i = 1; $i <= 110; $i++) {
             $customer     = new Customer();
             $areaCode     = $faker->numberBetween(100, 999);
             $restOfNumber = $faker->numberBetween(1000, 9999);
