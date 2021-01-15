@@ -36,12 +36,11 @@ class CouponsController extends AbstractFOSRestController {
      *     )
      * )
      *
-     * @param EntityManagerInterface $em
-     * @param CouponRepository       $couponRepository
+     * @param CouponRepository $couponRepository
      *
      * @return Response
      */
-    public function list (EntityManagerInterface $em, CouponRepository $couponRepository) {
+    public function list (CouponRepository $couponRepository) {
         $coupons = $couponRepository->findBy(['deleted' => 0]);
         $view = $this->view($coupons);
         $view->getContext()->setGroups(['coupon_list']);

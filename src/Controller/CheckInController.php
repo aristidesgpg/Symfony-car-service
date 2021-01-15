@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\CheckIn;
-use App\Entity\User;
 use App\Repository\CheckInRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
@@ -31,7 +30,8 @@ class CheckInController extends AbstractFOSRestController {
 
     /**
      * @Rest\Get("/api/check-in")
-     *
+     * @Rest\Get(name="getCheckIns")
+     * 
      * @SWG\Tag(name="CHECKin")
      * @SWG\Get(description="Get checkins")
      * @SWG\Parameter(

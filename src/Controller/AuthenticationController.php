@@ -11,6 +11,7 @@ use App\Service\WordpressLogin;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
 use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Swagger\Annotations as SWG;
@@ -72,7 +73,8 @@ class AuthenticationController extends AbstractFOSRestController {
      *                  type="array",
      *                  description="Array of user roles granted",
      *                  @SWG\Items(type="string", description="ex: ROLE_ADVISOR")
-     *             )
+     *             ),
+     *             @SWG\Property(property="user", ref=@Model(type=User::class, groups={"user_list"}))
      *         )
      * )
      * @SWG\Response(
