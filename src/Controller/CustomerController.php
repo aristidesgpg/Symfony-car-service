@@ -154,15 +154,21 @@ class CustomerController extends AbstractFOSRestController {
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      *
-     * @param Request        $req
-     * @param CustomerHelper $helper
+     * @param Request            $req
+     * @param CustomerHelper     $helper
+     * @param CustomerRepository $customerRepository
      *
      * @return Response
      */
-    public function addCustomer (Request $req, CustomerHelper $helper): Response {
+    public function addCustomer (Request $req, CustomerHelper $helper, CustomerRepository $customerRepository): Response {
         $validation = $helper->validateParams($req->request->all(), true);
         if (!empty($validation)) {
             return new ValidationResponse($validation);
+        }
+        
+        $customer = $customerRepository->findByPhone($req->get('phone'));
+        if($customer){
+            return new ValidationResponse(['Phone'=>'Phone number already exist']);
         }
 
         $customer = new Customer();
@@ -194,16 +200,23 @@ class CustomerController extends AbstractFOSRestController {
      * @param Customer       $customer
      * @param Request        $req
      * @param CustomerHelper $helper
+     * @param CustomerRepository $customerRepository
      *
      * @return Response
      */
-    public function updateCustomer (Customer $customer, Request $req, CustomerHelper $helper): Response {
+    public function updateCustomer (Customer $customer, Request $req, CustomerHelper $helper, 
+                                    CustomerRepository $customerRepository): Response {
         if ($customer->isDeleted()) {
             throw new NotFoundHttpException();
         }
         $validation = $helper->validateParams($req->request->all());
         if (!empty($validation)) {
             return new ValidationResponse($validation);
+        }
+
+        $ct = $customerRepository->findByPhone($req->get('phone'));
+        if( $ct && ($ct->getId() !== $customer->getId() )){
+            return new ValidationResponse(['Phone'=>'Phone number already exist']);
         }
 
         $helper->commitCustomer($customer, $req->request->all());
