@@ -178,7 +178,7 @@ class CustomerController extends AbstractFOSRestController {
         }
         $helper->commitCustomer($customer, $req->request->all());
 
-        $view = $this->view($customer);
+        $view     = $this->view($customer);
         $view->getContext()->setGroups(Customer::GROUPS);
 
         return $this->handleView($view);
@@ -214,7 +214,7 @@ class CustomerController extends AbstractFOSRestController {
             return new ValidationResponse($validation);
         }
 
-        $ct = $customerRepository->findByPhone($req->get('phone'));
+        $ct         = $customerRepository->findByPhone($req->get('phone'));
         if( $ct && ($ct->getId() !== $customer->getId() )){
             return new ValidationResponse(['Phone'=>'Phone number already exist']);
         }
