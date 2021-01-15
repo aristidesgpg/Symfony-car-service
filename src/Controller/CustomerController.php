@@ -36,16 +36,11 @@ class CustomerController extends AbstractFOSRestController {
      *     description="Name, Phone Number, or Email",
      *     in="query"
      * )
+     * 
      * @SWG\Parameter(
      *     name="page",
      *     type="integer",
      *     description="Page of results",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
-     *     name="pageLimit",
-     *     type="integer",
-     *     description="Page Limit",
      *     in="query"
      * )
      * 
@@ -96,10 +91,8 @@ class CustomerController extends AbstractFOSRestController {
             $customersQuery = $customerRepository->findAllActive();
         }
 
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-
-        $pager      = $paginator->paginate($customersQuery, $page, $pageLimit);
-        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager      = $paginator->paginate($customersQuery, $page, self::PAGE_LIMIT);
+        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
 
         $json = [
             'customers'    => $pager->getItems(),
