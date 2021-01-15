@@ -2,17 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Coupon;
 use App\Repository\CouponRepository;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Swagger\Annotations as SWG;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use App\Entity\Coupon;
 
 /**
  * Class CouponsController
@@ -31,8 +31,7 @@ class CouponsController extends AbstractFOSRestController {
      *     description="Return coupons",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=Coupon::class, groups={"coupon_list"})),
-     *         description="id, title, image"
+     *         @SWG\Items(ref=@Model(type=Coupon::class, groups={"coupon_list"}))
      *     )
      * )
      *
@@ -84,7 +83,6 @@ class CouponsController extends AbstractFOSRestController {
         $title = $request->get('title');
         $image = $request->files->get('image');
 
-        // Validation
         if (!$title || !$image || !$image instanceof UploadedFile) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
@@ -120,26 +118,24 @@ class CouponsController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
+     *     description="Return updated coupon",
+     *     @SWG\Schema(ref=@Model(type=Coupon::class, groups={"coupon_list"})))
+     * )
+     * 
+     * @SWG\Response(
+     *     response=404,
+     *     description="Not Found"
      * )
      *
      * @param Coupon                 $coupon
      * @param Request                $request
      * @param EntityManagerInterface $em
-     * @param ImageUploader          $imageUploader
      *
      * @return Response
      */
-    public function edit (Coupon $coupon, Request $request, EntityManagerInterface $em,
-                          ImageUploader $imageUploader) {
+    public function edit (Coupon $coupon, Request $request, EntityManagerInterface $em) {
         $title = $request->get('title');
 
-        // Validation
         if (!$title) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
@@ -149,7 +145,10 @@ class CouponsController extends AbstractFOSRestController {
         $em->persist($coupon);
         $em->flush();
 
-        return $this->handleView($this->view('Coupon Updated', Response::HTTP_OK));
+        $view = $this->view($coupon, Response::HTTP_OK);
+        $view->getContext()->setGroups(['coupon_list']);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -159,12 +158,13 @@ class CouponsController extends AbstractFOSRestController {
      * @SWG\Delete(description="Delete a coupon")
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully deleted" }),
-     *         )
+     *     description="Return deleted coupon",
+     *     @SWG\Schema(ref=@Model(type=Coupon::class, groups={"coupon_list"})))
+     * )
+     * 
+     * @SWG\Response(
+     *     response=404,
+     *     description="Not Found"
      * )
      *
      * @param Coupon                 $coupon
@@ -178,7 +178,9 @@ class CouponsController extends AbstractFOSRestController {
         $em->persist($coupon);
         $em->flush();
 
-        return $this->handleView($this->view('Coupon Deleted', Response::HTTP_OK));
-    }
+        $view = $this->view($coupon, Response::HTTP_OK);
+        $view->getContext()->setGroups(['coupon_list']);
 
+        return $this->handleView($view);
+    }
 }
