@@ -192,7 +192,7 @@ class RepairOrderController extends AbstractFOSRestController {
                     $queryParameters['user'] = $user;
                 }
             } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
-                $qb->andWhere('ro.primaryTechnician = :user');
+                $qb->andWhere('ro.primaryTechnician = :user OR ro.primaryTechnician is NULL');
                 $queryParameters['user'] = $user;
             }
         }
@@ -219,7 +219,7 @@ class RepairOrderController extends AbstractFOSRestController {
             'totalPages'   => $pagination->totalPages,
             'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters)
+            'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
         ]);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
