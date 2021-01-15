@@ -75,9 +75,9 @@ class PriceMatrixController extends AbstractFOSRestController {
         }
 
         $priceMatrixQuery = $priceMatrixRepository->getAllItems();
-        $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $pager        = $paginator->paginate($priceMatrixQuery, $page, $pageLimit);
-        $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pager         = $paginator->paginate($priceMatrixQuery, $page, $pageLimit);
+        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
             'priceMatrixs' => $pager->getItems(),
@@ -127,10 +127,10 @@ class PriceMatrixController extends AbstractFOSRestController {
         //check parameter validation
         foreach($obj as $item){
             if( $item->hours === null){
-                return $this->handleView($this->view('Invalid hours parameter', Response::HTTP_BAD_REQUEST));
+                return $this->handleView($this->view('Missing hours parameter', Response::HTTP_BAD_REQUEST));
             }
             else if($item->price === null){
-                return $this->handleView($this->view('Invalid price parameter', Response::HTTP_BAD_REQUEST));
+                return $this->handleView($this->view('Missing price parameter', Response::HTTP_BAD_REQUEST));
             }
         }
 
