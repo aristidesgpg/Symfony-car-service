@@ -147,12 +147,21 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Internal Message")
      * @SWG\Get(description="Get the list of messages in a conversation")
+     * 
      * @SWG\Parameter(
      *     name="page",
      *     required=false,
      *     type="integer",
      *     in="query"
      * )
+     * 
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * 
      * @SWG\Parameter(
      *     name="otherUserId",
      *     required=true,
@@ -160,6 +169,7 @@ class InternalMessageController extends AbstractFOSRestController {
      *     in="query",
      *     description="Use id 5 for test"
      * )
+     * 
      * @SWG\Response(
      *      response=200,
      *      description="Return the list of messages newest",
@@ -177,11 +187,18 @@ class InternalMessageController extends AbstractFOSRestController {
      *          @SWG\Property(property="next", type="string", description="URL of next page of results or null")
      *      )
      * )
+     * 
      * @SWG\Response(
      *     response=400, 
      *     description="Missing Required Parameter(s)"
      * )
-     * @SWG\Response(response="404", description="Page does not exist")
+     * 
+     * @SWG\Response(response="404", description="Not Found")
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="Page limit must be a positive non-zero integer"
+     * )
      *
      * @param Request                   $request
      * @param InternalMessageRepository $internalMessageRepository
@@ -190,13 +207,19 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getMessagesNewest (Request $request, InternalMessageRepository $internalMessageRepository, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator) {
+    public function getMessagesNewest (Request $request, InternalMessageRepository $internalMessageRepository, 
+                                       PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator) {
         $user        = $this->getUser();
         $page        = $request->query->getInt('page', 1);
+        $pageLimit   = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $otherUserId = $request->query->get('otherUserId');
 
         if ($page < 1) {
             throw new NotFoundHttpException();
+        }
+
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE));
         }
 
         if (!$otherUserId) {
@@ -204,8 +227,8 @@ class InternalMessageController extends AbstractFOSRestController {
         }
 
         $otherUser = $this->getDoctrine()->getRepository(User::class)->find($otherUserId);
-        if (!$otherUser) {
-            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_BAD_REQUEST));
+        if (!$otherUser || !$otherUser->getActive()) {
+            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
         }
 
         $queryParams = ['userId' => $user->getId(), 'otherUserId' => $otherUserId];
@@ -216,8 +239,8 @@ class InternalMessageController extends AbstractFOSRestController {
                                                  ->getQuery();
 
         $urlParams  = ['otherUserId' => $otherUserId];
-        $pager      = $paginator->paginate($query, $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $pager      = $paginator->paginate($query, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'internalMessages' => $pager->getItems(),

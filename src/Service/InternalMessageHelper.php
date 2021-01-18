@@ -108,7 +108,7 @@ class InternalMessageHelper {
                     "date"    => $thread["date"],
                     "isRead"  => ($thread["is_read"] === "1")
                 ],
-                "unreads" => ($thread["unreads"] === "1")
+                "unreads" => (int)$thread["unreads"]
             ];
         }
 
