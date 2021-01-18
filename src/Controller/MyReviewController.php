@@ -27,27 +27,25 @@ use DateTime;
 class MyReviewController extends AbstractFOSRestController {
    
     /**
-     * @Rest\Put("/api/my-review/{id}/view")
+     * @Rest\Post("/api/my-review/{id}/view")
      *
      * @SWG\Tag(name="MyReview")
-     * @SWG\Put(description="Id of RepairOrder.  Update a repairOrderView and Create a new reviewInteraction")
+     * @SWG\Post(description="Id of RepairOrderReview.  Update a repairOrderView and Create a new reviewInteraction")
      *
      * @SWG\Response(response="200", description="Success!")
      *
-     * @param RepairOrder                             $repairOrder
+     * @param RepairOrderReview                       $repairOrderReview
      * @param EntityManagerInterface                  $em
      * @param RepairOrderReviewInteractionsRepository $reviewInteractions
      *
      * @return Response
      */
-    public function viewed (RepairOrder $repairOrder, EntityManagerInterface $em, RepairOrderReviewInteractionsRepository $reviewInteractions) {
+    public function viewed (RepairOrderReview $repairOrderReview, EntityManagerInterface $em, RepairOrderReviewInteractionsRepository $reviewInteractions) {
         $user = $this->getUser();
 
         if(!$user instanceof Customer){
             return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
         }
-
-        $repairOrderReview = $repairOrder->getRepairOrderReview();
 
         if(!$repairOrderReview){
             return $this->handleView($this->view('The review of this repairOrder was not created yet.', Response::HTTP_BAD_REQUEST));
@@ -67,31 +65,29 @@ class MyReviewController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/my-review/{id}/outcome")
+     * @Rest\Post("/api/my-review/{id}/outcome")
      *
      * @SWG\Tag(name="MyReview")
-     * @SWG\Put(description="Id of RepairOrder. Update a repairOrderView rating and platform and Create a new reviewInteraction")
+     * @SWG\Post(description="Id of RepairOrderReview. Update a repairOrderView rating and platform and Create a new reviewInteraction")
      *
      * @SWG\Parameter(name="rating", required=true, type="string", in="formData", enum={"poor", "average", "great"})
      * @SWG\Parameter(name="platform", required=true, type="string", in="formData", enum={"facebook", "google"})
      * 
      * @SWG\Response(response="200", description="Success!")
      *
-     * @param RepairOrder                             $repairOrder
+     * @param RepairOrderReview                       $repairOrderReview
      * @param Request                                 $request
      * @param EntityManagerInterface                  $em
      * @param RepairOrderReviewInteractionsRepository $reviewInteractions
      *
      * @return Response
      */
-    public function outcome (RepairOrder $repairOrder, Request $request, EntityManagerInterface $em, RepairOrderReviewInteractionsRepository $reviewInteractions) {
+    public function outcome (RepairOrderReview $repairOrderReview, Request $request, EntityManagerInterface $em, RepairOrderReviewInteractionsRepository $reviewInteractions) {
         $user     = $this->getUser();
 
         if(!$user instanceof Customer){
             return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
         }
-
-        $repairOrderReview = $repairOrder->getRepairOrderReview();
 
         if(!$repairOrderReview){
             return $this->handleView($this->view('The review of this repairOrder was not created yet.', Response::HTTP_BAD_REQUEST));
@@ -118,29 +114,27 @@ class MyReviewController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/my-review/{id}/resendMessage")
+     * @Rest\Post("/api/my-review/{id}/resendMessage")
      *
      * @SWG\Tag(name="MyReview")
-     * @SWG\Put(description="Resend a message to the customer and create a new interaction")
+     * @SWG\Post(description="Resend a message to the customer and create a new interaction")
      *
      * @SWG\Response(response="200", description="Success!")
      *
-     * @param RepairOrder                             $repairOrder
+     * @param RepairOrderReview                       $repairOrderReview
      * @param EntityManagerInterface                  $em
      * @param RepairOrderReviewInteractionsRepository $reviewInteractions
      * @param MyReviewHelper                          $myReviewHelper
      *
      * @return Response
      */
-    public function resendMessage (RepairOrder $repairOrder, EntityManagerInterface $em, 
+    public function resendMessage (RepairOrderReview $repairOrderReview, EntityManagerInterface $em, 
                                    RepairOrderReviewInteractionsRepository $reviewInteractions, MyReviewHelper $myReviewHelper) {
         $user = $this->getUser();
 
         if(!$user instanceof User){
             return $this->handleView($this->view('The type of user should be User', Response::HTTP_BAD_REQUEST));
         }
-
-        $repairOrderReview = $repairOrder->getRepairOrderReview();
 
         if(!$repairOrderReview){
             return $this->handleView($this->view('The review of this repairOrder was not created yet.', Response::HTTP_BAD_REQUEST));
