@@ -34,6 +34,7 @@ class CheckInController extends AbstractFOSRestController {
      * 
      * @SWG\Tag(name="CHECKin")
      * @SWG\Get(description="Get checkins")
+     * 
      * @SWG\Parameter(
      *     name="startDate",
      *     type="string",
@@ -41,6 +42,7 @@ class CheckInController extends AbstractFOSRestController {
      *     description="Get ROs created after supplied date-time",
      *     in="query"
      * )
+     * 
      * @SWG\Parameter(
      *     name="endDate",
      *     type="string",
@@ -48,6 +50,21 @@ class CheckInController extends AbstractFOSRestController {
      *     description="Get ROs created before supplied date-time",
      *     in="query"
      * )
+     * 
+     * @SWG\Parameter(
+     *     name="page",
+     *     type="integer",
+     *     description="Page number",
+     *     in="query"
+     * )
+     * 
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -65,9 +82,15 @@ class CheckInController extends AbstractFOSRestController {
      *         @SWG\Property(property="next", type="string", description="URL for next page")
      *     )
      * )
+     * 
      * @SWG\Response(
      *     response="404",
      *     description="Invalid page parameter"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="Page limit must be a positive non-zero integer"
      * )
      *
      * @param Request               $request
@@ -82,6 +105,7 @@ class CheckInController extends AbstractFOSRestController {
         $page          = $request->query->getInt('page', 1);
         $startDate     = $request->query->get('startDate');
         $endDate       = $request->query->get('endDate');
+        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
 
         // Invalid page
@@ -89,8 +113,11 @@ class CheckInController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE));
+        }
+
         $checkInQuery = $checkInRepository->getAllItems($startDate, $endDate);
-        $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $pager        = $paginator->paginate($checkInQuery, $page, $pageLimit);
         $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
 
