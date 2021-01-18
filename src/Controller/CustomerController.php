@@ -154,7 +154,7 @@ class CustomerController extends AbstractFOSRestController {
      * @Rest\Post
      * @SWG\Response(
      *     response="200",
-     *     description="Success!",
+     *     description="Return updated customer",
      *     @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      * )
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
@@ -192,7 +192,7 @@ class CustomerController extends AbstractFOSRestController {
     /**
      * @Rest\Put("/{id}")
      *
-     * @SWG\Response(response="200", description="Success!")
+     * @SWG\Response(response="200", description="Return deleted customer")
      * @SWG\Response(response="404", description="Customer does not exist")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
@@ -219,9 +219,10 @@ class CustomerController extends AbstractFOSRestController {
 
         $helper->commitCustomer($customer, $req->request->all());
 
-        return $this->handleView($this->view([
-            'message' => 'User Updated'
-        ], Response::HTTP_OK));
+        $view = $this->view($customer, Response::HTTP_OK);
+        $view->getContext()->setGroups(Customer::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -242,8 +243,9 @@ class CustomerController extends AbstractFOSRestController {
 
         $helper->commitCustomer($customer);
 
-        return $this->handleView($this->view([
-            'message' => 'Customer Deleted'
-        ], Response::HTTP_OK));
+        $view = $this->view($customer, Response::HTTP_OK);
+        $view->getContext()->setGroups(Customer::GROUPS);
+
+        return $this->handleView($view);
     }
 }
