@@ -192,7 +192,11 @@ class CustomerController extends AbstractFOSRestController {
     /**
      * @Rest\Put("/{id}")
      *
-     * @SWG\Response(response="200", description="Return deleted customer")
+     * @SWG\Response(
+     *      response="200", 
+     *      description="Return updated customer",
+     *      @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
+     * )
      * @SWG\Response(response="404", description="Customer does not exist")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
@@ -227,7 +231,11 @@ class CustomerController extends AbstractFOSRestController {
 
     /**
      * @Rest\Delete("/{id}")
-     * @SWG\Response(response="200", description="Success!")
+     * @SWG\Response(
+     *      response="200", 
+     *      description="Return deleted customer",
+     *      @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
+     * )
      * @SWG\Response(response="404", description="Customer does not exist")
      *
      * @param Customer       $customer
