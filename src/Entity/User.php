@@ -165,6 +165,11 @@ class User implements UserInterface {
     private $serviceSMS;
 
     /**
+     * @ORM\OneToMany(targetEntity=FollowUpInteraction::class, mappedBy="user")
+     */
+    private $followUpInteractions;
+
+    /**
      * User constructor.
      */
     public function __construct () {
@@ -173,7 +178,10 @@ class User implements UserInterface {
         $this->repairOrderInteractions    = new ArrayCollection();
         $this->repairOrderTeams           = new ArrayCollection();
         $this->internalMessages           = new ArrayCollection();
+
         $this->serviceSMS = new ArrayCollection();
+
+        $this->followUpInteractions = new ArrayCollection();
     }
 
     /**
@@ -527,12 +535,13 @@ class User implements UserInterface {
     /**
      * @return mixed
      */
-    public function getTechnicianRepairOrders (): Collection {
+    public function getTechnicianRepairOrders (): Collection 
+    {
         $criteria = Criteria::create()
                             ->andWhere(Criteria::expr()->eq('deleted', false))
                             ->orderBy(['dateCreated' => 'DESC']);
 
-        $this->technicianRepairOrders->matching($criteria);
+        return $this->technicianRepairOrders->matching($criteria);
     }
 
     /**
@@ -645,12 +654,43 @@ class User implements UserInterface {
         return $this;
     }
 
+    /*
+     * @return Collection|FollowUpInteraction[]
+     */
+    public function getFollowUpInteractions(): Collection
+    {
+        return $this->followUpInteractions;
+    }
+
+    public function addFollowUpInteraction(FollowUpInteraction $followUpInteraction): self
+    {
+        if (!$this->followUpInteractions->contains($followUpInteraction)) {
+            $this->followUpInteractions[] = $followUpInteraction;
+            $followUpInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
     public function removeServiceSM(ServiceSMS $serviceSM): self
     {
         if ($this->serviceSMS->removeElement($serviceSM)) {
             // set the owning side to null (unless already changed)
             if ($serviceSM->getUser() === $this) {
                 $serviceSM->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeFollowUpInteraction(FollowUpInteraction $followUpInteraction): self
+    {
+        if ($this->followUpInteractions->contains($followUpInteraction)) {
+            $this->followUpInteractions->removeElement($followUpInteraction);
+            // set the owning side to null (unless already changed)
+            if ($followUpInteraction->getUser() === $this) {
+                $followUpInteraction->setUser(null);
             }
         }
 

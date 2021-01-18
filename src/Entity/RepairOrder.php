@@ -258,6 +258,11 @@ class RepairOrder
      * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderPayment", mappedBy="repairOrder")
      */
     private $payments;
+    
+    /**
+     * @ORM\OneToOne(targetEntity=FollowUp::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     */
+    private $followUp;
 
     /**
      * RepairOrder constructor.
@@ -802,6 +807,23 @@ class RepairOrder
             if ($repairOrderTeam->getRepairOrder() === $this) {
                 $repairOrderTeam->setRepairOrder(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getFollowUp(): ?FollowUp
+    {
+        return $this->followUp;
+    }
+
+    public function setFollowUp(FollowUp $followUp): self
+    {
+        $this->followUp = $followUp;
+
+        // set the owning side of the relation if necessary
+        if ($followUp->getRepairOrder() !== $this) {
+            $followUp->setRepairOrder($this);
         }
 
         return $this;

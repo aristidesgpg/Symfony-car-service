@@ -98,6 +98,11 @@ class Customer implements UserInterface
      * @ORM\OneToMany(targetEntity=RepairOrderCustomer::class, mappedBy="customer", orphanRemoval=true)
      */
     private $repairOrderCustomers;
+    
+    /**
+     * @ORM\OneToMany(targetEntity=FollowUpInteraction::class, mappedBy="customer", orphanRemoval=true)
+     */
+    private $followUpInteractions;
 
     /**
      * Customer constructor.
@@ -106,10 +111,13 @@ class Customer implements UserInterface
     {
         $this->primaryRepairOrders = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
+
         $this->repairOrderInteractions = new ArrayCollection();
         $this->serviceSMS = new ArrayCollection();
         $this->repairOrderReviewInteractions = new ArrayCollection();
         $this->repairOrderCustomers = new ArrayCollection();
+
+        $this->followUpInteractions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -309,6 +317,24 @@ class Customer implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Collection|FollowUpInteraction[]
+     */
+    public function getFollowUpInteractions(): Collection
+    {
+        return $this->followUpInteractions;
+    }
+
+    public function addFollowUpInteraction(FollowUpInteraction $followUpInteraction): self
+    {
+        if (!$this->followUpInteractions->contains($followUpInteraction)) {
+            $this->followUpInteractions[] = $followUpInteraction;
+            $followUpInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
+
     public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
     {
         if ($this->repairOrderInteractions->contains($repairOrderInteraction)) {
@@ -407,6 +433,19 @@ class Customer implements UserInterface
             // set the owning side to null (unless already changed)
             if ($repairOrderCustomer->getCustomer() === $this) {
                 $repairOrderCustomer->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeFollowUpInteraction(FollowUpInteraction $followUpInteraction): self
+    {
+        if ($this->followUpInteractions->contains($followUpInteraction)) {
+            $this->followUpInteractions->removeElement($followUpInteraction);
+            // set the owning side to null (unless already changed)
+            if ($followUpInteraction->getCustomer() === $this) {
+                $followUpInteraction->setCustomer(null);
             }
         }
 
