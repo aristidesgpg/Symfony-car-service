@@ -36,6 +36,7 @@ class UserController extends AbstractFOSRestController {
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return users",
@@ -46,6 +47,11 @@ class UserController extends AbstractFOSRestController {
      *     )
      * )
      *
+     * @SWG\Response(
+     *     response="400",
+     *     description="Invalid Role Parameter"
+     * )
+     * 
      * @param Request        $request
      * @param UserRepository $userRepo
      * @param UserHelper     $userHelper
@@ -79,6 +85,7 @@ class UserController extends AbstractFOSRestController {
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
+     * 
      * @SWG\Parameter(
      *     name="firstName",
      *     in="formData",
@@ -86,6 +93,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The First Name of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="lastName",
      *     in="formData",
@@ -93,6 +101,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Last Name of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="email",
      *     in="formData",
@@ -100,6 +109,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Email of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="phone",
      *     in="formData",
@@ -107,6 +117,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Phone of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="password",
      *     in="formData",
@@ -114,6 +125,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Password of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="pin",
      *     in="formData",
@@ -121,6 +133,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Pin of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="certification",
      *     in="formData",
@@ -128,6 +141,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The certification of Technician",
      * )
+     * 
      * @SWG\Parameter(
      *     name="experience",
      *     in="formData",
@@ -135,6 +149,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The experience of Technician",
      * )
+     * 
      * @SWG\Parameter(
      *     name="processRefund",
      *     in="formData",
@@ -142,6 +157,7 @@ class UserController extends AbstractFOSRestController {
      *     type="boolean",
      *     description="The process of refund",
      * )
+     * 
      * @SWG\Parameter(
      *     name="shareRepairOrders",
      *     in="formData",
@@ -152,12 +168,17 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return users",
+     *     description="Return created user",
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
+     * )
+     * 
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing Required Parameter"
      * )
      *
      * @param Request                $request
@@ -248,6 +269,7 @@ class UserController extends AbstractFOSRestController {
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
      * )
+     * 
      * @SWG\Parameter(
      *     name="firstName",
      *     in="formData",
@@ -255,6 +277,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The First Name of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="lastName",
      *     in="formData",
@@ -262,6 +285,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Last Name of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="email",
      *     in="formData",
@@ -269,6 +293,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Email of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="phone",
      *     in="formData",
@@ -276,6 +301,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Phone of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="password",
      *     in="formData",
@@ -283,6 +309,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Password of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="pin",
      *     in="formData",
@@ -290,6 +317,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Pin of User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="certification",
      *     in="formData",
@@ -297,6 +325,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The certification of Technician",
      * )
+     * 
      * @SWG\Parameter(
      *     name="experience",
      *     in="formData",
@@ -304,6 +333,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The experience of Technician",
      * )
+     * 
      * @SWG\Parameter(
      *     name="processRefund",
      *     in="formData",
@@ -311,6 +341,7 @@ class UserController extends AbstractFOSRestController {
      *     type="boolean",
      *     description="The process of refund",
      * )
+     * 
      * @SWG\Parameter(
      *     name="shareRepairOrders",
      *     in="formData",
@@ -321,7 +352,7 @@ class UserController extends AbstractFOSRestController {
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return users",
+     *     description="Return updated user",
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
@@ -447,7 +478,7 @@ class UserController extends AbstractFOSRestController {
         return $this->handleView($view);
     }
 
-    //Security
+    // Security
 
     /**
      * @Rest\Patch("/api/security/{id}/set")
@@ -541,6 +572,16 @@ class UserController extends AbstractFOSRestController {
      *         )
      * )
      *
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing Required Parameter"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="Invalid Email Parameter"
+     * )
+     * 
      * @param Request        $request
      * @param UserRepository $userRepo
      *
@@ -557,7 +598,7 @@ class UserController extends AbstractFOSRestController {
         // email is invalid
         $user = $userRepo->findOneBy(['email' => $email, 'active' => true]);
         if (!$user) {
-            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_NOT_ACCEPTABLE));
         }
 
         return $this->handleView($this->view([
@@ -578,6 +619,7 @@ class UserController extends AbstractFOSRestController {
      *     type="string",
      *     description="The Reset Password Token of the User",
      * )
+     * 
      * @SWG\Parameter(
      *     name="password",
      *     in="formData",
@@ -595,14 +637,28 @@ class UserController extends AbstractFOSRestController {
      *                                              "Password Has Been Reset" }),
      *         )
      * )
+     * 
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing Required Parameter"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="401",
+     *     description="Invalid Token"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="500",
+     *     description="Something Went Wrong Trying to Reset the Password"
+     * )
      *
      * @param Request        $request
      * @param SecurityHelper $securityHelper
-     * @param UserRepository $userRepo
      *
      * @return Response
      */
-    public function resetPassword (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
+    public function resetPassword (Request $request, SecurityHelper $securityHelper) {
         $token    = $request->get('token');
         $password = $request->get('password');
 
