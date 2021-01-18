@@ -201,10 +201,18 @@ class RepairOrderController extends AbstractFOSRestController {
 
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
+
+        $items = $q->getResult();
+        foreach($items as $item){
+            if($item->getRepairOrderQuote() && $item->getRepairOrderQuote()->getDeleted()){
+                $item->setRepairOrderQuote(null);
+            }
+        }
+
         $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $urlParameters += $queryParameters;
-        $pager         = $paginator->paginate($q, $page, $pageLimit);
+        $pager         = $paginator->paginate($items, $page, $pageLimit);
         $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
@@ -237,6 +245,9 @@ class RepairOrderController extends AbstractFOSRestController {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
+        if($ro->getRepairOrderQuote() && $ro->getRepairOrderQuote()->getDeleted())
+           $ro->setRepairOrderQuote(null);
+
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -271,6 +282,10 @@ class RepairOrderController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
+        if($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()){
+            $repairOrder->setRepairOrderQuote(null);
+        }
+        
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 

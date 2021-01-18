@@ -126,6 +126,7 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="upgradeTradeInTax", type="number", in="formData")
      * @SWG\Parameter(name="upgradeTradeInTaxLimit", type="number", in="formData")
      * @SWG\Parameter(name="upgradeOfferExpiration", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeInitialText", type="string", in="formData")
      * @SWG\Parameter(name="upgradeInstantOfferUrl", type="string", in="formData")
      * @SWG\Parameter(name="upgradeIntroText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      * @SWG\Parameter(name="upgradeOfferText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
@@ -193,6 +194,7 @@ class SettingsController extends AbstractFOSRestController {
                 case 'serviceTextPayment':
                 case 'waiverIntroText':
                 case 'previewSalesVideoText':
+                case 'upgradeInitialText':
                 case 'upgradeIntroText':
                 case 'upgradeOfferText':
                     if (strlen($val) > self::SMS_EXTRA_MAX_LENGTH) {

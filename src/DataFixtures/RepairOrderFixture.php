@@ -118,7 +118,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                 $approvedValue = $startValue + $faker->randomFloat(2, 0, $approvedMax);
             }
 
-            $repairOrder->setNumber($faker->unique(true)->numberBetween(100000, 999999))
+            $repairOrder->setNumber($faker->unique()->numberBetween(100000, 999999))
                         ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                         ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                         ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
@@ -128,7 +128,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                         ->setQuoteStatus($quoteOptions[$faker->numberBetween(0, 7)])
                         ->setWaiter($waiter)
                         ->setPickupDate($pickupDate)
-                        ->setLinkHash(sha1($faker->unique(true)->randomAscii))
+                        ->setLinkHash(sha1($faker->unique()->randomAscii))
                         ->setDeleted($faker->boolean(2))
                         ->setArchived($faker->boolean(5))
                         ->setDateCreated($dateCreated)
@@ -138,7 +138,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                         ->setMake('Toyota')
                         ->setModel('Corolla')
                         ->setMiles($faker->numberBetween(1000, 250000))
-                        ->setVin(sha1($faker->unique(true)->randomAscii))
+                        ->setVin(sha1($faker->unique()->randomAscii))
                         ->setStartValue($startValue)
                         ->setApprovedValue($approvedValue)
                         ->setFinalValue($finalValue);

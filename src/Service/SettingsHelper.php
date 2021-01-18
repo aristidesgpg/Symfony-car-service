@@ -27,7 +27,7 @@ class SettingsHelper {
         'waiverEstimateText', 'waiverActivateAuthMessage', 'waiverIntroText',
         'advisorUsageEmails', 'openLate',
         'previewSalesVideoText',
-        'upgradeTradeInTax', 'upgradeTradeInTaxLimit', 'upgradeOfferExpiration', 'upgradeInstantOfferUrl',
+        'upgradeInitialText', 'upgradeTradeInTax', 'upgradeTradeInTaxLimit', 'upgradeOfferExpiration', 'upgradeInstantOfferUrl',
         'upgradeIntroText', 'upgradeOfferText', 'upgradeCashOfferCopy', 'upgradeDisclaimer',
         'generalName', 'generalEmail', 'generalWebsiteUrl', 'generalInventoryUrl', 'generaAddress',
         'generalAddress2', 'generalCity', 'generalState', 'generalZip', 'generalPhone',
