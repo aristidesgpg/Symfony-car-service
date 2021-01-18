@@ -7,6 +7,7 @@ use App\Entity\RepairOrderReview;
 use App\Repository\RepairOrderReviewRepository;
 use App\Repository\RepairOrderReviewInteractionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class MyReviewHelper
@@ -17,6 +18,9 @@ class MyReviewHelper {
 
     /** @var EntityManagerInterface */
     private $em;
+
+    /** @var ParameterBagInterface */
+    private $params;
 
     /** @var RepairOrderReviewRepository */
     private $review;
@@ -39,14 +43,16 @@ class MyReviewHelper {
      * @param RepairOrderReviewInteractionsRepository $reviewInteractions
      * @param ShortUrlHelper $urlHelper
      * @param SettingsHelper $settings
+     * @param ParameterBagInterface $params
      */
     public function __construct (EntityManagerInterface $em, RepairOrderReviewRepository $review, ShortUrlHelper $urlHelper, 
-                                RepairOrderReviewInteractionsRepository $reviewInteractions, SettingsHelper $settings) {
+                                RepairOrderReviewInteractionsRepository $reviewInteractions, SettingsHelper $settings, ParameterBagInterface $params) {
         $this->em                 = $em;
         $this->review             = $review;
         $this->reviewInteractions = $reviewInteractions;
         $this->urlHelper          = $urlHelper;
         $this->settingsHelper     = $settings;
+        $this->params             = $params;
     }
 
     /**
@@ -67,8 +73,7 @@ class MyReviewHelper {
         $phone    = $repairOrder->getPrimaryCustomer()->getPhone();
         $linkhash = $repairOrder->getLinkHash();
         
-        $url      = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $linkhash;
-        
+        $url      = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash;
         $shortUrl = $this->urlHelper->generateShortUrl($url);
         try {
             $this->urlHelper->sendShortenedLink($phone, $msg, $shortUrl, true);

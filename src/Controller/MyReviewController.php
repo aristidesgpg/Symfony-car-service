@@ -27,7 +27,7 @@ use DateTime;
 class MyReviewController extends AbstractFOSRestController {
    
     /**
-     * @Rest\Put("/api/myreview/{id}/view")
+     * @Rest\Put("/api/my-review/{id}/view")
      *
      * @SWG\Tag(name="MyReview")
      * @SWG\Put(description="Id of RepairOrder.  Update a repairOrderView and Create a new reviewInteraction")
@@ -67,7 +67,7 @@ class MyReviewController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/myreview/{id}/outcome")
+     * @Rest\Put("/api/my-review/{id}/outcome")
      *
      * @SWG\Tag(name="MyReview")
      * @SWG\Put(description="Id of RepairOrder. Update a repairOrderView rating and platform and Create a new reviewInteraction")
@@ -118,7 +118,7 @@ class MyReviewController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Put("/api/myreview/{id}/resendMessage")
+     * @Rest\Put("/api/my-review/{id}/resendMessage")
      *
      * @SWG\Tag(name="MyReview")
      * @SWG\Put(description="Resend a message to the customer and create a new interaction")
