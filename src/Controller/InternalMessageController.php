@@ -34,13 +34,22 @@ class InternalMessageController extends AbstractFOSRestController {
      * @Rest\Get(name="getInternalThreads")
      *
      * @SWG\Tag(name="Internal Message")
-     * @SWG\Get(description="Get the list of threads between multiple customers")
+     * @SWG\Get(description="Get the list of threads")
+     * 
      * @SWG\Parameter(
      *     name="page",
      *     required=false,
      *     type="integer",
      *     in="query"
      * )
+     * 
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *      response=200,
      *      description="Return the list of threads",
@@ -58,9 +67,9 @@ class InternalMessageController extends AbstractFOSRestController {
      *                  @SWG\Property(
      *                      property="lastMessage",
      *                      type="object",
-     *                      @SWG\Property(property="id", type="string"),
-     *                      @SWG\Property(property="fromId", type="string"),
-     *                      @SWG\Property(property="toId", type="string"),
+     *                      @SWG\Property(property="id", type="integer"),
+     *                      @SWG\Property(property="fromId", type="integer"),
+     *                      @SWG\Property(property="toId", type="integer"),
      *                      @SWG\Property(property="message", type="string"),
      *                      @SWG\Property(property="date", type="string"),
      *                      @SWG\Property(property="isRead", type="boolean")
@@ -75,7 +84,14 @@ class InternalMessageController extends AbstractFOSRestController {
      *          @SWG\Property(property="next", type="string", description="URL of next page of results or null")
      *      )
      * )
+     * 
      * @SWG\Response(response="404", description="Page does not exist")
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="Page limit must be a positive non-zero integer"
+     * )
+     * 
      * @SWG\Response(
      *     response=500, 
      *     description="Internal Server Error"
@@ -90,11 +106,16 @@ class InternalMessageController extends AbstractFOSRestController {
      */
     public function getThreads (Request $request, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator,
                                 InternalMessageHelper $internalMessageHelper) {
-        $userId = $this->getUser()->getId();
-        $page   = $request->query->getInt('page', 1);
+        $userId    = $this->getUser()->getId();
+        $page      = $request->query->getInt('page', 1);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($page < 1) {
             throw new NotFoundHttpException();
+        }
+
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE));
         }
 
         $threads = $internalMessageHelper->getThreads($userId);
@@ -104,8 +125,8 @@ class InternalMessageController extends AbstractFOSRestController {
         }
 
         $urlParams  = ['page' => $page];
-        $pager      = $paginator->paginate($threads, $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $pager      = $paginator->paginate($threads, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'threads'      => $pager->getItems(),
