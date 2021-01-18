@@ -8,6 +8,7 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\InternalMessageRepository;
 use App\Service\InternalMessageHelper;
 use App\Service\Pagination;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
@@ -260,51 +261,65 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Internal Message")
      * @SWG\Post(description="Send a message to a user")
+     * 
      * @SWG\Parameter(
      *     name="toId",
      *     required=true,
      *     type="integer",
-     *     in="query"
+     *     in="formData"
      * )
+     * 
      * @SWG\Parameter(
      *     name="message",
      *     required=true,
      *     type="string",
-     *     in="query",
+     *     in="formData",
      * )
+     * 
      * @SWG\Response(
      *      response=200,
      *      description="Message sent. Return InternalMessage object.",
      *      @SWG\Schema(ref=@Model(type=InternalMessage::class, groups={"internal_message", "user_list"}))
      * )
+     * 
      * @SWG\Response(
      *     response=400, 
      *     description="Missing Required Parameter(s)"
      * )
+     * 
+     * @SWG\Response(
+     *     response="404",
+     *     description="User does not exist"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="You are sending a message to you!"
+     * )
      *
-     * @param Request $request
+     * @param Request                $request
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function sendMessage (Request $request) {
+    public function sendMessage (Request $request, EntityManagerInterface $em) {
         $user    = $this->getUser();
-        $toId    = $request->query->get('toId');
-        $message = $request->query->get('message');
-        $em      = $this->getDoctrine()->getManager();
+        $toId    = $request->get('toId');
+        $message = $request->get('message');
         
         if (!$toId || !$message) {
             return $this->handleView($this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST));
         }
 
         if ($toId == $user->getId()) {
-            return $this->handleView($this->view('You are sending to you!', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('You are sending a message to you!', Response::HTTP_NOT_ACCEPTABLE));
         }
 
         $internalMessage = new InternalMessage();
         $toUser          = $this->getDoctrine()->getRepository(User::class)->find($toId);
 
-        if (!$toUser) {
-            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_BAD_REQUEST));
+        if (!$toUser || !$toUser->getActive()) {
+            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
         }
 
         $internalMessage->setFrom($user)
