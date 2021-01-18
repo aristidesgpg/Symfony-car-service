@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\CheckIn;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -75,7 +76,8 @@ class CheckInRepository extends ServiceEntityRepository
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
 
-            return $db->orderBy('ch.date', 'DESC')
+            return $db->andWhere('ch.deleted = false')
+                      ->orderBy('ch.date', 'DESC')
                       ->getQuery()
                       ->getResult();
 
