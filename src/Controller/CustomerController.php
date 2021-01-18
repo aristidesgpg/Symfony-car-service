@@ -44,6 +44,13 @@ class CustomerController extends AbstractFOSRestController {
      *     in="query"
      * )
      * 
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -61,9 +68,15 @@ class CustomerController extends AbstractFOSRestController {
      *         @SWG\Property(property="next", type="string", description="URL for next page")
      *     )
      * )
+     * 
      * @SWG\Response(
      *     response="404",
      *     description="Invalid page parameter"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="Page limit must be a positive non-zero integer"
      * )
      *
      * @param Request               $request
@@ -76,11 +89,16 @@ class CustomerController extends AbstractFOSRestController {
     public function getAll (Request $request, CustomerRepository $customerRepository,
                             PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
         $page          = $request->query->getInt('page', 1);
+        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
 
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
+        }
+
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE));
         }
 
         // Build query
@@ -91,8 +109,8 @@ class CustomerController extends AbstractFOSRestController {
             $customersQuery = $customerRepository->findAllActive();
         }
 
-        $pager      = $paginator->paginate($customersQuery, $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $pager      = $paginator->paginate($customersQuery, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
             'customers'    => $pager->getItems(),
