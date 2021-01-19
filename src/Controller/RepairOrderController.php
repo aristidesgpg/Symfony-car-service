@@ -494,7 +494,10 @@ class RepairOrderController extends AbstractFOSRestController
             $myReviewHelper->new($ro, $user);
         }
 
-        $followupHelper->new($ro);
+        if( ($ro->getQuoteStatus() === 'Completed') || ($ro->getQuoteStatus() === 'Confirmed') ){
+            if( $ro->getRepairOrderQuote()->getRepairOrderQuoteRecommendations()->getApproved() == false)
+                $followupHelper->new($ro);
+        }
 
         return $this->handleView(
             $this->view(
