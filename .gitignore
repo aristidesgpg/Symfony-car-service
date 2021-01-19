@@ -21,3 +21,5 @@ public/uploads
 ###< lexik/jwt-authentication-bundle ###
 /psalm.txt
 /tools/vendor/
+/templates/dev/
+/src/Controller/DevController.php

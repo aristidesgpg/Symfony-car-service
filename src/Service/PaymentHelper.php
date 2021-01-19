@@ -187,9 +187,6 @@ class PaymentHelper
             throw new \RuntimeException('Could not send email');
         }
 
-
-
-
         $this->createInteraction($payment, 'Receipt sent');
         $this->commitPayment($payment);
     }
