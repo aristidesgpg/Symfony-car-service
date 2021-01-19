@@ -31,6 +31,7 @@ class SettingsHelper
         'generalName', 'generalEmail', 'generalWebsiteUrl', 'generalInventoryUrl', 'generaAddress',
         'generalAddress2', 'generalCity', 'generalState', 'generalZip', 'generalPhone',
         'myReviewGoogleURL', 'myReviewFacebookURL', 'myReviewText', 'myReviewActivated',
+        'reviewGoogleUrl', 'reviewFacebookUrl', 'reviewText','followUpDelay','followUpTextMessage','followUpScheduleURL',
     ];
 
     const VALID_FILE_SETTINGS = ['custAppPostInspectionVideo', 'generalLogo', 'reviewLogo'];

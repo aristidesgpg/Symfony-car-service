@@ -196,7 +196,7 @@ class FollowUpController extends AbstractFOSRestController {
      * @Rest\Patch("/api/follow-up/{id}/view")
      *
      * @SWG\Tag(name="FollowUp")
-     * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
+     * @SWG\Patch(description="Update a Followup and create a new FollowupInteraction")
      *
      * @SWG\Response(response="200", description="Success!")
      *
@@ -217,14 +217,16 @@ class FollowUpController extends AbstractFOSRestController {
         
         $helper->updateFollowUp($followup, $user, 'Viewed');
 
-        return $this->handleView($view);
+        return $this->handleView($this->view([
+            'message' => 'Success'
+        ], Response::HTTP_OK));
     }
 
     /**
      * @Rest\Patch("/api/follow-up/{id}/converted")
      *
      * @SWG\Tag(name="FollowUp")
-     * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
+     * @SWG\Patch(description="Update a Followup and create a new FollowupInteraction")
      *
      * @SWG\Response(response="200", description="Success!")
      *
@@ -245,7 +247,9 @@ class FollowUpController extends AbstractFOSRestController {
         
         $helper->updateFollowUp($followup, $user, 'Converted');
 
-        return $this->handleView($view);
+        return $this->handleView($this->view([
+            'message' => 'Success'
+        ], Response::HTTP_OK));
     }
     
 

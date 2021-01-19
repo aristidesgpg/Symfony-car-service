@@ -88,6 +88,9 @@ class SettingsFixture extends Fixture
             'myReviewFacebookURL' => 'https://www.facebook.com',
             'myReviewText' => 'Please leave your review for our company.',
             'myReviewActivated' => 1,
+            'followUpDelay'              => '7',
+            'followUpTextMessage'        => 'Thank you for visiting [dealership name]. You declined some services, click here to view them:',
+            'followUpScheduleURL'        => 'https://www.google.com/',
         ];
 
         foreach ($settings as $k => $v) {
