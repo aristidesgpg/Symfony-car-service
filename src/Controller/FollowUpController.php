@@ -208,7 +208,7 @@ class FollowUpController extends AbstractFOSRestController {
      * @return Response
      */
 
-    public function update (Followup $followup, FollowUpHelper $helper) {
+    public function viewed (Followup $followup, FollowUpHelper $helper) {
         $user    = $this->getUser();
 
         if(!$user instanceof Customer){
@@ -220,6 +220,33 @@ class FollowUpController extends AbstractFOSRestController {
         return $this->handleView($view);
     }
 
+    /**
+     * @Rest\Patch("/api/follow-up/{id}/converted")
+     *
+     * @SWG\Tag(name="FollowUp")
+     * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
+     *
+     * @SWG\Response(response="200", description="Success!")
+     *
+     *
+     * @param FollowUp                $followup
+     * @param FollowUpHelper          $helper
+     * @param EntityManagerInterface  $em
+     *
+     * @return Response
+     */
+
+    public function converted (Followup $followup, FollowUpHelper $helper) {
+        $user    = $this->getUser();
+
+        if(!$user instanceof Customer){
+            return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
+        }
+        
+        $helper->updateFollowUp($followup, $user, 'Converted');
+
+        return $this->handleView($view);
+    }
     
 
 }

@@ -97,7 +97,7 @@ class FollowUpHelper {
                         if(!$customer->getMobileConfirmed()){
                             $customer->setMobileConfirmed(true);
 
-                            $this->em->persist($followup);
+                            $this->em->persist($customer);
                             $this->em->flush();
                         }
                     }
@@ -105,9 +105,17 @@ class FollowUpHelper {
                         $followup->setStatus('Viewed');    
                         $followup->setDateViewed(new \DateTime());
                     }
-                    
+
+                    $this->em->persist($followup);
+                    $this->em->flush();    
                 }
+                break;
+            case 'Converted':
+                $followup->setStatus('Converted');
+                $followup->setDateConverted(new \DateTime());
                 
+                $this->em->persist($followup);
+                $this->em->flush();    
                 break;
         }
        
