@@ -40,7 +40,6 @@ class MailerHelper
 
     public function sendMail(string $title, string $email, string $body): bool
     {
-
         $email = (new Email())
             ->from($this->sender)
             ->to($email)
@@ -50,24 +49,22 @@ class MailerHelper
         return $this->send($email);
     }
 
-
     /**
-     * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop)
+     * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop).
      */
     public function sendBulkMail(string $title, array $emails, string $body)
     {
-        if(!is_array($emails)){
+        if (!is_array($emails)) {
             return false;
         }
 
-        foreach($emails as $email){
+        foreach ($emails as $email) {
             $this->sendMail($title, $email, $body);
         }
     }
 
     public function sendMailFromTemplate(string $title, string $email, string $templatePath, array $templateContext = []): bool
     {
-
         $email = (new TemplatedEmail())
             ->from($this->sender)
             ->to($email)
@@ -75,35 +72,31 @@ class MailerHelper
             ->htmlTemplate($templatePath)
             ->context($templateContext)
         ;
-        return $this->send($email);
 
+        return $this->send($email);
     }
 
     /**
-     * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop)
+     * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop).
      */
     public function sendBulkMailFromTemplate(string $title, array $emails, string $templatePath, array $templateContext = [])
     {
-        if(!is_array($emails)){
+        if (!is_array($emails)) {
             return false;
         }
 
-        foreach($emails as $email){
+        foreach ($emails as $email) {
             $this->sendMailFromTemplate($title, $email, $templatePath, $templateContext);
         }
     }
 
-    /**
-     * @param Email $email
-     * @return bool
-     */
     private function send(Email $email): bool
     {
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
             $this->logger->critical('Email unsuccessfully sent.'.$e->getMessage());
-            dd($e->getMessage() );
+            dd($e->getMessage());
 
             return false;
         }
