@@ -40,17 +40,6 @@ class MailerHelper
 
     public function sendMail(string $title, string $email, string $body): bool
     {
-//        $message = (new \Swift_Message($title))
-//            ->setFrom($this->sender)
-//            ->setTo($email)
-//            ->setBody(
-//                $body,
-//                'text/plain'
-//            );
-//
-//        if (!$this->mailer->send($message)) {
-//            return false;
-//        }
 
         $email = (new Email())
             ->from($this->sender)
@@ -58,10 +47,23 @@ class MailerHelper
             ->subject($title)
             ->text($body);
 
-
         return $this->send($email);
     }
 
+
+    /**
+     * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop)
+     */
+    public function sendBulkMail(string $title, array $emails, string $body)
+    {
+        if(!is_array($emails)){
+            return false;
+        }
+
+        foreach($emails as $email){
+            $this->sendMail($title, $email, $body);
+        }
+    }
 
     public function sendMailFromTemplate(string $title, string $email, string $templatePath, array $templateContext = []): bool
     {
@@ -77,7 +79,19 @@ class MailerHelper
 
     }
 
+    /**
+     * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop)
+     */
+    public function sendBulkMailFromTemplate(string $title, string $emails, string $templatePath, array $templateContext = [])
+    {
+        if(!is_array($emails)){
+            return false;
+        }
 
+        foreach($emails as $email){
+            $this->sendMailFromTemplate($title, $email, $templatePath, $templateContext);
+        }
+    }
 
     /**
      * @param Email $email
