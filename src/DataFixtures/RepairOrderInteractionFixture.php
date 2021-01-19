@@ -25,7 +25,7 @@ class RepairOrderInteractionFixture extends Fixture implements DependentFixtureI
             $repairOrderInteraction = new RepairOrderInteraction();
             $repairOrderReference   = $faker->numberBetween(1, 50);
             $userReference          = $faker->numberBetween(1, 50);
-            $interactionType        = ['waiver_signed', 'waiver_sent', 'waiver_viewed', 'waiver_acknowledged', 'waiver_re-sent'];
+            $interactionType        = ['Waiver Signed', 'Waiver Sent', 'Waiver Viewed', 'Waiver Acknowledged', 'Waiver Resent'];
 
             $ro = $manager->getRepository(RepairOrder::class)->findOneBy(['id' => $repairOrderReference]);
             if ($ro) {
