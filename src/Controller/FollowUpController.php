@@ -48,6 +48,46 @@ class FollowUpController extends AbstractFOSRestController {
      *     description="Get ROs created before supplied date-time",
      *     in="query"
      * )
+     * @SWG\Parameter(
+     *     name="status",
+     *     type="string",
+     *     description="Get ROs created before supplied date-time",
+     *     in="query",
+     *     enum={"Created", "Sent", "Viewed", "Converted"}
+     * )
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *  @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *  @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -74,22 +114,64 @@ class FollowUpController extends AbstractFOSRestController {
      * @param FollowUpRepository     $followUpRepository
      * @param PaginatorInterface    $paginator
      * @param UrlGeneratorInterface $urlGenerator
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
     public function list (Request $request, FollowUpRepository $followUpRepository,
-                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
+                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em): Response {
         $page          = $request->query->getInt('page', 1);
+        $status          = $request->query->getInt('status');
         $startDate     = $request->query->get('startDate');
         $endDate       = $request->query->get('endDate');
         $urlParameters = [];
-
+        $sortField     = "";
+        $sortDirection = "";
+        $searchField   = "";
+        $searchTerm    = "";      
+        $errors        = [];              
+    
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $followUpQuery = $followUpRepository->getAllItems($startDate, $endDate);
+        $columns = $em->getClassMetadata('App\Entity\FollowUp')->getFieldNames();
+
+        if($request->query->has('sortField') && $request->query->has('sortDirection'))
+        {
+            $sortField                      = $request->query->get('sortField');
+            
+            //check if the sortfield exist
+            if(!in_array($sortField, $columns))
+                $errors['sortField'] = 'Invalid sort field name';
+            
+            $sortDirection                  = $request->query->get('sortDirection');
+
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField']     = $sortField;
+
+        }
+
+        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        {
+            $searchField                    = $request->query->get('searchField');
+            
+            //check if the searchfield exist
+            if(!in_array($searchField, $columns))
+                $errors['searchField']      = 'Invalid search field name';
+
+            $searchTerm  = $request->query->get('searchTerm');
+
+            $urlParameters['searchField']   = $searchField;
+            $urlParameters['searchTerm']    = $searchTerm;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        $followUpQuery = $followUpRepository->getAllItems($startDate, $endDate, $status,  $sortField, $sortDirection, $searchField, $searchTerm);
         $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $pager        = $paginator->paginate($followUpQuery, $page, $pageLimit);
         $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
@@ -98,9 +180,9 @@ class FollowUpController extends AbstractFOSRestController {
             'followUps'     => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getFollowUps', $urlParameters),
+            'previous'     => $pagination->getPreviousPageURL('app_followup_list', $urlParameters),
             'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getFollowUps', $urlParameters)
+            'next'         => $pagination->getNextPageURL('app_followup_list', $urlParameters)
         ];
 
         $view = $this->view($json);
@@ -160,17 +242,17 @@ class FollowUpController extends AbstractFOSRestController {
 
         $user    = $this->getUser();
         $video   = $helper->createVideo($file);
-        $checkin = new FollowUp();
+        $followup = new FollowUp();
 
-        $checkin->setIdentification($identification);
-        $checkin->setVideo($video);
-        $checkin->setDate(new \DateTime());
-        $checkin->setUser($user);
+        $followup->setIdentification($identification);
+        $followup->setVideo($video);
+        $followup->setDate(new \DateTime());
+        $followup->setUser($user);
         
-        $em->persist($checkin);
+        $em->persist($followup);
         $em->flush();
 
-        $view = $this->view($checkin);
+        $view = $this->view($followup);
         $view->getContext()->setGroups(FollowUp::GROUPS);
 
         return $this->handleView($view);
