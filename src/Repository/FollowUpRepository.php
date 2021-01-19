@@ -47,4 +47,55 @@ class FollowUpRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * @param 
+     * 
+     * @return FollowUp[] Returns array of FolloUp ojbects
+     */
+    public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date', $sortDirection = 'DESC', $searchField = null, $searchTerm = null ){
+        if($end === null) {
+            $end = new \DateTime();
+        } else{
+            $end = new \DateTime($end);
+        }
+
+        if($start)
+            $start = new \DateTime($start);
+
+        try {
+            $qb = $this->createQueryBuilder('fu');
+            
+            if($start && $end){
+                $qb->andWhere('fu.date BETWEEN :start AND :end')
+                   ->setParameter('start', $start->format('Y-m-d H:i'))
+                   ->setParameter('end', $end->format('Y-m-d H:i'));
+            } else{
+                $qb->andWhere('fu.date < :end')
+                   ->setParameter('end', $end->format('Y-m-d H:i'));
+            }
+            if($searchTerm)
+            {
+                $qb->andWhere('fu.'.$searchField.' LIKE :searchTerm')
+                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
+            }
+
+            if($sortDirection){
+                $qb->orderBy('fu.'.$sortField, $sortDirection);
+            }
+            else{
+                $qb->orderBy('fu.date', 'DESC');
+            }
+
+            if($status){
+                $qb->andWhere('fu.status < :status')
+                   ->setParameter('status', $status);
+            }
+ 
+            return $qb->getQuery();
+ 
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
 }
