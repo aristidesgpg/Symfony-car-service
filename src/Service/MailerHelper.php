@@ -83,7 +83,7 @@ class MailerHelper
      * @param Email $email
      * @return bool
      */
-    public function send(Email $email): bool
+    private function send(Email $email): bool
     {
         try {
             $this->mailer->send($email);
