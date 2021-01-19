@@ -183,6 +183,10 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")
+     * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
+     * @SWG\Parameter(name="followUpDelay", type="integer", in="formData")
+     * @SWG\Parameter(name="followUpTextMessage", type="string", in="formData")
+     * @SWG\Parameter(name="followUpScheduleURL", type="string", in="formData")
      *
      * @param Request        $req
      * @param SettingsHelper $helper
