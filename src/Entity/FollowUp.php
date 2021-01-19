@@ -6,52 +6,62 @@ use App\Repository\FollowUpRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=FollowUpRepository::class)
  */
 class FollowUp
 {
+    public const GROUPS = ['fu_list', 'ro_list', 'fui_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"fu_list"})
      */
     private $id;
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="followUp", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"fu_list"})
      */
     private $repairOrder;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"fu_list"})
      */
     private $dateCreated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"fu_list"})
      */
     private $dateSent;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"fu_list"})
      */
     private $dateViewed;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"fu_list"})
      */
     private $dateConverted;
 
     /**
      * @ORM\Column(type="string", length=12)
+     * @Serializer\Groups(groups={"fu_list"})
      */
     private $status;
 
     /**
      * @ORM\OneToMany(targetEntity=FollowUpInteraction::class, mappedBy="followUp")
+     * @Serializer\Groups(groups={"fu_list"})
      */
     private $followUpInteractions;
 

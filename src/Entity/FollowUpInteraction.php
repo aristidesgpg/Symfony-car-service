@@ -4,16 +4,19 @@ namespace App\Entity;
 
 use App\Repository\FollowUpInteractionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=FollowUpInteractionRepository::class)
  */
 class FollowUpInteraction
 {
+    public const GROUPS = ['user_list', 'customer_list', 'fui_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"fui_list"})
      */
     private $id;
 
@@ -26,21 +29,25 @@ class FollowUpInteraction
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="followUpInteractions")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"fui_list"})
      */
     private $customer;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="followUpInteractions")
+     * @Serializer\Groups(groups={"fui_list"})
      */
     private $user;
 
     /**
      * @ORM\Column(type="string", length=12)
+     * @Serializer\Groups(groups={"fui_list"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"fui_list"})
      */
     private $date;
 

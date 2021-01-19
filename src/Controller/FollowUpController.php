@@ -193,69 +193,33 @@ class FollowUpController extends AbstractFOSRestController {
     }
 
     /**
-     * @Rest\Post("/api/follow-up")
+     * @Rest\Patch("/api/follow-up/{id}/view")
      *
      * @SWG\Tag(name="FollowUp")
-     * @SWG\Post(description="Create a chekin")
+     * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
      *
-     * @SWG\Parameter(
-     *     name="identification",
-     *     type="string",
-     *     description="Identification of the vehicle",
-     *     in="formData",
-     *     required=true
-     * )
-     * @SWG\Parameter(
-     *     name="video",
-     *     type="file",
-     *     in="formData",
-     *     required=true
-     * )
+     * @SWG\Response(response="200", description="Success!")
      *
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(type="object", ref=@Model(type=FollowUp::class, groups=FollowUp::GROUPS))
-     * )
      *
-     * @SWG\Response(
-     *     response="404",
-     *     description="Invalid page parameter"
-     * )
-     *
-     * @param Request                $request
+     * @param FollowUp                $followup
      * @param FollowUpHelper          $helper
-     * @param EntityManagerInterface $em
+     * @param EntityManagerInterface  $em
      *
      * @return Response
      */
 
-    public function new (Request $request, FollowUpHelper $helper, EntityManagerInterface $em) {
-        $file           = $request->files->get('video');
-        $identification = $request->get('identification');
-
-        if (!$file instanceof UploadedFile) {
-            return new ValidationResponse(['video' => 'File upload failed']);
-        } else if ($file->getError() !== UPLOAD_ERR_OK) {
-            return new ValidationResponse(['video' => $file->getErrorMessage()]);
-        }
-
+    public function update (Followup $followup, FollowUpHelper $helper) {
         $user    = $this->getUser();
-        $video   = $helper->createVideo($file);
-        $followup = new FollowUp();
 
-        $followup->setIdentification($identification);
-        $followup->setVideo($video);
-        $followup->setDate(new \DateTime());
-        $followup->setUser($user);
+        if(!$user instanceof Customer){
+            return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
+        }
         
-        $em->persist($followup);
-        $em->flush();
-
-        $view = $this->view($followup);
-        $view->getContext()->setGroups(FollowUp::GROUPS);
+        $helper->updateFollowUp($followup, $user, 'Viewed');
 
         return $this->handleView($view);
     }
+
+    
 
 }
