@@ -162,7 +162,7 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         if (!$user instanceof Customer && !$user instanceof User) {
             throw new \RuntimeException('Could not determine user');
         }
-        $helper->viewVideo($video, $user);
+        $helper->viewVideo($ro, $video, $user);
 
         return $this->handleView($this->view([
             'message' => 'Video view recorded',

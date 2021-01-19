@@ -74,7 +74,7 @@ class VideoHelper {
         $this->em->persist($video);
         $this->em->flush();
 
-        $this->sendVideo($video);
+        $this->sendVideo($ro, $video);
 
         return $video;
     }
@@ -92,9 +92,10 @@ class VideoHelper {
     }
 
     /**
+     * @param RepairOrder  $ro
      * @param RepairOrderVideo $video
      */
-    public function sendVideo (RepairOrderVideo $video): void {
+    public function sendVideo (RepairOrder  $ro, RepairOrderVideo $video): void {
         $phone = $video->getRepairOrder()->getPrimaryCustomer()->getPhone();
         $message = $this->settings->find('serviceTextVideo')->getValue();
         $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $video->getRepairOrder()->getLinkHash();
@@ -114,14 +115,16 @@ class VideoHelper {
               ->setDateSent(new DateTime())
               ->setShortUrl($shortUrl);
 
+        $this->em->persist($video);
         $this->em->flush();
     }
 
     /**
+     * @param RepairOrder  $ro
      * @param RepairOrderVideo $video
      * @param Customer|User    $user
      */
-    public function viewVideo (RepairOrderVideo $video, $user): void {
+    public function viewVideo (RepairOrder  $ro, RepairOrderVideo $video, $user): void {
         $interaction = new RepairOrderVideoInteraction();
         if ($user instanceof Customer) {
             $interaction->setCustomer($user);
