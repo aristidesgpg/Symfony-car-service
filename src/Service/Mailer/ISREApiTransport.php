@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Service\Mailer;
-
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\Envelope;
@@ -16,10 +14,9 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
 /**
- * Used sendgrid-mailer as template
+ * Used sendgrid-mailer as template.
  *
  * Class ISREApiTransport
- * @package App\Mailer
  */
 class ISREApiTransport extends AbstractApiTransport
 {
@@ -40,15 +37,14 @@ class ISREApiTransport extends AbstractApiTransport
 
     protected function doSendApi(SentMessage $sentMessage, Email $email, Envelope $envelope): ResponseInterface
     {
-
         $response = $this->client->request('POST', 'https://'.$this->getEndpoint().'/api/add-to-email-que', [
-            'json' => $this->getPayload($email, $envelope)
+            'json' => $this->getPayload($email, $envelope),
         ]);
 
         if (200 !== $response->getStatusCode()) {
             $errors = ['errors' => ['message', $response->getContent()]];
 
-            throw new HttpTransportException('Unable to send an email: '.implode('; ', array_column($errors['errors'],'message')).sprintf(' (code %d).', $response->getStatusCode()), $response);
+            throw new HttpTransportException('Unable to send an email: '.implode('; ', array_column($errors['errors'], 'message')).sprintf(' (code %d).', $response->getStatusCode()), $response);
         }
 
         return $response;
@@ -60,13 +56,12 @@ class ISREApiTransport extends AbstractApiTransport
             return $address->getAddress();
         };
 
-
         $postFields = [
             'access_token' => $this->key,
-            'to_email'     => array_map($addressStringifier, $this->getRecipients($email, $envelope))[0],//ISRE only supports a single address
-            'from_email'   => $addressStringifier($envelope->getSender()),
-            'subject'      => $email->getSubject(),
-            'body'         => $this->getContent($email)//ISRE only supports a string
+            'to_email' => array_map($addressStringifier, $this->getRecipients($email, $envelope))[0], //ISRE only supports a single address
+            'from_email' => $addressStringifier($envelope->getSender()),
+            'subject' => $email->getSubject(),
+            'body' => $this->getContent($email), //ISRE only supports a string
         ];
 
         if ($emails = array_map($addressStringifier, $email->getCc())) {
@@ -76,7 +71,6 @@ class ISREApiTransport extends AbstractApiTransport
 
         return $postFields;
     }
-
 
     private function getContent(Email $email): string
     {
@@ -88,7 +82,7 @@ class ISREApiTransport extends AbstractApiTransport
             $content[] = ['type' => 'text/html', 'value' => $html];
         }
 
-        if(array_key_exists(1, $content)){
+        if (array_key_exists(1, $content)) {
             return $content[1]['value'];
         }
 
