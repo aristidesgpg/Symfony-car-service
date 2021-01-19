@@ -131,34 +131,4 @@ class VideoHelper {
 
         $this->em->flush();
     }
-
-    /**
-     * @param RepairOrderVideo $video
-     * @param User             $user
-     */
-    public function approveVideo (RepairOrderVideo $video, User $user): void {
-        $interaction = new RepairOrderVideoInteraction();
-        $interaction->setRepairOrderVideo($video)
-                    ->setUser($user)
-                    ->setType('Advisor Approved');
-        $video->addInteraction($interaction);
-
-        $this->em->flush();
-
-        $this->sendVideo($video);
-    }
-
-    /**
-     * @param RepairOrderVideo $video
-     * @param User             $user
-     */
-    public function confirmViewed (RepairOrderVideo $video, User $user): void {
-        $interaction = new RepairOrderVideoInteraction();
-        $interaction->setRepairOrderVideo($video)
-                    ->setUser($user)
-                    ->setType('Advisor Confirmed Viewed');
-        $video->addInteraction($interaction);
-
-        $this->em->flush();
-    }
 }
