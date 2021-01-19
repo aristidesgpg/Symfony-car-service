@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use DateTime;
 
 class VideoHelper {
     /** @var EntityManagerInterface */
@@ -64,6 +65,8 @@ class VideoHelper {
         }
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Uploaded')
+                    ->setUser($ro->getPrimaryTechnician())
+                    ->setCustomer($ro->getPrimaryCustomer())
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction);
         $ro->addVideo($video);
@@ -104,8 +107,11 @@ class VideoHelper {
 
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Sent')
+                    ->setUser($ro->getPrimaryTechnician())
+                    ->setCustomer($ro->getPrimaryCustomer())
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction)
+              ->setDateSent(new DateTime())
               ->setShortUrl($shortUrl);
 
         $this->em->flush();
@@ -126,8 +132,11 @@ class VideoHelper {
         }
 
         $interaction->setRepairOrderVideo($video)
+                    ->setUser($ro->getPrimaryTechnician())
+                    ->setCustomer($ro->getPrimaryCustomer())
                     ->setType('Viewed');
-        $video->addInteraction($interaction);
+        $video->addInteraction($interaction)
+              ->setDateViewed(new DateTime());
 
         $this->em->flush();
     }
