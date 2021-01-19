@@ -51,7 +51,7 @@ class VideoHelper {
      *
      * @return RepairOrderVideo
      */
-    public function createVideo (RepairOrder $ro, UploadedFile $file, ?User $tech = null): RepairOrderVideo {
+    public function uploadVideo (RepairOrder $ro, UploadedFile $file, ?User $tech = null): RepairOrderVideo {
         if (!$this->upload->isValidVideo($file)) {
             throw new \InvalidArgumentException('Invalid file format');
         }

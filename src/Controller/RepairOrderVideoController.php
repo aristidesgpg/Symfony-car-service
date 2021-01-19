@@ -92,7 +92,7 @@ class RepairOrderVideoController extends AbstractFOSRestController {
         if (!$user instanceof User || $user->getId() === null) {
             $user = null;
         }
-        $video = $helper->createVideo($ro, $file, $user);
+        $video = $helper->uploadVideo($ro, $file, $user);
 
         $view = $this->view($video);
         $view->getContext()->setGroups(RepairOrderVideo::GROUPS);
