@@ -71,11 +71,7 @@ class VideoHelper {
         $this->em->persist($video);
         $this->em->flush();
 
-//        if ($approvalRequired) {
-//
-//        } else {
-            $this->sendVideo($video);
-//        }
+        $this->sendVideo($video);
 
         return $video;
     }
