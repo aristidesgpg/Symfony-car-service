@@ -14,7 +14,7 @@ use DateTime;
  */
 class RepairOrderQuote
 {
-    public const GROUPS = ['roq_list', 'ro_list'];
+    public const GROUPS = ['roq_list', 'ro_list', 'roqs_list'];
 
     /**
      * @ORM\Id
@@ -68,6 +68,7 @@ class RepairOrderQuote
 
     /**
      * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendation::class, mappedBy="repairOrderQuote", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"roq_list"})
      */
     private $repairOrderQuoteRecommendations;
 
