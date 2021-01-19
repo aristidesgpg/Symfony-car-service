@@ -65,7 +65,7 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
                                       ->setType($status)
                                       ->setDate($dateCompleted);
             $manager->persist($repairOrderMPIInteraction);
-            if($faker->boolean(30)){
+            if($faker->boolean(70)){
                 //Sent
                 $dateSent       = clone $dateCompleted;
                 $dateSentModify = random_int(1, 12);
@@ -83,7 +83,7 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
                                             ->setDate($dateSent);
                 $manager->persist($repairOrderMPIInteraction);
 
-                if($faker->boolean(30)){
+                if($faker->boolean(70)){
                     //Viewed
                     $dateViewed       = clone $dateSent;
                     $dateViewedModify = random_int(1, 12);
@@ -102,8 +102,8 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
                 }
             }
             
-            //update repairOrder status
-            $repairOrder->setVideoStatus($status);
+            //update repairOrder MPI status
+            $repairOrder->setMpiStatus($status);
             $manager->persist($repairOrder);
             //update repairOrderMPI status
             $repairOrderMPI->setStatus($status);
