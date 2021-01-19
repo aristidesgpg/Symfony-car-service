@@ -28,7 +28,6 @@ class FollowUpInteraction
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="followUpInteractions")
-     * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups(groups={"fui_list"})
      */
     private $customer;

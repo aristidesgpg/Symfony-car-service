@@ -15,6 +15,8 @@ use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\FollowUpHelper;
+use DateTime;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -466,7 +468,8 @@ class RepairOrderController extends AbstractFOSRestController
         RepairOrder $ro,
         RepairOrderHelper $helper,
         MyReviewHelper $myReviewHelper,
-        SettingsHelper $settingsHelper
+        SettingsHelper $settingsHelper,
+        FollowUpHelper $followupHelper
     ): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
@@ -490,6 +493,8 @@ class RepairOrderController extends AbstractFOSRestController
             $user = $this->getUser();
             $myReviewHelper->new($ro, $user);
         }
+
+        $followupHelper->new($ro);
 
         return $this->handleView(
             $this->view(

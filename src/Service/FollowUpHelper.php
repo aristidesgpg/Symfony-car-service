@@ -43,7 +43,7 @@ class FollowUpHelper {
        $this->em->persist($followup);
        $this->em->flush();
 
-       $this->sendMessage();
+    //    $this->sendMessage();
 
     }
     
@@ -51,7 +51,7 @@ class FollowUpHelper {
         $followupInteraction = new FollowUpInteraction();
 
         $followupInteraction->setFollowUp($followup)
-                            ->setStatus($status)
+                            ->setType($status)
                             ->setDate(new \DateTime());
         
         if($status === 'Sent'){
@@ -61,7 +61,7 @@ class FollowUpHelper {
             $followupInteraction->setCustomer($user);
         }
 
-        $this->em->persist($followup);
+        $this->em->persist($followupInteraction);
         $this->em->flush();
     }
 
@@ -79,7 +79,7 @@ class FollowUpHelper {
                 $currStatus = $followup->getStatus();
                 if($currStatus !== 'Converted')
                 {
-                    if($currStatus === 'Viwed'){
+                    if($currStatus === 'Viewed'){
                         $followup->setStatus('Sent');    
 
                         // If the Follow Up 'date_sent' is null, set it to today's date
@@ -89,11 +89,11 @@ class FollowUpHelper {
 
                         // create a FollowUpIneraction of 'sent' with the user_id of the primaryAdvisor for the repair order
                         $repairOrder = $followup->getRepairOrder();
-                        $newUser = $repairOrder->getPrimaryAdvisor();
+                        $newUser     = $repairOrder->getPrimaryAdvisor();
                         $this->createFollowupInteraction( $followup, $newUser, 'Sent');
 
                         // if the customer's phone number 'phone_validated' is false, set it to true
-                        $customer = $repairOrder->getPrimaryCustomer();
+                        $customer    = $repairOrder->getPrimaryCustomer();
                         if(!$customer->getMobileConfirmed()){
                             $customer->setMobileConfirmed(true);
 

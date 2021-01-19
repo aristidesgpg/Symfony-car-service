@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\FollowUp;
 use App\Entity\User;
+use App\Entity\Customer;
 use App\Repository\FollowUpRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
