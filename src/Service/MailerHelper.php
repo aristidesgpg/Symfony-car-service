@@ -82,7 +82,7 @@ class MailerHelper
     /**
      * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop)
      */
-    public function sendBulkMailFromTemplate(string $title, string $emails, string $templatePath, array $templateContext = [])
+    public function sendBulkMailFromTemplate(string $title, array $emails, string $templatePath, array $templateContext = [])
     {
         if(!is_array($emails)){
             return false;
