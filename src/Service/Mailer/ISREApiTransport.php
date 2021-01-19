@@ -45,9 +45,6 @@ class ISREApiTransport extends AbstractApiTransport
             'json' => $this->getPayload($email, $envelope)
         ]);
 
-        dump($response->getStatusCode());
-        dump($response->getContent());
-
         if (200 !== $response->getStatusCode()) {
             $errors = ['errors' => ['message', $response->getContent()]];
 
