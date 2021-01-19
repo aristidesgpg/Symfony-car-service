@@ -41,18 +41,12 @@ class RepairOrderVideo {
      * @ORM\Column(type="string", length=255)
      * @Serializer\Groups(groups={"rov_list"})
      */
-    private $status = 'Created';
+    private $status = 'Not Started';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $shortUrl;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Serializer\Groups(groups={"rov_list"})
-     */
-    private $dateCreated;
 
     /**
      * @ORM\Column(type="boolean")
@@ -69,8 +63,23 @@ class RepairOrderVideo {
      */
     private $interactions;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateUploaded;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateSent;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateViewed;
+
     public function __construct () {
-        $this->dateCreated  = new \DateTime();
+        $this->dateUploaded  = new \DateTime();
         $this->interactions = new ArrayCollection();
     }
 
@@ -172,24 +181,6 @@ class RepairOrderVideo {
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getDateCreated (): \DateTime {
-        return $this->dateCreated;
-    }
-
-    /**
-     * @param \DateTime $dateCreated
-     *
-     * @return $this
-     */
-    public function setDateCreated (\DateTime $dateCreated): self {
-        $this->dateCreated = $dateCreated;
-
-        return $this;
-    }
-
-    /**
      * @return bool
      */
     public function isDeleted (): bool {
@@ -224,6 +215,42 @@ class RepairOrderVideo {
         $this->setStatus($status);
         $this->getRepairOrder()->setVideoStatus($status);
         $this->interactions->add($interaction);
+
+        return $this;
+    }
+
+    public function getDateUploaded(): ?\DateTimeInterface
+    {
+        return $this->dateUploaded;
+    }
+
+    public function setDateUploaded(?\DateTimeInterface $dateUploaded): self
+    {
+        $this->dateUploaded = $dateUploaded;
+
+        return $this;
+    }
+
+    public function getDateSent(): ?\DateTimeInterface
+    {
+        return $this->dateSent;
+    }
+
+    public function setDateSent(?\DateTimeInterface $dateSent): self
+    {
+        $this->dateSent = $dateSent;
+
+        return $this;
+    }
+
+    public function getDateViewed(): ?\DateTimeInterface
+    {
+        return $this->dateViewed;
+    }
+
+    public function setDateViewed(?\DateTimeInterface $dateViewed): self
+    {
+        $this->dateViewed = $dateViewed;
 
         return $this;
     }
