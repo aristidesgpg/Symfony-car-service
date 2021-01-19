@@ -21,11 +21,36 @@ class RepairOrderInteractionFixture extends Fixture implements DependentFixtureI
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
+
+        $interactionType        = ['Waiver Signed', 'Waiver Sent', 'Waiver Viewed', 'Waiver Acknowledged', 'Waiver Resent'];
+        // for functional testing
+        for ($i = 1; $i <= 50; $i++) {
+            $repairOrderInteraction = new RepairOrderInteraction();
+            $repairOrderReference   = $i;
+            $userReference          = $i;
+            
+            $ro = $manager->getRepository(RepairOrder::class)->findOneBy(['id' => $repairOrderReference]);
+            if ($ro) {
+                $customer           = $ro->getPrimaryCustomer();
+            }
+            else {
+                $customer           = $this->getReference('customer_' . $faker->numberBetween(1, 50));
+            }
+
+            $repairOrderInteraction->setRepairOrder($this->getReference('repairOrder_' . $repairOrderReference))
+                                ->setCustomer($customer)
+                                ->setUser($this->getReference('user_' . $userReference))
+                                ->setType($faker->randomElement($interactionType))
+                                ->setDate($faker->dateTimeBetween('-1 year'));
+
+            $manager->persist($repairOrderInteraction);
+            $manager->flush();
+        }
+
         for ($i = 1; $i <= 50; $i++) {
             $repairOrderInteraction = new RepairOrderInteraction();
             $repairOrderReference   = $faker->numberBetween(1, 50);
             $userReference          = $faker->numberBetween(1, 50);
-            $interactionType        = ['Waiver Signed', 'Waiver Sent', 'Waiver Viewed', 'Waiver Acknowledged', 'Waiver Resent'];
 
             $ro = $manager->getRepository(RepairOrder::class)->findOneBy(['id' => $repairOrderReference]);
             if ($ro) {

@@ -571,7 +571,7 @@ class RepairOrderController extends AbstractFOSRestController {
      * 
      * @SWG\Response(
      *     response="200",
-     *     description="Add an interaction waiver_viewed",
+     *     description="Add an interaction Waiver Acknowledged",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
      * )
      * 
