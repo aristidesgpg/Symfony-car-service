@@ -24,4 +24,7 @@ public/uploads
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-/tools/vendor/
+/tools/
+/.php_cs.cache
+/.php_cs.dist
+/psalm.xml

@@ -2,96 +2,65 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Settings;
 use App\Service\PasswordHelper;
+use App\Service\SettingsHelper;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 
+/**
+ * Class SettingFixture.
+ */
 class SettingsFixture extends Fixture
 {
-
     /**
      * @var PasswordHelper
      */
     private $passwordHelper;
 
     /**
-     * SettingsFixture constructor.
-     *
-     * @param PasswordHelper $passwordHelper
+     * @var SettingsHelper
      */
-    public function __construct(PasswordHelper $passwordHelper)
+    private $settingsHelper;
+
+    /**
+     * SettingsFixture constructor.
+     */
+    public function __construct(PasswordHelper $passwordHelper, SettingsHelper $settingsHelper)
     {
         $this->passwordHelper = $passwordHelper;
+        $this->settingsHelper = $settingsHelper;
     }
 
     /**
-     * @param ObjectManager $manager
-     *
      * @throws Exception
      */
     public function load(ObjectManager $manager)
     {
-        $settings = [
-            'phase1' => '60',
-            'phase2' => '60',
-            'phase3' => '60',
-            'techAppUsername' => 'iService',
-            'techAppPassword' => $this->passwordHelper->hashPassword('test'),
-            'techAppReAuthenticate' => false,
-            'custAppAppraiseButtonText' => 'Appraise My Car',
-            'custAppPostInspectionVideo' => null,
-            'custAppFinanceRepairUrl' => null,
-            'serviceTwilioFromNumber' => '8478137493',
-            'serviceTextIntro' => 'Welcome to (dealer name) Please text this number for status updates. Your inspection video will be sent from a separate number',
-            'serviceTextVideo' => 'Your vehicle inspection video is ready, please click the link:',
-            'serviceTextVideoResend' => 'Friendly reminder from (dealer name), you have maintenance needed, please click the link:',
-            'serviceTextQuote' => null,
-            'serviceTextPayment' => null,
-            'pricingLaborRate' => '110',
-            'pricingUseMatrix' => '0',
-            'pricingLaborTax' => '9.25',
-            'pricingPartsTax' => '9.25',
-            'waiverEstimateText' => 'Test Waiver Text. Please acknowledge that you understand.',
-            'waiverActivateAuthMessage' => 1,
-            'waiverIntroText' => 'Welcome to (dealer name). Click the link below to begin your visit.',
-            'advisorUsageEmails' => null,
-            'openLate' => '0',
-            'previewSalesVideoText' => 'Welcome to the coolest dealership!',
-            'upgradeTradeInTax' => '6.25',
-            'upgradeTradeInTaxLimit' => '10000',
-            'upgradeOfferExpiration' => '7',
-            'upgradeInstantOfferUrl' => 'https://www.performancetoyotastore.com/value-your-trade/',
-            'upgradeIntroText' => 'Click the link below to see the value of your vehicle.  Thank you for visiting Performance Toyota',
-            'upgradeOfferText' => 'Congratulations.  We have made you a cash offer.  Click the link to view.',
-            'upgradeCashOfferCopy' => 'Show to any sales agent to claim your offer.',
-            'upgradeDisclaimer' => 'The cash offer is contingent upon verifying the condition and trim levels are true that were selected.',
-            'percentageOfTax' => '6.25',
-            'limitOnTax' => '10000',
-            'totalDays' => '7',
-            'upgradeInitialText' => 'Click the link below to see the value of your vehicle.  Thank you for visiting Performance Toyota',
-            'upgradeCashOffer' => 'Show to any sales agent to claim your offer.',
-            'generalName' => '(Dealer Name)',
-            'generalEmail' => null,
-            'generalWebsiteUrl' => 'https://www.performancetoyotastore.com/value-your-trade/',
-            'generalInventoryUrl' => null,
-            'generaAddress' => null,
-            'generalAddress2' => null,
-            'generalCity' => null,
-            'generalState' => null,
-            'generalZip' => null,
-            'generalPhone' => null,
-            'myReviewGoogleURL' => null,
-            'myReviewFacebookURL' => null,
-            'myReviewText' => 'Please leave your review for our company.',
-            'myReviewActivated' => 0,
-        ];
+        $settings = $this->getSettingsHelper()->getDefaultSettings();
 
-        foreach ($settings as $k => $v) {
-            $setting = new Settings($k, $v);
-            $manager->persist($setting);
-        }
-        $manager->flush();
+        //updated calculated settings.
+        $settings['techAppPassword'] = $this->getPasswordHelper()->hashPassword('test');
+        $this->getSettingsHelper()->commitSettings($settings);
+    }
+
+    public function getPasswordHelper(): PasswordHelper
+    {
+        return $this->passwordHelper;
+    }
+
+    public function setPasswordHelper(PasswordHelper $passwordHelper): void
+    {
+        $this->passwordHelper = $passwordHelper;
+    }
+
+    public function getSettingsHelper(): SettingsHelper
+    {
+        return $this->settingsHelper;
+    }
+
+    public function setSettingsHelper(SettingsHelper $settingsHelper): void
+    {
+        $this->settingsHelper = $settingsHelper;
     }
 }
