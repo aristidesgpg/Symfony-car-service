@@ -75,8 +75,6 @@ class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterfa
             //update repairOrderVideo status
             $repairOrderVideo->setStatus($status);
             $manager->persist($repairOrderVideo);
-            //update repairOrder video status
-            $repairOrder->setVideoStatus($status);
             $manager->persist($repairOrder);
         }
         $manager->flush();
