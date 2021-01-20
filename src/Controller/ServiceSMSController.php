@@ -22,6 +22,7 @@ use Swagger\Annotations as SWG;
 use App\Helper\iServiceLoggerTrait;
 use App\Service\TwilioHelper;
 use App\Service\Pagination;
+use App\Service\PhoneValidator;
 
 /**
  * Class ServiceSMSController
@@ -123,6 +124,71 @@ class ServiceSMSController extends AbstractFOSRestController {
     }
 
     /**
+     * @Rest\Post("/api/service-sms/{id}/resend")
+     *
+     * @SWG\Tag(name="Service SMS")
+     * @SWG\Post(description="Resend a message to a customer")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Message Was Sent" }),
+     *         )
+     * )
+     *
+     * @param ServiceSMS             $serviceSMS
+     * @param TwilioHelper           $twilioHelper
+     * @param EntityManagerInterface $em
+     * @param CustomerRepository     $customerRepo
+     * @param UserRepository         $userRepo
+     *
+     * @return Response
+     */
+    public function resend (
+        ServiceSMS             $serviceSMS,
+        TwilioHelper           $twilioHelper, 
+        EntityManagerInterface $em,
+        CustomerRepository     $customerRepo,
+        UserRepository         $userRepo
+    ) {
+
+        //check if parameters are valid
+        if (!$customerID || !$message) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //check if user exists
+        $user     = $userRepo->findOneBy(["id" => $userID]);
+        if(!$user){
+            return $this->handleView($this->view('User Does Not Exist', Response::HTTP_BAD_REQUEST));
+        }
+        //check if cusomter exists
+        $customer = $customerRepo->findOneBy(["id" => $customerID]);
+        if(!$customer){
+            return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
+        }
+        //save message
+        $serviceSMS = new ServiceSMS();
+        $serviceSMS->setUser($user)
+                   ->setCustomer($customer)
+                   ->setPhone($customer->getPhone())
+                   ->setMessage($message)
+                   ->setIncoming(false);
+
+        $em->persist($serviceSMS);
+        $em->flush();
+
+        //send message to a customer
+        // $twilioHelper->sendSms($customer->getPhone(), $message);
+
+        return $this->handleView($this->view([
+            'message' => 'Message Was Sent'
+        ], Response::HTTP_OK));
+    }
+
+    /**
      * @Rest\Post("/api/service-sms/twilio-incoming")
      *
      * @SWG\Tag(name="Service SMS")
@@ -163,20 +229,21 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param CustomerRepository     $customerRepo
+     * @param PhoneValidator         $phoneValidator
      *
      * @return Response
      */
     public function incomingAction  (
         Request                $request, 
         EntityManagerInterface $em,
-        CustomerRepository     $customerRepo
+        CustomerRepository     $customerRepo,
+        PhoneValidator         $phoneValidator
     ) {
         $message  = $request->get('Body');
         $from     = $request->get('From');
         $to       = $request->get('To');
 
-        $phone    = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $from);
-        $phone    = substr($phone, 0, 10);
+        $phone    = $phoneValidator->clean($from);
         //check if customer exists
         $customer = $customerRepo->findOneBy(["phone" => $phone]);
         if($customer){
@@ -419,5 +486,58 @@ class ServiceSMSController extends AbstractFOSRestController {
         ];
 
         return $this->handleView($this->view($json), Response::HTTP_OK);
+    }
+
+    /**
+     * @Rest\Post("/api/service-sms/status-callback")
+     *
+     * @SWG\Tag(name="Service SMS")
+     * @SWG\Post(description="Get SMS Status Update from Twilio")
+     *
+     * @SWG\Parameter(
+     *     name="smsStatus",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The User ID",
+     * )
+     * @SWG\Parameter(
+     *     name="to",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Customer ID",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Message Was Sent" }),
+     *         )
+     * )
+     *
+     * @param Request                $request
+     * @param TwilioHelper           $twilioHelper
+     * @param EntityManagerInterface $em
+     * @param CustomerRepository     $customerRepo
+     * @param PhoneValidator         $phoneValidator
+     *
+     * @return Response
+     */
+    public function statusCallback (
+        Request                $request, 
+        TwilioHelper           $twilioHelper, 
+        EntityManagerInterface $em,
+        CustomerRepository     $customerRepo,
+        PhoneValidator         $phoneValidator
+    ) {
+        $smsStatus = $request->get('SmsStatus');
+        $to        = $phoneValidator->clean($request->get('To'));
+
+        $customer  = $customerRepo->findOneBy(["phone" => $to]);
+        
     }
 }
