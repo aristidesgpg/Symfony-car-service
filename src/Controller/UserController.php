@@ -17,6 +17,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
+use App\Service\SecurityHelper;
 
 /**
  * Class UserController
@@ -72,7 +73,7 @@ class UserController extends AbstractFOSRestController {
      *     description="The value of search",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return users",
@@ -96,7 +97,7 @@ class UserController extends AbstractFOSRestController {
      * @param PaginatorInterface    $paginator
      * @param UrlGeneratorInterface $urlGenerator
      * @param EntityManagerInterface $em
-     * 
+     *
      * @return Response
      */
     public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper, PaginatorInterface $paginator,
@@ -110,7 +111,7 @@ class UserController extends AbstractFOSRestController {
         $sortDirection   = "";
         $searchField     = "";
         $searchTerm      = "";
-        
+
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
@@ -121,17 +122,17 @@ class UserController extends AbstractFOSRestController {
         if (!$role || !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
-        
+
         $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
             $sortField                        = $request->query->get('sortField');
-            
+
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
                 $errors['sortField']          = 'Invalid sort field name';
-            
+
             $sortDirection                    = $request->query->get('sortDirection');
             $urlParameters['sortField']       = $sortField;
             $urlParameters['sortDirection']   = $sortDirection;
@@ -140,7 +141,7 @@ class UserController extends AbstractFOSRestController {
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
         {
             $searchField                      = $request->query->get('searchField');
-           
+
             //check if the searchfield exist
             if(!in_array($searchField, $columns))
                 $errors['searchField']        = 'Invalid search field name';
@@ -273,10 +274,12 @@ class UserController extends AbstractFOSRestController {
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
+     * @param UserRepository         $userRepo
      *
      * @return Response
      */
-    public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
+    public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper,
+                         UserRepository $userRepo) {
         $role              = $request->get('role');
         $firstName         = $request->get('firstName');
         $lastName          = $request->get('lastName');
@@ -305,7 +308,18 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $user = new User();
+        // Make sure it wasn't a duplicate
+        $user = $userRepo->findOneBy(['email' => $email]);
+        if ($user) {
+            if ($user->getActive()) {
+                return $this->handleView($this->view('Email already registered. Try another email!', Response::HTTP_NOT_ACCEPTABLE));
+            } else {
+                $user->setActive(true);
+            }
+        } else {
+            $user = new User();
+        }
+
         $user->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
@@ -376,7 +390,7 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="password",
      *     in="formData",
-     *     required=true,
+     *     required=false,
      *     type="string",
      *     description="The Password of User",
      * )
@@ -430,16 +444,18 @@ class UserController extends AbstractFOSRestController {
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param UserHelper             $userHelper
+     * @param UserRepository         $userRepo
      *
      * @return Response
      */
-    public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper) {
+    public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper,
+                          UserRepository $userRepo) {
         $role              = $request->get('role') ?? $user->getRoles()[0];
         $firstName         = $request->get('firstName') ?? $user->getFirstName();
         $lastName          = $request->get('lastName') ?? $user->getLastName();
         $email             = $request->get('email') ?? $user->getEmail();
         $phone             = $request->get('phone') ?? $user->getPhone();
-        $password          = $request->get('password') ?? $user->getPassword();
+        $password          = $request->get('password');
         $pin               = $request->get('pin') ?? $user->getPin();
         $certification     = $request->get('certification') ?? $user->getCertification();
         $experience        = $request->get('experience') ?? $user->getExperience();
@@ -459,14 +475,27 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
+        // They tried to change the email
+        if ($email !== $user->getEmail()) {
+            $existingUser = $userRepo->findOneBy(['email' => $email]);
+
+            // Email was already used by someone else in the system
+            if ($existingUser) {
+                return $this->handleView($this->view('This email has already been used by someone else. Try another email!', Response::HTTP_NOT_ACCEPTABLE));
+            }
+        }
+
         // update user
         $user->setFirstName($firstName)
              ->setLastName($lastName)
              ->setEmail($email)
              ->setPhone($phone)
-             ->setPassword($userHelper->passwordEncoder($user, $password))
              ->setPin($pin)
              ->setRole($role);
+
+        if($password){
+            $user->setPassword($userHelper->passwordEncoder($user, $password));
+        }
 
         if ($role == 'ROLE_TECHNICIAN') {
             $user->setCertification($certification)
@@ -527,5 +556,186 @@ class UserController extends AbstractFOSRestController {
         $view->getContext()->setGroups(['user_list']);
 
         return $this->handleView($view);
+    }
+
+    //Security
+
+    /**
+     * @Rest\Patch("/api/security/{id}/set")
+     *
+     * @SWG\Tag(name="Security")
+     * @SWG\Patch(description="Set Security question and answer for a User")
+     *
+     * @SWG\Parameter(
+     *     name="question",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Security Question of a User",
+     * )
+     * @SWG\Parameter(
+     *     name="answer",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Security Answer of a User",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Security Question Has Been Updated" }),
+     *         )
+     * )
+     *
+     * @param User                   $user
+     * @param Request                $request
+     * @param UserHelper             $userHelper
+     * @param EntityManagerInterface $em
+     *
+     * @return Response
+     */
+    public function security (User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em) {
+        $question = $request->get('question');
+        $answer   = $request->get('answer');
+        $auth     = $this->getUser();
+
+        //check if parameters are valid
+        if (!$question || !$answer) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        $userRole            = $user->getRoles();
+        $authRole            = $auth->getRoles();
+        $serviceManagerRoles = ["ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR"];
+        $salesManagerRoles   = ["ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"];
+        //check if user has permission
+        if(!($user->getId() == $auth->getId()) && !($authRole[0] == "ROLE_ADMIN") && !($authRole[0] == "ROLE_SERVICE_MANAGER" && in_array($userRole[0], $serviceManagerRoles)) && !($authRole[0] == "ROLE_SALES_MANAGER" && in_array($userRole[0], $salesManagerRoles))){
+            return $this->handleView($this->view('Authenticated User Has No Permission to Perform This Action', Response::HTTP_FORBIDDEN));
+        }
+
+        //set security question and answer
+        $user->setSecurityQuestion($question)
+             ->setSecurityAnswer($userHelper->passwordEncoder($user, strtolower($answer)));
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->handleView($this->view([
+            'message' => 'Security Question Has Been Updated'
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Post("/api/security/get-security-question")
+     *
+     * @SWG\Tag(name="Security")
+     * @SWG\Post(description="Return Security Question")
+     *
+     * @SWG\Parameter(
+     *     name="email",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Email of the User",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return Security Question",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="security question", example={"status":
+     *                                              "What is your name?" }),
+     *         )
+     * )
+     *
+     * @param Request        $request
+     * @param UserRepository $userRepo
+     *
+     * @return Response
+     */
+    public function getSecurityQuestion (Request $request, UserRepository $userRepo) {
+        $email  = $request->get('email');
+
+        // check if parameter is valid
+        if (!$email) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // email is invalid
+        $user = $userRepo->findOneBy(['email' => $email, 'active' => true]);
+        if (!$user) {
+            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        return $this->handleView($this->view([
+            'securityQuestion' => $user->getSecurityQuestion()
+        ], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Patch("/api/security/reset-password")
+     *
+     * @SWG\Tag(name="Security")
+     * @SWG\Patch(description="Reset User Password")
+     *
+     * @SWG\Parameter(
+     *     name="token",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Reset Password Token of the User",
+     * )
+     * @SWG\Parameter(
+     *     name="password",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The New Password of the User",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Password Has Been Reset" }),
+     *         )
+     * )
+     *
+     * @param Request        $request
+     * @param SecurityHelper $securityHelper
+     * @param UserRepository $userRepo
+     *
+     * @return Response
+     */
+    public function resetPassword (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
+        $token    = $request->get('token');
+        $password = $request->get('password');
+
+        // check if parameter is valid
+        if (!$password || !$token) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // token is invalid
+        if (!$securityHelper->validateToken($token)) {
+            return $this->handleView($this->view('Invalid Token', Response::HTTP_UNAUTHORIZED));
+        }
+
+        if (!$securityHelper->resetPassword($token, $password)) {
+            return $this->handleView($this->view(
+                'Something Went Wrong Trying to Reset the Password',
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            ));
+        }
+
+        return $this->handleView($this->view([
+            'message' => 'Password Has Been Reset'
+        ], Response::HTTP_OK));
     }
 }

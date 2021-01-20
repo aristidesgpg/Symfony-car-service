@@ -5,16 +5,14 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderRepository;
+use App\Repository\UserRepository;
+use App\Service\Authentication;
 use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
-use App\Service\WordpressLogin;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Lexik\Bundle\JWTAuthenticationBundle\Encoder\JWTEncoderInterface;
-use Lexik\Bundle\JWTAuthenticationBundle\Exception\JWTEncodeFailureException;
 use Swagger\Annotations as SWG;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -86,75 +84,86 @@ class AuthenticationController extends AbstractFOSRestController {
      *
      * @param Request                      $request
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param JWTEncoderInterface          $JWTEncoder
      * @param RepairOrderRepository        $repairOrderRepository
      * @param SettingsHelper               $settingsHelper
      * @param PasswordHelper               $passwordHelper
-     * @param WordpressLogin               $wordpressLogin
+     * @param Authentication               $authentication
+     * @param UserRepository               $userRepository
      *
      * @return Response
      */
     public function authenticateAction (Request $request, UserPasswordEncoderInterface $passwordEncoder,
-                                        JWTEncoderInterface $JWTEncoder, RepairOrderRepository $repairOrderRepository,
-                                        SettingsHelper $settingsHelper, PasswordHelper $passwordHelper,
-                                        WordpressLogin $wordpressLogin) {
-        $username      = $request->get('username');  // tperson@iserviceauto.com
-        $password      = $request->get('password');  // test
-        $linkHash      = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
-        $pin           = $request->get('pin');       // 1234
+                                        RepairOrderRepository $repairOrderRepository, SettingsHelper $settingsHelper,
+                                        PasswordHelper $passwordHelper, Authentication $authentication,
+                                        UserRepository $userRepository): Response {
+        $username = $request->get('username');  // tperson@iserviceauto.com
+        $password = $request->get('password');  // test
+        $linkHash = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+        $pin      = $request->get('pin');       // 1234
+
+        // Defaults
         $tokenUsername = null;
         $roles         = null;
         $ttl           = 28800; // Default 8 hours
+        $reason        = null;
+        $user          = null;
 
+        // Something wasn't passed
         if ((!$username || !$password) && !$linkHash && (!$username || !$pin)) {
-            goto INVALID;
+            $reason = 'Failed Login. Reason: Missing required parameters';
+            goto INVALID_LOGIN;
         }
 
-        // Standard login
+        // Standard user login
         if ($username && $password) {
             /** @var User $user */
-            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $username]);
+            $user = $userRepository->findOneBy(['email' => $username]);
 
-            // User was found
+            // User was found...
             if ($user) {
                 $isValid = $passwordEncoder->isPasswordValid($user, $password);
 
                 // But it was invalid
                 if (!$isValid) {
-                    goto INVALID;
+                    $reason = 'Failed Login for user' . $user->getId() . '. Reason: User was found but password was invalid';
+                    goto INVALID_LOGIN;
                 }
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
                 $roles         = $user->getRoles();
-                goto TOKEN;
+
+                goto LOGIN;
             }
         }
 
         // Tech Pin login
         if ($username && $pin) {
             /** @var User $user */
-            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $username]);
+            $user = $userRepository->findOneBy(['email' => $username]);
 
             // User was found
             if ($user) {
-                // Validate if tech
+                // It wasn't a tech, only techs have pins
                 if (!$user->isTechnician()) {
-                    goto INVALID;
+                    $reason = 'Failed Tech Login for user ' . $user->getEmail() . '. Reason: Not a technician';
+                    goto INVALID_LOGIN;
                 }
 
                 $isValid = $pin === $user->getPin();
 
-                // But it was invalid
+                // Invalid pin
                 if (!$isValid) {
-                    goto INVALID;
+                    $reason = 'Failed Tech Login for user ' . $user->getEmail() . '. Reason: Wrong pin';
+                    goto INVALID_LOGIN;
                 }
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
                 $roles         = $user->getRoles();
                 $ttl           = 3600; // Techs get logged in 1 hour
-                goto TOKEN;
+
+                goto LOGIN;
             }
         }
 
@@ -162,71 +171,96 @@ class AuthenticationController extends AbstractFOSRestController {
         if ($linkHash) {
             $repairOrder = $repairOrderRepository->findByUID($linkHash);
             if (!$repairOrder) {
-                goto INVALID;
+                $reason = 'Failed Customer Login. Reason: Repair Order not found';
+                goto INVALID_LOGIN;
             }
 
             // Successful customer "login"
             $tokenUsername = $repairOrder->getPrimaryCustomer()->getPhone();
             $roles         = ['ROLE_CUSTOMER'];
-            goto TOKEN;
+
+            goto LOGIN;
         }
 
-        // Logging in from tech app
+        // Logging in from tech app OR trying to use wordpress credentials
         if ($username) {
             try {
                 $techAppUsername = $settingsHelper->getSetting('techAppUsername');
                 $techAppPassword = $settingsHelper->getSetting('techAppPassword');
-
-                if ($username === $techAppUsername) {
-                    if ($passwordHelper->validatePassword($password, $techAppPassword)) {
-                        $tokenUsername = 'technician';
-                        $roles         = ['ROLE_TECHNICIAN'];
-                        $ttl           = 31536000; // 1 year
-                        goto TOKEN;
-                    } else {
-                        goto INVALID;
-                    }
-                }
             } catch (Exception $e) {
-                $this->logInfo('Technician App Username not found in settings and wasn\'t created.');
-            }
-        }
-
-        // WP admin
-        if ($username && $password) {
-            // First try dealer
-            $dealerResponse = $wordpressLogin->validateUserPassword($username, $password);
-
-            if ($dealerResponse) {
-                $tokenUsername = 'dealer';
-                $roles         = ['ROLE_ADMIN'];
-                goto TOKEN;
+                return $this->handleView($this->view('Technician app settings have not been set up yet', Response::HTTP_NOT_ACCEPTABLE));
             }
 
-            // Now try iService agent
-            //            $agentResponse = $wordpressLogin->validateUserPassword($username, $password, false);
-            //            if ($agentResponse) {
-            //                $tokenUsername = 'iservice';
-            //                goto TOKEN;
-            //            }
+            if ($username === $techAppUsername) {
+                if ($passwordHelper->validatePassword($password, $techAppPassword)) {
+                    $tokenUsername = 'technician';
+                    $roles         = ['ROLE_TECHNICIAN'];
+                    $ttl           = 31536000; // 1 year
+
+                    goto LOGIN;
+                }
+
+                $reason = 'Failed Tech App Login. Reason: Invalid Tech App Credentials';
+                goto INVALID_LOGIN;
+            }
+
+            // Try to login via wordpress credentials
+            $username = $authentication->wordpressLogin($username, $password);
+
+            if (!$username) {
+                $reason = 'Failed Admin Login. Reason: Invalid Wordpress Credentials';
+                goto INVALID_LOGIN;
+            }
+
+            $user = $userRepository->findOneBy(['email' => $username]);
+            if (!$user) {
+                $reason = 'Failed Admin Login for user ' . $username . '. Reason: Wordpress Credentials are correct but user is not on this server';
+                goto INVALID_LOGIN;
+            }
+
+            $tokenUsername = $user->getEmail();
+            $roles         = ['ROLE_ADMIN'];
+
+            goto LOGIN;
         }
 
-        INVALID:
-        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
+        LOGIN:
 
-        TOKEN:
-        try {
-            $token = $JWTEncoder->encode([
-                'username' => $tokenUsername,
-                'exp'      => time() + $ttl
-            ]);
-        } catch (JWTEncodeFailureException $e) {
-            return $this->handleView($this->view('Login Failed. Please try again later.', Response::HTTP_INTERNAL_SERVER_ERROR));
+        // Last check validation before we make the token
+        if (!$tokenUsername) {
+            $reason = 'Failed Login. Reason: No $tokenUsername found';
+            goto INVALID_LOGIN;
         }
 
-        return $this->handleView($this->view([
+        if (!$roles){
+            $reason = 'Failed Login. Reason: No $roles found';
+            goto INVALID_LOGIN;
+        }
+
+        // Create the token
+        $token = $authentication->getJWT($tokenUsername, $ttl);
+
+        // Something went wrong trying to get the token
+        if (!$token) {
+            $this->logger->critical('A JWT was unable to be built', ['username' => $tokenUsername, 'ttl' => $ttl, 'roles' => $roles]);
+            return $this->handleView($this->view('Something went wrong. Please try again later', Response::HTTP_INTERNAL_SERVER_ERROR));
+        }
+
+        $view = $this->view([
             'token' => $token,
-            'roles' => $roles
-        ], Response::HTTP_OK));
+            'roles' => $roles,
+            'user'  => $user
+        ]);
+
+        if ($user instanceof User) {
+            $view->getContext()->setGroups(['user_list']);
+        }
+
+        return $this->handleView($view);
+
+        INVALID_LOGIN:
+
+        $this->logInfo($reason);
+        return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));
     }
 }

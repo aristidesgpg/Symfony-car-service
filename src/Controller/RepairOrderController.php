@@ -132,7 +132,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="The value of search",
      *     in="query"
      * )
-     * 
+     *
      *
      * @param Request               $request
      * @param RepairOrderRepository $repairOrderRepo
@@ -156,7 +156,7 @@ class RepairOrderController extends AbstractFOSRestController {
         $sortDirection   = "";
         $searchField     = "";
         $searchTerm      = "";
-        
+
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
@@ -208,25 +208,25 @@ class RepairOrderController extends AbstractFOSRestController {
                 $errors['date'] = 'Invalid date format';
             }
         }
-       
+
         //get all field names of RepairOrder Entity
         $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
         if($request->query->has('sortField') && $request->query->has('sortDirection'))
         {
             $sortField                  = $request->query->get('sortField');
-            
+
             //check if the sortfield exist
             if(!in_array($sortField, $columns))
                 $errors['sortField']    = 'Invalid sort field name';
-            
+
             $sortDirection = $request->query->get('sortDirection');
         }
 
         if($request->query->has('searchField') && $request->query->has('searchTerm'))
         {
             $searchField                = $request->query->get('searchField');
-           
+
             //check if the searchfield exist
             if(!in_array($searchField, $columns))
                 $errors['searchField']  = 'Invalid search field name';
@@ -242,7 +242,7 @@ class RepairOrderController extends AbstractFOSRestController {
         {
             $qb->andWhere('ro.'.$searchField.' LIKE :searchTerm');
             $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
-            
+
             $urlParameters['searchField']  = $searchField;
         }
 
@@ -272,16 +272,21 @@ class RepairOrderController extends AbstractFOSRestController {
 
         $q              = $qb->getQuery();
         $q->setParameters($queryParameters);
-        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+
+        $items = $q->getResult();
+        foreach($items as $item){
+            if($item->getRepairOrderQuote() && $item->getRepairOrderQuote()->getDeleted()){
+                $item->setRepairOrderQuote(null);
+            }
+        }
 
         $urlParameters += $queryParameters;
-
         if($searchTerm){
             $urlParameters['searchTerm'] = $searchTerm;
         }
-        
-        $pager          = $paginator->paginate($q, $page, $pageLimit);
-        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager         = $paginator->paginate($items, $page, $pageLimit);
+        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'repairOrders' => $pager->getItems(),
@@ -314,6 +319,9 @@ class RepairOrderController extends AbstractFOSRestController {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
+        if($ro->getRepairOrderQuote() && $ro->getRepairOrderQuote()->getDeleted())
+           $ro->setRepairOrderQuote(null);
+
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -346,6 +354,10 @@ class RepairOrderController extends AbstractFOSRestController {
 
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
+        }
+
+        if($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()){
+            $repairOrder->setRepairOrderQuote(null);
         }
 
         $view = $this->view($repairOrder);

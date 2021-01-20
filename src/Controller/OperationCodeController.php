@@ -357,7 +357,7 @@ class OperationCodeController extends AbstractFOSRestController {
         $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
-        if (!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable) {
+        if (!$code || !$description || $laborHours === null || !$laborTaxable || $partsPrice === null || !$partsTaxable || $suppliesPrice === null || !$suppliesTaxable) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 

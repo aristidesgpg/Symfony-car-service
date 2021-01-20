@@ -268,8 +268,6 @@ class CouponsController extends AbstractFOSRestController {
                           ImageUploader $imageUploader) {
         $title = $request->get('title');
 
-        return $this->handleView($this->view($title, Response::HTTP_OK));
-
         // Validation
         if (!$title) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
