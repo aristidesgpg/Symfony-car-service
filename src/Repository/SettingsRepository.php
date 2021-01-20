@@ -12,13 +12,26 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Settings[]    findAll()
  * @method Settings[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class SettingsRepository extends ServiceEntityRepository {
+class SettingsRepository extends ServiceEntityRepository
+{
     /**
      * SettingsRepository constructor.
-     *
-     * @param ManagerRegistry $registry
      */
-    public function __construct (ManagerRegistry $registry) {
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, Settings::class);
+    }
+
+    /**
+     * @return array|int|string
+     */
+    public function findKeys()
+    {
+        $result = $this->createQueryBuilder('s')
+            ->select('s.key')
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(function ($v) {return $v['key']; }, $result);
     }
 }
