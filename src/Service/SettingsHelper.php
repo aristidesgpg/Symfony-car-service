@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
+use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
