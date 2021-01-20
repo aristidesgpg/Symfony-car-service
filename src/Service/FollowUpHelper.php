@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Class FollowUpHelper
@@ -45,12 +46,12 @@ class FollowUpHelper {
        $followup = new FollowUp();
        $followup->setRepairOrder($repairOrder)
                 ->setDateCreated( new \DateTime )
-                ->setStatus('Sent');
+                ->setStatus('Created');
 
        $this->em->persist($followup);
        $this->em->flush();
 
-    //    $this->sendMessage();
+        $this->sendMessage($followup);
 
     }
     
@@ -138,16 +139,15 @@ class FollowUpHelper {
      */
     public function sendMessage(FollowUp $followUp){
         $repairOrder  = $followUp->getRepairOrder();
-        $msg      = $this->settingsHelper->getSetting('reviewText');
         $phone    = $repairOrder->getPrimaryCustomer()->getPhone();
         $linkhash = $repairOrder->getLinkHash();
         
-        $url      = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash;
+        $url      = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash . "/followup";
         $shortUrl = $this->urlHelper->generateShortUrl($url);
         try {
             $this->urlHelper->sendShortenedLink($phone, $msg, $shortUrl, true);
 
-            $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent')
+            $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent');
             
         } catch (\Exception $e) {
             return;

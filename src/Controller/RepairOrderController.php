@@ -495,8 +495,19 @@ class RepairOrderController extends AbstractFOSRestController
         }
 
         if( ($ro->getQuoteStatus() === 'Completed') || ($ro->getQuoteStatus() === 'Confirmed') ){
-            if( $ro->getRepairOrderQuote()->getRepairOrderQuoteRecommendations()->getApproved() == false)
-                $followupHelper->new($ro);
+            $recommendations = $ro->getRepairOrderQuote()->getRepairOrderQuoteRecommendations();
+            if($recommendations){
+                $flag = false;
+                foreach($recommendations as $recommend){
+                    if($recommend->getApproved() === false){
+                        $flag = true;
+                        break;
+                    }
+                }
+                if($flag){
+                    $followupHelper->new($ro);
+                }
+            }
         }
 
         return $this->handleView(
