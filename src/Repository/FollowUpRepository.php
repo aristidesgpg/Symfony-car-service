@@ -53,7 +53,7 @@ class FollowUpRepository extends ServiceEntityRepository
      * 
      * @return FollowUp[] Returns array of FolloUp ojbects
      */
-    public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date', $sortDirection = 'DESC', $searchField = null, $searchTerm = null ){
+    public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date_crated', $sortDirection = 'DESC', $searchField = null, $searchTerm = null ){
         if($end === null) {
             $end = new \DateTime();
         } else{
@@ -67,11 +67,12 @@ class FollowUpRepository extends ServiceEntityRepository
             $qb = $this->createQueryBuilder('fu');
             
             if($start && $end){
-                $qb->andWhere('fu.date BETWEEN :start AND :end')
+                $qb->andWhere('fu.dateCreated BETWEEN :start AND :end OR fu.dateSent BETWEEN :start AND :end OR 
+                               fu.dateViewed BETWEEN :start AND :end OR fu.dateConverted BETWEEN :start AND :end ')
                    ->setParameter('start', $start->format('Y-m-d H:i'))
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             } else{
-                $qb->andWhere('fu.date < :end')
+                $qb->andWhere('fu.dateCreated < :end OR fu.dateSent < :end OR fu.dateViewed < :end OR fu.dateConverted < :end OR')
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
             if($searchTerm)
@@ -84,7 +85,7 @@ class FollowUpRepository extends ServiceEntityRepository
                 $qb->orderBy('fu.'.$sortField, $sortDirection);
             }
             else{
-                $qb->orderBy('fu.date', 'DESC');
+                $qb->orderBy('fu.dateCreated', 'DESC');
             }
 
             if($status){

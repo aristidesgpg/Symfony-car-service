@@ -122,7 +122,7 @@ class FollowUpController extends AbstractFOSRestController {
     public function list (Request $request, FollowUpRepository $followUpRepository,
                           PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em): Response {
         $page          = $request->query->getInt('page', 1);
-        $status          = $request->query->getInt('status');
+        $status        = $request->query->getInt('status');
         $startDate     = $request->query->get('startDate');
         $endDate       = $request->query->get('endDate');
         $urlParameters = [];
@@ -162,7 +162,7 @@ class FollowUpController extends AbstractFOSRestController {
             if(!in_array($searchField, $columns))
                 $errors['searchField']      = 'Invalid search field name';
 
-            $searchTerm  = $request->query->get('searchTerm');
+            $searchTerm                     = $request->query->get('searchTerm');
 
             $urlParameters['searchField']   = $searchField;
             $urlParameters['searchTerm']    = $searchTerm;
@@ -178,7 +178,7 @@ class FollowUpController extends AbstractFOSRestController {
         $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
-            'followUps'     => $pager->getItems(),
+            'followUps'    => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
             'previous'     => $pagination->getPreviousPageURL('app_followup_list', $urlParameters),
