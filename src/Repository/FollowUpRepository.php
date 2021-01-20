@@ -101,15 +101,15 @@ class FollowUpRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param integer $delay
+     * @param $delay
      * 
      * @return FollowUp[] Returns array of FolloUp ojbects
      */
-    public function getAllDelayedItems(integer $delay){
+    public function getAllDelayedItems($delay){
         try {
             $qb = $this->createQueryBuilder("fu");
             
-            $qb->andWhere(":now <= DATE_ADD(fu.dateCreated, :delay , 'day')")
+            $qb->andWhere(":now >= DATE_ADD(fu.dateCreated, :delay , 'day')")
                ->andWhere("fu.dateSent is NULL")
                ->setParameter("now", new \DateTime())
                ->setParameter("delay", $delay);

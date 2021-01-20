@@ -4,6 +4,7 @@ namespace App\Command;
 
 use Exception;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -19,28 +20,25 @@ use App\Service\SettingsHelper;
  *
  * @package App\Command
  */
-class FollowUpCommand extends Command {
+class FollowUpCommand extends ContainerAwareCommand {
     /**
      * @var string
      */
     protected static $defaultName = 'app:follow-up';
     
-    /**
-     * @var SettingsHelper
-     */
-    private $followUpDelay;
-    
-    /**
-     * @var FollowUpHelper
-     */
+    private $settingsHelper;
+    private $followRepository;
     private $followUpHelper;
 
+    public function __construct(SettingsHelper $settingsHelper, FollowUpHelper $followUpHelper, FollowUpRepository $followRepository) {
+        $this->settingsHelper = $settingsHelper;
+        $this->followUpHelper = $followUpHelper;
+        $this->followRepository = $followRepository;
+        parent::__construct();
+    }
 
     protected function configure () {
         $this->setDescription('Follow up command');
-        $settingsHelper       = new SettingsHelper();
-        $this->followUpDelay  = $settingsHelper->getSetting('followUpDelay');
-        $this->followUpHelper = new FollowUpHelper();
     }
 
     /**
@@ -52,9 +50,9 @@ class FollowUpCommand extends Command {
      */
     protected function execute (InputInterface $input, OutputInterface $output): int {
         $io               = new SymfonyStyle($input, $output);
+        $followUpDelay    = $this->settingsHelper->getSetting('followUpDelay');
         
-        $followRepository = new FollowUpRepository();
-        $delayedFollowUps = $followRepository->getAllDelayedItems($this->followUpDelay);
+        $delayedFollowUps = $this->followRepository->getAllDelayedItems($followUpDelay);
 
         foreach($delayedFollowUps as $delayedFollowUp){
             $this->followUpHelper->sendMessage($delayedFollowUp);
