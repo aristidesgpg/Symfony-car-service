@@ -2,24 +2,23 @@
 
 namespace App\Controller;
 
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use FOS\RestBundle\View\View;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
-use FOS\RestBundle\Controller\Annotations as Rest;
-
 use App\Entity\OperationCode;
 use App\Repository\OperationCodeRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use App\Service\Pagination;
 use App\Response\ValidationResponse;
+use App\Service\Pagination;
+use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class OperationCodeController extends AbstractFOSRestController {
+class OperationCodeController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 100;
 
     /**
@@ -27,7 +26,7 @@ class OperationCodeController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="OperationCode")
      * @SWG\Get(description="Get All Operation Codes")
-     * 
+     *
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
      *     name="pageLimit",
@@ -41,14 +40,14 @@ class OperationCodeController extends AbstractFOSRestController {
      *     description="The name of sort field",
      *     in="query"
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="sortDirection",
      *     type="string",
      *     description="The direction of sort",
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="searchField",
      *     type="string",
      *     description="The name of search field",
@@ -78,56 +77,53 @@ class OperationCodeController extends AbstractFOSRestController {
      *
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
-     * 
-     * @param Request               $request
-     * @param OperationCodeRepository $operationCodeRepo
-     * @param PaginatorInterface    $paginator
      *
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function getOperationCodes (Request $request,OperationCodeRepository $operationCodeRepo, PaginatorInterface $paginator,
-    UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
-        $page            = $request->query->getInt('page', 1);
-        $urlParameters   = [];
-        $errors          = [];
-        $sortField       = "";
-        $sortDirection   = "";
-        $searchField     = "";
-        $searchTerm      = "";
-        
+    public function getOperationCodes(
+        Request $request,
+        OperationCodeRepository $operationCodeRepo,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
+    ) {
+        $page = $request->query->getInt('page', 1);
+        $urlParameters = [];
+        $errors = [];
+        $sortField = '';
+        $sortDirection = '';
+        $searchField = '';
+        $searchTerm = '';
+        $columns = $em->getClassMetadata('App\Entity\OperationCode')->getFieldNames();
+
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        //get all field names of OperationCode Entity
-        $columns = $em->getClassMetadata('App\Entity\OperationCode')->getFieldNames();
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
 
-        if($request->query->has('sortField') && $request->query->has('sortDirection'))
-        {
-            $sortField                        = $request->query->get('sortField');
-            
-            //check if the sortfield exist
-            if(!in_array($sortField, $columns))
-                $errors['sortField']          = 'Invalid sort field name';
-            
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
+
             $sortDirection = $request->query->get('sortDirection');
-            $urlParameters['sortField']       = $sortField;
-            $urlParameters['sortDirection']   = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortDirection'] = $sortDirection;
         }
 
-        if($request->query->has('searchField') && $request->query->has('searchTerm'))
-        {
-            $searchField                      = $request->query->get('searchField');
-           
-            //check if the searchfield exist
-            if(!in_array($searchField, $columns))
-                $errors['searchField']        = 'Invalid search field name';
+        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
+            $searchField = $request->query->get('searchField');
 
-            $searchTerm                       = $request->query->get('searchTerm');
-            $urlParameters['searchField']     = $searchField;
-            $urlParameters['searchTerm']      = $searchTerm;
+            //check if the searchField exist
+            if (!in_array($searchField, $columns)) {
+                $errors['searchField'] = 'Invalid search field name';
+            }
+
+            $searchTerm = $request->query->get('searchTerm');
+            $urlParameters['searchField'] = $searchField;
+            $urlParameters['searchTerm'] = $searchTerm;
         }
 
         if (!empty($errors)) {
@@ -135,21 +131,28 @@ class OperationCodeController extends AbstractFOSRestController {
         }
 
         //get all active operation codes
-        $operationCodes = $operationCodeRepo->getActiveOperationCodes($sortField, $sortDirection, $searchField, $searchTerm);
-       
-        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $operationCodes = $operationCodeRepo->getActiveOperationCodes(
+            $sortField,
+            $sortDirection,
+            $searchField,
+            $searchTerm
+        );
 
-        $pager          = $paginator->paginate($operationCodes, $page, $pageLimit);
-        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $view = $this->view([
-            'operationCodes' => $pager->getItems(),
-            'totalResults'   => $pagination->totalResults,
-            'totalPages'     => $pagination->totalPages,
-            'previous'       => $pagination->getPreviousPageURL('app_operationcode_getoperationcodes', $urlParameters),
-            'currentPage'    => $pagination->currentPage,
-            'next'           => $pagination->getNextPageURL('app_operationcode_getoperationcodes', $urlParameters)
-        ]);
+        $pager = $paginator->paginate($operationCodes, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $view = $this->view(
+            [
+                'operationCodes' => $pager->getItems(),
+                'totalResults' => $pagination->totalResults,
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_operationcode_getoperationcodes', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_operationcode_getoperationcodes', $urlParameters),
+            ]
+        );
         $view->getContext()->setGroups(['operation_code_list']);
 
         return $this->handleView($view);
@@ -233,14 +236,15 @@ class OperationCodeController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function create (Request $request, EntityManagerInterface $em) {
-        $code            = $request->get('code');
-        $description     = $request->get('description');
-        $laborHours      = $request->get('laborHours');
-        $laborTaxable    = $request->get('laborTaxable');
-        $partsPrice      = $request->get('partsPrice');
-        $partsTaxable    = $request->get('partsTaxable');
-        $suppliesPrice   = $request->get('suppliesPrice');
+    public function create(Request $request, EntityManagerInterface $em)
+    {
+        $code = $request->get('code');
+        $description = $request->get('description');
+        $laborHours = $request->get('laborHours');
+        $laborTaxable = $request->get('laborTaxable');
+        $partsPrice = $request->get('partsPrice');
+        $partsTaxable = $request->get('partsTaxable');
+        $suppliesPrice = $request->get('suppliesPrice');
         $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
@@ -262,9 +266,14 @@ class OperationCodeController extends AbstractFOSRestController {
         $em->persist($operationCode);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'Operation Code Created'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Operation Code Created',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -346,14 +355,15 @@ class OperationCodeController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function edit (OperationCode $operationCode, Request $request, EntityManagerInterface $em) {
-        $code            = $request->get('code');
-        $description     = $request->get('description');
-        $laborHours      = $request->get('laborHours');
-        $laborTaxable    = $request->get('laborTaxable');
-        $partsPrice      = $request->get('partsPrice');
-        $partsTaxable    = $request->get('partsTaxable');
-        $suppliesPrice   = $request->get('suppliesPrice');
+    public function edit(OperationCode $operationCode, Request $request, EntityManagerInterface $em)
+    {
+        $code = $request->get('code');
+        $description = $request->get('description');
+        $laborHours = $request->get('laborHours');
+        $laborTaxable = $request->get('laborTaxable');
+        $partsPrice = $request->get('partsPrice');
+        $partsTaxable = $request->get('partsTaxable');
+        $suppliesPrice = $request->get('suppliesPrice');
         $suppliesTaxable = $request->get('suppliesTaxable');
 
         //params are invalid
@@ -374,9 +384,14 @@ class OperationCodeController extends AbstractFOSRestController {
         $em->persist($operationCode);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'Operation Code Updated'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Operation Code Updated',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -400,15 +415,21 @@ class OperationCodeController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function delete (OperationCode $operationCode, EntityManagerInterface $em) {
+    public function delete(OperationCode $operationCode, EntityManagerInterface $em)
+    {
         //Delete a operation code
         $operationCode->setDeleted(true);
 
         $em->persist($operationCode);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'Operation Code Deleted'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Operation Code Deleted',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 }
