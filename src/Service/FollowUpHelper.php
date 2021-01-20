@@ -26,9 +26,16 @@ class FollowUpHelper {
      * FollowUpHelper constructor.
      *
      * @param EntityManagerInterface $em
+     * @param ShortUrlHelper         $urlHelper
+     * @param SettingsHelper         $settings
+     * @param ParameterBagInterface  $params
      */
-    public function __construct (EntityManagerInterface $em) {
+    public function __construct (EntityManagerInterface $em,  ShortUrlHelper $urlHelper, 
+                                 SettingsHelper $settings, ParameterBagInterface $params) {
         $this->em     = $em;
+        $this->urlHelper          = $urlHelper;
+        $this->settingsHelper     = $settings;
+        $this->params             = $params;
     }
 
     /**
@@ -106,30 +113,45 @@ class FollowUpHelper {
                         $followup->setDateViewed(new \DateTime());
                     }
 
-                    $this->em->persist($followup);
-                    $this->em->flush();    
                 }
                 break;
             case 'Converted':
                 $followup->setStatus('Converted');
                 $followup->setDateConverted(new \DateTime());
-                
-                $this->em->persist($followup);
-                $this->em->flush();    
+               
+                break;
+            case 'Sent':
+                $followup->setStatus('Sent');
+                $followup->setDateSent(new \DateTime());
+               
                 break;
         }
+
+        $this->em->persist($followup);
+        $this->em->flush();    
        
-        
-        
     }
 
     
     /**
-     * @param array $params
+     * @param FollowUp $followUp
      */
-    public function sendMessage (): void {
-       
-    }
+    public function sendMessage(FollowUp $followUp){
+        $repairOrder  = $followUp->getRepairOrder();
+        $msg      = $this->settingsHelper->getSetting('reviewText');
+        $phone    = $repairOrder->getPrimaryCustomer()->getPhone();
+        $linkhash = $repairOrder->getLinkHash();
+        
+        $url      = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash;
+        $shortUrl = $this->urlHelper->generateShortUrl($url);
+        try {
+            $this->urlHelper->sendShortenedLink($phone, $msg, $shortUrl, true);
 
+            $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent')
+            
+        } catch (\Exception $e) {
+            return;
+        }
+    }
 
 }

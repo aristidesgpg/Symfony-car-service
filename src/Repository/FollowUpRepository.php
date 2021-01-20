@@ -99,4 +99,25 @@ class FollowUpRepository extends ServiceEntityRepository
             return null;
         }
     }
+
+    /**
+     * @param integer $delay
+     * 
+     * @return FollowUp[] Returns array of FolloUp ojbects
+     */
+    public function getAllDelayedItems(integer $delay){
+        try {
+            $qb = $this->createQueryBuilder("fu");
+            
+            $qb->andWhere(":now <= DATE_ADD(fu.dateCreated, :delay , 'day')")
+               ->andWhere("fu.dateSent is NULL")
+               ->setParameter("now", new \DateTime())
+               ->setParameter("delay", $delay);
+
+            return $qb->getQuery()->getResult();
+ 
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
 }

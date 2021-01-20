@@ -9,6 +9,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use App\Repository\FollowUpRepository;
+use App\Service\FollowUpHelper;
+use App\Service\SettingsHelper;
+
 
 /**
  * Class FollowUpCommand
@@ -20,12 +24,23 @@ class FollowUpCommand extends Command {
      * @var string
      */
     protected static $defaultName = 'app:follow-up';
+    
+    /**
+     * @var SettingsHelper
+     */
+    private $followUpDelay;
+    
+    /**
+     * @var FollowUpHelper
+     */
+    private $followUpHelper;
+
 
     protected function configure () {
-        $this
-            ->setDescription('Follow up command')
-            ->addArgument('slug', InputArgument::OPTIONAL, 'Gooey')
-            ->addOption('format', null, InputOption::VALUE_REQUIRED, 'Format 123 abc', 'text');
+        $this->setDescription('Follow up command');
+        $settingsHelper       = new SettingsHelper();
+        $this->followUpDelay  = $settingsHelper->getSetting('followUpDelay');
+        $this->followUpHelper = new FollowUpHelper();
     }
 
     /**
@@ -36,29 +51,14 @@ class FollowUpCommand extends Command {
      * @throws Exception
      */
     protected function execute (InputInterface $input, OutputInterface $output): int {
-        $io   = new SymfonyStyle($input, $output);
-        $slug = $input->getArgument('slug');
-        $data = [
-            'slug'   => $slug,
-            'hearts' => rand(10, 100)
-        ];
+        $io               = new SymfonyStyle($input, $output);
+        
+        $followRepository = new FollowUpRepository();
+        $delayedFollowUps = $followRepository->getAllDelayedItems($this->followUpDelay);
 
-        $format = $input->getOption('format');
-        switch ($format) {
-            case 'text':
-                $rows = [];
-                foreach ($data as $key => $val) {
-                    $rows[] = [$key, $val];
-                }
-                $io->table(['Key', 'Value'], $rows);
-                break;
-            case 'json':
-                $io->write(json_encode($data));
-                break;
-            default:
-                throw new Exception('NOT AN ACCEPTABLE FORMAT');
+        foreach($delayedFollowUps as $delayedFollowUp){
+            $this->followUpHelper->sendMessage($delayedFollowUp);
         }
-
         return 0;
     }
 }
