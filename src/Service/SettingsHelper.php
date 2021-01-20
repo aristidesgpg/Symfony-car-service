@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
-use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
@@ -17,6 +16,7 @@ class SettingsHelper
 {
     use iServiceLoggerTrait;
 
+    //TODO Need to add front end values??
     const VALID_SETTINGS = [
         'phase1' => '60',
         'phase2' => '60',
@@ -77,33 +77,40 @@ class SettingsHelper
     private $em;
 
     /**
-     * @var SettingsRepository
-     */
-    private $settingsRepository;
-
-    /**
      * SettingsHelper constructor.
      */
-    public function __construct(EntityManagerInterface $em, SettingsRepository $settingsRepository)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->settingsRepository = $settingsRepository;
     }
 
     /**
      * This goes through and makes sure the DB has all of the settings defined in getDefaultSettings().
      * Does not update existing settings.
+     * TODO Should we remove settings from the db if they are no longer in the default list?
      */
-    public function syncSettings()
+    public function syncSettings(): int
     {
+        //get default settings
+        $defaultSettings = $this->getValidSettings();
+
+        //get db settings
+        $dbSettings = $this->em->getRepository(Settings::class)->findKeys();
+
+        //This updates all of the settings that do not exist in the database.
+        $settingsSynced = 0;
+        foreach (array_diff($defaultSettings, $dbSettings) as $key) {
+            $this->addSetting($key, $this->getDefaultSettingValue($key));
+            $settingsSynced = $settingsSynced + 1;
+        }
+
+        return $settingsSynced;
     }
-
-
 
     /**
      * This should only be used when you are wanting to OVERRIDE all of the settings.
      *
-     * @throws
+     * @throws InvalidArgumentException
      */
     public function commitSettings(array $settings): void
     {
@@ -124,7 +131,35 @@ class SettingsHelper
         $this->persistToDb();
     }
 
-    public function setSetting(string $key, string $value): Settings
+    /**
+     * Helper method, but set setting is weird.
+     *
+     * @param ?string $value
+     * @return Settings
+     */
+    public function addSetting(string $key, ?string $value): Settings
+    {
+        return $this->setSetting($key, $value);
+    }
+
+    /**
+     * @param string $key
+     */
+    public function removeSetting(string $key)
+    {
+        $setting = $this->em->getRepository(Settings::class)->findOneBy(
+            ['key' => $key]
+        );
+        if ($setting) {
+            $this->em->remove($setting);
+            $this->em->flush();
+        }
+    }
+
+    /**
+     * @param ?string $value
+     */
+    public function setSetting(string $key, ?string $value): Settings
     {
         if (!is_string($key)) {
             throw new InvalidArgumentException('"key" must be string');
@@ -172,13 +207,13 @@ class SettingsHelper
             throw new Exception('Invalid Setting Requested');
         }
 
-        $setting = $this->settingsRepository->findOneBy([
+        $setting = $this->em->getRepository(Settings::class)->findOneBy([
             'key' => $key,
         ]);
 
         if (!$setting) {
             // Create it because it's valid if we got here
-            $setting = $this->setSetting($key, $this->getDefaultSettingValue($key));
+            $setting = $this->addSetting($key, $this->getDefaultSettingValue($key));
 
             // Throw exception because false is a valid option
             if (!$setting) {
@@ -192,16 +227,11 @@ class SettingsHelper
     /**
      * @throws Exception
      */
-    public function getSettingValue(string $key): string
+    public function getSettingValue(string $key): ?string
     {
         return $this->getSetting($key)->getValue();
     }
 
-
-    /**
-     * @param string $key
-     * @return bool
-     */
     public function isValidSetting(string $key): bool
     {
         if (!in_array($key, $this->getValidSettings())) {
@@ -211,18 +241,16 @@ class SettingsHelper
         return true;
     }
 
-
     /**
-     * @param string $key
-     * @return string
+     * @throws Exception
      */
-    public function getDefaultSettingValue(string $key): string
+    public function getDefaultSettingValue(string $key): ?string
     {
         if ($this->isValidSetting(trim($key))) {
-            return $key;
+            return $this->getDefaultSettings()[$key];
         }
 
-        return false;
+        throw new Exception('Invalid Setting Requested');
     }
 
     /**
