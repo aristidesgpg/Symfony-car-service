@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
+use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
@@ -229,39 +230,33 @@ class SettingsHelper
     private $em;
 
     /**
+     * @var SettingsRepository
+     */
+    private $settingsRepository;
+
+    /**
      * SettingsHelper constructor.
      */
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, SettingsRepository $settingsRepository)
     {
         $this->em = $em;
+        $this->settingsRepository = $settingsRepository;
     }
 
     /**
      * This goes through and makes sure the DB has all of the settings defined in getDefaultSettings().
      * Does not update existing settings.
      */
-    public function syncSettings(): int
+    public function syncSettings()
     {
-        //get default settings
-        $defaultSettings = $this->getValidSettings();
-
-        //get db settings
-        $dbSettings = $this->em->getRepository(Settings::class)->findKeys();
-
-        //This updates all of the settings that do not exist in the database.
-        $settingsSynced = 0;
-        foreach (array_diff($defaultSettings, $dbSettings) as $key) {
-            $this->addSetting($key, $this->getDefaultSettingValue($key));
-            $settingsSynced = $settingsSynced + 1;
-        }
-
-        return $settingsSynced;
     }
+
+
 
     /**
      * This should only be used when you are wanting to OVERRIDE all of the settings.
      *
-     * @throws InvalidArgumentException
+     * @throws
      */
     public function commitSettings(array $settings): void
     {
@@ -282,11 +277,7 @@ class SettingsHelper
         $this->persistToDb();
     }
 
-    /**
-     * @param ?string $value
-     * @return Settings
-     */
-    private function addSetting(string $key, ?string $value): Settings
+    public function setSetting(string $key, string $value): Settings
     {
         if (!is_string($key)) {
             throw new InvalidArgumentException('"key" must be string');
@@ -304,7 +295,7 @@ class SettingsHelper
     }
 
     /**
-     * Persist pending transactions to DB helper function.
+     * Persist pending transactions to DB.
      */
     private function persistToDb()
     {
@@ -321,22 +312,6 @@ class SettingsHelper
     }
 
     /**
-     * TODO Should this do something besides fail quietly?
-     * @param string $key
-     */
-    public function removeSetting(string $key)
-    {
-        $setting = $this->em->getRepository(Settings::class)->findOneBy(
-            ['key' => $key]
-        );
-        if ($setting) {
-            $this->em->remove($setting);
-            $this->em->flush();
-        }
-    }
-
-
-    /**
      * @param $key
      *
      * @return Settings
@@ -350,13 +325,13 @@ class SettingsHelper
             throw new Exception('Invalid Setting Requested');
         }
 
-        $setting = $this->em->getRepository(Settings::class)->findOneBy([
+        $setting = $this->settingsRepository->findOneBy([
             'key' => $key,
         ]);
 
         if (!$setting) {
             // Create it because it's valid if we got here
-            $setting = $this->addSetting($key, $this->getDefaultSettingValue($key));
+            $setting = $this->setSetting($key, $this->getDefaultSettingValue($key));
 
             // Throw exception because false is a valid option
             if (!$setting) {
@@ -370,11 +345,16 @@ class SettingsHelper
     /**
      * @throws Exception
      */
-    public function getSettingValue(string $key): ?string
+    public function getSettingValue(string $key): string
     {
         return $this->getSetting($key)->getValue();
     }
 
+
+    /**
+     * @param string $key
+     * @return bool
+     */
     public function isValidSetting(string $key): bool
     {
         if (!in_array($key, $this->getValidSettings())) {
@@ -384,16 +364,27 @@ class SettingsHelper
         return true;
     }
 
+
     /**
-     * @throws Exception
+     * @param string $key
+     * @return string
      */
-    public function getDefaultSettingValue(string $key): ?string
+    public function getDefaultSettingValue(string $key): string
     {
         if ($this->isValidSetting(trim($key))) {
-            return $this->getDefaultSettings()[$key];
+            return $key;
         }
 
-        throw new Exception('Invalid Setting Requested');
+        return false;
+    }
+
+    /**
+     * Currently values are stored in a const array. This method should be changed
+     * if the settings are wanting to be stored somewhere else.
+     */
+    public function getDefaultSettings(): array
+    {
+        return self::VALID_SETTINGS;
     }
 
     /**
@@ -402,47 +393,5 @@ class SettingsHelper
     public function getValidSettings(): array
     {
         return array_keys($this->getDefaultSettings());
-    }
-
-    /**
-     * Currently values are stored in a const array. This method should be changed
-     * if the settings are wanting to be stored somewhere else.
-     *
-     * This pulls
-     */
-    public function getDefaultSettings(): array
-    {
-        return $this->settingsIterator('default_value');
-    }
-
-    /**
-     * Currently values are stored in a const array. This method should be changed
-     * if the settings are wanting to be stored somewhere else.
-     */
-    public function getFrontendPathSettings(): array
-    {
-        return $this->settingsIterator('front_end');
-    }
-
-    /**
-     * Used to iterate through the settings array and extract the required key. Useful if more keys are added in the future.
-     */
-    private function settingsIterator(string $array_key): array
-    {
-        $setting = [];
-        foreach ($this->getDefaultSettingsAndFrontendPathSettings() as $key => $value) {
-            $setting[$key] = $value[$array_key];
-        }
-
-        return $setting;
-    }
-
-    /**
-     * Currently values are stored in a const array. This method should be changed
-     * if the settings are wanting to be stored somewhere else.
-     */
-    private function getDefaultSettingsAndFrontendPathSettings(): array
-    {
-        return self::VALID_SETTINGS;
     }
 }
