@@ -185,8 +185,8 @@ class AuthenticationController extends AbstractFOSRestController {
         // Logging in from tech app OR trying to use wordpress credentials
         if ($username) {
             try {
-                $techAppUsername = $settingsHelper->getSetting('techAppUsername');
-                $techAppPassword = $settingsHelper->getSetting('techAppPassword');
+                $techAppUsername = $settingsHelper->getSettingValue('techAppUsername');
+                $techAppPassword = $settingsHelper->getSettingValue('techAppPassword');
             } catch (Exception $e) {
                 return $this->handleView($this->view('Technician app settings have not been set up yet', Response::HTTP_NOT_ACCEPTABLE));
             }
