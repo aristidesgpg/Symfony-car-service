@@ -21,4 +21,17 @@ class SettingsRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Settings::class);
     }
+
+    /**
+     * @return array|int|string
+     */
+    public function findKeys()
+    {
+        $result = $this->createQueryBuilder('s')
+            ->select('s.key')
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(function ($v) {return $v['key']; }, $result);
+    }
 }
