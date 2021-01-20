@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -13,15 +14,18 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository {
-    public function __construct (ManagerRegistry $registry) {
+class UserRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, User::class);
     }
 
     /**
      * @return int|mixed|string
      */
-    public function getActiveUsers () {
+    public function getActiveUsers()
+    {
         return $this->queryBuilder()
                     ->andWhere('u.active = 1')
                     ->orderBy('u.id', 'ASC')
@@ -34,29 +38,32 @@ class UserRepository extends ServiceEntityRepository {
      *
      * @return QueryBuilder
      */
-    private function queryBuilder (QueryBuilder $qb = null) {
+    private function queryBuilder(QueryBuilder $qb = null)
+    {
         return $qb ? $qb : $this->createQueryBuilder('u');
     }
 
-    /**
-     * @param String $role
-     *
-     * @return User[]
-     */
-    public function getUserByRole (string $role, $sortField = null, $sortDirection = null, $searchField = null, $searchTerm = null) {
-        $qb = $this->createQueryBuilder('u');
-        
-        $qb->where('u.role = :role')
-           ->andWhere('u.active = 1')
-           ->setParameter('role', $role);
-        
-        if($searchTerm)
-        {
+    public function getUserByRole(
+        $role = null,
+        $sortField = null,
+        $sortDirection = null,
+        $searchField = null,
+        $searchTerm = null
+    ): Query {
+        $qb = $this->createQueryBuilder('u')
+                   ->andWhere('u.active = 1');
+
+        if (!is_null($role)) {
+            $qb->andwhere('u.role = :role')
+               ->setParameter('role', $role);
+        }
+
+        if ($searchTerm) {
             $qb->andWhere('u.'.$searchField.' LIKE :searchTerm')
                ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
-        
-        if($sortDirection){
+
+        if ($sortDirection) {
             $qb->orderBy('u.'.$sortField, $sortDirection);
         }
 
@@ -66,7 +73,8 @@ class UserRepository extends ServiceEntityRepository {
     /**
      * @return User[]
      */
-    public function getSharedUsers (): array {
+    public function getSharedUsers(): array
+    {
         return $this->createQueryBuilder('u')
                     ->where('u.shareRepairOrders = 1')
                     ->getQuery()

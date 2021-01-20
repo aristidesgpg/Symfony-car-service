@@ -5,27 +5,25 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
-use FOS\RestBundle\Controller\Annotations as Rest;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Swagger\Annotations as SWG;
-use App\Service\UserHelper;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Knp\Component\Pager\PaginatorInterface;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\SecurityHelper;
+use App\Service\UserHelper;
+use Doctrine\ORM\EntityManagerInterface;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Knp\Component\Pager\PaginatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * Class UserController
- *
- * @package App\Controller
- */
-class UserController extends AbstractFOSRestController {
+class UserController extends AbstractFOSRestController
+{
     use iServiceLoggerTrait;
+
     private const PAGE_LIMIT = 100;
 
     /**
@@ -36,7 +34,6 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Parameter(
      *     name="role",
      *     in="query",
-     *     required=true,
      *     type="string",
      *     description="permission role for users you are trying to get",
      *     enum={"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
@@ -54,14 +51,14 @@ class UserController extends AbstractFOSRestController {
      *     description="The name of sort field",
      *     in="query"
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="sortDirection",
      *     type="string",
      *     description="The direction of sort",
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="searchField",
      *     type="string",
      *     description="The name of search field",
@@ -91,85 +88,80 @@ class UserController extends AbstractFOSRestController {
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
-     * @param Request        $request
-     * @param UserRepository $userRepo
-     * @param UserHelper     $userHelper
-     * @param PaginatorInterface    $paginator
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-    public function getUsers (Request $request, UserRepository $userRepo, UserHelper $userHelper, PaginatorInterface $paginator,
-    UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
-        $page            = $request->query->getInt('page', 1);
-        $startDate       = $request->query->get('startDate');
-        $endDate         = $request->query->get('endDate');
-        $urlParameters   = [];
-        $errors          = [];
-        $sortField       = "";
-        $sortDirection   = "";
-        $searchField     = "";
-        $searchTerm      = "";
+    public function getUsers(
+        Request $request,
+        UserRepository $userRepo,
+        UserHelper $userHelper,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
+    ) {
+        $page = $request->query->getInt('page', 1);
+        $role = $request->query->get('role');
+        $urlParameters = [];
+        $errors = [];
+        $sortField = '';
+        $sortDirection = '';
+        $searchField = '';
+        $searchTerm = '';
+        $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $role    = $request->query->get('role');
-
         // role is invalid
-        if (!$role || !$userHelper->isValidRole($role)) {
+        if (!is_null($role) && !$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
 
-        if($request->query->has('sortField') && $request->query->has('sortDirection'))
-        {
-            $sortField                        = $request->query->get('sortField');
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
 
-            //check if the sortfield exist
-            if(!in_array($sortField, $columns))
-                $errors['sortField']          = 'Invalid sort field name';
-
-            $sortDirection                    = $request->query->get('sortDirection');
-            $urlParameters['sortField']       = $sortField;
-            $urlParameters['sortDirection']   = $sortDirection;
+            $sortDirection = $request->query->get('sortDirection');
+            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortDirection'] = $sortDirection;
         }
 
-        if($request->query->has('searchField') && $request->query->has('searchTerm'))
-        {
-            $searchField                      = $request->query->get('searchField');
+        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
+            $searchField = $request->query->get('searchField');
 
-            //check if the searchfield exist
-            if(!in_array($searchField, $columns))
-                $errors['searchField']        = 'Invalid search field name';
+            //check if the searchField exist
+            if (!in_array($searchField, $columns)) {
+                $errors['searchField'] = 'Invalid search field name';
+            }
 
-            $searchTerm                       = $request->query->get('searchTerm');
-            $urlParameters['searchField']     = $searchField;
-            $urlParameters['searchTerm']      = $searchTerm;
+            $searchTerm = $request->query->get('searchTerm');
+            $urlParameters['searchField'] = $searchField;
+            $urlParameters['searchTerm'] = $searchTerm;
         }
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }
 
-        $users          = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchField, $searchTerm);
+        $users = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchField, $searchTerm);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pager = $paginator->paginate($users, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $pageLimit      = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-
-        $pager          = $paginator->paginate($users, $page, $pageLimit);
-        $pagination     = new Pagination($pager, $pageLimit, $urlGenerator);
-
-        $view = $this->view([
-            'users'        => $pager->getItems(),
-            'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('app_user_getusers', $urlParameters)
-        ]);
+        $view = $this->view(
+            [
+                'users' => $pager->getItems(),
+                'totalResults' => $pagination->totalResults,
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
+            ]
+        );
 
         $view->getContext()->setGroups(['user_list']);
 
@@ -278,18 +270,22 @@ class UserController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function new (Request $request, EntityManagerInterface $em, UserHelper $userHelper,
-                         UserRepository $userRepo) {
-        $role              = $request->get('role');
-        $firstName         = $request->get('firstName');
-        $lastName          = $request->get('lastName');
-        $email             = $request->get('email');
-        $phone             = $request->get('phone');
-        $password          = $request->get('password');
-        $pin               = $request->get('pin');
-        $certification     = $request->get('certification');
-        $experience        = $request->get('experience');
-        $processRefund     = $request->get('processRefund');
+    public function new(
+        Request $request,
+        EntityManagerInterface $em,
+        UserHelper $userHelper,
+        UserRepository $userRepo
+    ) {
+        $role = $request->get('role');
+        $firstName = $request->get('firstName');
+        $lastName = $request->get('lastName');
+        $email = $request->get('email');
+        $phone = $request->get('phone');
+        $password = $request->get('password');
+        $pin = $request->get('pin');
+        $certification = $request->get('certification');
+        $experience = $request->get('experience');
+        $processRefund = $request->get('processRefund');
         $shareRepairOrders = $request->get('shareRepairOrders');
 
         //role is invalid
@@ -312,7 +308,9 @@ class UserController extends AbstractFOSRestController {
         $user = $userRepo->findOneBy(['email' => $email]);
         if ($user) {
             if ($user->getActive()) {
-                return $this->handleView($this->view('Email already registered. Try another email!', Response::HTTP_NOT_ACCEPTABLE));
+                return $this->handleView(
+                    $this->view('Email already registered. Try another email!', Response::HTTP_NOT_ACCEPTABLE)
+                );
             } else {
                 $user->setActive(true);
             }
@@ -340,9 +338,22 @@ class UserController extends AbstractFOSRestController {
         $em->persist($user);
         $em->flush();
 
-        $this->logInfo('New User "' . $user->getFirstName() . '" Created');
+        $this->logInfo('New User "'.$user->getFirstName().'" Created');
 
         return $this->userView($user);
+    }
+
+    /**
+     * @param mixed $data
+     *
+     * @return Response
+     */
+    private function userView($data): Response
+    {
+        $view = $this->view($data);
+        $view->getContext()->setGroups(['user_list']);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -448,18 +459,23 @@ class UserController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function edit (User $user, Request $request, EntityManagerInterface $em, UserHelper $userHelper,
-                          UserRepository $userRepo) {
-        $role              = $request->get('role') ?? $user->getRoles()[0];
-        $firstName         = $request->get('firstName') ?? $user->getFirstName();
-        $lastName          = $request->get('lastName') ?? $user->getLastName();
-        $email             = $request->get('email') ?? $user->getEmail();
-        $phone             = $request->get('phone') ?? $user->getPhone();
-        $password          = $request->get('password');
-        $pin               = $request->get('pin') ?? $user->getPin();
-        $certification     = $request->get('certification') ?? $user->getCertification();
-        $experience        = $request->get('experience') ?? $user->getExperience();
-        $processRefund     = $request->get('processRefund') ?? $user->getProcessRefund();
+    public function edit(
+        User $user,
+        Request $request,
+        EntityManagerInterface $em,
+        UserHelper $userHelper,
+        UserRepository $userRepo
+    ) {
+        $role = $request->get('role') ?? $user->getRoles()[0];
+        $firstName = $request->get('firstName') ?? $user->getFirstName();
+        $lastName = $request->get('lastName') ?? $user->getLastName();
+        $email = $request->get('email') ?? $user->getEmail();
+        $phone = $request->get('phone') ?? $user->getPhone();
+        $password = $request->get('password');
+        $pin = $request->get('pin') ?? $user->getPin();
+        $certification = $request->get('certification') ?? $user->getCertification();
+        $experience = $request->get('experience') ?? $user->getExperience();
+        $processRefund = $request->get('processRefund') ?? $user->getProcessRefund();
         $shareRepairOrders = $request->get('shareRepairOrders') ?? $user->getShareRepairOrders();
 
         //role is invalid
@@ -469,7 +485,9 @@ class UserController extends AbstractFOSRestController {
 
         //check if parameters are valid
         if ($role != 'ROLE_TECHNICIAN' && ($certification || $experience)) {
-            return $this->handleView($this->view('Certification and Experience is Only for Technicians', Response::HTTP_BAD_REQUEST));
+            return $this->handleView(
+                $this->view('Certification and Experience is Only for Technicians', Response::HTTP_BAD_REQUEST)
+            );
         }
         if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
@@ -481,7 +499,12 @@ class UserController extends AbstractFOSRestController {
 
             // Email was already used by someone else in the system
             if ($existingUser) {
-                return $this->handleView($this->view('This email has already been used by someone else. Try another email!', Response::HTTP_NOT_ACCEPTABLE));
+                return $this->handleView(
+                    $this->view(
+                        'This email has already been used by someone else. Try another email!',
+                        Response::HTTP_NOT_ACCEPTABLE
+                    )
+                );
             }
         }
 
@@ -493,7 +516,7 @@ class UserController extends AbstractFOSRestController {
              ->setPin($pin)
              ->setRole($role);
 
-        if($password){
+        if ($password) {
             $user->setPassword($userHelper->passwordEncoder($user, $password));
         }
 
@@ -509,7 +532,7 @@ class UserController extends AbstractFOSRestController {
         $em->persist($user);
         $em->flush();
 
-        $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
+        $this->logInfo('User "'.$user->getFirstName().'" Has Been Updated');
 
         return $this->userView($user);
     }
@@ -535,27 +558,21 @@ class UserController extends AbstractFOSRestController {
      *
      * @return object|void
      */
-    public function delete (User $user, EntityManagerInterface $em) {
+    public function delete(User $user, EntityManagerInterface $em)
+    {
         $user->setActive(false);
 
         $em->persist($user);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'User Deleted'
-        ], Response::HTTP_OK));
-    }
-
-    /**
-     * @param mixed $data
-     *
-     * @return Response
-     */
-    private function userView ($data): Response {
-        $view = $this->view($data);
-        $view->getContext()->setGroups(['user_list']);
-
-        return $this->handleView($view);
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'User Deleted',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     //Security
@@ -598,22 +615,34 @@ class UserController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function security (User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em) {
+    public function security(User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em)
+    {
         $question = $request->get('question');
-        $answer   = $request->get('answer');
-        $auth     = $this->getUser();
+        $answer = $request->get('answer');
+        $auth = $this->getUser();
 
         //check if parameters are valid
         if (!$question || !$answer) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        $userRole            = $user->getRoles();
-        $authRole            = $auth->getRoles();
-        $serviceManagerRoles = ["ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR"];
-        $salesManagerRoles   = ["ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"];
+        $userRole = $user->getRoles();
+        $authRole = $auth->getRoles();
+        $serviceManagerRoles = [
+            "ROLE_SERVICE_MANAGER",
+            "ROLE_SERVICE_ADVISOR",
+            "ROLE_TECHNICIAN",
+            "ROLE_PARTS_ADVISOR",
+        ];
+        $salesManagerRoles = ["ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"];
         //check if user has permission
-        if(!($user->getId() == $auth->getId()) && !($authRole[0] == "ROLE_ADMIN") && !($authRole[0] == "ROLE_SERVICE_MANAGER" && in_array($userRole[0], $serviceManagerRoles)) && !($authRole[0] == "ROLE_SALES_MANAGER" && in_array($userRole[0], $salesManagerRoles))){
-            return $this->handleView($this->view('Authenticated User Has No Permission to Perform This Action', Response::HTTP_FORBIDDEN));
+        if (!($user->getId() == $auth->getId(
+                )) && !($authRole[0] == "ROLE_ADMIN") && !($authRole[0] == "ROLE_SERVICE_MANAGER" && in_array(
+                    $userRole[0],
+                    $serviceManagerRoles
+                )) && !($authRole[0] == "ROLE_SALES_MANAGER" && in_array($userRole[0], $salesManagerRoles))) {
+            return $this->handleView(
+                $this->view('Authenticated User Has No Permission to Perform This Action', Response::HTTP_FORBIDDEN)
+            );
         }
 
         //set security question and answer
@@ -623,9 +652,14 @@ class UserController extends AbstractFOSRestController {
         $em->persist($user);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'Security Question Has Been Updated'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Security Question Has Been Updated',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -657,8 +691,9 @@ class UserController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getSecurityQuestion (Request $request, UserRepository $userRepo) {
-        $email  = $request->get('email');
+    public function getSecurityQuestion(Request $request, UserRepository $userRepo)
+    {
+        $email = $request->get('email');
 
         // check if parameter is valid
         if (!$email) {
@@ -671,9 +706,14 @@ class UserController extends AbstractFOSRestController {
             return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        return $this->handleView($this->view([
-            'securityQuestion' => $user->getSecurityQuestion()
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'securityQuestion' => $user->getSecurityQuestion(),
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -713,8 +753,9 @@ class UserController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function resetPassword (Request $request, SecurityHelper $securityHelper, UserRepository $userRepo) {
-        $token    = $request->get('token');
+    public function resetPassword(Request $request, SecurityHelper $securityHelper, UserRepository $userRepo)
+    {
+        $token = $request->get('token');
         $password = $request->get('password');
 
         // check if parameter is valid
@@ -728,14 +769,21 @@ class UserController extends AbstractFOSRestController {
         }
 
         if (!$securityHelper->resetPassword($token, $password)) {
-            return $this->handleView($this->view(
-                'Something Went Wrong Trying to Reset the Password',
-                Response::HTTP_INTERNAL_SERVER_ERROR
-            ));
+            return $this->handleView(
+                $this->view(
+                    'Something Went Wrong Trying to Reset the Password',
+                    Response::HTTP_INTERNAL_SERVER_ERROR
+                )
+            );
         }
 
-        return $this->handleView($this->view([
-            'message' => 'Password Has Been Reset'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Password Has Been Reset',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 }
