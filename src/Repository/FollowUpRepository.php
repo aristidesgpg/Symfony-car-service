@@ -55,16 +55,16 @@ class FollowUpRepository extends ServiceEntityRepository
      */
     public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date_crated', $sortDirection = 'DESC', $searchField = null, $searchTerm = null ){
         if($end === null) {
-            $end = new \DateTime();
+            $end   = new \DateTime();
         } else{
-            $end = new \DateTime($end);
+            $end   = new \DateTime($end);
         }
 
         if($start)
             $start = new \DateTime($start);
 
         try {
-            $qb = $this->createQueryBuilder('fu');
+            $qb    = $this->createQueryBuilder('fu');
             
             if($start && $end){
                 $qb->andWhere('fu.dateCreated BETWEEN :start AND :end OR fu.dateSent BETWEEN :start AND :end OR 
