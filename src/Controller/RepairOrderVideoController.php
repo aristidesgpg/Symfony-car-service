@@ -168,4 +168,32 @@ class RepairOrderVideoController extends AbstractFOSRestController {
             'message' => 'Video view recorded',
         ]));
     }
+
+    /**
+     * @Rest\Get("/{video}/interaction")
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(
+     *             ref=@Model(type=RepairOrderVideoInteraction::class, groups=RepairOrderVideoInteraction::GROUPS)
+     *         )
+     *     )
+     * )
+     *
+     * @param RepairOrder      $ro
+     * @param RepairOrderVideo $video
+     *
+     * @return Response
+     */
+    public function getInteractions (RepairOrder $ro, RepairOrderVideo $video): Response {
+        if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+        $view = $this->view($video->getInteractions());
+        $view->getContext()->setGroups(RepairOrderVideoInteraction::GROUPS);
+
+        return $this->handleView($view);
+    }
 }
