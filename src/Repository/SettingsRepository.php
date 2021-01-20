@@ -4,8 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Settings;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -25,23 +23,15 @@ class SettingsRepository extends ServiceEntityRepository
     }
 
     /**
-     * Finds the current active DMS.
-     * @return int|mixed|string
+     * @return array|int|string
      */
-    public function findActiveDms()
+    public function findKeys()
     {
-        try {
-            return $this->createQueryBuilder('q')
-                ->select('q.key')
-                ->andwhere("q.value='true'")
-                ->andWhere("q.key like 'using%'")
-                ->getQuery()
-                ->setMaxResults(1)
-                ->getSingleScalarResult();
-        } catch (NoResultException $e) {
-        } catch (NonUniqueResultException $e) {
-        }
+        $result = $this->createQueryBuilder('s')
+            ->select('s.key')
+            ->getQuery()
+            ->getArrayResult();
 
-        return null;
+        return array_map(function ($v) {return $v['key']; }, $result);
     }
 }
