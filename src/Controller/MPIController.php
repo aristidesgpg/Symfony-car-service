@@ -2,33 +2,31 @@
 
 namespace App\Controller;
 
-use App\Entity\MPITemplate;
 use App\Entity\MPIGroup;
 use App\Entity\MPIItem;
-use App\Service\Pagination;
-use App\Repository\MPITemplateRepository;
+use App\Entity\MPITemplate;
+use App\Helper\iServiceLoggerTrait;
 use App\Repository\MPIGroupRepository;
 use App\Repository\MPIItemRepository;
-use App\Helper\iServiceLoggerTrait;
+use App\Repository\MPITemplateRepository;
+use App\Response\ValidationResponse;
+use App\Service\MPITemplateHelper;
+use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Knp\Component\Pager\PaginatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Swagger\Annotations as SWG;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use App\Service\MPITemplateHelper;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Knp\Component\Pager\PaginatorInterface;
-use App\Response\ValidationResponse;
 
-/**
- * Class MPIController
- *
- * @package App\Controller
- */
-class MPIController extends AbstractFOSRestController {
+class MPIController extends AbstractFOSRestController
+{
     use iServiceLoggerTrait;
+
     private const PAGE_LIMIT = 100;
 
     /**
@@ -58,14 +56,14 @@ class MPIController extends AbstractFOSRestController {
      *     description="The name of sort field",
      *     in="query"
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="sortDirection",
      *     type="string",
      *     description="The direction of sort",
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="searchField",
      *     type="string",
      *     description="The name of search field",
@@ -91,102 +89,93 @@ class MPIController extends AbstractFOSRestController {
      *         description="id, name, active"
      *     )
      * )
-     * 
+     *
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
-     * @param Request               $request
-     * @param MPITemplateRepository $mpiTemplateRepository
-     * @param PaginatorInterface    $paginator
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param EntityManagerInterface $em
      * @return Response
      */
-    public function getTemplates (Request $request, MPITemplateRepository $mpiTemplateRepository,PaginatorInterface $paginator,
-    UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em) {
-        $page            = $request->query->getInt('page', 1);
-        $urlParameters   = [];
+    public function getTemplates(
+        Request $request,
+        MPITemplateRepository $mpiTemplateRepository,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
+    ) {
+        $page = $request->query->getInt('page', 1);
+        $active = $request->query->get('active', null);
+        $urlParameters = [];
         $queryParameters = [];
-        $errors          = [];
-        $sortField       = "";
-        $sortDirection   = "";
-        $searchField     = "";
-        $searchTerm      = "";
+        $errors = [];
+        $columns = $em->getClassMetadata('App\Entity\MPITemplate')->getFieldNames();
 
-        $active          = $request->query->get('active');
-        
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
-        
+
         $qb = $mpiTemplateRepository->createQueryBuilder('mp');
         $qb->andWhere('mp.deleted = 0');
 
-        //get MPI Template
-        if ($active == "true") {
-            $qb->andWhere('mp.active = 1');
-        } else if($active == "false") {
-            $qb->andWhere('mp.active = 0');
-        } 
+        if (!is_null($active)) {
+            if ($active) {
+                $qb->andWhere('mp.active = 1');
+            } else {
+                $qb->andWhere('mp.active = 0');
+            }
+        }
 
-        //get all field names of MPITemplate Entity
-        $columns = $em->getClassMetadata('App\Entity\MPITemplate')->getFieldNames();
+        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
+            $searchField = $request->query->get('searchField');
 
-        if($request->query->has('searchField') && $request->query->has('searchTerm'))
-        {
-            $searchField                        = $request->query->get('searchField');
-           
-            //check if the searchfield exist
-            if(!in_array($searchField, $columns))
-                $errors['searchField']          = 'Invalid search field name';
-            else{
-                $searchTerm                     = $request->query->get('searchTerm');
+            //check if the searchField exist
+            if (!in_array($searchField, $columns)) {
+                $errors['searchField'] = 'Invalid search field name';
+            } else {
+                $searchTerm = $request->query->get('searchTerm');
 
                 $qb->andWhere('mp.'.$searchField.' LIKE :searchTerm');
-                $queryParameters['searchTerm']  = '%'.$searchTerm.'%';
-            
-                $urlParameters['searchField']   = $searchField;
-                $urlParameters['searchTerm']    = $searchTerm;
+                $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+
+                $urlParameters['searchField'] = $searchField;
+                $urlParameters['searchTerm'] = $searchTerm;
             }
-            
         }
 
-        if($request->query->has('sortField') && $request->query->has('sortDirection'))
-        {
-            $sortField                          = $request->query->get('sortField');
-            
-            //check if the sortfield exist
-            if(!in_array($sortField, $columns))
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
-            else{
-                $sortDirection                  = $request->query->get('sortDirection');
+            } else {
+                $sortDirection = $request->query->get('sortDirection');
                 $qb->orderBy('mp.'.$sortField, $sortDirection);
 
-                $urlParameters['sortField']     = $sortField;
+                $urlParameters['sortField'] = $sortField;
                 $urlParameters['sortDirection'] = $sortDirection;
             }
-           
         }
-  
+
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }
 
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
-        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pager = $paginator->paginate($q, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $pager         = $paginator->paginate($q, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
-
-        $view = $this->view([
-            'MPITemplates' => $pager->getItems(),
-            'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('app_mpi_gettemplates', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('app_mpi_gettemplates', $urlParameters)
-        ]);
+        $view = $this->view(
+            [
+                'MPITemplates' => $pager->getItems(),
+                'totalResults' => $pagination->totalResults,
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_mpi_gettemplates', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_mpi_gettemplates', $urlParameters),
+            ]
+        );
 
         $view->getContext()->setGroups(MPITemplate::GROUPS);
 
@@ -198,7 +187,7 @@ class MPIController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="MPI Template")
      * @SWG\Get(description="Get a Template")
-     * 
+     *
      * @SWG\Parameter(
      *     name="active",
      *     in="query",
@@ -224,18 +213,19 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getTemplate (MPITemplate $mpiTemplate, Request $request, MPITemplateHelper $mpiTemplateHelper) {
+    public function getTemplate(MPITemplate $mpiTemplate, Request $request, MPITemplateHelper $mpiTemplateHelper)
+    {
         $active = $request->query->get('active');
-        
-        if($active == "true"){
+
+        if ($active == "true") {
             $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate, true);
-        }
-        else{
+        } else {
             $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate, false);
         }
 
         $view = $this->view($result);
         $view->getContext()->setGroups(MPITemplate::GROUPS);
+
         return $this->handleView($view);
     }
 
@@ -277,17 +267,17 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function createTemplate (
-        Request                $request, 
-        EntityManagerInterface $em, 
-        MPITemplateHelper      $mpiTemplateHelper,
-        MPITemplateRepository  $mpiTemplateRepository
+    public function createTemplate(
+        Request $request,
+        EntityManagerInterface $em,
+        MPITemplateHelper $mpiTemplateHelper,
+        MPITemplateRepository $mpiTemplateRepository
     ) {
-        $name     = $request->get('name');
+        $name = $request->get('name');
         $axleInfo = str_replace("'", '"', $request->get('axleInfo'));
 
         //convert string to object
-        $obj           = (array)json_decode($axleInfo);
+        $obj = (array)json_decode($axleInfo);
         $numberOfAxles = count($obj);
 
         //check if params are valid
@@ -319,37 +309,42 @@ class MPIController extends AbstractFOSRestController {
         foreach ($obj as $index => $axle) {
             if ($numberOfAxles == 2) {
                 $itemPassenger = $index == 0 ? "Front Passenger" : "Rear Passenger";
-                $itemDriver    = $index == 0 ? "Front Driver" : "Rear Driver";
-                $itemNames     = [$itemPassenger, $itemDriver];
+                $itemDriver = $index == 0 ? "Front Driver" : "Rear Driver";
+                $itemNames = [$itemPassenger, $itemDriver];
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
                 //craete tire items
                 if ($axle->wheels == 2) {
                     $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
                 }
-            } else if ($numberOfAxles > 2) {
-                $itemPassenger = "Axle" . ($index + 1) . " - Passenger";
-                $itemDriver    = "Axle" . ($index + 1) . " - Driver";
-                $itemNames     = [$itemPassenger, $itemDriver];
-                //create brake items
-                $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
-                //create tire items
-                if ($axle->wheels == 2) {
-                    $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
-                } else if ($axle->wheels == 4) {
-                    $itemPassengerInner = "Axle" . ($index + 1) . " - Passenger Inner";
-                    $itemPassengerOuter = "Axle" . ($index + 1) . " - Passenger Outer";
-                    $itemDriverInner    = "Axle" . ($index + 1) . " - Driver Inner";
-                    $itemDriverOuter    = "Axle" . ($index + 1) . " - Driver Outer";
-                    $itemNames          = [$itemPassengerInner, $itemPassengerOuter, $itemDriverInner, $itemDriverOuter];
+            } else {
+                if ($numberOfAxles > 2) {
+                    $itemPassenger = "Axle".($index + 1)." - Passenger";
+                    $itemDriver = "Axle".($index + 1)." - Driver";
+                    $itemNames = [$itemPassenger, $itemDriver];
+                    //create brake items
+                    $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
+                    //create tire items
+                    if ($axle->wheels == 2) {
+                        $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
+                    } else {
+                        if ($axle->wheels == 4) {
+                            $itemPassengerInner = "Axle".($index + 1)." - Passenger Inner";
+                            $itemPassengerOuter = "Axle".($index + 1)." - Passenger Outer";
+                            $itemDriverInner = "Axle".($index + 1)." - Driver Inner";
+                            $itemDriverOuter = "Axle".($index + 1)." - Driver Outer";
+                            $itemNames = [$itemPassengerInner, $itemPassengerOuter, $itemDriverInner, $itemDriverOuter];
 
-                    $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
+                            $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
+                        }
+                    }
                 }
             }
         }
 
         $view = $this->view($mpiTemplate);
         $view->getContext()->setGroups(MPITemplate::GROUPS);
+
         return $this->handleView($view);
     }
 
@@ -384,7 +379,12 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function editTemplate (MPITemplate $mpiTemplate, Request $request, EntityManagerInterface $em, MPITemplateHelper $mpiTemplateHelper) {
+    public function editTemplate(
+        MPITemplate $mpiTemplate,
+        Request $request,
+        EntityManagerInterface $em,
+        MPITemplateHelper $mpiTemplateHelper
+    ) {
         $name = $request->get('name');
 
         //param is invalid
@@ -398,12 +398,13 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiTemplate);
         $em->flush();
 
-        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
+        $this->logInfo('MPI Template "'.$mpiTemplate->getName().'" Has Been Updated');
 
         $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate, false);
 
         $view = $this->view($result);
         $view->getContext()->setGroups(MPITemplate::GROUPS);
+
         return $this->handleView($view);
     }
 
@@ -428,7 +429,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function deactivateTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
+    public function deactivateTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em)
+    {
 
         // deactivate template
         $mpiTemplate->setActive(false);
@@ -436,11 +438,16 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiTemplate);
         $em->flush();
 
-        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deactivated');
+        $this->logInfo('MPI Template "'.$mpiTemplate->getName().'" Has Been Deactivated');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Template Deactivated'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => ' MPI Template Deactivated',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -464,7 +471,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function reactivateTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
+    public function reactivateTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em)
+    {
 
         // reactivate template
         $mpiTemplate->setActive(true);
@@ -472,11 +480,16 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiTemplate);
         $em->flush();
 
-        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deactivated');
+        $this->logInfo('MPI Template "'.$mpiTemplate->getName().'" Has Been Deactivated');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Template Reactivated'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => ' MPI Template Reactivated',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -500,7 +513,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function deleteTemplate (MPITemplate $mpiTemplate, EntityManagerInterface $em) {
+    public function deleteTemplate(MPITemplate $mpiTemplate, EntityManagerInterface $em)
+    {
 
         // delete template
         $mpiTemplate->setDeleted(true);
@@ -508,11 +522,16 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiTemplate);
         $em->flush();
 
-        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deleted');
+        $this->logInfo('MPI Template "'.$mpiTemplate->getName().'" Has Been Deleted');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Template Deleted'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => ' MPI Template Deleted',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -552,10 +571,13 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function createGroup (Request $request, MPITemplateRepository $mpiTemplateRepo,
-                                 EntityManagerInterface $em) {
+    public function createGroup(
+        Request $request,
+        MPITemplateRepository $mpiTemplateRepo,
+        EntityManagerInterface $em
+    ) {
         $templateID = $request->get('id');
-        $name       = $request->get('name');
+        $name = $request->get('name');
 
         //param is invalid
         if (!$templateID || !$name) {
@@ -575,10 +597,11 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Created');
+        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Created');
 
         $view = $this->view($mpiGroup);
         $view->getContext()->setGroups(['mpi_group_list']);
+
         return $this->handleView($view);
     }
 
@@ -599,7 +622,7 @@ class MPIController extends AbstractFOSRestController {
      * @SWG\Response(
      *     response=200,
      *     description="Return MPIGroup",
-      *     @SWG\Items(
+     *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=MPIGroup::class, groups={"mpi_group_list"})),
      *         description="id, name, active"
@@ -612,7 +635,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function editGroup (MPIGroup $mpiGroup, Request $request, EntityManagerInterface $em) {
+    public function editGroup(MPIGroup $mpiGroup, Request $request, EntityManagerInterface $em)
+    {
         $name = $request->get('name');
 
         //param is invalid
@@ -626,10 +650,11 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Updated');
+        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Updated');
 
         $view = $this->view($mpiGroup);
         $view->getContext()->setGroups(['mpi_group_list']);
+
         return $this->handleView($view);
     }
 
@@ -654,7 +679,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function deactivateGroup (MPIGroup $mpiGroup, EntityManagerInterface $em) {
+    public function deactivateGroup(MPIGroup $mpiGroup, EntityManagerInterface $em)
+    {
 
         // deactivate group
         $mpiGroup->setActive(false);
@@ -662,11 +688,16 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deactivated');
+        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Deactivated');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Group Deactivated'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => ' MPI Group Deactivated',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -690,7 +721,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function reactivateGroup (MPIGroup $mpiGroup, EntityManagerInterface $em) {
+    public function reactivateGroup(MPIGroup $mpiGroup, EntityManagerInterface $em)
+    {
 
         // deactivate group
         $mpiGroup->setActive(true);
@@ -698,11 +730,16 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deactivated');
+        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Deactivated');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Group Reactivated'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => ' MPI Group Reactivated',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -726,7 +763,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function deleteGroup (MPIGroup $mpiGroup, EntityManagerInterface $em) {
+    public function deleteGroup(MPIGroup $mpiGroup, EntityManagerInterface $em)
+    {
 
         // delete group
         $mpiGroup->setDeleted(true);
@@ -734,11 +772,16 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deleted');
+        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Deleted');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Group Deleted'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => ' MPI Group Deleted',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -779,14 +822,14 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function createItem (
-        Request                $request, 
-        MPIGroupRepository     $mpiGroupRepo, 
-        MPIItemRepository      $mpiItemRepo,
+    public function createItem(
+        Request $request,
+        MPIGroupRepository $mpiGroupRepo,
+        MPIItemRepository $mpiItemRepo,
         EntityManagerInterface $em
     ) {
         $groupID = $request->get('id');
-        $name    = $request->get('name');
+        $name = $request->get('name');
 
         //param is invalid
         if (!$groupID || !$name) {
@@ -800,7 +843,7 @@ class MPIController extends AbstractFOSRestController {
         }
         //check if name is duplicated
         $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiGroup->getId());
-        if($duplicatedItems){
+        if ($duplicatedItems) {
             return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
         }
 
@@ -812,10 +855,11 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiItem);
         $em->flush();
 
-        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Created');
+        $this->logInfo('MPI Item "'.$mpiItem->getName().'" Has Been Created');
 
         $view = $this->view($mpiItem);
         $view->getContext()->setGroups(['mpi_item_list']);
+
         return $this->handleView($view);
     }
 
@@ -850,10 +894,10 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function editItem (
-        MPIItem                $mpiItem, 
-        Request                $request, 
-        MPIItemRepository      $mpiItemRepo,
+    public function editItem(
+        MPIItem $mpiItem,
+        Request $request,
+        MPIItemRepository $mpiItemRepo,
         EntityManagerInterface $em
     ) {
         $name = $request->get('name');
@@ -864,7 +908,7 @@ class MPIController extends AbstractFOSRestController {
         }
         //check if name is duplicated
         $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiItem->getMPIGroup()->getId());
-        if($duplicatedItems){
+        if ($duplicatedItems) {
             return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
         }
 
@@ -874,10 +918,11 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiItem);
         $em->flush();
 
-        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Updated');
+        $this->logInfo('MPI Item "'.$mpiItem->getName().'" Has Been Updated');
 
         $view = $this->view($mpiItem);
         $view->getContext()->setGroups(['mpi_item_list']);
+
         return $this->handleView($view);
     }
 
@@ -902,7 +947,8 @@ class MPIController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function deleteItem (MPIItem $mpiItem, EntityManagerInterface $em) {
+    public function deleteItem(MPIItem $mpiItem, EntityManagerInterface $em)
+    {
 
         // delete Item
         $mpiItem->setDeleted(true);
@@ -910,10 +956,15 @@ class MPIController extends AbstractFOSRestController {
         $em->persist($mpiItem);
         $em->flush();
 
-        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Deleted');
+        $this->logInfo('MPI Item "'.$mpiItem->getName().'" Has Been Deleted');
 
-        return $this->handleView($this->view([
-            'message' => ' MPI Item Deleted'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => ' MPI Item Deleted',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 }
