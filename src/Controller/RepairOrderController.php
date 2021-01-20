@@ -11,6 +11,7 @@ use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -21,17 +22,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class RepairOrderController
- *
- * @package App\Controller
- *
  * @Rest\Route("/api/repair-order")
  * @SWG\Tag(name="Repair Order")
  */
-class RepairOrderController extends AbstractFOSRestController {
+class RepairOrderController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 50;
 
     use FalsyTrait;
@@ -113,14 +110,14 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="The name of sort field",
      *     in="query"
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="sortDirection",
      *     type="string",
      *     description="The direction of sort",
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
-     *  @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="searchField",
      *     type="string",
      *     description="The name of search field",
@@ -132,30 +129,25 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="The value of search",
      *     in="query"
      * )
-     *
-     *
-     * @param Request               $request
-     * @param RepairOrderRepository $repairOrderRepo
-     * @param PaginatorInterface    $paginator
-     *
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param UserRepository        $userRepo
-     * @param EntityManagerInterface $em
-     *
-     * @return Response
      */
-    public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator,
-                            UrlGeneratorInterface $urlGenerator, UserRepository $userRepo, EntityManagerInterface $em): Response {
-        $page            = $request->query->getInt('page', 1);
-        $startDate       = $request->query->get('startDate');
-        $endDate         = $request->query->get('endDate');
-        $urlParameters   = [];
+    public function getAll(
+        Request $request,
+        RepairOrderRepository $repairOrderRepo,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        UserRepository $userRepo,
+        EntityManagerInterface $em
+    ): Response {
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $urlParameters = [];
         $queryParameters = [];
-        $errors          = [];
-        $sortField       = "";
-        $sortDirection   = "";
-        $searchField     = "";
-        $searchTerm      = "";
+        $errors = [];
+        $sortField = '';
+        $sortDirection = '';
+        $searchField = '';
+        $searchTerm = '';
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -199,11 +191,11 @@ class RepairOrderController extends AbstractFOSRestController {
         if ($startDate && $endDate) {
             try {
                 $startDate = new DateTime($startDate);
-                $endDate   = new DateTime($endDate);
+                $endDate = new DateTime($endDate);
 
-                $qb->andWhere("ro.dateCreated BETWEEN :startDate AND :endDate");
+                $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate');
                 $queryParameters['startDate'] = $startDate;
-                $queryParameters['endDate']   = $endDate;
+                $queryParameters['endDate'] = $endDate;
             } catch (Exception $e) {
                 $errors['date'] = 'Invalid date format';
             }
@@ -212,90 +204,90 @@ class RepairOrderController extends AbstractFOSRestController {
         //get all field names of RepairOrder Entity
         $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
-        if($request->query->has('sortField') && $request->query->has('sortDirection'))
-        {
-            $sortField                  = $request->query->get('sortField');
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
 
-            //check if the sortfield exist
-            if(!in_array($sortField, $columns))
-                $errors['sortField']    = 'Invalid sort field name';
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
 
             $sortDirection = $request->query->get('sortDirection');
         }
 
-        if($request->query->has('searchField') && $request->query->has('searchTerm'))
-        {
-            $searchField                = $request->query->get('searchField');
+        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
+            $searchField = $request->query->get('searchField');
 
-            //check if the searchfield exist
-            if(!in_array($searchField, $columns))
-                $errors['searchField']  = 'Invalid search field name';
+            //check if the searchField exist
+            if (!in_array($searchField, $columns)) {
+                $errors['searchField'] = 'Invalid search field name';
+            }
 
-            $searchTerm  = $request->query->get('searchTerm');
+            $searchTerm = $request->query->get('searchTerm');
         }
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }
 
-        if($searchTerm)
-        {
+        if ($searchTerm) {
             $qb->andWhere('ro.'.$searchField.' LIKE :searchTerm');
             $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
 
-            $urlParameters['searchField']  = $searchField;
+            $urlParameters['searchField'] = $searchField;
         }
 
         $user = $this->getUser();
         if ($user instanceof User) {
             if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
-                if ($user->getShareRepairOrders() === true) {
+                if ($user->getShareRepairOrders()) {
                     $qb->andWhere('ro.primaryAdvisor IN (:users)');
                     $queryParameters['users'] = $userRepo->getSharedUsers();
                 } else {
                     $qb->andWhere('ro.primaryAdvisor = :user');
-                    $queryParameters['user']  = $user;
+                    $queryParameters['user'] = $user;
                 }
             } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
                 $qb->andWhere('ro.primaryTechnician = :user');
-                $queryParameters['user']      = $user;
+                $queryParameters['user'] = $user;
             }
         }
 
-        if($sortDirection)
-        {
+        if ($sortDirection) {
             $qb->orderBy('ro.'.$sortField, $sortDirection);
 
-            $urlParameters['sortField']       = $sortField;
-            $urlParameters['sortDirection']   = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortDirection'] = $sortDirection;
         }
 
-        $q              = $qb->getQuery();
+        $q = $qb->getQuery();
         $q->setParameters($queryParameters);
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         $items = $q->getResult();
-        foreach($items as $item){
-            if($item->getRepairOrderQuote() && $item->getRepairOrderQuote()->getDeleted()){
+        foreach ($items as $item) {
+            if ($item->getRepairOrderQuote() && $item->getRepairOrderQuote()->getDeleted()) {
                 $item->setRepairOrderQuote(null);
             }
         }
 
         $urlParameters += $queryParameters;
-        if($searchTerm){
+        if ($searchTerm) {
             $urlParameters['searchTerm'] = $searchTerm;
         }
-        $pager         = $paginator->paginate($items, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager = $paginator->paginate($items, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view = $this->view([
-            'repairOrders' => $pager->getItems(),
-            'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters)
-        ]);
+        $view = $this->view(
+            [
+                'repairOrders' => $pager->getItems(),
+                'totalResults' => $pagination->totalResults,
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
+            ]
+        );
 
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -315,12 +307,14 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getOne (RepairOrder $ro): Response {
+    public function getOne(RepairOrder $ro): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        if($ro->getRepairOrderQuote() && $ro->getRepairOrderQuote()->getDeleted())
-           $ro->setRepairOrderQuote(null);
+        if ($ro->getRepairOrderQuote() && $ro->getRepairOrderQuote()->getDeleted()) {
+            $ro->setRepairOrderQuote(null);
+        }
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -342,13 +336,14 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getByLinkHash (string $linkHash, RepairOrderRepository $repairOrderRepo): Response {
-        if (!$linkHash){
+    public function getByLinkHash(string $linkHash, RepairOrderRepository $repairOrderRepo): Response
+    {
+        if (!$linkHash) {
             throw new NotFoundHttpException();
         }
 
         $repairOrder = $repairOrderRepo->findByUID($linkHash);
-        if (!$repairOrder){
+        if (!$repairOrder) {
             throw new NotFoundHttpException();
         }
 
@@ -356,7 +351,7 @@ class RepairOrderController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
-        if($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()){
+        if ($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()) {
             $repairOrder->setRepairOrderQuote(null);
         }
 
@@ -403,7 +398,8 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function add (Request $req, RepairOrderHelper $helper): Response {
+    public function add(Request $req, RepairOrderHelper $helper): Response
+    {
         $ro = $helper->addRepairOrder($req->request->all());
         if (is_array($ro)) {
             return new ValidationResponse($ro);
@@ -449,7 +445,8 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function update (RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response {
+    public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -474,15 +471,20 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function delete (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function delete(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
         $helper->deleteRepairOrder($ro);
 
-        return $this->handleView($this->view([
-            'message' => 'RO Deleted',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RO Deleted',
+                ]
+            )
+        );
     }
 
     /**
@@ -496,20 +498,30 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function archive (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function archive(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
         if ($ro->isArchived() === true) {
-            return $this->handleView($this->view([
-                'message' => 'RO already archived',
-            ], Response::HTTP_BAD_REQUEST));
+            return $this->handleView(
+                $this->view(
+                    [
+                        'message' => 'RO already archived',
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                )
+            );
         }
         $helper->archiveRepairOrder($ro);
 
-        return $this->handleView($this->view([
-            'message' => 'RO Archived',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RO Archived',
+                ]
+            )
+        );
     }
 
     /**
@@ -523,19 +535,29 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function close (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function close(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
         if ($ro->isClosed() === true) {
-            return $this->handleView($this->view([
-                'message' => 'RO already closed',
-            ], Response::HTTP_BAD_REQUEST));
+            return $this->handleView(
+                $this->view(
+                    [
+                        'message' => 'RO already closed',
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                )
+            );
         }
         $helper->closeRepairOrder($ro);
 
-        return $this->handleView($this->view([
-            'message' => 'RO Closed',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RO Closed',
+                ]
+            )
+        );
     }
 }
