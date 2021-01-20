@@ -252,6 +252,5 @@ class FollowUpController extends AbstractFOSRestController {
             'message' => 'Success'
         ], Response::HTTP_OK));
     }
-    
 
 }

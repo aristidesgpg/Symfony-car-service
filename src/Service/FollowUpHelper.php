@@ -145,7 +145,7 @@ class FollowUpHelper {
         $url      = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash . "/followup";
         $shortUrl = $this->urlHelper->generateShortUrl($url);
         try {
-            $this->urlHelper->sendShortenedLink($phone, $msg, $shortUrl, true);
+            $this->urlHelper->sendShortenedLink($phone, "Please check your declined work", $shortUrl, true);
 
             $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent');
             
