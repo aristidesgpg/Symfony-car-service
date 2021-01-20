@@ -92,7 +92,7 @@ class VideoHelper {
     }
 
     /**
-     * @param RepairOrder  $ro
+     * @param RepairOrder      $ro
      * @param RepairOrderVideo $video
      */
     public function sendVideo (RepairOrder  $ro, RepairOrderVideo $video): void {
@@ -120,7 +120,7 @@ class VideoHelper {
     }
 
     /**
-     * @param RepairOrder  $ro
+     * @param RepairOrder      $ro
      * @param RepairOrderVideo $video
      * @param Customer|User    $user
      */
