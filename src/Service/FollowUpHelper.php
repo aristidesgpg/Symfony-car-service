@@ -110,20 +110,20 @@ class FollowUpHelper {
                         }
                     }
                     else{
-                        $followup->setStatus('Viewed');    
-                        $followup->setDateViewed(new \DateTime());
+                        $followup->setStatus('Viewed')    
+                                 ->setDateViewed(new \DateTime());
                     }
 
                 }
                 break;
             case 'Converted':
-                $followup->setStatus('Converted');
-                $followup->setDateConverted(new \DateTime());
+                $followup->setStatus('Converted')
+                         ->setDateConverted(new \DateTime());
                
                 break;
             case 'Sent':
-                $followup->setStatus('Sent');
-                $followup->setDateSent(new \DateTime());
+                $followup->setStatus('Sent')
+                         ->setDateSent(new \DateTime());
                
                 break;
         }
@@ -132,18 +132,17 @@ class FollowUpHelper {
         $this->em->flush();    
        
     }
-
     
     /**
      * @param FollowUp $followUp
      */
     public function sendMessage(FollowUp $followUp){
         $repairOrder  = $followUp->getRepairOrder();
-        $phone    = $repairOrder->getPrimaryCustomer()->getPhone();
-        $linkhash = $repairOrder->getLinkHash();
+        $phone        = $repairOrder->getPrimaryCustomer()->getPhone();
+        $linkhash     = $repairOrder->getLinkHash();
         
-        $url      = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash . "/followup";
-        $shortUrl = $this->urlHelper->generateShortUrl($url);
+        $url          = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash . "/followup";
+        $shortUrl     = $this->urlHelper->generateShortUrl($url);
         try {
             $this->urlHelper->sendShortenedLink($phone, "Please check your declined work", $shortUrl, true);
 
