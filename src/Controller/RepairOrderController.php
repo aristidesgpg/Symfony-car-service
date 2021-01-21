@@ -362,32 +362,6 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\POST("/suggested-numbers", name="getRepairOrderSuggestedNumbers")
-     * 
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return suggested numbers",
-     *     @SWG\Items(
-     *         type="array",
-     *         @SWG\Items(type="integer", description="suggested"),
-     *         
-     *     )
-     * )
-     *
-     * @param RepairOrderHelper $repairOrderHelper
-     * 
-     * @return Response
-     */
-    public function getSuggestedNumbers( RepairOrderHelper $repairOrderHelper  )
-    {
-        $result  = $repairOrderHelper->getSuggestedRoNumbers();
-
-        $view = $this->view($result);
-
-        return $this->handleView($view);
-    }
-
-    /**
      * @Rest\Post
      * @SWG\Response(
      *     response="200",
