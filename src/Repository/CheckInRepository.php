@@ -53,7 +53,7 @@ class CheckInRepository extends ServiceEntityRepository
      * 
      * @return CheckIn[] REturns array of CheckIn ojbects
      */
-    public function getAllItems($start=null, $end=null){
+    public function getAllItems($start = null, $end = null, $sortField = 'date', $sortDirection = 'DESC', $searchField = null, $searchTerm = null ){
         if($end === null) {
             $end = new \DateTime();
         } else{
@@ -64,21 +64,31 @@ class CheckInRepository extends ServiceEntityRepository
             $start = new \DateTime($start);
 
         try {
-            $db = $this->createQueryBuilder('ch');
+            $qb = $this->createQueryBuilder('ch');
             
             if($start && $end){
-                $db->andWhere('ch.date BETWEEN :start AND :end')
+                $qb->andWhere('ch.date BETWEEN :start AND :end')
                    ->setParameter('start', $start->format('Y-m-d H:i'))
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             } else{
-                $db->andWhere('ch.date < :end')
+                $qb->andWhere('ch.date < :end')
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
+            if($searchTerm)
+            {
+                $qb->andWhere('ch.'.$searchField.' LIKE :searchTerm')
+                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
+            }
 
-            return $db->orderBy('ch.date', 'DESC')
-                      ->getQuery()
-                      ->getResult();
-
+            if($sortDirection){
+                $qb->orderBy('ch.'.$sortField, $sortDirection);
+            }
+            else{
+                $qb->orderBy('ch.date', 'DESC');
+            }
+ 
+            return $qb->getQuery();
+ 
         } catch (NonUniqueResultException $e) {
             return null;
         }
