@@ -283,7 +283,7 @@ class RepairOrderHelper {
         if ($customer !== null) {
             $customer->setName($params['customerName']);
             if($params['customerEmail'])
-                $customer->setName($params['customerEmail']);
+                $customer->setEmail($params['customerEmail']);
             
             $this->customerHelper->commitCustomer($customer);
 
