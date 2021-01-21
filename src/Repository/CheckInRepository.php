@@ -83,6 +83,7 @@ class CheckInRepository extends ServiceEntityRepository
 
         try {
             $qb = $this->createQueryBuilder('ch');
+            $qb->andWhere('ch.deleted = false');
 
             if ($start && $end) {
                 $qb->andWhere('ch.date BETWEEN :start AND :end')

@@ -29,13 +29,13 @@ class CustomerController extends AbstractFOSRestController
 
     /**
      * @Rest\Get(name="getCustomers")
+     *
      * @SWG\Parameter(
      *     name="page",
      *     type="integer",
      *     description="Page of results",
      *     in="query"
      * )
-     *
      * @SWG\Parameter(
      *     name="pageLimit",
      *     type="integer",
@@ -88,6 +88,10 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Response(
      *     response="404",
      *     description="Invalid page parameter"
+     * )
+     * @SWG\Response(
+     *     response="406",
+     *     description="Page limit must be a positive non-zero integer"
      * )
      */
     public function getAll(
@@ -156,6 +160,12 @@ class CustomerController extends AbstractFOSRestController
 
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
+        if ($pageLimit < 1) {
+            return $this->handleView(
+                $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
+            );
+        }
+
         $pager = $paginator->paginate($customersQuery, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
@@ -218,7 +228,7 @@ class CustomerController extends AbstractFOSRestController
 
         $customer = new Customer();
         $user = $this->getUser();
-        if ($user instanceof User && $user->getId() !== null) {
+        if ($user instanceof User && !is_null($user->getId())) {
             $customer->setAddedBy($user);
         }
         $helper->commitCustomer($customer, $req->request->all());
@@ -279,13 +289,9 @@ class CustomerController extends AbstractFOSRestController
 
         $helper->commitCustomer($customer);
 
-        return $this->handleView(
-            $this->view(
-                [
-                    'message' => 'Customer Deleted',
-                ],
-                Response::HTTP_OK
-            )
-        );
+        $view = $this->view($customer, Response::HTTP_OK);
+        $view->getContext()->setGroups(Customer::GROUPS);
+
+        return $this->handleView($view);
     }
 }

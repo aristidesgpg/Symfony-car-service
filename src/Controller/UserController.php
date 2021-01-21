@@ -85,8 +85,20 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
+     * @SWG\Response(
+     *     response="400",
+     *     description="Invalid Role Parameter"
+     * )
+     * 
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
+     * 
+     * @param Request                $request
+     * @param UserRepository         $userRepo
+     * @param UserHelper             $userHelper
+     * @param PaginatorInterface     $paginator
+     * @param UrlGeneratorInterface  $urlGenerator
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
@@ -343,7 +355,9 @@ class UserController extends AbstractFOSRestController
     }
 
     /**
-     * @param mixed $data
+     * @param $data
+     *
+     * @return Response
      */
     private function userView($data): Response
     {
