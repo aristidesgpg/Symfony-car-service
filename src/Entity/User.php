@@ -123,15 +123,45 @@ class User implements UserInterface {
     private $technicianRepairOrders;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="user")
+     */
+    private $repairOrderMPIInteractions;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $pin;
 
     /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
+     */
+    private $processRefund = false;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
+     */
+    private $shareRepairOrders = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity=InternalMessage::class, mappedBy="from")
+     */
+    private $internalMessages;
+
+    /**
+     * @ORM\Column(type="boolean")
+     * @Serializer\Groups({"user_list"})
+     */
+    private $externalAuthentication = false;
+
+    /**
      * User constructor.
      */
     public function __construct () {
-        $this->technicianRepairOrders = new ArrayCollection();
+        $this->technicianRepairOrders     = new ArrayCollection();
+        $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->internalMessages           = new ArrayCollection();
     }
 
     /**
@@ -429,15 +459,56 @@ class User implements UserInterface {
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTechnicianRepairOrders (): Collection {
-        $criteria = Criteria::create()
-                            ->andWhere(Criteria::expr()->eq('deleted', false))
-                            ->orderBy(['dateCreated' => 'DESC']);
+    public function getProcessRefund (): ?bool {
+        return $this->processRefund;
+    }
 
-        $this->technicianRepairOrders->matching($criteria);
+    public function setProcessRefund (bool $processRefund): self {
+        $this->processRefund = $processRefund;
+
+        return $this;
+    }
+
+    public function getShareRepairOrders (): ?bool {
+        return $this->shareRepairOrders;
+    }
+
+    public function setShareRepairOrders (bool $shareRepairOrders): self {
+        $this->shareRepairOrders = $shareRepairOrders;
+
+        return $this;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getExternalAuthentication (): ?bool {
+        return $this->externalAuthentication;
+    }
+
+    /**
+     * @param bool $externalAuthentication
+     *
+     * @return $this
+     */
+    public function setExternalAuthentication (bool $externalAuthentication): self {
+        $this->externalAuthentication = $externalAuthentication;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderMPIInteraction[]
+     */
+    public function getRepairOrderMPIInteractions (): Collection {
+        return $this->repairOrderMPIInteractions;
+    }
+
+    /**
+     * @return Collection|InternalMessage[]
+     */
+    public function getInternalMessages (): Collection {
+        return $this->internalMessages;
     }
 
     public function getSalt () {
@@ -457,6 +528,17 @@ class User implements UserInterface {
      */
     public function isTechnician () {
         return in_array('ROLE_TECHNICIAN', $this->getRoles());
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTechnicianRepairOrders (): Collection {
+        $criteria = Criteria::create()
+                            ->andWhere(Criteria::expr()->eq('deleted', false))
+                            ->orderBy(['dateCreated' => 'DESC']);
+
+        $this->technicianRepairOrders->matching($criteria);
     }
 
 }

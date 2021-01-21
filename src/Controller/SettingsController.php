@@ -97,6 +97,7 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="custAppFinanceRepairUrl", type="string", in="formData")
      *
      * Service Text Settings
+     * @SWG\Parameter(name="serviceTwilioFromNumber", type="string", in="formData", maxLength=SettingsController::PHONE_LENGTH)
      * @SWG\Parameter(name="serviceTextIntro", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="serviceTextVideo", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      * @SWG\Parameter(name="serviceTextVideoResend", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
@@ -125,6 +126,7 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="upgradeTradeInTax", type="number", in="formData")
      * @SWG\Parameter(name="upgradeTradeInTaxLimit", type="number", in="formData")
      * @SWG\Parameter(name="upgradeOfferExpiration", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeInitialText", type="string", in="formData")
      * @SWG\Parameter(name="upgradeInstantOfferUrl", type="string", in="formData")
      * @SWG\Parameter(name="upgradeIntroText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      * @SWG\Parameter(name="upgradeOfferText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
@@ -191,6 +193,7 @@ class SettingsController extends AbstractFOSRestController {
                 case 'serviceTextPayment':
                 case 'waiverIntroText':
                 case 'previewSalesVideoText':
+                case 'upgradeInitialText':
                 case 'upgradeIntroText':
                 case 'upgradeOfferText':
                     if (strlen($val) > self::SMS_EXTRA_MAX_LENGTH) {
@@ -206,6 +209,7 @@ class SettingsController extends AbstractFOSRestController {
                         );
                     }
                     break;
+                case 'serviceTwilioFromNumber':
                 case 'generalPhone':
                     if (strlen($val) !== self::PHONE_LENGTH) {
                         $errors[$key] = sprintf('Phone number must be %d digits', self::PHONE_LENGTH);
@@ -225,7 +229,10 @@ class SettingsController extends AbstractFOSRestController {
 
             $file = $req->files->get($key);
             if (!$file instanceof UploadedFile) {
-                $errors[$key] = 'Could not find file';
+                $errors[$key] = 'File upload failed';
+                continue;
+            } elseif ($file->getError() !== UPLOAD_ERR_OK) {
+                $errors[$key] = $file->getErrorMessage();
                 continue;
             }
 
@@ -245,11 +252,14 @@ class SettingsController extends AbstractFOSRestController {
         // Do file uploads
         foreach ($files as $key => $file) {
             try {
-                $path           = $uploader->upload($file, 'settings');
-                $settings[$key] = $req->getSchemeAndHttpHost() . $uploader->pathToRelativeUrl($path);
+                if ($uploader->isValidVideo($file)) {
+                    $settings[$key] = $uploader->uploadVideo($file, 'settings');
+                } else {
+                    $settings[$key] = $uploader->upload($file, 'settings');
+                }
             } catch (Exception $e) {
-                $this->logger->error(sprintf('Failed to move file for key "%s": "%s"', $key, $e->getMessage()));
-                return $this->errorResponse('Failed to move file');
+                $this->logger->error(sprintf('Failed to upload file for key "%s": "%s"', $key, $e->getMessage()));
+                return $this->errorResponse('Failed to upload file');
             }
         }
 

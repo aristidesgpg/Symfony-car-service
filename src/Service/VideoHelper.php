@@ -9,7 +9,6 @@ use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class VideoHelper {
@@ -56,25 +55,22 @@ class VideoHelper {
         if (!$this->upload->isValidVideo($file)) {
             throw new \InvalidArgumentException('Invalid file format');
         }
-        $path  = $this->upload->upload($file, 'ro-videos');
+        $url = $this->upload->uploadVideo($file, 'ro-videos');
         $video = new RepairOrderVideo();
         $video->setRepairOrder($ro)
-              ->setPath($this->upload->pathToRelativeUrl($path)); // TODO: Add hostname
+              ->setPath($url);
         if ($tech !== null) {
             $video->setTechnician($tech);
         }
-        $video->setRepairOrder($ro);
         $interaction = new RepairOrderVideoInteraction();
-        $interaction->setType('Created')
+        $interaction->setType('Uploaded')
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction);
         $ro->addVideo($video);
-        $ro->updateVideoStatus();
 
         $this->em->persist($video);
         $this->em->flush();
 
-        $this->upload->compressVideo(new File($path)); // FIXME: Defer compression to KernelEvents::TERMINATE?
 //        if ($approvalRequired) {
 //
 //        } else {
@@ -104,14 +100,17 @@ class VideoHelper {
         $message = $this->settings->find('serviceTextVideo')->getValue();
         $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $video->getRepairOrder()->getLinkHash();
         $shortUrl = $this->urlHelper->generateShortUrl($url);
-        $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
+        try {
+            $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
+        } catch (\Exception $e) {
+            return;
+        }
 
         $interaction = new RepairOrderVideoInteraction();
-        $interaction->setType('Customer Sent')
+        $interaction->setType('Sent')
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction)
               ->setShortUrl($shortUrl);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }
@@ -123,19 +122,16 @@ class VideoHelper {
     public function viewVideo (RepairOrderVideo $video, $user): void {
         $interaction = new RepairOrderVideoInteraction();
         if ($user instanceof Customer) {
-            $type = 'Customer Viewed';
             $interaction->setCustomer($user);
         } elseif ($user instanceof User) {
-            $type = 'Advisor Viewed';
             $interaction->setUser($user);
         } else {
             throw new \InvalidArgumentException(sprintf('Invalid type for $user: %s', get_class($user)));
         }
 
         $interaction->setRepairOrderVideo($video)
-                    ->setType($type);
+                    ->setType('Viewed');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }
@@ -150,7 +146,6 @@ class VideoHelper {
                     ->setUser($user)
                     ->setType('Advisor Approved');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
 
@@ -167,7 +162,6 @@ class VideoHelper {
                     ->setUser($user)
                     ->setType('Advisor Confirmed Viewed');
         $video->addInteraction($interaction);
-        $video->getRepairOrder()->updateVideoStatus();
 
         $this->em->flush();
     }

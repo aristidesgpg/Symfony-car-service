@@ -138,9 +138,6 @@ class SecurityHelper {
             return false;
         }
 
-        $this->em->persist($forgotPassword);
-        $this->em->flush();
-
         return true;
     }
 
@@ -169,6 +166,8 @@ class SecurityHelper {
         $user->setPassword($this->passwordEncoder->encodePassword($user, $password));
         //once verified, set used true
         $forgotPassword->setUsed(true);
+
+        $this->em->persist($forgotPassword);
 
         $this->em->persist($user);
         $this->em->flush();

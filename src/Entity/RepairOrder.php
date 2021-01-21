@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Entity(repositoryClass=RepairOrderRepository::class)
  */
 class RepairOrder {
-    public const GROUPS = ['ro_list', 'customer_list', 'user_list'];
+    public const GROUPS = ['ro_list', 'customer_list', 'user_list', 'roq_list'];
 
     /**
      * @ORM\Id
@@ -188,6 +188,12 @@ class RepairOrder {
     private $deleted = false;
 
     /**
+     * @ORM\OneToOne(targetEntity=RepairOrderMPI::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $repairOrderMPI;
+
+    /**
      * @ORM\Column(type="boolean")
      * @Serializer\Groups(groups={"ro_list"})
      */
@@ -203,6 +209,12 @@ class RepairOrder {
      * @Serializer\Groups(groups={"ro_list"})
      */
     private $notes;
+
+    /**
+     * @ORM\OneToOne(targetEntity=RepairOrderQuote::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $repairOrderQuote;
 
     /**
      * RepairOrder constructor.
@@ -305,27 +317,6 @@ class RepairOrder {
      */
     public function setVideoStatus (string $videoStatus): self {
         $this->videoStatus = $videoStatus;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function updateVideoStatus (): self {
-        $min = PHP_INT_MAX;
-        foreach ($this->getVideos() as $video) {
-            if ($video->isDeleted()) {
-                continue;
-            }
-            $index = array_search($video->getStatus(), RepairOrderVideo::STATUSES);
-            if ($index !== false && $index < $min) {
-                $min = $index;
-            }
-        }
-        if ($min !== PHP_INT_MAX) {
-            $this->videoStatus = RepairOrderVideo::STATUSES[$min];
-        }
 
         return $this;
     }
@@ -733,6 +724,23 @@ class RepairOrder {
         return $this;
     }
 
+    public function getRepairOrderMPI(): ?RepairOrderMPI
+    {
+        return $this->repairOrderMPI;
+    }
+
+    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
+    {
+        $this->repairOrderMPI = $repairOrderMPI;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newRepairOrder = null === $repairOrderMPI ? null : $this;
+        if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
+            $repairOrderMPI->setRepairOrder($newRepairOrder);
+        }
+        return $this;
+    }
+
     /**
      * @return bool
      */
@@ -747,6 +755,27 @@ class RepairOrder {
      */
     public function setArchived (bool $archived): self {
         $this->archived = $archived;
+        return $this;
+    }
+
+    public function getRepairOrderQuote(): ?RepairOrderQuote
+    {
+        return $this->repairOrderQuote;
+    }
+
+    public function setRepairOrderQuote($repairOrderQuote): self
+    {
+        if($repairOrderQuote === null)
+        {
+            $this->repairOrderQuote = null;
+            return $this;
+        }
+        $this->repairOrderQuote = $repairOrderQuote;
+
+        // set the owning side of the relation if necessary
+        if ($repairOrderQuote->getRepairOrder() !== $this) {
+            $repairOrderQuote->setRepairOrder($this);
+        }
 
         return $this;
     }
