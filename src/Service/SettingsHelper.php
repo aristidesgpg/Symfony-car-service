@@ -17,18 +17,18 @@ class SettingsHelper
     use iServiceLoggerTrait;
 
     const VALID_SETTINGS = [
-        'phase1' => [
-            'default_value' => '60',
-            'front_end' => '',
-        ],
-        'phase2' => [
-            'default_value' => '60',
-            'front_end' => '',
-        ],
-        'phase3' => [
-            'default_value' => '60',
-            'front_end' => '',
-        ],
+//        'phase1' => [
+//            'default_value' => '60',
+//            'front_end' => '',
+//        ],
+//        'phase2' => [
+//            'default_value' => '60',
+//            'front_end' => '',
+//        ],
+//        'phase3' => [
+//            'default_value' => '60',
+//            'front_end' => '',
+//        ],
         'techAppUsername' => [
             'default_value' => 'iService',
             'front_end' => 'iService App > App Username',
