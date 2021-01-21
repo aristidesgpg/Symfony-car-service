@@ -282,6 +282,9 @@ class RepairOrderHelper {
         $customer = $this->customers->findByPhone($params['customerPhone']);
         if ($customer !== null) {
             $customer->setName($params['customerName']);
+            if($params['customerEmail'])
+                $customer->setName($params['customerEmail']);
+            
             $this->customerHelper->commitCustomer($customer);
 
             return $customer;
@@ -301,6 +304,7 @@ class RepairOrderHelper {
         $map    = [
             'customerName'           => 'name',
             'customerPhone'          => 'phone',
+            'customerEmail'          => 'email',
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];

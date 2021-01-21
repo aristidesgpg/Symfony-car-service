@@ -301,6 +301,7 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
      * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="customerEmail", type="string", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
