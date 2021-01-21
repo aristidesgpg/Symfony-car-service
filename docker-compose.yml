@@ -22,5 +22,7 @@ services:
         - MYSQL_ROOT_PASSWORD=password
         - MYSQL_PASSWORD=password
         - MYSQL_DATABASE=iservice3
+      volumes:
+        - ./docker/app/my.cnf:/etc/mysql/my.cnf # copy my.cnf
       ports:
         - "3307:3306" #bind port
