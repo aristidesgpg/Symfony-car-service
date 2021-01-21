@@ -122,6 +122,11 @@ class CheckInController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
+        // Invalid page limit
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
+        }
+
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
             $sortField = $request->query->get('sortField');
 

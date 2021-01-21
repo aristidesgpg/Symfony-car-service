@@ -43,7 +43,7 @@ class CheckInControllerTest extends WebTestCase
         $page      = 1;
         $pageLimit = 0;
         $this->requestList($page, $pageLimit);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     private function requestList($page=null, $pageLimit=null) {
