@@ -26,6 +26,7 @@ use Swagger\Annotations as SWG;
  */
 class RepairOrderMPIController extends AbstractFOSRestController {
     use iServiceLoggerTrait;
+    private const PAGE_LIMIT = 100;
 
     /**
      * @Rest\Post("/api/repair-order-mpi")

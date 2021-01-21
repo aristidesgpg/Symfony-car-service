@@ -23,43 +23,24 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * Class RepairOrderController
- *
- * @package App\Controller
- *
  * @Rest\Route("/api/repair-order")
  * @SWG\Tag(name="Repair Order")
  */
-class RepairOrderController extends AbstractFOSRestController {
+class RepairOrderController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 50;
 
     use FalsyTrait;
 
     /**
      * @Rest\Get(name="getRepairOrders")
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(
-     *         type="object",
-     *         @SWG\Property(
-     *             property="items",
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
-     *         ),
-     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
-     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
-     *         @SWG\Property(property="total", type="integer", description="Total number of items for query")
-     *     )
-     * )
-     * @SWG\Response(response="404", description="Invalid page parameter")
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
@@ -112,24 +93,69 @@ class RepairOrderController extends AbstractFOSRestController {
      *     description="Get ROs created before supplied date-time",
      *     in="query"
      * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     * @SWG\Parameter(
+     *     name="searchField",
+     *     type="string",
+     *     description="The name of search field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search",
+     *     in="query"
+     * )
      *
-     * @param Request               $request
-     * @param RepairOrderRepository $repairOrderRepo
-     * @param PaginatorInterface    $paginator
-     *
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param UserRepository        $userRepo
-     *
-     * @return Response
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="items",
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     *         ),
+     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
+     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
+     *         @SWG\Property(property="total", type="integer", description="Total number of items for query")
+     *     )
+     * )
+     * @SWG\Response(response="404", description="Invalid page parameter")
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      */
-    public function getAll (Request $request, RepairOrderRepository $repairOrderRepo, PaginatorInterface $paginator,
-                            UrlGeneratorInterface $urlGenerator, UserRepository $userRepo): Response {
-        $page            = $request->query->getInt('page', 1);
-        $startDate       = $request->query->get('startDate');
-        $endDate         = $request->query->get('endDate');
-        $urlParameters   = [];
+    public function getAll(
+        Request $request,
+        RepairOrderRepository $repairOrderRepo,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        UserRepository $userRepo,
+        EntityManagerInterface $em
+    ): Response {
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $urlParameters = [];
         $queryParameters = [];
-        $errors          = [];
+        $errors = [];
+        $sortField = '';
+        $sortDirection = '';
+        $searchField = '';
+        $searchTerm = '';
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -156,12 +182,12 @@ class RepairOrderController extends AbstractFOSRestController {
         }
 
         if ($request->query->has('waiter')) {
-            $qb->andWhere("ro.waiter = :waiter");
+            $qb->andWhere('ro.waiter = :waiter');
             $queryParameters['waiter'] = $this->paramToBool($request->query->get('waiter'));
         }
 
         if ($request->query->has('internal')) {
-            $qb->andWhere("ro.internal = :internal");
+            $qb->andWhere('ro.internal = :internal');
             $queryParameters['internal'] = $this->paramToBool($request->query->get('internal'));
         }
 
@@ -173,24 +199,56 @@ class RepairOrderController extends AbstractFOSRestController {
         if ($startDate && $endDate) {
             try {
                 $startDate = new DateTime($startDate);
-                $endDate   = new DateTime($endDate);
+                $endDate = new DateTime($endDate);
 
-                $qb->andWhere("ro.dateCreated BETWEEN :startDate AND :endDate");
+                $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate');
                 $queryParameters['startDate'] = $startDate;
-                $queryParameters['endDate']   = $endDate;
+                $queryParameters['endDate'] = $endDate;
             } catch (Exception $e) {
                 $errors['date'] = 'Invalid date format';
             }
+        }
+
+        //get all field names of RepairOrder Entity
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
+
+            $sortDirection = $request->query->get('sortDirection');
+        }
+
+        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
+            $searchField = $request->query->get('searchField');
+
+            //check if the searchField exist
+            if (!in_array($searchField, $columns)) {
+                $errors['searchField'] = 'Invalid search field name';
+            }
+
+            $searchTerm = $request->query->get('searchTerm');
         }
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }
 
+        if ($searchTerm) {
+            $qb->andWhere('ro.'.$searchField.' LIKE :searchTerm');
+            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+
+            $urlParameters['searchField'] = $searchField;
+        }
+
         $user = $this->getUser();
         if ($user instanceof User) {
             if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
-                if ($user->getShareRepairOrders() === true) {
+                if ($user->getShareRepairOrders()) {
                     $qb->andWhere('ro.primaryAdvisor IN (:users)');
                     $queryParameters['users'] = $userRepo->getSharedUsers();
                 } else {
@@ -203,33 +261,47 @@ class RepairOrderController extends AbstractFOSRestController {
             }
         }
 
+        if ($sortDirection) {
+            $qb->orderBy('ro.'.$sortField, $sortDirection);
+
+            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortDirection'] = $sortDirection;
+        }
+
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
 
         $items = $q->getResult();
-        foreach($items as $item){
-            if($item->getRepairOrderQuote() && $item->getRepairOrderQuote()->getDeleted()){
+        foreach ($items as $item) {
+            if ($item->getRepairOrderQuote() && $item->getRepairOrderQuote()->getDeleted()) {
                 $item->setRepairOrderQuote(null);
             }
         }
 
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         if ($pageLimit < 1) {
-            return $this->handleView($this->view('Page limit must be a non-zero positive integer', Response::HTTP_NOT_ACCEPTABLE));
+            return $this->handleView(
+                $this->view('Page limit must be a non-zero positive integer', Response::HTTP_NOT_ACCEPTABLE)
+            );
         }
 
         $urlParameters += $queryParameters;
-        $pager         = $paginator->paginate($items, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+        if ($searchTerm) {
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+        $pager = $paginator->paginate($items, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view = $this->view([
-            'repairOrders' => $pager->getItems(),
-            'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters)
-        ]);
+        $view = $this->view(
+            [
+                'repairOrders' => $pager->getItems(),
+                'totalResults' => $pagination->totalResults,
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
+            ]
+        );
+
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
         return $this->handleView($view);
@@ -237,23 +309,22 @@ class RepairOrderController extends AbstractFOSRestController {
 
     /**
      * @Rest\Get("/{id}", name="getRepairOrder")
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
      *     @SWG\Schema(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder $ro
-     *
-     * @return Response
      */
-    public function getOne (RepairOrder $ro): Response {
+    public function getOne(RepairOrder $ro): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        if($ro->getRepairOrderQuote() && $ro->getRepairOrderQuote()->getDeleted())
-           $ro->setRepairOrderQuote(null);
+        if ($ro->getRepairOrderQuote() && $ro->getRepairOrderQuote()->getDeleted()) {
+            $ro->setRepairOrderQuote(null);
+        }
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -263,25 +334,22 @@ class RepairOrderController extends AbstractFOSRestController {
 
     /**
      * @Rest\Get("/link-hash/{linkHash}", name="getRepairOrderByLinkHash")
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
      *     @SWG\Schema(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param string                $linkHash
-     * @param RepairOrderRepository $repairOrderRepo
-     *
-     * @return Response
      */
-    public function getByLinkHash (string $linkHash, RepairOrderRepository $repairOrderRepo): Response {
-        if (!$linkHash){
+    public function getByLinkHash(string $linkHash, RepairOrderRepository $repairOrderRepo): Response
+    {
+        if (!$linkHash) {
             throw new NotFoundHttpException();
         }
 
         $repairOrder = $repairOrderRepo->findByUID($linkHash);
-        if (!$repairOrder){
+        if (!$repairOrder) {
             throw new NotFoundHttpException();
         }
 
@@ -289,10 +357,10 @@ class RepairOrderController extends AbstractFOSRestController {
             throw new NotFoundHttpException();
         }
 
-        if($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()){
+        if ($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()) {
             $repairOrder->setRepairOrderQuote(null);
         }
-        
+
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -301,20 +369,12 @@ class RepairOrderController extends AbstractFOSRestController {
 
     /**
      * @Rest\Post
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
-     * )
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
      * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
-     *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
-     *
      * @SWG\Parameter(name="number", type="string", in="formData", required=true)
      * @SWG\Parameter(name="startValue", type="number", in="formData")
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
@@ -331,62 +391,57 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
      *
-     * @param Request                           $req
-     * @param RepairOrderHelper                 $helper
-     * @param RepairOrderInteractionRepository  $roInteractionRepo
-     * @param EntityManagerInterface            $em
-     * @param TwilioHelper                      $twilioHelper
-     * @param ShortUrlHelper                    $shortUrlHelper
-     * @param SettingsHelper                    $settingsHelper
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     * )
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
-     * @return Response
+     * @throws Exception
      */
-    public function add (Request $req, RepairOrderHelper $helper, 
-                         RepairOrderInteractionRepository $roInteractionRepo,
-                         EntityManagerInterface $em, TwilioHelper $twilioHelper, 
-                         ShortUrlHelper $shortUrlHelper, SettingsHelper $settingsHelper): Response {
+    public function add(
+        Request $req,
+        RepairOrderHelper $helper,
+        RepairOrderInteractionRepository $roInteractionRepo,
+        EntityManagerInterface $em,
+        TwilioHelper $twilioHelper,
+        ShortUrlHelper $shortUrlHelper,
+        SettingsHelper $settingsHelper,
+        ParameterBagInterface $parameterBag
+    ): Response {
         $ro = $helper->addRepairOrder($req->request->all());
+        $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
+        $waiverMessageText = $settingsHelper->getSetting('waiverEstimateText');
+        $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
+        $customerURL = $parameterBag->get('CUSTOMER_URL');
+
         if (is_array($ro)) {
             return new ValidationResponse($ro);
         }
-        
-        $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
-        if (!$waiverActivateAuthMessage) {
-            // waiver disabled
-            $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
-            // $twilioHelper->sendSms($ro->getPrimaryCustomer->getPhone(), $welcomeMessage);
-        }
-        else {
+
+        if ($waiverActivateAuthMessage) {
+            // waiver disabled so send regular text
+            $twilioHelper->sendSms($ro->getPrimaryCustomer()->getPhone(), $welcomeMessage);
+        } else {
             // waiver enabled
-            $url = rtrim($_SERVER['CUSTOMER_URL'], '/') . '/' . $ro->getLinkHash();
+            $url = $customerURL.'/'.$ro->getLinkHash();
             $shortUrl = $shortUrlHelper->generateShortUrl($url);
             try {
-                $message = 'Welcome to waiver!';
-                $phone   = $ro->getPrimaryCustomer()->getPhone();
-                $shortUrlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
-            } catch (\Exception $e) {
+                $phone = $ro->getPrimaryCustomer()->getPhone();
+                $shortUrlHelper->sendShortenedLink($phone, $waiverMessageText, $shortUrl, true);
+            } catch (Exception $e) {
                 throw new Exception($e);
             }
-        }
 
-
-        // Add an interaction waiver_sent
-        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
-
-        if ($roInteraction) // if in db
-        {
-            $roInteraction->setType("Waiver Sent");
-        }
-        else { // if not in db
             $roInteraction = new RepairOrderInteraction();
             $roInteraction->setRepairOrder($ro)
-                           ->setCustomer($ro->getPrimaryCustomer())
-                           ->setUser($this->getUser())
-                           ->setType("Waiver Sent")
-                           ->setDate();
+                          ->setUser($this->getUser())
+                          ->setType("Waiver Sent")
+                          ->setDate();
+            $em->persist($roInteraction);
+            $em->flush();
         }
-        $em->persist($roInteraction);
-        $em->flush();
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -396,17 +451,9 @@ class RepairOrderController extends AbstractFOSRestController {
 
     /**
      * @Rest\Put("/{id}")
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
-     * )
-     * @SWG\Response(response="404", description="RO does not exist")
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
-     *
      * @SWG\Parameter(name="startValue", type="number", in="formData")
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
      * @SWG\Parameter(name="internal", type="boolean", in="formData")
@@ -422,13 +469,18 @@ class RepairOrderController extends AbstractFOSRestController {
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
      *
-     * @param RepairOrder       $ro
-     * @param Request           $req
-     * @param RepairOrderHelper $helper
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     * )
+     * @SWG\Response(response="404", description="RO does not exist")
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @return Response
      */
-    public function update (RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response {
+    public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -442,10 +494,10 @@ class RepairOrderController extends AbstractFOSRestController {
 
         return $this->handleView($view);
     }
-    
+
     /**
      * @Rest\Patch("/{id}/waiver/signed")
-     * 
+     *
      * @SWG\Parameter(name="signature", type="string", in="formData", required=true)
      * @SWG\Response(
      *     response="200",
@@ -456,30 +508,28 @@ class RepairOrderController extends AbstractFOSRestController {
      *     response="400",
      *     description="Required missing parameter",
      * )
-     * 
-     * @param Request                          $request
-     * @param RepairOrder                      $ro
-     * @param RepairOrderHelper                $helper
-     * @param SettingsHelper                   $settingsHelper
-     * @param TwilioHelper                     $twilioHelper
-     * @param RepairOrderInteractionRepository $roInteractionRepo
-     * @param EntityManagerInterface           $em
-     * 
-     * @return response
+     *
+     * @return Response
      */
-    public function waiverSigned (RepairOrder $ro, Request $req, RepairOrderHelper $helper, SettingsHelper $settingsHelper, 
-                            TwilioHelper $twilioHelper, RepairOrderInteractionRepository $roInteractionRepo, EntityManagerInterface $em){
+    public function waiverSigned(
+        RepairOrder $ro,
+        Request $req,
+        RepairOrderHelper $helper,
+        SettingsHelper $settingsHelper,
+        RepairOrderInteractionRepository $roInteractionRepo,
+        EntityManagerInterface $em
+    ) {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
         $signature = $req->get('signature');
 
-        if (!$signature){
+        if (!$signature) {
             return $this->handleView($this->view('Input signature', Response::HTTP_BAD_REQUEST));
         }
 
-        if ( base64_encode(base64_decode($signature, true)) === $signature){
+        if (base64_encode(base64_decode($signature, true)) === $signature) {
             // $signature is valid
         } else {
             // $signature is invalid
@@ -494,25 +544,25 @@ class RepairOrderController extends AbstractFOSRestController {
         }
 
         // Add an interaction Waiver Signed
-        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+        $roInteraction = $roInteractionRepo->findOneBy(
+            ['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]
+        );
 
-        if ($roInteraction)
-        {
+        if ($roInteraction) {
             $roInteraction->setType("Waiver Signed");
-        }
-        else {
+        } else {
             $roInteraction = new RepairOrderInteraction();
             $roInteraction->setRepairOrder($ro)
-                           ->setCustomer($ro->getPrimaryCustomer())
-                           ->setUser($this->getUser())
-                           ->setType("Waiver Signed")
-                           ->setDate(); 
+                          ->setCustomer($ro->getPrimaryCustomer())
+                          ->setUser($this->getUser())
+                          ->setType("Waiver Signed")
+                          ->setDate();
         }
         $em->persist($roInteraction);
         $em->flush();
 
         // $welcomeMessage = $settingsHelper->getSetting('previewSalesVideoText');
-        
+
         // $twilioHelper->sendSms($ro->getPrimaryCustomer->getPhone(), $welcomeMessage);
 
         $view = $this->view($ro);
@@ -523,39 +573,43 @@ class RepairOrderController extends AbstractFOSRestController {
 
     /**
      * @Rest\Post("/{id}/waiver/viewed")
-     * 
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Add an interaction Waiver Viewed",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
      * )
-     * 
+     *
      * @param Request                          $request
      * @param RepairOrder                      $ro
      * @param RepairOrderInteractionRepository $roInteractionRepo
      * @param EntityManagerInterface           $em
-     * 
+     *
      * @return response
      */
-    public function waiverViewed (RepairOrder $ro, RepairOrderInteractionRepository $roInteractionRepo, EntityManagerInterface $em){
+    public function waiverViewed(
+        RepairOrder $ro,
+        RepairOrderInteractionRepository $roInteractionRepo,
+        EntityManagerInterface $em
+    ) {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
         // Add an interaction Waiver Viewed
-        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+        $roInteraction = $roInteractionRepo->findOneBy(
+            ['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]
+        );
 
-        if ($roInteraction)
-        {
+        if ($roInteraction) {
             $roInteraction->setType("Waiver Viewed");
-        }
-        else {
+        } else {
             $roInteraction = new RepairOrderInteraction();
             $roInteraction->setRepairOrder($ro)
-                           ->setCustomer($ro->getPrimaryCustomer())
-                           ->setUser($this->getUser())
-                           ->setType("Waiver Viewed")
-                           ->setDate(); 
+                          ->setCustomer($ro->getPrimaryCustomer())
+                          ->setUser($this->getUser())
+                          ->setType("Waiver Viewed")
+                          ->setDate();
         }
         $em->persist($roInteraction);
         $em->flush();
@@ -568,39 +622,43 @@ class RepairOrderController extends AbstractFOSRestController {
 
     /**
      * @Rest\Post("/{id}/waiver/acknowledged")
-     * 
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Add an interaction Waiver Acknowledged",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
      * )
-     * 
+     *
      * @param Request                          $request
      * @param RepairOrder                      $ro
      * @param RepairOrderInteractionRepository $roInteractionRepo
      * @param EntityManagerInterface           $em
-     * 
+     *
      * @return response
      */
-    public function waiverAcknowledged  (RepairOrder $ro, RepairOrderInteractionRepository $roInteractionRepo, EntityManagerInterface $em){
+    public function waiverAcknowledged(
+        RepairOrder $ro,
+        RepairOrderInteractionRepository $roInteractionRepo,
+        EntityManagerInterface $em
+    ) {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
         // Add an interaction Waiver Acknowledged
-        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+        $roInteraction = $roInteractionRepo->findOneBy(
+            ['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]
+        );
 
-        if ($roInteraction)
-        {
+        if ($roInteraction) {
             $roInteraction->setType("Waiver Acknowledged");
-        }
-        else {
+        } else {
             $roInteraction = new RepairOrderInteraction();
             $roInteraction->setRepairOrder($ro)
-                           ->setCustomer($ro->getPrimaryCustomer())
-                           ->setUser($this->getUser())
-                           ->setType("Waiver Acknowledged")
-                           ->setDate(); 
+                          ->setCustomer($ro->getPrimaryCustomer())
+                          ->setUser($this->getUser())
+                          ->setType("Waiver Acknowledged")
+                          ->setDate();
         }
         $em->persist($roInteraction);
         $em->flush();
@@ -613,44 +671,47 @@ class RepairOrderController extends AbstractFOSRestController {
 
     /**
      * @Rest\Post("/{id}/waiver/re-send")
-     * 
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Add an interaction Waiver Resent",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
      * )
      * @SWG\Response(response="400", description="Waiver is already signed")
-     * 
+     *
      * @param Request                          $request
      * @param RepairOrder                      $ro
      * @param RepairOrderInteractionRepository $roInteractionRepo
      * @param EntityManagerInterface           $em
-     * 
+     *
      * @return response
      */
-    public function waiverResend (RepairOrder $ro, RepairOrderInteractionRepository $roInteractionRepo, EntityManagerInterface $em){
+    public function waiverResend(
+        RepairOrder $ro,
+        RepairOrderInteractionRepository $roInteractionRepo,
+        EntityManagerInterface $em
+    ) {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
         // Add an interaction Waiver Resent
-        $roInteraction = $roInteractionRepo->findOneBy(['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+        $roInteraction = $roInteractionRepo->findOneBy(
+            ['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]
+        );
 
-        if ($roInteraction)
-        {
-            if ($roInteraction->getType() === "Waiver Signed")
-            {
+        if ($roInteraction) {
+            if ($roInteraction->getType() === "Waiver Signed") {
                 return $this->handleView($this->view('Waiver is already signed', Response::HTTP_BAD_REQUEST));
             }
             $roInteraction->setType("Waiver Resent");
-        }
-        else {
+        } else {
             $roInteraction = new RepairOrderInteraction();
             $roInteraction->setRepairOrder($ro)
-                           ->setCustomer($ro->getPrimaryCustomer())
-                           ->setUser($this->getUser())
-                           ->setType("Waiver Resent")
-                           ->setDate(); 
+                          ->setCustomer($ro->getPrimaryCustomer())
+                          ->setUser($this->getUser())
+                          ->setType("Waiver Resent")
+                          ->setDate();
         }
         $em->persist($roInteraction);
         $em->flush();
@@ -671,15 +732,20 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function delete (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function delete(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
         $helper->deleteRepairOrder($ro);
 
-        return $this->handleView($this->view([
-            'message' => 'RO Deleted',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RO Deleted',
+                ]
+            )
+        );
     }
 
     /**
@@ -693,20 +759,30 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function archive (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function archive(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
         if ($ro->isArchived() === true) {
-            return $this->handleView($this->view([
-                'message' => 'RO already archived',
-            ], Response::HTTP_BAD_REQUEST));
+            return $this->handleView(
+                $this->view(
+                    [
+                        'message' => 'RO already archived',
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                )
+            );
         }
         $helper->archiveRepairOrder($ro);
 
-        return $this->handleView($this->view([
-            'message' => 'RO Archived',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RO Archived',
+                ]
+            )
+        );
     }
 
     /**
@@ -720,19 +796,29 @@ class RepairOrderController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function close (RepairOrder $ro, RepairOrderHelper $helper): Response {
+    public function close(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
         if ($ro->isClosed() === true) {
-            return $this->handleView($this->view([
-                'message' => 'RO already closed',
-            ], Response::HTTP_BAD_REQUEST));
+            return $this->handleView(
+                $this->view(
+                    [
+                        'message' => 'RO already closed',
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                )
+            );
         }
         $helper->closeRepairOrder($ro);
 
-        return $this->handleView($this->view([
-            'message' => 'RO Closed',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RO Closed',
+                ]
+            )
+        );
     }
 }

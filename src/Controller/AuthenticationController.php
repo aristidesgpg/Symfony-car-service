@@ -12,6 +12,7 @@ use App\Service\SettingsHelper;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -70,7 +71,8 @@ class AuthenticationController extends AbstractFOSRestController {
      *                  type="array",
      *                  description="Array of user roles granted",
      *                  @SWG\Items(type="string", description="ex: ROLE_ADVISOR")
-     *             )
+     *             ),
+     *             @SWG\Property(property="user", ref=@Model(type=User::class, groups={"user_list"}))
      *         )
      * )
      * @SWG\Response(

@@ -26,8 +26,20 @@ class CustomerRepository extends ServiceEntityRepository {
      *
      * @return Query
      */
-    public function findAllActive (?User $user = null): Query {
-        return $this->getBaseQueryBuilder($user)->getQuery();
+    public function findAllActive (?User $user = null, $sortField = null,  $sortDirection = null,  $searchField = null,  $searchTerm = null ): Query {
+        $qb = $this->getBaseQueryBuilder($user);
+
+        if($searchTerm)
+        {
+            $qb->andWhere('c.'.$searchField.' LIKE :searchTerm')
+               ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        }
+
+        if($sortDirection){
+            $qb->orderBy('c.'.$sortField, $sortDirection);
+        }
+
+        return $qb->getQuery();
     }
 
     /**
