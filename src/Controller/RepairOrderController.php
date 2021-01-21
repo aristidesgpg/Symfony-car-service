@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
-use App\Entity\RepairOrderNote;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
@@ -11,7 +10,6 @@ use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
-use App\Service\RONoteHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -304,10 +302,6 @@ class RepairOrderController extends AbstractFOSRestController
      *     @SWG\Schema(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder $ro
-     *
-     * @return Response
      */
     public function getOne(RepairOrder $ro): Response
     {
@@ -332,11 +326,6 @@ class RepairOrderController extends AbstractFOSRestController
      *     @SWG\Schema(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param string                $linkHash
-     * @param RepairOrderRepository $repairOrderRepo
-     *
-     * @return Response
      */
     public function getByLinkHash(string $linkHash, RepairOrderRepository $repairOrderRepo): Response
     {
@@ -383,7 +372,6 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="startValue", type="number", in="formData")
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
      * @SWG\Parameter(name="internal", type="boolean", in="formData")
-     * @SWG\Parameter(name="note", type="string", in="formData")
      * @SWG\Parameter(name="finalValue", type="number", in="formData")
      * @SWG\Parameter(name="approvedValue", type="number", in="formData")
      * @SWG\Parameter(name="pickupDate", type="string", format="date-time", in="formData")
@@ -394,11 +382,6 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     *
-     * @param Request           $req
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
     public function add(Request $req, RepairOrderHelper $helper): Response
     {
@@ -422,14 +405,11 @@ class RepairOrderController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
-     *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
-     *
      * @SWG\Parameter(name="startValue", type="number", in="formData")
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
      * @SWG\Parameter(name="internal", type="boolean", in="formData")
-     * @SWG\Parameter(name="note", type="string", in="formData")
      * @SWG\Parameter(name="finalValue", type="number", in="formData")
      * @SWG\Parameter(name="approvedValue", type="number", in="formData")
      * @SWG\Parameter(name="pickupDate", type="string", format="date-time", in="formData")
@@ -440,12 +420,6 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     *
-     * @param RepairOrder       $ro
-     * @param Request           $req
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
     {
@@ -465,13 +439,9 @@ class RepairOrderController extends AbstractFOSRestController
 
     /**
      * @Rest\Delete("/{id}")
+     *
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder       $ro
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
     public function delete(RepairOrder $ro, RepairOrderHelper $helper): Response
     {
@@ -494,11 +464,6 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="RO is already archived")
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder       $ro
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
     public function archive(RepairOrder $ro, RepairOrderHelper $helper): Response
     {
@@ -531,11 +496,6 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="RO is already closed")
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder       $ro
-     * @param RepairOrderHelper $helper
-     *
-     * @return Response
      */
     public function close(RepairOrder $ro, RepairOrderHelper $helper): Response
     {
