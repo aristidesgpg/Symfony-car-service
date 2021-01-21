@@ -78,5 +78,4 @@ class UserHelper {
     public function passwordEncoder (User $user, string $password) {
         return $this->passwordEncoder->encodePassword($user, $password);
     }
-
 }
