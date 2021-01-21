@@ -324,32 +324,6 @@ class ServiceSMSController extends AbstractFOSRestController {
      *     description="Page Limit",
      *     in="query"
      * )
-     * @SWG\Parameter(
-     *     name="sortField",
-     *     type="string",
-     *     description="The name of sort field",
-     *     in="query"
-     * )
-     *  @SWG\Parameter(
-     *     name="sortDirection",
-     *     type="string",
-     *     description="The direction of sort",
-     *     in="query",
-     *     enum={"ASC", "DESC"}
-     * )
-     *  @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
-     *     name="searchTerm",
-     *     type="string",
-     *     description="The value of search",
-     *     in="query"
-     * )
-     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return Threads",
@@ -369,75 +343,29 @@ class ServiceSMSController extends AbstractFOSRestController {
      *     description="Invalid page parameter"
      * )
      * 
-     * @param Request               $request
-     * @param ServiceSMSRepository  $serviceSMSRepos
-     * @param PaginatorInterface    $paginator
-     * @param UrlGeneratorInterface $urlGenerator
+     * @param Request                $request
+     * @param ServiceSMSRepository   $serviceSMSRepos
+     * @param PaginatorInterface     $paginator
+     * @param UrlGeneratorInterface  $urlGenerator
+     * @param EntityManagerInterface $em
      * 
      * @return Response
      */
     public function getThreads (
-        Request               $request,
-        ServiceSMSRepository  $serviceSMSRepos,
-        PaginatorInterface    $paginator,
-        UrlGeneratorInterface $urlGenerator
+        Request                $request,
+        ServiceSMSRepository   $serviceSMSRepos,
+        PaginatorInterface     $paginator,
+        UrlGeneratorInterface  $urlGenerator,
+        EntityManagerInterface $em
      ) {
         $page              = $request->query->getInt('page', 1);
         $user              = $this->getUser();
         $role              = $user->getRoles();
         $shareRepairOrders = $user->getShareRepairOrders();
-
-        
         $pageLimit         = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $urlParameters     = [];
-        $sortField         = "";
-        $sortDirection     = "";
-        $searchField       = "";
-        $searchTerm        = "";      
-        $errors            = [];            
-        $searchQeury       = "" ;
-        $orderQuery        = "ss.date DESC"; 
 
         if ($page < 1) {
             throw new NotFoundHttpException();
-        }
-
-        $em         = $this->getDoctrine()->getManager();
-        $columns = $em->getClassMetadata('App\Entity\ServiceSMS')->getFieldNames();
-
-        if($request->query->has('sortField') && $request->query->has('sortDirection'))
-        {
-            $sortField                      = $request->query->get('sortField');
-            
-            //check if the sortfield exist
-            if(!in_array($sortField, $columns))
-                $errors['sortField'] = 'Invalid sort field name';
-            
-            $sortDirection                  = $request->query->get('sortDirection');
-
-            $urlParameters['sortDirection'] = $sortDirection;
-            $urlParameters['sortField']     = $sortField;
-            $orderQuery = "ss." . $sortField . ' ' . $sortDirection;
-
-        }
-
-        if($request->query->has('searchField') && $request->query->has('searchTerm'))
-        {
-            $searchField                    = $request->query->get('searchField');
-           
-            //check if the searchfield exist
-            if(!in_array($searchField, $columns))
-                $errors['searchField']      = 'Invalid search field name';
-
-            $searchTerm  = $request->query->get('searchTerm');
-
-            $urlParameters['searchField']   = $searchField;
-            $urlParameters['searchTerm']    = $searchTerm;
-            $searchQeury = " Where ss." . $searchField . " like '%" . $searchTerm . "%'";
-        }
-
-        if (!empty($errors)) {
-            return new ValidationResponse($errors);
         }
 
         if($role[0] == "ROLE_ADMIN" || $role[0] == "ROLE_SERVICE_MANAGER"){                         
@@ -465,15 +393,12 @@ class ServiceSMSController extends AbstractFOSRestController {
             return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
         }
 
-        if($searchQeury)
-            $threadQuery .= $searchQeury;
-        $threadQuery .= " group by ss.user_id, ss.customer_id
-        order by " . $orderQuery;
+        $threadQuery .= " group by ss.user_id, ss.customer_id order by ss.is_read ASC, ss.date DESC";
 
         $statement  = $em->getConnection()->prepare($threadQuery);
         $statement->execute();
  
-        $pager      = $paginator->paginate( $statement->fetchAll() , $page, $pageLimit);
+        $pager      = $paginator->paginate($threadQuery , $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
