@@ -34,7 +34,7 @@ class RepairOrderTeamController extends AbstractFOSRestController
      *     name="userID",
      *     type="integer",
      *     in="formData",
-     *     description="User ID",
+     *     description="User ID. Must be a service advisor, technician, or parts advisor",
      *     required=true
      * )
      *
