@@ -183,12 +183,6 @@ class RepairOrder {
     private $upgradeQue = false;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     * @Serializer\Groups(groups={"ro_list"})
-     */
-    private $note;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $deleted = false;
@@ -209,6 +203,12 @@ class RepairOrder {
      * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderVideo", mappedBy="repairOrder")
      */
     private $videos;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderNote", mappedBy="repairOrder")
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $notes;
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrderQuote::class, mappedBy="repairOrder", cascade={"persist", "remove"})
@@ -707,24 +707,6 @@ class RepairOrder {
     }
 
     /**
-     * @return string|null
-     */
-    public function getNote (): ?string {
-        return $this->note;
-    }
-
-    /**
-     * @param string|null $note
-     *
-     * @return $this
-     */
-    public function setNote (?string $note): self {
-        $this->note = $note;
-
-        return $this;
-    }
-
-    /**
      * @return bool|null
      */
     public function getDeleted (): ?bool {
@@ -781,8 +763,13 @@ class RepairOrder {
         return $this->repairOrderQuote;
     }
 
-    public function setRepairOrderQuote(RepairOrderQuote $repairOrderQuote): self
+    public function setRepairOrderQuote($repairOrderQuote): self
     {
+        if($repairOrderQuote === null)
+        {
+            $this->repairOrderQuote = null;
+            return $this;
+        }
         $this->repairOrderQuote = $repairOrderQuote;
 
         // set the owning side of the relation if necessary
@@ -802,6 +789,19 @@ class RepairOrder {
 
     public function addVideo(RepairOrderVideo $video): self {
         $this->videos->add($video);
+
+        return $this;
+    }
+
+    /**
+     * @return RepairOrderNote[]
+     */
+    public function getNotes(): array {
+        return $this->notes->toArray();
+    }
+
+    public function addNote(RepairOrderNote $note): self {
+        $this->notes->add($note);
 
         return $this;
     }
