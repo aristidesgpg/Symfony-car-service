@@ -42,12 +42,14 @@ class CustomerController extends AbstractFOSRestController
      *     description="Page Limit",
      *     in="query"
      * )
+     * 
      * @SWG\Parameter(
      *     name="sortField",
      *     type="string",
      *     description="The name of sort field",
      *     in="query"
      * )
+     * 
      * @SWG\Parameter(
      *     name="sortDirection",
      *     type="string",
@@ -55,12 +57,14 @@ class CustomerController extends AbstractFOSRestController
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
+     * 
      * @SWG\Parameter(
      *     name="searchField",
      *     type="string",
      *     description="The name of search field",
      *     in="query"
      * )
+     * 
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
