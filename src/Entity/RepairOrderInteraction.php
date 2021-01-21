@@ -29,13 +29,13 @@ class RepairOrderInteraction
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="repairOrderInteractions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="repairOrderInteractions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Serializer\Groups(groups={"ro_interaction_list"})
      */
     private $customer;

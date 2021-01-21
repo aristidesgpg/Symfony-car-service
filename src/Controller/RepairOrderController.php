@@ -414,7 +414,7 @@ class RepairOrderController extends AbstractFOSRestController
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
         $waiverMessageText = $settingsHelper->getSetting('waiverEstimateText');
         $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
-        $customerURL = $parameterBag->get('CUSTOMER_URL');
+        $customerURL = $parameterBag->get('customer_url');
 
         if (is_array($ro)) {
             return new ValidationResponse($ro);
@@ -596,28 +596,15 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        // Add an interaction Waiver Viewed
-        $roInteraction = $roInteractionRepo->findOneBy(
-            ['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]
-        );
-
-        if ($roInteraction) {
-            $roInteraction->setType("Waiver Viewed");
-        } else {
-            $roInteraction = new RepairOrderInteraction();
-            $roInteraction->setRepairOrder($ro)
-                          ->setCustomer($ro->getPrimaryCustomer())
-                          ->setUser($this->getUser())
-                          ->setType("Waiver Viewed")
-                          ->setDate();
-        }
+        $roInteraction = new RepairOrderInteraction();
+        $roInteraction->setRepairOrder($ro)
+                      ->setCustomer($ro->getPrimaryCustomer())
+                      ->setType("Waiver Viewed")
+                      ->setDate();
         $em->persist($roInteraction);
         $em->flush();
 
-        $view = $this->view($roInteraction);
-        $view->getContext()->setGroups(RepairOrderInteraction::GROUPS);
-
-        return $this->handleView($view);
+        return $this->handleView($this->view('Waiver marked as viewed', Response::HTTP_OK));
     }
 
     /**
