@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use App\Repository\RepairOrderRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
+/**
+ * @ORM\Entity(repositoryClass=RepairOrderRepository::class)
+ */
 class RepairOrder
 {
     public const GROUPS = ['ro_list', 'customer_list', 'user_list', 'roq_list', 'rot_list'];
@@ -218,7 +222,7 @@ class RepairOrder
      * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="repairOrder", orphanRemoval=true)
      * @Serializer\Groups(groups={"ro_list"})
      */
-    private $repairOrderTeams;
+    private $repairOrderTeam;
 
     /**
      * RepairOrder constructor.
@@ -227,7 +231,7 @@ class RepairOrder
     {
         $this->dateCreated = new DateTime();
         $this->videos = new ArrayCollection();
-        $this->repairOrderTeams = new ArrayCollection();
+        $this->repairOrderTeam = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -640,15 +644,15 @@ class RepairOrder
         return $this;
     }
 
-    public function getRepairOrderTeams(): Collection
+    public function getRepairOrderTeam(): Collection
     {
-        return $this->repairOrderTeams;
+        return $this->repairOrderTeam;
     }
 
     public function addRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
     {
-        if (!$this->repairOrderTeams->contains($repairOrderTeam)) {
-            $this->repairOrderTeams[] = $repairOrderTeam;
+        if (!$this->repairOrderTeam->contains($repairOrderTeam)) {
+            $this->repairOrderTeam[] = $repairOrderTeam;
             $repairOrderTeam->setRepairOrder($this);
         }
 
@@ -657,8 +661,8 @@ class RepairOrder
 
     public function removeRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
     {
-        if ($this->repairOrderTeams->contains($repairOrderTeam)) {
-            $this->repairOrderTeams->removeElement($repairOrderTeam);
+        if ($this->repairOrderTeam->contains($repairOrderTeam)) {
+            $this->repairOrderTeam->removeElement($repairOrderTeam);
             // set the owning side to null (unless already changed)
             if ($repairOrderTeam->getRepairOrder() === $this) {
                 $repairOrderTeam->setRepairOrder(null);

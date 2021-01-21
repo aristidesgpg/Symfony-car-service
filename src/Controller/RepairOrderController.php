@@ -308,9 +308,6 @@ class RepairOrderController extends AbstractFOSRestController
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        if ($ro->getRepairOrderQuote() && $ro->getRepairOrderQuote()->getDeleted()) {
-            $ro->setRepairOrderQuote(null);
-        }
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
