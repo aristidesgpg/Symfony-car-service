@@ -336,7 +336,7 @@ class RepairOrderHelper {
             ");
         $query->execute();
         $latestRO = $query->fetchAll();
-        
+
         if (!$latestRO) {
             return [];
         }
@@ -348,7 +348,7 @@ class RepairOrderHelper {
         $start    = $latestRO - 20;
         $end      = $latestRO + 20;
         foreach (range($latestRO - 1, $start, -1) as $possibleRONumber) {
-            $exists = $this->repairOrderRepository->findOneBy(['number' => $possibleRONumber]);
+            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {
                 $suggestedRoNumbers[] = $possibleRONumber;
             }
@@ -357,7 +357,7 @@ class RepairOrderHelper {
             }
         }
         foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
-            $exists = $this->repairOrderRepository->findOneBy(['number' => $possibleRONumber]);
+            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {
                 $suggestedRoNumbers[] = $possibleRONumber;
             }
