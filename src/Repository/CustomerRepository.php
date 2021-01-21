@@ -84,24 +84,6 @@ class CustomerRepository extends ServiceEntityRepository {
     }
 
     /**
-     * @param string $phone
-     *
-     * @return Customer|null
-     */
-    public function findByEmail (string $email): ?Customer {
-        try {
-            return $this->getBaseQueryBuilder()
-                        ->andWhere('c.email = :email')
-                        ->setParameter('email', $email)
-                        ->getQuery()
-                        ->setMaxResults(1)
-                        ->getOneOrNullResult();
-        } catch (NonUniqueResultException $e) {
-            return null;
-        }
-    }
-
-    /**
      * @param User|null $user
      *
      * @return QueryBuilder
