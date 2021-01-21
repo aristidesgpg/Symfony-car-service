@@ -398,7 +398,7 @@ class ServiceSMSController extends AbstractFOSRestController {
         $statement  = $em->getConnection()->prepare($threadQuery);
         $statement->execute();
  
-        $pager      = $paginator->paginate($threadQuery , $page, $pageLimit);
+        $pager      = $paginator->paginate($statement , $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
