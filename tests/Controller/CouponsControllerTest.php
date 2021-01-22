@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 
 class CouponsControllerTest extends WebTestCase
@@ -39,7 +40,18 @@ class CouponsControllerTest extends WebTestCase
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
-        // TODO: image upload test
+        // image upload test
+        $uploadedFile = new UploadedFile(
+            dirname(__DIR__,1).'/Fixtures/uploads/testImage.jpeg',
+            'testImage.jpeg'
+        );
+        $crawler = $this->client->request('POST', '/api/coupons', ['title' => 'Qui neque veritatis omnis omnis.'], ['file' => $uploadedFile], [
+            'HTTP_Authorization' => 'Bearer '.$this->token,
+            'HTTP_CONTENT_TYPE'  => 'application/json',
+            'HTTP_ACCEPT'        => 'application/json',
+        ]);
+        
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     public function testEdit() {

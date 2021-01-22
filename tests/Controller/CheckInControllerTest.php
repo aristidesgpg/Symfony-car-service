@@ -72,10 +72,6 @@ class CheckInControllerTest extends WebTestCase
 
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
-
-        // TODO: file upload test
-        // $this->assertResponseIsSuccessful();
-        // $this->assertResponseStatusCodeSame(500);
     }
 
     /**
