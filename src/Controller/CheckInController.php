@@ -171,7 +171,7 @@ class CheckInController extends AbstractFOSRestController
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
-            'checkIns' => $pager->getItems(),
+            'results' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages' => $pagination->totalPages,
             'previous' => $pagination->getPreviousPageURL('app_checkin_list', $urlParameters),
