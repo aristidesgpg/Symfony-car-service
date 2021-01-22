@@ -641,7 +641,6 @@ class RepairOrder {
         return $this;
     }
 
-<<<<<<< HEAD
     /**
      * @return Collection|RepairOrderCustomer[]
      */
@@ -655,7 +654,11 @@ class RepairOrder {
         if (!$this->repairOrderCustomers->contains($repairOrderCustomer)) {
             $this->repairOrderCustomers[] = $repairOrderCustomer;
             $repairOrderCustomer->setRepairOrder($this);
-=======
+        }
+
+        return $this;
+    }
+
     public function getNotes(): array
     {
         return $this->notes->toArray();
@@ -678,13 +681,11 @@ class RepairOrder {
         if (!$this->repairOrderTeam->contains($repairOrderTeam)) {
             $this->repairOrderTeam[] = $repairOrderTeam;
             $repairOrderTeam->setRepairOrder($this);
->>>>>>> master
         }
 
         return $this;
     }
 
-<<<<<<< HEAD
     public function removeRepairOrderCustomer(RepairOrderCustomer $repairOrderCustomer): self
     {
         if ($this->repairOrderCustomers->contains($repairOrderCustomer)) {
@@ -692,7 +693,12 @@ class RepairOrder {
             // set the owning side to null (unless already changed)
             if ($repairOrderCustomer->getRepairOrder() === $this) {
                 $repairOrderCustomer->setRepairOrder(null);
-=======
+            }
+        }
+
+        return $this;
+    }
+
     public function removeRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
     {
         if ($this->repairOrderTeam->contains($repairOrderTeam)) {
@@ -700,7 +706,6 @@ class RepairOrder {
             // set the owning side to null (unless already changed)
             if ($repairOrderTeam->getRepairOrder() === $this) {
                 $repairOrderTeam->setRepairOrder(null);
->>>>>>> master
             }
         }
 
