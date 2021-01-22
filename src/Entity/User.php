@@ -150,6 +150,11 @@ class User implements UserInterface {
     private $repairOrderInteractions;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="user")
+     */
+    private $repairOrderTeams;
+    
+    /**
      * @ORM\OneToMany(targetEntity=InternalMessage::class, mappedBy="from")
      */
     private $internalMessages;
@@ -167,6 +172,7 @@ class User implements UserInterface {
         $this->technicianRepairOrders     = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
         $this->repairOrderInteractions    = new ArrayCollection();
+        $this->repairOrderTeams           = new ArrayCollection();
         $this->internalMessages           = new ArrayCollection();
     }
 
@@ -564,6 +570,23 @@ class User implements UserInterface {
 
         return $this;
     }
+    /**
+     * @return Collection|RepairOrderTeam[]
+     */
+    public function getRepairOrderTeams(): Collection
+    {
+        return $this->repairOrderTeams;
+    }
+
+    public function addRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
+    {
+        if (!$this->repairOrderTeams->contains($repairOrderTeam)) {
+            $this->repairOrderTeams[] = $repairOrderTeam;
+            $repairOrderTeam->setUser($this);
+        }
+
+        return $this;
+    }
 
     public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
     {
@@ -572,6 +595,19 @@ class User implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderInteraction->getUser() === $this) {
                 $repairOrderInteraction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
+    {
+        if ($this->repairOrderTeams->contains($repairOrderTeam)) {
+            $this->repairOrderTeams->removeElement($repairOrderTeam);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderTeam->getUser() === $this) {
+                $repairOrderTeam->setUser(null);
             }
         }
 

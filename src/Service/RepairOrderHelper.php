@@ -16,11 +16,6 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
-/**
- * Class RepairOrderHelper
- *
- * @package App\Service
- */
 class RepairOrderHelper
 {
     use iServiceLoggerTrait, FalsyTrait;
@@ -31,15 +26,6 @@ class RepairOrderHelper
     private $users;
     private $customerHelper;
 
-    /**
-     * RepairOrderHelper constructor.
-     *
-     * @param EntityManagerInterface $em
-     * @param RepairOrderRepository  $repo
-     * @param CustomerRepository     $customers
-     * @param UserRepository         $users
-     * @param CustomerHelper         $customerHelper
-     */
     public function __construct(
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
@@ -55,8 +41,6 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array $params
-     *
      * @return RepairOrder|array Array on validation failure
      */
     public function addRepairOrder(array $params)
@@ -68,6 +52,7 @@ class RepairOrderHelper
                 $errors[$k] = 'Required field missing';
             }
         }
+
         $ro = new RepairOrder();
         $customer = $this->handleCustomer($params);
         if ($customer instanceof Customer) {
@@ -75,14 +60,17 @@ class RepairOrderHelper
         } else {
             $errors = array_merge($errors, $customer);
         }
+
         $errors = array_merge($errors, $this->buildRO($params, $ro));
         if (!empty($errors)) {
             return $errors;
         }
-        if ($ro->getLinkHash() === null) {
+
+        if (is_null($ro->getLinkHash())) {
             $ro->setLinkHash($this->generateLinkHash($ro->getDateCreated()->format('c')));
         }
-        if ($ro->getPrimaryAdvisor() === null) {
+
+        if (is_null($ro->getPrimaryAdvisor())) {
             $advisors = $this->users->getUserByRole('ROLE_SERVICE_ADVISOR');
             $advisor = $advisors[0] ?? null;
             if (!$advisor instanceof User) {
@@ -169,6 +157,7 @@ class RepairOrderHelper
                 $ro->setPrimaryTechnician($user);
             }
         }
+
         if (isset($params['number'])) {
             if ($this->isNumberUnique($params['number'])) {
                 $ro->setNumber($params['number']);
@@ -176,18 +165,23 @@ class RepairOrderHelper
                 $errors['number'] = 'RO# already exists';
             }
         }
+
         if (isset($params['startValue'])) {
             $ro->setStartValue($params['startValue']);
         }
+
         if (isset($params['finalValue'])) {
             $ro->setFinalValue($params['finalValue']);
         }
+
         if (isset($params['approvedValue'])) {
             $ro->setApprovedValue($params['approvedValue']);
         }
+
         if (isset($params['waiter'])) {
             $ro->setWaiter($this->paramToBool($params['waiter']));
         }
+
         if (isset($params['pickupDate'])) {
             try {
                 $dt = new DateTime($params['pickupDate']);
@@ -196,38 +190,45 @@ class RepairOrderHelper
                 $errors['pickupDate'] = 'Invalid date format';
             }
         }
+
         if (isset($params['year'])) {
             $ro->setYear($params['year']);
         }
+
         if (isset($params['make'])) {
             $ro->setMake($params['make']);
         }
+
         if (isset($params['model'])) {
             $ro->setModel($params['model']);
         }
+
         if (isset($params['miles'])) {
             $ro->setMiles($params['miles']);
         }
+
         if (isset($params['vin'])) {
             $ro->setVin($params['vin']);
         }
+
         if (isset($params['internal'])) {
             $ro->setInternal($this->paramToBool($params['internal']));
         }
+
         if (isset($params['dmsKey'])) {
             $ro->setDmsKey($params['dmsKey']);
         }
+
         if (isset($params['waiver'])) {
             $ro->setWaiver($params['waiver']);
         }
+
         if (isset($params['waiverVerbiage'])) {
             $ro->setWaiverVerbiage($params['waiverVerbiage']);
         }
+
         if (isset($params['upgradeQue'])) {
             $ro->setUpgradeQue($this->paramToBool($params['upgradeQue']));
-        }
-        if (isset($params['note'])) {
-            $ro->setNote($params['note']);
         }
 
         return $errors;

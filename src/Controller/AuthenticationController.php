@@ -70,7 +70,7 @@ class AuthenticationController extends AbstractFOSRestController {
      *                  property="roles",
      *                  type="array",
      *                  description="Array of user roles granted",
-     *                  @SWG\Items(type="string", description="ex: ROLE_ADVISOR")
+     *                  @SWG\Items(type="string", description="ex: ROLE_SERVICE_ADVISOR")
      *             ),
      *             @SWG\Property(property="user", ref=@Model(type=User::class, groups={"user_list"}))
      *         )
