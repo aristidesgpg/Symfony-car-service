@@ -193,17 +193,9 @@ class CouponsController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
+     *     description="Return a coupon",
+     *     @SWG\Schema(ref=@Model(type=Coupon::class, groups={"coupon_list"})))
      * )
-     *
-     * @param EntityManagerInterface $em
-     * @param Request                $request
-     * @param ImageUploader          $imageUploader
      *
      * @return Response
      */
@@ -229,7 +221,10 @@ class CouponsController extends AbstractFOSRestController
         $em->persist($coupon);
         $em->flush();
 
-        return $this->handleView($this->view('Coupon Created', Response::HTTP_OK));
+        $view = $this->view($coupon, Response::HTTP_OK);
+        $view->getContext()->setGroups(['coupon_list']);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -247,18 +242,14 @@ class CouponsController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully created" }),
-     *         )
+     *     description="Return updated coupon",
+     *     @SWG\Schema(ref=@Model(type=Coupon::class, groups={"coupon_list"})))
      * )
      *
-     * @param Coupon                 $coupon
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     * @param ImageUploader          $imageUploader
+     * @SWG\Response(
+     *     response=404,
+     *     description="Not Found"
+     * )
      *
      * @return Response
      */
@@ -280,7 +271,10 @@ class CouponsController extends AbstractFOSRestController
         $em->persist($coupon);
         $em->flush();
 
-        return $this->handleView($this->view('Coupon Updated', Response::HTTP_OK));
+        $view = $this->view($coupon, Response::HTTP_OK);
+        $view->getContext()->setGroups(['coupon_list']);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -297,9 +291,6 @@ class CouponsController extends AbstractFOSRestController
      *                                              "Successfully deleted" }),
      *         )
      * )
-     *
-     * @param Coupon                 $coupon
-     * @param EntityManagerInterface $em
      *
      * @return Response
      */
