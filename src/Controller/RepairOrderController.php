@@ -403,7 +403,6 @@ class RepairOrderController extends AbstractFOSRestController
     public function add(
         Request $req,
         RepairOrderHelper $helper,
-        RepairOrderInteractionRepository $roInteractionRepo,
         EntityManagerInterface $em,
         TwilioHelper $twilioHelper,
         ShortUrlHelper $shortUrlHelper,
@@ -516,7 +515,6 @@ class RepairOrderController extends AbstractFOSRestController
         Request $req,
         RepairOrderHelper $helper,
         SettingsHelper $settingsHelper,
-        RepairOrderInteractionRepository $roInteractionRepo,
         EntityManagerInterface $em
     ) {
         if ($ro->getDeleted()) {
@@ -543,21 +541,13 @@ class RepairOrderController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        // Add an interaction Waiver Signed
-        $roInteraction = $roInteractionRepo->findOneBy(
-            ['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]
-        );
-
-        if ($roInteraction) {
-            $roInteraction->setType("Waiver Signed");
-        } else {
-            $roInteraction = new RepairOrderInteraction();
-            $roInteraction->setRepairOrder($ro)
-                          ->setCustomer($ro->getPrimaryCustomer())
-                          ->setUser($this->getUser())
-                          ->setType("Waiver Signed")
-                          ->setDate();
-        }
+        $roInteraction = new RepairOrderInteraction();
+        $roInteraction->setRepairOrder($ro)
+                      ->setCustomer($ro->getPrimaryCustomer())
+                      ->setUser($this->getUser())
+                      ->setType("Waiver Signed")
+                      ->setDate();
+   
         $em->persist($roInteraction);
         $em->flush();
 
@@ -580,16 +570,14 @@ class RepairOrderController extends AbstractFOSRestController
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
      * )
      *
-     * @param Request                          $request
-     * @param RepairOrder                      $ro
-     * @param RepairOrderInteractionRepository $roInteractionRepo
-     * @param EntityManagerInterface           $em
+     * @param Request                $request
+     * @param RepairOrder            $ro
+     * @param EntityManagerInterface $em
      *
      * @return response
      */
     public function waiverViewed(
         RepairOrder $ro,
-        RepairOrderInteractionRepository $roInteractionRepo,
         EntityManagerInterface $em
     ) {
         if ($ro->getDeleted()) {
@@ -616,37 +604,27 @@ class RepairOrderController extends AbstractFOSRestController
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
      * )
      *
-     * @param Request                          $request
-     * @param RepairOrder                      $ro
-     * @param RepairOrderInteractionRepository $roInteractionRepo
-     * @param EntityManagerInterface           $em
+     * @param Request                $request
+     * @param RepairOrder            $ro
+     * @param EntityManagerInterface $em
      *
      * @return response
      */
     public function waiverAcknowledged(
         RepairOrder $ro,
-        RepairOrderInteractionRepository $roInteractionRepo,
         EntityManagerInterface $em
     ) {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
-        // Add an interaction Waiver Acknowledged
-        $roInteraction = $roInteractionRepo->findOneBy(
-            ['repairOrder' => $ro->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]
-        );
+        $roInteraction = new RepairOrderInteraction();
+        $roInteraction->setRepairOrder($ro)
+                      ->setCustomer($ro->getPrimaryCustomer())
+                      ->setUser($this->getUser())
+                      ->setType("Waiver Acknowledged")
+                      ->setDate();
 
-        if ($roInteraction) {
-            $roInteraction->setType("Waiver Acknowledged");
-        } else {
-            $roInteraction = new RepairOrderInteraction();
-            $roInteraction->setRepairOrder($ro)
-                          ->setCustomer($ro->getPrimaryCustomer())
-                          ->setUser($this->getUser())
-                          ->setType("Waiver Acknowledged")
-                          ->setDate();
-        }
         $em->persist($roInteraction);
         $em->flush();
 
