@@ -160,7 +160,7 @@ class UserController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'users' => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
                 'totalPages' => $pagination->totalPages,
                 'previous' => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
