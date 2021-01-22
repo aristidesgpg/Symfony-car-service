@@ -3,8 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\CheckIn;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @method CheckIn|null find($id, $lockMode = null, $lockVersion = null)
@@ -49,46 +53,60 @@ class CheckInRepository extends ServiceEntityRepository
     */
 
     /**
-     * @param 
-     * 
-     * @return CheckIn[] REturns array of CheckIn ojbects
+     * @param null   $start
+     * @param null   $end
+     * @param string $sortField
+     * @param string $sortDirection
+     * @param null   $searchField
+     * @param null   $searchTerm
+     *
+     * @return Query|null
+     * @throws Exception
      */
-    public function getAllItems($start = null, $end = null, $sortField = 'date', $sortDirection = 'DESC', $searchField = null, $searchTerm = null ){
-        if($end === null) {
-            $end = new \DateTime();
-        } else{
-            $end = new \DateTime($end);
+    public function getAllItems(
+        $start = null,
+        $end = null,
+        $sortField = 'date',
+        $sortDirection = 'DESC',
+        $searchField = null,
+        $searchTerm = null
+    ) {
+        if (is_null($end)) {
+            $end = new DateTime();
+        } else {
+            $end = new DateTime($end);
         }
 
-        if($start)
-            $start = new \DateTime($start);
+        if ($start) {
+            $start = new DateTime($start);
+        }
 
         try {
             $qb = $this->createQueryBuilder('ch');
-            
-            if($start && $end){
+            $qb->andWhere('ch.deleted = false');
+
+            if ($start && $end) {
                 $qb->andWhere('ch.date BETWEEN :start AND :end')
                    ->setParameter('start', $start->format('Y-m-d H:i'))
                    ->setParameter('end', $end->format('Y-m-d H:i'));
-            } else{
+            } else {
                 $qb->andWhere('ch.date < :end')
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
-            if($searchTerm)
-            {
+            if ($searchTerm) {
                 $qb->andWhere('ch.'.$searchField.' LIKE :searchTerm')
                    ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 
-            if($sortDirection){
+            if ($sortDirection) {
                 $qb->orderBy('ch.'.$sortField, $sortDirection);
-            }
-            else{
+            } else {
                 $qb->orderBy('ch.date', 'DESC');
             }
- 
+
+            $qb->andWHere('ch.deleted = false');
+
             return $qb->getQuery();
- 
         } catch (NonUniqueResultException $e) {
             return null;
         }

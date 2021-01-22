@@ -85,8 +85,24 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 28c124e518c5eeef12109b85e847978a7ec841c0
+     * @SWG\Response(
+     *     response="400",
+     *     description="Invalid Role Parameter"
+     * )
+     * 
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
+     * 
+     * @param Request                $request
+     * @param UserRepository         $userRepo
+     * @param UserHelper             $userHelper
+     * @param PaginatorInterface     $paginator
+     * @param UrlGeneratorInterface  $urlGenerator
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
@@ -255,18 +271,17 @@ class UserController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return users",
+     *     description="Return created user",
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-     *
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     * @param UserHelper             $userHelper
-     * @param UserRepository         $userRepo
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing Required Parameter"
+     * )
      *
      * @return Response
      */
@@ -338,13 +353,13 @@ class UserController extends AbstractFOSRestController
         $em->persist($user);
         $em->flush();
 
-        $this->logInfo('New User "'.$user->getFirstName().'" Created');
+        $this->logInfo('New User "' . $user->getFirstName() . '" Created');
 
         return $this->userView($user);
     }
 
     /**
-     * @param mixed $data
+     * @param $data
      *
      * @return Response
      */
@@ -443,19 +458,13 @@ class UserController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return users",
+     *     description="Return updated user",
      *     @SWG\Items(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=User::class, groups={"user_list"})),
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-     *
-     * @param User                   $user
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     * @param UserHelper             $userHelper
-     * @param UserRepository         $userRepo
      *
      * @return Response
      */
@@ -532,7 +541,7 @@ class UserController extends AbstractFOSRestController
         $em->persist($user);
         $em->flush();
 
-        $this->logInfo('User "'.$user->getFirstName().'" Has Been Updated');
+        $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
 
         return $this->userView($user);
     }
@@ -553,9 +562,6 @@ class UserController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param User                   $user
-     * @param EntityManagerInterface $em
-     *
      * @return object|void
      */
     public function delete(User $user, EntityManagerInterface $em)
@@ -575,7 +581,7 @@ class UserController extends AbstractFOSRestController
         );
     }
 
-    //Security
+    // Security
 
     /**
      * @Rest\Patch("/api/security/{id}/set")
@@ -608,11 +614,6 @@ class UserController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param User                   $user
-     * @param Request                $request
-     * @param UserHelper             $userHelper
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
     public function security(User $user, Request $request, UserHelper $userHelper, EntityManagerInterface $em)
@@ -628,18 +629,18 @@ class UserController extends AbstractFOSRestController
         $userRole = $user->getRoles();
         $authRole = $auth->getRoles();
         $serviceManagerRoles = [
-            "ROLE_SERVICE_MANAGER",
-            "ROLE_SERVICE_ADVISOR",
-            "ROLE_TECHNICIAN",
-            "ROLE_PARTS_ADVISOR",
+            'ROLE_SERVICE_MANAGER',
+            'ROLE_SERVICE_ADVISOR',
+            'ROLE_TECHNICIAN',
+            'ROLE_PARTS_ADVISOR',
         ];
-        $salesManagerRoles = ["ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"];
+        $salesManagerRoles = ['ROLE_SALES_MANAGER', 'ROLE_SALES_AGENT'];
         //check if user has permission
         if (!($user->getId() == $auth->getId(
-                )) && !($authRole[0] == "ROLE_ADMIN") && !($authRole[0] == "ROLE_SERVICE_MANAGER" && in_array(
+                )) && !($authRole[0] == 'ROLE_ADMIN') && !($authRole[0] == 'ROLE_SERVICE_MANAGER' && in_array(
                     $userRole[0],
                     $serviceManagerRoles
-                )) && !($authRole[0] == "ROLE_SALES_MANAGER" && in_array($userRole[0], $salesManagerRoles))) {
+                )) && !($authRole[0] == 'ROLE_SALES_MANAGER' && in_array($userRole[0], $salesManagerRoles))) {
             return $this->handleView(
                 $this->view('Authenticated User Has No Permission to Perform This Action', Response::HTTP_FORBIDDEN)
             );
@@ -686,8 +687,14 @@ class UserController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param Request        $request
-     * @param UserRepository $userRepo
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing Required Parameter"
+     * )
+     * @SWG\Response(
+     *     response="406",
+     *     description="Invalid Email Parameter"
+     * )
      *
      * @return Response
      */
@@ -703,7 +710,7 @@ class UserController extends AbstractFOSRestController
         // email is invalid
         $user = $userRepo->findOneBy(['email' => $email, 'active' => true]);
         if (!$user) {
-            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Invalid Email Parameter', Response::HTTP_NOT_ACCEPTABLE));
         }
 
         return $this->handleView(
@@ -747,9 +754,20 @@ class UserController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param Request        $request
-     * @param SecurityHelper $securityHelper
-     * @param UserRepository $userRepo
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing Required Parameter"
+     * )
+     *
+     * @SWG\Response(
+     *     response="401",
+     *     description="Invalid Token"
+     * )
+     *
+     * @SWG\Response(
+     *     response="500",
+     *     description="Something Went Wrong Trying to Reset the Password"
+     * )
      *
      * @return Response
      */

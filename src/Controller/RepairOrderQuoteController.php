@@ -96,7 +96,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     ) {
         $repairOrderID = $request->get('repairOrderID');
         $recommendations = str_replace("'", '"', $request->get('recommendations'));
-        $obj = (array)json_decode($recommendations);
+        $obj = (array) json_decode($recommendations);
         //check if params are valid
         if (!$repairOrderID) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
@@ -147,14 +147,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *
      * @SWG\Tag(name="Repair Order Quote")
      * @SWG\Put(description="Update a Repair Order Quote")
-     *
-     * @SWG\Parameter(
-     *     name="repairOrderID",
-     *     in="formData",
-     *     required=true,
-     *     type="integer",
-     *     description="The Repair Order ID",
-     * )
      * @SWG\Parameter(
      *     name="recommendations",
      *     in="formData",
@@ -172,14 +164,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Updated" }),
      *         )
      * )
-     *
-     * @param RepairOrderQuote        $repairOrderQuote
-     * @param Request                 $request
-     * @param RepairOrderRepository   $repairOrderRepository
-     * @param OperationCodeRepository $operationCodeRepository
-     * @param EntityManagerInterface  $em
-     *
-     * @return Response
      */
     public function updateRepairOrderQuote(
         RepairOrderQuote $repairOrderQuote,
@@ -187,47 +171,38 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderRepository $repairOrderRepository,
         OperationCodeRepository $operationCodeRepository,
         EntityManagerInterface $em
-    ) {
-        $repairOrderID = $request->get('repairOrderID');
+    ): Response {
         $recommendations = str_replace("'", '"', $request->get('recommendations'));
-        $obj = (array)json_decode($recommendations);
-        //check if params are valid
-        if (!$repairOrderID) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
-        }
-        //Check if Repair Order exists
-        $repairOrder = $repairOrderRepository->find($repairOrderID);
-        if (!$repairOrder) {
-            return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
-        }
-        //update repairOrderQuote
-        $repairOrderQuote->setRepairOrder($repairOrder);
-        $em->persist($repairOrderQuote);
-        $em->flush();
-        //remove existing recommendations
+        $obj = (array) json_decode($recommendations);
+
+        // remove existing recommendations
         $allRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
         foreach ($allRecommendations as $index => $recommendation) {
             $em->remove($recommendation);
             $em->flush();
         }
-        //add recommendations
+
+        // add recommendations
         foreach ($obj as $index => $recommendation) {
-            $rOQRecom = new RepairOrderQuoteRecommendation();
+            $repairOrderRecommendation = new RepairOrderQuoteRecommendation();
+
             //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
+            $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
             if (!$operationCode) {
                 return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
             }
-            $rOQRecom->setRepairOrderQuote($repairOrderQuote)
-                     ->setOperationCode($operationCode)
-                     ->setDescription($recommendation->description)
-                     ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
-                     ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
-                     ->setPartsPrice($recommendation->partsPrice)
-                     ->setSuppliesPrice($recommendation->suppliesPrice)
-                     ->setNotes($recommendation->notes);
+            $repairOrderRecommendation->setRepairOrderQuote($repairOrderQuote)
+                                      ->setOperationCode($operationCode)
+                                      ->setDescription($recommendation->description)
+                                      ->setPreApproved(
+                                          filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                                      )
+                                      ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
+                                      ->setPartsPrice($recommendation->partsPrice)
+                                      ->setSuppliesPrice($recommendation->suppliesPrice)
+                                      ->setNotes($recommendation->notes);
 
-            $em->persist($rOQRecom);
+            $em->persist($repairOrderRecommendation);
             $em->flush();
         }
 

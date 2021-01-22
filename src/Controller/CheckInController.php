@@ -20,12 +20,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * Class CheckInController
- *
- * @package App\Controller
- *
- */
 class CheckInController extends AbstractFOSRestController
 {
     private const PAGE_LIMIT = 100;
@@ -35,6 +29,7 @@ class CheckInController extends AbstractFOSRestController
      *
      * @SWG\Tag(name="CHECKin")
      * @SWG\Get(description="Get checkins")
+     *
      * @SWG\Parameter(
      *     name="startDate",
      *     type="string",
@@ -113,19 +108,24 @@ class CheckInController extends AbstractFOSRestController
         $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
         $sortField = '';
         $sortDirection = '';
         $searchField = '';
         $searchTerm = '';
         $errors = [];
+        $columns = $em->getClassMetadata('App\Entity\CheckIn')->getFieldNames();
 
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $columns = $em->getClassMetadata('App\Entity\CheckIn')->getFieldNames();
+        // Invalid page limit
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
+        }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
             $sortField = $request->query->get('sortField');
@@ -167,7 +167,6 @@ class CheckInController extends AbstractFOSRestController
             $searchField,
             $searchTerm
         );
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $pager = $paginator->paginate($checkInQuery, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 

@@ -25,12 +25,12 @@ class CheckInFixture extends Fixture implements DependentFixtureInterface {
         $faker = Factory::create();
  
         // Load some CheckIns
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 110; $i++) {
             $CheckIn = new CheckIn();
 
             $CheckIn->setIdentification(sha1($faker->unique(true)->randomAscii))
                     ->setDate(new \DateTime())
-                    ->setUser($this->getReference('user_' . $i))
+                    ->setUser($this->getReference('user_' . ( $i % 50 + 1)))
                     ->setVideo($faker->randomElement(self::VIDEO_FIXTURES));
  
             $manager->persist($CheckIn);
