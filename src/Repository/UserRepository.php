@@ -67,7 +67,7 @@ class UserRepository extends ServiceEntityRepository
             $qb->orderBy('u.'.$sortField, $sortDirection);
         }
 
-        return $qb->getQuery();
+        return $qb->getQuery()->getResult();
     }
 
     /**
