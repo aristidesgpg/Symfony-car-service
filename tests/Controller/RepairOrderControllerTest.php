@@ -26,8 +26,8 @@ class RepairOrderControllerTest extends WebTestCase {
     }
 
     public function testNew() {
-        // Ok
-        $ids = [1,33,999];
+        
+        $ids = [1, 33, 999];
 
         foreach($ids as $id){
             $this->requestNew($id);
@@ -36,6 +36,7 @@ class RepairOrderControllerTest extends WebTestCase {
             if($code === 200){
                 $this->assertResponseIsSuccessful();
                 $messagesData = json_decode($this->client->getResponse()->getContent());
+
                 $this->assertEquals($id, $messagesData->repairOrder->id);
             }else if($code === 404){
                 $this->assertEquals(Response::HTTP_NOT_FOUND, 404);
@@ -55,8 +56,7 @@ class RepairOrderControllerTest extends WebTestCase {
     }
 
     public function testDelete() {
-        // Ok
-        $ids = [1,33,999];
+        $ids = [1, 33, 999];
         
         foreach($ids as $id){
             $this->requestDelete($id);
