@@ -30,10 +30,14 @@ class RepairOrderRepository extends ServiceEntityRepository {
      *
      * @return RepairOrder|null
      */
-    public function findByUID (string $uid) {
+    public function findByUID (string $uid): ?RepairOrder {
         try {
+            // If they pass an integer, they're trying to find an ID
+            if (is_int($uid)){
+                return $this->find($uid);
+            }
+
             return $this->createQueryBuilder('r')
-                        ->orWhere('r.id = :uid')
                         ->orWhere('r.number= :uid')
                         ->orWhere('r.linkHash = :uid')
                         ->setParameter('uid', $uid)

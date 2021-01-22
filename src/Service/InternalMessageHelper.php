@@ -101,14 +101,14 @@ class InternalMessageHelper {
                     "shareRepairOrders" => ($thread["share_repair_orders"] === "1")
                 ],
                 "message" => [
-                    "id"      => $thread["im_id"],
-                    "fromId"  => $thread["from_id"],
-                    "toId"    => $thread["to_id"],
+                    "id"      => (int)$thread["im_id"],
+                    "fromId"  => (int)$thread["from_id"],
+                    "toId"    => (int)$thread["to_id"],
                     "message" => $thread["message"],
                     "date"    => $thread["date"],
                     "isRead"  => ($thread["is_read"] === "1")
                 ],
-                "unreads" => $thread["unreads"]
+                "unreads" => (int)$thread["unreads"]
             ];
         }
 
