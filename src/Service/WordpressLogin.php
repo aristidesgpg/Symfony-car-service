@@ -23,7 +23,7 @@ class WordpressLogin {
      * @param string $password
      * @param bool   $dealer
      *
-     * @return bool
+     * @return bool|string
      */
     public function validateUserPassword (string $username, string $password, $dealer = true) {
         $endpoint = $dealer ? $this->dealerWPEndpoint : $this->internalAgentWPEndpoint;
@@ -42,12 +42,17 @@ class WordpressLogin {
         curl_setopt_array($curl, $curlOptions);
 
         $response = json_decode(curl_exec($curl));
+
         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
         if ($httpCode != 200) {
             return false;
         }
 
-        return true;
+        if (!isset($response->user_email)) {
+            return false;
+        }
+
+        return $response->user_email;
     }
 }
