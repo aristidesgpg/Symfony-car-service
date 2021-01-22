@@ -8,6 +8,7 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\InternalMessageRepository;
 use App\Service\InternalMessageHelper;
 use App\Service\Pagination;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
@@ -34,13 +35,22 @@ class InternalMessageController extends AbstractFOSRestController {
      * @Rest\Get(name="getInternalThreads")
      *
      * @SWG\Tag(name="Internal Message")
-     * @SWG\Get(description="Get the list of threads between multiple customers")
+     * @SWG\Get(description="Get the list of threads")
+     * 
      * @SWG\Parameter(
      *     name="page",
      *     required=false,
      *     type="integer",
      *     in="query"
      * )
+     * 
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *      response=200,
      *      description="Return the list of threads",
@@ -58,9 +68,9 @@ class InternalMessageController extends AbstractFOSRestController {
      *                  @SWG\Property(
      *                      property="lastMessage",
      *                      type="object",
-     *                      @SWG\Property(property="id", type="string"),
-     *                      @SWG\Property(property="fromId", type="string"),
-     *                      @SWG\Property(property="toId", type="string"),
+     *                      @SWG\Property(property="id", type="integer"),
+     *                      @SWG\Property(property="fromId", type="integer"),
+     *                      @SWG\Property(property="toId", type="integer"),
      *                      @SWG\Property(property="message", type="string"),
      *                      @SWG\Property(property="date", type="string"),
      *                      @SWG\Property(property="isRead", type="boolean")
@@ -75,7 +85,14 @@ class InternalMessageController extends AbstractFOSRestController {
      *          @SWG\Property(property="next", type="string", description="URL of next page of results or null")
      *      )
      * )
+     * 
      * @SWG\Response(response="404", description="Page does not exist")
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="Page limit must be a positive non-zero integer"
+     * )
+     * 
      * @SWG\Response(
      *     response=500, 
      *     description="Internal Server Error"
@@ -90,11 +107,16 @@ class InternalMessageController extends AbstractFOSRestController {
      */
     public function getThreads (Request $request, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator,
                                 InternalMessageHelper $internalMessageHelper) {
-        $userId = $this->getUser()->getId();
-        $page   = $request->query->getInt('page', 1);
+        $userId    = $this->getUser()->getId();
+        $page      = $request->query->getInt('page', 1);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($page < 1) {
             throw new NotFoundHttpException();
+        }
+
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE));
         }
 
         $threads = $internalMessageHelper->getThreads($userId);
@@ -104,8 +126,8 @@ class InternalMessageController extends AbstractFOSRestController {
         }
 
         $urlParams  = ['page' => $page];
-        $pager      = $paginator->paginate($threads, $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $pager      = $paginator->paginate($threads, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'threads'      => $pager->getItems(),
@@ -126,12 +148,21 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Internal Message")
      * @SWG\Get(description="Get the list of messages in a conversation")
+     * 
      * @SWG\Parameter(
      *     name="page",
      *     required=false,
      *     type="integer",
      *     in="query"
      * )
+     * 
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * 
      * @SWG\Parameter(
      *     name="otherUserId",
      *     required=true,
@@ -139,6 +170,7 @@ class InternalMessageController extends AbstractFOSRestController {
      *     in="query",
      *     description="Use id 5 for test"
      * )
+     * 
      * @SWG\Response(
      *      response=200,
      *      description="Return the list of messages newest",
@@ -156,11 +188,18 @@ class InternalMessageController extends AbstractFOSRestController {
      *          @SWG\Property(property="next", type="string", description="URL of next page of results or null")
      *      )
      * )
+     * 
      * @SWG\Response(
      *     response=400, 
      *     description="Missing Required Parameter(s)"
      * )
-     * @SWG\Response(response="404", description="Page does not exist")
+     * 
+     * @SWG\Response(response="404", description="Not Found")
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="Page limit must be a positive non-zero integer"
+     * )
      *
      * @param Request                   $request
      * @param InternalMessageRepository $internalMessageRepository
@@ -169,13 +208,19 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getMessagesNewest (Request $request, InternalMessageRepository $internalMessageRepository, PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator) {
+    public function getMessagesNewest (Request $request, InternalMessageRepository $internalMessageRepository, 
+                                       PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator) {
         $user        = $this->getUser();
         $page        = $request->query->getInt('page', 1);
+        $pageLimit   = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $otherUserId = $request->query->get('otherUserId');
 
         if ($page < 1) {
             throw new NotFoundHttpException();
+        }
+
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE));
         }
 
         if (!$otherUserId) {
@@ -183,8 +228,8 @@ class InternalMessageController extends AbstractFOSRestController {
         }
 
         $otherUser = $this->getDoctrine()->getRepository(User::class)->find($otherUserId);
-        if (!$otherUser) {
-            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_BAD_REQUEST));
+        if (!$otherUser || !$otherUser->getActive()) {
+            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
         }
 
         $queryParams = ['userId' => $user->getId(), 'otherUserId' => $otherUserId];
@@ -195,8 +240,8 @@ class InternalMessageController extends AbstractFOSRestController {
                                                  ->getQuery();
 
         $urlParams  = ['otherUserId' => $otherUserId];
-        $pager      = $paginator->paginate($query, $page, self::PAGE_LIMIT);
-        $pagination = new Pagination($pager, self::PAGE_LIMIT, $urlGenerator);
+        $pager      = $paginator->paginate($query, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
             'internalMessages' => $pager->getItems(),
@@ -216,51 +261,65 @@ class InternalMessageController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="Internal Message")
      * @SWG\Post(description="Send a message to a user")
+     * 
      * @SWG\Parameter(
      *     name="toId",
      *     required=true,
      *     type="integer",
-     *     in="query"
+     *     in="formData"
      * )
+     * 
      * @SWG\Parameter(
      *     name="message",
      *     required=true,
      *     type="string",
-     *     in="query",
+     *     in="formData",
      * )
+     * 
      * @SWG\Response(
      *      response=200,
      *      description="Message sent. Return InternalMessage object.",
      *      @SWG\Schema(ref=@Model(type=InternalMessage::class, groups={"internal_message", "user_list"}))
      * )
+     * 
      * @SWG\Response(
      *     response=400, 
      *     description="Missing Required Parameter(s)"
      * )
+     * 
+     * @SWG\Response(
+     *     response="404",
+     *     description="User does not exist"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="406",
+     *     description="You are sending a message to you!"
+     * )
      *
-     * @param Request $request
+     * @param Request                $request
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function sendMessage (Request $request) {
+    public function sendMessage (Request $request, EntityManagerInterface $em) {
         $user    = $this->getUser();
-        $toId    = $request->query->get('toId');
-        $message = $request->query->get('message');
-        $em      = $this->getDoctrine()->getManager();
+        $toId    = $request->get('toId');
+        $message = $request->get('message');
         
         if (!$toId || !$message) {
             return $this->handleView($this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST));
         }
 
         if ($toId == $user->getId()) {
-            return $this->handleView($this->view('You are sending to you!', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('You are sending a message to you!', Response::HTTP_NOT_ACCEPTABLE));
         }
 
         $internalMessage = new InternalMessage();
         $toUser          = $this->getDoctrine()->getRepository(User::class)->find($toId);
 
-        if (!$toUser) {
-            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_BAD_REQUEST));
+        if (!$toUser || !$toUser->getActive()) {
+            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
         }
 
         $internalMessage->setFrom($user)

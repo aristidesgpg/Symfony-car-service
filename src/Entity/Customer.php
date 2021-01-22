@@ -30,7 +30,7 @@ class Customer implements UserInterface {
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      * @Serializer\Groups({"customer_list"})
      */
     private $phone;
