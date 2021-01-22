@@ -520,10 +520,8 @@ class RepairOrderController extends AbstractFOSRestController
             return $this->handleView($this->view('Input signature', Response::HTTP_BAD_REQUEST));
         }
 
-        if (base64_encode(base64_decode($signature, true)) === $signature) {
-            // $signature is valid
-        } else {
-            // $signature is invalid
+        $pattern = "/^\s*([a-z]+\/[a-z0-9\-\+]+(;[a-z\-]+\=[a-z0-9\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i";
+        if (!preg_match($pattern, $signature)) {
             return $this->handleView($this->view('Input valid signature (base64 svg)', Response::HTTP_BAD_REQUEST));
         }
 
@@ -585,7 +583,10 @@ class RepairOrderController extends AbstractFOSRestController
         $em->persist($roInteraction);
         $em->flush();
 
-        return $this->handleView($this->view('Waiver marked as viewed', Response::HTTP_OK));
+        $view = $this->view($roInteraction);
+        $view->getContext()->setGroups(RepairOrderInteraction::GROUPS);
+
+        return $this->handleView($view);
     }
 
     /**
