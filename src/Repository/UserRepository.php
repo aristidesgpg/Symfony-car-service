@@ -49,7 +49,7 @@ class UserRepository extends ServiceEntityRepository
         $sortDirection = null,
         $searchField = null,
         $searchTerm = null
-    ): Query {
+    ) {
         $qb = $this->createQueryBuilder('u')
                    ->andWhere('u.active = 1');
 
