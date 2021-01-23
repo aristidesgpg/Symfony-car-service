@@ -133,9 +133,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $em->persist($repairOrderQuote);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'RepairOrderQuote Created'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RepairOrderQuote Created',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**

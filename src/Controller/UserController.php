@@ -89,16 +89,9 @@ class UserController extends AbstractFOSRestController
      *     response="400",
      *     description="Invalid Role Parameter"
      * )
-     * 
+     *
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
-     * 
-     * @param Request                $request
-     * @param UserRepository         $userRepo
-     * @param UserHelper             $userHelper
-     * @param PaginatorInterface     $paginator
-     * @param UrlGeneratorInterface  $urlGenerator
-     * @param EntityManagerInterface $em
      *
      * @return Response
      */
@@ -521,10 +514,6 @@ class UserController extends AbstractFOSRestController
              ->setPin($pin)
              ->setRole($role);
         if($password){
-            $user->setPassword($userHelper->passwordEncoder($user, $password));
-        }
-
-        if ($password) {
             $user->setPassword($userHelper->passwordEncoder($user, $password));
         }
 
