@@ -59,13 +59,6 @@ class CustomerController extends AbstractFOSRestController
      * )
      * 
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * 
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
      *     description="The value of search",
@@ -110,7 +103,6 @@ class CustomerController extends AbstractFOSRestController
         $errors = [];
         $sortField = '';
         $sortDirection = '';
-        $searchField = '';
         $searchTerm = '';
 
         // Invalid page
@@ -135,17 +127,10 @@ class CustomerController extends AbstractFOSRestController
             $urlParameters['sortField'] = $sortField;
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
-
-            //check if the searchfield exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            }
+        if ($request->query->has('searchTerm')) {
 
             $searchTerm = $request->query->get('searchTerm');
 
-            $urlParameters['searchField'] = $searchField;
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
@@ -158,8 +143,8 @@ class CustomerController extends AbstractFOSRestController
             null,
             $sortField,
             $sortDirection,
-            $searchField,
-            $searchTerm
+            $searchTerm,
+            $columns
         );
 
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);

@@ -26,12 +26,20 @@ class CustomerRepository extends ServiceEntityRepository {
      *
      * @return Query
      */
-    public function findAllActive (?User $user = null, $sortField = null,  $sortDirection = null,  $searchField = null,  $searchTerm = null ): Query {
+    public function findAllActive (?User $user = null, $sortField = null,  $sortDirection = null, 
+                                    $searchTerm = null, $columns = [] ): Query {
         $qb = $this->getBaseQueryBuilder($user);
 
         if($searchTerm)
         {
-            $qb->andWhere('c.'.$searchField.' LIKE :searchTerm')
+            $query = "";
+            foreach($columns as $column){
+                if($query)
+                    $query .= " OR ";
+                $query .= 'c.'.$column . ' LIKE :searchTerm ';
+            }
+
+            $qb->andWhere($query)
                ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
 
