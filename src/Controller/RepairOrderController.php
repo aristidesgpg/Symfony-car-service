@@ -280,7 +280,7 @@ class RepairOrderController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'repairOrders' => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
                 'totalPages' => $pagination->totalPages,
                 'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),

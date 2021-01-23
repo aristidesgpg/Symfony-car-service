@@ -145,7 +145,7 @@ class OperationCodeController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'operationCodes' => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
                 'totalPages' => $pagination->totalPages,
                 'previous' => $pagination->getPreviousPageURL('app_operationcode_getoperationcodes', $urlParameters),

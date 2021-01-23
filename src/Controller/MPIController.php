@@ -168,7 +168,7 @@ class MPIController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'MPITemplates' => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
                 'totalPages' => $pagination->totalPages,
                 'previous' => $pagination->getPreviousPageURL('app_mpi_gettemplates', $urlParameters),
