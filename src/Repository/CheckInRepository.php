@@ -96,11 +96,12 @@ class CheckInRepository extends ServiceEntityRepository
             if ($searchTerm) {
                 $qb->innerJoin('ch.user', 'ch_user');
                 
-                $query = "";
+                $query          = "";
                 foreach($columns as $column){
                     if($query)
                         $query .= " OR ";
-                    $query .= 'ch.'.$column . ' LIKE :searchTerm ';
+                        
+                    $query     .= 'ch.'.$column . ' LIKE :searchTerm ';
                 }
 
                 foreach($userColumns as $column){

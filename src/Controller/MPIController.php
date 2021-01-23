@@ -64,12 +64,6 @@ class MPIController extends AbstractFOSRestController
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
      *     description="The value of search",
@@ -107,7 +101,10 @@ class MPIController extends AbstractFOSRestController
         $urlParameters = [];
         $queryParameters = [];
         $errors = [];
+       
         $columns = $em->getClassMetadata('App\Entity\MPITemplate')->getFieldNames();
+        $groupColumns = $em->getClassMetadata('App\Entity\MPIGroup')->getFieldNames();
+        $itemColumns = $em->getClassMetadata('App\Entity\MPIItem')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -124,21 +121,36 @@ class MPIController extends AbstractFOSRestController
             }
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
+        if ($request->query->has('searchTerm')) {
+            $searchTerm = $request->query->get('searchTerm');
+            $query          = "";
 
-            //check if the searchField exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            } else {
-                $searchTerm = $request->query->get('searchTerm');
+            $qb->innerJoin('mp.mpiGroups', 'mp_mpiGroups');
+            $qb->innerJoin('mp_mpiGroups.mpiItems', 'mp_mpiItems');
 
-                $qb->andWhere('mp.'.$searchField.' LIKE :searchTerm');
-                $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            foreach($columns as $column){
+                if($query)
+                    $query .= " OR ";
 
-                $urlParameters['searchField'] = $searchField;
-                $urlParameters['searchTerm'] = $searchTerm;
+                $query     .= 'mp.'.$column . ' LIKE :searchTerm ';
             }
+            
+            foreach($groupColumns as $column){
+                if($query)
+                    $query .= " OR ";
+                $query .= 'mp_mpiGroups.'.$column . ' LIKE :searchTerm ';
+            }
+
+            foreach($itemColumns as $column){
+                if($query)
+                    $query .= " OR ";
+                $query .= 'mp_mpiItems.'.$column . ' LIKE :searchTerm ';
+            }
+
+            $qb->andWhere($query);
+            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+
+            $urlParameters['searchTerm'] = $searchTerm;
         }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {

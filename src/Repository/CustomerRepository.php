@@ -32,11 +32,12 @@ class CustomerRepository extends ServiceEntityRepository {
 
         if($searchTerm)
         {
-            $query = "";
+            $query          = "";
             foreach($columns as $column){
                 if($query)
                     $query .= " OR ";
-                $query .= 'c.'.$column . ' LIKE :searchTerm ';
+                    
+                $query     .= 'c.'.$column . ' LIKE :searchTerm ';
             }
 
             $qb->andWhere($query)

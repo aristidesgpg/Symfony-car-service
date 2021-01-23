@@ -118,11 +118,12 @@ class CouponsController extends AbstractFOSRestController
         $qb->andWhere('co.deleted = 0');
 
         if ($searchTerm) {
-            $query = "";
+            $query          = "";
             foreach($columns as $column){
                 if($query)
                     $query .= " OR ";
-                $query .= 'co.'.$column . ' LIKE :searchTerm ';
+
+                $query     .= 'co.'.$column . ' LIKE :searchTerm ';
             }
 
             $qb->andWhere($query);
