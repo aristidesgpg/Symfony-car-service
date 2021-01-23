@@ -50,12 +50,6 @@ class CouponsController extends AbstractFOSRestController
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
      *     description="The value of search",
@@ -94,7 +88,6 @@ class CouponsController extends AbstractFOSRestController
         $errors = [];
         $sortField = '';
         $sortDirection = '';
-        $searchField = '';
         $searchTerm = '';
         $columns = $em->getClassMetadata('App\Entity\Coupon')->getFieldNames();
 
@@ -113,14 +106,7 @@ class CouponsController extends AbstractFOSRestController
             $sortDirection = $request->query->get('sortDirection');
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
-
-            //check if the searchField exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            }
-
+        if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
         }
 
@@ -132,10 +118,17 @@ class CouponsController extends AbstractFOSRestController
         $qb->andWhere('co.deleted = 0');
 
         if ($searchTerm) {
-            $qb->andWhere('co.'.$searchField.' LIKE :searchTerm');
+            $query = "";
+            foreach($columns as $column){
+                if($query)
+                    $query .= " OR ";
+                $query .= 'co.'.$column . ' LIKE :searchTerm ';
+            }
+
+            $qb->andWhere($query);
+            
             $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
 
-            $urlParameters['searchField'] = $searchField;
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
