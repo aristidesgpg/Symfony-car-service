@@ -18,9 +18,11 @@ class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterfa
 
     public function load (ObjectManager $manager) {
         $faker = Factory::create();
-        for ($i = 1; $i < 51; $i++) {
+        for ($i = 1; $i < 101; $i++) {
             /** @var RepairOrder $repairOrder */
-            $repairOrder  = $this->getReference("repairOrder_{$i}");
+            $repairOrderReference = $faker->unique()->numberBetween(1, 150);
+            $repairOrder = $this->getReference('repairOrder_' . $repairOrderReference);
+            
             $dateUploaded = $faker->dateTimeThisYear;
             $status       = "Uploaded";
             //create repairOrderVideo
@@ -55,20 +57,24 @@ class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterfa
                 $repairOrderVideo->addInteraction($repairOrderMPIInteraction);
                 //Viewed
                 if($faker->boolean(50)){
-                    $dateViewed       = clone $dateSent;
-                    $dateViewedModify = random_int(1, 12);
-                    $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
-                    $status           = "Viewed";
-                    //update repairOrderVideo viewed date
-                    $repairOrderVideo->setDateViewed($dateSent);
-                    //create repairOrderVideoInteraction
-                    $repairOrderMPIInteraction = new RepairOrderVideoInteraction();
-                    $repairOrderMPIInteraction->setRepairOrderVideo($repairOrderVideo)
-                                              ->setUser($repairOrder->getPrimaryTechnician())
-                                              ->setCustomer($repairOrder->getPrimaryCustomer())
-                                              ->setType($status)
-                                              ->setDate($dateViewed);
-                    $repairOrderVideo->addInteraction($repairOrderMPIInteraction);
+                    $viewCount  = $faker->numberBetween(1, 5);
+                    $dateViewed = clone $dateSent;
+                    for($j = 0; $j < $viewCount; $j++){
+                        $dateViewed       = clone $dateViewed;
+                        $dateViewedModify = random_int(1, 12);
+                        $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
+                        $status           = "Viewed";
+                        //update repairOrderVideo viewed date
+                        $repairOrderVideo->setDateViewed($dateSent);
+                        //create repairOrderVideoInteraction
+                        $repairOrderMPIInteraction = new RepairOrderVideoInteraction();
+                        $repairOrderMPIInteraction->setRepairOrderVideo($repairOrderVideo)
+                                                  ->setUser($repairOrder->getPrimaryTechnician())
+                                                  ->setCustomer($repairOrder->getPrimaryCustomer())
+                                                  ->setType($status)
+                                                  ->setDate($dateViewed);
+                        $repairOrderVideo->addInteraction($repairOrderMPIInteraction);
+                    }
                 }
             }
 
