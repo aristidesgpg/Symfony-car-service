@@ -192,9 +192,10 @@ class RepairOrderVideo {
      *
      * @return $this
      */
-    public function setDeleted (bool $deleted): self {
+    public function setDeleted (bool $deleted): self {  
         $this->deleted = $deleted;
-
+        $this->updateRepairOrderVideoStatus();
+        
         return $this;
     }
 
@@ -213,17 +214,17 @@ class RepairOrderVideo {
     public function addInteraction (RepairOrderVideoInteraction $interaction): self {
         $statusArray = array(0 => "Not Started", 1 => "Uploaded", 2 => "Sent", 3 => "Viewed");
         $status = $interaction->getType();
-        $this->setStatus($status);
+        $this->setStatus($status);        
         $repairVideos = $this->getRepairOrder()->getVideos();
         $repairOrderVideoStatus = "Viewed";
         foreach($repairVideos as $repairOrderVideo){
-            if(array_search($repairOrderVideo->getStatus(), $statusArray) < array_search($repairOrderVideoStatus, $statusArray))
+            if(!$repairOrderVideo->isDeleted() && array_search($repairOrderVideo->getStatus(), $statusArray) < array_search($repairOrderVideoStatus, $statusArray))
                 $repairOrderVideoStatus = $repairOrderVideo->getStatus();
         }
 
         $this->getRepairOrder()->setVideoStatus($repairOrderVideoStatus);
-        $this->interactions->add($interaction);
 
+        $this->interactions->add($interaction);
         return $this;
     }
 
@@ -260,6 +261,20 @@ class RepairOrderVideo {
     {
         $this->dateViewed = $dateViewed;
 
+        return $this;
+    }
+    
+    public function updateRepairOrderVideoStatus():self {
+        $statusArray = array(0 => "Not Started", 1 => "Uploaded", 2 => "Sent", 3 => "Viewed");
+        $repairVideos = $this->getRepairOrder()->getVideos();
+        $repairOrderVideoStatus = "Viewed";
+        foreach($repairVideos as $repairOrderVideo){
+            if(!$repairOrderVideo->isDeleted() && array_search($repairOrderVideo->getStatus(), $statusArray) < array_search($repairOrderVideoStatus, $statusArray))
+                $repairOrderVideoStatus = $repairOrderVideo->getStatus();
+        }
+
+        $this->getRepairOrder()->setVideoStatus($repairOrderVideoStatus);
+        
         return $this;
     }
 }
