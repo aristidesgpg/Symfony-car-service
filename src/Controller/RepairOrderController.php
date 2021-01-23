@@ -303,13 +303,17 @@ class RepairOrderController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function getOne(RepairOrder $ro): Response
+    public function getOne(RepairOrder $repairOrder): Response
     {
-        if ($ro->getDeleted()) {
+        if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
-        $view = $this->view($ro);
+        if ($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()) {
+            $repairOrder->setRepairOrderQuote(null);
+        }
+
+        $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
         return $this->handleView($view);
