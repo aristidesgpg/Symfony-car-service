@@ -136,14 +136,10 @@ class MPIController extends AbstractFOSRestController
             }
             
             foreach($groupColumns as $column){
-                if($query)
-                    $query .= " OR ";
                 $query .= 'mp_mpiGroups.'.$column . ' LIKE :searchTerm ';
             }
 
             foreach($itemColumns as $column){
-                if($query)
-                    $query .= " OR ";
                 $query .= 'mp_mpiItems.'.$column . ' LIKE :searchTerm ';
             }
 

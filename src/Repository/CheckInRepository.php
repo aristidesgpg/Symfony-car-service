@@ -100,13 +100,11 @@ class CheckInRepository extends ServiceEntityRepository
                 foreach($columns as $column){
                     if($query)
                         $query .= " OR ";
-                        
+
                     $query     .= 'ch.'.$column . ' LIKE :searchTerm ';
                 }
 
                 foreach($userColumns as $column){
-                    if($query)
-                        $query .= " OR ";
                     $query .= 'ch_user.'.$column . ' LIKE :searchTerm ';
                 }
 
