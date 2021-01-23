@@ -57,7 +57,6 @@ class CheckInRepository extends ServiceEntityRepository
      * @param null   $end
      * @param string $sortField
      * @param string $sortDirection
-     * @param null   $searchField
      * @param null   $searchTerm
      *
      * @return Query|null
@@ -68,8 +67,9 @@ class CheckInRepository extends ServiceEntityRepository
         $end = null,
         $sortField = 'date',
         $sortDirection = 'DESC',
-        $searchField = null,
-        $searchTerm = null
+        $searchTerm = null,
+        $columns = [],
+        $userColumns = []
     ) {
         if (is_null($end)) {
             $end = new DateTime();
@@ -94,7 +94,22 @@ class CheckInRepository extends ServiceEntityRepository
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
             if ($searchTerm) {
-                $qb->andWhere('ch.'.$searchField.' LIKE :searchTerm')
+                $qb->innerJoin('ch.user', 'ch_user');
+                
+                $query = "";
+                foreach($columns as $column){
+                    if($query)
+                        $query .= " OR ";
+                    $query .= 'ch.'.$column . ' LIKE :searchTerm ';
+                }
+
+                foreach($userColumns as $column){
+                    if($query)
+                        $query .= " OR ";
+                    $query .= 'ch_user.'.$column . ' LIKE :searchTerm ';
+                }
+
+                $qb->andWhere($query)
                    ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 
