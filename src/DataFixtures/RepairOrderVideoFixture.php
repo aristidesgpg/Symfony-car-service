@@ -18,9 +18,9 @@ class RepairOrderVideoFixture extends Fixture implements DependentFixtureInterfa
 
     public function load (ObjectManager $manager) {
         $faker = Factory::create();
-        for ($i = 1; $i < 101; $i++) {
+        for ($i = 1; $i < 300; $i++) {
             /** @var RepairOrder $repairOrder */
-            $repairOrderReference = $faker->unique()->numberBetween(1, 150);
+            $repairOrderReference = $faker->numberBetween(1, 150);
             $repairOrder = $this->getReference('repairOrder_' . $repairOrderReference);
             
             $dateUploaded = $faker->dateTimeThisYear;
