@@ -105,7 +105,7 @@ class CheckInRepository extends ServiceEntityRepository
                 }
 
                 foreach($userColumns as $column){
-                    $query .= 'ch_user.'.$column . ' LIKE :searchTerm ';
+                    $query .= 'OR ch_user.'.$column . ' LIKE :searchTerm ';
                 }
 
                 $qb->andWhere($query)

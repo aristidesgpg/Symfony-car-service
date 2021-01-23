@@ -118,12 +118,6 @@ class RepairOrderController extends AbstractFOSRestController
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
      *     description="The value of search",
@@ -146,7 +140,6 @@ class RepairOrderController extends AbstractFOSRestController
         $errors = [];
         $sortField = '';
         $sortDirection = '';
-        $searchField = '';
         $searchTerm = '';
 
         if ($page < 1) {
@@ -215,26 +208,56 @@ class RepairOrderController extends AbstractFOSRestController
             $sortDirection = $request->query->get('sortDirection');
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
-
-            //check if the searchField exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            }
-
+        if (  $request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
+            $query          = "";
+            $qb->innerJoin('ro.primaryCustomer', 'ro_customer');
+            // $qb->innerJoin('ro.primaryTechnician', 'ro_technician');
+            // $qb->innerJoin('ro.primaryAdvisor', 'ro_advisor');
+            // $qb->innerJoin('ro.repairOrderQuote', 'ro_quote');
+            // $qb->innerJoin('ro_quote.repairOrderQuoteRecommendations', 'ro_quote_recommendations');
+            // $qb->innerJoin('ro.repairOrderTeam', 'ro_team');
+            // $qb->innerJoin('ro_team.user', 'ro_team_user');
+            // $qb->innerJoin('ro.repairOrderMPI', 'ro_mpi');
+            // $qb->innerJoin('ro.notes', 'ro_notes');
+            
+            
+            // $relationships = ["ro_customer", "ro_technician", "ro_advisor", "ro_quote", "ro_quote_recommendations",
+            //                     "ro_mpi", "ro_notes", "ro_team_user"];
+            // $relationshipsEntities = ["Customer", "User", "User", 'RepairOrderQuote', 'RepairOrderQuoteRecommendation' , 
+            //                         'RepairOrderMPI', "RepairOrderNote", "User"];
+
+            // $entityFields = array();
+            // foreach($relationships as $i => $relationship){
+            //     $entityFields[$relationship] = $em->getClassMetadata('App\Entity\\'.$relationshipsEntities[$i])->getFieldNames();
+            // }
+
+            foreach($columns as $column){
+                if($query)
+                    $query .= " OR ";
+
+                $query     .= 'ro.'.$column . ' LIKE :searchTerm ';
+            }
+            // foreach($columns as $relationships['ro_customer']){
+            //     if($query)
+            //         $query .= " OR ";
+
+            //     $query     .= 'ro_customer.'.$column . ' LIKE :searchTerm ';
+            // }
+
+            // foreach($relationships as $relationship){
+            //     $fields     = $entityFields[$relationship];
+            //     foreach($fields as $field){
+            //         $query .= " OR " . $relationship . $field . ' LIKE :searchTerm ';
+            //     }
+            // }
+            
+            $qb->andWhere($query)
+            ->setParameter('searchTerm', '%'.$searchTerm.'%');
         }
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
-        }
-
-        if ($searchTerm) {
-            $qb->andWhere('ro.'.$searchField.' LIKE :searchTerm');
-            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
-
-            $urlParameters['searchField'] = $searchField;
         }
 
         $user = $this->getUser();
