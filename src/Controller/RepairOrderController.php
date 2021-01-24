@@ -236,12 +236,6 @@ class RepairOrderController extends AbstractFOSRestController
 
                 $query     .= 'ro.'.$column . ' LIKE :searchTerm ';
             }
-            // foreach($entityFields['ro_customer'] as $column){
-            //     if($query)
-            //         $query .= " OR ";
-
-            //     $query     .= 'ro_customer.'.$column . ' LIKE :searchTerm ';
-            // }
 
             foreach($relationships as $relationship){
                 $fields     = $entityFields[$relationship];
@@ -249,17 +243,9 @@ class RepairOrderController extends AbstractFOSRestController
                     $query .= " OR " . $relationship . "." . $field . ' LIKE :searchTerm ';
                 }
             }
-            
+             
             $qb->andWhere($query);
             $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
-
-            // $view = $this->view(
-            //     [
-            //         'results' => $query,
-                    
-            //     ]
-            // );
-            // return $this->handleView($view);
         }
 
         if (!empty($errors)) {
