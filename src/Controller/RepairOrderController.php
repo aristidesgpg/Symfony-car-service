@@ -211,26 +211,24 @@ class RepairOrderController extends AbstractFOSRestController
         if (  $request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
             $query          = "";
-            $qb->innerJoin('ro.primaryCustomer', 'ro_customer');
-            // $qb->innerJoin('ro.primaryTechnician', 'ro_technician');
-            // $qb->innerJoin('ro.primaryAdvisor', 'ro_advisor');
-            // $qb->innerJoin('ro.repairOrderQuote', 'ro_quote');
-            // $qb->innerJoin('ro_quote.repairOrderQuoteRecommendations', 'ro_quote_recommendations');
-            // $qb->innerJoin('ro.repairOrderTeam', 'ro_team');
-            // $qb->innerJoin('ro_team.user', 'ro_team_user');
-            // $qb->innerJoin('ro.repairOrderMPI', 'ro_mpi');
-            // $qb->innerJoin('ro.notes', 'ro_notes');
+            $qb->leftJoin('ro.primaryCustomer', 'ro_customer');
+            $qb->leftJoin('ro.primaryTechnician', 'ro_technician');
+            $qb->leftJoin('ro.primaryAdvisor', 'ro_advisor');
+            $qb->leftJoin('ro.repairOrderQuote', 'ro_quote');
+            $qb->leftJoin('ro_quote.repairOrderQuoteRecommendations', 'ro_quote_recommendations');
+            $qb->leftJoin('ro.repairOrderTeam', 'ro_team');
+            $qb->leftJoin('ro_team.user', 'ro_team_user');
+            $qb->leftJoin('ro.repairOrderMPI', 'ro_mpi');
+            $qb->leftJoin('ro.notes', 'ro_notes');
             
             
-            // $relationships = ["ro_customer", "ro_technician", "ro_advisor", "ro_quote", "ro_quote_recommendations",
-            //                     "ro_mpi", "ro_notes", "ro_team_user"];
-            // $relationshipsEntities = ["Customer", "User", "User", 'RepairOrderQuote', 'RepairOrderQuoteRecommendation' , 
-            //                         'RepairOrderMPI', "RepairOrderNote", "User"];
+            $relationships = ["ro_customer", "ro_technician", "ro_advisor", "ro_quote", "ro_quote_recommendations", "ro_mpi", "ro_notes", 'ro_team_user'];
+            $relationshipsEntities = ["Customer", "User", "User", "RepairOrderQuote", "RepairOrderQuoteRecommendation", "RepairOrderMPI", "RepairOrderNote", "User"] ;
 
-            // $entityFields = array();
-            // foreach($relationships as $i => $relationship){
-            //     $entityFields[$relationship] = $em->getClassMetadata('App\Entity\\'.$relationshipsEntities[$i])->getFieldNames();
-            // }
+            $entityFields = array();
+            foreach($relationships as $i => $relationship){
+                $entityFields[$relationship] = $em->getClassMetadata('App\Entity\\'.$relationshipsEntities[$i])->getFieldNames();
+            }
 
             foreach($columns as $column){
                 if($query)
@@ -238,22 +236,30 @@ class RepairOrderController extends AbstractFOSRestController
 
                 $query     .= 'ro.'.$column . ' LIKE :searchTerm ';
             }
-            // foreach($columns as $relationships['ro_customer']){
+            // foreach($entityFields['ro_customer'] as $column){
             //     if($query)
             //         $query .= " OR ";
 
             //     $query     .= 'ro_customer.'.$column . ' LIKE :searchTerm ';
             // }
 
-            // foreach($relationships as $relationship){
-            //     $fields     = $entityFields[$relationship];
-            //     foreach($fields as $field){
-            //         $query .= " OR " . $relationship . $field . ' LIKE :searchTerm ';
-            //     }
-            // }
+            foreach($relationships as $relationship){
+                $fields     = $entityFields[$relationship];
+                foreach($fields as $field){
+                    $query .= " OR " . $relationship . "." . $field . ' LIKE :searchTerm ';
+                }
+            }
             
-            $qb->andWhere($query)
-            ->setParameter('searchTerm', '%'.$searchTerm.'%');
+            $qb->andWhere($query);
+            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+
+            // $view = $this->view(
+            //     [
+            //         'results' => $query,
+                    
+            //     ]
+            // );
+            // return $this->handleView($view);
         }
 
         if (!empty($errors)) {
