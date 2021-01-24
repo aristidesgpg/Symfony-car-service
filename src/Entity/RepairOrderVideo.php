@@ -212,9 +212,17 @@ class RepairOrderVideo {
      * @return $this
      */
     public function addInteraction (RepairOrderVideoInteraction $interaction): self {
+        $statusArray = array(0 => "Uploaded", 1 => "Sent", 2 => "Viewed");
+
         $status = $interaction->getType();
         $this->setStatus($status);
         $this->updateRepairOrderVideoStatus();
+
+        $videoStatus = $this->getRepairOrder()->getVideoStatus();
+
+        if($videoStatus == "Not Started" || array_search($status, $statusArray) < array_search($videoStatus, $statusArray))
+            $this->getRepairOrder()->setVideoStatus($status);
+
         $this->interactions->add($interaction);
         return $this;
     }
@@ -256,7 +264,7 @@ class RepairOrderVideo {
     }
     
     public function updateRepairOrderVideoStatus():self {
-        $statusArray = array(0 => "Not Started", 1 => "Uploaded", 2 => "Sent", 3 => "Viewed");
+        $statusArray = array(0 => "Uploaded", 1 => "Sent", 2 => "Viewed");
         $repairVideos = $this->getRepairOrder()->getVideos();
         $repairOrderVideoStatus = "Viewed";
         foreach($repairVideos as $repairOrderVideo){
