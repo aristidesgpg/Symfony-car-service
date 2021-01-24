@@ -29,33 +29,43 @@ class RepairOrderWaiverController extends AbstractFOSRestController
      *
      * @SWG\Parameter(name="signature", type="string", in="formData", required=true)
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)
+     * 
      * @SWG\Response(
      *     response="200",
-     *     description="Return updated RepairOrder object",
+     *     description="Return updated RepairOrder",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      * )
+     * 
      * @SWG\Response(
      *     response="400",
-     *     description="Required missing parameter",
+     *     description="Missing required parameter(s)"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="404",
+     *     description="Repair order not found"
      * )
      *
      * @return Response
      */
     public function waiverSigned(
-        RepairOrder $ro,
         Request $req,
+        RepairOrderRepository $roRepo,
         RepairOrderHelper $helper,
         SettingsHelper $settingsHelper,
         EntityManagerInterface $em
     ) {
-        if ($ro->getDeleted()) {
-            throw new NotFoundHttpException();
+        $signature = $req->get('signature');
+        $repairOrderId = $req->get('repairOrderId');
+
+        if (!$signature || !$repairOrderId) {
+            return $this->handleView($this->view('Missing required parameter(s)', Response::HTTP_BAD_REQUEST));
         }
 
-        $signature = $req->get('signature');
+        $ro = $roRepo->find($repairOrderId);
 
-        if (!$signature) {
-            return $this->handleView($this->view('Input signature', Response::HTTP_BAD_REQUEST));
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
         }
 
         $pattern = "/^\s*([a-z]+\/[a-z0-9\-\+]+(;[a-z\-]+\=[a-z0-9\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i";
@@ -73,7 +83,6 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         $roInteraction = new RepairOrderInteraction();
         $roInteraction->setRepairOrder($ro)
                       ->setCustomer($ro->getPrimaryCustomer())
-                      ->setUser($this->getUser())
                       ->setType("Waiver Signed")
                       ->setDate();
    
@@ -92,24 +101,45 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
     /**
      * @Rest\Post("/waiver/viewed")
+     * @SWG\Post(description="Add an interaction Waiver Viewed")
+     * 
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)
      *
      * @SWG\Response(
      *     response="200",
-     *     description="Add an interaction Waiver Viewed",
+     *     description="Return RepairOrderInteraction",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
+     * )
+     * 
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing required parameter(s)"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="404",
+     *     description="Repair order not found"
      * )
      *
      * @param Request                $request
-     * @param RepairOrder            $ro
+     * @param RepairOrderRepository  $roRepo
      * @param EntityManagerInterface $em
      *
      * @return response
      */
     public function waiverViewed(
-        RepairOrder $ro,
+        Request $request,
+        RepairOrderRepository $roRepo,
         EntityManagerInterface $em
     ) {
+        $repairOrderId = $request->get('repairOrderId');
+
+        if (!$repairOrderId) {
+            return $this->handleView($this->view('Missing required parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        $ro = $roRepo->find($repairOrderId);
+
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -130,24 +160,45 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
     /**
      * @Rest\Post("/waiver/acknowledged")
+     * @SWG\Post(description="Add an interaction Waiver Acknowledged")
+     * 
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)
      *
      * @SWG\Response(
      *     response="200",
-     *     description="Add an interaction Waiver Acknowledged",
+     *     description="Return RepairOrderInteraction",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
+     * )
+     * 
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing required parameter(s)"
+     * )
+     * 
+     * @SWG\Response(
+     *     response="404",
+     *     description="Repair order not found"
      * )
      *
      * @param Request                $request
-     * @param RepairOrder            $ro
+     * @param RepairOrderRepository  $roRepo
      * @param EntityManagerInterface $em
      *
      * @return response
      */
     public function waiverAcknowledged(
-        RepairOrder $ro,
+        Request $request,
+        RepairOrderRepository $roRepo,
         EntityManagerInterface $em
     ) {
+        $repairOrderId = $request->get('repairOrderId');
+
+        if (!$repairOrderId) {
+            return $this->handleView($this->view('Missing required parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        $ro = $roRepo->find($repairOrderId);
+
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -170,6 +221,8 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
     /**
      * @Rest\Post("/waiver/re-send")
+     * @SWG\Post(description="Add an interaction Waiver Resend")
+     * 
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)
      *
      * @SWG\Response(
@@ -177,20 +230,31 @@ class RepairOrderWaiverController extends AbstractFOSRestController
      *     description="Add an interaction Waiver Resent",
      *     @SWG\Schema(type="object", ref=@Model(type=RepairOrderInteraction::class, groups=RepairOrderInteraction::GROUPS))
      * )
+     * 
      * @SWG\Response(response="400", description="Waiver is already signed")
+     * @SWG\Response(response="404", description="Repair order not found")
      *
      * @param Request                          $request
-     * @param RepairOrder                      $ro
+     * @param RepairOrderRepository            $roRepo
      * @param RepairOrderInteractionRepository $roInteractionRepo
      * @param EntityManagerInterface           $em
      *
      * @return response
      */
     public function waiverResend(
-        RepairOrder $ro,
+        Request $request,
+        RepairOrderRepository $roRepo,
         RepairOrderInteractionRepository $roInteractionRepo,
         EntityManagerInterface $em
     ) {
+        $repairOrderId = $request->get('repairOrderId');
+
+        if (!$repairOrderId) {
+            return $this->handleView($this->view('Missing required parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        $ro = $roRepo->find($repairOrderId);
+
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }

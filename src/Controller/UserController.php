@@ -85,10 +85,7 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-<<<<<<< HEAD
-=======
      *
->>>>>>> 28c124e518c5eeef12109b85e847978a7ec841c0
      * @SWG\Response(
      *     response="400",
      *     description="Invalid Role Parameter"
