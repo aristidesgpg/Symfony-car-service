@@ -85,20 +85,24 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
 
                 if($faker->boolean(70)){
                     //Viewed
-                    $dateViewed       = clone $dateSent;
-                    $dateViewedModify = random_int(1, 12);
-                    $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
-                    $status           = "Viewed";
-                    //create MPI interaction
-                    $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
-                    $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
-                                                ->setUser($repairOrder->getPrimaryTechnician())
-                                                ->setCustomer($repairOrder->getPrimaryCustomer())
-                                                ->setType($status)
-                                                ->setDate($dateViewed);
-                    $manager->persist($repairOrderMPIInteraction);
-                    //update RepairOrderMPI sent date
-                    $repairOrderMPI->setDateViewed($dateViewed);
+                    $viewCount  = $faker->numberBetween(1, 5);
+                    $dateViewed = clone $dateSent;
+                    for($j = 0; $j < $viewCount; $j++){
+                        $dateViewed       = clone $dateViewed;
+                        $dateViewedModify = random_int(1, 12);
+                        $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
+                        $status           = "Viewed";
+                        //create MPI interaction
+                        $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
+                        $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
+                                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                                    ->setType($status)
+                                                    ->setDate($dateViewed);
+                        $manager->persist($repairOrderMPIInteraction);
+                        //update RepairOrderMPI sent date
+                        $repairOrderMPI->setDateViewed($dateViewed);
+                    }
                 }
             }
             
