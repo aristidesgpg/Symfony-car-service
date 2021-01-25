@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfPotentialServiceComponentType:
+    properties:
+        potentialServiceComponent:
+            -
+                Valid: null

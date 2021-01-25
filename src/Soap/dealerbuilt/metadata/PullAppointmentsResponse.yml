@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullAppointmentsResponse:
+    xml_root_name: PullAppointmentsResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullAppointmentsResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullAppointmentsResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullAppointmentsResult
+                setter: setPullAppointmentsResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\AppointmentType>
+            xml_list:
+                inline: false
+                entry_name: Appointment
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

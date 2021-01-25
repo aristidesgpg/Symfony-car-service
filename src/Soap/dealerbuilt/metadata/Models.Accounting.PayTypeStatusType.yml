@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType:
+    properties:
+        balanceDue:
+            expose: true
+            access_type: public_method
+            serialized_name: BalanceDue
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getBalanceDue
+                setter: setBalanceDue
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        originalAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginalAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getOriginalAmount
+                setter: setOriginalAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        payType:
+            expose: true
+            access_type: public_method
+            serialized_name: PayType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getPayType
+                setter: setPayType
+            type: string

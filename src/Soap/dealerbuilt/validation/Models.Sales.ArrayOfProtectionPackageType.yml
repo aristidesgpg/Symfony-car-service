@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfProtectionPackageType:
+    properties:
+        protectionPackage:
+            -
+                Valid: null

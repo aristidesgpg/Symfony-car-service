@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\DivisionType:
+    properties:
+        balanceSheetDivision:
+            expose: true
+            access_type: public_method
+            serialized_name: BalanceSheetDivision
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getBalanceSheetDivision
+                setter: setBalanceSheetDivision
+            type: int
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        divsionNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: DivsionNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDivsionNumber
+                setter: setDivsionNumber
+            type: int
+        retainedEarningsDivision:
+            expose: true
+            access_type: public_method
+            serialized_name: RetainedEarningsDivision
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getRetainedEarningsDivision
+                setter: setRetainedEarningsDivision
+            type: int

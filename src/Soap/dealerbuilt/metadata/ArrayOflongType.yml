@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\ArrayOflongType:
+    properties:
+        long:
+            expose: true
+            access_type: public_method
+            serialized_name: long
+            xml_element:
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+            accessor:
+                getter: getLong
+                setter: setLong
+            xml_list:
+                inline: true
+                entry_name: long
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+            type: array<int>

@@ -1,0 +1,47 @@
+App\Soap\dealerbuilt\src\BaseApi\RepairOrderReferencesType:
+    properties:
+        appointmentKey:
+            expose: true
+            access_type: public_method
+            serialized_name: AppointmentKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAppointmentKey
+                setter: setAppointmentKey
+            type: string
+        payments:
+            expose: true
+            access_type: public_method
+            serialized_name: Payments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayments
+                setter: setPayments
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PaymentType>
+            xml_list:
+                inline: false
+                entry_name: Payment
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+        rOCustomer:
+            expose: true
+            access_type: public_method
+            serialized_name: ROCustomer
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getROCustomer
+                setter: setROCustomer
+            type: App\Soap\dealerbuilt\src\BaseApi\CustomerType
+        rOVehicle:
+            expose: true
+            access_type: public_method
+            serialized_name: ROVehicle
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getROVehicle
+                setter: setROVehicle
+            type: App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType

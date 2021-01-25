@@ -1,0 +1,92 @@
+App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
+    properties:
+        fromDate:
+            expose: true
+            access_type: public_method
+            serialized_name: FromDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getFromDate
+                setter: setFromDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        isFullMonth:
+            expose: true
+            access_type: public_method
+            serialized_name: IsFullMonth
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getIsFullMonth
+                setter: setIsFullMonth
+            type: bool
+        month:
+            expose: true
+            access_type: public_method
+            serialized_name: Month
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getMonth
+                setter: setMonth
+            type: int
+        monthToDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MonthToDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getMonthToDate
+                setter: setMonthToDate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        toDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ToDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getToDate
+                setter: setToDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        unitsMonthToDate:
+            expose: true
+            access_type: public_method
+            serialized_name: UnitsMonthToDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getUnitsMonthToDate
+                setter: setUnitsMonthToDate
+            type: int
+        unitsYearToDate:
+            expose: true
+            access_type: public_method
+            serialized_name: UnitsYearToDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getUnitsYearToDate
+                setter: setUnitsYearToDate
+            type: int
+        year:
+            expose: true
+            access_type: public_method
+            serialized_name: Year
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getYear
+                setter: setYear
+            type: int
+        yearToDate:
+            expose: true
+            access_type: public_method
+            serialized_name: YearToDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getYearToDate
+                setter: setYearToDate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

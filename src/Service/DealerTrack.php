@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Dotenv\Dotenv;
 
 /**
- * Class DealerTrack
+ * Class DealerTrackClient
  *
  * @package App\Service
  */
@@ -52,7 +52,7 @@ class DealerTrack extends SOAP {
     private $em;
 
     /**
-     * DealerTrack constructor.
+     * DealerTrackClient constructor.
      *
      * @param EntityManagerInterface $em
      * @param ParameterBagInterface  $parameterBag

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfGlDetailLineType:
+    properties:
+        glDetailLine:
+            -
+                Valid: null

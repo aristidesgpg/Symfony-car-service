@@ -1,0 +1,62 @@
+App\Soap\dealerbuilt\src\BaseApi\PaymentStatusType:
+    properties:
+        balanceDue:
+            expose: true
+            access_type: public_method
+            serialized_name: BalanceDue
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getBalanceDue
+                setter: setBalanceDue
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        eventKey:
+            expose: true
+            access_type: public_method
+            serialized_name: EventKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getEventKey
+                setter: setEventKey
+            type: string
+        eventType:
+            expose: true
+            access_type: public_method
+            serialized_name: EventType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getEventType
+                setter: setEventType
+            type: string
+        payTypeStatuses:
+            expose: true
+            access_type: public_method
+            serialized_name: PayTypeStatuses
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayTypeStatuses
+                setter: setPayTypeStatuses
+            type: array<App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType>
+            xml_list:
+                inline: false
+                entry_name: PayTypeStatus
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+        payments:
+            expose: true
+            access_type: public_method
+            serialized_name: Payments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayments
+                setter: setPayments
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PaymentType>
+            xml_list:
+                inline: false
+                entry_name: Payment
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

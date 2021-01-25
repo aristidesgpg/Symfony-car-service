@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType:
+    properties:
+        counterTicketNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CounterTicketNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCounterTicketNumber
+                setter: setCounterTicketNumber
+            type: string
+        customerId:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerId
+                setter: setCustomerId
+            type: string
+        part:
+            expose: true
+            access_type: public_method
+            serialized_name: Part
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPart
+                setter: setPart
+            type: App\Soap\dealerbuilt\src\Models\Parts\PartType
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int

@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\BaseApi\StorePlacementType:
+    properties:
+        storeId:
+            expose: true
+            access_type: public_method
+            serialized_name: StoreId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getStoreId
+                setter: setStoreId
+            type: int
+        storeName:
+            expose: true
+            access_type: public_method
+            serialized_name: StoreName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getStoreName
+                setter: setStoreName
+            type: string

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetLenders:
+    properties:
+        type:
+            -
+                Valid: null

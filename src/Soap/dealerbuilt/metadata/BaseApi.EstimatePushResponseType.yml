@@ -1,0 +1,57 @@
+App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType:
+    properties:
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        estimateNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimateNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getEstimateNumber
+                setter: setEstimateNumber
+            type: string
+        jobPushResponses:
+            expose: true
+            access_type: public_method
+            serialized_name: JobPushResponses
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getJobPushResponses
+                setter: setJobPushResponses
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType>
+            xml_list:
+                inline: false
+                entry_name: PotentialJobPushResponse
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int
+        vehicleKey:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVehicleKey
+                setter: setVehicleKey
+            type: string

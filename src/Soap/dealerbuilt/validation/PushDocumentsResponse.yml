@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushDocumentsResponse:
+    properties:
+        pushDocumentsResult:
+            -
+                Valid: null

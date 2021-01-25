@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfPaymentType:
+    properties:
+        payment:
+            -
+                Valid: null

@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType:
+    properties:
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        keyNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: KeyNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getKeyNumber
+                setter: setKeyNumber
+            type: string
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int
+        vehicleKey:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVehicleKey
+                setter: setVehicleKey
+            type: string

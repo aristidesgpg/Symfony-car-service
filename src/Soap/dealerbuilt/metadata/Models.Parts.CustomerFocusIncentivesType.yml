@@ -1,0 +1,102 @@
+App\Soap\dealerbuilt\src\Models\Parts\CustomerFocusIncentivesType:
+    properties:
+        cFI1:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI1
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI1
+                setter: setCFI1
+            type: bool
+        cFI10:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI10
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI10
+                setter: setCFI10
+            type: bool
+        cFI2:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI2
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI2
+                setter: setCFI2
+            type: bool
+        cFI3:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI3
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI3
+                setter: setCFI3
+            type: bool
+        cFI4:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI4
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI4
+                setter: setCFI4
+            type: bool
+        cFI5:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI5
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI5
+                setter: setCFI5
+            type: bool
+        cFI6:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI6
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI6
+                setter: setCFI6
+            type: bool
+        cFI7:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI7
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI7
+                setter: setCFI7
+            type: bool
+        cFI8:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI8
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI8
+                setter: setCFI8
+            type: bool
+        cFI9:
+            expose: true
+            access_type: public_method
+            serialized_name: CFI9
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCFI9
+                setter: setCFI9
+            type: bool

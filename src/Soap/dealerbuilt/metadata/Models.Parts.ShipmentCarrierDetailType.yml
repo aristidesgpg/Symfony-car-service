@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType:
+    properties:
+        originatingWarehouse:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginatingWarehouse
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getOriginatingWarehouse
+                setter: setOriginatingWarehouse
+            type: string
+        shipmentCarrierCompanyCodeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: ShipmentCarrierCompanyCodeDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getShipmentCarrierCompanyCodeDescription
+                setter: setShipmentCarrierCompanyCodeDescription
+            type: string
+        shipmentCarrierPurposeComment:
+            expose: true
+            access_type: public_method
+            serialized_name: ShipmentCarrierPurposeComment
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getShipmentCarrierPurposeComment
+                setter: setShipmentCarrierPurposeComment
+            type: string

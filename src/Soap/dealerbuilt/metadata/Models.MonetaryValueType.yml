@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\Models\MonetaryValueType:
+    properties:
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: float
+        currency:
+            expose: true
+            access_type: public_method
+            serialized_name: Currency
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getCurrency
+                setter: setCurrency
+            type: string

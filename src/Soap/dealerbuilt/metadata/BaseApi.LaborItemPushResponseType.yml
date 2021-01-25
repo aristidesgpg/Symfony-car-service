@@ -1,0 +1,77 @@
+App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType:
+    properties:
+        externalLaborOperationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalLaborOperationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getExternalLaborOperationId
+                setter: setExternalLaborOperationId
+            type: string
+        jobNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: JobNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getJobNumber
+                setter: setJobNumber
+            type: int
+        message:
+            expose: true
+            access_type: public_method
+            serialized_name: Message
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMessage
+                setter: setMessage
+            type: string
+        repairOrderKey:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getRepairOrderKey
+                setter: setRepairOrderKey
+            type: string
+        result:
+            expose: true
+            access_type: public_method
+            serialized_name: Result
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getResult
+                setter: setResult
+            type: string
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int
+        sublets:
+            expose: true
+            access_type: public_method
+            serialized_name: Sublets
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSublets
+                setter: setSublets
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PushResponseType>
+            xml_list:
+                inline: false
+                entry_name: PushResponse
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

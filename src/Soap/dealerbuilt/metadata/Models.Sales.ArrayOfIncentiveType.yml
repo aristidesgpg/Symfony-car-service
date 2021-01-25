@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfIncentiveType:
+    properties:
+        incentive:
+            expose: true
+            access_type: public_method
+            serialized_name: Incentive
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getIncentive
+                setter: setIncentive
+            xml_list:
+                inline: true
+                entry_name: Incentive
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\IncentiveType>

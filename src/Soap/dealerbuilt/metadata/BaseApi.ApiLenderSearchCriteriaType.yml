@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\ApiLenderSearchCriteriaType:
+    properties:
+        lenderType:
+            expose: true
+            access_type: public_method
+            serialized_name: LenderType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLenderType
+                setter: setLenderType
+            type: string
+        maxElapsedSinceUpdate:
+            expose: true
+            access_type: public_method
+            serialized_name: MaxElapsedSinceUpdate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMaxElapsedSinceUpdate
+                setter: setMaxElapsedSinceUpdate
+            type: DateInterval
+        sourceId:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSourceId
+                setter: setSourceId
+            type: int

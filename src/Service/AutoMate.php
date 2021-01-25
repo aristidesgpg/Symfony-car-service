@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
- * Class AutoMate
+ * Class AutoMateClient
  *
  * @package App\Service
  */
@@ -47,7 +47,7 @@ class AutoMate extends SOAP {
     private $phoneValidator;
 
     /**
-     * AutoMate constructor.
+     * AutoMateClient constructor.
      *
      * @param EntityManagerInterface $em
      * @param PhoneValidator         $phoneValidator

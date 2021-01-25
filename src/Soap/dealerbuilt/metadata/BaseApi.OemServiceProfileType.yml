@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType:
+    properties:
+        make:
+            expose: true
+            access_type: public_method
+            serialized_name: Make
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMake
+                setter: setMake
+            type: string
+        profile:
+            expose: true
+            access_type: public_method
+            serialized_name: Profile
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getProfile
+                setter: setProfile
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: Vin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string

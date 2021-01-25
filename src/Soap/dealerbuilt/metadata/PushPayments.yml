@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PushPayments:
+    xml_root_name: PushPayments
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        request:
+            expose: true
+            access_type: public_method
+            serialized_name: request
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getRequest
+                setter: setRequest
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType>
+            xml_list:
+                inline: false
+                entry_name: PaymentPushRequest
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

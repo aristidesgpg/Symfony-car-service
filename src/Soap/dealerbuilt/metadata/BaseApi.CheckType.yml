@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\BaseApi\CheckType:
+    properties:
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        checkDate:
+            expose: true
+            access_type: public_method
+            serialized_name: CheckDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCheckDate
+                setter: setCheckDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        checkNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CheckNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCheckNumber
+                setter: setCheckNumber
+            type: string
+        customerId:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerId
+                setter: setCustomerId
+            type: string
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        customerName:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerName
+                setter: setCustomerName
+            type: App\Soap\dealerbuilt\src\Models\NameType
+        payee:
+            expose: true
+            access_type: public_method
+            serialized_name: Payee
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayee
+                setter: setPayee
+            type: string

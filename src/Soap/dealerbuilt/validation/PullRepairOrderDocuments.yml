@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\PullRepairOrderDocuments:
+    properties:
+        repairOrderKeys:
+            -
+                Valid: null
+        documentType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - WorkOrder
+                        - Invoice
+                    groups:
+                        - xsd_rules
+        format:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Html
+                    groups:
+                        - xsd_rules

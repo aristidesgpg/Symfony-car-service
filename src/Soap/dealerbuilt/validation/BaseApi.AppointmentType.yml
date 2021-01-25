@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\BaseApi\AppointmentType:
+    properties:
+        attributes:
+            -
+                Valid: null
+        references:
+            -
+                Valid: null

@@ -1,0 +1,92 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType:
+    properties:
+        cylinderCount:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        doorCount:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        fuelType:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Gas
+                        - Diesel
+                        - Hybrid
+                        - Electric
+                        - Hydrogen
+                        - NaturalGas
+                    groups:
+                        - xsd_rules
+        mileage:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        serviceContractExpirationMileage:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        serviceContractStartMileage:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        vehicleType:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Car
+                        - Truck
+                        - Van
+                        - Suv
+                    groups:
+                        - xsd_rules
+        year:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules

@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullDeferredJobsByVehicleKeyResponse:
+    xml_root_name: PullDeferredJobsByVehicleKeyResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullDeferredJobsByVehicleKeyResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullDeferredJobsByVehicleKeyResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullDeferredJobsByVehicleKeyResult
+                setter: setPullDeferredJobsByVehicleKeyResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\DeferredJobType>
+            xml_list:
+                inline: false
+                entry_name: DeferredJob
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

@@ -1,0 +1,37 @@
+App\Soap\dealerbuilt\src\Models\Sales\LeaseTaxCollectionType:
+    properties:
+        dealerTaxes:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerTaxes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getDealerTaxes
+                setter: setDealerTaxes
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType>
+            xml_list:
+                inline: false
+                entry_name: DealerTax
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+        monthlyUse:
+            expose: true
+            access_type: public_method
+            serialized_name: MonthlyUse
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMonthlyUse
+                setter: setMonthlyUse
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        property:
+            expose: true
+            access_type: public_method
+            serialized_name: Property
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getProperty
+                setter: setProperty
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

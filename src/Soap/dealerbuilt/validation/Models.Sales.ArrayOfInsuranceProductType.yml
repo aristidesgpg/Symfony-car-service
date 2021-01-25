@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfInsuranceProductType:
+    properties:
+        insuranceProduct:
+            -
+                Valid: null

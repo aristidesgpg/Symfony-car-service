@@ -1,0 +1,21 @@
+App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderSearchCriteriaType:
+    properties:
+        maxElapsedSinceUpdate:
+            -
+                Regex:
+                    pattern: '~\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?~'
+                    groups:
+                        - xsd_rules
+            -
+                GreaterThanOrEqual:
+                    value: '-P10675199DT2H48M5.4775808S'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: P10675199DT2H48M5.4775807S
+                    groups:
+                        - xsd_rules
+        purchaseOrderNumbers:
+            -
+                Valid: null

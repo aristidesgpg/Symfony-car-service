@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\GetDepartmentCodesResponse:
+    xml_root_name: GetDepartmentCodesResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        getDepartmentCodesResult:
+            expose: true
+            access_type: public_method
+            serialized_name: GetDepartmentCodesResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getGetDepartmentCodesResult
+                setter: setGetDepartmentCodesResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\DepartmentType>
+            xml_list:
+                inline: false
+                entry_name: Department
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

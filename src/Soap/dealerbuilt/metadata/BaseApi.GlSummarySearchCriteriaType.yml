@@ -1,0 +1,77 @@
+App\Soap\dealerbuilt\src\BaseApi\GlSummarySearchCriteriaType:
+    properties:
+        divisions:
+            expose: true
+            access_type: public_method
+            serialized_name: Divisions
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDivisions
+                setter: setDivisions
+            type: array<int>
+            xml_list:
+                inline: false
+                entry_name: long
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+        endMonth:
+            expose: true
+            access_type: public_method
+            serialized_name: EndMonth
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getEndMonth
+                setter: setEndMonth
+            type: int
+        endYear:
+            expose: true
+            access_type: public_method
+            serialized_name: EndYear
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getEndYear
+                setter: setEndYear
+            type: int
+        includeFuturePostedActivity:
+            expose: true
+            access_type: public_method
+            serialized_name: IncludeFuturePostedActivity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getIncludeFuturePostedActivity
+                setter: setIncludeFuturePostedActivity
+            type: bool
+        rollUpSpreadAccounts:
+            expose: true
+            access_type: public_method
+            serialized_name: RollUpSpreadAccounts
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getRollUpSpreadAccounts
+                setter: setRollUpSpreadAccounts
+            type: bool
+        startMonth:
+            expose: true
+            access_type: public_method
+            serialized_name: StartMonth
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getStartMonth
+                setter: setStartMonth
+            type: int
+        startYear:
+            expose: true
+            access_type: public_method
+            serialized_name: StartYear
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getStartYear
+                setter: setStartYear
+            type: int

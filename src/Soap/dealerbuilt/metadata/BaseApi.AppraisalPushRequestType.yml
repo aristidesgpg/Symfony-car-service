@@ -1,0 +1,172 @@
+App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
+    properties:
+        acv:
+            expose: true
+            access_type: public_method
+            serialized_name: Acv
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAcv
+                setter: setAcv
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        allowance:
+            expose: true
+            access_type: public_method
+            serialized_name: Allowance
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAllowance
+                setter: setAllowance
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        appraisalKey:
+            expose: true
+            access_type: public_method
+            serialized_name: AppraisalKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAppraisalKey
+                setter: setAppraisalKey
+            type: string
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+        dealKey:
+            expose: true
+            access_type: public_method
+            serialized_name: DealKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDealKey
+                setter: setDealKey
+            type: string
+        externalAppraisalId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalAppraisalId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getExternalAppraisalId
+                setter: setExternalAppraisalId
+            type: string
+        payoff:
+            expose: true
+            access_type: public_method
+            serialized_name: Payoff
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoff
+                setter: setPayoff
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        payoffAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffAccount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffAccount
+                setter: setPayoffAccount
+            type: string
+        payoffAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffAddress
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffAddress
+                setter: setPayoffAddress
+            type: string
+        payoffAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffAmount
+                setter: setPayoffAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        payoffCityStateZip:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffCityStateZip
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffCityStateZip
+                setter: setPayoffCityStateZip
+            type: string
+        payoffComments:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffComments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffComments
+                setter: setPayoffComments
+            type: string
+        payoffDate:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffDate
+                setter: setPayoffDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        payoffLenderCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffLenderCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffLenderCode
+                setter: setPayoffLenderCode
+            type: string
+        payoffLenderName:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffLenderName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffLenderName
+                setter: setPayoffLenderName
+            type: string
+        payoffPerDiem:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffPerDiem
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffPerDiem
+                setter: setPayoffPerDiem
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        payoffPhone:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffPhone
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPayoffPhone
+                setter: setPayoffPhone
+            type: string

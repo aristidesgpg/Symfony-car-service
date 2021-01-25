@@ -1,0 +1,1981 @@
+<xs:schema elementFormDefault="qualified" targetNamespace="http://cdx.dealerbuilt.com/Api/0.99/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:import schemaLocation="https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd2"
+               namespace="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+    <xs:import schemaLocation="https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd5"
+               namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+    <xs:import schemaLocation="https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd9"
+               namespace="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales"/>
+    <xs:import schemaLocation="https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd10"
+               namespace="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service"/>
+    <xs:import schemaLocation="https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd12"
+               namespace="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting"/>
+    <xs:element name="PullCustomerByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="customerKey" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerByKeyResult" nillable="true" type="q1:Customer"
+                            xmlns:q1="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerKeys">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q2:CustomerSearchCriteria"
+                            xmlns:q2="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerKeysResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerKeysResult" nillable="true" type="q3:ArrayOfCustomerSummary"
+                            xmlns:q3="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q4:CustomerSearchCriteria"
+                            xmlns:q4="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomersResult" nillable="true" type="q5:ArrayOfCustomer"
+                            xmlns:q5="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullArchivedCustomers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q6:CustomerSearchCriteria"
+                            xmlns:q6="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullArchivedCustomersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullArchivedCustomersResult" nillable="true" type="q7:ArrayOfCustomer"
+                            xmlns:q7="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomersByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="customerKeys" nillable="true" type="q8:ArrayOfstring"
+                            xmlns:q8="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomersByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomersByKeyResult" nillable="true" type="q9:ArrayOfCustomer"
+                            xmlns:q9="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehicleByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="vehicleKey" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehicleByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerVehicleByKeyResult" nillable="true"
+                            type="q10:CustomerVehicle"
+                            xmlns:q10="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehicleKeys">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q11:CustomerVehicleSearchCriteria"
+                            xmlns:q11="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehicleKeysResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerVehicleKeysResult" nillable="true"
+                            type="q12:ArrayOfCustomerVehicleSummary"
+                            xmlns:q12="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehicles">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q13:CustomerVehicleSearchCriteria"
+                            xmlns:q13="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehiclesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerVehiclesResult" nillable="true"
+                            type="q14:ArrayOfCustomerVehicle"
+                            xmlns:q14="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehiclesByCustomerKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="customerKey" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehiclesByCustomerKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerVehiclesByCustomerKeyResult" nillable="true"
+                            type="q15:ArrayOfCustomerVehicle"
+                            xmlns:q15="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehiclesByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="vehicleKeys" nillable="true" type="q16:ArrayOfstring"
+                            xmlns:q16="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerVehiclesByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerVehiclesByKeyResult" nillable="true"
+                            type="q17:ArrayOfCustomerVehicle"
+                            xmlns:q17="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCustomers">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="customers" nillable="true" type="q18:ArrayOfCustomerPushRequest"
+                            xmlns:q18="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCustomersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushCustomersResult" nillable="true"
+                            type="q19:ArrayOfSourcePushResponse"
+                            xmlns:q19="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCustomerVehicleOwners">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="vehicleOwners" nillable="true"
+                            type="q20:ArrayOfCustomerVehicleOwnerPushRequest"
+                            xmlns:q20="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCustomerVehicleOwnersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushCustomerVehicleOwnersResult" nillable="true"
+                            type="q21:ArrayOfSourcePushResponse"
+                            xmlns:q21="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCustomerVehicles">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="vehicles" nillable="true" type="q22:ArrayOfCustomerVehiclePushRequest"
+                            xmlns:q22="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCustomerVehiclesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushCustomerVehiclesResult" nillable="true"
+                            type="q23:ArrayOfSourcePushResponse"
+                            xmlns:q23="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerParts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q24:CustomerPartSearchCriteria"
+                            xmlns:q24="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerPartsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerPartsResult" nillable="true" type="q25:ArrayOfCustomerPart"
+                            xmlns:q25="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerPartsPricing">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q26:CustomerPartSearchCriteria"
+                            xmlns:q26="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullCustomerPartsPricingResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullCustomerPartsPricingResult" nillable="true"
+                            type="q27:ArrayOfCustomerPart"
+                            xmlns:q27="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDealerFees">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="storeId" type="xs:long"/>
+                <xs:element minOccurs="0" name="guestState" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="dealType" type="q28:DealType"
+                            xmlns:q28="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDealerFeesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetDealerFeesResult" nillable="true" type="q29:DealerFeeCollection"
+                            xmlns:q29="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetStoreSetups">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="storeIds" nillable="true" type="q30:ArrayOflong"
+                            xmlns:q30="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetStoreSetupsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetStoreSetupsResult" nillable="true" type="q31:ArrayOfStoreSetup"
+                            xmlns:q31="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetLenderByCode">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="sourceId" type="xs:long"/>
+                <xs:element minOccurs="0" name="lenderCode" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetLenderByCodeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetLenderByCodeResult" nillable="true" type="q32:Lender"
+                            xmlns:q32="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetLenders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="type" nillable="true" type="q33:ApiLenderSearchCriteria"
+                            xmlns:q33="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetLendersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetLendersResult" nillable="true" type="q34:ArrayOfLender"
+                            xmlns:q34="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetProducts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q35:ProductSearchCriteria"
+                            xmlns:q35="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetProductsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetProductsResult" nillable="true" type="q36:ArrayOfProductList"
+                            xmlns:q36="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetSalesPersons">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q37:SalesPersonSearchCriteria"
+                            xmlns:q37="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetSalesPersonsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetSalesPersonsResult" nillable="true" type="q38:ArrayOfStorePersons"
+                            xmlns:q38="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="dealKey" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDealByKeyResult" nillable="true" type="q39:Deal"
+                            xmlns:q39="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDeals">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q40:DealSearchCriteria"
+                            xmlns:q40="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDealsResult" nillable="true" type="q41:ArrayOfDeal"
+                            xmlns:q41="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealsByDealNumber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="storeId" type="xs:long"/>
+                <xs:element minOccurs="0" name="dealNumbers" nillable="true" type="q42:ArrayOflong"
+                            xmlns:q42="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealsByDealNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDealsByDealNumberResult" nillable="true" type="q43:ArrayOfDeal"
+                            xmlns:q43="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealsByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="dealKeys" nillable="true" type="q44:ArrayOfstring"
+                            xmlns:q44="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealsByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDealsByKeyResult" nillable="true" type="q45:ArrayOfDeal"
+                            xmlns:q45="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventory">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q46:InventorySearchCriteria"
+                            xmlns:q46="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullInventoryResult" nillable="true" type="q47:ArrayOfStockItem"
+                            xmlns:q47="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryByStockNumber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="storeId" type="xs:long"/>
+                <xs:element minOccurs="0" name="stockNumber" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryByStockNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullInventoryByStockNumberResult" nillable="true" type="q48:StockItem"
+                            xmlns:q48="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryByVin">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="storeId" type="xs:long"/>
+                <xs:element minOccurs="0" name="vin" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryByVinResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullInventoryByVinResult" nillable="true" type="q49:ArrayOfStockItem"
+                            xmlns:q49="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryItemsByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="inventoryKeys" nillable="true" type="q50:ArrayOfstring"
+                            xmlns:q50="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryItemsByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullInventoryItemsByKeyResult" nillable="true"
+                            type="q51:ArrayOfStockItem"
+                            xmlns:q51="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullProspectByDealNumber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="storeId" type="xs:long"/>
+                <xs:element minOccurs="0" name="dealNumber" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullProspectByDealNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullProspectByDealNumberResult" nillable="true" type="q52:Prospect"
+                            xmlns:q52="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullProspects">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q53:ProspectSearchCriteria"
+                            xmlns:q53="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullProspectsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullProspectsResult" nillable="true" type="q54:ArrayOfProspect"
+                            xmlns:q54="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushAppraisals">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="appraisals" nillable="true" type="q55:ArrayOfAppraisalPushRequest"
+                            xmlns:q55="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushAppraisalsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushAppraisalsResult" nillable="true"
+                            type="q56:ArrayOfStorePushResponse"
+                            xmlns:q56="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeals">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="deals" nillable="true" type="q57:ArrayOfDealPushRequest"
+                            xmlns:q57="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDealsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushDealsResult" nillable="true" type="q58:ArrayOfStorePushResponse"
+                            xmlns:q58="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushInventory">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="inventoryItems" nillable="true" type="q59:ArrayOfStockItemPushRequest"
+                            xmlns:q59="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushInventoryResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushInventoryResult" nillable="true"
+                            type="q60:ArrayOfStockItemPushResponse"
+                            xmlns:q60="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushProspects">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="prospects" nillable="true" type="q61:ArrayOfProspectPushRequest"
+                            xmlns:q61="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushProspectsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushProspectsResult" nillable="true" type="q62:ArrayOfStorePushResponse"
+                            xmlns:q62="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushInventoryStock">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="inventoryItems" nillable="true" type="q63:ArrayOfStockItemPushRequestV2"
+                            xmlns:q63="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushInventoryStockResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushInventoryStockResult" nillable="true"
+                            type="q64:ArrayOfStockItemPushResponse"
+                            xmlns:q64="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryStock">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q65:InventorySearchCriteria"
+                            xmlns:q65="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryStockResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullInventoryStockResult" nillable="true" type="q66:ArrayOfStockItem"
+                            xmlns:q66="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealsFull">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q67:DealSearchCriteria"
+                            xmlns:q67="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealsFullResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDealsFullResult" nillable="true" type="q68:ArrayOfDeal"
+                            xmlns:q68="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetInventoryStockDropdownListSetup">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q69:DropdownListSearchCriteria"
+                            xmlns:q69="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetInventoryStockDropdownListSetupResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetInventoryStockDropdownListSetupResult" nillable="true"
+                            type="q70:ArrayOfInventoryDropdownList"
+                            xmlns:q70="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ClearAppointmentConcerns">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="appointmentKeys" nillable="true" type="q71:ArrayOfstring"
+                            xmlns:q71="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ClearAppointmentConcernsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="ClearAppointmentConcernsResult" nillable="true"
+                            type="q72:ArrayOfServiceLocationTransactionResponse"
+                            xmlns:q72="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CloseRepairOrderPayType">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="repairOrderKey" nillable="true" type="xs:string"/>
+                <xs:element minOccurs="0" name="payType" type="q73:ServicePayType"
+                            xmlns:q73="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CloseRepairOrderPayTypeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="CloseRepairOrderPayTypeResult" nillable="true"
+                            type="q74:ServiceLocationTransactionResponse"
+                            xmlns:q74="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDealerAppointmentStatuses">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="serviceLocationIds" nillable="true" type="q75:ArrayOflong"
+                            xmlns:q75="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDealerAppointmentStatusesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetDealerAppointmentStatusesResult" nillable="true"
+                            type="q76:ArrayOfDealerAppointmentStatusList"
+                            xmlns:q76="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDeferredJobCodes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true"
+                            type="q77:ServiceLocationItemSearchCriteria"
+                            xmlns:q77="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDeferredJobCodesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetDeferredJobCodesResult" nillable="true"
+                            type="q78:ServiceLocationPotentialJobCodes"
+                            xmlns:q78="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetEstimateJobCodes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true"
+                            type="q79:ServiceLocationItemSearchCriteria"
+                            xmlns:q79="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetEstimateJobCodesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetEstimateJobCodesResult" nillable="true"
+                            type="q80:ServiceLocationPotentialJobCodes"
+                            xmlns:q80="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetPartsCounterEmployees">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q81:ServicePersonSearchCriteria"
+                            xmlns:q81="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetPartsCounterEmployeesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetPartsCounterEmployeesResult" nillable="true"
+                            type="q82:ServiceLocationPersons"
+                            xmlns:q82="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetPaymentMethod">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="paymentMethodKeys" nillable="true" type="q83:ArrayOfstring"
+                            xmlns:q83="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetPaymentMethodResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetPaymentMethodResult" nillable="true" type="q84:ArrayOfPaymentMethod"
+                            xmlns:q84="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetPaymentMethods">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="serviceLocationId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetPaymentMethodsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetPaymentMethodsResult" nillable="true" type="q85:ArrayOfPaymentMethod"
+                            xmlns:q85="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetRepairOrderJobCodes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true"
+                            type="q86:ServiceLocationItemSearchCriteria"
+                            xmlns:q86="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetRepairOrderJobCodesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetRepairOrderJobCodesResult" nillable="true"
+                            type="q87:ServiceLocationJobCodes"
+                            xmlns:q87="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetServiceAdvisors">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q88:ServicePersonSearchCriteria"
+                            xmlns:q88="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetServiceAdvisorsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetServiceAdvisorsResult" nillable="true"
+                            type="q89:ServiceLocationPersons"
+                            xmlns:q89="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetServicePersons">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q90:ServicePersonSearchCriteria"
+                            xmlns:q90="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetServicePersonsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetServicePersonsResult" nillable="true"
+                            type="q91:ServiceLocationPersons"
+                            xmlns:q91="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetServicePriceGuideJobs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q92:ServiceVehicleSearchCriteria"
+                            xmlns:q92="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetServicePriceGuideJobsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetServicePriceGuideJobsResult" nillable="true"
+                            type="q93:ServiceLocationPotentialJobCodes"
+                            xmlns:q93="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetTechnicians">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q94:ServicePersonSearchCriteria"
+                            xmlns:q94="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetTechniciansResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetTechniciansResult" nillable="true" type="q95:ServiceLocationPersons"
+                            xmlns:q95="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullAppointments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q96:AppointmentSearchCriteria"
+                            xmlns:q96="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullAppointmentsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullAppointmentsResult" nillable="true" type="q97:ArrayOfAppointment"
+                            xmlns:q97="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullAppointmentsByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="appointmentKeys" nillable="true" type="q98:ArrayOfstring"
+                            xmlns:q98="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullAppointmentsByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullAppointmentsByKeyResult" nillable="true"
+                            type="q99:ArrayOfAppointment"
+                            xmlns:q99="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDeferredJobsByRepairOrderKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="repairOrderKey" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDeferredJobsByRepairOrderKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDeferredJobsByRepairOrderKeyResult" nillable="true"
+                            type="q100:ArrayOfDeferredJob"
+                            xmlns:q100="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDeferredJobsByVehicleKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="vehicleKey" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDeferredJobsByVehicleKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDeferredJobsByVehicleKeyResult" nillable="true"
+                            type="q101:ArrayOfDeferredJob"
+                            xmlns:q101="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullEstimateByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="estimateKey" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullEstimateByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullEstimateByKeyResult" nillable="true" type="q102:Estimate"
+                            xmlns:q102="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullEstimateByNumber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="serviceLocationId" type="xs:long"/>
+                <xs:element minOccurs="0" name="estimateNumber" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullEstimateByNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullEstimateByNumberResult" nillable="true" type="q103:Estimate"
+                            xmlns:q103="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullEstimates">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="apiSearchCriteria" nillable="true" type="q104:EstimateSearchCriteria"
+                            xmlns:q104="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullEstimatesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullEstimatesResult" nillable="true" type="q105:ArrayOfEstimate"
+                            xmlns:q105="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullEstimatesByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="estimateKeys" nillable="true" type="q106:ArrayOfstring"
+                            xmlns:q106="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullEstimatesByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullEstimatesByKeyResult" nillable="true" type="q107:ArrayOfEstimate"
+                            xmlns:q107="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullOemServiceProfile">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="inquiry" nillable="true" type="q108:VehicleInquiry"
+                            xmlns:q108="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullOemServiceProfileResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullOemServiceProfileResult" nillable="true"
+                            type="q109:OemServiceProfile"
+                            xmlns:q109="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullOemServiceProfiles">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="inquiry" nillable="true" type="q110:VehiclesInquiry"
+                            xmlns:q110="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullOemServiceProfilesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullOemServiceProfilesResult" nillable="true"
+                            type="q111:ArrayOfOemServiceProfile"
+                            xmlns:q111="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullParts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q112:PartSearchCriteria"
+                            xmlns:q112="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPartsResult" nillable="true" type="q113:ArrayOfInventoryPart"
+                            xmlns:q113="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="partKeys" nillable="true" type="q114:ArrayOfstring"
+                            xmlns:q114="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPartsByKeyResult" nillable="true" type="q115:ArrayOfInventoryPart"
+                            xmlns:q115="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsByPartNumber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="serviceLocationId" type="xs:long"/>
+                <xs:element minOccurs="0" name="partNumbers" nillable="true" type="q116:ArrayOfstring"
+                            xmlns:q116="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsByPartNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPartsByPartNumberResult" nillable="true"
+                            type="q117:ArrayOfInventoryPart"
+                            xmlns:q117="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsInvoiceByNumber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="serviceLocationId" type="xs:long"/>
+                <xs:element minOccurs="0" name="partsInvoiceNumber" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsInvoiceByNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPartsInvoiceByNumberResult" nillable="true" type="q118:PartsInvoice"
+                            xmlns:q118="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsInvoices">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q119:PartsInvoiceSearchCriteria"
+                            xmlns:q119="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsInvoicesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPartsInvoicesResult" nillable="true" type="q120:ArrayOfPartsInvoice"
+                            xmlns:q120="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsInvoicesByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="partsInvoiceKeys" nillable="true" type="q121:ArrayOfstring"
+                            xmlns:q121="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsInvoicesByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPartsInvoicesByKeyResult" nillable="true"
+                            type="q122:ArrayOfPartsInvoice"
+                            xmlns:q122="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCounterTickets">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="request" nillable="true" type="q123:PushCounterTicketRequest"
+                            xmlns:q123="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCounterTicketsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushCounterTicketsResult" nillable="true"
+                            type="q124:PushCounterTicketApiResponse"
+                            xmlns:q124="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsOrders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q125:PartsOrderSearchCriteria"
+                            xmlns:q125="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsOrdersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPartsOrdersResult" nillable="true" type="q126:ArrayOfPartsOrder"
+                            xmlns:q126="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsOrdersByNumber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="serviceLocationId" type="xs:long"/>
+                <xs:element minOccurs="0" name="partsOrderNumber" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPartsOrdersByNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPartsOrdersByNumberResult" nillable="true"
+                            type="q127:ArrayOfPartsOrder"
+                            xmlns:q127="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPaymentsByRepairOrderKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="repairOrderKeys" nillable="true" type="q128:ArrayOfstring"
+                            xmlns:q128="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPaymentsByRepairOrderKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPaymentsByRepairOrderKeyResult" nillable="true"
+                            type="q129:ArrayOfPaymentStatus"
+                            xmlns:q129="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrderByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="repairOrderKey" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrderByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullRepairOrderByKeyResult" nillable="true" type="q130:RepairOrder"
+                            xmlns:q130="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrderByNumber">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="serviceLocationId" type="xs:long"/>
+                <xs:element minOccurs="0" name="repairOrderNumber" nillable="true" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrderByNumberResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullRepairOrderByNumberResult" nillable="true" type="q131:RepairOrder"
+                            xmlns:q131="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrderDocuments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="repairOrderKeys" nillable="true" type="q132:ArrayOfstring"
+                            xmlns:q132="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+                <xs:element minOccurs="0" name="documentType" type="q133:ServiceDocumentType"
+                            xmlns:q133="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+                <xs:element minOccurs="0" name="format" type="q134:DocumentFormat"
+                            xmlns:q134="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrderDocumentsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullRepairOrderDocumentsResult" nillable="true"
+                            type="q135:ArrayOfApiServiceDocument"
+                            xmlns:q135="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrderKeys">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q136:RepairOrderSearchCriteria"
+                            xmlns:q136="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrderKeysResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullRepairOrderKeysResult" nillable="true"
+                            type="q137:ArrayOfRepairOrderSummary"
+                            xmlns:q137="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q138:RepairOrderSearchCriteria"
+                            xmlns:q138="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrdersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullRepairOrdersResult" nillable="true" type="q139:ArrayOfRepairOrder"
+                            xmlns:q139="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrdersByKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="repairOrderKeys" nillable="true" type="q140:ArrayOfstring"
+                            xmlns:q140="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullRepairOrdersByKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullRepairOrdersByKeyResult" nillable="true"
+                            type="q141:ArrayOfRepairOrder"
+                            xmlns:q141="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushAppointments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="appointment" nillable="true" type="q142:ArrayOfAppointmentPushRequest"
+                            xmlns:q142="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushAppointmentsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushAppointmentsResult" nillable="true"
+                            type="q143:ArrayOfAppointmentPushResponse"
+                            xmlns:q143="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeferredJobs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true" type="q144:ArrayOfDeferredJobPushRequest"
+                            xmlns:q144="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeferredJobsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushDeferredJobsResult" nillable="true"
+                            type="q145:ArrayOfPotentialJobPushResponse"
+                            xmlns:q145="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeferredLaborItems">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true"
+                            type="q146:ArrayOfPotentialLaborItemPushRequest"
+                            xmlns:q146="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeferredLaborItemsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushDeferredLaborItemsResult" nillable="true"
+                            type="q147:ArrayOfPotentialLaborItemPushResponse"
+                            xmlns:q147="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeferredLaborOperationSublets">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true"
+                            type="q148:ArrayOfPotentialLaborOperationSubletPushRequest"
+                            xmlns:q148="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeferredLaborOperationSubletsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushDeferredLaborOperationSubletsResult" nillable="true"
+                            type="q149:ArrayOfServiceLocationPushResponse"
+                            xmlns:q149="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeferredParts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true" type="q150:ArrayOfPotentialPartPushRequest"
+                            xmlns:q150="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDeferredPartsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushDeferredPartsResult" nillable="true"
+                            type="q151:ArrayOfServiceLocationPushResponse"
+                            xmlns:q151="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimateJobs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true" type="q152:ArrayOfEstimateJobPushRequest"
+                            xmlns:q152="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimateJobsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushEstimateJobsResult" nillable="true"
+                            type="q153:ArrayOfPotentialJobPushResponse"
+                            xmlns:q153="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimateLaborItems">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true"
+                            type="q154:ArrayOfPotentialLaborItemPushRequest"
+                            xmlns:q154="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimateLaborItemsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushEstimateLaborItemsResult" nillable="true"
+                            type="q155:ArrayOfPotentialLaborItemPushResponse"
+                            xmlns:q155="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimateLaborOperationSublets">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true"
+                            type="q156:ArrayOfPotentialLaborOperationSubletPushRequest"
+                            xmlns:q156="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimateLaborOperationSubletsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushEstimateLaborOperationSubletsResult" nillable="true"
+                            type="q157:ArrayOfServiceLocationPushResponse"
+                            xmlns:q157="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimateParts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true" type="q158:ArrayOfPotentialPartPushRequest"
+                            xmlns:q158="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimatePartsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushEstimatePartsResult" nillable="true"
+                            type="q159:ArrayOfServiceLocationPushResponse"
+                            xmlns:q159="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimates">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="apiEstimates" nillable="true" type="q160:ArrayOfEstimatePushRequest"
+                            xmlns:q160="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimatesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushEstimatesResult" nillable="true"
+                            type="q161:ArrayOfEstimatePushResponse"
+                            xmlns:q161="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimatesFromAppointments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="appointmentKeys" nillable="true" type="q162:ArrayOfstring"
+                            xmlns:q162="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushEstimatesFromAppointmentsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushEstimatesFromAppointmentsResult" nillable="true"
+                            type="q163:ArrayOfServiceLocationPushResponse"
+                            xmlns:q163="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushPartsInvoiceDelivered">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="partsInvoiceKeys" nillable="true" type="q164:ArrayOfstring"
+                            xmlns:q164="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+                <xs:element minOccurs="0" name="isDelivered" type="xs:boolean"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushPartsInvoiceDeliveredResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushPartsInvoiceDeliveredResult" nillable="true"
+                            type="q165:ArrayOfServiceLocationTransactionResponse"
+                            xmlns:q165="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ClosePartsInvoices">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="partsInvoiceKeys" nillable="true" type="q166:ArrayOfstring"
+                            xmlns:q166="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="ClosePartsInvoicesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="ClosePartsInvoicesResult" nillable="true"
+                            type="q167:ArrayOfServiceLocationTransactionResponse"
+                            xmlns:q167="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushPartsOrders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="partsOrders" nillable="true" type="q168:ArrayOfPartsOrderPushRequest"
+                            xmlns:q168="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushPartsOrdersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushPartsOrdersResult" nillable="true"
+                            type="q169:ArrayOfPartsOrderPushResponse"
+                            xmlns:q169="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushPayments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="request" nillable="true" type="q170:ArrayOfPaymentPushRequest"
+                            xmlns:q170="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushPaymentsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushPaymentsResult" nillable="true"
+                            type="q171:ArrayOfPaymentPushResponse"
+                            xmlns:q171="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrderJobs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true" type="q172:ArrayOfRepairOrderJobPushRequest"
+                            xmlns:q172="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrderJobsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushRepairOrderJobsResult" nillable="true"
+                            type="q173:ArrayOfRepairOrderJobPushResponse"
+                            xmlns:q173="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrderLaborItems">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true" type="q174:ArrayOfLaborItemPushRequest"
+                            xmlns:q174="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrderLaborItemsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushRepairOrderLaborItemsResult" nillable="true"
+                            type="q175:ArrayOfLaborItemPushResponse"
+                            xmlns:q175="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrderLaborOperationSublets">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true"
+                            type="q176:ArrayOfLaborOperationSubletPushRequest"
+                            xmlns:q176="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrderLaborOperationSubletsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushRepairOrderLaborOperationSubletsResult" nillable="true"
+                            type="q177:ArrayOfServiceLocationPushResponse"
+                            xmlns:q177="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrderParts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="requests" nillable="true" type="q178:ArrayOfRepairOrderPartPushRequest"
+                            xmlns:q178="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrderPartsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushRepairOrderPartsResult" nillable="true"
+                            type="q179:ArrayOfServiceLocationPushResponse"
+                            xmlns:q179="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="repairOrders" nillable="true" type="q180:ArrayOfRepairOrderPushRequest"
+                            xmlns:q180="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrdersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushRepairOrdersResult" nillable="true"
+                            type="q181:ArrayOfRepairOrderPushResponse"
+                            xmlns:q181="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrdersFromAppointments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="appointmentKeys" nillable="true" type="q182:ArrayOfstring"
+                            xmlns:q182="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushRepairOrdersFromAppointmentsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushRepairOrdersFromAppointmentsResult" nillable="true"
+                            type="q183:ArrayOfRepairOrderPushResponse"
+                            xmlns:q183="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCounterTicketParts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="counterTicketParts" nillable="true"
+                            type="q184:ArrayOfPartsInvoicePartPushRequest"
+                            xmlns:q184="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushCounterTicketPartsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushCounterTicketPartsResult" nillable="true"
+                            type="q185:ArrayOfServiceLocationPushResponse"
+                            xmlns:q185="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="VoidCounterTickets">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="voidCounterTicketRequests" nillable="true"
+                            type="q186:ArrayOfVoidCounterTicketApiRequest"
+                            xmlns:q186="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="VoidCounterTicketsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="VoidCounterTicketsResult" nillable="true"
+                            type="q187:ArrayOfServiceLocationPushResponse"
+                            xmlns:q187="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDepartmentCodes">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="companyId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDepartmentCodesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetDepartmentCodesResult" nillable="true" type="q188:ArrayOfDepartment"
+                            xmlns:q188="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDivisions">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="companyId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetDivisionsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="GetDivisionsResult" nillable="true" type="q189:ArrayOfDivision"
+                            xmlns:q189="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullChart">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q190:ChartSearchCriteria"
+                            xmlns:q190="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullChartResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullChartResult" nillable="true" type="q191:ArrayOfChartEntry"
+                            xmlns:q191="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullChecks">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="apiSearchCriteria" nillable="true" type="q192:CheckSearchCriteria"
+                            xmlns:q192="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullChecksResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullChecksResult" nillable="true" type="q193:ArrayOfCheck"
+                            xmlns:q193="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullGlDetail">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q194:GlDetailSearchCriteria"
+                            xmlns:q194="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullGlDetailResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullGlDetailResult" nillable="true" type="q195:ArrayOfGlDetailItem"
+                            xmlns:q195="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullGlLines">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q196:GlLineSearchCriteria"
+                            xmlns:q196="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullGlLinesResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullGlLinesResult" nillable="true" type="q197:ArrayOfGlLine"
+                            xmlns:q197="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushGeneralJournalAccounting">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="request" nillable="true" type="q198:StorePush"
+                            xmlns:q198="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushGeneralJournalAccountingResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushGeneralJournalAccountingResult" nillable="true"
+                            type="q199:AccountingTransactionPushResponse"
+                            xmlns:q199="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullGlSummary">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true" type="q200:GlSummarySearchCriteria"
+                            xmlns:q200="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullGlSummaryResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullGlSummaryResult" nillable="true" type="q201:ArrayOfGlSummaryItem"
+                            xmlns:q201="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPurchaseOrders">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="apiSearchCriteria" nillable="true"
+                            type="q202:PurchaseOrderSearchCriteria"
+                            xmlns:q202="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullPurchaseOrdersResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullPurchaseOrdersResult" nillable="true"
+                            type="q203:ArrayOfPurchaseOrder"
+                            xmlns:q203="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullReceipts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="apiSearchCriteria" nillable="true" type="q204:ReceiptSearchCriteria"
+                            xmlns:q204="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullReceiptsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullReceiptsResult" nillable="true" type="q205:ArrayOfReceipt"
+                            xmlns:q205="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryLogs">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="apiSearchCriteria" nillable="true" type="q206:ApiLogSearchCriteria"
+                            xmlns:q206="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullInventoryLogsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullInventoryLogsResult" nillable="true" type="q207:ArrayOfLogging"
+                            xmlns:q207="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDocumentsByDealKey">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="dealKeys" nillable="true" type="q208:ArrayOfstring"
+                            xmlns:q208="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDocumentsByDealKeyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDocumentsByDealKeyResult" nillable="true"
+                            type="q209:ArrayOfDocument"
+                            xmlns:q209="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDocuments">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="documents" nillable="true" type="q210:ArrayOfDocumentPushRequest"
+                            xmlns:q210="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushDocumentsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushDocumentsResult" nillable="true"
+                            type="q211:ArrayOfStorePushResponse"
+                            xmlns:q211="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealerLocations">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="dealerNumber" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDealerLocationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDealerLocationsResult" nillable="true"
+                            type="q212:ArrayOfServiceLocationPlacement"
+                            xmlns:q212="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushSalesPrice">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="inventoryItems" nillable="true" type="q213:ArrayOfSalesPricePushRequest"
+                            xmlns:q213="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PushSalesPriceResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PushSalesPriceResult" nillable="true"
+                            type="q214:ArrayOfStockItemPushResponse"
+                            xmlns:q214="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDropDownListDetail">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="apiSearchCriteria" nillable="true"
+                            type="q215:DropdownListSearchCriteria"
+                            xmlns:q215="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullDropDownListDetailResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullDropDownListDetailResult" nillable="true"
+                            type="q216:ArrayOfDropdownListDetails"
+                            xmlns:q216="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullAfterMarketProduct">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="searchCriteria" nillable="true"
+                            type="q217:AfterMarketProductsSearchCriteria"
+                            xmlns:q217="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="PullAfterMarketProductResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" name="PullAfterMarketProductResult" nillable="true"
+                            type="q218:AfterMarketServiceProdutPullResponse"
+                            xmlns:q218="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

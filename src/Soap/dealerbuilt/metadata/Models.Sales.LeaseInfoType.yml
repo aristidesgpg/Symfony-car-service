@@ -1,0 +1,322 @@
+App\Soap\dealerbuilt\src\Models\Sales\LeaseInfoType:
+    properties:
+        baseResidualAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: BaseResidualAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getBaseResidualAmount
+                setter: setBaseResidualAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        capCostReduction:
+            expose: true
+            access_type: public_method
+            serialized_name: CapCostReduction
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getCapCostReduction
+                setter: setCapCostReduction
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        cashCapReductionAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CashCapReductionAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getCashCapReductionAmount
+                setter: setCashCapReductionAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        cashRequired:
+            expose: true
+            access_type: public_method
+            serialized_name: CashRequired
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getCashRequired
+                setter: setCashRequired
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        estimatedOfficialFeeTax:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedOfficialFeeTax
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getEstimatedOfficialFeeTax
+                setter: setEstimatedOfficialFeeTax
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        factorInterestType:
+            expose: true
+            access_type: public_method
+            serialized_name: FactorInterestType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFactorInterestType
+                setter: setFactorInterestType
+            type: string
+        feeAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: FeeAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFeeAmount
+                setter: setFeeAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        fees:
+            expose: true
+            access_type: public_method
+            serialized_name: Fees
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFees
+                setter: setFees
+            type: App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType
+        grossCapCost:
+            expose: true
+            access_type: public_method
+            serialized_name: GrossCapCost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getGrossCapCost
+                setter: setGrossCapCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        hardAddsResidualAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: HardAddsResidualAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getHardAddsResidualAmount
+                setter: setHardAddsResidualAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        hardAddsResidualPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: HardAddsResidualPercentage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getHardAddsResidualPercentage
+                setter: setHardAddsResidualPercentage
+            type: float
+        isOnePayLease:
+            expose: true
+            access_type: public_method
+            serialized_name: IsOnePayLease
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getIsOnePayLease
+                setter: setIsOnePayLease
+            type: bool
+        mileageActual:
+            expose: true
+            access_type: public_method
+            serialized_name: MileageActual
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMileageActual
+                setter: setMileageActual
+            type: int
+        mileageAllowance:
+            expose: true
+            access_type: public_method
+            serialized_name: MileageAllowance
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMileageAllowance
+                setter: setMileageAllowance
+            type: int
+        mileageDollarsPerMileLeaseEnd:
+            expose: true
+            access_type: public_method
+            serialized_name: MileageDollarsPerMileLeaseEnd
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMileageDollarsPerMileLeaseEnd
+                setter: setMileageDollarsPerMileLeaseEnd
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        mileageDollarsPerMileUpFront:
+            expose: true
+            access_type: public_method
+            serialized_name: MileageDollarsPerMileUpFront
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMileageDollarsPerMileUpFront
+                setter: setMileageDollarsPerMileUpFront
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        mileageEstimate:
+            expose: true
+            access_type: public_method
+            serialized_name: MileageEstimate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMileageEstimate
+                setter: setMileageEstimate
+            type: int
+        milesUpFront:
+            expose: true
+            access_type: public_method
+            serialized_name: MilesUpFront
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMilesUpFront
+                setter: setMilesUpFront
+            type: int
+        moneyFactor:
+            expose: true
+            access_type: public_method
+            serialized_name: MoneyFactor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMoneyFactor
+                setter: setMoneyFactor
+            type: float
+        monthlyDepreciationAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: MonthlyDepreciationAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMonthlyDepreciationAmount
+                setter: setMonthlyDepreciationAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        monthlyServiceCharge:
+            expose: true
+            access_type: public_method
+            serialized_name: MonthlyServiceCharge
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMonthlyServiceCharge
+                setter: setMonthlyServiceCharge
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        netCapCost:
+            expose: true
+            access_type: public_method
+            serialized_name: NetCapCost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getNetCapCost
+                setter: setNetCapCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        otherMonthlyCharges:
+            expose: true
+            access_type: public_method
+            serialized_name: OtherMonthlyCharges
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getOtherMonthlyCharges
+                setter: setOtherMonthlyCharges
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        packageDiscounts:
+            expose: true
+            access_type: public_method
+            serialized_name: PackageDiscounts
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getPackageDiscounts
+                setter: setPackageDiscounts
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        rebateCapReductionAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: RebateCapReductionAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getRebateCapReductionAmount
+                setter: setRebateCapReductionAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        residualAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ResidualAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getResidualAmount
+                setter: setResidualAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        residualPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: ResidualPercentage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getResidualPercentage
+                setter: setResidualPercentage
+            type: float
+        securityDeposit:
+            expose: true
+            access_type: public_method
+            serialized_name: SecurityDeposit
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getSecurityDeposit
+                setter: setSecurityDeposit
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        taxes:
+            expose: true
+            access_type: public_method
+            serialized_name: Taxes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTaxes
+                setter: setTaxes
+            type: App\Soap\dealerbuilt\src\Models\Sales\LeaseTaxCollectionType
+        totalDueAtSigning:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalDueAtSigning
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTotalDueAtSigning
+                setter: setTotalDueAtSigning
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        tracLease:
+            expose: true
+            access_type: public_method
+            serialized_name: TracLease
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTracLease
+                setter: setTracLease
+            type: bool
+        tradeTaxCredit:
+            expose: true
+            access_type: public_method
+            serialized_name: TradeTaxCredit
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTradeTaxCredit
+                setter: setTradeTaxCredit
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

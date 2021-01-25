@@ -1,0 +1,17 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfServicePayType:
+    properties:
+        servicePayType:
+            -
+                All:
+                    constraints:
+                        -
+                            Choice:
+                                choices:
+                                    - Unknown
+                                    - CustomerCounterTicket
+                                    - Customer
+                                    - Internal
+                                    - ServiceContract
+                                    - Warranty
+                    groups:
+                        - xsd_rules

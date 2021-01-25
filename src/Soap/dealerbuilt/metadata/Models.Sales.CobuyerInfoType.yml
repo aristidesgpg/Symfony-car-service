@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\Sales\CobuyerInfoType:
+    properties:
+        identity:
+            expose: true
+            access_type: public_method
+            serialized_name: Identity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getIdentity
+                setter: setIdentity
+            type: App\Soap\dealerbuilt\src\Models\IdentityProfileType
+        isMarried:
+            expose: true
+            access_type: public_method
+            serialized_name: IsMarried
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getIsMarried
+                setter: setIsMarried
+            type: bool
+        license:
+            expose: true
+            access_type: public_method
+            serialized_name: License
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getLicense
+                setter: setLicense
+            type: App\Soap\dealerbuilt\src\Models\DriversLicenseType
+        relationshipType:
+            expose: true
+            access_type: public_method
+            serialized_name: RelationshipType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getRelationshipType
+                setter: setRelationshipType
+            type: string

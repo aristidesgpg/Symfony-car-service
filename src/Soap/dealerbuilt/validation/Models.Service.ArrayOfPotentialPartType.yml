@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfPotentialPartType:
+    properties:
+        potentialPart:
+            -
+                Valid: null

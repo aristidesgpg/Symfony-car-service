@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullPartsInvoicesResponse:
+    xml_root_name: PullPartsInvoicesResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullPartsInvoicesResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullPartsInvoicesResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullPartsInvoicesResult
+                setter: setPullPartsInvoicesResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType>
+            xml_list:
+                inline: false
+                entry_name: PartsInvoice
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

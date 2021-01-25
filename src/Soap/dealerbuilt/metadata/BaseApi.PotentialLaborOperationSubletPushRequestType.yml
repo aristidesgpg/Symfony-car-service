@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType:
+    properties:
+        laborItemKey:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborItemKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLaborItemKey
+                setter: setLaborItemKey
+            type: string
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int
+        sublet:
+            expose: true
+            access_type: public_method
+            serialized_name: Sublet
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSublet
+                setter: setSublet
+            type: App\Soap\dealerbuilt\src\BaseApi\PushedPotentialLaborOperationSubletType
+        subletKey:
+            expose: true
+            access_type: public_method
+            serialized_name: SubletKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSubletKey
+                setter: setSubletKey
+            type: string

@@ -1,0 +1,29 @@
+App\Soap\dealerbuilt\src\PullPartsByPartNumber:
+    xml_root_name: PullPartsByPartNumber
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: serviceLocationId
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int
+        partNumbers:
+            expose: true
+            access_type: public_method
+            serialized_name: partNumbers
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPartNumbers
+                setter: setPartNumbers
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType:
+    properties:
+        estimatedArrivalDate:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedArrivalDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getEstimatedArrivalDate
+                setter: setEstimatedArrivalDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        orderDetail:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderDetail
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getOrderDetail
+                setter: setOrderDetail
+            type: string
+        orderNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getOrderNumber
+                setter: setOrderNumber
+            type: string

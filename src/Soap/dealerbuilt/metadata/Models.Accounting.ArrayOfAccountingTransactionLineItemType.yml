@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfAccountingTransactionLineItemType:
+    properties:
+        accountingTransactionLineItem:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingTransactionLineItem
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getAccountingTransactionLineItem
+                setter: setAccountingTransactionLineItem
+            xml_list:
+                inline: true
+                entry_name: AccountingTransactionLineItem
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            type: array<App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType>

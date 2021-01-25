@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfProductListType:
+    properties:
+        productList:
+            expose: true
+            access_type: public_method
+            serialized_name: ProductList
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getProductList
+                setter: setProductList
+            xml_list:
+                inline: true
+                entry_name: ProductList
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\ProductListType>

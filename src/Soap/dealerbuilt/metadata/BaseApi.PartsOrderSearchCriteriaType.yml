@@ -1,0 +1,87 @@
+App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
+    properties:
+        maxOrderDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MaxOrderDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMaxOrderDate
+                setter: setMaxOrderDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        maximumCloseDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumCloseDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMaximumCloseDate
+                setter: setMaximumCloseDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minOrderDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MinOrderDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMinOrderDate
+                setter: setMinOrderDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        mininumCloseDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MininumCloseDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMininumCloseDate
+                setter: setMininumCloseDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        openScope:
+            expose: true
+            access_type: public_method
+            serialized_name: OpenScope
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getOpenScope
+                setter: setOpenScope
+            type: string
+        orderTransmissionScope:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderTransmissionScope
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getOrderTransmissionScope
+                setter: setOrderTransmissionScope
+            type: string
+        specialOrderScope:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialOrderScope
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSpecialOrderScope
+                setter: setSpecialOrderScope
+            type: string
+        vendorCodes:
+            expose: true
+            access_type: public_method
+            serialized_name: VendorCodes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVendorCodes
+                setter: setVendorCodes
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

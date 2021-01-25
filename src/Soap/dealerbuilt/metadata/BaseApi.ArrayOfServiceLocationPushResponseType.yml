@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfServiceLocationPushResponseType:
+    properties:
+        serviceLocationPushResponse:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationPushResponse
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getServiceLocationPushResponse
+                setter: setServiceLocationPushResponse
+            xml_list:
+                inline: true
+                entry_name: ServiceLocationPushResponse
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType>

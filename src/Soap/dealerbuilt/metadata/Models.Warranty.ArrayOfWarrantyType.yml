@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Warranty\ArrayOfWarrantyType:
+    properties:
+        warranty:
+            expose: true
+            access_type: public_method
+            serialized_name: Warranty
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+            accessor:
+                getter: getWarranty
+                setter: setWarranty
+            xml_list:
+                inline: true
+                entry_name: Warranty
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+            type: array<App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType>
