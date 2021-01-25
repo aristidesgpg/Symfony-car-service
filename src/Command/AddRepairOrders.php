@@ -82,7 +82,7 @@ class AddRepairOrders extends Command {
             $startTime = new DateTime($now->format('Y-m-d 03:00:00'));
             $endTime   = new DateTime($now->format('Y-m-d 22:00:00'));
             if ($now < $startTime || $now > $endTime) {
-                $output->writeln('The CDK servers are busy between 10pm and 3am doing nothing so they can\'t handle our requests');
+                $output->writeln('The CDKClient servers are busy between 10pm and 3am doing nothing so they can\'t handle our requests');
                 return;
             }
         }
