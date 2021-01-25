@@ -53,56 +53,44 @@ class FollowUpRepository extends ServiceEntityRepository
      * 
      * @return FollowUp[] Returns array of FolloUp ojbects
      */
-    public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date_crated', $sortDirection = 'DESC', $searchTerm = null, $columns = [] ){
-        if(is_null($end)) {
+    public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date_crated', $sortDirection = 'DESC', $searchTerm = null)
+    {
+        if (is_null($end)) {
             $end   = new \DateTime();
-        } else{
+        } else {
             $end   = new \DateTime($end);
         }
 
-        if($start)
+        if ($start)
             $start = new \DateTime($start);
 
         try {
             $qb    = $this->createQueryBuilder('fu');
-            
-            if($start && $end){
+
+            if ($start && $end) {
                 $qb->andWhere('fu.dateCreated BETWEEN :start AND :end OR fu.dateSent BETWEEN :start AND :end OR 
                                fu.dateViewed BETWEEN :start AND :end OR fu.dateConverted BETWEEN :start AND :end ')
-                   ->setParameter('start', $start->format('Y-m-d H:i'))
-                   ->setParameter('end', $end->format('Y-m-d H:i'));
-            } else{
+                    ->setParameter('start', $start->format('Y-m-d H:i'))
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
+            } else {
                 $qb->andWhere('fu.dateCreated < :end OR fu.dateSent < :end OR fu.dateViewed < :end OR fu.dateConverted < :end')
-                   ->setParameter('end', $end->format('Y-m-d H:i'));
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
-            if($searchTerm)
-            {
-                $query = "";
-
-                foreach($columns as $column){
-                    if($query){
-                        $query .= " OR ";
-                    }
-                    $query .='fu.'.$column.' LIKE :searchTerm';
-                }
-                $qb->andWhere($query)
-                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
+            if ($searchTerm) {
             }
 
-            if($sortDirection){
-                $qb->orderBy('fu.'.$sortField, $sortDirection);
-            }
-            else{
+            if ($sortDirection) {
+                $qb->orderBy('fu.' . $sortField, $sortDirection);
+            } else {
                 $qb->orderBy('fu.dateCreated', 'DESC');
             }
 
-            if($status){
+            if ($status) {
                 $qb->andWhere('fu.status < :status')
-                   ->setParameter('status', $status);
+                    ->setParameter('status', $status);
             }
- 
+
             return $qb->getQuery();
- 
         } catch (NonUniqueResultException $e) {
             return null;
         }
@@ -113,17 +101,17 @@ class FollowUpRepository extends ServiceEntityRepository
      * 
      * @return FollowUp[] Returns array of FolloUp ojbects
      */
-    public function getAllDelayedItems($delay){
+    public function getAllDelayedItems($delay)
+    {
         try {
             $qb = $this->createQueryBuilder("fu");
-            
+
             $qb->andWhere(":now >= DATE_ADD(fu.dateCreated, :delay , 'day')")
-               ->andWhere("fu.dateSent is NULL")
-               ->setParameter("now", new \DateTime())
-               ->setParameter("delay", $delay);
+                ->andWhere("fu.dateSent is NULL")
+                ->setParameter("now", new \DateTime())
+                ->setParameter("delay", $delay);
 
             return $qb->getQuery()->getResult();
- 
         } catch (NonUniqueResultException $e) {
             return null;
         }

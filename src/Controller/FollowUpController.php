@@ -27,7 +27,8 @@ use Doctrine\ORM\EntityManagerInterface;
  * @package App\Controller
  *
  */
-class FollowUpController extends AbstractFOSRestController {
+class FollowUpController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 100;
 
     /**
@@ -113,8 +114,13 @@ class FollowUpController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function list (Request $request, FollowUpRepository $followUpRepository,
-                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator, EntityManagerInterface $em): Response {
+    public function list(
+        Request $request,
+        FollowUpRepository $followUpRepository,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
+    ): Response {
         $page          = $request->query->getInt('page', 1);
         $status        = $request->query->getInt('status');
         $startDate     = $request->query->get('startDate');
@@ -122,9 +128,9 @@ class FollowUpController extends AbstractFOSRestController {
         $urlParameters = [];
         $sortField     = "";
         $sortDirection = "";
-        $searchTerm    = "";      
-        $errors        = [];              
-    
+        $searchTerm    = "";
+        $errors        = [];
+
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -132,23 +138,20 @@ class FollowUpController extends AbstractFOSRestController {
 
         $columns = $em->getClassMetadata('App\Entity\FollowUp')->getFieldNames();
 
-        if($request->query->has('sortField') && $request->query->has('sortDirection'))
-        {
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
             $sortField                      = $request->query->get('sortField');
-            
+
             //check if the sortfield exist
-            if(!in_array($sortField, $columns))
+            if (!in_array($sortField, $columns))
                 $errors['sortField'] = 'Invalid sort field name';
-            
+
             $sortDirection                  = $request->query->get('sortDirection');
 
             $urlParameters['sortDirection'] = $sortDirection;
             $urlParameters['sortField']     = $sortField;
-
         }
 
-        if($request->query->has('searchTerm'))
-        {
+        if ($request->query->has('searchTerm')) {
             $searchTerm                     = $request->query->get('searchTerm');
 
             $urlParameters['searchTerm']    = $searchTerm;
@@ -158,11 +161,11 @@ class FollowUpController extends AbstractFOSRestController {
             return new ValidationResponse($errors);
         }
 
-        $followUpQuery = $followUpRepository->getAllItems($startDate, $endDate, $status,  $sortField, $sortDirection, $searchTerm, $columns);
+        $followUpQuery = $followUpRepository->getAllItems($startDate, $endDate, $status,  $sortField, $sortDirection, $searchTerm);
         $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $pager        = $paginator->paginate($followUpQuery, $page, $pageLimit);
         $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
-        
+
         $json = [
             'followUps'    => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
@@ -195,13 +198,14 @@ class FollowUpController extends AbstractFOSRestController {
      * @return Response
      */
 
-    public function viewed (Followup $followup, FollowUpHelper $helper) {
+    public function viewed(Followup $followup, FollowUpHelper $helper)
+    {
         $user    = $this->getUser();
 
-        if(!$user instanceof Customer){
+        if (!$user instanceof Customer) {
             return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
         }
-        
+
         $helper->updateFollowUp($followup, $user, 'Viewed');
 
         return $this->handleView($this->view([
@@ -225,18 +229,18 @@ class FollowUpController extends AbstractFOSRestController {
      * @return Response
      */
 
-    public function converted (Followup $followup, FollowUpHelper $helper) {
+    public function converted(Followup $followup, FollowUpHelper $helper)
+    {
         $user    = $this->getUser();
 
-        if(!$user instanceof Customer){
+        if (!$user instanceof Customer) {
             return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
         }
-        
+
         $helper->updateFollowUp($followup, $user, 'Converted');
 
         return $this->handleView($this->view([
             'message' => 'Success'
         ], Response::HTTP_OK));
     }
-
 }
