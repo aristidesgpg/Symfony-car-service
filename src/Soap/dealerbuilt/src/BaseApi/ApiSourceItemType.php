@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiSourceItemType.
+ * Class representing ApiSourceItemType
  *
+ * 
  * XSD Type: ApiSourceItem
  */
 class ApiSourceItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePlacementType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePlacementType $placement
      */
     private $placement = null;
 
     /**
-     * Gets as placement.
+     * Gets as placement
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\SourcePlacementType
      */
@@ -25,16 +27,17 @@ class ApiSourceItemType
     }
 
     /**
-     * Sets a new placement.
+     * Sets a new placement
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePlacementType $placement
-     *
      * @return self
      */
-    public function setPlacement(SourcePlacementType $placement)
+    public function setPlacement(\App\Soap\dealerbuilt\src\BaseApi\SourcePlacementType $placement)
     {
         $this->placement = $placement;
-
         return $this;
     }
+
+
 }
+

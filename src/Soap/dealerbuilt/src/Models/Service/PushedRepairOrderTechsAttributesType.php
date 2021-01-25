@@ -3,59 +3,61 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedRepairOrderTechsAttributesType.
+ * Class representing PushedRepairOrderTechsAttributesType
  *
+ * 
  * XSD Type: PushedRepairOrderTechsAttributes
  */
 class PushedRepairOrderTechsAttributesType
 {
+
     /**
-     * @var float
+     * @var float $actualHours
      */
     private $actualHours = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var float
+     * @var float $estimatedHours
      */
     private $estimatedHours = null;
 
     /**
-     * @var string
+     * @var string $factoryId
      */
     private $factoryId = null;
 
     /**
-     * @var float
+     * @var float $flatRateHours
      */
     private $flatRateHours = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount
      */
     private $laborAmount = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * @var string
+     * @var string $techId
      */
     private $techId = null;
 
     /**
-     * Gets as actualHours.
+     * Gets as actualHours
      *
      * @return float
      */
@@ -65,21 +67,19 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new actualHours.
+     * Sets a new actualHours
      *
      * @param float $actualHours
-     *
      * @return self
      */
     public function setActualHours($actualHours)
     {
         $this->actualHours = $actualHours;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -89,19 +89,19 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as estimatedHours.
+     * Gets as estimatedHours
      *
      * @return float
      */
@@ -111,21 +111,19 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new estimatedHours.
+     * Sets a new estimatedHours
      *
      * @param float $estimatedHours
-     *
      * @return self
      */
     public function setEstimatedHours($estimatedHours)
     {
         $this->estimatedHours = $estimatedHours;
-
         return $this;
     }
 
     /**
-     * Gets as factoryId.
+     * Gets as factoryId
      *
      * @return string
      */
@@ -135,21 +133,19 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new factoryId.
+     * Sets a new factoryId
      *
      * @param string $factoryId
-     *
      * @return self
      */
     public function setFactoryId($factoryId)
     {
         $this->factoryId = $factoryId;
-
         return $this;
     }
 
     /**
-     * Gets as flatRateHours.
+     * Gets as flatRateHours
      *
      * @return float
      */
@@ -159,21 +155,19 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new flatRateHours.
+     * Sets a new flatRateHours
      *
      * @param float $flatRateHours
-     *
      * @return self
      */
     public function setFlatRateHours($flatRateHours)
     {
         $this->flatRateHours = $flatRateHours;
-
         return $this;
     }
 
     /**
-     * Gets as laborAmount.
+     * Gets as laborAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -183,19 +177,19 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new laborAmount.
+     * Sets a new laborAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount
      * @return self
      */
     public function setLaborAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount)
     {
         $this->laborAmount = $laborAmount;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -205,21 +199,19 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -229,21 +221,19 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
 
     /**
-     * Gets as techId.
+     * Gets as techId
      *
      * @return string
      */
@@ -253,16 +243,17 @@ class PushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new techId.
+     * Sets a new techId
      *
      * @param string $techId
-     *
      * @return self
      */
     public function setTechId($techId)
     {
         $this->techId = $techId;
-
         return $this;
     }
+
+
 }
+

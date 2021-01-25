@@ -3,64 +3,66 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing OptionType.
+ * Class representing OptionType
  *
+ * 
  * XSD Type: Option
  */
 class OptionType
 {
+
     /**
-     * @var string
+     * @var string $code
      */
     private $code = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var bool
+     * @var bool $deleteFlag
      */
     private $deleteFlag = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $listPrice
      */
     private $listPrice = null;
 
     /**
-     * @var string
+     * @var string $manufacturerName
      */
     private $manufacturerName = null;
 
     /**
-     * @var string
+     * @var string $optionId
      */
     private $optionId = null;
 
     /**
-     * @var string
+     * @var string $optionName
      */
     private $optionName = null;
 
     /**
-     * @var string
+     * @var string $optionNotes
      */
     private $optionNotes = null;
 
     /**
-     * @var string
+     * @var string $optionType
      */
     private $optionType = null;
 
     /**
-     * Gets as code.
+     * Gets as code
      *
      * @return string
      */
@@ -70,21 +72,19 @@ class OptionType
     }
 
     /**
-     * Sets a new code.
+     * Sets a new code
      *
      * @param string $code
-     *
      * @return self
      */
     public function setCode($code)
     {
         $this->code = $code;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -94,19 +94,19 @@ class OptionType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as deleteFlag.
+     * Gets as deleteFlag
      *
      * @return bool
      */
@@ -116,21 +116,19 @@ class OptionType
     }
 
     /**
-     * Sets a new deleteFlag.
+     * Sets a new deleteFlag
      *
      * @param bool $deleteFlag
-     *
      * @return self
      */
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -140,21 +138,19 @@ class OptionType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as listPrice.
+     * Gets as listPrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -164,19 +160,19 @@ class OptionType
     }
 
     /**
-     * Sets a new listPrice.
+     * Sets a new listPrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $listPrice
      * @return self
      */
     public function setListPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $listPrice)
     {
         $this->listPrice = $listPrice;
-
         return $this;
     }
 
     /**
-     * Gets as manufacturerName.
+     * Gets as manufacturerName
      *
      * @return string
      */
@@ -186,21 +182,19 @@ class OptionType
     }
 
     /**
-     * Sets a new manufacturerName.
+     * Sets a new manufacturerName
      *
      * @param string $manufacturerName
-     *
      * @return self
      */
     public function setManufacturerName($manufacturerName)
     {
         $this->manufacturerName = $manufacturerName;
-
         return $this;
     }
 
     /**
-     * Gets as optionId.
+     * Gets as optionId
      *
      * @return string
      */
@@ -210,21 +204,19 @@ class OptionType
     }
 
     /**
-     * Sets a new optionId.
+     * Sets a new optionId
      *
      * @param string $optionId
-     *
      * @return self
      */
     public function setOptionId($optionId)
     {
         $this->optionId = $optionId;
-
         return $this;
     }
 
     /**
-     * Gets as optionName.
+     * Gets as optionName
      *
      * @return string
      */
@@ -234,21 +226,19 @@ class OptionType
     }
 
     /**
-     * Sets a new optionName.
+     * Sets a new optionName
      *
      * @param string $optionName
-     *
      * @return self
      */
     public function setOptionName($optionName)
     {
         $this->optionName = $optionName;
-
         return $this;
     }
 
     /**
-     * Gets as optionNotes.
+     * Gets as optionNotes
      *
      * @return string
      */
@@ -258,21 +248,19 @@ class OptionType
     }
 
     /**
-     * Sets a new optionNotes.
+     * Sets a new optionNotes
      *
      * @param string $optionNotes
-     *
      * @return self
      */
     public function setOptionNotes($optionNotes)
     {
         $this->optionNotes = $optionNotes;
-
         return $this;
     }
 
     /**
-     * Gets as optionType.
+     * Gets as optionType
      *
      * @return string
      */
@@ -282,16 +270,17 @@ class OptionType
     }
 
     /**
-     * Sets a new optionType.
+     * Sets a new optionType
      *
      * @param string $optionType
-     *
      * @return self
      */
     public function setOptionType($optionType)
     {
         $this->optionType = $optionType;
-
         return $this;
     }
+
+
 }
+

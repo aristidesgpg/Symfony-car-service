@@ -1,6 +1,6 @@
 App\Soap\dealerbuilt\src\Models\Sales\ItemDepartment:
     xml_root_name: ItemDepartment
-    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
     properties:
         __value:
             expose: true

@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PurchaseOrderSearchCriteriaType.
+ * Class representing PurchaseOrderSearchCriteriaType
  *
+ * 
  * XSD Type: PurchaseOrderSearchCriteria
  */
 class PurchaseOrderSearchCriteriaType extends CompaniesSearchCriteriaType
 {
+
     /**
-     * @var \DateInterval
+     * @var \DateInterval $maxElapsedSinceUpdate
      */
     private $maxElapsedSinceUpdate = null;
 
     /**
-     * @var string[]
+     * @var string[] $purchaseOrderNumbers
      */
     private $purchaseOrderNumbers = null;
 
     /**
-     * Gets as maxElapsedSinceUpdate.
+     * Gets as maxElapsedSinceUpdate
      *
      * @return \DateInterval
      */
@@ -30,36 +32,33 @@ class PurchaseOrderSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new maxElapsedSinceUpdate.
+     * Sets a new maxElapsedSinceUpdate
      *
+     * @param \DateInterval $maxElapsedSinceUpdate
      * @return self
      */
     public function setMaxElapsedSinceUpdate(\DateInterval $maxElapsedSinceUpdate)
     {
         $this->maxElapsedSinceUpdate = $maxElapsedSinceUpdate;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToPurchaseOrderNumbers($string)
     {
         $this->purchaseOrderNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset purchaseOrderNumbers.
+     * isset purchaseOrderNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPurchaseOrderNumbers($index)
@@ -68,10 +67,9 @@ class PurchaseOrderSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * unset purchaseOrderNumbers.
+     * unset purchaseOrderNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPurchaseOrderNumbers($index)
@@ -80,7 +78,7 @@ class PurchaseOrderSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Gets as purchaseOrderNumbers.
+     * Gets as purchaseOrderNumbers
      *
      * @return string[]
      */
@@ -90,16 +88,17 @@ class PurchaseOrderSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new purchaseOrderNumbers.
+     * Sets a new purchaseOrderNumbers
      *
      * @param string[] $purchaseOrderNumbers
-     *
      * @return self
      */
     public function setPurchaseOrderNumbers(array $purchaseOrderNumbers)
     {
         $this->purchaseOrderNumbers = $purchaseOrderNumbers;
-
         return $this;
     }
+
+
 }
+

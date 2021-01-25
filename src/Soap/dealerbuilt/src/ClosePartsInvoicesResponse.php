@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ClosePartsInvoicesResponse.
+ * Class representing ClosePartsInvoicesResponse
  */
 class ClosePartsInvoicesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[] $closePartsInvoicesResult
      */
     private $closePartsInvoicesResult = null;
 
     /**
-     * Adds as serviceLocationTransactionResponse.
+     * Adds as serviceLocationTransactionResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse
      */
-    public function addToClosePartsInvoicesResult(BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse)
+    public function addToClosePartsInvoicesResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse)
     {
         $this->closePartsInvoicesResult[] = $serviceLocationTransactionResponse;
-
         return $this;
     }
 
     /**
-     * isset closePartsInvoicesResult.
+     * isset closePartsInvoicesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetClosePartsInvoicesResult($index)
@@ -39,10 +37,9 @@ class ClosePartsInvoicesResponse
     }
 
     /**
-     * unset closePartsInvoicesResult.
+     * unset closePartsInvoicesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetClosePartsInvoicesResult($index)
@@ -51,7 +48,7 @@ class ClosePartsInvoicesResponse
     }
 
     /**
-     * Gets as closePartsInvoicesResult.
+     * Gets as closePartsInvoicesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[]
      */
@@ -61,16 +58,17 @@ class ClosePartsInvoicesResponse
     }
 
     /**
-     * Sets a new closePartsInvoicesResult.
+     * Sets a new closePartsInvoicesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[] $closePartsInvoicesResult
-     *
      * @return self
      */
     public function setClosePartsInvoicesResult(array $closePartsInvoicesResult)
     {
         $this->closePartsInvoicesResult = $closePartsInvoicesResult;
-
         return $this;
     }
+
+
 }
+

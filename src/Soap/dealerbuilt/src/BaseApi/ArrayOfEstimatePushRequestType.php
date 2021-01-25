@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfEstimatePushRequestType.
+ * Class representing ArrayOfEstimatePushRequestType
  *
+ * 
  * XSD Type: ArrayOfEstimatePushRequest
  */
 class ArrayOfEstimatePushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType[] $estimatePushRequest
      */
     private $estimatePushRequest = [
+        
     ];
 
     /**
-     * Adds as estimatePushRequest.
+     * Adds as estimatePushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType $estimatePushRequest
      */
-    public function addToEstimatePushRequest(EstimatePushRequestType $estimatePushRequest)
+    public function addToEstimatePushRequest(\App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType $estimatePushRequest)
     {
         $this->estimatePushRequest[] = $estimatePushRequest;
-
         return $this;
     }
 
     /**
-     * isset estimatePushRequest.
+     * isset estimatePushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetEstimatePushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfEstimatePushRequestType
     }
 
     /**
-     * unset estimatePushRequest.
+     * unset estimatePushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetEstimatePushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfEstimatePushRequestType
     }
 
     /**
-     * Gets as estimatePushRequest.
+     * Gets as estimatePushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfEstimatePushRequestType
     }
 
     /**
-     * Sets a new estimatePushRequest.
+     * Sets a new estimatePushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType[] $estimatePushRequest
-     *
      * @return self
      */
     public function setEstimatePushRequest(array $estimatePushRequest)
     {
         $this->estimatePushRequest = $estimatePushRequest;
-
         return $this;
     }
+
+
 }
+

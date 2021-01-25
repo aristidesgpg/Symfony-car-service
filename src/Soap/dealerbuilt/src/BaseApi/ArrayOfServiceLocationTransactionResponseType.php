@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfServiceLocationTransactionResponseType.
+ * Class representing ArrayOfServiceLocationTransactionResponseType
  *
+ * 
  * XSD Type: ArrayOfServiceLocationTransactionResponse
  */
 class ArrayOfServiceLocationTransactionResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[] $serviceLocationTransactionResponse
      */
     private $serviceLocationTransactionResponse = [
+        
     ];
 
     /**
-     * Adds as serviceLocationTransactionResponse.
+     * Adds as serviceLocationTransactionResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse
      */
-    public function addToServiceLocationTransactionResponse(ServiceLocationTransactionResponseType $serviceLocationTransactionResponse)
+    public function addToServiceLocationTransactionResponse(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse)
     {
         $this->serviceLocationTransactionResponse[] = $serviceLocationTransactionResponse;
-
         return $this;
     }
 
     /**
-     * isset serviceLocationTransactionResponse.
+     * isset serviceLocationTransactionResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceLocationTransactionResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfServiceLocationTransactionResponseType
     }
 
     /**
-     * unset serviceLocationTransactionResponse.
+     * unset serviceLocationTransactionResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceLocationTransactionResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfServiceLocationTransactionResponseType
     }
 
     /**
-     * Gets as serviceLocationTransactionResponse.
+     * Gets as serviceLocationTransactionResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfServiceLocationTransactionResponseType
     }
 
     /**
-     * Sets a new serviceLocationTransactionResponse.
+     * Sets a new serviceLocationTransactionResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[] $serviceLocationTransactionResponse
-     *
      * @return self
      */
     public function setServiceLocationTransactionResponse(array $serviceLocationTransactionResponse)
     {
         $this->serviceLocationTransactionResponse = $serviceLocationTransactionResponse;
-
         return $this;
     }
+
+
 }
+

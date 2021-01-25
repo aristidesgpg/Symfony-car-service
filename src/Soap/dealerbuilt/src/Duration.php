@@ -3,17 +3,20 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing Duration.
+ * Class representing Duration
  */
 class Duration
 {
+
     /**
-     * @var \DateInterval
+     * @var \DateInterval $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
+     *
+     * @param \DateInterval $value
      */
     public function __construct(\DateInterval $value)
     {
@@ -21,10 +24,9 @@ class Duration
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param \DateInterval $value
-     *
      * @return \DateInterval
      */
     public function value()
@@ -32,12 +34,11 @@ class Duration
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -45,4 +46,7 @@ class Duration
     {
         return strval($this->__value);
     }
+
+
 }
+

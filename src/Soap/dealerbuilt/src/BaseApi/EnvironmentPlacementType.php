@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing EnvironmentPlacementType.
+ * Class representing EnvironmentPlacementType
  *
+ * 
  * XSD Type: EnvironmentPlacement
  */
 class EnvironmentPlacementType extends GroupPlacementType
 {
+
     /**
-     * @var int
+     * @var int $environmentId
      */
     private $environmentId = null;
 
     /**
-     * @var string
+     * @var string $environmentType
      */
     private $environmentType = null;
 
     /**
-     * Gets as environmentId.
+     * Gets as environmentId
      *
      * @return int
      */
@@ -30,21 +32,19 @@ class EnvironmentPlacementType extends GroupPlacementType
     }
 
     /**
-     * Sets a new environmentId.
+     * Sets a new environmentId
      *
      * @param int $environmentId
-     *
      * @return self
      */
     public function setEnvironmentId($environmentId)
     {
         $this->environmentId = $environmentId;
-
         return $this;
     }
 
     /**
-     * Gets as environmentType.
+     * Gets as environmentType
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class EnvironmentPlacementType extends GroupPlacementType
     }
 
     /**
-     * Sets a new environmentType.
+     * Sets a new environmentType
      *
      * @param string $environmentType
-     *
      * @return self
      */
     public function setEnvironmentType($environmentType)
     {
         $this->environmentType = $environmentType;
-
         return $this;
     }
+
+
 }
+

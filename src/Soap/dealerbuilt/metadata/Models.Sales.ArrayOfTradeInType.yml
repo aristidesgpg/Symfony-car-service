@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\Sales\ArrayOfTradeInType:
             access_type: public_method
             serialized_name: TradeIn
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTradeIn
                 setter: setTradeIn
             xml_list:
                 inline: true
                 entry_name: TradeIn
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             type: array<App\Soap\dealerbuilt\src\Models\Sales\TradeInType>

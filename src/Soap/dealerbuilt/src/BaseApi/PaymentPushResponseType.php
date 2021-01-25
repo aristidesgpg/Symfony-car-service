@@ -3,44 +3,46 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PaymentPushResponseType.
+ * Class representing PaymentPushResponseType
  *
+ * 
  * XSD Type: PaymentPushResponse
  */
 class PaymentPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $balance
      */
     private $balance = null;
 
     /**
-     * @var string
+     * @var string $eventKey
      */
     private $eventKey = null;
 
     /**
-     * @var string
+     * @var string $eventType
      */
     private $eventType = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[] $payTypeStatuses
      */
     private $payTypeStatuses = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $payments
      */
     private $payments = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as balance.
+     * Gets as balance
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -50,19 +52,19 @@ class PaymentPushResponseType
     }
 
     /**
-     * Sets a new balance.
+     * Sets a new balance
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $balance
      * @return self
      */
     public function setBalance(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $balance)
     {
         $this->balance = $balance;
-
         return $this;
     }
 
     /**
-     * Gets as eventKey.
+     * Gets as eventKey
      *
      * @return string
      */
@@ -72,21 +74,19 @@ class PaymentPushResponseType
     }
 
     /**
-     * Sets a new eventKey.
+     * Sets a new eventKey
      *
      * @param string $eventKey
-     *
      * @return self
      */
     public function setEventKey($eventKey)
     {
         $this->eventKey = $eventKey;
-
         return $this;
     }
 
     /**
-     * Gets as eventType.
+     * Gets as eventType
      *
      * @return string
      */
@@ -96,36 +96,33 @@ class PaymentPushResponseType
     }
 
     /**
-     * Sets a new eventType.
+     * Sets a new eventType
      *
      * @param string $eventType
-     *
      * @return self
      */
     public function setEventType($eventType)
     {
         $this->eventType = $eventType;
-
         return $this;
     }
 
     /**
-     * Adds as payTypeStatus.
+     * Adds as payTypeStatus
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType $payTypeStatus
      */
     public function addToPayTypeStatuses(\App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType $payTypeStatus)
     {
         $this->payTypeStatuses[] = $payTypeStatus;
-
         return $this;
     }
 
     /**
-     * isset payTypeStatuses.
+     * isset payTypeStatuses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPayTypeStatuses($index)
@@ -134,10 +131,9 @@ class PaymentPushResponseType
     }
 
     /**
-     * unset payTypeStatuses.
+     * unset payTypeStatuses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPayTypeStatuses($index)
@@ -146,7 +142,7 @@ class PaymentPushResponseType
     }
 
     /**
-     * Gets as payTypeStatuses.
+     * Gets as payTypeStatuses
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[]
      */
@@ -156,38 +152,33 @@ class PaymentPushResponseType
     }
 
     /**
-     * Sets a new payTypeStatuses.
+     * Sets a new payTypeStatuses
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[] $payTypeStatuses
-     *
      * @return self
      */
     public function setPayTypeStatuses(array $payTypeStatuses)
     {
         $this->payTypeStatuses = $payTypeStatuses;
-
         return $this;
     }
 
     /**
-     * Adds as pushResponse.
+     * Adds as pushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse
      */
-    public function addToPayments(PushResponseType $pushResponse)
+    public function addToPayments(\App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse)
     {
         $this->payments[] = $pushResponse;
-
         return $this;
     }
 
     /**
-     * isset payments.
+     * isset payments
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPayments($index)
@@ -196,10 +187,9 @@ class PaymentPushResponseType
     }
 
     /**
-     * unset payments.
+     * unset payments
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPayments($index)
@@ -208,7 +198,7 @@ class PaymentPushResponseType
     }
 
     /**
-     * Gets as payments.
+     * Gets as payments
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
      */
@@ -218,21 +208,19 @@ class PaymentPushResponseType
     }
 
     /**
-     * Sets a new payments.
+     * Sets a new payments
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $payments
-     *
      * @return self
      */
     public function setPayments(array $payments)
     {
         $this->payments = $payments;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -242,16 +230,17 @@ class PaymentPushResponseType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

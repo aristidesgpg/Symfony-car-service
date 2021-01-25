@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
             access_type: public_method
             serialized_name: CostAdds
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCostAdds
                 setter: setCostAdds
@@ -14,13 +14,13 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
                 inline: false
                 entry_name: CostAdd
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         hardAdds:
             expose: true
             access_type: public_method
             serialized_name: HardAdds
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getHardAdds
                 setter: setHardAdds
@@ -29,13 +29,13 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
                 inline: false
                 entry_name: HardAdd
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         incentives:
             expose: true
             access_type: public_method
             serialized_name: Incentives
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getIncentives
                 setter: setIncentives
@@ -44,13 +44,13 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
                 inline: false
                 entry_name: Incentive
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         insuranceProducts:
             expose: true
             access_type: public_method
             serialized_name: InsuranceProducts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getInsuranceProducts
                 setter: setInsuranceProducts
@@ -59,13 +59,13 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
                 inline: false
                 entry_name: InsuranceProduct
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         protectionPackages:
             expose: true
             access_type: public_method
             serialized_name: ProtectionPackages
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getProtectionPackages
                 setter: setProtectionPackages
@@ -74,13 +74,13 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
                 inline: false
                 entry_name: ProtectionPackage
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         rebates:
             expose: true
             access_type: public_method
             serialized_name: Rebates
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getRebates
                 setter: setRebates
@@ -89,13 +89,13 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
                 inline: false
                 entry_name: Rebate
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         serviceContracts:
             expose: true
             access_type: public_method
             serialized_name: ServiceContracts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceContracts
                 setter: setServiceContracts
@@ -104,13 +104,13 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
                 inline: false
                 entry_name: ServiceContract
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         softAdds:
             expose: true
             access_type: public_method
             serialized_name: SoftAdds
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getSoftAdds
                 setter: setSoftAdds
@@ -119,4 +119,4 @@ App\Soap\dealerbuilt\src\BaseApi\ProductListType:
                 inline: false
                 entry_name: SoftAdd
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'

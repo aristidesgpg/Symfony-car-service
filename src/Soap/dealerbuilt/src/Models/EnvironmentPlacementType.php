@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing EnvironmentPlacementType.
+ * Class representing EnvironmentPlacementType
  *
+ * 
  * XSD Type: EnvironmentPlacement
  */
 class EnvironmentPlacementType
 {
+
     /**
-     * @var int
+     * @var int $dealerNumber
      */
     private $dealerNumber = null;
 
     /**
-     * Gets as dealerNumber.
+     * Gets as dealerNumber
      *
      * @return int
      */
@@ -25,16 +27,17 @@ class EnvironmentPlacementType
     }
 
     /**
-     * Sets a new dealerNumber.
+     * Sets a new dealerNumber
      *
      * @param int $dealerNumber
-     *
      * @return self
      */
     public function setDealerNumber($dealerNumber)
     {
         $this->dealerNumber = $dealerNumber;
-
         return $this;
     }
+
+
 }
+

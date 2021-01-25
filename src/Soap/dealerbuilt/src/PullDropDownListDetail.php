@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDropDownListDetail.
+ * Class representing PullDropDownListDetail
  */
 class PullDropDownListDetail
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType $apiSearchCriteria
      */
     private $apiSearchCriteria = null;
 
     /**
-     * Gets as apiSearchCriteria.
+     * Gets as apiSearchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullDropDownListDetail
     }
 
     /**
-     * Sets a new apiSearchCriteria.
+     * Sets a new apiSearchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType $apiSearchCriteria
-     *
      * @return self
      */
-    public function setApiSearchCriteria(BaseApi\DropdownListSearchCriteriaType $apiSearchCriteria)
+    public function setApiSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType $apiSearchCriteria)
     {
         $this->apiSearchCriteria = $apiSearchCriteria;
-
         return $this;
     }
+
+
 }
+

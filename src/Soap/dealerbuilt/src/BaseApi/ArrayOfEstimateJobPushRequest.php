@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfEstimateJobPushRequest.
+ * Class representing ArrayOfEstimateJobPushRequest
  */
 class ArrayOfEstimateJobPushRequest extends ArrayOfEstimateJobPushRequestType
 {
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\TransactionResponseType:
             access_type: public_method
             serialized_name: Message
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMessage
                 setter: setMessage
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\TransactionResponseType:
             access_type: public_method
             serialized_name: RecordKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getRecordKey
                 setter: setRecordKey
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\TransactionResponseType:
             access_type: public_method
             serialized_name: Result
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getResult
                 setter: setResult

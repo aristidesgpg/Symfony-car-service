@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing ShipmentCarrierDetailType.
+ * Class representing ShipmentCarrierDetailType
  *
+ * 
  * XSD Type: ShipmentCarrierDetail
  */
 class ShipmentCarrierDetailType
 {
+
     /**
-     * @var string
+     * @var string $originatingWarehouse
      */
     private $originatingWarehouse = null;
 
     /**
-     * @var string
+     * @var string $shipmentCarrierCompanyCodeDescription
      */
     private $shipmentCarrierCompanyCodeDescription = null;
 
     /**
-     * @var string
+     * @var string $shipmentCarrierPurposeComment
      */
     private $shipmentCarrierPurposeComment = null;
 
     /**
-     * Gets as originatingWarehouse.
+     * Gets as originatingWarehouse
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class ShipmentCarrierDetailType
     }
 
     /**
-     * Sets a new originatingWarehouse.
+     * Sets a new originatingWarehouse
      *
      * @param string $originatingWarehouse
-     *
      * @return self
      */
     public function setOriginatingWarehouse($originatingWarehouse)
     {
         $this->originatingWarehouse = $originatingWarehouse;
-
         return $this;
     }
 
     /**
-     * Gets as shipmentCarrierCompanyCodeDescription.
+     * Gets as shipmentCarrierCompanyCodeDescription
      *
      * @return string
      */
@@ -59,21 +59,19 @@ class ShipmentCarrierDetailType
     }
 
     /**
-     * Sets a new shipmentCarrierCompanyCodeDescription.
+     * Sets a new shipmentCarrierCompanyCodeDescription
      *
      * @param string $shipmentCarrierCompanyCodeDescription
-     *
      * @return self
      */
     public function setShipmentCarrierCompanyCodeDescription($shipmentCarrierCompanyCodeDescription)
     {
         $this->shipmentCarrierCompanyCodeDescription = $shipmentCarrierCompanyCodeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as shipmentCarrierPurposeComment.
+     * Gets as shipmentCarrierPurposeComment
      *
      * @return string
      */
@@ -83,16 +81,17 @@ class ShipmentCarrierDetailType
     }
 
     /**
-     * Sets a new shipmentCarrierPurposeComment.
+     * Sets a new shipmentCarrierPurposeComment
      *
      * @param string $shipmentCarrierPurposeComment
-     *
      * @return self
      */
     public function setShipmentCarrierPurposeComment($shipmentCarrierPurposeComment)
     {
         $this->shipmentCarrierPurposeComment = $shipmentCarrierPurposeComment;
-
         return $this;
     }
+
+
 }
+

@@ -3,99 +3,101 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing PartsOrderLineType.
+ * Class representing PartsOrderLineType
  *
+ * 
  * XSD Type: PartsOrderLine
  */
 class PartsOrderLineType
 {
+
     /**
-     * @var string
+     * @var string $binLocation
      */
     private $binLocation = null;
 
     /**
-     * @var string
+     * @var string $comments
      */
     private $comments = null;
 
     /**
-     * @var string
+     * @var string $counterTicketNumber
      */
     private $counterTicketNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $customer
      */
     private $customer = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NameType
+     * @var \App\Soap\dealerbuilt\src\Models\NameType $customerName
      */
     private $customerName = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerPrice
      */
     private $dealerPrice = null;
 
     /**
-     * @var string
+     * @var string $externalPartsOrderLineId
      */
     private $externalPartsOrderLineId = null;
 
     /**
-     * @var string
+     * @var string $kitPartNumber
      */
     private $kitPartNumber = null;
 
     /**
-     * @var int
+     * @var int $lineSequence
      */
     private $lineSequence = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartType $part
      */
     private $part = null;
 
     /**
-     * @var float
+     * @var float $quantityBackordered
      */
     private $quantityBackordered = null;
 
     /**
-     * @var float
+     * @var float $quantityOrdered
      */
     private $quantityOrdered = null;
 
     /**
-     * @var float
+     * @var float $quantityReceived
      */
     private $quantityReceived = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $receivedStamp
      */
     private $receivedStamp = null;
 
     /**
-     * @var string
+     * @var string $repairOrderNumber
      */
     private $repairOrderNumber = null;
 
     /**
-     * @var string
+     * @var string $roVehicleVin
      */
     private $roVehicleVin = null;
 
     /**
-     * @var string
+     * @var string $vendor
      */
     private $vendor = null;
 
     /**
-     * Gets as binLocation.
+     * Gets as binLocation
      *
      * @return string
      */
@@ -105,21 +107,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new binLocation.
+     * Sets a new binLocation
      *
      * @param string $binLocation
-     *
      * @return self
      */
     public function setBinLocation($binLocation)
     {
         $this->binLocation = $binLocation;
-
         return $this;
     }
 
     /**
-     * Gets as comments.
+     * Gets as comments
      *
      * @return string
      */
@@ -129,21 +129,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new comments.
+     * Sets a new comments
      *
      * @param string $comments
-     *
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
-
         return $this;
     }
 
     /**
-     * Gets as counterTicketNumber.
+     * Gets as counterTicketNumber
      *
      * @return string
      */
@@ -153,21 +151,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new counterTicketNumber.
+     * Sets a new counterTicketNumber
      *
      * @param string $counterTicketNumber
-     *
      * @return self
      */
     public function setCounterTicketNumber($counterTicketNumber)
     {
         $this->counterTicketNumber = $counterTicketNumber;
-
         return $this;
     }
 
     /**
-     * Gets as customer.
+     * Gets as customer
      *
      * @return \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType
      */
@@ -177,19 +173,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new customer.
+     * Sets a new customer
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $customer
      * @return self
      */
     public function setCustomer(\App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $customer)
     {
         $this->customer = $customer;
-
         return $this;
     }
 
     /**
-     * Gets as customerName.
+     * Gets as customerName
      *
      * @return \App\Soap\dealerbuilt\src\Models\NameType
      */
@@ -199,19 +195,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new customerName.
+     * Sets a new customerName
      *
+     * @param \App\Soap\dealerbuilt\src\Models\NameType $customerName
      * @return self
      */
     public function setCustomerName(\App\Soap\dealerbuilt\src\Models\NameType $customerName)
     {
         $this->customerName = $customerName;
-
         return $this;
     }
 
     /**
-     * Gets as dealerPrice.
+     * Gets as dealerPrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -221,19 +217,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new dealerPrice.
+     * Sets a new dealerPrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerPrice
      * @return self
      */
     public function setDealerPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerPrice)
     {
         $this->dealerPrice = $dealerPrice;
-
         return $this;
     }
 
     /**
-     * Gets as externalPartsOrderLineId.
+     * Gets as externalPartsOrderLineId
      *
      * @return string
      */
@@ -243,21 +239,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new externalPartsOrderLineId.
+     * Sets a new externalPartsOrderLineId
      *
      * @param string $externalPartsOrderLineId
-     *
      * @return self
      */
     public function setExternalPartsOrderLineId($externalPartsOrderLineId)
     {
         $this->externalPartsOrderLineId = $externalPartsOrderLineId;
-
         return $this;
     }
 
     /**
-     * Gets as kitPartNumber.
+     * Gets as kitPartNumber
      *
      * @return string
      */
@@ -267,21 +261,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new kitPartNumber.
+     * Sets a new kitPartNumber
      *
      * @param string $kitPartNumber
-     *
      * @return self
      */
     public function setKitPartNumber($kitPartNumber)
     {
         $this->kitPartNumber = $kitPartNumber;
-
         return $this;
     }
 
     /**
-     * Gets as lineSequence.
+     * Gets as lineSequence
      *
      * @return int
      */
@@ -291,21 +283,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new lineSequence.
+     * Sets a new lineSequence
      *
      * @param int $lineSequence
-     *
      * @return self
      */
     public function setLineSequence($lineSequence)
     {
         $this->lineSequence = $lineSequence;
-
         return $this;
     }
 
     /**
-     * Gets as part.
+     * Gets as part
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartType
      */
@@ -315,21 +305,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new part.
+     * Sets a new part
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartType $part
-     *
      * @return self
      */
-    public function setPart(InventoryPartType $part)
+    public function setPart(\App\Soap\dealerbuilt\src\Models\Parts\InventoryPartType $part)
     {
         $this->part = $part;
-
         return $this;
     }
 
     /**
-     * Gets as quantityBackordered.
+     * Gets as quantityBackordered
      *
      * @return float
      */
@@ -339,21 +327,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new quantityBackordered.
+     * Sets a new quantityBackordered
      *
      * @param float $quantityBackordered
-     *
      * @return self
      */
     public function setQuantityBackordered($quantityBackordered)
     {
         $this->quantityBackordered = $quantityBackordered;
-
         return $this;
     }
 
     /**
-     * Gets as quantityOrdered.
+     * Gets as quantityOrdered
      *
      * @return float
      */
@@ -363,21 +349,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new quantityOrdered.
+     * Sets a new quantityOrdered
      *
      * @param float $quantityOrdered
-     *
      * @return self
      */
     public function setQuantityOrdered($quantityOrdered)
     {
         $this->quantityOrdered = $quantityOrdered;
-
         return $this;
     }
 
     /**
-     * Gets as quantityReceived.
+     * Gets as quantityReceived
      *
      * @return float
      */
@@ -387,21 +371,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new quantityReceived.
+     * Sets a new quantityReceived
      *
      * @param float $quantityReceived
-     *
      * @return self
      */
     public function setQuantityReceived($quantityReceived)
     {
         $this->quantityReceived = $quantityReceived;
-
         return $this;
     }
 
     /**
-     * Gets as receivedStamp.
+     * Gets as receivedStamp
      *
      * @return \DateTime
      */
@@ -411,19 +393,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new receivedStamp.
+     * Sets a new receivedStamp
      *
+     * @param \DateTime $receivedStamp
      * @return self
      */
     public function setReceivedStamp(\DateTime $receivedStamp)
     {
         $this->receivedStamp = $receivedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderNumber.
+     * Gets as repairOrderNumber
      *
      * @return string
      */
@@ -433,21 +415,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new repairOrderNumber.
+     * Sets a new repairOrderNumber
      *
      * @param string $repairOrderNumber
-     *
      * @return self
      */
     public function setRepairOrderNumber($repairOrderNumber)
     {
         $this->repairOrderNumber = $repairOrderNumber;
-
         return $this;
     }
 
     /**
-     * Gets as roVehicleVin.
+     * Gets as roVehicleVin
      *
      * @return string
      */
@@ -457,21 +437,19 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new roVehicleVin.
+     * Sets a new roVehicleVin
      *
      * @param string $roVehicleVin
-     *
      * @return self
      */
     public function setRoVehicleVin($roVehicleVin)
     {
         $this->roVehicleVin = $roVehicleVin;
-
         return $this;
     }
 
     /**
-     * Gets as vendor.
+     * Gets as vendor
      *
      * @return string
      */
@@ -481,16 +459,17 @@ class PartsOrderLineType
     }
 
     /**
-     * Sets a new vendor.
+     * Sets a new vendor
      *
      * @param string $vendor
-     *
      * @return self
      */
     public function setVendor($vendor)
     {
         $this->vendor = $vendor;
-
         return $this;
     }
+
+
 }
+

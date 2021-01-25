@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing InventoryPartAttributes.
+ * Class representing InventoryPartAttributes
  */
 class InventoryPartAttributes extends InventoryPartAttributesType
 {
+
+
 }
+

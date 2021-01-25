@@ -1,6 +1,6 @@
 App\Soap\dealerbuilt\src\Models\Parts\OnHandScopeType:
     xml_root_name: OnHandScopeType
-    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
     properties:
         __value:
             expose: true

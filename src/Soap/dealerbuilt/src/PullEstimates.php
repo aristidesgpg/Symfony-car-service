@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullEstimates.
+ * Class representing PullEstimates
  */
 class PullEstimates
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateSearchCriteriaType $apiSearchCriteria
      */
     private $apiSearchCriteria = null;
 
     /**
-     * Gets as apiSearchCriteria.
+     * Gets as apiSearchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullEstimates
     }
 
     /**
-     * Sets a new apiSearchCriteria.
+     * Sets a new apiSearchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateSearchCriteriaType $apiSearchCriteria
-     *
      * @return self
      */
-    public function setApiSearchCriteria(BaseApi\EstimateSearchCriteriaType $apiSearchCriteria)
+    public function setApiSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\EstimateSearchCriteriaType $apiSearchCriteria)
     {
         $this->apiSearchCriteria = $apiSearchCriteria;
-
         return $this;
     }
+
+
 }
+

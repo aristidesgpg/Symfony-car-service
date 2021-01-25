@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullRepairOrderKeysResponse.
+ * Class representing PullRepairOrderKeysResponse
  */
 class PullRepairOrderKeysResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSummaryType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSummaryType[] $pullRepairOrderKeysResult
      */
     private $pullRepairOrderKeysResult = null;
 
     /**
-     * Adds as repairOrderSummary.
+     * Adds as repairOrderSummary
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSummaryType $repairOrderSummary
      */
-    public function addToPullRepairOrderKeysResult(BaseApi\RepairOrderSummaryType $repairOrderSummary)
+    public function addToPullRepairOrderKeysResult(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderSummaryType $repairOrderSummary)
     {
         $this->pullRepairOrderKeysResult[] = $repairOrderSummary;
-
         return $this;
     }
 
     /**
-     * isset pullRepairOrderKeysResult.
+     * isset pullRepairOrderKeysResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullRepairOrderKeysResult($index)
@@ -39,10 +37,9 @@ class PullRepairOrderKeysResponse
     }
 
     /**
-     * unset pullRepairOrderKeysResult.
+     * unset pullRepairOrderKeysResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullRepairOrderKeysResult($index)
@@ -51,7 +48,7 @@ class PullRepairOrderKeysResponse
     }
 
     /**
-     * Gets as pullRepairOrderKeysResult.
+     * Gets as pullRepairOrderKeysResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSummaryType[]
      */
@@ -61,16 +58,17 @@ class PullRepairOrderKeysResponse
     }
 
     /**
-     * Sets a new pullRepairOrderKeysResult.
+     * Sets a new pullRepairOrderKeysResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSummaryType[] $pullRepairOrderKeysResult
-     *
      * @return self
      */
     public function setPullRepairOrderKeysResult(array $pullRepairOrderKeysResult)
     {
         $this->pullRepairOrderKeysResult = $pullRepairOrderKeysResult;
-
         return $this;
     }
+
+
 }
+

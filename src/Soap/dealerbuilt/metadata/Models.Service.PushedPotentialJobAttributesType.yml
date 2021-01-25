@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: CampaignDispositionCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCampaignDispositionCode
                 setter: setCampaignDispositionCode
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: CampaignNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCampaignNumber
                 setter: setCampaignNumber
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: CauseDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCauseDescription
                 setter: setCauseDescription
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: Complaint
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getComplaint
                 setter: setComplaint
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: Correction
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCorrection
                 setter: setCorrection
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: EstimatedHours
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getEstimatedHours
                 setter: setEstimatedHours
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: ExternalJobId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getExternalJobId
                 setter: setExternalJobId
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: JobId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobId
                 setter: setJobId
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: LaborItems
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborItems
                 setter: setLaborItems
@@ -94,13 +94,13 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
                 inline: false
                 entry_name: PushedPotentialLaborItemAttributes
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         laborPriceCode:
             expose: true
             access_type: public_method
             serialized_name: LaborPriceCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborPriceCode
                 setter: setLaborPriceCode
@@ -110,7 +110,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: LaborRate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborRate
                 setter: setLaborRate
@@ -120,7 +120,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: LaborTax
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborTax
                 setter: setLaborTax
@@ -130,7 +130,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: MenuPartsPrice
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getMenuPartsPrice
                 setter: setMenuPartsPrice
@@ -140,7 +140,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: ModifiedBy
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getModifiedBy
                 setter: setModifiedBy
@@ -150,7 +150,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: MpiCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getMpiCode
                 setter: setMpiCode
@@ -160,7 +160,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: Parts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getParts
                 setter: setParts
@@ -169,13 +169,13 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
                 inline: false
                 entry_name: PushedPotentialPartAttributes
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         payType:
             expose: true
             access_type: public_method
             serialized_name: PayType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPayType
                 setter: setPayType
@@ -185,7 +185,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: QuickCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getQuickCode
                 setter: setQuickCode
@@ -195,7 +195,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: ServiceAdvisorNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceAdvisorNumber
                 setter: setServiceAdvisorNumber
@@ -205,7 +205,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: Status
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getStatus
                 setter: setStatus
@@ -215,7 +215,7 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
             access_type: public_method
             serialized_name: Techs
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTechs
                 setter: setTechs
@@ -224,13 +224,13 @@ App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
                 inline: false
                 entry_name: PushedPotentialTechsAttributes
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         vciCode:
             expose: true
             access_type: public_method
             serialized_name: VciCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getVciCode
                 setter: setVciCode

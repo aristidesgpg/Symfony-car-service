@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedPotentialJobAttributesType.
+ * Class representing ArrayOfPushedPotentialJobAttributesType
  *
+ * 
  * XSD Type: ArrayOfPushedPotentialJobAttributes
  */
 class ArrayOfPushedPotentialJobAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType[] $pushedPotentialJobAttributes
      */
     private $pushedPotentialJobAttributes = [
+        
     ];
 
     /**
-     * Adds as pushedPotentialJobAttributes.
+     * Adds as pushedPotentialJobAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType $pushedPotentialJobAttributes
      */
-    public function addToPushedPotentialJobAttributes(PushedPotentialJobAttributesType $pushedPotentialJobAttributes)
+    public function addToPushedPotentialJobAttributes(\App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType $pushedPotentialJobAttributes)
     {
         $this->pushedPotentialJobAttributes[] = $pushedPotentialJobAttributes;
-
         return $this;
     }
 
     /**
-     * isset pushedPotentialJobAttributes.
+     * isset pushedPotentialJobAttributes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushedPotentialJobAttributes($index)
@@ -42,10 +42,9 @@ class ArrayOfPushedPotentialJobAttributesType
     }
 
     /**
-     * unset pushedPotentialJobAttributes.
+     * unset pushedPotentialJobAttributes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushedPotentialJobAttributes($index)
@@ -54,7 +53,7 @@ class ArrayOfPushedPotentialJobAttributesType
     }
 
     /**
-     * Gets as pushedPotentialJobAttributes.
+     * Gets as pushedPotentialJobAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new pushedPotentialJobAttributes.
+     * Sets a new pushedPotentialJobAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType[] $pushedPotentialJobAttributes
-     *
      * @return self
      */
     public function setPushedPotentialJobAttributes(array $pushedPotentialJobAttributes)
     {
         $this->pushedPotentialJobAttributes = $pushedPotentialJobAttributes;
-
         return $this;
     }
+
+
 }
+

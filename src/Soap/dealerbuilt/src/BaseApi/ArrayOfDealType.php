@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDealType.
+ * Class representing ArrayOfDealType
  *
+ * 
  * XSD Type: ArrayOfDeal
  */
 class ArrayOfDealType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealType[] $deal
      */
     private $deal = [
+        
     ];
 
     /**
-     * Adds as deal.
+     * Adds as deal
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealType $deal
      */
-    public function addToDeal(DealType $deal)
+    public function addToDeal(\App\Soap\dealerbuilt\src\BaseApi\DealType $deal)
     {
         $this->deal[] = $deal;
-
         return $this;
     }
 
     /**
-     * isset deal.
+     * isset deal
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDeal($index)
@@ -42,10 +42,9 @@ class ArrayOfDealType
     }
 
     /**
-     * unset deal.
+     * unset deal
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDeal($index)
@@ -54,7 +53,7 @@ class ArrayOfDealType
     }
 
     /**
-     * Gets as deal.
+     * Gets as deal
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDealType
     }
 
     /**
-     * Sets a new deal.
+     * Sets a new deal
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealType[] $deal
-     *
      * @return self
      */
     public function setDeal(array $deal)
     {
         $this->deal = $deal;
-
         return $this;
     }
+
+
 }
+

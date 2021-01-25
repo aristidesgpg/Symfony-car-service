@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing ArrayOfGlMonthlySummaryType.
+ * Class representing ArrayOfGlMonthlySummaryType
  *
+ * 
  * XSD Type: ArrayOfGlMonthlySummary
  */
 class ArrayOfGlMonthlySummaryType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType[] $glMonthlySummary
      */
     private $glMonthlySummary = [
+        
     ];
 
     /**
-     * Adds as glMonthlySummary.
+     * Adds as glMonthlySummary
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType $glMonthlySummary
      */
-    public function addToGlMonthlySummary(GlMonthlySummaryType $glMonthlySummary)
+    public function addToGlMonthlySummary(\App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType $glMonthlySummary)
     {
         $this->glMonthlySummary[] = $glMonthlySummary;
-
         return $this;
     }
 
     /**
-     * isset glMonthlySummary.
+     * isset glMonthlySummary
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGlMonthlySummary($index)
@@ -42,10 +42,9 @@ class ArrayOfGlMonthlySummaryType
     }
 
     /**
-     * unset glMonthlySummary.
+     * unset glMonthlySummary
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGlMonthlySummary($index)
@@ -54,7 +53,7 @@ class ArrayOfGlMonthlySummaryType
     }
 
     /**
-     * Gets as glMonthlySummary.
+     * Gets as glMonthlySummary
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfGlMonthlySummaryType
     }
 
     /**
-     * Sets a new glMonthlySummary.
+     * Sets a new glMonthlySummary
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType[] $glMonthlySummary
-     *
      * @return self
      */
     public function setGlMonthlySummary(array $glMonthlySummary)
     {
         $this->glMonthlySummary = $glMonthlySummary;
-
         return $this;
     }
+
+
 }
+

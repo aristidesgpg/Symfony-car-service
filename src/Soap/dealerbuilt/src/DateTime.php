@@ -3,17 +3,20 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing DateTime.
+ * Class representing DateTime
  */
 class DateTime
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
+     *
+     * @param \DateTime $value
      */
     public function __construct(\DateTime $value)
     {
@@ -21,10 +24,9 @@ class DateTime
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param \DateTime $value
-     *
      * @return \DateTime
      */
     public function value()
@@ -32,12 +34,11 @@ class DateTime
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -45,4 +46,7 @@ class DateTime
     {
         return strval($this->__value);
     }
+
+
 }
+

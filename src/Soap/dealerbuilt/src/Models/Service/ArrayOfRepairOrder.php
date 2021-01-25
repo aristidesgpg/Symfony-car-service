@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfRepairOrder.
+ * Class representing ArrayOfRepairOrder
  */
 class ArrayOfRepairOrder extends ArrayOfRepairOrderType
 {
+
+
 }
+

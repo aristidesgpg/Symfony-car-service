@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
             access_type: public_method
             serialized_name: Address
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getAddress
                 setter: setAddress
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
             access_type: public_method
             serialized_name: FaxNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFaxNumber
                 setter: setFaxNumber
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
             access_type: public_method
             serialized_name: LegalName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getLegalName
                 setter: setLegalName
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
             access_type: public_method
             serialized_name: OperatingName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getOperatingName
                 setter: setOperatingName
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
             access_type: public_method
             serialized_name: PhoneNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getPhoneNumber
                 setter: setPhoneNumber
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
             access_type: public_method
             serialized_name: ProspectAdvertisingSources
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getProspectAdvertisingSources
                 setter: setProspectAdvertisingSources
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
             access_type: public_method
             serialized_name: ProspectSources
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getProspectSources
                 setter: setProspectSources
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
             access_type: public_method
             serialized_name: TimeZoneOffset
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTimeZoneOffset
                 setter: setTimeZoneOffset

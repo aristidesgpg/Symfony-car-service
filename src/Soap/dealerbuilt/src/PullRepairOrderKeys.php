@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullRepairOrderKeys.
+ * Class representing PullRepairOrderKeys
  */
 class PullRepairOrderKeys
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSearchCriteriaType $searchCriteria
      */
     private $searchCriteria = null;
 
     /**
-     * Gets as searchCriteria.
+     * Gets as searchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullRepairOrderKeys
     }
 
     /**
-     * Sets a new searchCriteria.
+     * Sets a new searchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderSearchCriteriaType $searchCriteria
-     *
      * @return self
      */
-    public function setSearchCriteria(BaseApi\RepairOrderSearchCriteriaType $searchCriteria)
+    public function setSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderSearchCriteriaType $searchCriteria)
     {
         $this->searchCriteria = $searchCriteria;
-
         return $this;
     }
+
+
 }
+

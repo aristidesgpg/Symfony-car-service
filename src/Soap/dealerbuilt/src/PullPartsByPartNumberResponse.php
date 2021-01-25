@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPartsByPartNumberResponse.
+ * Class representing PullPartsByPartNumberResponse
  */
 class PullPartsByPartNumberResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType[] $pullPartsByPartNumberResult
      */
     private $pullPartsByPartNumberResult = null;
 
     /**
-     * Adds as inventoryPart.
+     * Adds as inventoryPart
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType $inventoryPart
      */
-    public function addToPullPartsByPartNumberResult(BaseApi\InventoryPartType $inventoryPart)
+    public function addToPullPartsByPartNumberResult(\App\Soap\dealerbuilt\src\BaseApi\InventoryPartType $inventoryPart)
     {
         $this->pullPartsByPartNumberResult[] = $inventoryPart;
-
         return $this;
     }
 
     /**
-     * isset pullPartsByPartNumberResult.
+     * isset pullPartsByPartNumberResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullPartsByPartNumberResult($index)
@@ -39,10 +37,9 @@ class PullPartsByPartNumberResponse
     }
 
     /**
-     * unset pullPartsByPartNumberResult.
+     * unset pullPartsByPartNumberResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullPartsByPartNumberResult($index)
@@ -51,7 +48,7 @@ class PullPartsByPartNumberResponse
     }
 
     /**
-     * Gets as pullPartsByPartNumberResult.
+     * Gets as pullPartsByPartNumberResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType[]
      */
@@ -61,16 +58,17 @@ class PullPartsByPartNumberResponse
     }
 
     /**
-     * Sets a new pullPartsByPartNumberResult.
+     * Sets a new pullPartsByPartNumberResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType[] $pullPartsByPartNumberResult
-     *
      * @return self
      */
     public function setPullPartsByPartNumberResult(array $pullPartsByPartNumberResult)
     {
         $this->pullPartsByPartNumberResult = $pullPartsByPartNumberResult;
-
         return $this;
     }
+
+
 }
+

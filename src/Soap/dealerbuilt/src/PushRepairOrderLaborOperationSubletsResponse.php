@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushRepairOrderLaborOperationSubletsResponse.
+ * Class representing PushRepairOrderLaborOperationSubletsResponse
  */
 class PushRepairOrderLaborOperationSubletsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushRepairOrderLaborOperationSubletsResult
      */
     private $pushRepairOrderLaborOperationSubletsResult = null;
 
     /**
-     * Adds as serviceLocationPushResponse.
+     * Adds as serviceLocationPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse
      */
-    public function addToPushRepairOrderLaborOperationSubletsResult(BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
+    public function addToPushRepairOrderLaborOperationSubletsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
     {
         $this->pushRepairOrderLaborOperationSubletsResult[] = $serviceLocationPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushRepairOrderLaborOperationSubletsResult.
+     * isset pushRepairOrderLaborOperationSubletsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushRepairOrderLaborOperationSubletsResult($index)
@@ -39,10 +37,9 @@ class PushRepairOrderLaborOperationSubletsResponse
     }
 
     /**
-     * unset pushRepairOrderLaborOperationSubletsResult.
+     * unset pushRepairOrderLaborOperationSubletsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushRepairOrderLaborOperationSubletsResult($index)
@@ -51,7 +48,7 @@ class PushRepairOrderLaborOperationSubletsResponse
     }
 
     /**
-     * Gets as pushRepairOrderLaborOperationSubletsResult.
+     * Gets as pushRepairOrderLaborOperationSubletsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushRepairOrderLaborOperationSubletsResponse
     }
 
     /**
-     * Sets a new pushRepairOrderLaborOperationSubletsResult.
+     * Sets a new pushRepairOrderLaborOperationSubletsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushRepairOrderLaborOperationSubletsResult
-     *
      * @return self
      */
     public function setPushRepairOrderLaborOperationSubletsResult(array $pushRepairOrderLaborOperationSubletsResult)
     {
         $this->pushRepairOrderLaborOperationSubletsResult = $pushRepairOrderLaborOperationSubletsResult;
-
         return $this;
     }
+
+
 }
+

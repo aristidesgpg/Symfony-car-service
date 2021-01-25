@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDealByKeyResponse.
+ * Class representing PullDealByKeyResponse
  */
 class PullDealByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealType $pullDealByKeyResult
      */
     private $pullDealByKeyResult = null;
 
     /**
-     * Gets as pullDealByKeyResult.
+     * Gets as pullDealByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealType
      */
@@ -23,16 +24,17 @@ class PullDealByKeyResponse
     }
 
     /**
-     * Sets a new pullDealByKeyResult.
+     * Sets a new pullDealByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealType $pullDealByKeyResult
-     *
      * @return self
      */
-    public function setPullDealByKeyResult(BaseApi\DealType $pullDealByKeyResult)
+    public function setPullDealByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\DealType $pullDealByKeyResult)
     {
         $this->pullDealByKeyResult = $pullDealByKeyResult;
-
         return $this;
     }
+
+
 }
+

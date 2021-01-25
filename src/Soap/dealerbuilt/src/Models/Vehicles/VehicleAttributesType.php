@@ -3,334 +3,336 @@
 namespace App\Soap\dealerbuilt\src\Models\Vehicles;
 
 /**
- * Class representing VehicleAttributesType.
+ * Class representing VehicleAttributesType
  *
+ * 
  * XSD Type: VehicleAttributes
  */
 class VehicleAttributesType
 {
+
     /**
-     * @var string
+     * @var string $bodyStyle
      */
     private $bodyStyle = null;
 
     /**
-     * @var string
+     * @var string $certificationNumber
      */
     private $certificationNumber = null;
 
     /**
-     * @var string
+     * @var string $color
      */
     private $color = null;
 
     /**
-     * @var string
+     * @var string $colorCode
      */
     private $colorCode = null;
 
     /**
-     * @var string
+     * @var string $colorDescription
      */
     private $colorDescription = null;
 
     /**
-     * @var string
+     * @var string $comments
      */
     private $comments = null;
 
     /**
-     * @var string
+     * @var string $contractCompanyName
      */
     private $contractCompanyName = null;
 
     /**
-     * @var string
+     * @var string $contractID
      */
     private $contractID = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $contractStartDate
      */
     private $contractStartDate = null;
 
     /**
-     * @var float
+     * @var float $contractStartDistanceMeasure
      */
     private $contractStartDistanceMeasure = null;
 
     /**
-     * @var int
+     * @var int $cylinderCount
      */
     private $cylinderCount = null;
 
     /**
-     * @var string
+     * @var string $detailedEngineDescription
      */
     private $detailedEngineDescription = null;
 
     /**
-     * @var int
+     * @var int $doorCount
      */
     private $doorCount = null;
 
     /**
-     * @var string
+     * @var string $engine
      */
     private $engine = null;
 
     /**
-     * @var string
+     * @var string $engineSerialNumber
      */
     private $engineSerialNumber = null;
 
     /**
-     * @var string
+     * @var string $factoryExteriorColor
      */
     private $factoryExteriorColor = null;
 
     /**
-     * @var string
+     * @var string $factoryTrimDesc
      */
     private $factoryTrimDesc = null;
 
     /**
-     * @var string
+     * @var string $fleetID
      */
     private $fleetID = null;
 
     /**
-     * @var string
+     * @var string $fuelType
      */
     private $fuelType = null;
 
     /**
-     * @var string
+     * @var string $fuelTypeCode
      */
     private $fuelTypeCode = null;
 
     /**
-     * @var string
+     * @var string $ignitionKeyNumber
      */
     private $ignitionKeyNumber = null;
 
     /**
-     * @var string
+     * @var string $interiorColor
      */
     private $interiorColor = null;
 
     /**
-     * @var string
+     * @var string $interiorColorCode
      */
     private $interiorColorCode = null;
 
     /**
-     * @var string
+     * @var string $interiorColorDescription
      */
     private $interiorColorDescription = null;
 
     /**
-     * @var bool
+     * @var bool $isCertifiedPreOwned
      */
     private $isCertifiedPreOwned = null;
 
     /**
-     * @var bool
+     * @var bool $isNonUsMarket
      */
     private $isNonUsMarket = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $licensePlateExpirationDate
      */
     private $licensePlateExpirationDate = null;
 
     /**
-     * @var string
+     * @var string $licensePlateNumber
      */
     private $licensePlateNumber = null;
 
     /**
-     * @var string
+     * @var string $lystockAvailability
      */
     private $lystockAvailability = null;
 
     /**
-     * @var string
+     * @var string $make
      */
     private $make = null;
 
     /**
-     * @var string
+     * @var string $manufacturer
      */
     private $manufacturer = null;
 
     /**
-     * @var int
+     * @var int $mileage
      */
     private $mileage = null;
 
     /**
-     * @var string
+     * @var string $mnCodeDescription
      */
     private $mnCodeDescription = null;
 
     /**
-     * @var string
+     * @var string $model
      */
     private $model = null;
 
     /**
-     * @var string
+     * @var string $modelNumber
      */
     private $modelNumber = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedStamp
      */
     private $modifiedStamp = null;
 
     /**
-     * @var float
+     * @var float $numberOfEngineCylindersNumeric
      */
     private $numberOfEngineCylindersNumeric = null;
 
     /**
-     * @var string
+     * @var string $optionString
      */
     private $optionString = null;
 
     /**
-     * @var string
+     * @var string $purchaseComments
      */
     private $purchaseComments = null;
 
     /**
-     * @var string
+     * @var string $registrationID
      */
     private $registrationID = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $saleDate
      */
     private $saleDate = null;
 
     /**
-     * @var string
+     * @var string $saleType
      */
     private $saleType = null;
 
     /**
-     * @var string
+     * @var string $series
      */
     private $series = null;
 
     /**
-     * @var string
+     * @var string $serviceContractCompanyName
      */
     private $serviceContractCompanyName = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $serviceContractExpirationDate
      */
     private $serviceContractExpirationDate = null;
 
     /**
-     * @var int
+     * @var int $serviceContractExpirationMileage
      */
     private $serviceContractExpirationMileage = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $serviceContractSartDate
      */
     private $serviceContractSartDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $serviceContractStartDate
      */
     private $serviceContractStartDate = null;
 
     /**
-     * @var int
+     * @var int $serviceContractStartMileage
      */
     private $serviceContractStartMileage = null;
 
     /**
-     * @var string
+     * @var string $transmission
      */
     private $transmission = null;
 
     /**
-     * @var string
+     * @var string $transmissionDescription
      */
     private $transmissionDescription = null;
 
     /**
-     * @var string
+     * @var string $trimCode
      */
     private $trimCode = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $vehicleBuildDate
      */
     private $vehicleBuildDate = null;
 
     /**
-     * @var string
+     * @var string $vehicleNote
      */
     private $vehicleNote = null;
 
     /**
-     * @var string
+     * @var string $vehicleType
      */
     private $vehicleType = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * @var float
+     * @var float $warrantyEndDistanceMeasure
      */
     private $warrantyEndDistanceMeasure = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $warrantyExpirationDate
      */
     private $warrantyExpirationDate = null;
 
     /**
-     * @var string
+     * @var string $warrantyNotes
      */
     private $warrantyNotes = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $warrantyStartDate
      */
     private $warrantyStartDate = null;
 
     /**
-     * @var float
+     * @var float $warrantyStartDistanceMeasure
      */
     private $warrantyStartDistanceMeasure = null;
 
     /**
-     * @var string
+     * @var string $warrantyTypeDescription
      */
     private $warrantyTypeDescription = null;
 
     /**
-     * @var float
+     * @var float $weight
      */
     private $weight = null;
 
     /**
-     * @var int
+     * @var int $year
      */
     private $year = null;
 
     /**
-     * Gets as bodyStyle.
+     * Gets as bodyStyle
      *
      * @return string
      */
@@ -340,21 +342,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new bodyStyle.
+     * Sets a new bodyStyle
      *
      * @param string $bodyStyle
-     *
      * @return self
      */
     public function setBodyStyle($bodyStyle)
     {
         $this->bodyStyle = $bodyStyle;
-
         return $this;
     }
 
     /**
-     * Gets as certificationNumber.
+     * Gets as certificationNumber
      *
      * @return string
      */
@@ -364,21 +364,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new certificationNumber.
+     * Sets a new certificationNumber
      *
      * @param string $certificationNumber
-     *
      * @return self
      */
     public function setCertificationNumber($certificationNumber)
     {
         $this->certificationNumber = $certificationNumber;
-
         return $this;
     }
 
     /**
-     * Gets as color.
+     * Gets as color
      *
      * @return string
      */
@@ -388,21 +386,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new color.
+     * Sets a new color
      *
      * @param string $color
-     *
      * @return self
      */
     public function setColor($color)
     {
         $this->color = $color;
-
         return $this;
     }
 
     /**
-     * Gets as colorCode.
+     * Gets as colorCode
      *
      * @return string
      */
@@ -412,21 +408,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new colorCode.
+     * Sets a new colorCode
      *
      * @param string $colorCode
-     *
      * @return self
      */
     public function setColorCode($colorCode)
     {
         $this->colorCode = $colorCode;
-
         return $this;
     }
 
     /**
-     * Gets as colorDescription.
+     * Gets as colorDescription
      *
      * @return string
      */
@@ -436,21 +430,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new colorDescription.
+     * Sets a new colorDescription
      *
      * @param string $colorDescription
-     *
      * @return self
      */
     public function setColorDescription($colorDescription)
     {
         $this->colorDescription = $colorDescription;
-
         return $this;
     }
 
     /**
-     * Gets as comments.
+     * Gets as comments
      *
      * @return string
      */
@@ -460,21 +452,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new comments.
+     * Sets a new comments
      *
      * @param string $comments
-     *
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
-
         return $this;
     }
 
     /**
-     * Gets as contractCompanyName.
+     * Gets as contractCompanyName
      *
      * @return string
      */
@@ -484,21 +474,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new contractCompanyName.
+     * Sets a new contractCompanyName
      *
      * @param string $contractCompanyName
-     *
      * @return self
      */
     public function setContractCompanyName($contractCompanyName)
     {
         $this->contractCompanyName = $contractCompanyName;
-
         return $this;
     }
 
     /**
-     * Gets as contractID.
+     * Gets as contractID
      *
      * @return string
      */
@@ -508,21 +496,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new contractID.
+     * Sets a new contractID
      *
      * @param string $contractID
-     *
      * @return self
      */
     public function setContractID($contractID)
     {
         $this->contractID = $contractID;
-
         return $this;
     }
 
     /**
-     * Gets as contractStartDate.
+     * Gets as contractStartDate
      *
      * @return \DateTime
      */
@@ -532,21 +518,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new contractStartDate.
+     * Sets a new contractStartDate
      *
      * @param \DateTime $contractStartDate
-     *
      * @return self
      */
     public function setContractStartDate(\DateTime $contractStartDate = null)
     {
         $this->contractStartDate = $contractStartDate;
-
         return $this;
     }
 
     /**
-     * Gets as contractStartDistanceMeasure.
+     * Gets as contractStartDistanceMeasure
      *
      * @return float
      */
@@ -556,21 +540,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new contractStartDistanceMeasure.
+     * Sets a new contractStartDistanceMeasure
      *
      * @param float $contractStartDistanceMeasure
-     *
      * @return self
      */
     public function setContractStartDistanceMeasure($contractStartDistanceMeasure)
     {
         $this->contractStartDistanceMeasure = $contractStartDistanceMeasure;
-
         return $this;
     }
 
     /**
-     * Gets as cylinderCount.
+     * Gets as cylinderCount
      *
      * @return int
      */
@@ -580,21 +562,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new cylinderCount.
+     * Sets a new cylinderCount
      *
      * @param int $cylinderCount
-     *
      * @return self
      */
     public function setCylinderCount($cylinderCount)
     {
         $this->cylinderCount = $cylinderCount;
-
         return $this;
     }
 
     /**
-     * Gets as detailedEngineDescription.
+     * Gets as detailedEngineDescription
      *
      * @return string
      */
@@ -604,21 +584,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new detailedEngineDescription.
+     * Sets a new detailedEngineDescription
      *
      * @param string $detailedEngineDescription
-     *
      * @return self
      */
     public function setDetailedEngineDescription($detailedEngineDescription)
     {
         $this->detailedEngineDescription = $detailedEngineDescription;
-
         return $this;
     }
 
     /**
-     * Gets as doorCount.
+     * Gets as doorCount
      *
      * @return int
      */
@@ -628,21 +606,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new doorCount.
+     * Sets a new doorCount
      *
      * @param int $doorCount
-     *
      * @return self
      */
     public function setDoorCount($doorCount)
     {
         $this->doorCount = $doorCount;
-
         return $this;
     }
 
     /**
-     * Gets as engine.
+     * Gets as engine
      *
      * @return string
      */
@@ -652,21 +628,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new engine.
+     * Sets a new engine
      *
      * @param string $engine
-     *
      * @return self
      */
     public function setEngine($engine)
     {
         $this->engine = $engine;
-
         return $this;
     }
 
     /**
-     * Gets as engineSerialNumber.
+     * Gets as engineSerialNumber
      *
      * @return string
      */
@@ -676,21 +650,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new engineSerialNumber.
+     * Sets a new engineSerialNumber
      *
      * @param string $engineSerialNumber
-     *
      * @return self
      */
     public function setEngineSerialNumber($engineSerialNumber)
     {
         $this->engineSerialNumber = $engineSerialNumber;
-
         return $this;
     }
 
     /**
-     * Gets as factoryExteriorColor.
+     * Gets as factoryExteriorColor
      *
      * @return string
      */
@@ -700,21 +672,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new factoryExteriorColor.
+     * Sets a new factoryExteriorColor
      *
      * @param string $factoryExteriorColor
-     *
      * @return self
      */
     public function setFactoryExteriorColor($factoryExteriorColor)
     {
         $this->factoryExteriorColor = $factoryExteriorColor;
-
         return $this;
     }
 
     /**
-     * Gets as factoryTrimDesc.
+     * Gets as factoryTrimDesc
      *
      * @return string
      */
@@ -724,21 +694,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new factoryTrimDesc.
+     * Sets a new factoryTrimDesc
      *
      * @param string $factoryTrimDesc
-     *
      * @return self
      */
     public function setFactoryTrimDesc($factoryTrimDesc)
     {
         $this->factoryTrimDesc = $factoryTrimDesc;
-
         return $this;
     }
 
     /**
-     * Gets as fleetID.
+     * Gets as fleetID
      *
      * @return string
      */
@@ -748,21 +716,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new fleetID.
+     * Sets a new fleetID
      *
      * @param string $fleetID
-     *
      * @return self
      */
     public function setFleetID($fleetID)
     {
         $this->fleetID = $fleetID;
-
         return $this;
     }
 
     /**
-     * Gets as fuelType.
+     * Gets as fuelType
      *
      * @return string
      */
@@ -772,21 +738,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new fuelType.
+     * Sets a new fuelType
      *
      * @param string $fuelType
-     *
      * @return self
      */
     public function setFuelType($fuelType)
     {
         $this->fuelType = $fuelType;
-
         return $this;
     }
 
     /**
-     * Gets as fuelTypeCode.
+     * Gets as fuelTypeCode
      *
      * @return string
      */
@@ -796,21 +760,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new fuelTypeCode.
+     * Sets a new fuelTypeCode
      *
      * @param string $fuelTypeCode
-     *
      * @return self
      */
     public function setFuelTypeCode($fuelTypeCode)
     {
         $this->fuelTypeCode = $fuelTypeCode;
-
         return $this;
     }
 
     /**
-     * Gets as ignitionKeyNumber.
+     * Gets as ignitionKeyNumber
      *
      * @return string
      */
@@ -820,21 +782,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new ignitionKeyNumber.
+     * Sets a new ignitionKeyNumber
      *
      * @param string $ignitionKeyNumber
-     *
      * @return self
      */
     public function setIgnitionKeyNumber($ignitionKeyNumber)
     {
         $this->ignitionKeyNumber = $ignitionKeyNumber;
-
         return $this;
     }
 
     /**
-     * Gets as interiorColor.
+     * Gets as interiorColor
      *
      * @return string
      */
@@ -844,21 +804,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new interiorColor.
+     * Sets a new interiorColor
      *
      * @param string $interiorColor
-     *
      * @return self
      */
     public function setInteriorColor($interiorColor)
     {
         $this->interiorColor = $interiorColor;
-
         return $this;
     }
 
     /**
-     * Gets as interiorColorCode.
+     * Gets as interiorColorCode
      *
      * @return string
      */
@@ -868,21 +826,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new interiorColorCode.
+     * Sets a new interiorColorCode
      *
      * @param string $interiorColorCode
-     *
      * @return self
      */
     public function setInteriorColorCode($interiorColorCode)
     {
         $this->interiorColorCode = $interiorColorCode;
-
         return $this;
     }
 
     /**
-     * Gets as interiorColorDescription.
+     * Gets as interiorColorDescription
      *
      * @return string
      */
@@ -892,21 +848,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new interiorColorDescription.
+     * Sets a new interiorColorDescription
      *
      * @param string $interiorColorDescription
-     *
      * @return self
      */
     public function setInteriorColorDescription($interiorColorDescription)
     {
         $this->interiorColorDescription = $interiorColorDescription;
-
         return $this;
     }
 
     /**
-     * Gets as isCertifiedPreOwned.
+     * Gets as isCertifiedPreOwned
      *
      * @return bool
      */
@@ -916,21 +870,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new isCertifiedPreOwned.
+     * Sets a new isCertifiedPreOwned
      *
      * @param bool $isCertifiedPreOwned
-     *
      * @return self
      */
     public function setIsCertifiedPreOwned($isCertifiedPreOwned)
     {
         $this->isCertifiedPreOwned = $isCertifiedPreOwned;
-
         return $this;
     }
 
     /**
-     * Gets as isNonUsMarket.
+     * Gets as isNonUsMarket
      *
      * @return bool
      */
@@ -940,21 +892,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new isNonUsMarket.
+     * Sets a new isNonUsMarket
      *
      * @param bool $isNonUsMarket
-     *
      * @return self
      */
     public function setIsNonUsMarket($isNonUsMarket)
     {
         $this->isNonUsMarket = $isNonUsMarket;
-
         return $this;
     }
 
     /**
-     * Gets as licensePlateExpirationDate.
+     * Gets as licensePlateExpirationDate
      *
      * @return \DateTime
      */
@@ -964,21 +914,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new licensePlateExpirationDate.
+     * Sets a new licensePlateExpirationDate
      *
      * @param \DateTime $licensePlateExpirationDate
-     *
      * @return self
      */
     public function setLicensePlateExpirationDate(\DateTime $licensePlateExpirationDate = null)
     {
         $this->licensePlateExpirationDate = $licensePlateExpirationDate;
-
         return $this;
     }
 
     /**
-     * Gets as licensePlateNumber.
+     * Gets as licensePlateNumber
      *
      * @return string
      */
@@ -988,21 +936,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new licensePlateNumber.
+     * Sets a new licensePlateNumber
      *
      * @param string $licensePlateNumber
-     *
      * @return self
      */
     public function setLicensePlateNumber($licensePlateNumber)
     {
         $this->licensePlateNumber = $licensePlateNumber;
-
         return $this;
     }
 
     /**
-     * Gets as lystockAvailability.
+     * Gets as lystockAvailability
      *
      * @return string
      */
@@ -1012,21 +958,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new lystockAvailability.
+     * Sets a new lystockAvailability
      *
      * @param string $lystockAvailability
-     *
      * @return self
      */
     public function setLystockAvailability($lystockAvailability)
     {
         $this->lystockAvailability = $lystockAvailability;
-
         return $this;
     }
 
     /**
-     * Gets as make.
+     * Gets as make
      *
      * @return string
      */
@@ -1036,21 +980,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new make.
+     * Sets a new make
      *
      * @param string $make
-     *
      * @return self
      */
     public function setMake($make)
     {
         $this->make = $make;
-
         return $this;
     }
 
     /**
-     * Gets as manufacturer.
+     * Gets as manufacturer
      *
      * @return string
      */
@@ -1060,21 +1002,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new manufacturer.
+     * Sets a new manufacturer
      *
      * @param string $manufacturer
-     *
      * @return self
      */
     public function setManufacturer($manufacturer)
     {
         $this->manufacturer = $manufacturer;
-
         return $this;
     }
 
     /**
-     * Gets as mileage.
+     * Gets as mileage
      *
      * @return int
      */
@@ -1084,21 +1024,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new mileage.
+     * Sets a new mileage
      *
      * @param int $mileage
-     *
      * @return self
      */
     public function setMileage($mileage)
     {
         $this->mileage = $mileage;
-
         return $this;
     }
 
     /**
-     * Gets as mnCodeDescription.
+     * Gets as mnCodeDescription
      *
      * @return string
      */
@@ -1108,21 +1046,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new mnCodeDescription.
+     * Sets a new mnCodeDescription
      *
      * @param string $mnCodeDescription
-     *
      * @return self
      */
     public function setMnCodeDescription($mnCodeDescription)
     {
         $this->mnCodeDescription = $mnCodeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as model.
+     * Gets as model
      *
      * @return string
      */
@@ -1132,21 +1068,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new model.
+     * Sets a new model
      *
      * @param string $model
-     *
      * @return self
      */
     public function setModel($model)
     {
         $this->model = $model;
-
         return $this;
     }
 
     /**
-     * Gets as modelNumber.
+     * Gets as modelNumber
      *
      * @return string
      */
@@ -1156,21 +1090,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new modelNumber.
+     * Sets a new modelNumber
      *
      * @param string $modelNumber
-     *
      * @return self
      */
     public function setModelNumber($modelNumber)
     {
         $this->modelNumber = $modelNumber;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedStamp.
+     * Gets as modifiedStamp
      *
      * @return \DateTime
      */
@@ -1180,21 +1112,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new modifiedStamp.
+     * Sets a new modifiedStamp
      *
      * @param \DateTime $modifiedStamp
-     *
      * @return self
      */
     public function setModifiedStamp(\DateTime $modifiedStamp = null)
     {
         $this->modifiedStamp = $modifiedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as numberOfEngineCylindersNumeric.
+     * Gets as numberOfEngineCylindersNumeric
      *
      * @return float
      */
@@ -1204,21 +1134,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new numberOfEngineCylindersNumeric.
+     * Sets a new numberOfEngineCylindersNumeric
      *
      * @param float $numberOfEngineCylindersNumeric
-     *
      * @return self
      */
     public function setNumberOfEngineCylindersNumeric($numberOfEngineCylindersNumeric)
     {
         $this->numberOfEngineCylindersNumeric = $numberOfEngineCylindersNumeric;
-
         return $this;
     }
 
     /**
-     * Gets as optionString.
+     * Gets as optionString
      *
      * @return string
      */
@@ -1228,21 +1156,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new optionString.
+     * Sets a new optionString
      *
      * @param string $optionString
-     *
      * @return self
      */
     public function setOptionString($optionString)
     {
         $this->optionString = $optionString;
-
         return $this;
     }
 
     /**
-     * Gets as purchaseComments.
+     * Gets as purchaseComments
      *
      * @return string
      */
@@ -1252,21 +1178,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new purchaseComments.
+     * Sets a new purchaseComments
      *
      * @param string $purchaseComments
-     *
      * @return self
      */
     public function setPurchaseComments($purchaseComments)
     {
         $this->purchaseComments = $purchaseComments;
-
         return $this;
     }
 
     /**
-     * Gets as registrationID.
+     * Gets as registrationID
      *
      * @return string
      */
@@ -1276,21 +1200,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new registrationID.
+     * Sets a new registrationID
      *
      * @param string $registrationID
-     *
      * @return self
      */
     public function setRegistrationID($registrationID)
     {
         $this->registrationID = $registrationID;
-
         return $this;
     }
 
     /**
-     * Gets as saleDate.
+     * Gets as saleDate
      *
      * @return \DateTime
      */
@@ -1300,21 +1222,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new saleDate.
+     * Sets a new saleDate
      *
      * @param \DateTime $saleDate
-     *
      * @return self
      */
     public function setSaleDate(\DateTime $saleDate = null)
     {
         $this->saleDate = $saleDate;
-
         return $this;
     }
 
     /**
-     * Gets as saleType.
+     * Gets as saleType
      *
      * @return string
      */
@@ -1324,21 +1244,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new saleType.
+     * Sets a new saleType
      *
      * @param string $saleType
-     *
      * @return self
      */
     public function setSaleType($saleType)
     {
         $this->saleType = $saleType;
-
         return $this;
     }
 
     /**
-     * Gets as series.
+     * Gets as series
      *
      * @return string
      */
@@ -1348,21 +1266,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new series.
+     * Sets a new series
      *
      * @param string $series
-     *
      * @return self
      */
     public function setSeries($series)
     {
         $this->series = $series;
-
         return $this;
     }
 
     /**
-     * Gets as serviceContractCompanyName.
+     * Gets as serviceContractCompanyName
      *
      * @return string
      */
@@ -1372,21 +1288,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new serviceContractCompanyName.
+     * Sets a new serviceContractCompanyName
      *
      * @param string $serviceContractCompanyName
-     *
      * @return self
      */
     public function setServiceContractCompanyName($serviceContractCompanyName)
     {
         $this->serviceContractCompanyName = $serviceContractCompanyName;
-
         return $this;
     }
 
     /**
-     * Gets as serviceContractExpirationDate.
+     * Gets as serviceContractExpirationDate
      *
      * @return \DateTime
      */
@@ -1396,21 +1310,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new serviceContractExpirationDate.
+     * Sets a new serviceContractExpirationDate
      *
      * @param \DateTime $serviceContractExpirationDate
-     *
      * @return self
      */
     public function setServiceContractExpirationDate(\DateTime $serviceContractExpirationDate = null)
     {
         $this->serviceContractExpirationDate = $serviceContractExpirationDate;
-
         return $this;
     }
 
     /**
-     * Gets as serviceContractExpirationMileage.
+     * Gets as serviceContractExpirationMileage
      *
      * @return int
      */
@@ -1420,21 +1332,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new serviceContractExpirationMileage.
+     * Sets a new serviceContractExpirationMileage
      *
      * @param int $serviceContractExpirationMileage
-     *
      * @return self
      */
     public function setServiceContractExpirationMileage($serviceContractExpirationMileage)
     {
         $this->serviceContractExpirationMileage = $serviceContractExpirationMileage;
-
         return $this;
     }
 
     /**
-     * Gets as serviceContractSartDate.
+     * Gets as serviceContractSartDate
      *
      * @return \DateTime
      */
@@ -1444,21 +1354,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new serviceContractSartDate.
+     * Sets a new serviceContractSartDate
      *
      * @param \DateTime $serviceContractSartDate
-     *
      * @return self
      */
     public function setServiceContractSartDate(\DateTime $serviceContractSartDate = null)
     {
         $this->serviceContractSartDate = $serviceContractSartDate;
-
         return $this;
     }
 
     /**
-     * Gets as serviceContractStartDate.
+     * Gets as serviceContractStartDate
      *
      * @return \DateTime
      */
@@ -1468,21 +1376,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new serviceContractStartDate.
+     * Sets a new serviceContractStartDate
      *
      * @param \DateTime $serviceContractStartDate
-     *
      * @return self
      */
     public function setServiceContractStartDate(\DateTime $serviceContractStartDate = null)
     {
         $this->serviceContractStartDate = $serviceContractStartDate;
-
         return $this;
     }
 
     /**
-     * Gets as serviceContractStartMileage.
+     * Gets as serviceContractStartMileage
      *
      * @return int
      */
@@ -1492,21 +1398,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new serviceContractStartMileage.
+     * Sets a new serviceContractStartMileage
      *
      * @param int $serviceContractStartMileage
-     *
      * @return self
      */
     public function setServiceContractStartMileage($serviceContractStartMileage)
     {
         $this->serviceContractStartMileage = $serviceContractStartMileage;
-
         return $this;
     }
 
     /**
-     * Gets as transmission.
+     * Gets as transmission
      *
      * @return string
      */
@@ -1516,21 +1420,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new transmission.
+     * Sets a new transmission
      *
      * @param string $transmission
-     *
      * @return self
      */
     public function setTransmission($transmission)
     {
         $this->transmission = $transmission;
-
         return $this;
     }
 
     /**
-     * Gets as transmissionDescription.
+     * Gets as transmissionDescription
      *
      * @return string
      */
@@ -1540,21 +1442,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new transmissionDescription.
+     * Sets a new transmissionDescription
      *
      * @param string $transmissionDescription
-     *
      * @return self
      */
     public function setTransmissionDescription($transmissionDescription)
     {
         $this->transmissionDescription = $transmissionDescription;
-
         return $this;
     }
 
     /**
-     * Gets as trimCode.
+     * Gets as trimCode
      *
      * @return string
      */
@@ -1564,21 +1464,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new trimCode.
+     * Sets a new trimCode
      *
      * @param string $trimCode
-     *
      * @return self
      */
     public function setTrimCode($trimCode)
     {
         $this->trimCode = $trimCode;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleBuildDate.
+     * Gets as vehicleBuildDate
      *
      * @return \DateTime
      */
@@ -1588,21 +1486,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new vehicleBuildDate.
+     * Sets a new vehicleBuildDate
      *
      * @param \DateTime $vehicleBuildDate
-     *
      * @return self
      */
     public function setVehicleBuildDate(\DateTime $vehicleBuildDate = null)
     {
         $this->vehicleBuildDate = $vehicleBuildDate;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleNote.
+     * Gets as vehicleNote
      *
      * @return string
      */
@@ -1612,21 +1508,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new vehicleNote.
+     * Sets a new vehicleNote
      *
      * @param string $vehicleNote
-     *
      * @return self
      */
     public function setVehicleNote($vehicleNote)
     {
         $this->vehicleNote = $vehicleNote;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleType.
+     * Gets as vehicleType
      *
      * @return string
      */
@@ -1636,21 +1530,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new vehicleType.
+     * Sets a new vehicleType
      *
      * @param string $vehicleType
-     *
      * @return self
      */
     public function setVehicleType($vehicleType)
     {
         $this->vehicleType = $vehicleType;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -1660,21 +1552,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
 
     /**
-     * Gets as warrantyEndDistanceMeasure.
+     * Gets as warrantyEndDistanceMeasure
      *
      * @return float
      */
@@ -1684,21 +1574,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new warrantyEndDistanceMeasure.
+     * Sets a new warrantyEndDistanceMeasure
      *
      * @param float $warrantyEndDistanceMeasure
-     *
      * @return self
      */
     public function setWarrantyEndDistanceMeasure($warrantyEndDistanceMeasure)
     {
         $this->warrantyEndDistanceMeasure = $warrantyEndDistanceMeasure;
-
         return $this;
     }
 
     /**
-     * Gets as warrantyExpirationDate.
+     * Gets as warrantyExpirationDate
      *
      * @return \DateTime
      */
@@ -1708,21 +1596,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new warrantyExpirationDate.
+     * Sets a new warrantyExpirationDate
      *
      * @param \DateTime $warrantyExpirationDate
-     *
      * @return self
      */
     public function setWarrantyExpirationDate(\DateTime $warrantyExpirationDate = null)
     {
         $this->warrantyExpirationDate = $warrantyExpirationDate;
-
         return $this;
     }
 
     /**
-     * Gets as warrantyNotes.
+     * Gets as warrantyNotes
      *
      * @return string
      */
@@ -1732,21 +1618,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new warrantyNotes.
+     * Sets a new warrantyNotes
      *
      * @param string $warrantyNotes
-     *
      * @return self
      */
     public function setWarrantyNotes($warrantyNotes)
     {
         $this->warrantyNotes = $warrantyNotes;
-
         return $this;
     }
 
     /**
-     * Gets as warrantyStartDate.
+     * Gets as warrantyStartDate
      *
      * @return \DateTime
      */
@@ -1756,21 +1640,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new warrantyStartDate.
+     * Sets a new warrantyStartDate
      *
      * @param \DateTime $warrantyStartDate
-     *
      * @return self
      */
     public function setWarrantyStartDate(\DateTime $warrantyStartDate = null)
     {
         $this->warrantyStartDate = $warrantyStartDate;
-
         return $this;
     }
 
     /**
-     * Gets as warrantyStartDistanceMeasure.
+     * Gets as warrantyStartDistanceMeasure
      *
      * @return float
      */
@@ -1780,21 +1662,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new warrantyStartDistanceMeasure.
+     * Sets a new warrantyStartDistanceMeasure
      *
      * @param float $warrantyStartDistanceMeasure
-     *
      * @return self
      */
     public function setWarrantyStartDistanceMeasure($warrantyStartDistanceMeasure)
     {
         $this->warrantyStartDistanceMeasure = $warrantyStartDistanceMeasure;
-
         return $this;
     }
 
     /**
-     * Gets as warrantyTypeDescription.
+     * Gets as warrantyTypeDescription
      *
      * @return string
      */
@@ -1804,21 +1684,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new warrantyTypeDescription.
+     * Sets a new warrantyTypeDescription
      *
      * @param string $warrantyTypeDescription
-     *
      * @return self
      */
     public function setWarrantyTypeDescription($warrantyTypeDescription)
     {
         $this->warrantyTypeDescription = $warrantyTypeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as weight.
+     * Gets as weight
      *
      * @return float
      */
@@ -1828,21 +1706,19 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new weight.
+     * Sets a new weight
      *
      * @param float $weight
-     *
      * @return self
      */
     public function setWeight($weight)
     {
         $this->weight = $weight;
-
         return $this;
     }
 
     /**
-     * Gets as year.
+     * Gets as year
      *
      * @return int
      */
@@ -1852,16 +1728,17 @@ class VehicleAttributesType
     }
 
     /**
-     * Sets a new year.
+     * Sets a new year
      *
      * @param int $year
-     *
      * @return self
      */
     public function setYear($year)
     {
         $this->year = $year;
-
         return $this;
     }
+
+
 }
+

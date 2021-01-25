@@ -3,66 +3,65 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerSearchCriteriaType.
+ * Class representing CustomerSearchCriteriaType
  *
+ * 
  * XSD Type: CustomerSearchCriteria
  */
 class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
 {
+
     /**
-     * @var int[]
+     * @var int[] $activityStoreIds
      */
     private $activityStoreIds = null;
 
     /**
-     * @var string
+     * @var string $customerNumber
      */
     private $customerNumber = null;
 
     /**
-     * @var string
+     * @var string $driverLicenseNumber
      */
     private $driverLicenseNumber = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumUpdateStamp
      */
     private $maximumUpdateStamp = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumUpdateStamp
      */
     private $minimumUpdateStamp = null;
 
     /**
-     * @var string
+     * @var string $partialName
      */
     private $partialName = null;
 
     /**
-     * @var string
+     * @var string $phone
      */
     private $phone = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToActivityStoreIds($long)
     {
         $this->activityStoreIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset activityStoreIds.
+     * isset activityStoreIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetActivityStoreIds($index)
@@ -71,10 +70,9 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * unset activityStoreIds.
+     * unset activityStoreIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetActivityStoreIds($index)
@@ -83,7 +81,7 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Gets as activityStoreIds.
+     * Gets as activityStoreIds
      *
      * @return int[]
      */
@@ -93,21 +91,19 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new activityStoreIds.
+     * Sets a new activityStoreIds
      *
      * @param int[] $activityStoreIds
-     *
      * @return self
      */
     public function setActivityStoreIds(array $activityStoreIds)
     {
         $this->activityStoreIds = $activityStoreIds;
-
         return $this;
     }
 
     /**
-     * Gets as customerNumber.
+     * Gets as customerNumber
      *
      * @return string
      */
@@ -117,21 +113,19 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new customerNumber.
+     * Sets a new customerNumber
      *
      * @param string $customerNumber
-     *
      * @return self
      */
     public function setCustomerNumber($customerNumber)
     {
         $this->customerNumber = $customerNumber;
-
         return $this;
     }
 
     /**
-     * Gets as driverLicenseNumber.
+     * Gets as driverLicenseNumber
      *
      * @return string
      */
@@ -141,21 +135,19 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new driverLicenseNumber.
+     * Sets a new driverLicenseNumber
      *
      * @param string $driverLicenseNumber
-     *
      * @return self
      */
     public function setDriverLicenseNumber($driverLicenseNumber)
     {
         $this->driverLicenseNumber = $driverLicenseNumber;
-
         return $this;
     }
 
     /**
-     * Gets as maximumUpdateStamp.
+     * Gets as maximumUpdateStamp
      *
      * @return \DateTime
      */
@@ -165,19 +157,19 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new maximumUpdateStamp.
+     * Sets a new maximumUpdateStamp
      *
+     * @param \DateTime $maximumUpdateStamp
      * @return self
      */
     public function setMaximumUpdateStamp(\DateTime $maximumUpdateStamp)
     {
         $this->maximumUpdateStamp = $maximumUpdateStamp;
-
         return $this;
     }
 
     /**
-     * Gets as minimumUpdateStamp.
+     * Gets as minimumUpdateStamp
      *
      * @return \DateTime
      */
@@ -187,19 +179,19 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new minimumUpdateStamp.
+     * Sets a new minimumUpdateStamp
      *
+     * @param \DateTime $minimumUpdateStamp
      * @return self
      */
     public function setMinimumUpdateStamp(\DateTime $minimumUpdateStamp)
     {
         $this->minimumUpdateStamp = $minimumUpdateStamp;
-
         return $this;
     }
 
     /**
-     * Gets as partialName.
+     * Gets as partialName
      *
      * @return string
      */
@@ -209,21 +201,19 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new partialName.
+     * Sets a new partialName
      *
      * @param string $partialName
-     *
      * @return self
      */
     public function setPartialName($partialName)
     {
         $this->partialName = $partialName;
-
         return $this;
     }
 
     /**
-     * Gets as phone.
+     * Gets as phone
      *
      * @return string
      */
@@ -233,16 +223,17 @@ class CustomerSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new phone.
+     * Sets a new phone
      *
      * @param string $phone
-     *
      * @return self
      */
     public function setPhone($phone)
     {
         $this->phone = $phone;
-
         return $this;
     }
+
+
 }
+

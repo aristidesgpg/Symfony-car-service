@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing PushResponse.
+ * Class representing PushResponse
  */
 class PushResponse extends PushResponseType
 {
+
+
 }
+

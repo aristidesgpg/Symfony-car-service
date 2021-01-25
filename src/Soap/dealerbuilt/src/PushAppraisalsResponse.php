@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushAppraisalsResponse.
+ * Class representing PushAppraisalsResponse
  */
 class PushAppraisalsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[] $pushAppraisalsResult
      */
     private $pushAppraisalsResult = null;
 
     /**
-     * Adds as storePushResponse.
+     * Adds as storePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType $storePushResponse
      */
-    public function addToPushAppraisalsResult(BaseApi\StorePushResponseType $storePushResponse)
+    public function addToPushAppraisalsResult(\App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType $storePushResponse)
     {
         $this->pushAppraisalsResult[] = $storePushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushAppraisalsResult.
+     * isset pushAppraisalsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushAppraisalsResult($index)
@@ -39,10 +37,9 @@ class PushAppraisalsResponse
     }
 
     /**
-     * unset pushAppraisalsResult.
+     * unset pushAppraisalsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushAppraisalsResult($index)
@@ -51,7 +48,7 @@ class PushAppraisalsResponse
     }
 
     /**
-     * Gets as pushAppraisalsResult.
+     * Gets as pushAppraisalsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushAppraisalsResponse
     }
 
     /**
-     * Sets a new pushAppraisalsResult.
+     * Sets a new pushAppraisalsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[] $pushAppraisalsResult
-     *
      * @return self
      */
     public function setPushAppraisalsResult(array $pushAppraisalsResult)
     {
         $this->pushAppraisalsResult = $pushAppraisalsResult;
-
         return $this;
     }
+
+
 }
+

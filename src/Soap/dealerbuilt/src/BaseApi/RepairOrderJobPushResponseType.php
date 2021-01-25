@@ -3,64 +3,66 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderJobPushResponseType.
+ * Class representing RepairOrderJobPushResponseType
  *
+ * 
  * XSD Type: RepairOrderJobPushResponse
  */
 class RepairOrderJobPushResponseType
 {
+
     /**
-     * @var string
+     * @var string $externalJobId
      */
     private $externalJobId = null;
 
     /**
-     * @var int
+     * @var int $jobNumber
      */
     private $jobNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType[] $laborItemPushResponses
      */
     private $laborItemPushResponses = null;
 
     /**
-     * @var string
+     * @var string $message
      */
     private $message = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $partPushResponses
      */
     private $partPushResponses = null;
 
     /**
-     * @var string
+     * @var string $quickCode
      */
     private $quickCode = null;
 
     /**
-     * @var string
+     * @var string $repairOrderKey
      */
     private $repairOrderKey = null;
 
     /**
-     * @var string
+     * @var string $result
      */
     private $result = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $technicianPushResponses
      */
     private $technicianPushResponses = null;
 
     /**
-     * Gets as externalJobId.
+     * Gets as externalJobId
      *
      * @return string
      */
@@ -70,21 +72,19 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new externalJobId.
+     * Sets a new externalJobId
      *
      * @param string $externalJobId
-     *
      * @return self
      */
     public function setExternalJobId($externalJobId)
     {
         $this->externalJobId = $externalJobId;
-
         return $this;
     }
 
     /**
-     * Gets as jobNumber.
+     * Gets as jobNumber
      *
      * @return int
      */
@@ -94,38 +94,33 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new jobNumber.
+     * Sets a new jobNumber
      *
      * @param int $jobNumber
-     *
      * @return self
      */
     public function setJobNumber($jobNumber)
     {
         $this->jobNumber = $jobNumber;
-
         return $this;
     }
 
     /**
-     * Adds as laborItemPushResponse.
+     * Adds as laborItemPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType $laborItemPushResponse
      */
-    public function addToLaborItemPushResponses(LaborItemPushResponseType $laborItemPushResponse)
+    public function addToLaborItemPushResponses(\App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType $laborItemPushResponse)
     {
         $this->laborItemPushResponses[] = $laborItemPushResponse;
-
         return $this;
     }
 
     /**
-     * isset laborItemPushResponses.
+     * isset laborItemPushResponses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLaborItemPushResponses($index)
@@ -134,10 +129,9 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * unset laborItemPushResponses.
+     * unset laborItemPushResponses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLaborItemPushResponses($index)
@@ -146,7 +140,7 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Gets as laborItemPushResponses.
+     * Gets as laborItemPushResponses
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType[]
      */
@@ -156,21 +150,19 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new laborItemPushResponses.
+     * Sets a new laborItemPushResponses
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType[] $laborItemPushResponses
-     *
      * @return self
      */
     public function setLaborItemPushResponses(array $laborItemPushResponses)
     {
         $this->laborItemPushResponses = $laborItemPushResponses;
-
         return $this;
     }
 
     /**
-     * Gets as message.
+     * Gets as message
      *
      * @return string
      */
@@ -180,38 +172,33 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new message.
+     * Sets a new message
      *
      * @param string $message
-     *
      * @return self
      */
     public function setMessage($message)
     {
         $this->message = $message;
-
         return $this;
     }
 
     /**
-     * Adds as pushResponse.
+     * Adds as pushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse
      */
-    public function addToPartPushResponses(PushResponseType $pushResponse)
+    public function addToPartPushResponses(\App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse)
     {
         $this->partPushResponses[] = $pushResponse;
-
         return $this;
     }
 
     /**
-     * isset partPushResponses.
+     * isset partPushResponses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartPushResponses($index)
@@ -220,10 +207,9 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * unset partPushResponses.
+     * unset partPushResponses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartPushResponses($index)
@@ -232,7 +218,7 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Gets as partPushResponses.
+     * Gets as partPushResponses
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
      */
@@ -242,21 +228,19 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new partPushResponses.
+     * Sets a new partPushResponses
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $partPushResponses
-     *
      * @return self
      */
     public function setPartPushResponses(array $partPushResponses)
     {
         $this->partPushResponses = $partPushResponses;
-
         return $this;
     }
 
     /**
-     * Gets as quickCode.
+     * Gets as quickCode
      *
      * @return string
      */
@@ -266,21 +250,19 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new quickCode.
+     * Sets a new quickCode
      *
      * @param string $quickCode
-     *
      * @return self
      */
     public function setQuickCode($quickCode)
     {
         $this->quickCode = $quickCode;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderKey.
+     * Gets as repairOrderKey
      *
      * @return string
      */
@@ -290,21 +272,19 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new repairOrderKey.
+     * Sets a new repairOrderKey
      *
      * @param string $repairOrderKey
-     *
      * @return self
      */
     public function setRepairOrderKey($repairOrderKey)
     {
         $this->repairOrderKey = $repairOrderKey;
-
         return $this;
     }
 
     /**
-     * Gets as result.
+     * Gets as result
      *
      * @return string
      */
@@ -314,21 +294,19 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new result.
+     * Sets a new result
      *
      * @param string $result
-     *
      * @return self
      */
     public function setResult($result)
     {
         $this->result = $result;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -338,38 +316,33 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Adds as pushResponse.
+     * Adds as pushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse
      */
-    public function addToTechnicianPushResponses(PushResponseType $pushResponse)
+    public function addToTechnicianPushResponses(\App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse)
     {
         $this->technicianPushResponses[] = $pushResponse;
-
         return $this;
     }
 
     /**
-     * isset technicianPushResponses.
+     * isset technicianPushResponses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetTechnicianPushResponses($index)
@@ -378,10 +351,9 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * unset technicianPushResponses.
+     * unset technicianPushResponses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetTechnicianPushResponses($index)
@@ -390,7 +362,7 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Gets as technicianPushResponses.
+     * Gets as technicianPushResponses
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
      */
@@ -400,16 +372,17 @@ class RepairOrderJobPushResponseType
     }
 
     /**
-     * Sets a new technicianPushResponses.
+     * Sets a new technicianPushResponses
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $technicianPushResponses
-     *
      * @return self
      */
     public function setTechnicianPushResponses(array $technicianPushResponses)
     {
         $this->technicianPushResponses = $technicianPushResponses;
-
         return $this;
     }
+
+
 }
+

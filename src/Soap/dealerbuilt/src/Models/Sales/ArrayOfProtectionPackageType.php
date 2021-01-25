@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfProtectionPackageType.
+ * Class representing ArrayOfProtectionPackageType
  *
+ * 
  * XSD Type: ArrayOfProtectionPackage
  */
 class ArrayOfProtectionPackageType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType[] $protectionPackage
      */
     private $protectionPackage = [
+        
     ];
 
     /**
-     * Adds as protectionPackage.
+     * Adds as protectionPackage
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType $protectionPackage
      */
-    public function addToProtectionPackage(ProtectionPackageType $protectionPackage)
+    public function addToProtectionPackage(\App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType $protectionPackage)
     {
         $this->protectionPackage[] = $protectionPackage;
-
         return $this;
     }
 
     /**
-     * isset protectionPackage.
+     * isset protectionPackage
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetProtectionPackage($index)
@@ -42,10 +42,9 @@ class ArrayOfProtectionPackageType
     }
 
     /**
-     * unset protectionPackage.
+     * unset protectionPackage
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetProtectionPackage($index)
@@ -54,7 +53,7 @@ class ArrayOfProtectionPackageType
     }
 
     /**
-     * Gets as protectionPackage.
+     * Gets as protectionPackage
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfProtectionPackageType
     }
 
     /**
-     * Sets a new protectionPackage.
+     * Sets a new protectionPackage
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType[] $protectionPackage
-     *
      * @return self
      */
     public function setProtectionPackage(array $protectionPackage)
     {
         $this->protectionPackage = $protectionPackage;
-
         return $this;
     }
+
+
 }
+

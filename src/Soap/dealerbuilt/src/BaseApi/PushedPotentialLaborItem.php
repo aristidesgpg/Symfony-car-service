@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PushedPotentialLaborItem.
+ * Class representing PushedPotentialLaborItem
  */
 class PushedPotentialLaborItem extends PushedPotentialLaborItemType
 {
+
+
 }
+

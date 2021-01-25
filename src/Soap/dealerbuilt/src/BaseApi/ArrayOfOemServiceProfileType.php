@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfOemServiceProfileType.
+ * Class representing ArrayOfOemServiceProfileType
  *
+ * 
  * XSD Type: ArrayOfOemServiceProfile
  */
 class ArrayOfOemServiceProfileType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType[] $oemServiceProfile
      */
     private $oemServiceProfile = [
+        
     ];
 
     /**
-     * Adds as oemServiceProfile.
+     * Adds as oemServiceProfile
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType $oemServiceProfile
      */
-    public function addToOemServiceProfile(OemServiceProfileType $oemServiceProfile)
+    public function addToOemServiceProfile(\App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType $oemServiceProfile)
     {
         $this->oemServiceProfile[] = $oemServiceProfile;
-
         return $this;
     }
 
     /**
-     * isset oemServiceProfile.
+     * isset oemServiceProfile
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetOemServiceProfile($index)
@@ -42,10 +42,9 @@ class ArrayOfOemServiceProfileType
     }
 
     /**
-     * unset oemServiceProfile.
+     * unset oemServiceProfile
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetOemServiceProfile($index)
@@ -54,7 +53,7 @@ class ArrayOfOemServiceProfileType
     }
 
     /**
-     * Gets as oemServiceProfile.
+     * Gets as oemServiceProfile
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfOemServiceProfileType
     }
 
     /**
-     * Sets a new oemServiceProfile.
+     * Sets a new oemServiceProfile
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType[] $oemServiceProfile
-     *
      * @return self
      */
     public function setOemServiceProfile(array $oemServiceProfile)
     {
         $this->oemServiceProfile = $oemServiceProfile;
-
         return $this;
     }
+
+
 }
+

@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderSummaryType.
+ * Class representing RepairOrderSummaryType
  *
+ * 
  * XSD Type: RepairOrderSummary
  */
 class RepairOrderSummaryType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedStamp
      */
     private $modifiedStamp = null;
 
     /**
-     * @var string
+     * @var string $rOKey
      */
     private $rOKey = null;
 
     /**
-     * @var string
+     * @var string $repairOrderNumber
      */
     private $repairOrderNumber = null;
 
     /**
-     * Gets as modifiedStamp.
+     * Gets as modifiedStamp
      *
      * @return \DateTime
      */
@@ -35,19 +37,19 @@ class RepairOrderSummaryType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new modifiedStamp.
+     * Sets a new modifiedStamp
      *
+     * @param \DateTime $modifiedStamp
      * @return self
      */
     public function setModifiedStamp(\DateTime $modifiedStamp)
     {
         $this->modifiedStamp = $modifiedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as rOKey.
+     * Gets as rOKey
      *
      * @return string
      */
@@ -57,21 +59,19 @@ class RepairOrderSummaryType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new rOKey.
+     * Sets a new rOKey
      *
      * @param string $rOKey
-     *
      * @return self
      */
     public function setROKey($rOKey)
     {
         $this->rOKey = $rOKey;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderNumber.
+     * Gets as repairOrderNumber
      *
      * @return string
      */
@@ -81,16 +81,17 @@ class RepairOrderSummaryType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new repairOrderNumber.
+     * Sets a new repairOrderNumber
      *
      * @param string $repairOrderNumber
-     *
      * @return self
      */
     public function setRepairOrderNumber($repairOrderNumber)
     {
         $this->repairOrderNumber = $repairOrderNumber;
-
         return $this;
     }
+
+
 }
+

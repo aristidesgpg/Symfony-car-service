@@ -1,6 +1,6 @@
 App\Soap\dealerbuilt\src\BaseApi\ServicePersonType:
     xml_root_name: ServicePersonType
-    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
     properties:
         __value:
             expose: true

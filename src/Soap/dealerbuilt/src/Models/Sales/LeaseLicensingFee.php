@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing LeaseLicensingFee.
+ * Class representing LeaseLicensingFee
  */
 class LeaseLicensingFee extends LeaseLicensingFeeType
 {
+
+
 }
+

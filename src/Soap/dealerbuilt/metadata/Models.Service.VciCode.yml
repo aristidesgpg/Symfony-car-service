@@ -1,6 +1,6 @@
 App\Soap\dealerbuilt\src\Models\Service\VciCode:
     xml_root_name: VciCode
-    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
     properties:
         __value:
             expose: true

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfInventoryDropdownListType.
+ * Class representing ArrayOfInventoryDropdownListType
  *
+ * 
  * XSD Type: ArrayOfInventoryDropdownList
  */
 class ArrayOfInventoryDropdownListType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\InventoryDropdownListType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\InventoryDropdownListType[] $inventoryDropdownList
      */
     private $inventoryDropdownList = [
+        
     ];
 
     /**
-     * Adds as inventoryDropdownList.
+     * Adds as inventoryDropdownList
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\InventoryDropdownListType $inventoryDropdownList
      */
-    public function addToInventoryDropdownList(InventoryDropdownListType $inventoryDropdownList)
+    public function addToInventoryDropdownList(\App\Soap\dealerbuilt\src\BaseApi\InventoryDropdownListType $inventoryDropdownList)
     {
         $this->inventoryDropdownList[] = $inventoryDropdownList;
-
         return $this;
     }
 
     /**
-     * isset inventoryDropdownList.
+     * isset inventoryDropdownList
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInventoryDropdownList($index)
@@ -42,10 +42,9 @@ class ArrayOfInventoryDropdownListType
     }
 
     /**
-     * unset inventoryDropdownList.
+     * unset inventoryDropdownList
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInventoryDropdownList($index)
@@ -54,7 +53,7 @@ class ArrayOfInventoryDropdownListType
     }
 
     /**
-     * Gets as inventoryDropdownList.
+     * Gets as inventoryDropdownList
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\InventoryDropdownListType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfInventoryDropdownListType
     }
 
     /**
-     * Sets a new inventoryDropdownList.
+     * Sets a new inventoryDropdownList
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\InventoryDropdownListType[] $inventoryDropdownList
-     *
      * @return self
      */
     public function setInventoryDropdownList(array $inventoryDropdownList)
     {
         $this->inventoryDropdownList = $inventoryDropdownList;
-
         return $this;
     }
+
+
 }
+

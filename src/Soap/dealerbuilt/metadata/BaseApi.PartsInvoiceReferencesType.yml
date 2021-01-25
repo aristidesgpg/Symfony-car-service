@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceReferencesType:
             access_type: public_method
             serialized_name: Payments
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayments
                 setter: setPayments
@@ -14,13 +14,13 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceReferencesType:
                 inline: false
                 entry_name: Payment
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
         soldToCustomer:
             expose: true
             access_type: public_method
             serialized_name: SoldToCustomer
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getSoldToCustomer
                 setter: setSoldToCustomer

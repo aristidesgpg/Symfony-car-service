@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPushResponseType.
+ * Class representing ArrayOfPushResponseType
  *
+ * 
  * XSD Type: ArrayOfPushResponse
  */
 class ArrayOfPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $pushResponse
      */
     private $pushResponse = [
+        
     ];
 
     /**
-     * Adds as pushResponse.
+     * Adds as pushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse
      */
-    public function addToPushResponse(PushResponseType $pushResponse)
+    public function addToPushResponse(\App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse)
     {
         $this->pushResponse[] = $pushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushResponse.
+     * isset pushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfPushResponseType
     }
 
     /**
-     * unset pushResponse.
+     * unset pushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfPushResponseType
     }
 
     /**
-     * Gets as pushResponse.
+     * Gets as pushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPushResponseType
     }
 
     /**
-     * Sets a new pushResponse.
+     * Sets a new pushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $pushResponse
-     *
      * @return self
      */
     public function setPushResponse(array $pushResponse)
     {
         $this->pushResponse = $pushResponse;
-
         return $this;
     }
+
+
 }
+

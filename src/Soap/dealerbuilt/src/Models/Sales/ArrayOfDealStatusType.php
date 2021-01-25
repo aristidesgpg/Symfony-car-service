@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfDealStatusType.
+ * Class representing ArrayOfDealStatusType
  *
+ * 
  * XSD Type: ArrayOfDealStatus
  */
 class ArrayOfDealStatusType
 {
+
     /**
-     * @var string[]
+     * @var string[] $dealStatus
      */
     private $dealStatus = [
+        
     ];
 
     /**
-     * Adds as dealStatus.
+     * Adds as dealStatus
      *
      * @return self
-     *
      * @param string $dealStatus
      */
     public function addToDealStatus($dealStatus)
     {
         $this->dealStatus[] = $dealStatus;
-
         return $this;
     }
 
     /**
-     * isset dealStatus.
+     * isset dealStatus
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDealStatus($index)
@@ -42,10 +42,9 @@ class ArrayOfDealStatusType
     }
 
     /**
-     * unset dealStatus.
+     * unset dealStatus
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDealStatus($index)
@@ -54,7 +53,7 @@ class ArrayOfDealStatusType
     }
 
     /**
-     * Gets as dealStatus.
+     * Gets as dealStatus
      *
      * @return string[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDealStatusType
     }
 
     /**
-     * Sets a new dealStatus.
+     * Sets a new dealStatus
      *
      * @param string $dealStatus
-     *
      * @return self
      */
     public function setDealStatus(array $dealStatus)
     {
         $this->dealStatus = $dealStatus;
-
         return $this;
     }
+
+
 }
+

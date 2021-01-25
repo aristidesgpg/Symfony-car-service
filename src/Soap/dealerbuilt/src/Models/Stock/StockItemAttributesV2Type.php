@@ -3,554 +3,556 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing StockItemAttributesV2Type.
+ * Class representing StockItemAttributesV2Type
  *
+ * 
  * XSD Type: StockItemAttributesV2
  */
 class StockItemAttributesV2Type
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $accumulatedBalance
      */
     private $accumulatedBalance = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisedSalePrice
      */
     private $advertisedSalePrice = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisingCost
      */
     private $advertisingCost = null;
 
     /**
-     * @var string
+     * @var string $advertisingDescription
      */
     private $advertisingDescription = null;
 
     /**
-     * @var string
+     * @var string $appraiserId
      */
     private $appraiserId = null;
 
     /**
-     * @var string
+     * @var string $availability
      */
     private $availability = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $baseMsrp
      */
     private $baseMsrp = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $baseRetailPrice
      */
     private $baseRetailPrice = null;
 
     /**
-     * @var string
+     * @var string $bodyStyle
      */
     private $bodyStyle = null;
 
     /**
-     * @var string
+     * @var string $bodyStyleCode
      */
     private $bodyStyleCode = null;
 
     /**
-     * @var int
+     * @var int $bookRetail
      */
     private $bookRetail = null;
 
     /**
-     * @var int
+     * @var int $bookWholeSale
      */
     private $bookWholeSale = null;
 
     /**
-     * @var string
+     * @var string $colorCode
      */
     private $colorCode = null;
 
     /**
-     * @var string
+     * @var string $colorCode2
      */
     private $colorCode2 = null;
 
     /**
-     * @var string
+     * @var string $comments
      */
     private $comments = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $dateCleared
      */
     private $dateCleared = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $dateInspected
      */
     private $dateInspected = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $datePosted
      */
     private $datePosted = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $dateReceived
      */
     private $dateReceived = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $dateSold
      */
     private $dateSold = null;
 
     /**
-     * @var string
+     * @var string $dealerDefineListCode1
      */
     private $dealerDefineListCode1 = null;
 
     /**
-     * @var bool
+     * @var bool $dealerDefinedBoolean1
      */
     private $dealerDefinedBoolean1 = null;
 
     /**
-     * @var bool
+     * @var bool $dealerDefinedBoolean2
      */
     private $dealerDefinedBoolean2 = null;
 
     /**
-     * @var bool
+     * @var bool $dealerDefinedBoolean3
      */
     private $dealerDefinedBoolean3 = null;
 
     /**
-     * @var bool
+     * @var bool $dealerDefinedBoolean4
      */
     private $dealerDefinedBoolean4 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedField1
      */
     private $dealerDefinedField1 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedField2
      */
     private $dealerDefinedField2 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedField3
      */
     private $dealerDefinedField3 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedField4
      */
     private $dealerDefinedField4 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedField5
      */
     private $dealerDefinedField5 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedField6
      */
     private $dealerDefinedField6 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedField7
      */
     private $dealerDefinedField7 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedField8
      */
     private $dealerDefinedField8 = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedOption
      */
     private $dealerDefinedOption = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedStatus
      */
     private $dealerDefinedStatus = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedStatusDescription
      */
     private $dealerDefinedStatusDescription = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerInventoryBalance
      */
     private $dealerInventoryBalance = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerOptionsTotal
      */
     private $dealerOptionsTotal = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $deliveryDate
      */
     private $deliveryDate = null;
 
     /**
-     * @var int
+     * @var int $deliveryMileage
      */
     private $deliveryMileage = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $demoEndDate
      */
     private $demoEndDate = null;
 
     /**
-     * @var string
+     * @var string $demoPlate
      */
     private $demoPlate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $demoStartDate
      */
     private $demoStartDate = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var bool
+     * @var bool $doesBaseCostIncludeHoldback
      */
     private $doesBaseCostIncludeHoldback = null;
 
     /**
-     * @var string
+     * @var string $doorKeyNumber
      */
     private $doorKeyNumber = null;
 
     /**
-     * @var string
+     * @var string $doorUnlockCode
      */
     private $doorUnlockCode = null;
 
     /**
-     * @var string
+     * @var string $editedFrom
      */
     private $editedFrom = null;
 
     /**
-     * @var string
+     * @var string $engineSerialString
      */
     private $engineSerialString = null;
 
     /**
-     * @var int
+     * @var int $explodeVin
      */
     private $explodeVin = null;
 
     /**
-     * @var string
+     * @var string $factoryExteriorColor2
      */
     private $factoryExteriorColor2 = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $floorAmount
      */
     private $floorAmount = null;
 
     /**
-     * @var string
+     * @var string $fuelType
      */
     private $fuelType = null;
 
     /**
-     * @var string
+     * @var string $gLAccount
      */
     private $gLAccount = null;
 
     /**
-     * @var string
+     * @var string $gLSaleAccount
      */
     private $gLSaleAccount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $generalJournalAdjustments
      */
     private $generalJournalAdjustments = null;
 
     /**
-     * @var float
+     * @var float $grossVehicleWeight
      */
     private $grossVehicleWeight = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $holdback
      */
     private $holdback = null;
 
     /**
-     * @var string
+     * @var string $importedFrom
      */
     private $importedFrom = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $inServiceDate
      */
     private $inServiceDate = null;
 
     /**
-     * @var string
+     * @var string $interiorColorCode
      */
     private $interiorColorCode = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $internalROCost
      */
     private $internalROCost = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $invoiceBalance
      */
     private $invoiceBalance = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $invoiceDate
      */
     private $invoiceDate = null;
 
     /**
-     * @var string
+     * @var string $invoiceNumber
      */
     private $invoiceNumber = null;
 
     /**
-     * @var string
+     * @var string $invoiceNumberString
      */
     private $invoiceNumberString = null;
 
     /**
-     * @var int
+     * @var int $irtiPromoted
      */
     private $irtiPromoted = null;
 
     /**
-     * @var bool
+     * @var bool $isCertifiedPreOwned
      */
     private $isCertifiedPreOwned = null;
 
     /**
-     * @var bool
+     * @var bool $isDamaged
      */
     private $isDamaged = null;
 
     /**
-     * @var bool
+     * @var bool $isDemo
      */
     private $isDemo = null;
 
     /**
-     * @var bool
+     * @var bool $isNew
      */
     private $isNew = null;
 
     /**
-     * @var bool
+     * @var bool $isSalvaged
      */
     private $isSalvaged = null;
 
     /**
-     * @var string
+     * @var string $keyNumber
      */
     private $keyNumber = null;
 
     /**
-     * @var string
+     * @var string $licensePlateState
      */
     private $licensePlateState = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $licensingFee
      */
     private $licensingFee = null;
 
     /**
-     * @var string
+     * @var string $modelCode
      */
     private $modelCode = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedStamp
      */
     private $modifiedStamp = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $msrp
      */
     private $msrp = null;
 
     /**
-     * @var int
+     * @var int $nadaRetail
      */
     private $nadaRetail = null;
 
     /**
-     * @var int
+     * @var int $nadaTrade
      */
     private $nadaTrade = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\OptionType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\OptionType[] $options
      */
     private $options = null;
 
     /**
-     * @var string
+     * @var string $otherOptions
      */
     private $otherOptions = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $ovAdvertisedSalePrice
      */
     private $ovAdvertisedSalePrice = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $pDIDate
      */
     private $pDIDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
+     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $pDITechnician
      */
     private $pDITechnician = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $packageDiscount
      */
     private $packageDiscount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payFrom
      */
     private $payFrom = null;
 
     /**
-     * @var string
+     * @var string $payoffLenderName
      */
     private $payoffLenderName = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $pendingBid
      */
     private $pendingBid = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $postedDate
      */
     private $postedDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      */
     private $price = null;
 
     /**
-     * @var bool
+     * @var bool $promoteStatus
      */
     private $promoteStatus = null;
 
     /**
-     * @var string
+     * @var string $purchaseOrderMemo
      */
     private $purchaseOrderMemo = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $rebates
      */
     private $rebates = null;
 
     /**
-     * @var string
+     * @var string $source
      */
     private $source = null;
 
     /**
-     * @var string
+     * @var string $status
      */
     private $status = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType $stockDataAttributes
      */
     private $stockDataAttributes = null;
 
     /**
-     * @var string
+     * @var string $stockNumber
      */
     private $stockNumber = null;
 
     /**
-     * @var string
+     * @var string $subType
      */
     private $subType = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalFacOptsCost
      */
     private $totalFacOptsCost = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalFacOptsRetail
      */
     private $totalFacOptsRetail = null;
 
     /**
-     * @var string
+     * @var string $trimCode
      */
     private $trimCode = null;
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = null;
 
     /**
-     * @var string
+     * @var string $vehiclePromoteStatus
      */
     private $vehiclePromoteStatus = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $wholesalePrice
      */
     private $wholesalePrice = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $writeDown
      */
     private $writeDown = null;
 
     /**
-     * Gets as accumulatedBalance.
+     * Gets as accumulatedBalance
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -560,19 +562,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new accumulatedBalance.
+     * Sets a new accumulatedBalance
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $accumulatedBalance
      * @return self
      */
     public function setAccumulatedBalance(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $accumulatedBalance)
     {
         $this->accumulatedBalance = $accumulatedBalance;
-
         return $this;
     }
 
     /**
-     * Gets as advertisedSalePrice.
+     * Gets as advertisedSalePrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -582,19 +584,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new advertisedSalePrice.
+     * Sets a new advertisedSalePrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisedSalePrice
      * @return self
      */
     public function setAdvertisedSalePrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisedSalePrice)
     {
         $this->advertisedSalePrice = $advertisedSalePrice;
-
         return $this;
     }
 
     /**
-     * Gets as advertisingCost.
+     * Gets as advertisingCost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -604,19 +606,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new advertisingCost.
+     * Sets a new advertisingCost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisingCost
      * @return self
      */
     public function setAdvertisingCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisingCost)
     {
         $this->advertisingCost = $advertisingCost;
-
         return $this;
     }
 
     /**
-     * Gets as advertisingDescription.
+     * Gets as advertisingDescription
      *
      * @return string
      */
@@ -626,21 +628,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new advertisingDescription.
+     * Sets a new advertisingDescription
      *
      * @param string $advertisingDescription
-     *
      * @return self
      */
     public function setAdvertisingDescription($advertisingDescription)
     {
         $this->advertisingDescription = $advertisingDescription;
-
         return $this;
     }
 
     /**
-     * Gets as appraiserId.
+     * Gets as appraiserId
      *
      * @return string
      */
@@ -650,21 +650,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new appraiserId.
+     * Sets a new appraiserId
      *
      * @param string $appraiserId
-     *
      * @return self
      */
     public function setAppraiserId($appraiserId)
     {
         $this->appraiserId = $appraiserId;
-
         return $this;
     }
 
     /**
-     * Gets as availability.
+     * Gets as availability
      *
      * @return string
      */
@@ -674,21 +672,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new availability.
+     * Sets a new availability
      *
      * @param string $availability
-     *
      * @return self
      */
     public function setAvailability($availability)
     {
         $this->availability = $availability;
-
         return $this;
     }
 
     /**
-     * Gets as baseMsrp.
+     * Gets as baseMsrp
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -698,19 +694,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new baseMsrp.
+     * Sets a new baseMsrp
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $baseMsrp
      * @return self
      */
     public function setBaseMsrp(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $baseMsrp)
     {
         $this->baseMsrp = $baseMsrp;
-
         return $this;
     }
 
     /**
-     * Gets as baseRetailPrice.
+     * Gets as baseRetailPrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -720,19 +716,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new baseRetailPrice.
+     * Sets a new baseRetailPrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $baseRetailPrice
      * @return self
      */
     public function setBaseRetailPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $baseRetailPrice)
     {
         $this->baseRetailPrice = $baseRetailPrice;
-
         return $this;
     }
 
     /**
-     * Gets as bodyStyle.
+     * Gets as bodyStyle
      *
      * @return string
      */
@@ -742,21 +738,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new bodyStyle.
+     * Sets a new bodyStyle
      *
      * @param string $bodyStyle
-     *
      * @return self
      */
     public function setBodyStyle($bodyStyle)
     {
         $this->bodyStyle = $bodyStyle;
-
         return $this;
     }
 
     /**
-     * Gets as bodyStyleCode.
+     * Gets as bodyStyleCode
      *
      * @return string
      */
@@ -766,21 +760,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new bodyStyleCode.
+     * Sets a new bodyStyleCode
      *
      * @param string $bodyStyleCode
-     *
      * @return self
      */
     public function setBodyStyleCode($bodyStyleCode)
     {
         $this->bodyStyleCode = $bodyStyleCode;
-
         return $this;
     }
 
     /**
-     * Gets as bookRetail.
+     * Gets as bookRetail
      *
      * @return int
      */
@@ -790,21 +782,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new bookRetail.
+     * Sets a new bookRetail
      *
      * @param int $bookRetail
-     *
      * @return self
      */
     public function setBookRetail($bookRetail)
     {
         $this->bookRetail = $bookRetail;
-
         return $this;
     }
 
     /**
-     * Gets as bookWholeSale.
+     * Gets as bookWholeSale
      *
      * @return int
      */
@@ -814,21 +804,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new bookWholeSale.
+     * Sets a new bookWholeSale
      *
      * @param int $bookWholeSale
-     *
      * @return self
      */
     public function setBookWholeSale($bookWholeSale)
     {
         $this->bookWholeSale = $bookWholeSale;
-
         return $this;
     }
 
     /**
-     * Gets as colorCode.
+     * Gets as colorCode
      *
      * @return string
      */
@@ -838,21 +826,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new colorCode.
+     * Sets a new colorCode
      *
      * @param string $colorCode
-     *
      * @return self
      */
     public function setColorCode($colorCode)
     {
         $this->colorCode = $colorCode;
-
         return $this;
     }
 
     /**
-     * Gets as colorCode2.
+     * Gets as colorCode2
      *
      * @return string
      */
@@ -862,21 +848,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new colorCode2.
+     * Sets a new colorCode2
      *
      * @param string $colorCode2
-     *
      * @return self
      */
     public function setColorCode2($colorCode2)
     {
         $this->colorCode2 = $colorCode2;
-
         return $this;
     }
 
     /**
-     * Gets as comments.
+     * Gets as comments
      *
      * @return string
      */
@@ -886,21 +870,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new comments.
+     * Sets a new comments
      *
      * @param string $comments
-     *
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -910,19 +892,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as dateCleared.
+     * Gets as dateCleared
      *
      * @return \DateTime
      */
@@ -932,19 +914,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dateCleared.
+     * Sets a new dateCleared
      *
+     * @param \DateTime $dateCleared
      * @return self
      */
     public function setDateCleared(\DateTime $dateCleared)
     {
         $this->dateCleared = $dateCleared;
-
         return $this;
     }
 
     /**
-     * Gets as dateInspected.
+     * Gets as dateInspected
      *
      * @return \DateTime
      */
@@ -954,19 +936,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dateInspected.
+     * Sets a new dateInspected
      *
+     * @param \DateTime $dateInspected
      * @return self
      */
     public function setDateInspected(\DateTime $dateInspected)
     {
         $this->dateInspected = $dateInspected;
-
         return $this;
     }
 
     /**
-     * Gets as datePosted.
+     * Gets as datePosted
      *
      * @return \DateTime
      */
@@ -976,19 +958,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new datePosted.
+     * Sets a new datePosted
      *
+     * @param \DateTime $datePosted
      * @return self
      */
     public function setDatePosted(\DateTime $datePosted)
     {
         $this->datePosted = $datePosted;
-
         return $this;
     }
 
     /**
-     * Gets as dateReceived.
+     * Gets as dateReceived
      *
      * @return \DateTime
      */
@@ -998,19 +980,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dateReceived.
+     * Sets a new dateReceived
      *
+     * @param \DateTime $dateReceived
      * @return self
      */
     public function setDateReceived(\DateTime $dateReceived)
     {
         $this->dateReceived = $dateReceived;
-
         return $this;
     }
 
     /**
-     * Gets as dateSold.
+     * Gets as dateSold
      *
      * @return \DateTime
      */
@@ -1020,19 +1002,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dateSold.
+     * Sets a new dateSold
      *
+     * @param \DateTime $dateSold
      * @return self
      */
     public function setDateSold(\DateTime $dateSold)
     {
         $this->dateSold = $dateSold;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefineListCode1.
+     * Gets as dealerDefineListCode1
      *
      * @return string
      */
@@ -1042,21 +1024,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefineListCode1.
+     * Sets a new dealerDefineListCode1
      *
      * @param string $dealerDefineListCode1
-     *
      * @return self
      */
     public function setDealerDefineListCode1($dealerDefineListCode1)
     {
         $this->dealerDefineListCode1 = $dealerDefineListCode1;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedBoolean1.
+     * Gets as dealerDefinedBoolean1
      *
      * @return bool
      */
@@ -1066,21 +1046,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedBoolean1.
+     * Sets a new dealerDefinedBoolean1
      *
      * @param bool $dealerDefinedBoolean1
-     *
      * @return self
      */
     public function setDealerDefinedBoolean1($dealerDefinedBoolean1)
     {
         $this->dealerDefinedBoolean1 = $dealerDefinedBoolean1;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedBoolean2.
+     * Gets as dealerDefinedBoolean2
      *
      * @return bool
      */
@@ -1090,21 +1068,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedBoolean2.
+     * Sets a new dealerDefinedBoolean2
      *
      * @param bool $dealerDefinedBoolean2
-     *
      * @return self
      */
     public function setDealerDefinedBoolean2($dealerDefinedBoolean2)
     {
         $this->dealerDefinedBoolean2 = $dealerDefinedBoolean2;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedBoolean3.
+     * Gets as dealerDefinedBoolean3
      *
      * @return bool
      */
@@ -1114,21 +1090,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedBoolean3.
+     * Sets a new dealerDefinedBoolean3
      *
      * @param bool $dealerDefinedBoolean3
-     *
      * @return self
      */
     public function setDealerDefinedBoolean3($dealerDefinedBoolean3)
     {
         $this->dealerDefinedBoolean3 = $dealerDefinedBoolean3;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedBoolean4.
+     * Gets as dealerDefinedBoolean4
      *
      * @return bool
      */
@@ -1138,21 +1112,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedBoolean4.
+     * Sets a new dealerDefinedBoolean4
      *
      * @param bool $dealerDefinedBoolean4
-     *
      * @return self
      */
     public function setDealerDefinedBoolean4($dealerDefinedBoolean4)
     {
         $this->dealerDefinedBoolean4 = $dealerDefinedBoolean4;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedField1.
+     * Gets as dealerDefinedField1
      *
      * @return string
      */
@@ -1162,21 +1134,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedField1.
+     * Sets a new dealerDefinedField1
      *
      * @param string $dealerDefinedField1
-     *
      * @return self
      */
     public function setDealerDefinedField1($dealerDefinedField1)
     {
         $this->dealerDefinedField1 = $dealerDefinedField1;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedField2.
+     * Gets as dealerDefinedField2
      *
      * @return string
      */
@@ -1186,21 +1156,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedField2.
+     * Sets a new dealerDefinedField2
      *
      * @param string $dealerDefinedField2
-     *
      * @return self
      */
     public function setDealerDefinedField2($dealerDefinedField2)
     {
         $this->dealerDefinedField2 = $dealerDefinedField2;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedField3.
+     * Gets as dealerDefinedField3
      *
      * @return string
      */
@@ -1210,21 +1178,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedField3.
+     * Sets a new dealerDefinedField3
      *
      * @param string $dealerDefinedField3
-     *
      * @return self
      */
     public function setDealerDefinedField3($dealerDefinedField3)
     {
         $this->dealerDefinedField3 = $dealerDefinedField3;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedField4.
+     * Gets as dealerDefinedField4
      *
      * @return string
      */
@@ -1234,21 +1200,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedField4.
+     * Sets a new dealerDefinedField4
      *
      * @param string $dealerDefinedField4
-     *
      * @return self
      */
     public function setDealerDefinedField4($dealerDefinedField4)
     {
         $this->dealerDefinedField4 = $dealerDefinedField4;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedField5.
+     * Gets as dealerDefinedField5
      *
      * @return string
      */
@@ -1258,21 +1222,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedField5.
+     * Sets a new dealerDefinedField5
      *
      * @param string $dealerDefinedField5
-     *
      * @return self
      */
     public function setDealerDefinedField5($dealerDefinedField5)
     {
         $this->dealerDefinedField5 = $dealerDefinedField5;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedField6.
+     * Gets as dealerDefinedField6
      *
      * @return string
      */
@@ -1282,21 +1244,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedField6.
+     * Sets a new dealerDefinedField6
      *
      * @param string $dealerDefinedField6
-     *
      * @return self
      */
     public function setDealerDefinedField6($dealerDefinedField6)
     {
         $this->dealerDefinedField6 = $dealerDefinedField6;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedField7.
+     * Gets as dealerDefinedField7
      *
      * @return string
      */
@@ -1306,21 +1266,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedField7.
+     * Sets a new dealerDefinedField7
      *
      * @param string $dealerDefinedField7
-     *
      * @return self
      */
     public function setDealerDefinedField7($dealerDefinedField7)
     {
         $this->dealerDefinedField7 = $dealerDefinedField7;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedField8.
+     * Gets as dealerDefinedField8
      *
      * @return string
      */
@@ -1330,21 +1288,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedField8.
+     * Sets a new dealerDefinedField8
      *
      * @param string $dealerDefinedField8
-     *
      * @return self
      */
     public function setDealerDefinedField8($dealerDefinedField8)
     {
         $this->dealerDefinedField8 = $dealerDefinedField8;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedOption.
+     * Gets as dealerDefinedOption
      *
      * @return string
      */
@@ -1354,21 +1310,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedOption.
+     * Sets a new dealerDefinedOption
      *
      * @param string $dealerDefinedOption
-     *
      * @return self
      */
     public function setDealerDefinedOption($dealerDefinedOption)
     {
         $this->dealerDefinedOption = $dealerDefinedOption;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedStatus.
+     * Gets as dealerDefinedStatus
      *
      * @return string
      */
@@ -1378,21 +1332,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedStatus.
+     * Sets a new dealerDefinedStatus
      *
      * @param string $dealerDefinedStatus
-     *
      * @return self
      */
     public function setDealerDefinedStatus($dealerDefinedStatus)
     {
         $this->dealerDefinedStatus = $dealerDefinedStatus;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedStatusDescription.
+     * Gets as dealerDefinedStatusDescription
      *
      * @return string
      */
@@ -1402,21 +1354,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerDefinedStatusDescription.
+     * Sets a new dealerDefinedStatusDescription
      *
      * @param string $dealerDefinedStatusDescription
-     *
      * @return self
      */
     public function setDealerDefinedStatusDescription($dealerDefinedStatusDescription)
     {
         $this->dealerDefinedStatusDescription = $dealerDefinedStatusDescription;
-
         return $this;
     }
 
     /**
-     * Gets as dealerInventoryBalance.
+     * Gets as dealerInventoryBalance
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1426,19 +1376,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerInventoryBalance.
+     * Sets a new dealerInventoryBalance
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerInventoryBalance
      * @return self
      */
     public function setDealerInventoryBalance(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerInventoryBalance)
     {
         $this->dealerInventoryBalance = $dealerInventoryBalance;
-
         return $this;
     }
 
     /**
-     * Gets as dealerOptionsTotal.
+     * Gets as dealerOptionsTotal
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1448,19 +1398,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new dealerOptionsTotal.
+     * Sets a new dealerOptionsTotal
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerOptionsTotal
      * @return self
      */
     public function setDealerOptionsTotal(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerOptionsTotal)
     {
         $this->dealerOptionsTotal = $dealerOptionsTotal;
-
         return $this;
     }
 
     /**
-     * Gets as deliveryDate.
+     * Gets as deliveryDate
      *
      * @return \DateTime
      */
@@ -1470,19 +1420,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new deliveryDate.
+     * Sets a new deliveryDate
      *
+     * @param \DateTime $deliveryDate
      * @return self
      */
     public function setDeliveryDate(\DateTime $deliveryDate)
     {
         $this->deliveryDate = $deliveryDate;
-
         return $this;
     }
 
     /**
-     * Gets as deliveryMileage.
+     * Gets as deliveryMileage
      *
      * @return int
      */
@@ -1492,21 +1442,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new deliveryMileage.
+     * Sets a new deliveryMileage
      *
      * @param int $deliveryMileage
-     *
      * @return self
      */
     public function setDeliveryMileage($deliveryMileage)
     {
         $this->deliveryMileage = $deliveryMileage;
-
         return $this;
     }
 
     /**
-     * Gets as demoEndDate.
+     * Gets as demoEndDate
      *
      * @return \DateTime
      */
@@ -1516,19 +1464,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new demoEndDate.
+     * Sets a new demoEndDate
      *
+     * @param \DateTime $demoEndDate
      * @return self
      */
     public function setDemoEndDate(\DateTime $demoEndDate)
     {
         $this->demoEndDate = $demoEndDate;
-
         return $this;
     }
 
     /**
-     * Gets as demoPlate.
+     * Gets as demoPlate
      *
      * @return string
      */
@@ -1538,21 +1486,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new demoPlate.
+     * Sets a new demoPlate
      *
      * @param string $demoPlate
-     *
      * @return self
      */
     public function setDemoPlate($demoPlate)
     {
         $this->demoPlate = $demoPlate;
-
         return $this;
     }
 
     /**
-     * Gets as demoStartDate.
+     * Gets as demoStartDate
      *
      * @return \DateTime
      */
@@ -1562,19 +1508,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new demoStartDate.
+     * Sets a new demoStartDate
      *
+     * @param \DateTime $demoStartDate
      * @return self
      */
     public function setDemoStartDate(\DateTime $demoStartDate)
     {
         $this->demoStartDate = $demoStartDate;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -1584,21 +1530,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as doesBaseCostIncludeHoldback.
+     * Gets as doesBaseCostIncludeHoldback
      *
      * @return bool
      */
@@ -1608,21 +1552,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new doesBaseCostIncludeHoldback.
+     * Sets a new doesBaseCostIncludeHoldback
      *
      * @param bool $doesBaseCostIncludeHoldback
-     *
      * @return self
      */
     public function setDoesBaseCostIncludeHoldback($doesBaseCostIncludeHoldback)
     {
         $this->doesBaseCostIncludeHoldback = $doesBaseCostIncludeHoldback;
-
         return $this;
     }
 
     /**
-     * Gets as doorKeyNumber.
+     * Gets as doorKeyNumber
      *
      * @return string
      */
@@ -1632,21 +1574,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new doorKeyNumber.
+     * Sets a new doorKeyNumber
      *
      * @param string $doorKeyNumber
-     *
      * @return self
      */
     public function setDoorKeyNumber($doorKeyNumber)
     {
         $this->doorKeyNumber = $doorKeyNumber;
-
         return $this;
     }
 
     /**
-     * Gets as doorUnlockCode.
+     * Gets as doorUnlockCode
      *
      * @return string
      */
@@ -1656,21 +1596,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new doorUnlockCode.
+     * Sets a new doorUnlockCode
      *
      * @param string $doorUnlockCode
-     *
      * @return self
      */
     public function setDoorUnlockCode($doorUnlockCode)
     {
         $this->doorUnlockCode = $doorUnlockCode;
-
         return $this;
     }
 
     /**
-     * Gets as editedFrom.
+     * Gets as editedFrom
      *
      * @return string
      */
@@ -1680,21 +1618,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new editedFrom.
+     * Sets a new editedFrom
      *
      * @param string $editedFrom
-     *
      * @return self
      */
     public function setEditedFrom($editedFrom)
     {
         $this->editedFrom = $editedFrom;
-
         return $this;
     }
 
     /**
-     * Gets as engineSerialString.
+     * Gets as engineSerialString
      *
      * @return string
      */
@@ -1704,21 +1640,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new engineSerialString.
+     * Sets a new engineSerialString
      *
      * @param string $engineSerialString
-     *
      * @return self
      */
     public function setEngineSerialString($engineSerialString)
     {
         $this->engineSerialString = $engineSerialString;
-
         return $this;
     }
 
     /**
-     * Gets as explodeVin.
+     * Gets as explodeVin
      *
      * @return int
      */
@@ -1728,21 +1662,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new explodeVin.
+     * Sets a new explodeVin
      *
      * @param int $explodeVin
-     *
      * @return self
      */
     public function setExplodeVin($explodeVin)
     {
         $this->explodeVin = $explodeVin;
-
         return $this;
     }
 
     /**
-     * Gets as factoryExteriorColor2.
+     * Gets as factoryExteriorColor2
      *
      * @return string
      */
@@ -1752,21 +1684,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new factoryExteriorColor2.
+     * Sets a new factoryExteriorColor2
      *
      * @param string $factoryExteriorColor2
-     *
      * @return self
      */
     public function setFactoryExteriorColor2($factoryExteriorColor2)
     {
         $this->factoryExteriorColor2 = $factoryExteriorColor2;
-
         return $this;
     }
 
     /**
-     * Gets as floorAmount.
+     * Gets as floorAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1776,19 +1706,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new floorAmount.
+     * Sets a new floorAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $floorAmount
      * @return self
      */
     public function setFloorAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $floorAmount)
     {
         $this->floorAmount = $floorAmount;
-
         return $this;
     }
 
     /**
-     * Gets as fuelType.
+     * Gets as fuelType
      *
      * @return string
      */
@@ -1798,21 +1728,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new fuelType.
+     * Sets a new fuelType
      *
      * @param string $fuelType
-     *
      * @return self
      */
     public function setFuelType($fuelType)
     {
         $this->fuelType = $fuelType;
-
         return $this;
     }
 
     /**
-     * Gets as gLAccount.
+     * Gets as gLAccount
      *
      * @return string
      */
@@ -1822,21 +1750,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new gLAccount.
+     * Sets a new gLAccount
      *
      * @param string $gLAccount
-     *
      * @return self
      */
     public function setGLAccount($gLAccount)
     {
         $this->gLAccount = $gLAccount;
-
         return $this;
     }
 
     /**
-     * Gets as gLSaleAccount.
+     * Gets as gLSaleAccount
      *
      * @return string
      */
@@ -1846,21 +1772,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new gLSaleAccount.
+     * Sets a new gLSaleAccount
      *
      * @param string $gLSaleAccount
-     *
      * @return self
      */
     public function setGLSaleAccount($gLSaleAccount)
     {
         $this->gLSaleAccount = $gLSaleAccount;
-
         return $this;
     }
 
     /**
-     * Gets as generalJournalAdjustments.
+     * Gets as generalJournalAdjustments
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1870,19 +1794,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new generalJournalAdjustments.
+     * Sets a new generalJournalAdjustments
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $generalJournalAdjustments
      * @return self
      */
     public function setGeneralJournalAdjustments(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $generalJournalAdjustments)
     {
         $this->generalJournalAdjustments = $generalJournalAdjustments;
-
         return $this;
     }
 
     /**
-     * Gets as grossVehicleWeight.
+     * Gets as grossVehicleWeight
      *
      * @return float
      */
@@ -1892,21 +1816,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new grossVehicleWeight.
+     * Sets a new grossVehicleWeight
      *
      * @param float $grossVehicleWeight
-     *
      * @return self
      */
     public function setGrossVehicleWeight($grossVehicleWeight)
     {
         $this->grossVehicleWeight = $grossVehicleWeight;
-
         return $this;
     }
 
     /**
-     * Gets as holdback.
+     * Gets as holdback
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1916,19 +1838,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new holdback.
+     * Sets a new holdback
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $holdback
      * @return self
      */
     public function setHoldback(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $holdback)
     {
         $this->holdback = $holdback;
-
         return $this;
     }
 
     /**
-     * Gets as importedFrom.
+     * Gets as importedFrom
      *
      * @return string
      */
@@ -1938,21 +1860,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new importedFrom.
+     * Sets a new importedFrom
      *
      * @param string $importedFrom
-     *
      * @return self
      */
     public function setImportedFrom($importedFrom)
     {
         $this->importedFrom = $importedFrom;
-
         return $this;
     }
 
     /**
-     * Gets as inServiceDate.
+     * Gets as inServiceDate
      *
      * @return \DateTime
      */
@@ -1962,19 +1882,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new inServiceDate.
+     * Sets a new inServiceDate
      *
+     * @param \DateTime $inServiceDate
      * @return self
      */
     public function setInServiceDate(\DateTime $inServiceDate)
     {
         $this->inServiceDate = $inServiceDate;
-
         return $this;
     }
 
     /**
-     * Gets as interiorColorCode.
+     * Gets as interiorColorCode
      *
      * @return string
      */
@@ -1984,21 +1904,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new interiorColorCode.
+     * Sets a new interiorColorCode
      *
      * @param string $interiorColorCode
-     *
      * @return self
      */
     public function setInteriorColorCode($interiorColorCode)
     {
         $this->interiorColorCode = $interiorColorCode;
-
         return $this;
     }
 
     /**
-     * Gets as internalROCost.
+     * Gets as internalROCost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2008,19 +1926,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new internalROCost.
+     * Sets a new internalROCost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $internalROCost
      * @return self
      */
     public function setInternalROCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $internalROCost)
     {
         $this->internalROCost = $internalROCost;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceBalance.
+     * Gets as invoiceBalance
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2030,19 +1948,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new invoiceBalance.
+     * Sets a new invoiceBalance
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $invoiceBalance
      * @return self
      */
     public function setInvoiceBalance(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $invoiceBalance)
     {
         $this->invoiceBalance = $invoiceBalance;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceDate.
+     * Gets as invoiceDate
      *
      * @return \DateTime
      */
@@ -2052,19 +1970,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new invoiceDate.
+     * Sets a new invoiceDate
      *
+     * @param \DateTime $invoiceDate
      * @return self
      */
     public function setInvoiceDate(\DateTime $invoiceDate)
     {
         $this->invoiceDate = $invoiceDate;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceNumber.
+     * Gets as invoiceNumber
      *
      * @return string
      */
@@ -2074,21 +1992,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new invoiceNumber.
+     * Sets a new invoiceNumber
      *
      * @param string $invoiceNumber
-     *
      * @return self
      */
     public function setInvoiceNumber($invoiceNumber)
     {
         $this->invoiceNumber = $invoiceNumber;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceNumberString.
+     * Gets as invoiceNumberString
      *
      * @return string
      */
@@ -2098,21 +2014,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new invoiceNumberString.
+     * Sets a new invoiceNumberString
      *
      * @param string $invoiceNumberString
-     *
      * @return self
      */
     public function setInvoiceNumberString($invoiceNumberString)
     {
         $this->invoiceNumberString = $invoiceNumberString;
-
         return $this;
     }
 
     /**
-     * Gets as irtiPromoted.
+     * Gets as irtiPromoted
      *
      * @return int
      */
@@ -2122,21 +2036,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new irtiPromoted.
+     * Sets a new irtiPromoted
      *
      * @param int $irtiPromoted
-     *
      * @return self
      */
     public function setIrtiPromoted($irtiPromoted)
     {
         $this->irtiPromoted = $irtiPromoted;
-
         return $this;
     }
 
     /**
-     * Gets as isCertifiedPreOwned.
+     * Gets as isCertifiedPreOwned
      *
      * @return bool
      */
@@ -2146,21 +2058,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new isCertifiedPreOwned.
+     * Sets a new isCertifiedPreOwned
      *
      * @param bool $isCertifiedPreOwned
-     *
      * @return self
      */
     public function setIsCertifiedPreOwned($isCertifiedPreOwned)
     {
         $this->isCertifiedPreOwned = $isCertifiedPreOwned;
-
         return $this;
     }
 
     /**
-     * Gets as isDamaged.
+     * Gets as isDamaged
      *
      * @return bool
      */
@@ -2170,21 +2080,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new isDamaged.
+     * Sets a new isDamaged
      *
      * @param bool $isDamaged
-     *
      * @return self
      */
     public function setIsDamaged($isDamaged)
     {
         $this->isDamaged = $isDamaged;
-
         return $this;
     }
 
     /**
-     * Gets as isDemo.
+     * Gets as isDemo
      *
      * @return bool
      */
@@ -2194,21 +2102,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new isDemo.
+     * Sets a new isDemo
      *
      * @param bool $isDemo
-     *
      * @return self
      */
     public function setIsDemo($isDemo)
     {
         $this->isDemo = $isDemo;
-
         return $this;
     }
 
     /**
-     * Gets as isNew.
+     * Gets as isNew
      *
      * @return bool
      */
@@ -2218,21 +2124,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new isNew.
+     * Sets a new isNew
      *
      * @param bool $isNew
-     *
      * @return self
      */
     public function setIsNew($isNew)
     {
         $this->isNew = $isNew;
-
         return $this;
     }
 
     /**
-     * Gets as isSalvaged.
+     * Gets as isSalvaged
      *
      * @return bool
      */
@@ -2242,21 +2146,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new isSalvaged.
+     * Sets a new isSalvaged
      *
      * @param bool $isSalvaged
-     *
      * @return self
      */
     public function setIsSalvaged($isSalvaged)
     {
         $this->isSalvaged = $isSalvaged;
-
         return $this;
     }
 
     /**
-     * Gets as keyNumber.
+     * Gets as keyNumber
      *
      * @return string
      */
@@ -2266,21 +2168,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new keyNumber.
+     * Sets a new keyNumber
      *
      * @param string $keyNumber
-     *
      * @return self
      */
     public function setKeyNumber($keyNumber)
     {
         $this->keyNumber = $keyNumber;
-
         return $this;
     }
 
     /**
-     * Gets as licensePlateState.
+     * Gets as licensePlateState
      *
      * @return string
      */
@@ -2290,21 +2190,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new licensePlateState.
+     * Sets a new licensePlateState
      *
      * @param string $licensePlateState
-     *
      * @return self
      */
     public function setLicensePlateState($licensePlateState)
     {
         $this->licensePlateState = $licensePlateState;
-
         return $this;
     }
 
     /**
-     * Gets as licensingFee.
+     * Gets as licensingFee
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2314,19 +2212,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new licensingFee.
+     * Sets a new licensingFee
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $licensingFee
      * @return self
      */
     public function setLicensingFee(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $licensingFee)
     {
         $this->licensingFee = $licensingFee;
-
         return $this;
     }
 
     /**
-     * Gets as modelCode.
+     * Gets as modelCode
      *
      * @return string
      */
@@ -2336,21 +2234,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new modelCode.
+     * Sets a new modelCode
      *
      * @param string $modelCode
-     *
      * @return self
      */
     public function setModelCode($modelCode)
     {
         $this->modelCode = $modelCode;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -2360,21 +2256,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedStamp.
+     * Gets as modifiedStamp
      *
      * @return \DateTime
      */
@@ -2384,19 +2278,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new modifiedStamp.
+     * Sets a new modifiedStamp
      *
+     * @param \DateTime $modifiedStamp
      * @return self
      */
     public function setModifiedStamp(\DateTime $modifiedStamp)
     {
         $this->modifiedStamp = $modifiedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as msrp.
+     * Gets as msrp
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2406,19 +2300,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new msrp.
+     * Sets a new msrp
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $msrp
      * @return self
      */
     public function setMsrp(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $msrp)
     {
         $this->msrp = $msrp;
-
         return $this;
     }
 
     /**
-     * Gets as nadaRetail.
+     * Gets as nadaRetail
      *
      * @return int
      */
@@ -2428,21 +2322,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new nadaRetail.
+     * Sets a new nadaRetail
      *
      * @param int $nadaRetail
-     *
      * @return self
      */
     public function setNadaRetail($nadaRetail)
     {
         $this->nadaRetail = $nadaRetail;
-
         return $this;
     }
 
     /**
-     * Gets as nadaTrade.
+     * Gets as nadaTrade
      *
      * @return int
      */
@@ -2452,38 +2344,33 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new nadaTrade.
+     * Sets a new nadaTrade
      *
      * @param int $nadaTrade
-     *
      * @return self
      */
     public function setNadaTrade($nadaTrade)
     {
         $this->nadaTrade = $nadaTrade;
-
         return $this;
     }
 
     /**
-     * Adds as option.
+     * Adds as option
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\OptionType $option
      */
-    public function addToOptions(OptionType $option)
+    public function addToOptions(\App\Soap\dealerbuilt\src\Models\Stock\OptionType $option)
     {
         $this->options[] = $option;
-
         return $this;
     }
 
     /**
-     * isset options.
+     * isset options
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetOptions($index)
@@ -2492,10 +2379,9 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * unset options.
+     * unset options
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetOptions($index)
@@ -2504,7 +2390,7 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Gets as options.
+     * Gets as options
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\OptionType[]
      */
@@ -2514,21 +2400,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new options.
+     * Sets a new options
      *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\OptionType[] $options
-     *
      * @return self
      */
     public function setOptions(array $options)
     {
         $this->options = $options;
-
         return $this;
     }
 
     /**
-     * Gets as otherOptions.
+     * Gets as otherOptions
      *
      * @return string
      */
@@ -2538,21 +2422,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new otherOptions.
+     * Sets a new otherOptions
      *
      * @param string $otherOptions
-     *
      * @return self
      */
     public function setOtherOptions($otherOptions)
     {
         $this->otherOptions = $otherOptions;
-
         return $this;
     }
 
     /**
-     * Gets as ovAdvertisedSalePrice.
+     * Gets as ovAdvertisedSalePrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2562,19 +2444,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new ovAdvertisedSalePrice.
+     * Sets a new ovAdvertisedSalePrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $ovAdvertisedSalePrice
      * @return self
      */
     public function setOvAdvertisedSalePrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $ovAdvertisedSalePrice)
     {
         $this->ovAdvertisedSalePrice = $ovAdvertisedSalePrice;
-
         return $this;
     }
 
     /**
-     * Gets as pDIDate.
+     * Gets as pDIDate
      *
      * @return \DateTime
      */
@@ -2584,19 +2466,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new pDIDate.
+     * Sets a new pDIDate
      *
+     * @param \DateTime $pDIDate
      * @return self
      */
     public function setPDIDate(\DateTime $pDIDate)
     {
         $this->pDIDate = $pDIDate;
-
         return $this;
     }
 
     /**
-     * Gets as pDITechnician.
+     * Gets as pDITechnician
      *
      * @return \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
      */
@@ -2606,19 +2488,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new pDITechnician.
+     * Sets a new pDITechnician
      *
+     * @param \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $pDITechnician
      * @return self
      */
     public function setPDITechnician(\App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $pDITechnician)
     {
         $this->pDITechnician = $pDITechnician;
-
         return $this;
     }
 
     /**
-     * Gets as packageDiscount.
+     * Gets as packageDiscount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2628,19 +2510,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new packageDiscount.
+     * Sets a new packageDiscount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $packageDiscount
      * @return self
      */
     public function setPackageDiscount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $packageDiscount)
     {
         $this->packageDiscount = $packageDiscount;
-
         return $this;
     }
 
     /**
-     * Gets as payFrom.
+     * Gets as payFrom
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2650,19 +2532,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new payFrom.
+     * Sets a new payFrom
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payFrom
      * @return self
      */
     public function setPayFrom(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $payFrom)
     {
         $this->payFrom = $payFrom;
-
         return $this;
     }
 
     /**
-     * Gets as payoffLenderName.
+     * Gets as payoffLenderName
      *
      * @return string
      */
@@ -2672,21 +2554,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new payoffLenderName.
+     * Sets a new payoffLenderName
      *
      * @param string $payoffLenderName
-     *
      * @return self
      */
     public function setPayoffLenderName($payoffLenderName)
     {
         $this->payoffLenderName = $payoffLenderName;
-
         return $this;
     }
 
     /**
-     * Gets as pendingBid.
+     * Gets as pendingBid
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2696,19 +2576,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new pendingBid.
+     * Sets a new pendingBid
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $pendingBid
      * @return self
      */
     public function setPendingBid(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $pendingBid)
     {
         $this->pendingBid = $pendingBid;
-
         return $this;
     }
 
     /**
-     * Gets as postedDate.
+     * Gets as postedDate
      *
      * @return \DateTime
      */
@@ -2718,19 +2598,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new postedDate.
+     * Sets a new postedDate
      *
+     * @param \DateTime $postedDate
      * @return self
      */
     public function setPostedDate(\DateTime $postedDate)
     {
         $this->postedDate = $postedDate;
-
         return $this;
     }
 
     /**
-     * Gets as price.
+     * Gets as price
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2740,19 +2620,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new price.
+     * Sets a new price
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      * @return self
      */
     public function setPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $price)
     {
         $this->price = $price;
-
         return $this;
     }
 
     /**
-     * Gets as promoteStatus.
+     * Gets as promoteStatus
      *
      * @return bool
      */
@@ -2762,21 +2642,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new promoteStatus.
+     * Sets a new promoteStatus
      *
      * @param bool $promoteStatus
-     *
      * @return self
      */
     public function setPromoteStatus($promoteStatus)
     {
         $this->promoteStatus = $promoteStatus;
-
         return $this;
     }
 
     /**
-     * Gets as purchaseOrderMemo.
+     * Gets as purchaseOrderMemo
      *
      * @return string
      */
@@ -2786,21 +2664,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new purchaseOrderMemo.
+     * Sets a new purchaseOrderMemo
      *
      * @param string $purchaseOrderMemo
-     *
      * @return self
      */
     public function setPurchaseOrderMemo($purchaseOrderMemo)
     {
         $this->purchaseOrderMemo = $purchaseOrderMemo;
-
         return $this;
     }
 
     /**
-     * Gets as rebates.
+     * Gets as rebates
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2810,19 +2686,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new rebates.
+     * Sets a new rebates
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $rebates
      * @return self
      */
     public function setRebates(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $rebates)
     {
         $this->rebates = $rebates;
-
         return $this;
     }
 
     /**
-     * Gets as source.
+     * Gets as source
      *
      * @return string
      */
@@ -2832,21 +2708,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new source.
+     * Sets a new source
      *
      * @param string $source
-     *
      * @return self
      */
     public function setSource($source)
     {
         $this->source = $source;
-
         return $this;
     }
 
     /**
-     * Gets as status.
+     * Gets as status
      *
      * @return string
      */
@@ -2856,21 +2730,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new status.
+     * Sets a new status
      *
      * @param string $status
-     *
      * @return self
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
     /**
-     * Gets as stockDataAttributes.
+     * Gets as stockDataAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType
      */
@@ -2880,21 +2752,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new stockDataAttributes.
+     * Sets a new stockDataAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType $stockDataAttributes
-     *
      * @return self
      */
-    public function setStockDataAttributes(StockItemDataAttributesType $stockDataAttributes)
+    public function setStockDataAttributes(\App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType $stockDataAttributes)
     {
         $this->stockDataAttributes = $stockDataAttributes;
-
         return $this;
     }
 
     /**
-     * Gets as stockNumber.
+     * Gets as stockNumber
      *
      * @return string
      */
@@ -2904,21 +2774,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new stockNumber.
+     * Sets a new stockNumber
      *
      * @param string $stockNumber
-     *
      * @return self
      */
     public function setStockNumber($stockNumber)
     {
         $this->stockNumber = $stockNumber;
-
         return $this;
     }
 
     /**
-     * Gets as subType.
+     * Gets as subType
      *
      * @return string
      */
@@ -2928,21 +2796,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new subType.
+     * Sets a new subType
      *
      * @param string $subType
-     *
      * @return self
      */
     public function setSubType($subType)
     {
         $this->subType = $subType;
-
         return $this;
     }
 
     /**
-     * Gets as totalFacOptsCost.
+     * Gets as totalFacOptsCost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2952,19 +2818,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new totalFacOptsCost.
+     * Sets a new totalFacOptsCost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalFacOptsCost
      * @return self
      */
     public function setTotalFacOptsCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalFacOptsCost)
     {
         $this->totalFacOptsCost = $totalFacOptsCost;
-
         return $this;
     }
 
     /**
-     * Gets as totalFacOptsRetail.
+     * Gets as totalFacOptsRetail
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2974,19 +2840,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new totalFacOptsRetail.
+     * Sets a new totalFacOptsRetail
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalFacOptsRetail
      * @return self
      */
     public function setTotalFacOptsRetail(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalFacOptsRetail)
     {
         $this->totalFacOptsRetail = $totalFacOptsRetail;
-
         return $this;
     }
 
     /**
-     * Gets as trimCode.
+     * Gets as trimCode
      *
      * @return string
      */
@@ -2996,21 +2862,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new trimCode.
+     * Sets a new trimCode
      *
      * @param string $trimCode
-     *
      * @return self
      */
     public function setTrimCode($trimCode)
     {
         $this->trimCode = $trimCode;
-
         return $this;
     }
 
     /**
-     * Gets as type.
+     * Gets as type
      *
      * @return string
      */
@@ -3020,21 +2884,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new type.
+     * Sets a new type
      *
      * @param string $type
-     *
      * @return self
      */
     public function setType($type)
     {
         $this->type = $type;
-
         return $this;
     }
 
     /**
-     * Gets as vehiclePromoteStatus.
+     * Gets as vehiclePromoteStatus
      *
      * @return string
      */
@@ -3044,21 +2906,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new vehiclePromoteStatus.
+     * Sets a new vehiclePromoteStatus
      *
      * @param string $vehiclePromoteStatus
-     *
      * @return self
      */
     public function setVehiclePromoteStatus($vehiclePromoteStatus)
     {
         $this->vehiclePromoteStatus = $vehiclePromoteStatus;
-
         return $this;
     }
 
     /**
-     * Gets as wholesalePrice.
+     * Gets as wholesalePrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -3068,19 +2928,19 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new wholesalePrice.
+     * Sets a new wholesalePrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $wholesalePrice
      * @return self
      */
     public function setWholesalePrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $wholesalePrice)
     {
         $this->wholesalePrice = $wholesalePrice;
-
         return $this;
     }
 
     /**
-     * Gets as writeDown.
+     * Gets as writeDown
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -3090,14 +2950,17 @@ class StockItemAttributesV2Type
     }
 
     /**
-     * Sets a new writeDown.
+     * Sets a new writeDown
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $writeDown
      * @return self
      */
     public function setWriteDown(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $writeDown)
     {
         $this->writeDown = $writeDown;
-
         return $this;
     }
+
+
 }
+

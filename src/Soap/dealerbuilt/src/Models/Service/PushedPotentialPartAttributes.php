@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedPotentialPartAttributes.
+ * Class representing PushedPotentialPartAttributes
  */
 class PushedPotentialPartAttributes extends PushedPotentialPartAttributesType
 {
+
+
 }
+

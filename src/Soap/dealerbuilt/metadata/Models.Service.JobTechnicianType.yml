@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
             access_type: public_method
             serialized_name: ActualHours
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getActualHours
                 setter: setActualHours
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
             access_type: public_method
             serialized_name: Cost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCost
                 setter: setCost
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
             access_type: public_method
             serialized_name: EstimatedHours
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getEstimatedHours
                 setter: setEstimatedHours
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
             access_type: public_method
             serialized_name: FlatRateHours
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getFlatRateHours
                 setter: setFlatRateHours
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
             access_type: public_method
             serialized_name: LaborAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborAmount
                 setter: setLaborAmount
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
             access_type: public_method
             serialized_name: PayType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPayType
                 setter: setPayType
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
             access_type: public_method
             serialized_name: Tech
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTech
                 setter: setTech

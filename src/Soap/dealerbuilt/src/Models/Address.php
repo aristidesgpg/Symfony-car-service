@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing Address.
+ * Class representing Address
  */
 class Address extends AddressType
 {
+
+
 }
+

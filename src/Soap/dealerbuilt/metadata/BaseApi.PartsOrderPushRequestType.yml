@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType:
             access_type: public_method
             serialized_name: ExternalPartsOrderId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExternalPartsOrderId
                 setter: setExternalPartsOrderId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType:
             access_type: public_method
             serialized_name: Lines
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getLines
                 setter: setLines
@@ -24,13 +24,13 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType:
                 inline: false
                 entry_name: PartsOrderLinePushRequest
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
         orderInfo:
             expose: true
             access_type: public_method
             serialized_name: OrderInfo
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getOrderInfo
                 setter: setOrderInfo
@@ -40,7 +40,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType:
             access_type: public_method
             serialized_name: PartsOrderKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPartsOrderKey
                 setter: setPartsOrderKey
@@ -50,7 +50,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType:
             access_type: public_method
             serialized_name: ServiceLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationId
                 setter: setServiceLocationId

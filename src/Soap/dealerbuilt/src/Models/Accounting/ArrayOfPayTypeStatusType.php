@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing ArrayOfPayTypeStatusType.
+ * Class representing ArrayOfPayTypeStatusType
  *
+ * 
  * XSD Type: ArrayOfPayTypeStatus
  */
 class ArrayOfPayTypeStatusType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[] $payTypeStatus
      */
     private $payTypeStatus = [
+        
     ];
 
     /**
-     * Adds as payTypeStatus.
+     * Adds as payTypeStatus
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType $payTypeStatus
      */
-    public function addToPayTypeStatus(PayTypeStatusType $payTypeStatus)
+    public function addToPayTypeStatus(\App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType $payTypeStatus)
     {
         $this->payTypeStatus[] = $payTypeStatus;
-
         return $this;
     }
 
     /**
-     * isset payTypeStatus.
+     * isset payTypeStatus
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPayTypeStatus($index)
@@ -42,10 +42,9 @@ class ArrayOfPayTypeStatusType
     }
 
     /**
-     * unset payTypeStatus.
+     * unset payTypeStatus
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPayTypeStatus($index)
@@ -54,7 +53,7 @@ class ArrayOfPayTypeStatusType
     }
 
     /**
-     * Gets as payTypeStatus.
+     * Gets as payTypeStatus
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPayTypeStatusType
     }
 
     /**
-     * Sets a new payTypeStatus.
+     * Sets a new payTypeStatus
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[] $payTypeStatus
-     *
      * @return self
      */
     public function setPayTypeStatus(array $payTypeStatus)
     {
         $this->payTypeStatus = $payTypeStatus;
-
         return $this;
     }
+
+
 }
+

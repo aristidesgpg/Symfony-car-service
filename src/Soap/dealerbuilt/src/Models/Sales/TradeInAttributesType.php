@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing TradeInAttributesType.
+ * Class representing TradeInAttributesType
  *
+ * 
  * XSD Type: TradeInAttributes
  */
 class TradeInAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $acv
      */
     private $acv = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $allowance
      */
     private $allowance = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoff
      */
     private $payoff = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $payoffDate
      */
     private $payoffDate = null;
 
     /**
-     * Gets as acv.
+     * Gets as acv
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -40,19 +42,19 @@ class TradeInAttributesType
     }
 
     /**
-     * Sets a new acv.
+     * Sets a new acv
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $acv
      * @return self
      */
     public function setAcv(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $acv)
     {
         $this->acv = $acv;
-
         return $this;
     }
 
     /**
-     * Gets as allowance.
+     * Gets as allowance
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -62,19 +64,19 @@ class TradeInAttributesType
     }
 
     /**
-     * Sets a new allowance.
+     * Sets a new allowance
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $allowance
      * @return self
      */
     public function setAllowance(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $allowance)
     {
         $this->allowance = $allowance;
-
         return $this;
     }
 
     /**
-     * Gets as payoff.
+     * Gets as payoff
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -84,19 +86,19 @@ class TradeInAttributesType
     }
 
     /**
-     * Sets a new payoff.
+     * Sets a new payoff
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoff
      * @return self
      */
     public function setPayoff(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoff)
     {
         $this->payoff = $payoff;
-
         return $this;
     }
 
     /**
-     * Gets as payoffDate.
+     * Gets as payoffDate
      *
      * @return \DateTime
      */
@@ -106,14 +108,17 @@ class TradeInAttributesType
     }
 
     /**
-     * Sets a new payoffDate.
+     * Sets a new payoffDate
      *
+     * @param \DateTime $payoffDate
      * @return self
      */
     public function setPayoffDate(\DateTime $payoffDate)
     {
         $this->payoffDate = $payoffDate;
-
         return $this;
     }
+
+
 }
+

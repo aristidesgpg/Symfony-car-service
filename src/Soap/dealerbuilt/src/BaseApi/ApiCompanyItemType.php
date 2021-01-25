@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiCompanyItemType.
+ * Class representing ApiCompanyItemType
  *
+ * 
  * XSD Type: ApiCompanyItem
  */
 class ApiCompanyItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CompanyPlacementType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CompanyPlacementType $placement
      */
     private $placement = null;
 
     /**
-     * Gets as placement.
+     * Gets as placement
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CompanyPlacementType
      */
@@ -25,16 +27,17 @@ class ApiCompanyItemType
     }
 
     /**
-     * Sets a new placement.
+     * Sets a new placement
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CompanyPlacementType $placement
-     *
      * @return self
      */
-    public function setPlacement(CompanyPlacementType $placement)
+    public function setPlacement(\App\Soap\dealerbuilt\src\BaseApi\CompanyPlacementType $placement)
     {
         $this->placement = $placement;
-
         return $this;
     }
+
+
 }
+

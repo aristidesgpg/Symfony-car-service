@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushEstimateLaborItemsResponse.
+ * Class representing PushEstimateLaborItemsResponse
  */
 class PushEstimateLaborItemsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[] $pushEstimateLaborItemsResult
      */
     private $pushEstimateLaborItemsResult = null;
 
     /**
-     * Adds as potentialLaborItemPushResponse.
+     * Adds as potentialLaborItemPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType $potentialLaborItemPushResponse
      */
-    public function addToPushEstimateLaborItemsResult(BaseApi\PotentialLaborItemPushResponseType $potentialLaborItemPushResponse)
+    public function addToPushEstimateLaborItemsResult(\App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType $potentialLaborItemPushResponse)
     {
         $this->pushEstimateLaborItemsResult[] = $potentialLaborItemPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushEstimateLaborItemsResult.
+     * isset pushEstimateLaborItemsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushEstimateLaborItemsResult($index)
@@ -39,10 +37,9 @@ class PushEstimateLaborItemsResponse
     }
 
     /**
-     * unset pushEstimateLaborItemsResult.
+     * unset pushEstimateLaborItemsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushEstimateLaborItemsResult($index)
@@ -51,7 +48,7 @@ class PushEstimateLaborItemsResponse
     }
 
     /**
-     * Gets as pushEstimateLaborItemsResult.
+     * Gets as pushEstimateLaborItemsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushEstimateLaborItemsResponse
     }
 
     /**
-     * Sets a new pushEstimateLaborItemsResult.
+     * Sets a new pushEstimateLaborItemsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[] $pushEstimateLaborItemsResult
-     *
      * @return self
      */
     public function setPushEstimateLaborItemsResult(array $pushEstimateLaborItemsResult)
     {
         $this->pushEstimateLaborItemsResult = $pushEstimateLaborItemsResult;
-
         return $this;
     }
+
+
 }
+

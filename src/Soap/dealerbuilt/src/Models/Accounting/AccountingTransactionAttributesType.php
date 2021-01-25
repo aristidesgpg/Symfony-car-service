@@ -3,169 +3,171 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing AccountingTransactionAttributesType.
+ * Class representing AccountingTransactionAttributesType
  *
+ * 
  * XSD Type: AccountingTransactionAttributes
  */
 class AccountingTransactionAttributesType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $accountingDate
      */
     private $accountingDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $balance
      */
     private $balance = null;
 
     /**
-     * @var int
+     * @var int $dealNumber
      */
     private $dealNumber = null;
 
     /**
-     * @var int
+     * @var int $dealerID
      */
     private $dealerID = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var int
+     * @var int $division
      */
     private $division = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $documentDate
      */
     private $documentDate = null;
 
     /**
-     * @var int
+     * @var int $fieldCode
      */
     private $fieldCode = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $gLEntryDate
      */
     private $gLEntryDate = null;
 
     /**
-     * @var string
+     * @var string $gLVouch
      */
     private $gLVouch = null;
 
     /**
-     * @var string
+     * @var string $groupDescription
      */
     private $groupDescription = null;
 
     /**
-     * @var string
+     * @var string $groupUnique
      */
     private $groupUnique = null;
 
     /**
-     * @var string
+     * @var string $groupUserID
      */
     private $groupUserID = null;
 
     /**
-     * @var string
+     * @var string $journal
      */
     private $journal = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType[] $lineItems
      */
     private $lineItems = null;
 
     /**
-     * @var int
+     * @var int $locationID
      */
     private $locationID = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var string
+     * @var string $omnisName
      */
     private $omnisName = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $paymentAmount
      */
     private $paymentAmount = null;
 
     /**
-     * @var int
+     * @var int $period
      */
     private $period = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $postTime
      */
     private $postTime = null;
 
     /**
-     * @var int
+     * @var int $posted
      */
     private $posted = null;
 
     /**
-     * @var string
+     * @var string $refJrnl
      */
     private $refJrnl = null;
 
     /**
-     * @var string
+     * @var string $reference
      */
     private $reference = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $referenceDate
      */
     private $referenceDate = null;
 
     /**
-     * @var int
+     * @var int $sourceLocationID
      */
     private $sourceLocationID = null;
 
     /**
-     * @var string
+     * @var string $transType1
      */
     private $transType1 = null;
 
     /**
-     * @var string
+     * @var string $userCode
      */
     private $userCode = null;
 
     /**
-     * @var string
+     * @var string $userName
      */
     private $userName = null;
 
     /**
-     * @var string
+     * @var string $factory
      */
     private $factory = null;
 
     /**
-     * @var int
+     * @var int $windowCode
      */
     private $windowCode = null;
 
     /**
-     * Gets as accountingDate.
+     * Gets as accountingDate
      *
      * @return \DateTime
      */
@@ -175,19 +177,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new accountingDate.
+     * Sets a new accountingDate
      *
+     * @param \DateTime $accountingDate
      * @return self
      */
     public function setAccountingDate(\DateTime $accountingDate)
     {
         $this->accountingDate = $accountingDate;
-
         return $this;
     }
 
     /**
-     * Gets as balance.
+     * Gets as balance
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -197,19 +199,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new balance.
+     * Sets a new balance
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $balance
      * @return self
      */
     public function setBalance(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $balance)
     {
         $this->balance = $balance;
-
         return $this;
     }
 
     /**
-     * Gets as dealNumber.
+     * Gets as dealNumber
      *
      * @return int
      */
@@ -219,21 +221,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new dealNumber.
+     * Sets a new dealNumber
      *
      * @param int $dealNumber
-     *
      * @return self
      */
     public function setDealNumber($dealNumber)
     {
         $this->dealNumber = $dealNumber;
-
         return $this;
     }
 
     /**
-     * Gets as dealerID.
+     * Gets as dealerID
      *
      * @return int
      */
@@ -243,21 +243,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new dealerID.
+     * Sets a new dealerID
      *
      * @param int $dealerID
-     *
      * @return self
      */
     public function setDealerID($dealerID)
     {
         $this->dealerID = $dealerID;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -267,21 +265,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as division.
+     * Gets as division
      *
      * @return int
      */
@@ -291,21 +287,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new division.
+     * Sets a new division
      *
      * @param int $division
-     *
      * @return self
      */
     public function setDivision($division)
     {
         $this->division = $division;
-
         return $this;
     }
 
     /**
-     * Gets as documentDate.
+     * Gets as documentDate
      *
      * @return \DateTime
      */
@@ -315,19 +309,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new documentDate.
+     * Sets a new documentDate
      *
+     * @param \DateTime $documentDate
      * @return self
      */
     public function setDocumentDate(\DateTime $documentDate)
     {
         $this->documentDate = $documentDate;
-
         return $this;
     }
 
     /**
-     * Gets as fieldCode.
+     * Gets as fieldCode
      *
      * @return int
      */
@@ -337,21 +331,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new fieldCode.
+     * Sets a new fieldCode
      *
      * @param int $fieldCode
-     *
      * @return self
      */
     public function setFieldCode($fieldCode)
     {
         $this->fieldCode = $fieldCode;
-
         return $this;
     }
 
     /**
-     * Gets as gLEntryDate.
+     * Gets as gLEntryDate
      *
      * @return \DateTime
      */
@@ -361,19 +353,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new gLEntryDate.
+     * Sets a new gLEntryDate
      *
+     * @param \DateTime $gLEntryDate
      * @return self
      */
     public function setGLEntryDate(\DateTime $gLEntryDate)
     {
         $this->gLEntryDate = $gLEntryDate;
-
         return $this;
     }
 
     /**
-     * Gets as gLVouch.
+     * Gets as gLVouch
      *
      * @return string
      */
@@ -383,21 +375,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new gLVouch.
+     * Sets a new gLVouch
      *
      * @param string $gLVouch
-     *
      * @return self
      */
     public function setGLVouch($gLVouch)
     {
         $this->gLVouch = $gLVouch;
-
         return $this;
     }
 
     /**
-     * Gets as groupDescription.
+     * Gets as groupDescription
      *
      * @return string
      */
@@ -407,21 +397,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new groupDescription.
+     * Sets a new groupDescription
      *
      * @param string $groupDescription
-     *
      * @return self
      */
     public function setGroupDescription($groupDescription)
     {
         $this->groupDescription = $groupDescription;
-
         return $this;
     }
 
     /**
-     * Gets as groupUnique.
+     * Gets as groupUnique
      *
      * @return string
      */
@@ -431,21 +419,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new groupUnique.
+     * Sets a new groupUnique
      *
      * @param string $groupUnique
-     *
      * @return self
      */
     public function setGroupUnique($groupUnique)
     {
         $this->groupUnique = $groupUnique;
-
         return $this;
     }
 
     /**
-     * Gets as groupUserID.
+     * Gets as groupUserID
      *
      * @return string
      */
@@ -455,21 +441,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new groupUserID.
+     * Sets a new groupUserID
      *
      * @param string $groupUserID
-     *
      * @return self
      */
     public function setGroupUserID($groupUserID)
     {
         $this->groupUserID = $groupUserID;
-
         return $this;
     }
 
     /**
-     * Gets as journal.
+     * Gets as journal
      *
      * @return string
      */
@@ -479,38 +463,33 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new journal.
+     * Sets a new journal
      *
      * @param string $journal
-     *
      * @return self
      */
     public function setJournal($journal)
     {
         $this->journal = $journal;
-
         return $this;
     }
 
     /**
-     * Adds as accountingTransactionLineItem.
+     * Adds as accountingTransactionLineItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType $accountingTransactionLineItem
      */
-    public function addToLineItems(AccountingTransactionLineItemType $accountingTransactionLineItem)
+    public function addToLineItems(\App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType $accountingTransactionLineItem)
     {
         $this->lineItems[] = $accountingTransactionLineItem;
-
         return $this;
     }
 
     /**
-     * isset lineItems.
+     * isset lineItems
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLineItems($index)
@@ -519,10 +498,9 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * unset lineItems.
+     * unset lineItems
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLineItems($index)
@@ -531,7 +509,7 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Gets as lineItems.
+     * Gets as lineItems
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType[]
      */
@@ -541,21 +519,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new lineItems.
+     * Sets a new lineItems
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType[] $lineItems
-     *
      * @return self
      */
     public function setLineItems(array $lineItems)
     {
         $this->lineItems = $lineItems;
-
         return $this;
     }
 
     /**
-     * Gets as locationID.
+     * Gets as locationID
      *
      * @return int
      */
@@ -565,21 +541,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new locationID.
+     * Sets a new locationID
      *
      * @param int $locationID
-     *
      * @return self
      */
     public function setLocationID($locationID)
     {
         $this->locationID = $locationID;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -589,21 +563,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as omnisName.
+     * Gets as omnisName
      *
      * @return string
      */
@@ -613,21 +585,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new omnisName.
+     * Sets a new omnisName
      *
      * @param string $omnisName
-     *
      * @return self
      */
     public function setOmnisName($omnisName)
     {
         $this->omnisName = $omnisName;
-
         return $this;
     }
 
     /**
-     * Gets as paymentAmount.
+     * Gets as paymentAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -637,19 +607,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new paymentAmount.
+     * Sets a new paymentAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $paymentAmount
      * @return self
      */
     public function setPaymentAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $paymentAmount)
     {
         $this->paymentAmount = $paymentAmount;
-
         return $this;
     }
 
     /**
-     * Gets as period.
+     * Gets as period
      *
      * @return int
      */
@@ -659,21 +629,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new period.
+     * Sets a new period
      *
      * @param int $period
-     *
      * @return self
      */
     public function setPeriod($period)
     {
         $this->period = $period;
-
         return $this;
     }
 
     /**
-     * Gets as postTime.
+     * Gets as postTime
      *
      * @return \DateTime
      */
@@ -683,19 +651,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new postTime.
+     * Sets a new postTime
      *
+     * @param \DateTime $postTime
      * @return self
      */
     public function setPostTime(\DateTime $postTime)
     {
         $this->postTime = $postTime;
-
         return $this;
     }
 
     /**
-     * Gets as posted.
+     * Gets as posted
      *
      * @return int
      */
@@ -705,21 +673,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new posted.
+     * Sets a new posted
      *
      * @param int $posted
-     *
      * @return self
      */
     public function setPosted($posted)
     {
         $this->posted = $posted;
-
         return $this;
     }
 
     /**
-     * Gets as refJrnl.
+     * Gets as refJrnl
      *
      * @return string
      */
@@ -729,21 +695,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new refJrnl.
+     * Sets a new refJrnl
      *
      * @param string $refJrnl
-     *
      * @return self
      */
     public function setRefJrnl($refJrnl)
     {
         $this->refJrnl = $refJrnl;
-
         return $this;
     }
 
     /**
-     * Gets as reference.
+     * Gets as reference
      *
      * @return string
      */
@@ -753,21 +717,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new reference.
+     * Sets a new reference
      *
      * @param string $reference
-     *
      * @return self
      */
     public function setReference($reference)
     {
         $this->reference = $reference;
-
         return $this;
     }
 
     /**
-     * Gets as referenceDate.
+     * Gets as referenceDate
      *
      * @return \DateTime
      */
@@ -777,19 +739,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new referenceDate.
+     * Sets a new referenceDate
      *
+     * @param \DateTime $referenceDate
      * @return self
      */
     public function setReferenceDate(\DateTime $referenceDate)
     {
         $this->referenceDate = $referenceDate;
-
         return $this;
     }
 
     /**
-     * Gets as sourceLocationID.
+     * Gets as sourceLocationID
      *
      * @return int
      */
@@ -799,21 +761,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new sourceLocationID.
+     * Sets a new sourceLocationID
      *
      * @param int $sourceLocationID
-     *
      * @return self
      */
     public function setSourceLocationID($sourceLocationID)
     {
         $this->sourceLocationID = $sourceLocationID;
-
         return $this;
     }
 
     /**
-     * Gets as transType1.
+     * Gets as transType1
      *
      * @return string
      */
@@ -823,21 +783,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new transType1.
+     * Sets a new transType1
      *
      * @param string $transType1
-     *
      * @return self
      */
     public function setTransType1($transType1)
     {
         $this->transType1 = $transType1;
-
         return $this;
     }
 
     /**
-     * Gets as userCode.
+     * Gets as userCode
      *
      * @return string
      */
@@ -847,21 +805,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new userCode.
+     * Sets a new userCode
      *
      * @param string $userCode
-     *
      * @return self
      */
     public function setUserCode($userCode)
     {
         $this->userCode = $userCode;
-
         return $this;
     }
 
     /**
-     * Gets as userName.
+     * Gets as userName
      *
      * @return string
      */
@@ -871,21 +827,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new userName.
+     * Sets a new userName
      *
      * @param string $userName
-     *
      * @return self
      */
     public function setUserName($userName)
     {
         $this->userName = $userName;
-
         return $this;
     }
 
     /**
-     * Gets as factory.
+     * Gets as factory
      *
      * @return string
      */
@@ -895,21 +849,19 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new factory.
+     * Sets a new factory
      *
      * @param string $factory
-     *
      * @return self
      */
     public function setFactory($factory)
     {
         $this->factory = $factory;
-
         return $this;
     }
 
     /**
-     * Gets as windowCode.
+     * Gets as windowCode
      *
      * @return int
      */
@@ -919,16 +871,17 @@ class AccountingTransactionAttributesType
     }
 
     /**
-     * Sets a new windowCode.
+     * Sets a new windowCode
      *
      * @param int $windowCode
-     *
      * @return self
      */
     public function setWindowCode($windowCode)
     {
         $this->windowCode = $windowCode;
-
         return $this;
     }
+
+
 }
+

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCounterTicketParts.
+ * Class representing PushCounterTicketParts
  */
 class PushCounterTicketParts
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType[] $counterTicketParts
      */
     private $counterTicketParts = null;
 
     /**
-     * Adds as partsInvoicePartPushRequest.
+     * Adds as partsInvoicePartPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType $partsInvoicePartPushRequest
      */
-    public function addToCounterTicketParts(BaseApi\PartsInvoicePartPushRequestType $partsInvoicePartPushRequest)
+    public function addToCounterTicketParts(\App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType $partsInvoicePartPushRequest)
     {
         $this->counterTicketParts[] = $partsInvoicePartPushRequest;
-
         return $this;
     }
 
     /**
-     * isset counterTicketParts.
+     * isset counterTicketParts
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCounterTicketParts($index)
@@ -39,10 +37,9 @@ class PushCounterTicketParts
     }
 
     /**
-     * unset counterTicketParts.
+     * unset counterTicketParts
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCounterTicketParts($index)
@@ -51,7 +48,7 @@ class PushCounterTicketParts
     }
 
     /**
-     * Gets as counterTicketParts.
+     * Gets as counterTicketParts
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushCounterTicketParts
     }
 
     /**
-     * Sets a new counterTicketParts.
+     * Sets a new counterTicketParts
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType[] $counterTicketParts
-     *
      * @return self
      */
     public function setCounterTicketParts(array $counterTicketParts)
     {
         $this->counterTicketParts = $counterTicketParts;
-
         return $this;
     }
+
+
 }
+

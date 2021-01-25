@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing ArrayOfFactoryAccountNumbersType.
+ * Class representing ArrayOfFactoryAccountNumbersType
  */
 class ArrayOfFactoryAccountNumbersType //extends ArrayOfFactoryAccountNumbersType
 {
+
+
 }
+

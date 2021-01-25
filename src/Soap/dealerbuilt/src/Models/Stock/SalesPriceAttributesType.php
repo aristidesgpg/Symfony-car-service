@@ -3,54 +3,56 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing SalesPriceAttributesType.
+ * Class representing SalesPriceAttributesType
  *
+ * 
  * XSD Type: SalesPriceAttributes
  */
 class SalesPriceAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisedSalePrice
      */
     private $advertisedSalePrice = null;
 
     /**
-     * @var string
+     * @var string $dealerDefinedStatus
      */
     private $dealerDefinedStatus = null;
 
     /**
-     * @var bool
+     * @var bool $explodeVin
      */
     private $explodeVin = null;
 
     /**
-     * @var string
+     * @var string $invoiceNumberString
      */
     private $invoiceNumberString = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedStamp
      */
     private $modifiedStamp = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType $stockDataAttributes
      */
     private $stockDataAttributes = null;
 
     /**
-     * @var string
+     * @var string $stockNumber
      */
     private $stockNumber = null;
 
     /**
-     * Gets as advertisedSalePrice.
+     * Gets as advertisedSalePrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -60,19 +62,19 @@ class SalesPriceAttributesType
     }
 
     /**
-     * Sets a new advertisedSalePrice.
+     * Sets a new advertisedSalePrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisedSalePrice
      * @return self
      */
     public function setAdvertisedSalePrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $advertisedSalePrice)
     {
         $this->advertisedSalePrice = $advertisedSalePrice;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDefinedStatus.
+     * Gets as dealerDefinedStatus
      *
      * @return string
      */
@@ -82,21 +84,19 @@ class SalesPriceAttributesType
     }
 
     /**
-     * Sets a new dealerDefinedStatus.
+     * Sets a new dealerDefinedStatus
      *
      * @param string $dealerDefinedStatus
-     *
      * @return self
      */
     public function setDealerDefinedStatus($dealerDefinedStatus)
     {
         $this->dealerDefinedStatus = $dealerDefinedStatus;
-
         return $this;
     }
 
     /**
-     * Gets as explodeVin.
+     * Gets as explodeVin
      *
      * @return bool
      */
@@ -106,21 +106,19 @@ class SalesPriceAttributesType
     }
 
     /**
-     * Sets a new explodeVin.
+     * Sets a new explodeVin
      *
      * @param bool $explodeVin
-     *
      * @return self
      */
     public function setExplodeVin($explodeVin)
     {
         $this->explodeVin = $explodeVin;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceNumberString.
+     * Gets as invoiceNumberString
      *
      * @return string
      */
@@ -130,21 +128,19 @@ class SalesPriceAttributesType
     }
 
     /**
-     * Sets a new invoiceNumberString.
+     * Sets a new invoiceNumberString
      *
      * @param string $invoiceNumberString
-     *
      * @return self
      */
     public function setInvoiceNumberString($invoiceNumberString)
     {
         $this->invoiceNumberString = $invoiceNumberString;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -154,21 +150,19 @@ class SalesPriceAttributesType
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedStamp.
+     * Gets as modifiedStamp
      *
      * @return \DateTime
      */
@@ -178,19 +172,19 @@ class SalesPriceAttributesType
     }
 
     /**
-     * Sets a new modifiedStamp.
+     * Sets a new modifiedStamp
      *
+     * @param \DateTime $modifiedStamp
      * @return self
      */
     public function setModifiedStamp(\DateTime $modifiedStamp)
     {
         $this->modifiedStamp = $modifiedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as stockDataAttributes.
+     * Gets as stockDataAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType
      */
@@ -200,21 +194,19 @@ class SalesPriceAttributesType
     }
 
     /**
-     * Sets a new stockDataAttributes.
+     * Sets a new stockDataAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType $stockDataAttributes
-     *
      * @return self
      */
-    public function setStockDataAttributes(StockItemDataAttributesType $stockDataAttributes)
+    public function setStockDataAttributes(\App\Soap\dealerbuilt\src\Models\Stock\StockItemDataAttributesType $stockDataAttributes)
     {
         $this->stockDataAttributes = $stockDataAttributes;
-
         return $this;
     }
 
     /**
-     * Gets as stockNumber.
+     * Gets as stockNumber
      *
      * @return string
      */
@@ -224,16 +216,17 @@ class SalesPriceAttributesType
     }
 
     /**
-     * Sets a new stockNumber.
+     * Sets a new stockNumber
      *
      * @param string $stockNumber
-     *
      * @return self
      */
     public function setStockNumber($stockNumber)
     {
         $this->stockNumber = $stockNumber;
-
         return $this;
     }
+
+
 }
+

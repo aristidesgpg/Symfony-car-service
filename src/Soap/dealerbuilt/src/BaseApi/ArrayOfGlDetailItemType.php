@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfGlDetailItemType.
+ * Class representing ArrayOfGlDetailItemType
  *
+ * 
  * XSD Type: ArrayOfGlDetailItem
  */
 class ArrayOfGlDetailItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType[] $glDetailItem
      */
     private $glDetailItem = [
+        
     ];
 
     /**
-     * Adds as glDetailItem.
+     * Adds as glDetailItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType $glDetailItem
      */
-    public function addToGlDetailItem(GlDetailItemType $glDetailItem)
+    public function addToGlDetailItem(\App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType $glDetailItem)
     {
         $this->glDetailItem[] = $glDetailItem;
-
         return $this;
     }
 
     /**
-     * isset glDetailItem.
+     * isset glDetailItem
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGlDetailItem($index)
@@ -42,10 +42,9 @@ class ArrayOfGlDetailItemType
     }
 
     /**
-     * unset glDetailItem.
+     * unset glDetailItem
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGlDetailItem($index)
@@ -54,7 +53,7 @@ class ArrayOfGlDetailItemType
     }
 
     /**
-     * Gets as glDetailItem.
+     * Gets as glDetailItem
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfGlDetailItemType
     }
 
     /**
-     * Sets a new glDetailItem.
+     * Sets a new glDetailItem
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType[] $glDetailItem
-     *
      * @return self
      */
     public function setGlDetailItem(array $glDetailItem)
     {
         $this->glDetailItem = $glDetailItem;
-
         return $this;
     }
+
+
 }
+

@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetEstimateJobCodesResponse.
+ * Class representing GetEstimateJobCodesResponse
  */
 class GetEstimateJobCodesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getEstimateJobCodesResult
      */
     private $getEstimateJobCodesResult = null;
 
     /**
-     * Gets as getEstimateJobCodesResult.
+     * Gets as getEstimateJobCodesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType
      */
@@ -23,16 +24,17 @@ class GetEstimateJobCodesResponse
     }
 
     /**
-     * Sets a new getEstimateJobCodesResult.
+     * Sets a new getEstimateJobCodesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getEstimateJobCodesResult
-     *
      * @return self
      */
-    public function setGetEstimateJobCodesResult(BaseApi\ServiceLocationPotentialJobCodesType $getEstimateJobCodesResult)
+    public function setGetEstimateJobCodesResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getEstimateJobCodesResult)
     {
         $this->getEstimateJobCodesResult = $getEstimateJobCodesResult;
-
         return $this;
     }
+
+
 }
+

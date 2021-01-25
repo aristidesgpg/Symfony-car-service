@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DocumentType.
+ * Class representing DocumentType
  *
+ * 
  * XSD Type: Document
  */
 class DocumentType extends ApiStoreItemType
 {
+
     /**
-     * @var string
+     * @var string $dealKey
      */
     private $dealKey = null;
 
     /**
-     * @var string
+     * @var string $documentKey
      */
     private $documentKey = null;
 
     /**
-     * @var string
+     * @var string $documentName
      */
     private $documentName = null;
 
     /**
-     * @var int
+     * @var int $documentOrderSeq
      */
     private $documentOrderSeq = null;
 
     /**
-     * @var string
+     * @var string $externalDocumentKey
      */
     private $externalDocumentKey = null;
 
     /**
-     * @var string
+     * @var string $signedDocument
      */
     private $signedDocument = null;
 
     /**
-     * @var string
+     * @var string $unSignedDocument
      */
     private $unSignedDocument = null;
 
     /**
-     * Gets as dealKey.
+     * Gets as dealKey
      *
      * @return string
      */
@@ -55,21 +57,19 @@ class DocumentType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new dealKey.
+     * Sets a new dealKey
      *
      * @param string $dealKey
-     *
      * @return self
      */
     public function setDealKey($dealKey)
     {
         $this->dealKey = $dealKey;
-
         return $this;
     }
 
     /**
-     * Gets as documentKey.
+     * Gets as documentKey
      *
      * @return string
      */
@@ -79,21 +79,19 @@ class DocumentType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new documentKey.
+     * Sets a new documentKey
      *
      * @param string $documentKey
-     *
      * @return self
      */
     public function setDocumentKey($documentKey)
     {
         $this->documentKey = $documentKey;
-
         return $this;
     }
 
     /**
-     * Gets as documentName.
+     * Gets as documentName
      *
      * @return string
      */
@@ -103,21 +101,19 @@ class DocumentType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new documentName.
+     * Sets a new documentName
      *
      * @param string $documentName
-     *
      * @return self
      */
     public function setDocumentName($documentName)
     {
         $this->documentName = $documentName;
-
         return $this;
     }
 
     /**
-     * Gets as documentOrderSeq.
+     * Gets as documentOrderSeq
      *
      * @return int
      */
@@ -127,21 +123,19 @@ class DocumentType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new documentOrderSeq.
+     * Sets a new documentOrderSeq
      *
      * @param int $documentOrderSeq
-     *
      * @return self
      */
     public function setDocumentOrderSeq($documentOrderSeq)
     {
         $this->documentOrderSeq = $documentOrderSeq;
-
         return $this;
     }
 
     /**
-     * Gets as externalDocumentKey.
+     * Gets as externalDocumentKey
      *
      * @return string
      */
@@ -151,21 +145,19 @@ class DocumentType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new externalDocumentKey.
+     * Sets a new externalDocumentKey
      *
      * @param string $externalDocumentKey
-     *
      * @return self
      */
     public function setExternalDocumentKey($externalDocumentKey)
     {
         $this->externalDocumentKey = $externalDocumentKey;
-
         return $this;
     }
 
     /**
-     * Gets as signedDocument.
+     * Gets as signedDocument
      *
      * @return string
      */
@@ -175,21 +167,19 @@ class DocumentType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new signedDocument.
+     * Sets a new signedDocument
      *
      * @param string $signedDocument
-     *
      * @return self
      */
     public function setSignedDocument($signedDocument)
     {
         $this->signedDocument = $signedDocument;
-
         return $this;
     }
 
     /**
-     * Gets as unSignedDocument.
+     * Gets as unSignedDocument
      *
      * @return string
      */
@@ -199,16 +189,17 @@ class DocumentType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new unSignedDocument.
+     * Sets a new unSignedDocument
      *
      * @param string $unSignedDocument
-     *
      * @return self
      */
     public function setUnSignedDocument($unSignedDocument)
     {
         $this->unSignedDocument = $unSignedDocument;
-
         return $this;
     }
+
+
 }
+

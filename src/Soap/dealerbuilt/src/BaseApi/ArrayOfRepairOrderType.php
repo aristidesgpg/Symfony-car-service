@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfRepairOrderType.
+ * Class representing ArrayOfRepairOrderType
  *
+ * 
  * XSD Type: ArrayOfRepairOrder
  */
 class ArrayOfRepairOrderType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType[] $repairOrder
      */
     private $repairOrder = [
+        
     ];
 
     /**
-     * Adds as repairOrder.
+     * Adds as repairOrder
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $repairOrder
      */
-    public function addToRepairOrder(RepairOrderType $repairOrder)
+    public function addToRepairOrder(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $repairOrder)
     {
         $this->repairOrder[] = $repairOrder;
-
         return $this;
     }
 
     /**
-     * isset repairOrder.
+     * isset repairOrder
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRepairOrder($index)
@@ -42,10 +42,9 @@ class ArrayOfRepairOrderType
     }
 
     /**
-     * unset repairOrder.
+     * unset repairOrder
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRepairOrder($index)
@@ -54,7 +53,7 @@ class ArrayOfRepairOrderType
     }
 
     /**
-     * Gets as repairOrder.
+     * Gets as repairOrder
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfRepairOrderType
     }
 
     /**
-     * Sets a new repairOrder.
+     * Sets a new repairOrder
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType[] $repairOrder
-     *
      * @return self
      */
     public function setRepairOrder(array $repairOrder)
     {
         $this->repairOrder = $repairOrder;
-
         return $this;
     }
+
+
 }
+

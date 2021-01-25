@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StockItemType.
+ * Class representing StockItemType
  *
+ * 
  * XSD Type: StockItem
  */
 class StockItemType extends ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $inventoryKey
      */
     private $inventoryKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $unitAttributes
      */
     private $unitAttributes = null;
 
     /**
-     * @var string
+     * @var string $vehicleKey
      */
     private $vehicleKey = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
      */
@@ -40,19 +42,19 @@ class StockItemType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as inventoryKey.
+     * Gets as inventoryKey
      *
      * @return string
      */
@@ -62,21 +64,19 @@ class StockItemType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new inventoryKey.
+     * Sets a new inventoryKey
      *
      * @param string $inventoryKey
-     *
      * @return self
      */
     public function setInventoryKey($inventoryKey)
     {
         $this->inventoryKey = $inventoryKey;
-
         return $this;
     }
 
     /**
-     * Gets as unitAttributes.
+     * Gets as unitAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
      */
@@ -86,19 +86,19 @@ class StockItemType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new unitAttributes.
+     * Sets a new unitAttributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $unitAttributes
      * @return self
      */
     public function setUnitAttributes(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $unitAttributes)
     {
         $this->unitAttributes = $unitAttributes;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleKey.
+     * Gets as vehicleKey
      *
      * @return string
      */
@@ -108,16 +108,17 @@ class StockItemType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new vehicleKey.
+     * Sets a new vehicleKey
      *
      * @param string $vehicleKey
-     *
      * @return self
      */
     public function setVehicleKey($vehicleKey)
     {
         $this->vehicleKey = $vehicleKey;
-
         return $this;
     }
+
+
 }
+

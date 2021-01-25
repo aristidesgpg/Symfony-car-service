@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing InventoryDropdownListType.
+ * Class representing InventoryDropdownListType
  *
+ * 
  * XSD Type: InventoryDropdownList
  */
 class InventoryDropdownListType extends ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\InventoryDropdownListResponseType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\InventoryDropdownListResponseType $inventoryDropdownListResponse
      */
     private $inventoryDropdownListResponse = null;
 
     /**
-     * Gets as inventoryDropdownListResponse.
+     * Gets as inventoryDropdownListResponse
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\InventoryDropdownListResponseType
      */
@@ -25,14 +27,17 @@ class InventoryDropdownListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new inventoryDropdownListResponse.
+     * Sets a new inventoryDropdownListResponse
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Stock\InventoryDropdownListResponseType $inventoryDropdownListResponse
      * @return self
      */
     public function setInventoryDropdownListResponse(\App\Soap\dealerbuilt\src\Models\Stock\InventoryDropdownListResponseType $inventoryDropdownListResponse)
     {
         $this->inventoryDropdownListResponse = $inventoryDropdownListResponse;
-
         return $this;
     }
+
+
 }
+

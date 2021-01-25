@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPartsInvoicesByKeyResponse.
+ * Class representing PullPartsInvoicesByKeyResponse
  */
 class PullPartsInvoicesByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[] $pullPartsInvoicesByKeyResult
      */
     private $pullPartsInvoicesByKeyResult = null;
 
     /**
-     * Adds as partsInvoice.
+     * Adds as partsInvoice
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $partsInvoice
      */
-    public function addToPullPartsInvoicesByKeyResult(BaseApi\PartsInvoiceType $partsInvoice)
+    public function addToPullPartsInvoicesByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $partsInvoice)
     {
         $this->pullPartsInvoicesByKeyResult[] = $partsInvoice;
-
         return $this;
     }
 
     /**
-     * isset pullPartsInvoicesByKeyResult.
+     * isset pullPartsInvoicesByKeyResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullPartsInvoicesByKeyResult($index)
@@ -39,10 +37,9 @@ class PullPartsInvoicesByKeyResponse
     }
 
     /**
-     * unset pullPartsInvoicesByKeyResult.
+     * unset pullPartsInvoicesByKeyResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullPartsInvoicesByKeyResult($index)
@@ -51,7 +48,7 @@ class PullPartsInvoicesByKeyResponse
     }
 
     /**
-     * Gets as pullPartsInvoicesByKeyResult.
+     * Gets as pullPartsInvoicesByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[]
      */
@@ -61,16 +58,17 @@ class PullPartsInvoicesByKeyResponse
     }
 
     /**
-     * Sets a new pullPartsInvoicesByKeyResult.
+     * Sets a new pullPartsInvoicesByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[] $pullPartsInvoicesByKeyResult
-     *
      * @return self
      */
     public function setPullPartsInvoicesByKeyResult(array $pullPartsInvoicesByKeyResult)
     {
         $this->pullPartsInvoicesByKeyResult = $pullPartsInvoicesByKeyResult;
-
         return $this;
     }
+
+
 }
+

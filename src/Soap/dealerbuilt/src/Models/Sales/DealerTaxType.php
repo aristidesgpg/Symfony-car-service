@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing DealerTaxType.
+ * Class representing DealerTaxType
  *
+ * 
  * XSD Type: DealerTax
  */
 class DealerTaxType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      */
     private $amount = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var bool
+     * @var bool $isAddedToMonthlyUseTax
      */
     private $isAddedToMonthlyUseTax = null;
 
     /**
-     * @var bool
+     * @var bool $isCapitalized
      */
     private $isCapitalized = null;
 
     /**
-     * @var bool
+     * @var bool $isPaidUpFront
      */
     private $isPaidUpFront = null;
 
     /**
-     * @var float
+     * @var float $rate
      */
     private $rate = null;
 
     /**
-     * @var string
+     * @var string $taxType
      */
     private $taxType = null;
 
     /**
-     * Gets as amount.
+     * Gets as amount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -55,19 +57,19 @@ class DealerTaxType
     }
 
     /**
-     * Sets a new amount.
+     * Sets a new amount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      * @return self
      */
     public function setAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount)
     {
         $this->amount = $amount;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -77,21 +79,19 @@ class DealerTaxType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as isAddedToMonthlyUseTax.
+     * Gets as isAddedToMonthlyUseTax
      *
      * @return bool
      */
@@ -101,21 +101,19 @@ class DealerTaxType
     }
 
     /**
-     * Sets a new isAddedToMonthlyUseTax.
+     * Sets a new isAddedToMonthlyUseTax
      *
      * @param bool $isAddedToMonthlyUseTax
-     *
      * @return self
      */
     public function setIsAddedToMonthlyUseTax($isAddedToMonthlyUseTax)
     {
         $this->isAddedToMonthlyUseTax = $isAddedToMonthlyUseTax;
-
         return $this;
     }
 
     /**
-     * Gets as isCapitalized.
+     * Gets as isCapitalized
      *
      * @return bool
      */
@@ -125,21 +123,19 @@ class DealerTaxType
     }
 
     /**
-     * Sets a new isCapitalized.
+     * Sets a new isCapitalized
      *
      * @param bool $isCapitalized
-     *
      * @return self
      */
     public function setIsCapitalized($isCapitalized)
     {
         $this->isCapitalized = $isCapitalized;
-
         return $this;
     }
 
     /**
-     * Gets as isPaidUpFront.
+     * Gets as isPaidUpFront
      *
      * @return bool
      */
@@ -149,21 +145,19 @@ class DealerTaxType
     }
 
     /**
-     * Sets a new isPaidUpFront.
+     * Sets a new isPaidUpFront
      *
      * @param bool $isPaidUpFront
-     *
      * @return self
      */
     public function setIsPaidUpFront($isPaidUpFront)
     {
         $this->isPaidUpFront = $isPaidUpFront;
-
         return $this;
     }
 
     /**
-     * Gets as rate.
+     * Gets as rate
      *
      * @return float
      */
@@ -173,21 +167,19 @@ class DealerTaxType
     }
 
     /**
-     * Sets a new rate.
+     * Sets a new rate
      *
      * @param float $rate
-     *
      * @return self
      */
     public function setRate($rate)
     {
         $this->rate = $rate;
-
         return $this;
     }
 
     /**
-     * Gets as taxType.
+     * Gets as taxType
      *
      * @return string
      */
@@ -197,16 +189,17 @@ class DealerTaxType
     }
 
     /**
-     * Sets a new taxType.
+     * Sets a new taxType
      *
      * @param string $taxType
-     *
      * @return self
      */
     public function setTaxType($taxType)
     {
         $this->taxType = $taxType;
-
         return $this;
     }
+
+
 }
+

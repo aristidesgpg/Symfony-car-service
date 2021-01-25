@@ -3,44 +3,46 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing NameType.
+ * Class representing NameType
  *
+ * 
  * XSD Type: Name
  */
 class NameType
 {
+
     /**
-     * @var string
+     * @var string $firstName
      */
     private $firstName = null;
 
     /**
-     * @var string
+     * @var string $lastName
      */
     private $lastName = null;
 
     /**
-     * @var string
+     * @var string $middleName
      */
     private $middleName = null;
 
     /**
-     * @var string
+     * @var string $singularName
      */
     private $singularName = null;
 
     /**
-     * @var string
+     * @var string $suffix
      */
     private $suffix = null;
 
     /**
-     * @var string
+     * @var string $title
      */
     private $title = null;
 
     /**
-     * Gets as firstName.
+     * Gets as firstName
      *
      * @return string
      */
@@ -50,21 +52,19 @@ class NameType
     }
 
     /**
-     * Sets a new firstName.
+     * Sets a new firstName
      *
      * @param string $firstName
-     *
      * @return self
      */
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-
         return $this;
     }
 
     /**
-     * Gets as lastName.
+     * Gets as lastName
      *
      * @return string
      */
@@ -74,21 +74,19 @@ class NameType
     }
 
     /**
-     * Sets a new lastName.
+     * Sets a new lastName
      *
      * @param string $lastName
-     *
      * @return self
      */
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-
         return $this;
     }
 
     /**
-     * Gets as middleName.
+     * Gets as middleName
      *
      * @return string
      */
@@ -98,21 +96,19 @@ class NameType
     }
 
     /**
-     * Sets a new middleName.
+     * Sets a new middleName
      *
      * @param string $middleName
-     *
      * @return self
      */
     public function setMiddleName($middleName)
     {
         $this->middleName = $middleName;
-
         return $this;
     }
 
     /**
-     * Gets as singularName.
+     * Gets as singularName
      *
      * @return string
      */
@@ -122,21 +118,19 @@ class NameType
     }
 
     /**
-     * Sets a new singularName.
+     * Sets a new singularName
      *
      * @param string $singularName
-     *
      * @return self
      */
     public function setSingularName($singularName)
     {
         $this->singularName = $singularName;
-
         return $this;
     }
 
     /**
-     * Gets as suffix.
+     * Gets as suffix
      *
      * @return string
      */
@@ -146,21 +140,19 @@ class NameType
     }
 
     /**
-     * Sets a new suffix.
+     * Sets a new suffix
      *
      * @param string $suffix
-     *
      * @return self
      */
     public function setSuffix($suffix)
     {
         $this->suffix = $suffix;
-
         return $this;
     }
 
     /**
-     * Gets as title.
+     * Gets as title
      *
      * @return string
      */
@@ -170,16 +162,17 @@ class NameType
     }
 
     /**
-     * Sets a new title.
+     * Sets a new title
      *
      * @param string $title
-     *
      * @return self
      */
     public function setTitle($title)
     {
         $this->title = $title;
-
         return $this;
     }
+
+
 }
+

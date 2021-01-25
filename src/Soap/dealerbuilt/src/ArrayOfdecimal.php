@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ArrayOfdecimal.
+ * Class representing ArrayOfdecimal
  */
 class ArrayOfdecimal extends ArrayOfdecimalType
 {
+
+
 }
+

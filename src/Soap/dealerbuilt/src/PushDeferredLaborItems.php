@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushDeferredLaborItems.
+ * Class representing PushDeferredLaborItems
  */
 class PushDeferredLaborItems
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType[] $requests
      */
     private $requests = null;
 
     /**
-     * Adds as potentialLaborItemPushRequest.
+     * Adds as potentialLaborItemPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType $potentialLaborItemPushRequest
      */
-    public function addToRequests(BaseApi\PotentialLaborItemPushRequestType $potentialLaborItemPushRequest)
+    public function addToRequests(\App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType $potentialLaborItemPushRequest)
     {
         $this->requests[] = $potentialLaborItemPushRequest;
-
         return $this;
     }
 
     /**
-     * isset requests.
+     * isset requests
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRequests($index)
@@ -39,10 +37,9 @@ class PushDeferredLaborItems
     }
 
     /**
-     * unset requests.
+     * unset requests
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRequests($index)
@@ -51,7 +48,7 @@ class PushDeferredLaborItems
     }
 
     /**
-     * Gets as requests.
+     * Gets as requests
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushDeferredLaborItems
     }
 
     /**
-     * Sets a new requests.
+     * Sets a new requests
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType[] $requests
-     *
      * @return self
      */
     public function setRequests(array $requests)
     {
         $this->requests = $requests;
-
         return $this;
     }
+
+
 }
+

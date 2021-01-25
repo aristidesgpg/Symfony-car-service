@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfProspectPushRequestType.
+ * Class representing ArrayOfProspectPushRequestType
  *
+ * 
  * XSD Type: ArrayOfProspectPushRequest
  */
 class ArrayOfProspectPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType[] $prospectPushRequest
      */
     private $prospectPushRequest = [
+        
     ];
 
     /**
-     * Adds as prospectPushRequest.
+     * Adds as prospectPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType $prospectPushRequest
      */
-    public function addToProspectPushRequest(ProspectPushRequestType $prospectPushRequest)
+    public function addToProspectPushRequest(\App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType $prospectPushRequest)
     {
         $this->prospectPushRequest[] = $prospectPushRequest;
-
         return $this;
     }
 
     /**
-     * isset prospectPushRequest.
+     * isset prospectPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetProspectPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfProspectPushRequestType
     }
 
     /**
-     * unset prospectPushRequest.
+     * unset prospectPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetProspectPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfProspectPushRequestType
     }
 
     /**
-     * Gets as prospectPushRequest.
+     * Gets as prospectPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfProspectPushRequestType
     }
 
     /**
-     * Sets a new prospectPushRequest.
+     * Sets a new prospectPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType[] $prospectPushRequest
-     *
      * @return self
      */
     public function setProspectPushRequest(array $prospectPushRequest)
     {
         $this->prospectPushRequest = $prospectPushRequest;
-
         return $this;
     }
+
+
 }
+

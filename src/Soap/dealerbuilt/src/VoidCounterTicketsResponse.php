@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing VoidCounterTicketsResponse.
+ * Class representing VoidCounterTicketsResponse
  */
 class VoidCounterTicketsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $voidCounterTicketsResult
      */
     private $voidCounterTicketsResult = null;
 
     /**
-     * Adds as serviceLocationPushResponse.
+     * Adds as serviceLocationPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse
      */
-    public function addToVoidCounterTicketsResult(BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
+    public function addToVoidCounterTicketsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
     {
         $this->voidCounterTicketsResult[] = $serviceLocationPushResponse;
-
         return $this;
     }
 
     /**
-     * isset voidCounterTicketsResult.
+     * isset voidCounterTicketsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVoidCounterTicketsResult($index)
@@ -39,10 +37,9 @@ class VoidCounterTicketsResponse
     }
 
     /**
-     * unset voidCounterTicketsResult.
+     * unset voidCounterTicketsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVoidCounterTicketsResult($index)
@@ -51,7 +48,7 @@ class VoidCounterTicketsResponse
     }
 
     /**
-     * Gets as voidCounterTicketsResult.
+     * Gets as voidCounterTicketsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
      */
@@ -61,16 +58,17 @@ class VoidCounterTicketsResponse
     }
 
     /**
-     * Sets a new voidCounterTicketsResult.
+     * Sets a new voidCounterTicketsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $voidCounterTicketsResult
-     *
      * @return self
      */
     public function setVoidCounterTicketsResult(array $voidCounterTicketsResult)
     {
         $this->voidCounterTicketsResult = $voidCounterTicketsResult;
-
         return $this;
     }
+
+
 }
+

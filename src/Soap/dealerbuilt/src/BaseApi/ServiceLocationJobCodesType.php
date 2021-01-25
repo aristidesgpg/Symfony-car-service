@@ -3,34 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationJobCodesType.
+ * Class representing ServiceLocationJobCodesType
  *
+ * 
  * XSD Type: ServiceLocationJobCodes
  */
 class ServiceLocationJobCodesType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType[] $jobs
      */
     private $jobs = null;
 
     /**
-     * Adds as pushedRepairOrderJobAttributes.
+     * Adds as pushedRepairOrderJobAttributes
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType $pushedRepairOrderJobAttributes
      */
     public function addToJobs(\App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType $pushedRepairOrderJobAttributes)
     {
         $this->jobs[] = $pushedRepairOrderJobAttributes;
-
         return $this;
     }
 
     /**
-     * isset jobs.
+     * isset jobs
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetJobs($index)
@@ -39,10 +40,9 @@ class ServiceLocationJobCodesType extends ApiServiceLocationItemType
     }
 
     /**
-     * unset jobs.
+     * unset jobs
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetJobs($index)
@@ -51,7 +51,7 @@ class ServiceLocationJobCodesType extends ApiServiceLocationItemType
     }
 
     /**
-     * Gets as jobs.
+     * Gets as jobs
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType[]
      */
@@ -61,16 +61,17 @@ class ServiceLocationJobCodesType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new jobs.
+     * Sets a new jobs
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType[] $jobs
-     *
      * @return self
      */
     public function setJobs(array $jobs)
     {
         $this->jobs = $jobs;
-
         return $this;
     }
+
+
 }
+

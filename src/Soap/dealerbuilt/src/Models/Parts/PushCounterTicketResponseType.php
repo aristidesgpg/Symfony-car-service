@@ -3,39 +3,41 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing PushCounterTicketResponseType.
+ * Class representing PushCounterTicketResponseType
  *
+ * 
  * XSD Type: PushCounterTicketResponse
  */
 class PushCounterTicketResponseType
 {
+
     /**
-     * @var string
+     * @var string $correlationId
      */
     private $correlationId = null;
 
     /**
-     * @var string
+     * @var string $counterTicketNumber
      */
     private $counterTicketNumber = null;
 
     /**
-     * @var string
+     * @var string $key
      */
     private $key = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType[] $partsResponses
      */
     private $partsResponses = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\PushResponseType
+     * @var \App\Soap\dealerbuilt\src\Models\PushResponseType $response
      */
     private $response = null;
 
     /**
-     * Gets as correlationId.
+     * Gets as correlationId
      *
      * @return string
      */
@@ -45,21 +47,19 @@ class PushCounterTicketResponseType
     }
 
     /**
-     * Sets a new correlationId.
+     * Sets a new correlationId
      *
      * @param string $correlationId
-     *
      * @return self
      */
     public function setCorrelationId($correlationId)
     {
         $this->correlationId = $correlationId;
-
         return $this;
     }
 
     /**
-     * Gets as counterTicketNumber.
+     * Gets as counterTicketNumber
      *
      * @return string
      */
@@ -69,21 +69,19 @@ class PushCounterTicketResponseType
     }
 
     /**
-     * Sets a new counterTicketNumber.
+     * Sets a new counterTicketNumber
      *
      * @param string $counterTicketNumber
-     *
      * @return self
      */
     public function setCounterTicketNumber($counterTicketNumber)
     {
         $this->counterTicketNumber = $counterTicketNumber;
-
         return $this;
     }
 
     /**
-     * Gets as key.
+     * Gets as key
      *
      * @return string
      */
@@ -93,36 +91,33 @@ class PushCounterTicketResponseType
     }
 
     /**
-     * Sets a new key.
+     * Sets a new key
      *
      * @param string $key
-     *
      * @return self
      */
     public function setKey($key)
     {
         $this->key = $key;
-
         return $this;
     }
 
     /**
-     * Adds as counterTicketPartPushResponse.
+     * Adds as counterTicketPartPushResponse
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType $counterTicketPartPushResponse
      */
     public function addToPartsResponses(\App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType $counterTicketPartPushResponse)
     {
         $this->partsResponses[] = $counterTicketPartPushResponse;
-
         return $this;
     }
 
     /**
-     * isset partsResponses.
+     * isset partsResponses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsResponses($index)
@@ -131,10 +126,9 @@ class PushCounterTicketResponseType
     }
 
     /**
-     * unset partsResponses.
+     * unset partsResponses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsResponses($index)
@@ -143,7 +137,7 @@ class PushCounterTicketResponseType
     }
 
     /**
-     * Gets as partsResponses.
+     * Gets as partsResponses
      *
      * @return \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType[]
      */
@@ -153,21 +147,19 @@ class PushCounterTicketResponseType
     }
 
     /**
-     * Sets a new partsResponses.
+     * Sets a new partsResponses
      *
      * @param \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType[] $partsResponses
-     *
      * @return self
      */
     public function setPartsResponses(array $partsResponses)
     {
         $this->partsResponses = $partsResponses;
-
         return $this;
     }
 
     /**
-     * Gets as response.
+     * Gets as response
      *
      * @return \App\Soap\dealerbuilt\src\Models\PushResponseType
      */
@@ -177,14 +169,17 @@ class PushCounterTicketResponseType
     }
 
     /**
-     * Sets a new response.
+     * Sets a new response
      *
+     * @param \App\Soap\dealerbuilt\src\Models\PushResponseType $response
      * @return self
      */
     public function setResponse(\App\Soap\dealerbuilt\src\Models\PushResponseType $response)
     {
         $this->response = $response;
-
         return $this;
     }
+
+
 }
+

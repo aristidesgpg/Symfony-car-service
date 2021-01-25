@@ -3,384 +3,386 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing PartsInvoiceAttributesType.
+ * Class representing PartsInvoiceAttributesType
  *
+ * 
  * XSD Type: PartsInvoiceAttributes
  */
 class PartsInvoiceAttributesType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $accountingDate
      */
     private $accountingDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $actualWholesaleAmount
      */
     private $actualWholesaleAmount = null;
 
     /**
-     * @var string
+     * @var string $address
      */
     private $address = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $balanceDue
      */
     private $balanceDue = null;
 
     /**
-     * @var string
+     * @var string $city
      */
     private $city = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $closeDate
      */
     private $closeDate = null;
 
     /**
-     * @var string
+     * @var string $comments
      */
     private $comments = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $coreAmount
      */
     private $coreAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $countyTaxAmount
      */
     private $countyTaxAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\CustomerFocusIncentivesType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\CustomerFocusIncentivesType $customerFocusIncentives
      */
     private $customerFocusIncentives = null;
 
     /**
-     * @var string
+     * @var string $customerPurchaseOrderNumber
      */
     private $customerPurchaseOrderNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerDiscountAmount
      */
     private $dealerDiscountAmount = null;
 
     /**
-     * @var string
+     * @var string $dealerNumber
      */
     private $dealerNumber = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $deliveredDate
      */
     private $deliveredDate = null;
 
     /**
-     * @var string
+     * @var string $deliveryType
      */
     private $deliveryType = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $documentDate
      */
     private $documentDate = null;
 
     /**
-     * @var string
+     * @var string $documentID
      */
     private $documentID = null;
 
     /**
-     * @var string
+     * @var string $footerText
      */
     private $footerText = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $freightCharge
      */
     private $freightCharge = null;
 
     /**
-     * @var string
+     * @var string $freightTerms
      */
     private $freightTerms = null;
 
     /**
-     * @var string
+     * @var string $headerText
      */
     private $headerText = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $invoiceDate
      */
     private $invoiceDate = null;
 
     /**
-     * @var string
+     * @var string $invoiceNumber
      */
     private $invoiceNumber = null;
 
     /**
-     * @var string
+     * @var string $invoiceTask
      */
     private $invoiceTask = null;
 
     /**
-     * @var string
+     * @var string $invoiceType
      */
     private $invoiceType = null;
 
     /**
-     * @var bool
+     * @var bool $isCod
      */
     private $isCod = null;
 
     /**
-     * @var bool
+     * @var bool $isDelivered
      */
     private $isDelivered = null;
 
     /**
-     * @var bool
+     * @var bool $isDelivery
      */
     private $isDelivery = null;
 
     /**
-     * @var bool
+     * @var bool $isReturn
      */
     private $isReturn = null;
 
     /**
-     * @var bool
+     * @var bool $isTaxable
      */
     private $isTaxable = null;
 
     /**
-     * @var bool
+     * @var bool $isWholesale
      */
     private $isWholesale = null;
 
     /**
-     * @var string
+     * @var string $legalName
      */
     private $legalName = null;
 
     /**
-     * @var string
+     * @var string $letterOfCredit
      */
     private $letterOfCredit = null;
 
     /**
-     * @var string
+     * @var string $locationName
      */
     private $locationName = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $miscChargeTotal
      */
     private $miscChargeTotal = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedDate
      */
     private $modifiedDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyDiscountsOrAllowancesAmount
      */
     private $monthlyDiscountsOrAllowancesAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyMiscSalesChargesAmount
      */
     private $monthlyMiscSalesChargesAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyPartsTotalAmount
      */
     private $monthlyPartsTotalAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyTotalAmount
      */
     private $monthlyTotalAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType $partNumbersStocked
      */
     private $partNumbersStocked = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $partsDiscountAmount
      */
     private $partsDiscountAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $partsInvoiceItemAmount
      */
     private $partsInvoiceItemAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType[] $partsInvoiceLines
      */
     private $partsInvoiceLines = null;
 
     /**
-     * @var string
+     * @var string $purchaseOrderNumber
      */
     private $purchaseOrderNumber = null;
 
     /**
-     * @var string
+     * @var string $referenceNumber
      */
     private $referenceNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $restockingFee
      */
     private $restockingFee = null;
 
     /**
-     * @var string
+     * @var string $secondaryDealerNumber
      */
     private $secondaryDealerNumber = null;
 
     /**
-     * @var string
+     * @var string $shipMethod
      */
     private $shipMethod = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $shipTo
      */
     private $shipTo = null;
 
     /**
-     * @var string
+     * @var string $shipToLocationID
      */
     private $shipToLocationID = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType[] $shipmentCarrierDetails
      */
     private $shipmentCarrierDetails = null;
 
     /**
-     * @var string
+     * @var string $shipmentNumber
      */
     private $shipmentNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
+     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $soldBy
      */
     private $soldBy = null;
 
     /**
-     * @var string
+     * @var string $state
      */
     private $state = null;
 
     /**
-     * @var int
+     * @var int $status
      */
     private $status = null;
 
     /**
-     * @var string
+     * @var string $subHeaderText
      */
     private $subHeaderText = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $subTotal
      */
     private $subTotal = null;
 
     /**
-     * @var string
+     * @var string $taxDescription
      */
     private $taxDescription = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxOnTradeInTaxAmount
      */
     private $taxOnTradeInTaxAmount = null;
 
     /**
-     * @var float
+     * @var float $taxPercent
      */
     private $taxPercent = null;
 
     /**
-     * @var string
+     * @var string $titleText
      */
     private $titleText = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalAmount
      */
     private $totalAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalDiscountAmount
      */
     private $totalDiscountAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalOtherAmount
      */
     private $totalOtherAmount = null;
 
     /**
-     * @var float
+     * @var float $totalQuantity
      */
     private $totalQuantity = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTaxAmount
      */
     private $totalTaxAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tradeInAmount
      */
     private $tradeInAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDDiscountsOrAllowancesAmount
      */
     private $yTDDiscountsOrAllowancesAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDMiscSalesChargesAmount
      */
     private $yTDMiscSalesChargesAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDPartsTotalAmount
      */
     private $yTDPartsTotalAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDTotalAmount
      */
     private $yTDTotalAmount = null;
 
     /**
-     * @var string
+     * @var string $zipcode
      */
     private $zipcode = null;
 
     /**
-     * Gets as accountingDate.
+     * Gets as accountingDate
      *
      * @return \DateTime
      */
@@ -390,19 +392,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new accountingDate.
+     * Sets a new accountingDate
      *
+     * @param \DateTime $accountingDate
      * @return self
      */
     public function setAccountingDate(\DateTime $accountingDate)
     {
         $this->accountingDate = $accountingDate;
-
         return $this;
     }
 
     /**
-     * Gets as actualWholesaleAmount.
+     * Gets as actualWholesaleAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -412,19 +414,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new actualWholesaleAmount.
+     * Sets a new actualWholesaleAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $actualWholesaleAmount
      * @return self
      */
     public function setActualWholesaleAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $actualWholesaleAmount)
     {
         $this->actualWholesaleAmount = $actualWholesaleAmount;
-
         return $this;
     }
 
     /**
-     * Gets as address.
+     * Gets as address
      *
      * @return string
      */
@@ -434,21 +436,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new address.
+     * Sets a new address
      *
      * @param string $address
-     *
      * @return self
      */
     public function setAddress($address)
     {
         $this->address = $address;
-
         return $this;
     }
 
     /**
-     * Gets as balanceDue.
+     * Gets as balanceDue
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -458,19 +458,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new balanceDue.
+     * Sets a new balanceDue
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $balanceDue
      * @return self
      */
     public function setBalanceDue(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $balanceDue)
     {
         $this->balanceDue = $balanceDue;
-
         return $this;
     }
 
     /**
-     * Gets as city.
+     * Gets as city
      *
      * @return string
      */
@@ -480,21 +480,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new city.
+     * Sets a new city
      *
      * @param string $city
-     *
      * @return self
      */
     public function setCity($city)
     {
         $this->city = $city;
-
         return $this;
     }
 
     /**
-     * Gets as closeDate.
+     * Gets as closeDate
      *
      * @return \DateTime
      */
@@ -504,19 +502,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new closeDate.
+     * Sets a new closeDate
      *
+     * @param \DateTime $closeDate
      * @return self
      */
     public function setCloseDate(\DateTime $closeDate)
     {
         $this->closeDate = $closeDate;
-
         return $this;
     }
 
     /**
-     * Gets as comments.
+     * Gets as comments
      *
      * @return string
      */
@@ -526,21 +524,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new comments.
+     * Sets a new comments
      *
      * @param string $comments
-     *
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
-
         return $this;
     }
 
     /**
-     * Gets as coreAmount.
+     * Gets as coreAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -550,19 +546,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new coreAmount.
+     * Sets a new coreAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $coreAmount
      * @return self
      */
     public function setCoreAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $coreAmount)
     {
         $this->coreAmount = $coreAmount;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -572,19 +568,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as countyTaxAmount.
+     * Gets as countyTaxAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -594,19 +590,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new countyTaxAmount.
+     * Sets a new countyTaxAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $countyTaxAmount
      * @return self
      */
     public function setCountyTaxAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $countyTaxAmount)
     {
         $this->countyTaxAmount = $countyTaxAmount;
-
         return $this;
     }
 
     /**
-     * Gets as customerFocusIncentives.
+     * Gets as customerFocusIncentives
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\CustomerFocusIncentivesType
      */
@@ -616,21 +612,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new customerFocusIncentives.
+     * Sets a new customerFocusIncentives
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\CustomerFocusIncentivesType $customerFocusIncentives
-     *
      * @return self
      */
-    public function setCustomerFocusIncentives(CustomerFocusIncentivesType $customerFocusIncentives)
+    public function setCustomerFocusIncentives(\App\Soap\dealerbuilt\src\Models\Parts\CustomerFocusIncentivesType $customerFocusIncentives)
     {
         $this->customerFocusIncentives = $customerFocusIncentives;
-
         return $this;
     }
 
     /**
-     * Gets as customerPurchaseOrderNumber.
+     * Gets as customerPurchaseOrderNumber
      *
      * @return string
      */
@@ -640,21 +634,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new customerPurchaseOrderNumber.
+     * Sets a new customerPurchaseOrderNumber
      *
      * @param string $customerPurchaseOrderNumber
-     *
      * @return self
      */
     public function setCustomerPurchaseOrderNumber($customerPurchaseOrderNumber)
     {
         $this->customerPurchaseOrderNumber = $customerPurchaseOrderNumber;
-
         return $this;
     }
 
     /**
-     * Gets as dealerDiscountAmount.
+     * Gets as dealerDiscountAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -664,19 +656,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new dealerDiscountAmount.
+     * Sets a new dealerDiscountAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerDiscountAmount
      * @return self
      */
     public function setDealerDiscountAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerDiscountAmount)
     {
         $this->dealerDiscountAmount = $dealerDiscountAmount;
-
         return $this;
     }
 
     /**
-     * Gets as dealerNumber.
+     * Gets as dealerNumber
      *
      * @return string
      */
@@ -686,21 +678,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new dealerNumber.
+     * Sets a new dealerNumber
      *
      * @param string $dealerNumber
-     *
      * @return self
      */
     public function setDealerNumber($dealerNumber)
     {
         $this->dealerNumber = $dealerNumber;
-
         return $this;
     }
 
     /**
-     * Gets as deliveredDate.
+     * Gets as deliveredDate
      *
      * @return \DateTime
      */
@@ -710,19 +700,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new deliveredDate.
+     * Sets a new deliveredDate
      *
+     * @param \DateTime $deliveredDate
      * @return self
      */
     public function setDeliveredDate(\DateTime $deliveredDate)
     {
         $this->deliveredDate = $deliveredDate;
-
         return $this;
     }
 
     /**
-     * Gets as deliveryType.
+     * Gets as deliveryType
      *
      * @return string
      */
@@ -732,21 +722,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new deliveryType.
+     * Sets a new deliveryType
      *
      * @param string $deliveryType
-     *
      * @return self
      */
     public function setDeliveryType($deliveryType)
     {
         $this->deliveryType = $deliveryType;
-
         return $this;
     }
 
     /**
-     * Gets as documentDate.
+     * Gets as documentDate
      *
      * @return \DateTime
      */
@@ -756,19 +744,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new documentDate.
+     * Sets a new documentDate
      *
+     * @param \DateTime $documentDate
      * @return self
      */
     public function setDocumentDate(\DateTime $documentDate)
     {
         $this->documentDate = $documentDate;
-
         return $this;
     }
 
     /**
-     * Gets as documentID.
+     * Gets as documentID
      *
      * @return string
      */
@@ -778,21 +766,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new documentID.
+     * Sets a new documentID
      *
      * @param string $documentID
-     *
      * @return self
      */
     public function setDocumentID($documentID)
     {
         $this->documentID = $documentID;
-
         return $this;
     }
 
     /**
-     * Gets as footerText.
+     * Gets as footerText
      *
      * @return string
      */
@@ -802,21 +788,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new footerText.
+     * Sets a new footerText
      *
      * @param string $footerText
-     *
      * @return self
      */
     public function setFooterText($footerText)
     {
         $this->footerText = $footerText;
-
         return $this;
     }
 
     /**
-     * Gets as freightCharge.
+     * Gets as freightCharge
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -826,19 +810,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new freightCharge.
+     * Sets a new freightCharge
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $freightCharge
      * @return self
      */
     public function setFreightCharge(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $freightCharge)
     {
         $this->freightCharge = $freightCharge;
-
         return $this;
     }
 
     /**
-     * Gets as freightTerms.
+     * Gets as freightTerms
      *
      * @return string
      */
@@ -848,21 +832,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new freightTerms.
+     * Sets a new freightTerms
      *
      * @param string $freightTerms
-     *
      * @return self
      */
     public function setFreightTerms($freightTerms)
     {
         $this->freightTerms = $freightTerms;
-
         return $this;
     }
 
     /**
-     * Gets as headerText.
+     * Gets as headerText
      *
      * @return string
      */
@@ -872,21 +854,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new headerText.
+     * Sets a new headerText
      *
      * @param string $headerText
-     *
      * @return self
      */
     public function setHeaderText($headerText)
     {
         $this->headerText = $headerText;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceDate.
+     * Gets as invoiceDate
      *
      * @return \DateTime
      */
@@ -896,19 +876,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new invoiceDate.
+     * Sets a new invoiceDate
      *
+     * @param \DateTime $invoiceDate
      * @return self
      */
     public function setInvoiceDate(\DateTime $invoiceDate)
     {
         $this->invoiceDate = $invoiceDate;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceNumber.
+     * Gets as invoiceNumber
      *
      * @return string
      */
@@ -918,21 +898,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new invoiceNumber.
+     * Sets a new invoiceNumber
      *
      * @param string $invoiceNumber
-     *
      * @return self
      */
     public function setInvoiceNumber($invoiceNumber)
     {
         $this->invoiceNumber = $invoiceNumber;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceTask.
+     * Gets as invoiceTask
      *
      * @return string
      */
@@ -942,21 +920,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new invoiceTask.
+     * Sets a new invoiceTask
      *
      * @param string $invoiceTask
-     *
      * @return self
      */
     public function setInvoiceTask($invoiceTask)
     {
         $this->invoiceTask = $invoiceTask;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceType.
+     * Gets as invoiceType
      *
      * @return string
      */
@@ -966,21 +942,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new invoiceType.
+     * Sets a new invoiceType
      *
      * @param string $invoiceType
-     *
      * @return self
      */
     public function setInvoiceType($invoiceType)
     {
         $this->invoiceType = $invoiceType;
-
         return $this;
     }
 
     /**
-     * Gets as isCod.
+     * Gets as isCod
      *
      * @return bool
      */
@@ -990,21 +964,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new isCod.
+     * Sets a new isCod
      *
      * @param bool $isCod
-     *
      * @return self
      */
     public function setIsCod($isCod)
     {
         $this->isCod = $isCod;
-
         return $this;
     }
 
     /**
-     * Gets as isDelivered.
+     * Gets as isDelivered
      *
      * @return bool
      */
@@ -1014,21 +986,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new isDelivered.
+     * Sets a new isDelivered
      *
      * @param bool $isDelivered
-     *
      * @return self
      */
     public function setIsDelivered($isDelivered)
     {
         $this->isDelivered = $isDelivered;
-
         return $this;
     }
 
     /**
-     * Gets as isDelivery.
+     * Gets as isDelivery
      *
      * @return bool
      */
@@ -1038,21 +1008,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new isDelivery.
+     * Sets a new isDelivery
      *
      * @param bool $isDelivery
-     *
      * @return self
      */
     public function setIsDelivery($isDelivery)
     {
         $this->isDelivery = $isDelivery;
-
         return $this;
     }
 
     /**
-     * Gets as isReturn.
+     * Gets as isReturn
      *
      * @return bool
      */
@@ -1062,21 +1030,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new isReturn.
+     * Sets a new isReturn
      *
      * @param bool $isReturn
-     *
      * @return self
      */
     public function setIsReturn($isReturn)
     {
         $this->isReturn = $isReturn;
-
         return $this;
     }
 
     /**
-     * Gets as isTaxable.
+     * Gets as isTaxable
      *
      * @return bool
      */
@@ -1086,21 +1052,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new isTaxable.
+     * Sets a new isTaxable
      *
      * @param bool $isTaxable
-     *
      * @return self
      */
     public function setIsTaxable($isTaxable)
     {
         $this->isTaxable = $isTaxable;
-
         return $this;
     }
 
     /**
-     * Gets as isWholesale.
+     * Gets as isWholesale
      *
      * @return bool
      */
@@ -1110,21 +1074,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new isWholesale.
+     * Sets a new isWholesale
      *
      * @param bool $isWholesale
-     *
      * @return self
      */
     public function setIsWholesale($isWholesale)
     {
         $this->isWholesale = $isWholesale;
-
         return $this;
     }
 
     /**
-     * Gets as legalName.
+     * Gets as legalName
      *
      * @return string
      */
@@ -1134,21 +1096,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new legalName.
+     * Sets a new legalName
      *
      * @param string $legalName
-     *
      * @return self
      */
     public function setLegalName($legalName)
     {
         $this->legalName = $legalName;
-
         return $this;
     }
 
     /**
-     * Gets as letterOfCredit.
+     * Gets as letterOfCredit
      *
      * @return string
      */
@@ -1158,21 +1118,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new letterOfCredit.
+     * Sets a new letterOfCredit
      *
      * @param string $letterOfCredit
-     *
      * @return self
      */
     public function setLetterOfCredit($letterOfCredit)
     {
         $this->letterOfCredit = $letterOfCredit;
-
         return $this;
     }
 
     /**
-     * Gets as locationName.
+     * Gets as locationName
      *
      * @return string
      */
@@ -1182,21 +1140,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new locationName.
+     * Sets a new locationName
      *
      * @param string $locationName
-     *
      * @return self
      */
     public function setLocationName($locationName)
     {
         $this->locationName = $locationName;
-
         return $this;
     }
 
     /**
-     * Gets as miscChargeTotal.
+     * Gets as miscChargeTotal
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1206,19 +1162,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new miscChargeTotal.
+     * Sets a new miscChargeTotal
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $miscChargeTotal
      * @return self
      */
     public function setMiscChargeTotal(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $miscChargeTotal)
     {
         $this->miscChargeTotal = $miscChargeTotal;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedDate.
+     * Gets as modifiedDate
      *
      * @return \DateTime
      */
@@ -1228,19 +1184,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new modifiedDate.
+     * Sets a new modifiedDate
      *
+     * @param \DateTime $modifiedDate
      * @return self
      */
     public function setModifiedDate(\DateTime $modifiedDate)
     {
         $this->modifiedDate = $modifiedDate;
-
         return $this;
     }
 
     /**
-     * Gets as monthlyDiscountsOrAllowancesAmount.
+     * Gets as monthlyDiscountsOrAllowancesAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1250,19 +1206,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new monthlyDiscountsOrAllowancesAmount.
+     * Sets a new monthlyDiscountsOrAllowancesAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyDiscountsOrAllowancesAmount
      * @return self
      */
     public function setMonthlyDiscountsOrAllowancesAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyDiscountsOrAllowancesAmount)
     {
         $this->monthlyDiscountsOrAllowancesAmount = $monthlyDiscountsOrAllowancesAmount;
-
         return $this;
     }
 
     /**
-     * Gets as monthlyMiscSalesChargesAmount.
+     * Gets as monthlyMiscSalesChargesAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1272,19 +1228,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new monthlyMiscSalesChargesAmount.
+     * Sets a new monthlyMiscSalesChargesAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyMiscSalesChargesAmount
      * @return self
      */
     public function setMonthlyMiscSalesChargesAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyMiscSalesChargesAmount)
     {
         $this->monthlyMiscSalesChargesAmount = $monthlyMiscSalesChargesAmount;
-
         return $this;
     }
 
     /**
-     * Gets as monthlyPartsTotalAmount.
+     * Gets as monthlyPartsTotalAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1294,19 +1250,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new monthlyPartsTotalAmount.
+     * Sets a new monthlyPartsTotalAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyPartsTotalAmount
      * @return self
      */
     public function setMonthlyPartsTotalAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyPartsTotalAmount)
     {
         $this->monthlyPartsTotalAmount = $monthlyPartsTotalAmount;
-
         return $this;
     }
 
     /**
-     * Gets as monthlyTotalAmount.
+     * Gets as monthlyTotalAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1316,19 +1272,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new monthlyTotalAmount.
+     * Sets a new monthlyTotalAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyTotalAmount
      * @return self
      */
     public function setMonthlyTotalAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthlyTotalAmount)
     {
         $this->monthlyTotalAmount = $monthlyTotalAmount;
-
         return $this;
     }
 
     /**
-     * Gets as partNumbersStocked.
+     * Gets as partNumbersStocked
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType
      */
@@ -1338,21 +1294,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new partNumbersStocked.
+     * Sets a new partNumbersStocked
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType $partNumbersStocked
-     *
      * @return self
      */
-    public function setPartNumbersStocked(PartNumbersStockedType $partNumbersStocked)
+    public function setPartNumbersStocked(\App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType $partNumbersStocked)
     {
         $this->partNumbersStocked = $partNumbersStocked;
-
         return $this;
     }
 
     /**
-     * Gets as partsDiscountAmount.
+     * Gets as partsDiscountAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1362,19 +1316,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new partsDiscountAmount.
+     * Sets a new partsDiscountAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $partsDiscountAmount
      * @return self
      */
     public function setPartsDiscountAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $partsDiscountAmount)
     {
         $this->partsDiscountAmount = $partsDiscountAmount;
-
         return $this;
     }
 
     /**
-     * Gets as partsInvoiceItemAmount.
+     * Gets as partsInvoiceItemAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1384,36 +1338,33 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new partsInvoiceItemAmount.
+     * Sets a new partsInvoiceItemAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $partsInvoiceItemAmount
      * @return self
      */
     public function setPartsInvoiceItemAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $partsInvoiceItemAmount)
     {
         $this->partsInvoiceItemAmount = $partsInvoiceItemAmount;
-
         return $this;
     }
 
     /**
-     * Adds as partsInvoiceLine.
+     * Adds as partsInvoiceLine
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType $partsInvoiceLine
      */
-    public function addToPartsInvoiceLines(PartsInvoiceLineType $partsInvoiceLine)
+    public function addToPartsInvoiceLines(\App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType $partsInvoiceLine)
     {
         $this->partsInvoiceLines[] = $partsInvoiceLine;
-
         return $this;
     }
 
     /**
-     * isset partsInvoiceLines.
+     * isset partsInvoiceLines
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsInvoiceLines($index)
@@ -1422,10 +1373,9 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * unset partsInvoiceLines.
+     * unset partsInvoiceLines
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsInvoiceLines($index)
@@ -1434,7 +1384,7 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Gets as partsInvoiceLines.
+     * Gets as partsInvoiceLines
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType[]
      */
@@ -1444,21 +1394,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new partsInvoiceLines.
+     * Sets a new partsInvoiceLines
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType[] $partsInvoiceLines
-     *
      * @return self
      */
     public function setPartsInvoiceLines(array $partsInvoiceLines)
     {
         $this->partsInvoiceLines = $partsInvoiceLines;
-
         return $this;
     }
 
     /**
-     * Gets as purchaseOrderNumber.
+     * Gets as purchaseOrderNumber
      *
      * @return string
      */
@@ -1468,21 +1416,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new purchaseOrderNumber.
+     * Sets a new purchaseOrderNumber
      *
      * @param string $purchaseOrderNumber
-     *
      * @return self
      */
     public function setPurchaseOrderNumber($purchaseOrderNumber)
     {
         $this->purchaseOrderNumber = $purchaseOrderNumber;
-
         return $this;
     }
 
     /**
-     * Gets as referenceNumber.
+     * Gets as referenceNumber
      *
      * @return string
      */
@@ -1492,21 +1438,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new referenceNumber.
+     * Sets a new referenceNumber
      *
      * @param string $referenceNumber
-     *
      * @return self
      */
     public function setReferenceNumber($referenceNumber)
     {
         $this->referenceNumber = $referenceNumber;
-
         return $this;
     }
 
     /**
-     * Gets as restockingFee.
+     * Gets as restockingFee
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1516,19 +1460,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new restockingFee.
+     * Sets a new restockingFee
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $restockingFee
      * @return self
      */
     public function setRestockingFee(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $restockingFee)
     {
         $this->restockingFee = $restockingFee;
-
         return $this;
     }
 
     /**
-     * Gets as secondaryDealerNumber.
+     * Gets as secondaryDealerNumber
      *
      * @return string
      */
@@ -1538,21 +1482,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new secondaryDealerNumber.
+     * Sets a new secondaryDealerNumber
      *
      * @param string $secondaryDealerNumber
-     *
      * @return self
      */
     public function setSecondaryDealerNumber($secondaryDealerNumber)
     {
         $this->secondaryDealerNumber = $secondaryDealerNumber;
-
         return $this;
     }
 
     /**
-     * Gets as shipMethod.
+     * Gets as shipMethod
      *
      * @return string
      */
@@ -1562,21 +1504,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new shipMethod.
+     * Sets a new shipMethod
      *
      * @param string $shipMethod
-     *
      * @return self
      */
     public function setShipMethod($shipMethod)
     {
         $this->shipMethod = $shipMethod;
-
         return $this;
     }
 
     /**
-     * Gets as shipTo.
+     * Gets as shipTo
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -1586,19 +1526,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new shipTo.
+     * Sets a new shipTo
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $shipTo
      * @return self
      */
     public function setShipTo(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $shipTo)
     {
         $this->shipTo = $shipTo;
-
         return $this;
     }
 
     /**
-     * Gets as shipToLocationID.
+     * Gets as shipToLocationID
      *
      * @return string
      */
@@ -1608,38 +1548,33 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new shipToLocationID.
+     * Sets a new shipToLocationID
      *
      * @param string $shipToLocationID
-     *
      * @return self
      */
     public function setShipToLocationID($shipToLocationID)
     {
         $this->shipToLocationID = $shipToLocationID;
-
         return $this;
     }
 
     /**
-     * Adds as shipmentCarrierDetail.
+     * Adds as shipmentCarrierDetail
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType $shipmentCarrierDetail
      */
-    public function addToShipmentCarrierDetails(ShipmentCarrierDetailType $shipmentCarrierDetail)
+    public function addToShipmentCarrierDetails(\App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType $shipmentCarrierDetail)
     {
         $this->shipmentCarrierDetails[] = $shipmentCarrierDetail;
-
         return $this;
     }
 
     /**
-     * isset shipmentCarrierDetails.
+     * isset shipmentCarrierDetails
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetShipmentCarrierDetails($index)
@@ -1648,10 +1583,9 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * unset shipmentCarrierDetails.
+     * unset shipmentCarrierDetails
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetShipmentCarrierDetails($index)
@@ -1660,7 +1594,7 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Gets as shipmentCarrierDetails.
+     * Gets as shipmentCarrierDetails
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType[]
      */
@@ -1670,21 +1604,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new shipmentCarrierDetails.
+     * Sets a new shipmentCarrierDetails
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType[] $shipmentCarrierDetails
-     *
      * @return self
      */
     public function setShipmentCarrierDetails(array $shipmentCarrierDetails)
     {
         $this->shipmentCarrierDetails = $shipmentCarrierDetails;
-
         return $this;
     }
 
     /**
-     * Gets as shipmentNumber.
+     * Gets as shipmentNumber
      *
      * @return string
      */
@@ -1694,21 +1626,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new shipmentNumber.
+     * Sets a new shipmentNumber
      *
      * @param string $shipmentNumber
-     *
      * @return self
      */
     public function setShipmentNumber($shipmentNumber)
     {
         $this->shipmentNumber = $shipmentNumber;
-
         return $this;
     }
 
     /**
-     * Gets as soldBy.
+     * Gets as soldBy
      *
      * @return \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
      */
@@ -1718,19 +1648,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new soldBy.
+     * Sets a new soldBy
      *
+     * @param \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $soldBy
      * @return self
      */
     public function setSoldBy(\App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $soldBy)
     {
         $this->soldBy = $soldBy;
-
         return $this;
     }
 
     /**
-     * Gets as state.
+     * Gets as state
      *
      * @return string
      */
@@ -1740,21 +1670,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new state.
+     * Sets a new state
      *
      * @param string $state
-     *
      * @return self
      */
     public function setState($state)
     {
         $this->state = $state;
-
         return $this;
     }
 
     /**
-     * Gets as status.
+     * Gets as status
      *
      * @return int
      */
@@ -1764,21 +1692,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new status.
+     * Sets a new status
      *
      * @param int $status
-     *
      * @return self
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
     /**
-     * Gets as subHeaderText.
+     * Gets as subHeaderText
      *
      * @return string
      */
@@ -1788,21 +1714,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new subHeaderText.
+     * Sets a new subHeaderText
      *
      * @param string $subHeaderText
-     *
      * @return self
      */
     public function setSubHeaderText($subHeaderText)
     {
         $this->subHeaderText = $subHeaderText;
-
         return $this;
     }
 
     /**
-     * Gets as subTotal.
+     * Gets as subTotal
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1812,19 +1736,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new subTotal.
+     * Sets a new subTotal
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $subTotal
      * @return self
      */
     public function setSubTotal(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $subTotal)
     {
         $this->subTotal = $subTotal;
-
         return $this;
     }
 
     /**
-     * Gets as taxDescription.
+     * Gets as taxDescription
      *
      * @return string
      */
@@ -1834,21 +1758,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new taxDescription.
+     * Sets a new taxDescription
      *
      * @param string $taxDescription
-     *
      * @return self
      */
     public function setTaxDescription($taxDescription)
     {
         $this->taxDescription = $taxDescription;
-
         return $this;
     }
 
     /**
-     * Gets as taxOnTradeInTaxAmount.
+     * Gets as taxOnTradeInTaxAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1858,19 +1780,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new taxOnTradeInTaxAmount.
+     * Sets a new taxOnTradeInTaxAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxOnTradeInTaxAmount
      * @return self
      */
     public function setTaxOnTradeInTaxAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxOnTradeInTaxAmount)
     {
         $this->taxOnTradeInTaxAmount = $taxOnTradeInTaxAmount;
-
         return $this;
     }
 
     /**
-     * Gets as taxPercent.
+     * Gets as taxPercent
      *
      * @return float
      */
@@ -1880,21 +1802,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new taxPercent.
+     * Sets a new taxPercent
      *
      * @param float $taxPercent
-     *
      * @return self
      */
     public function setTaxPercent($taxPercent)
     {
         $this->taxPercent = $taxPercent;
-
         return $this;
     }
 
     /**
-     * Gets as titleText.
+     * Gets as titleText
      *
      * @return string
      */
@@ -1904,21 +1824,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new titleText.
+     * Sets a new titleText
      *
      * @param string $titleText
-     *
      * @return self
      */
     public function setTitleText($titleText)
     {
         $this->titleText = $titleText;
-
         return $this;
     }
 
     /**
-     * Gets as totalAmount.
+     * Gets as totalAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1928,19 +1846,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new totalAmount.
+     * Sets a new totalAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalAmount
      * @return self
      */
     public function setTotalAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalAmount)
     {
         $this->totalAmount = $totalAmount;
-
         return $this;
     }
 
     /**
-     * Gets as totalDiscountAmount.
+     * Gets as totalDiscountAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1950,19 +1868,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new totalDiscountAmount.
+     * Sets a new totalDiscountAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalDiscountAmount
      * @return self
      */
     public function setTotalDiscountAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalDiscountAmount)
     {
         $this->totalDiscountAmount = $totalDiscountAmount;
-
         return $this;
     }
 
     /**
-     * Gets as totalOtherAmount.
+     * Gets as totalOtherAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1972,19 +1890,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new totalOtherAmount.
+     * Sets a new totalOtherAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalOtherAmount
      * @return self
      */
     public function setTotalOtherAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalOtherAmount)
     {
         $this->totalOtherAmount = $totalOtherAmount;
-
         return $this;
     }
 
     /**
-     * Gets as totalQuantity.
+     * Gets as totalQuantity
      *
      * @return float
      */
@@ -1994,21 +1912,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new totalQuantity.
+     * Sets a new totalQuantity
      *
      * @param float $totalQuantity
-     *
      * @return self
      */
     public function setTotalQuantity($totalQuantity)
     {
         $this->totalQuantity = $totalQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as totalTaxAmount.
+     * Gets as totalTaxAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2018,19 +1934,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new totalTaxAmount.
+     * Sets a new totalTaxAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTaxAmount
      * @return self
      */
     public function setTotalTaxAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTaxAmount)
     {
         $this->totalTaxAmount = $totalTaxAmount;
-
         return $this;
     }
 
     /**
-     * Gets as tradeInAmount.
+     * Gets as tradeInAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2040,19 +1956,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new tradeInAmount.
+     * Sets a new tradeInAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tradeInAmount
      * @return self
      */
     public function setTradeInAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $tradeInAmount)
     {
         $this->tradeInAmount = $tradeInAmount;
-
         return $this;
     }
 
     /**
-     * Gets as yTDDiscountsOrAllowancesAmount.
+     * Gets as yTDDiscountsOrAllowancesAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2062,19 +1978,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new yTDDiscountsOrAllowancesAmount.
+     * Sets a new yTDDiscountsOrAllowancesAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDDiscountsOrAllowancesAmount
      * @return self
      */
     public function setYTDDiscountsOrAllowancesAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDDiscountsOrAllowancesAmount)
     {
         $this->yTDDiscountsOrAllowancesAmount = $yTDDiscountsOrAllowancesAmount;
-
         return $this;
     }
 
     /**
-     * Gets as yTDMiscSalesChargesAmount.
+     * Gets as yTDMiscSalesChargesAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2084,19 +2000,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new yTDMiscSalesChargesAmount.
+     * Sets a new yTDMiscSalesChargesAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDMiscSalesChargesAmount
      * @return self
      */
     public function setYTDMiscSalesChargesAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDMiscSalesChargesAmount)
     {
         $this->yTDMiscSalesChargesAmount = $yTDMiscSalesChargesAmount;
-
         return $this;
     }
 
     /**
-     * Gets as yTDPartsTotalAmount.
+     * Gets as yTDPartsTotalAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2106,19 +2022,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new yTDPartsTotalAmount.
+     * Sets a new yTDPartsTotalAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDPartsTotalAmount
      * @return self
      */
     public function setYTDPartsTotalAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDPartsTotalAmount)
     {
         $this->yTDPartsTotalAmount = $yTDPartsTotalAmount;
-
         return $this;
     }
 
     /**
-     * Gets as yTDTotalAmount.
+     * Gets as yTDTotalAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -2128,19 +2044,19 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new yTDTotalAmount.
+     * Sets a new yTDTotalAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDTotalAmount
      * @return self
      */
     public function setYTDTotalAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $yTDTotalAmount)
     {
         $this->yTDTotalAmount = $yTDTotalAmount;
-
         return $this;
     }
 
     /**
-     * Gets as zipcode.
+     * Gets as zipcode
      *
      * @return string
      */
@@ -2150,16 +2066,17 @@ class PartsInvoiceAttributesType
     }
 
     /**
-     * Sets a new zipcode.
+     * Sets a new zipcode
      *
      * @param string $zipcode
-     *
      * @return self
      */
     public function setZipcode($zipcode)
     {
         $this->zipcode = $zipcode;
-
         return $this;
     }
+
+
 }
+

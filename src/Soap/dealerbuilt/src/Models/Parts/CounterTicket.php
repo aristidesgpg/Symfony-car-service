@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing CounterTicket.
+ * Class representing CounterTicket
  */
 class CounterTicket extends CounterTicketType
 {
+
+
 }
+

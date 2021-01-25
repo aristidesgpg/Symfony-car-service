@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetDealerAppointmentStatuses.
+ * Class representing GetDealerAppointmentStatuses
  */
 class GetDealerAppointmentStatuses
 {
+
     /**
-     * @var int[]
+     * @var int[] $serviceLocationIds
      */
     private $serviceLocationIds = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToServiceLocationIds($long)
     {
         $this->serviceLocationIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset serviceLocationIds.
+     * isset serviceLocationIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceLocationIds($index)
@@ -39,10 +37,9 @@ class GetDealerAppointmentStatuses
     }
 
     /**
-     * unset serviceLocationIds.
+     * unset serviceLocationIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceLocationIds($index)
@@ -51,7 +48,7 @@ class GetDealerAppointmentStatuses
     }
 
     /**
-     * Gets as serviceLocationIds.
+     * Gets as serviceLocationIds
      *
      * @return int[]
      */
@@ -61,16 +58,17 @@ class GetDealerAppointmentStatuses
     }
 
     /**
-     * Sets a new serviceLocationIds.
+     * Sets a new serviceLocationIds
      *
      * @param int[] $serviceLocationIds
-     *
      * @return self
      */
     public function setServiceLocationIds(array $serviceLocationIds)
     {
         $this->serviceLocationIds = $serviceLocationIds;
-
         return $this;
     }
+
+
 }
+

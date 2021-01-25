@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType:
             access_type: public_method
             serialized_name: Persons
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPersons
                 setter: setPersons
@@ -14,4 +14,4 @@ App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType:
                 inline: false
                 entry_name: NumberedPersonInfo
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ArrayOfdecimalType.
+ * Class representing ArrayOfdecimalType
  *
+ * 
  * XSD Type: ArrayOfdecimal
  */
 class ArrayOfdecimalType
 {
+
     /**
-     * @var float[]
+     * @var float[] $decimal
      */
     private $decimal = [
+        
     ];
 
     /**
-     * Adds as decimal.
+     * Adds as decimal
      *
      * @return self
-     *
      * @param float $decimal
      */
     public function addToDecimal($decimal)
     {
         $this->decimal[] = $decimal;
-
         return $this;
     }
 
     /**
-     * isset decimal.
+     * isset decimal
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDecimal($index)
@@ -42,10 +42,9 @@ class ArrayOfdecimalType
     }
 
     /**
-     * unset decimal.
+     * unset decimal
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDecimal($index)
@@ -54,7 +53,7 @@ class ArrayOfdecimalType
     }
 
     /**
-     * Gets as decimal.
+     * Gets as decimal
      *
      * @return float[]
      */
@@ -64,16 +63,17 @@ class ArrayOfdecimalType
     }
 
     /**
-     * Sets a new decimal.
+     * Sets a new decimal
      *
      * @param float[] $decimal
-     *
      * @return self
      */
     public function setDecimal(array $decimal)
     {
         $this->decimal = $decimal;
-
         return $this;
     }
+
+
 }
+

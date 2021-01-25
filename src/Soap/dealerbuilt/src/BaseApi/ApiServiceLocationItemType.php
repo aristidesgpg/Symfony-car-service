@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiServiceLocationItemType.
+ * Class representing ApiServiceLocationItemType
  *
+ * 
  * XSD Type: ApiServiceLocationItem
  */
 class ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType $placement
      */
     private $placement = null;
 
     /**
-     * Gets as placement.
+     * Gets as placement
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType
      */
@@ -25,16 +27,17 @@ class ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new placement.
+     * Sets a new placement
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType $placement
-     *
      * @return self
      */
-    public function setPlacement(ServiceLocationPlacementType $placement)
+    public function setPlacement(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType $placement)
     {
         $this->placement = $placement;
-
         return $this;
     }
+
+
 }
+

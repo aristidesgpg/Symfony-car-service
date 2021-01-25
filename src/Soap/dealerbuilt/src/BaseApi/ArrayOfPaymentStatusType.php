@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPaymentStatusType.
+ * Class representing ArrayOfPaymentStatusType
  *
+ * 
  * XSD Type: ArrayOfPaymentStatus
  */
 class ArrayOfPaymentStatusType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentStatusType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentStatusType[] $paymentStatus
      */
     private $paymentStatus = [
+        
     ];
 
     /**
-     * Adds as paymentStatus.
+     * Adds as paymentStatus
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentStatusType $paymentStatus
      */
-    public function addToPaymentStatus(PaymentStatusType $paymentStatus)
+    public function addToPaymentStatus(\App\Soap\dealerbuilt\src\BaseApi\PaymentStatusType $paymentStatus)
     {
         $this->paymentStatus[] = $paymentStatus;
-
         return $this;
     }
 
     /**
-     * isset paymentStatus.
+     * isset paymentStatus
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPaymentStatus($index)
@@ -42,10 +42,9 @@ class ArrayOfPaymentStatusType
     }
 
     /**
-     * unset paymentStatus.
+     * unset paymentStatus
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPaymentStatus($index)
@@ -54,7 +53,7 @@ class ArrayOfPaymentStatusType
     }
 
     /**
-     * Gets as paymentStatus.
+     * Gets as paymentStatus
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentStatusType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPaymentStatusType
     }
 
     /**
-     * Sets a new paymentStatus.
+     * Sets a new paymentStatus
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentStatusType[] $paymentStatus
-     *
      * @return self
      */
     public function setPaymentStatus(array $paymentStatus)
     {
         $this->paymentStatus = $paymentStatus;
-
         return $this;
     }
+
+
 }
+

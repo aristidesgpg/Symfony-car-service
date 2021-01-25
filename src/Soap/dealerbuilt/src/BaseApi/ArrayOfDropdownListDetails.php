@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDropdownListDetails.
+ * Class representing ArrayOfDropdownListDetails
  */
 class ArrayOfDropdownListDetails extends ArrayOfDropdownListDetailsType
 {
+
+
 }
+

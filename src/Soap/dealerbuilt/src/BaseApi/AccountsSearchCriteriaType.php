@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing AccountsSearchCriteriaType.
+ * Class representing AccountsSearchCriteriaType
  *
+ * 
  * XSD Type: AccountsSearchCriteria
  */
 class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
 {
+
     /**
-     * @var string
+     * @var string $accountClassGroup
      */
     private $accountClassGroup = null;
 
     /**
-     * @var string[]
+     * @var string[] $accountClasses
      */
     private $accountClasses = null;
 
     /**
-     * @var string[]
+     * @var string[] $accounts
      */
     private $accounts = null;
 
     /**
-     * @var bool
+     * @var bool $omitAccountsWithNoActivity
      */
     private $omitAccountsWithNoActivity = null;
 
     /**
-     * Gets as accountClassGroup.
+     * Gets as accountClassGroup
      *
      * @return string
      */
@@ -40,38 +42,33 @@ class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new accountClassGroup.
+     * Sets a new accountClassGroup
      *
      * @param string $accountClassGroup
-     *
      * @return self
      */
     public function setAccountClassGroup($accountClassGroup)
     {
         $this->accountClassGroup = $accountClassGroup;
-
         return $this;
     }
 
     /**
-     * Adds as accountClassType.
+     * Adds as accountClassType
      *
      * @return self
-     *
      * @param string $accountClassType
      */
     public function addToAccountClasses($accountClassType)
     {
         $this->accountClasses[] = $accountClassType;
-
         return $this;
     }
 
     /**
-     * isset accountClasses.
+     * isset accountClasses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAccountClasses($index)
@@ -80,10 +77,9 @@ class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * unset accountClasses.
+     * unset accountClasses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAccountClasses($index)
@@ -92,7 +88,7 @@ class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Gets as accountClasses.
+     * Gets as accountClasses
      *
      * @return string[]
      */
@@ -102,38 +98,33 @@ class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new accountClasses.
+     * Sets a new accountClasses
      *
      * @param string $accountClasses
-     *
      * @return self
      */
     public function setAccountClasses(array $accountClasses)
     {
         $this->accountClasses = $accountClasses;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToAccounts($string)
     {
         $this->accounts[] = $string;
-
         return $this;
     }
 
     /**
-     * isset accounts.
+     * isset accounts
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAccounts($index)
@@ -142,10 +133,9 @@ class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * unset accounts.
+     * unset accounts
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAccounts($index)
@@ -154,7 +144,7 @@ class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Gets as accounts.
+     * Gets as accounts
      *
      * @return string[]
      */
@@ -164,21 +154,19 @@ class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new accounts.
+     * Sets a new accounts
      *
      * @param string[] $accounts
-     *
      * @return self
      */
     public function setAccounts(array $accounts)
     {
         $this->accounts = $accounts;
-
         return $this;
     }
 
     /**
-     * Gets as omitAccountsWithNoActivity.
+     * Gets as omitAccountsWithNoActivity
      *
      * @return bool
      */
@@ -188,16 +176,17 @@ class AccountsSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new omitAccountsWithNoActivity.
+     * Sets a new omitAccountsWithNoActivity
      *
      * @param bool $omitAccountsWithNoActivity
-     *
      * @return self
      */
     public function setOmitAccountsWithNoActivity($omitAccountsWithNoActivity)
     {
         $this->omitAccountsWithNoActivity = $omitAccountsWithNoActivity;
-
         return $this;
     }
+
+
 }
+

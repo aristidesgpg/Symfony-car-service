@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType:
             access_type: public_method
             serialized_name: IncludeAvailable
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getIncludeAvailable
                 setter: setIncludeAvailable
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType:
             access_type: public_method
             serialized_name: IncludeOther
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getIncludeOther
                 setter: setIncludeOther
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType:
             access_type: public_method
             serialized_name: IncludePending
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getIncludePending
                 setter: setIncludePending
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType:
             access_type: public_method
             serialized_name: IncludeSold
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getIncludeSold
                 setter: setIncludeSold

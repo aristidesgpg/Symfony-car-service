@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushInventory.
+ * Class representing PushInventory
  */
 class PushInventory
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType[] $inventoryItems
      */
     private $inventoryItems = null;
 
     /**
-     * Adds as stockItemPushRequest.
+     * Adds as stockItemPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType $stockItemPushRequest
      */
-    public function addToInventoryItems(BaseApi\StockItemPushRequestType $stockItemPushRequest)
+    public function addToInventoryItems(\App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType $stockItemPushRequest)
     {
         $this->inventoryItems[] = $stockItemPushRequest;
-
         return $this;
     }
 
     /**
-     * isset inventoryItems.
+     * isset inventoryItems
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInventoryItems($index)
@@ -39,10 +37,9 @@ class PushInventory
     }
 
     /**
-     * unset inventoryItems.
+     * unset inventoryItems
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInventoryItems($index)
@@ -51,7 +48,7 @@ class PushInventory
     }
 
     /**
-     * Gets as inventoryItems.
+     * Gets as inventoryItems
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushInventory
     }
 
     /**
-     * Sets a new inventoryItems.
+     * Sets a new inventoryItems
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType[] $inventoryItems
-     *
      * @return self
      */
     public function setInventoryItems(array $inventoryItems)
     {
         $this->inventoryItems = $inventoryItems;
-
         return $this;
     }
+
+
 }
+

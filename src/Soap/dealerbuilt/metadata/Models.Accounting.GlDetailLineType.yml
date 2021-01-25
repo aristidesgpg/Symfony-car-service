@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: AccountingDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getAccountingDate
                 setter: setAccountingDate
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: Control1Code
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getControl1Code
                 setter: setControl1Code
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: Control2Code
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getControl2Code
                 setter: setControl2Code
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: Credits
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getCredits
                 setter: setCredits
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: DateReconciledOnBankRecord
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getDateReconciledOnBankRecord
                 setter: setDateReconciledOnBankRecord
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: Debits
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getDebits
                 setter: setDebits
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: Division
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getDivision
                 setter: setDivision
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: GlHeaderDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getGlHeaderDescription
                 setter: setGlHeaderDescription
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: GlVouch
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getGlVouch
                 setter: setGlVouch
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: IsClearedBank
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getIsClearedBank
                 setter: setIsClearedBank
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: IsReconciled
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getIsReconciled
                 setter: setIsReconciled
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: Journal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getJournal
                 setter: setJournal
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: JournalDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getJournalDescription
                 setter: setJournalDescription
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: JournalType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getJournalType
                 setter: setJournalType
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: LineDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getLineDescription
                 setter: setLineDescription
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: LineId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getLineId
                 setter: setLineId
@@ -165,7 +165,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: ModifiedStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getModifiedStamp
                 setter: setModifiedStamp
@@ -175,7 +175,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: MonthToDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getMonthToDate
                 setter: setMonthToDate
@@ -185,7 +185,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: Reference
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getReference
                 setter: setReference
@@ -195,7 +195,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: UnitCount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getUnitCount
                 setter: setUnitCount
@@ -205,7 +205,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: VoidStatus
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getVoidStatus
                 setter: setVoidStatus
@@ -215,7 +215,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
             access_type: public_method
             serialized_name: ZeroDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getZeroDate
                 setter: setZeroDate

@@ -3,54 +3,56 @@
 namespace App\Soap\dealerbuilt\src\Models\Vehicles;
 
 /**
- * Class representing VehicleServiceType.
+ * Class representing VehicleServiceType
  *
+ * 
  * XSD Type: VehicleService
  */
 class VehicleServiceType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceOwnerDataType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceOwnerDataType $ownerInformation
      */
     private $ownerInformation = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\RepairOrderType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\RepairOrderType[] $repairOrderHistory
      */
     private $repairOrderHistory = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType[]
+     * @var \App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType[] $serviceCampaigns
      */
     private $serviceCampaigns = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType[]
+     * @var \App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType[] $serviceContracts
      */
     private $serviceContracts = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType $vehicleInformation
      */
     private $vehicleInformation = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceSoldByDealerType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceSoldByDealerType $vehicleSeller
      */
     private $vehicleSeller = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType[] $warranties
      */
     private $warranties = null;
 
     /**
-     * Gets as ownerInformation.
+     * Gets as ownerInformation
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceOwnerDataType
      */
@@ -60,36 +62,33 @@ class VehicleServiceType
     }
 
     /**
-     * Sets a new ownerInformation.
+     * Sets a new ownerInformation
      *
      * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceOwnerDataType $ownerInformation
-     *
      * @return self
      */
-    public function setOwnerInformation(VehicleServiceOwnerDataType $ownerInformation)
+    public function setOwnerInformation(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceOwnerDataType $ownerInformation)
     {
         $this->ownerInformation = $ownerInformation;
-
         return $this;
     }
 
     /**
-     * Adds as repairOrder.
+     * Adds as repairOrder
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Service\RepairOrderType $repairOrder
      */
     public function addToRepairOrderHistory(\App\Soap\dealerbuilt\src\Models\Service\RepairOrderType $repairOrder)
     {
         $this->repairOrderHistory[] = $repairOrder;
-
         return $this;
     }
 
     /**
-     * isset repairOrderHistory.
+     * isset repairOrderHistory
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRepairOrderHistory($index)
@@ -98,10 +97,9 @@ class VehicleServiceType
     }
 
     /**
-     * unset repairOrderHistory.
+     * unset repairOrderHistory
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRepairOrderHistory($index)
@@ -110,7 +108,7 @@ class VehicleServiceType
     }
 
     /**
-     * Gets as repairOrderHistory.
+     * Gets as repairOrderHistory
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\RepairOrderType[]
      */
@@ -120,36 +118,33 @@ class VehicleServiceType
     }
 
     /**
-     * Sets a new repairOrderHistory.
+     * Sets a new repairOrderHistory
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\RepairOrderType[] $repairOrderHistory
-     *
      * @return self
      */
     public function setRepairOrderHistory(array $repairOrderHistory)
     {
         $this->repairOrderHistory = $repairOrderHistory;
-
         return $this;
     }
 
     /**
-     * Adds as serviceCampaign.
+     * Adds as serviceCampaign
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType $serviceCampaign
      */
     public function addToServiceCampaigns(\App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType $serviceCampaign)
     {
         $this->serviceCampaigns[] = $serviceCampaign;
-
         return $this;
     }
 
     /**
-     * isset serviceCampaigns.
+     * isset serviceCampaigns
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceCampaigns($index)
@@ -158,10 +153,9 @@ class VehicleServiceType
     }
 
     /**
-     * unset serviceCampaigns.
+     * unset serviceCampaigns
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceCampaigns($index)
@@ -170,7 +164,7 @@ class VehicleServiceType
     }
 
     /**
-     * Gets as serviceCampaigns.
+     * Gets as serviceCampaigns
      *
      * @return \App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType[]
      */
@@ -180,36 +174,33 @@ class VehicleServiceType
     }
 
     /**
-     * Sets a new serviceCampaigns.
+     * Sets a new serviceCampaigns
      *
      * @param \App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType[] $serviceCampaigns
-     *
      * @return self
      */
     public function setServiceCampaigns(array $serviceCampaigns)
     {
         $this->serviceCampaigns = $serviceCampaigns;
-
         return $this;
     }
 
     /**
-     * Adds as serviceContract.
+     * Adds as serviceContract
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType $serviceContract
      */
     public function addToServiceContracts(\App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType $serviceContract)
     {
         $this->serviceContracts[] = $serviceContract;
-
         return $this;
     }
 
     /**
-     * isset serviceContracts.
+     * isset serviceContracts
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceContracts($index)
@@ -218,10 +209,9 @@ class VehicleServiceType
     }
 
     /**
-     * unset serviceContracts.
+     * unset serviceContracts
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceContracts($index)
@@ -230,7 +220,7 @@ class VehicleServiceType
     }
 
     /**
-     * Gets as serviceContracts.
+     * Gets as serviceContracts
      *
      * @return \App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType[]
      */
@@ -240,21 +230,19 @@ class VehicleServiceType
     }
 
     /**
-     * Sets a new serviceContracts.
+     * Sets a new serviceContracts
      *
      * @param \App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType[] $serviceContracts
-     *
      * @return self
      */
     public function setServiceContracts(array $serviceContracts)
     {
         $this->serviceContracts = $serviceContracts;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleInformation.
+     * Gets as vehicleInformation
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType
      */
@@ -264,21 +252,19 @@ class VehicleServiceType
     }
 
     /**
-     * Sets a new vehicleInformation.
+     * Sets a new vehicleInformation
      *
      * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType $vehicleInformation
-     *
      * @return self
      */
-    public function setVehicleInformation(VehicleServiceVehicleDataType $vehicleInformation)
+    public function setVehicleInformation(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType $vehicleInformation)
     {
         $this->vehicleInformation = $vehicleInformation;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleSeller.
+     * Gets as vehicleSeller
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceSoldByDealerType
      */
@@ -288,21 +274,19 @@ class VehicleServiceType
     }
 
     /**
-     * Sets a new vehicleSeller.
+     * Sets a new vehicleSeller
      *
      * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceSoldByDealerType $vehicleSeller
-     *
      * @return self
      */
-    public function setVehicleSeller(VehicleServiceSoldByDealerType $vehicleSeller)
+    public function setVehicleSeller(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceSoldByDealerType $vehicleSeller)
     {
         $this->vehicleSeller = $vehicleSeller;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -312,36 +296,33 @@ class VehicleServiceType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
 
     /**
-     * Adds as warranty.
+     * Adds as warranty
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType $warranty
      */
     public function addToWarranties(\App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType $warranty)
     {
         $this->warranties[] = $warranty;
-
         return $this;
     }
 
     /**
-     * isset warranties.
+     * isset warranties
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetWarranties($index)
@@ -350,10 +331,9 @@ class VehicleServiceType
     }
 
     /**
-     * unset warranties.
+     * unset warranties
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetWarranties($index)
@@ -362,7 +342,7 @@ class VehicleServiceType
     }
 
     /**
-     * Gets as warranties.
+     * Gets as warranties
      *
      * @return \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType[]
      */
@@ -372,16 +352,17 @@ class VehicleServiceType
     }
 
     /**
-     * Sets a new warranties.
+     * Sets a new warranties
      *
      * @param \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType[] $warranties
-     *
      * @return self
      */
     public function setWarranties(array $warranties)
     {
         $this->warranties = $warranties;
-
         return $this;
     }
+
+
 }
+

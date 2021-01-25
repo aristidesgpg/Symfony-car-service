@@ -3,44 +3,46 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PotentialLaborItemPushResponseType.
+ * Class representing PotentialLaborItemPushResponseType
  *
+ * 
  * XSD Type: PotentialLaborItemPushResponse
  */
 class PotentialLaborItemPushResponseType
 {
+
     /**
-     * @var string
+     * @var string $externalLaborOperationId
      */
     private $externalLaborOperationId = null;
 
     /**
-     * @var string
+     * @var string $jobKey
      */
     private $jobKey = null;
 
     /**
-     * @var string
+     * @var string $message
      */
     private $message = null;
 
     /**
-     * @var string
+     * @var string $result
      */
     private $result = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $sublets
      */
     private $sublets = null;
 
     /**
-     * Gets as externalLaborOperationId.
+     * Gets as externalLaborOperationId
      *
      * @return string
      */
@@ -50,21 +52,19 @@ class PotentialLaborItemPushResponseType
     }
 
     /**
-     * Sets a new externalLaborOperationId.
+     * Sets a new externalLaborOperationId
      *
      * @param string $externalLaborOperationId
-     *
      * @return self
      */
     public function setExternalLaborOperationId($externalLaborOperationId)
     {
         $this->externalLaborOperationId = $externalLaborOperationId;
-
         return $this;
     }
 
     /**
-     * Gets as jobKey.
+     * Gets as jobKey
      *
      * @return string
      */
@@ -74,21 +74,19 @@ class PotentialLaborItemPushResponseType
     }
 
     /**
-     * Sets a new jobKey.
+     * Sets a new jobKey
      *
      * @param string $jobKey
-     *
      * @return self
      */
     public function setJobKey($jobKey)
     {
         $this->jobKey = $jobKey;
-
         return $this;
     }
 
     /**
-     * Gets as message.
+     * Gets as message
      *
      * @return string
      */
@@ -98,21 +96,19 @@ class PotentialLaborItemPushResponseType
     }
 
     /**
-     * Sets a new message.
+     * Sets a new message
      *
      * @param string $message
-     *
      * @return self
      */
     public function setMessage($message)
     {
         $this->message = $message;
-
         return $this;
     }
 
     /**
-     * Gets as result.
+     * Gets as result
      *
      * @return string
      */
@@ -122,21 +118,19 @@ class PotentialLaborItemPushResponseType
     }
 
     /**
-     * Sets a new result.
+     * Sets a new result
      *
      * @param string $result
-     *
      * @return self
      */
     public function setResult($result)
     {
         $this->result = $result;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -146,38 +140,33 @@ class PotentialLaborItemPushResponseType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Adds as pushResponse.
+     * Adds as pushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse
      */
-    public function addToSublets(PushResponseType $pushResponse)
+    public function addToSublets(\App\Soap\dealerbuilt\src\BaseApi\PushResponseType $pushResponse)
     {
         $this->sublets[] = $pushResponse;
-
         return $this;
     }
 
     /**
-     * isset sublets.
+     * isset sublets
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSublets($index)
@@ -186,10 +175,9 @@ class PotentialLaborItemPushResponseType
     }
 
     /**
-     * unset sublets.
+     * unset sublets
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSublets($index)
@@ -198,7 +186,7 @@ class PotentialLaborItemPushResponseType
     }
 
     /**
-     * Gets as sublets.
+     * Gets as sublets
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[]
      */
@@ -208,16 +196,17 @@ class PotentialLaborItemPushResponseType
     }
 
     /**
-     * Sets a new sublets.
+     * Sets a new sublets
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushResponseType[] $sublets
-     *
      * @return self
      */
     public function setSublets(array $sublets)
     {
         $this->sublets = $sublets;
-
         return $this;
     }
+
+
 }
+

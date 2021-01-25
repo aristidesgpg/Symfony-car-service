@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType:
             access_type: public_method
             serialized_name: FeeAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFeeAmount
                 setter: setFeeAmount
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType:
             access_type: public_method
             serialized_name: FeeDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFeeDescription
                 setter: setFeeDescription
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType:
             access_type: public_method
             serialized_name: FeeHandlingType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFeeHandlingType
                 setter: setFeeHandlingType
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType:
             access_type: public_method
             serialized_name: FeeType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFeeType
                 setter: setFeeType

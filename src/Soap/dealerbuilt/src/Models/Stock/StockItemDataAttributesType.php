@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing StockItemDataAttributesType.
+ * Class representing StockItemDataAttributesType
  *
+ * 
  * XSD Type: StockItemDataAttributes
  */
 class StockItemDataAttributesType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $estimatedArrivalDate
      */
     private $estimatedArrivalDate = null;
 
     /**
-     * @var string
+     * @var string $orderDetail
      */
     private $orderDetail = null;
 
     /**
-     * @var string
+     * @var string $orderNumber
      */
     private $orderNumber = null;
 
     /**
-     * Gets as estimatedArrivalDate.
+     * Gets as estimatedArrivalDate
      *
      * @return \DateTime
      */
@@ -35,19 +37,19 @@ class StockItemDataAttributesType
     }
 
     /**
-     * Sets a new estimatedArrivalDate.
+     * Sets a new estimatedArrivalDate
      *
+     * @param \DateTime $estimatedArrivalDate
      * @return self
      */
     public function setEstimatedArrivalDate(\DateTime $estimatedArrivalDate)
     {
         $this->estimatedArrivalDate = $estimatedArrivalDate;
-
         return $this;
     }
 
     /**
-     * Gets as orderDetail.
+     * Gets as orderDetail
      *
      * @return string
      */
@@ -57,21 +59,19 @@ class StockItemDataAttributesType
     }
 
     /**
-     * Sets a new orderDetail.
+     * Sets a new orderDetail
      *
      * @param string $orderDetail
-     *
      * @return self
      */
     public function setOrderDetail($orderDetail)
     {
         $this->orderDetail = $orderDetail;
-
         return $this;
     }
 
     /**
-     * Gets as orderNumber.
+     * Gets as orderNumber
      *
      * @return string
      */
@@ -81,16 +81,17 @@ class StockItemDataAttributesType
     }
 
     /**
-     * Sets a new orderNumber.
+     * Sets a new orderNumber
      *
      * @param string $orderNumber
-     *
      * @return self
      */
     public function setOrderNumber($orderNumber)
     {
         $this->orderNumber = $orderNumber;
-
         return $this;
     }
+
+
 }
+

@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetTechniciansResponse.
+ * Class representing GetTechniciansResponse
  */
 class GetTechniciansResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType $getTechniciansResult
      */
     private $getTechniciansResult = null;
 
     /**
-     * Gets as getTechniciansResult.
+     * Gets as getTechniciansResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType
      */
@@ -23,16 +24,17 @@ class GetTechniciansResponse
     }
 
     /**
-     * Sets a new getTechniciansResult.
+     * Sets a new getTechniciansResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType $getTechniciansResult
-     *
      * @return self
      */
-    public function setGetTechniciansResult(BaseApi\ServiceLocationPersonsType $getTechniciansResult)
+    public function setGetTechniciansResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType $getTechniciansResult)
     {
         $this->getTechniciansResult = $getTechniciansResult;
-
         return $this;
     }
+
+
 }
+

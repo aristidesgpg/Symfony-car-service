@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderReferencesType:
             access_type: public_method
             serialized_name: AppointmentId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getAppointmentId
                 setter: setAppointmentId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderReferencesType:
             access_type: public_method
             serialized_name: Payments
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPayments
                 setter: setPayments
@@ -24,13 +24,13 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderReferencesType:
                 inline: false
                 entry_name: Payment
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
         rOCustomer:
             expose: true
             access_type: public_method
             serialized_name: ROCustomer
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getROCustomer
                 setter: setROCustomer
@@ -40,7 +40,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderReferencesType:
             access_type: public_method
             serialized_name: ROVehicle
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getROVehicle
                 setter: setROVehicle

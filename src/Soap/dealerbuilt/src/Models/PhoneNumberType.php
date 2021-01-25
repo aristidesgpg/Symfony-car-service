@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing PhoneNumberType.
+ * Class representing PhoneNumberType
  *
+ * 
  * XSD Type: PhoneNumber
  */
 class PhoneNumberType
 {
+
     /**
-     * @var string
+     * @var string $digits
      */
     private $digits = null;
 
     /**
-     * @var string
+     * @var string $numberType
      */
     private $numberType = null;
 
     /**
-     * Gets as digits.
+     * Gets as digits
      *
      * @return string
      */
@@ -30,21 +32,19 @@ class PhoneNumberType
     }
 
     /**
-     * Sets a new digits.
+     * Sets a new digits
      *
      * @param string $digits
-     *
      * @return self
      */
     public function setDigits($digits)
     {
         $this->digits = $digits;
-
         return $this;
     }
 
     /**
-     * Gets as numberType.
+     * Gets as numberType
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class PhoneNumberType
     }
 
     /**
-     * Sets a new numberType.
+     * Sets a new numberType
      *
      * @param string $numberType
-     *
      * @return self
      */
     public function setNumberType($numberType)
     {
         $this->numberType = $numberType;
-
         return $this;
     }
+
+
 }
+

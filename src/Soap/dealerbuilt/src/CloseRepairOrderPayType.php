@@ -3,22 +3,23 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing CloseRepairOrderPayType.
+ * Class representing CloseRepairOrderPayType
  */
 class CloseRepairOrderPayType
 {
+
     /**
-     * @var string
+     * @var string $repairOrderKey
      */
     private $repairOrderKey = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * Gets as repairOrderKey.
+     * Gets as repairOrderKey
      *
      * @return string
      */
@@ -28,21 +29,19 @@ class CloseRepairOrderPayType
     }
 
     /**
-     * Sets a new repairOrderKey.
+     * Sets a new repairOrderKey
      *
      * @param string $repairOrderKey
-     *
      * @return self
      */
     public function setRepairOrderKey($repairOrderKey)
     {
         $this->repairOrderKey = $repairOrderKey;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -52,16 +51,17 @@ class CloseRepairOrderPayType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
+
+
 }
+

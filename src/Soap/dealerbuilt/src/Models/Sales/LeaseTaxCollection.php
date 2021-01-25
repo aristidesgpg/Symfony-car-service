@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing LeaseTaxCollection.
+ * Class representing LeaseTaxCollection
  */
 class LeaseTaxCollection extends LeaseTaxCollectionType
 {
+
+
 }
+

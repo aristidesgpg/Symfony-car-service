@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDealsByDealNumberResponse.
+ * Class representing PullDealsByDealNumberResponse
  */
 class PullDealsByDealNumberResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealType[] $pullDealsByDealNumberResult
      */
     private $pullDealsByDealNumberResult = null;
 
     /**
-     * Adds as deal.
+     * Adds as deal
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealType $deal
      */
-    public function addToPullDealsByDealNumberResult(BaseApi\DealType $deal)
+    public function addToPullDealsByDealNumberResult(\App\Soap\dealerbuilt\src\BaseApi\DealType $deal)
     {
         $this->pullDealsByDealNumberResult[] = $deal;
-
         return $this;
     }
 
     /**
-     * isset pullDealsByDealNumberResult.
+     * isset pullDealsByDealNumberResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullDealsByDealNumberResult($index)
@@ -39,10 +37,9 @@ class PullDealsByDealNumberResponse
     }
 
     /**
-     * unset pullDealsByDealNumberResult.
+     * unset pullDealsByDealNumberResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullDealsByDealNumberResult($index)
@@ -51,7 +48,7 @@ class PullDealsByDealNumberResponse
     }
 
     /**
-     * Gets as pullDealsByDealNumberResult.
+     * Gets as pullDealsByDealNumberResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealType[]
      */
@@ -61,16 +58,17 @@ class PullDealsByDealNumberResponse
     }
 
     /**
-     * Sets a new pullDealsByDealNumberResult.
+     * Sets a new pullDealsByDealNumberResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealType[] $pullDealsByDealNumberResult
-     *
      * @return self
      */
     public function setPullDealsByDealNumberResult(array $pullDealsByDealNumberResult)
     {
         $this->pullDealsByDealNumberResult = $pullDealsByDealNumberResult;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPartsOrderPushResponse.
+ * Class representing ArrayOfPartsOrderPushResponse
  */
 class ArrayOfPartsOrderPushResponse extends ArrayOfPartsOrderPushResponseType
 {
+
+
 }
+

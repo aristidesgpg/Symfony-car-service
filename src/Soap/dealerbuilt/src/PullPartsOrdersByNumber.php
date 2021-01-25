@@ -3,22 +3,23 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPartsOrdersByNumber.
+ * Class representing PullPartsOrdersByNumber
  */
 class PullPartsOrdersByNumber
 {
+
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var string
+     * @var string $partsOrderNumber
      */
     private $partsOrderNumber = null;
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -28,21 +29,19 @@ class PullPartsOrdersByNumber
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Gets as partsOrderNumber.
+     * Gets as partsOrderNumber
      *
      * @return string
      */
@@ -52,16 +51,17 @@ class PullPartsOrdersByNumber
     }
 
     /**
-     * Sets a new partsOrderNumber.
+     * Sets a new partsOrderNumber
      *
      * @param string $partsOrderNumber
-     *
      * @return self
      */
     public function setPartsOrderNumber($partsOrderNumber)
     {
         $this->partsOrderNumber = $partsOrderNumber;
-
         return $this;
     }
+
+
 }
+

@@ -3,74 +3,76 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing NumberedPersonInfoType.
+ * Class representing NumberedPersonInfoType
  *
+ * 
  * XSD Type: NumberedPersonInfo
  */
 class NumberedPersonInfoType
 {
+
     /**
-     * @var string
+     * @var string $eventDescription
      */
     private $eventDescription = null;
 
     /**
-     * @var string
+     * @var string $eventID
      */
     private $eventID = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $eventOccurrenceDateTime
      */
     private $eventOccurrenceDateTime = null;
 
     /**
-     * @var string
+     * @var string $factoryID
      */
     private $factoryID = null;
 
     /**
-     * @var bool
+     * @var bool $isActive
      */
     private $isActive = null;
 
     /**
-     * @var string
+     * @var string $number
      */
     private $number = null;
 
     /**
-     * @var string
+     * @var string $otherId
      */
     private $otherId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NameType
+     * @var \App\Soap\dealerbuilt\src\Models\NameType $personalName
      */
     private $personalName = null;
 
     /**
-     * @var string
+     * @var string $specialRemarksDescription
      */
     private $specialRemarksDescription = null;
 
     /**
-     * @var string
+     * @var string $ssn
      */
     private $ssn = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\AddressType
+     * @var \App\Soap\dealerbuilt\src\Models\AddressType $streetAddress
      */
     private $streetAddress = null;
 
     /**
-     * @var string
+     * @var string $username
      */
     private $username = null;
 
     /**
-     * Gets as eventDescription.
+     * Gets as eventDescription
      *
      * @return string
      */
@@ -80,21 +82,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new eventDescription.
+     * Sets a new eventDescription
      *
      * @param string $eventDescription
-     *
      * @return self
      */
     public function setEventDescription($eventDescription)
     {
         $this->eventDescription = $eventDescription;
-
         return $this;
     }
 
     /**
-     * Gets as eventID.
+     * Gets as eventID
      *
      * @return string
      */
@@ -104,21 +104,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new eventID.
+     * Sets a new eventID
      *
      * @param string $eventID
-     *
      * @return self
      */
     public function setEventID($eventID)
     {
         $this->eventID = $eventID;
-
         return $this;
     }
 
     /**
-     * Gets as eventOccurrenceDateTime.
+     * Gets as eventOccurrenceDateTime
      *
      * @return \DateTime
      */
@@ -128,21 +126,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new eventOccurrenceDateTime.
+     * Sets a new eventOccurrenceDateTime
      *
      * @param \DateTime $eventOccurrenceDateTime
-     *
      * @return self
      */
     public function setEventOccurrenceDateTime(\DateTime $eventOccurrenceDateTime = null)
     {
         $this->eventOccurrenceDateTime = $eventOccurrenceDateTime;
-
         return $this;
     }
 
     /**
-     * Gets as factoryID.
+     * Gets as factoryID
      *
      * @return string
      */
@@ -152,21 +148,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new factoryID.
+     * Sets a new factoryID
      *
      * @param string $factoryID
-     *
      * @return self
      */
     public function setFactoryID($factoryID)
     {
         $this->factoryID = $factoryID;
-
         return $this;
     }
 
     /**
-     * Gets as isActive.
+     * Gets as isActive
      *
      * @return bool
      */
@@ -176,21 +170,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new isActive.
+     * Sets a new isActive
      *
      * @param bool $isActive
-     *
      * @return self
      */
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-
         return $this;
     }
 
     /**
-     * Gets as number.
+     * Gets as number
      *
      * @return string
      */
@@ -200,21 +192,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new number.
+     * Sets a new number
      *
      * @param string $number
-     *
      * @return self
      */
     public function setNumber($number)
     {
         $this->number = $number;
-
         return $this;
     }
 
     /**
-     * Gets as otherId.
+     * Gets as otherId
      *
      * @return string
      */
@@ -224,21 +214,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new otherId.
+     * Sets a new otherId
      *
      * @param string $otherId
-     *
      * @return self
      */
     public function setOtherId($otherId)
     {
         $this->otherId = $otherId;
-
         return $this;
     }
 
     /**
-     * Gets as personalName.
+     * Gets as personalName
      *
      * @return \App\Soap\dealerbuilt\src\Models\NameType
      */
@@ -248,21 +236,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new personalName.
+     * Sets a new personalName
      *
      * @param \App\Soap\dealerbuilt\src\Models\NameType $personalName
-     *
      * @return self
      */
-    public function setPersonalName(NameType $personalName)
+    public function setPersonalName(\App\Soap\dealerbuilt\src\Models\NameType $personalName)
     {
         $this->personalName = $personalName;
-
         return $this;
     }
 
     /**
-     * Gets as specialRemarksDescription.
+     * Gets as specialRemarksDescription
      *
      * @return string
      */
@@ -272,21 +258,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new specialRemarksDescription.
+     * Sets a new specialRemarksDescription
      *
      * @param string $specialRemarksDescription
-     *
      * @return self
      */
     public function setSpecialRemarksDescription($specialRemarksDescription)
     {
         $this->specialRemarksDescription = $specialRemarksDescription;
-
         return $this;
     }
 
     /**
-     * Gets as ssn.
+     * Gets as ssn
      *
      * @return string
      */
@@ -296,21 +280,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new ssn.
+     * Sets a new ssn
      *
      * @param string $ssn
-     *
      * @return self
      */
     public function setSsn($ssn)
     {
         $this->ssn = $ssn;
-
         return $this;
     }
 
     /**
-     * Gets as streetAddress.
+     * Gets as streetAddress
      *
      * @return \App\Soap\dealerbuilt\src\Models\AddressType
      */
@@ -320,21 +302,19 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new streetAddress.
+     * Sets a new streetAddress
      *
      * @param \App\Soap\dealerbuilt\src\Models\AddressType $streetAddress
-     *
      * @return self
      */
-    public function setStreetAddress(AddressType $streetAddress)
+    public function setStreetAddress(\App\Soap\dealerbuilt\src\Models\AddressType $streetAddress)
     {
         $this->streetAddress = $streetAddress;
-
         return $this;
     }
 
     /**
-     * Gets as username.
+     * Gets as username
      *
      * @return string
      */
@@ -344,16 +324,17 @@ class NumberedPersonInfoType
     }
 
     /**
-     * Sets a new username.
+     * Sets a new username
      *
      * @param string $username
-     *
      * @return self
      */
     public function setUsername($username)
     {
         $this->username = $username;
-
         return $this;
     }
+
+
 }
+

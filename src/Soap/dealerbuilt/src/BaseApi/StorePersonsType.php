@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StorePersonsType.
+ * Class representing StorePersonsType
  *
+ * 
  * XSD Type: StorePersons
  */
 class StorePersonsType extends ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType[] $persons
      */
     private $persons = null;
 
     /**
-     * Adds as salesPerson.
+     * Adds as salesPerson
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType $salesPerson
      */
-    public function addToPersons(SalesPersonType $salesPerson)
+    public function addToPersons(\App\Soap\dealerbuilt\src\BaseApi\SalesPersonType $salesPerson)
     {
         $this->persons[] = $salesPerson;
-
         return $this;
     }
 
     /**
-     * isset persons.
+     * isset persons
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPersons($index)
@@ -41,10 +40,9 @@ class StorePersonsType extends ApiStoreItemType
     }
 
     /**
-     * unset persons.
+     * unset persons
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPersons($index)
@@ -53,7 +51,7 @@ class StorePersonsType extends ApiStoreItemType
     }
 
     /**
-     * Gets as persons.
+     * Gets as persons
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType[]
      */
@@ -63,16 +61,17 @@ class StorePersonsType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new persons.
+     * Sets a new persons
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType[] $persons
-     *
      * @return self
      */
     public function setPersons(array $persons)
     {
         $this->persons = $persons;
-
         return $this;
     }
+
+
 }
+

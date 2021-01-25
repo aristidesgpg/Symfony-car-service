@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfLaborOperationSubletPushRequestType.
+ * Class representing ArrayOfLaborOperationSubletPushRequestType
  *
+ * 
  * XSD Type: ArrayOfLaborOperationSubletPushRequest
  */
 class ArrayOfLaborOperationSubletPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType[] $laborOperationSubletPushRequest
      */
     private $laborOperationSubletPushRequest = [
+        
     ];
 
     /**
-     * Adds as laborOperationSubletPushRequest.
+     * Adds as laborOperationSubletPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType $laborOperationSubletPushRequest
      */
-    public function addToLaborOperationSubletPushRequest(LaborOperationSubletPushRequestType $laborOperationSubletPushRequest)
+    public function addToLaborOperationSubletPushRequest(\App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType $laborOperationSubletPushRequest)
     {
         $this->laborOperationSubletPushRequest[] = $laborOperationSubletPushRequest;
-
         return $this;
     }
 
     /**
-     * isset laborOperationSubletPushRequest.
+     * isset laborOperationSubletPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLaborOperationSubletPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfLaborOperationSubletPushRequestType
     }
 
     /**
-     * unset laborOperationSubletPushRequest.
+     * unset laborOperationSubletPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLaborOperationSubletPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfLaborOperationSubletPushRequestType
     }
 
     /**
-     * Gets as laborOperationSubletPushRequest.
+     * Gets as laborOperationSubletPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfLaborOperationSubletPushRequestType
     }
 
     /**
-     * Sets a new laborOperationSubletPushRequest.
+     * Sets a new laborOperationSubletPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType[] $laborOperationSubletPushRequest
-     *
      * @return self
      */
     public function setLaborOperationSubletPushRequest(array $laborOperationSubletPushRequest)
     {
         $this->laborOperationSubletPushRequest = $laborOperationSubletPushRequest;
-
         return $this;
     }
+
+
 }
+

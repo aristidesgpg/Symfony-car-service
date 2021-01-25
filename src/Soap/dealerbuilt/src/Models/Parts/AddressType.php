@@ -3,59 +3,61 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing AddressType.
+ * Class representing AddressType
  *
+ * 
  * XSD Type: Address
  */
 class AddressType
 {
+
     /**
-     * @var string
+     * @var string $address1
      */
     private $address1 = null;
 
     /**
-     * @var string
+     * @var string $address2
      */
     private $address2 = null;
 
     /**
-     * @var string
+     * @var string $city
      */
     private $city = null;
 
     /**
-     * @var string
+     * @var string $email
      */
     private $email = null;
 
     /**
-     * @var string
+     * @var string $name
      */
     private $name = null;
 
     /**
-     * @var string
+     * @var string $phone1
      */
     private $phone1 = null;
 
     /**
-     * @var string
+     * @var string $phone2
      */
     private $phone2 = null;
 
     /**
-     * @var string
+     * @var string $state
      */
     private $state = null;
 
     /**
-     * @var string
+     * @var string $zip
      */
     private $zip = null;
 
     /**
-     * Gets as address1.
+     * Gets as address1
      *
      * @return string
      */
@@ -65,21 +67,19 @@ class AddressType
     }
 
     /**
-     * Sets a new address1.
+     * Sets a new address1
      *
      * @param string $address1
-     *
      * @return self
      */
     public function setAddress1($address1)
     {
         $this->address1 = $address1;
-
         return $this;
     }
 
     /**
-     * Gets as address2.
+     * Gets as address2
      *
      * @return string
      */
@@ -89,21 +89,19 @@ class AddressType
     }
 
     /**
-     * Sets a new address2.
+     * Sets a new address2
      *
      * @param string $address2
-     *
      * @return self
      */
     public function setAddress2($address2)
     {
         $this->address2 = $address2;
-
         return $this;
     }
 
     /**
-     * Gets as city.
+     * Gets as city
      *
      * @return string
      */
@@ -113,21 +111,19 @@ class AddressType
     }
 
     /**
-     * Sets a new city.
+     * Sets a new city
      *
      * @param string $city
-     *
      * @return self
      */
     public function setCity($city)
     {
         $this->city = $city;
-
         return $this;
     }
 
     /**
-     * Gets as email.
+     * Gets as email
      *
      * @return string
      */
@@ -137,21 +133,19 @@ class AddressType
     }
 
     /**
-     * Sets a new email.
+     * Sets a new email
      *
      * @param string $email
-     *
      * @return self
      */
     public function setEmail($email)
     {
         $this->email = $email;
-
         return $this;
     }
 
     /**
-     * Gets as name.
+     * Gets as name
      *
      * @return string
      */
@@ -161,21 +155,19 @@ class AddressType
     }
 
     /**
-     * Sets a new name.
+     * Sets a new name
      *
      * @param string $name
-     *
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
     /**
-     * Gets as phone1.
+     * Gets as phone1
      *
      * @return string
      */
@@ -185,21 +177,19 @@ class AddressType
     }
 
     /**
-     * Sets a new phone1.
+     * Sets a new phone1
      *
      * @param string $phone1
-     *
      * @return self
      */
     public function setPhone1($phone1)
     {
         $this->phone1 = $phone1;
-
         return $this;
     }
 
     /**
-     * Gets as phone2.
+     * Gets as phone2
      *
      * @return string
      */
@@ -209,21 +199,19 @@ class AddressType
     }
 
     /**
-     * Sets a new phone2.
+     * Sets a new phone2
      *
      * @param string $phone2
-     *
      * @return self
      */
     public function setPhone2($phone2)
     {
         $this->phone2 = $phone2;
-
         return $this;
     }
 
     /**
-     * Gets as state.
+     * Gets as state
      *
      * @return string
      */
@@ -233,21 +221,19 @@ class AddressType
     }
 
     /**
-     * Sets a new state.
+     * Sets a new state
      *
      * @param string $state
-     *
      * @return self
      */
     public function setState($state)
     {
         $this->state = $state;
-
         return $this;
     }
 
     /**
-     * Gets as zip.
+     * Gets as zip
      *
      * @return string
      */
@@ -257,16 +243,17 @@ class AddressType
     }
 
     /**
-     * Sets a new zip.
+     * Sets a new zip
      *
      * @param string $zip
-     *
      * @return self
      */
     public function setZip($zip)
     {
         $this->zip = $zip;
-
         return $this;
     }
+
+
 }
+

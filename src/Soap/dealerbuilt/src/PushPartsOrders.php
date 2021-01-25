@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushPartsOrders.
+ * Class representing PushPartsOrders
  */
 class PushPartsOrders
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType[] $partsOrders
      */
     private $partsOrders = null;
 
     /**
-     * Adds as partsOrderPushRequest.
+     * Adds as partsOrderPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType $partsOrderPushRequest
      */
-    public function addToPartsOrders(BaseApi\PartsOrderPushRequestType $partsOrderPushRequest)
+    public function addToPartsOrders(\App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType $partsOrderPushRequest)
     {
         $this->partsOrders[] = $partsOrderPushRequest;
-
         return $this;
     }
 
     /**
-     * isset partsOrders.
+     * isset partsOrders
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsOrders($index)
@@ -39,10 +37,9 @@ class PushPartsOrders
     }
 
     /**
-     * unset partsOrders.
+     * unset partsOrders
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsOrders($index)
@@ -51,7 +48,7 @@ class PushPartsOrders
     }
 
     /**
-     * Gets as partsOrders.
+     * Gets as partsOrders
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushPartsOrders
     }
 
     /**
-     * Sets a new partsOrders.
+     * Sets a new partsOrders
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType[] $partsOrders
-     *
      * @return self
      */
     public function setPartsOrders(array $partsOrders)
     {
         $this->partsOrders = $partsOrders;
-
         return $this;
     }
+
+
 }
+

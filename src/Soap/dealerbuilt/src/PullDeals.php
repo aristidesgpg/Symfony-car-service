@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDeals.
+ * Class representing PullDeals
  */
 class PullDeals
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType $searchCriteria
      */
     private $searchCriteria = null;
 
     /**
-     * Gets as searchCriteria.
+     * Gets as searchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullDeals
     }
 
     /**
-     * Sets a new searchCriteria.
+     * Sets a new searchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType $searchCriteria
-     *
      * @return self
      */
-    public function setSearchCriteria(BaseApi\DealSearchCriteriaType $searchCriteria)
+    public function setSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType $searchCriteria)
     {
         $this->searchCriteria = $searchCriteria;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfCustomerVehicle.
+ * Class representing ArrayOfCustomerVehicle
  */
 class ArrayOfCustomerVehicle extends ArrayOfCustomerVehicleType
 {
+
+
 }
+

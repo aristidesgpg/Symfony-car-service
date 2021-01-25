@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfCustomerPartType.
+ * Class representing ArrayOfCustomerPartType
  *
+ * 
  * XSD Type: ArrayOfCustomerPart
  */
 class ArrayOfCustomerPartType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[] $customerPart
      */
     private $customerPart = [
+        
     ];
 
     /**
-     * Adds as customerPart.
+     * Adds as customerPart
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType $customerPart
      */
-    public function addToCustomerPart(CustomerPartType $customerPart)
+    public function addToCustomerPart(\App\Soap\dealerbuilt\src\BaseApi\CustomerPartType $customerPart)
     {
         $this->customerPart[] = $customerPart;
-
         return $this;
     }
 
     /**
-     * isset customerPart.
+     * isset customerPart
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCustomerPart($index)
@@ -42,10 +42,9 @@ class ArrayOfCustomerPartType
     }
 
     /**
-     * unset customerPart.
+     * unset customerPart
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCustomerPart($index)
@@ -54,7 +53,7 @@ class ArrayOfCustomerPartType
     }
 
     /**
-     * Gets as customerPart.
+     * Gets as customerPart
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCustomerPartType
     }
 
     /**
-     * Sets a new customerPart.
+     * Sets a new customerPart
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[] $customerPart
-     *
      * @return self
      */
     public function setCustomerPart(array $customerPart)
     {
         $this->customerPart = $customerPart;
-
         return $this;
     }
+
+
 }
+

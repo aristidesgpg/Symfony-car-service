@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushDeferredLaborItemsResponse.
+ * Class representing PushDeferredLaborItemsResponse
  */
 class PushDeferredLaborItemsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[] $pushDeferredLaborItemsResult
      */
     private $pushDeferredLaborItemsResult = null;
 
     /**
-     * Adds as potentialLaborItemPushResponse.
+     * Adds as potentialLaborItemPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType $potentialLaborItemPushResponse
      */
-    public function addToPushDeferredLaborItemsResult(BaseApi\PotentialLaborItemPushResponseType $potentialLaborItemPushResponse)
+    public function addToPushDeferredLaborItemsResult(\App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType $potentialLaborItemPushResponse)
     {
         $this->pushDeferredLaborItemsResult[] = $potentialLaborItemPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushDeferredLaborItemsResult.
+     * isset pushDeferredLaborItemsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushDeferredLaborItemsResult($index)
@@ -39,10 +37,9 @@ class PushDeferredLaborItemsResponse
     }
 
     /**
-     * unset pushDeferredLaborItemsResult.
+     * unset pushDeferredLaborItemsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushDeferredLaborItemsResult($index)
@@ -51,7 +48,7 @@ class PushDeferredLaborItemsResponse
     }
 
     /**
-     * Gets as pushDeferredLaborItemsResult.
+     * Gets as pushDeferredLaborItemsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushDeferredLaborItemsResponse
     }
 
     /**
-     * Sets a new pushDeferredLaborItemsResult.
+     * Sets a new pushDeferredLaborItemsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[] $pushDeferredLaborItemsResult
-     *
      * @return self
      */
     public function setPushDeferredLaborItemsResult(array $pushDeferredLaborItemsResult)
     {
         $this->pushDeferredLaborItemsResult = $pushDeferredLaborItemsResult;
-
         return $this;
     }
+
+
 }
+

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCustomers.
+ * Class representing PushCustomers
  */
 class PushCustomers
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType[] $customers
      */
     private $customers = null;
 
     /**
-     * Adds as customerPushRequest.
+     * Adds as customerPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType $customerPushRequest
      */
-    public function addToCustomers(BaseApi\CustomerPushRequestType $customerPushRequest)
+    public function addToCustomers(\App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType $customerPushRequest)
     {
         $this->customers[] = $customerPushRequest;
-
         return $this;
     }
 
     /**
-     * isset customers.
+     * isset customers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCustomers($index)
@@ -39,10 +37,9 @@ class PushCustomers
     }
 
     /**
-     * unset customers.
+     * unset customers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCustomers($index)
@@ -51,7 +48,7 @@ class PushCustomers
     }
 
     /**
-     * Gets as customers.
+     * Gets as customers
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushCustomers
     }
 
     /**
-     * Sets a new customers.
+     * Sets a new customers
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType[] $customers
-     *
      * @return self
      */
     public function setCustomers(array $customers)
     {
         $this->customers = $customers;
-
         return $this;
     }
+
+
 }
+

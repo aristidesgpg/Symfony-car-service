@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumAddedDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumAddedDate
                 setter: setMaximumAddedDate
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumFirstSoldDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumFirstSoldDate
                 setter: setMaximumFirstSoldDate
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumLastReceiptDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumLastReceiptDate
                 setter: setMaximumLastReceiptDate
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumAddedDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumAddedDate
                 setter: setMinimumAddedDate
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumFirstSoldDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumFirstSoldDate
                 setter: setMinimumFirstSoldDate
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumLastReceiptDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumLastReceiptDate
                 setter: setMinimumLastReceiptDate
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: OnHandScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getOnHandScope
                 setter: setOnHandScope
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: PartialPartNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPartialPartNumber
                 setter: setPartialPartNumber
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
             access_type: public_method
             serialized_name: Vendor
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVendor
                 setter: setVendor

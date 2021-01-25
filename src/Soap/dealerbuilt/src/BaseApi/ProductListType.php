@@ -3,69 +3,70 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ProductListType.
+ * Class representing ProductListType
  *
+ * 
  * XSD Type: ProductList
  */
 class ProductListType extends ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\CostAddType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\CostAddType[] $costAdds
      */
     private $costAdds = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\HardAddType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\HardAddType[] $hardAdds
      */
     private $hardAdds = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType[] $incentives
      */
     private $incentives = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType[] $insuranceProducts
      */
     private $insuranceProducts = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType[] $protectionPackages
      */
     private $protectionPackages = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\RebateType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\RebateType[] $rebates
      */
     private $rebates = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType[] $serviceContracts
      */
     private $serviceContracts = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType[] $softAdds
      */
     private $softAdds = null;
 
     /**
-     * Adds as costAdd.
+     * Adds as costAdd
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\CostAddType $costAdd
      */
     public function addToCostAdds(\App\Soap\dealerbuilt\src\Models\Sales\CostAddType $costAdd)
     {
         $this->costAdds[] = $costAdd;
-
         return $this;
     }
 
     /**
-     * isset costAdds.
+     * isset costAdds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCostAdds($index)
@@ -74,10 +75,9 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * unset costAdds.
+     * unset costAdds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCostAdds($index)
@@ -86,7 +86,7 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Gets as costAdds.
+     * Gets as costAdds
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\CostAddType[]
      */
@@ -96,36 +96,33 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new costAdds.
+     * Sets a new costAdds
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\CostAddType[] $costAdds
-     *
      * @return self
      */
     public function setCostAdds(array $costAdds)
     {
         $this->costAdds = $costAdds;
-
         return $this;
     }
 
     /**
-     * Adds as hardAdd.
+     * Adds as hardAdd
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\HardAddType $hardAdd
      */
     public function addToHardAdds(\App\Soap\dealerbuilt\src\Models\Sales\HardAddType $hardAdd)
     {
         $this->hardAdds[] = $hardAdd;
-
         return $this;
     }
 
     /**
-     * isset hardAdds.
+     * isset hardAdds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetHardAdds($index)
@@ -134,10 +131,9 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * unset hardAdds.
+     * unset hardAdds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetHardAdds($index)
@@ -146,7 +142,7 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Gets as hardAdds.
+     * Gets as hardAdds
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\HardAddType[]
      */
@@ -156,36 +152,33 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new hardAdds.
+     * Sets a new hardAdds
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\HardAddType[] $hardAdds
-     *
      * @return self
      */
     public function setHardAdds(array $hardAdds)
     {
         $this->hardAdds = $hardAdds;
-
         return $this;
     }
 
     /**
-     * Adds as incentive.
+     * Adds as incentive
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType $incentive
      */
     public function addToIncentives(\App\Soap\dealerbuilt\src\Models\Sales\IncentiveType $incentive)
     {
         $this->incentives[] = $incentive;
-
         return $this;
     }
 
     /**
-     * isset incentives.
+     * isset incentives
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetIncentives($index)
@@ -194,10 +187,9 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * unset incentives.
+     * unset incentives
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetIncentives($index)
@@ -206,7 +198,7 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Gets as incentives.
+     * Gets as incentives
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType[]
      */
@@ -216,36 +208,33 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new incentives.
+     * Sets a new incentives
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType[] $incentives
-     *
      * @return self
      */
     public function setIncentives(array $incentives)
     {
         $this->incentives = $incentives;
-
         return $this;
     }
 
     /**
-     * Adds as insuranceProduct.
+     * Adds as insuranceProduct
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType $insuranceProduct
      */
     public function addToInsuranceProducts(\App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType $insuranceProduct)
     {
         $this->insuranceProducts[] = $insuranceProduct;
-
         return $this;
     }
 
     /**
-     * isset insuranceProducts.
+     * isset insuranceProducts
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInsuranceProducts($index)
@@ -254,10 +243,9 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * unset insuranceProducts.
+     * unset insuranceProducts
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInsuranceProducts($index)
@@ -266,7 +254,7 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Gets as insuranceProducts.
+     * Gets as insuranceProducts
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType[]
      */
@@ -276,36 +264,33 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new insuranceProducts.
+     * Sets a new insuranceProducts
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType[] $insuranceProducts
-     *
      * @return self
      */
     public function setInsuranceProducts(array $insuranceProducts)
     {
         $this->insuranceProducts = $insuranceProducts;
-
         return $this;
     }
 
     /**
-     * Adds as protectionPackage.
+     * Adds as protectionPackage
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType $protectionPackage
      */
     public function addToProtectionPackages(\App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType $protectionPackage)
     {
         $this->protectionPackages[] = $protectionPackage;
-
         return $this;
     }
 
     /**
-     * isset protectionPackages.
+     * isset protectionPackages
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetProtectionPackages($index)
@@ -314,10 +299,9 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * unset protectionPackages.
+     * unset protectionPackages
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetProtectionPackages($index)
@@ -326,7 +310,7 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Gets as protectionPackages.
+     * Gets as protectionPackages
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType[]
      */
@@ -336,36 +320,33 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new protectionPackages.
+     * Sets a new protectionPackages
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType[] $protectionPackages
-     *
      * @return self
      */
     public function setProtectionPackages(array $protectionPackages)
     {
         $this->protectionPackages = $protectionPackages;
-
         return $this;
     }
 
     /**
-     * Adds as rebate.
+     * Adds as rebate
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\RebateType $rebate
      */
     public function addToRebates(\App\Soap\dealerbuilt\src\Models\Sales\RebateType $rebate)
     {
         $this->rebates[] = $rebate;
-
         return $this;
     }
 
     /**
-     * isset rebates.
+     * isset rebates
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRebates($index)
@@ -374,10 +355,9 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * unset rebates.
+     * unset rebates
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRebates($index)
@@ -386,7 +366,7 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Gets as rebates.
+     * Gets as rebates
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\RebateType[]
      */
@@ -396,36 +376,33 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new rebates.
+     * Sets a new rebates
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\RebateType[] $rebates
-     *
      * @return self
      */
     public function setRebates(array $rebates)
     {
         $this->rebates = $rebates;
-
         return $this;
     }
 
     /**
-     * Adds as serviceContract.
+     * Adds as serviceContract
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType $serviceContract
      */
     public function addToServiceContracts(\App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType $serviceContract)
     {
         $this->serviceContracts[] = $serviceContract;
-
         return $this;
     }
 
     /**
-     * isset serviceContracts.
+     * isset serviceContracts
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceContracts($index)
@@ -434,10 +411,9 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * unset serviceContracts.
+     * unset serviceContracts
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceContracts($index)
@@ -446,7 +422,7 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Gets as serviceContracts.
+     * Gets as serviceContracts
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType[]
      */
@@ -456,36 +432,33 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new serviceContracts.
+     * Sets a new serviceContracts
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType[] $serviceContracts
-     *
      * @return self
      */
     public function setServiceContracts(array $serviceContracts)
     {
         $this->serviceContracts = $serviceContracts;
-
         return $this;
     }
 
     /**
-     * Adds as softAdd.
+     * Adds as softAdd
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType $softAdd
      */
     public function addToSoftAdds(\App\Soap\dealerbuilt\src\Models\Sales\SoftAddType $softAdd)
     {
         $this->softAdds[] = $softAdd;
-
         return $this;
     }
 
     /**
-     * isset softAdds.
+     * isset softAdds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSoftAdds($index)
@@ -494,10 +467,9 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * unset softAdds.
+     * unset softAdds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSoftAdds($index)
@@ -506,7 +478,7 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Gets as softAdds.
+     * Gets as softAdds
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType[]
      */
@@ -516,16 +488,17 @@ class ProductListType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new softAdds.
+     * Sets a new softAdds
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType[] $softAdds
-     *
      * @return self
      */
     public function setSoftAdds(array $softAdds)
     {
         $this->softAdds = $softAdds;
-
         return $this;
     }
+
+
 }
+

@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing LeaseLicensingFeeType.
+ * Class representing LeaseLicensingFeeType
  *
+ * 
  * XSD Type: LeaseLicensingFee
  */
 class LeaseLicensingFeeType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $fee
      */
     private $fee = null;
 
     /**
-     * @var string
+     * @var string $feeType
      */
     private $feeType = null;
 
     /**
-     * Gets as fee.
+     * Gets as fee
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -30,19 +32,19 @@ class LeaseLicensingFeeType
     }
 
     /**
-     * Sets a new fee.
+     * Sets a new fee
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $fee
      * @return self
      */
     public function setFee(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $fee)
     {
         $this->fee = $fee;
-
         return $this;
     }
 
     /**
-     * Gets as feeType.
+     * Gets as feeType
      *
      * @return string
      */
@@ -52,16 +54,17 @@ class LeaseLicensingFeeType
     }
 
     /**
-     * Sets a new feeType.
+     * Sets a new feeType
      *
      * @param string $feeType
-     *
      * @return self
      */
     public function setFeeType($feeType)
     {
         $this->feeType = $feeType;
-
         return $this;
     }
+
+
 }
+

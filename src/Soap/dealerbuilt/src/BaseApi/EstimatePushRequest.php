@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing EstimatePushRequest.
+ * Class representing EstimatePushRequest
  */
 class EstimatePushRequest extends EstimatePushRequestType
 {
+
+
 }
+

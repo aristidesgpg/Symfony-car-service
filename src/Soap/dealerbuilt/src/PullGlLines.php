@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullGlLines.
+ * Class representing PullGlLines
  */
 class PullGlLines
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType $searchCriteria
      */
     private $searchCriteria = null;
 
     /**
-     * Gets as searchCriteria.
+     * Gets as searchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullGlLines
     }
 
     /**
-     * Sets a new searchCriteria.
+     * Sets a new searchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType $searchCriteria
-     *
      * @return self
      */
-    public function setSearchCriteria(BaseApi\GlLineSearchCriteriaType $searchCriteria)
+    public function setSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType $searchCriteria)
     {
         $this->searchCriteria = $searchCriteria;
-
         return $this;
     }
+
+
 }
+

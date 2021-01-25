@@ -3,54 +3,56 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsOrderSearchCriteriaType.
+ * Class representing PartsOrderSearchCriteriaType
  *
+ * 
  * XSD Type: PartsOrderSearchCriteria
  */
 class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $maxOrderDate
      */
     private $maxOrderDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumCloseDate
      */
     private $maximumCloseDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minOrderDate
      */
     private $minOrderDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $mininumCloseDate
      */
     private $mininumCloseDate = null;
 
     /**
-     * @var string
+     * @var string $openScope
      */
     private $openScope = null;
 
     /**
-     * @var string
+     * @var string $orderTransmissionScope
      */
     private $orderTransmissionScope = null;
 
     /**
-     * @var string
+     * @var string $specialOrderScope
      */
     private $specialOrderScope = null;
 
     /**
-     * @var string[]
+     * @var string[] $vendorCodes
      */
     private $vendorCodes = null;
 
     /**
-     * Gets as maxOrderDate.
+     * Gets as maxOrderDate
      *
      * @return \DateTime
      */
@@ -60,19 +62,19 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new maxOrderDate.
+     * Sets a new maxOrderDate
      *
+     * @param \DateTime $maxOrderDate
      * @return self
      */
     public function setMaxOrderDate(\DateTime $maxOrderDate)
     {
         $this->maxOrderDate = $maxOrderDate;
-
         return $this;
     }
 
     /**
-     * Gets as maximumCloseDate.
+     * Gets as maximumCloseDate
      *
      * @return \DateTime
      */
@@ -82,19 +84,19 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new maximumCloseDate.
+     * Sets a new maximumCloseDate
      *
+     * @param \DateTime $maximumCloseDate
      * @return self
      */
     public function setMaximumCloseDate(\DateTime $maximumCloseDate)
     {
         $this->maximumCloseDate = $maximumCloseDate;
-
         return $this;
     }
 
     /**
-     * Gets as minOrderDate.
+     * Gets as minOrderDate
      *
      * @return \DateTime
      */
@@ -104,19 +106,19 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new minOrderDate.
+     * Sets a new minOrderDate
      *
+     * @param \DateTime $minOrderDate
      * @return self
      */
     public function setMinOrderDate(\DateTime $minOrderDate)
     {
         $this->minOrderDate = $minOrderDate;
-
         return $this;
     }
 
     /**
-     * Gets as mininumCloseDate.
+     * Gets as mininumCloseDate
      *
      * @return \DateTime
      */
@@ -126,19 +128,19 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new mininumCloseDate.
+     * Sets a new mininumCloseDate
      *
+     * @param \DateTime $mininumCloseDate
      * @return self
      */
     public function setMininumCloseDate(\DateTime $mininumCloseDate)
     {
         $this->mininumCloseDate = $mininumCloseDate;
-
         return $this;
     }
 
     /**
-     * Gets as openScope.
+     * Gets as openScope
      *
      * @return string
      */
@@ -148,21 +150,19 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new openScope.
+     * Sets a new openScope
      *
      * @param string $openScope
-     *
      * @return self
      */
     public function setOpenScope($openScope)
     {
         $this->openScope = $openScope;
-
         return $this;
     }
 
     /**
-     * Gets as orderTransmissionScope.
+     * Gets as orderTransmissionScope
      *
      * @return string
      */
@@ -172,21 +172,19 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new orderTransmissionScope.
+     * Sets a new orderTransmissionScope
      *
      * @param string $orderTransmissionScope
-     *
      * @return self
      */
     public function setOrderTransmissionScope($orderTransmissionScope)
     {
         $this->orderTransmissionScope = $orderTransmissionScope;
-
         return $this;
     }
 
     /**
-     * Gets as specialOrderScope.
+     * Gets as specialOrderScope
      *
      * @return string
      */
@@ -196,38 +194,33 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new specialOrderScope.
+     * Sets a new specialOrderScope
      *
      * @param string $specialOrderScope
-     *
      * @return self
      */
     public function setSpecialOrderScope($specialOrderScope)
     {
         $this->specialOrderScope = $specialOrderScope;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToVendorCodes($string)
     {
         $this->vendorCodes[] = $string;
-
         return $this;
     }
 
     /**
-     * isset vendorCodes.
+     * isset vendorCodes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVendorCodes($index)
@@ -236,10 +229,9 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * unset vendorCodes.
+     * unset vendorCodes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVendorCodes($index)
@@ -248,7 +240,7 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Gets as vendorCodes.
+     * Gets as vendorCodes
      *
      * @return string[]
      */
@@ -258,16 +250,17 @@ class PartsOrderSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new vendorCodes.
+     * Sets a new vendorCodes
      *
      * @param string[] $vendorCodes
-     *
      * @return self
      */
     public function setVendorCodes(array $vendorCodes)
     {
         $this->vendorCodes = $vendorCodes;
-
         return $this;
     }
+
+
 }
+

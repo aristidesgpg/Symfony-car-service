@@ -1,6 +1,6 @@
 App\Soap\dealerbuilt\src\Models\Accounting\ControlTypeEnum:
     xml_root_name: ControlTypeEnum
-    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
     properties:
         __value:
             expose: true

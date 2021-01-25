@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\BaseApi\ArrayOfStockItemPushRequestType:
             access_type: public_method
             serialized_name: StockItemPushRequest
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStockItemPushRequest
                 setter: setStockItemPushRequest
             xml_list:
                 inline: true
                 entry_name: StockItemPushRequest
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             type: array<App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType>

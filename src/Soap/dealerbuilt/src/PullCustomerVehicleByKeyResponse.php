@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerVehicleByKeyResponse.
+ * Class representing PullCustomerVehicleByKeyResponse
  */
 class PullCustomerVehicleByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $pullCustomerVehicleByKeyResult
      */
     private $pullCustomerVehicleByKeyResult = null;
 
     /**
-     * Gets as pullCustomerVehicleByKeyResult.
+     * Gets as pullCustomerVehicleByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
      */
@@ -23,16 +24,17 @@ class PullCustomerVehicleByKeyResponse
     }
 
     /**
-     * Sets a new pullCustomerVehicleByKeyResult.
+     * Sets a new pullCustomerVehicleByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $pullCustomerVehicleByKeyResult
-     *
      * @return self
      */
-    public function setPullCustomerVehicleByKeyResult(BaseApi\CustomerVehicleType $pullCustomerVehicleByKeyResult)
+    public function setPullCustomerVehicleByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $pullCustomerVehicleByKeyResult)
     {
         $this->pullCustomerVehicleByKeyResult = $pullCustomerVehicleByKeyResult;
-
         return $this;
     }
+
+
 }
+

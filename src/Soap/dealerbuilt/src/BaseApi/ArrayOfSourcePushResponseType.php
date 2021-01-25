@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfSourcePushResponseType.
+ * Class representing ArrayOfSourcePushResponseType
  *
+ * 
  * XSD Type: ArrayOfSourcePushResponse
  */
 class ArrayOfSourcePushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[] $sourcePushResponse
      */
     private $sourcePushResponse = [
+        
     ];
 
     /**
-     * Adds as sourcePushResponse.
+     * Adds as sourcePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType $sourcePushResponse
      */
-    public function addToSourcePushResponse(SourcePushResponseType $sourcePushResponse)
+    public function addToSourcePushResponse(\App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType $sourcePushResponse)
     {
         $this->sourcePushResponse[] = $sourcePushResponse;
-
         return $this;
     }
 
     /**
-     * isset sourcePushResponse.
+     * isset sourcePushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSourcePushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfSourcePushResponseType
     }
 
     /**
-     * unset sourcePushResponse.
+     * unset sourcePushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSourcePushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfSourcePushResponseType
     }
 
     /**
-     * Gets as sourcePushResponse.
+     * Gets as sourcePushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfSourcePushResponseType
     }
 
     /**
-     * Sets a new sourcePushResponse.
+     * Sets a new sourcePushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[] $sourcePushResponse
-     *
      * @return self
      */
     public function setSourcePushResponse(array $sourcePushResponse)
     {
         $this->sourcePushResponse = $sourcePushResponse;
-
         return $this;
     }
+
+
 }
+

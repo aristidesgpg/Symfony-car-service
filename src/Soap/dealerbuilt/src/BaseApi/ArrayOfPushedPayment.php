@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPushedPayment.
+ * Class representing ArrayOfPushedPayment
  */
 class ArrayOfPushedPayment extends ArrayOfPushedPaymentType
 {
+
+
 }
+

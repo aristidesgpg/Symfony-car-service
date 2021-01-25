@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing BuyFeeCollection.
+ * Class representing BuyFeeCollection
  */
 class BuyFeeCollection extends BuyFeeCollectionType
 {
+
+
 }
+

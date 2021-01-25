@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationTransactionResponseType.
+ * Class representing ServiceLocationTransactionResponseType
  *
+ * 
  * XSD Type: ServiceLocationTransactionResponse
  */
 class ServiceLocationTransactionResponseType extends TransactionResponseType
 {
+
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -25,16 +27,17 @@ class ServiceLocationTransactionResponseType extends TransactionResponseType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

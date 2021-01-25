@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullEstimatesResponse.
+ * Class representing PullEstimatesResponse
  */
 class PullEstimatesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateType[] $pullEstimatesResult
      */
     private $pullEstimatesResult = null;
 
     /**
-     * Adds as estimate.
+     * Adds as estimate
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateType $estimate
      */
-    public function addToPullEstimatesResult(BaseApi\EstimateType $estimate)
+    public function addToPullEstimatesResult(\App\Soap\dealerbuilt\src\BaseApi\EstimateType $estimate)
     {
         $this->pullEstimatesResult[] = $estimate;
-
         return $this;
     }
 
     /**
-     * isset pullEstimatesResult.
+     * isset pullEstimatesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullEstimatesResult($index)
@@ -39,10 +37,9 @@ class PullEstimatesResponse
     }
 
     /**
-     * unset pullEstimatesResult.
+     * unset pullEstimatesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullEstimatesResult($index)
@@ -51,7 +48,7 @@ class PullEstimatesResponse
     }
 
     /**
-     * Gets as pullEstimatesResult.
+     * Gets as pullEstimatesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateType[]
      */
@@ -61,16 +58,17 @@ class PullEstimatesResponse
     }
 
     /**
-     * Sets a new pullEstimatesResult.
+     * Sets a new pullEstimatesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateType[] $pullEstimatesResult
-     *
      * @return self
      */
     public function setPullEstimatesResult(array $pullEstimatesResult)
     {
         $this->pullEstimatesResult = $pullEstimatesResult;
-
         return $this;
     }
+
+
 }
+

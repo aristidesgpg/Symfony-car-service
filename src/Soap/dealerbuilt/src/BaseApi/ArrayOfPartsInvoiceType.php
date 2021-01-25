@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPartsInvoiceType.
+ * Class representing ArrayOfPartsInvoiceType
  *
+ * 
  * XSD Type: ArrayOfPartsInvoice
  */
 class ArrayOfPartsInvoiceType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[] $partsInvoice
      */
     private $partsInvoice = [
+        
     ];
 
     /**
-     * Adds as partsInvoice.
+     * Adds as partsInvoice
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $partsInvoice
      */
-    public function addToPartsInvoice(PartsInvoiceType $partsInvoice)
+    public function addToPartsInvoice(\App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $partsInvoice)
     {
         $this->partsInvoice[] = $partsInvoice;
-
         return $this;
     }
 
     /**
-     * isset partsInvoice.
+     * isset partsInvoice
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsInvoice($index)
@@ -42,10 +42,9 @@ class ArrayOfPartsInvoiceType
     }
 
     /**
-     * unset partsInvoice.
+     * unset partsInvoice
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsInvoice($index)
@@ -54,7 +53,7 @@ class ArrayOfPartsInvoiceType
     }
 
     /**
-     * Gets as partsInvoice.
+     * Gets as partsInvoice
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPartsInvoiceType
     }
 
     /**
-     * Sets a new partsInvoice.
+     * Sets a new partsInvoice
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[] $partsInvoice
-     *
      * @return self
      */
     public function setPartsInvoice(array $partsInvoice)
     {
         $this->partsInvoice = $partsInvoice;
-
         return $this;
     }
+
+
 }
+

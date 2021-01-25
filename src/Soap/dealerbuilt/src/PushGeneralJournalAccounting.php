@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushGeneralJournalAccounting.
+ * Class representing PushGeneralJournalAccounting
  */
 class PushGeneralJournalAccounting
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePushType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePushType $request
      */
     private $request = null;
 
     /**
-     * Gets as request.
+     * Gets as request
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StorePushType
      */
@@ -23,16 +24,17 @@ class PushGeneralJournalAccounting
     }
 
     /**
-     * Sets a new request.
+     * Sets a new request
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePushType $request
-     *
      * @return self
      */
-    public function setRequest(BaseApi\StorePushType $request)
+    public function setRequest(\App\Soap\dealerbuilt\src\BaseApi\StorePushType $request)
     {
         $this->request = $request;
-
         return $this;
     }
+
+
 }
+

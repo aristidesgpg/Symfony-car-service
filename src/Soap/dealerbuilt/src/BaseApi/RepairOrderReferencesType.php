@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderReferencesType.
+ * Class representing RepairOrderReferencesType
  *
+ * 
  * XSD Type: RepairOrderReferences
  */
 class RepairOrderReferencesType
 {
+
     /**
-     * @var string
+     * @var string $appointmentKey
      */
     private $appointmentKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentType[] $payments
      */
     private $payments = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType $rOCustomer
      */
     private $rOCustomer = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $rOVehicle
      */
     private $rOVehicle = null;
 
     /**
-     * Gets as appointmentKey.
+     * Gets as appointmentKey
      *
      * @return string
      */
@@ -40,38 +42,33 @@ class RepairOrderReferencesType
     }
 
     /**
-     * Sets a new appointmentKey.
+     * Sets a new appointmentKey
      *
      * @param string $appointmentKey
-     *
      * @return self
      */
     public function setAppointmentKey($appointmentKey)
     {
         $this->appointmentKey = $appointmentKey;
-
         return $this;
     }
 
     /**
-     * Adds as payment.
+     * Adds as payment
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentType $payment
      */
-    public function addToPayments(PaymentType $payment)
+    public function addToPayments(\App\Soap\dealerbuilt\src\BaseApi\PaymentType $payment)
     {
         $this->payments[] = $payment;
-
         return $this;
     }
 
     /**
-     * isset payments.
+     * isset payments
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPayments($index)
@@ -80,10 +77,9 @@ class RepairOrderReferencesType
     }
 
     /**
-     * unset payments.
+     * unset payments
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPayments($index)
@@ -92,7 +88,7 @@ class RepairOrderReferencesType
     }
 
     /**
-     * Gets as payments.
+     * Gets as payments
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentType[]
      */
@@ -102,21 +98,19 @@ class RepairOrderReferencesType
     }
 
     /**
-     * Sets a new payments.
+     * Sets a new payments
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentType[] $payments
-     *
      * @return self
      */
     public function setPayments(array $payments)
     {
         $this->payments = $payments;
-
         return $this;
     }
 
     /**
-     * Gets as rOCustomer.
+     * Gets as rOCustomer
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerType
      */
@@ -126,21 +120,19 @@ class RepairOrderReferencesType
     }
 
     /**
-     * Sets a new rOCustomer.
+     * Sets a new rOCustomer
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType $rOCustomer
-     *
      * @return self
      */
-    public function setROCustomer(CustomerType $rOCustomer)
+    public function setROCustomer(\App\Soap\dealerbuilt\src\BaseApi\CustomerType $rOCustomer)
     {
         $this->rOCustomer = $rOCustomer;
-
         return $this;
     }
 
     /**
-     * Gets as rOVehicle.
+     * Gets as rOVehicle
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
      */
@@ -150,16 +142,17 @@ class RepairOrderReferencesType
     }
 
     /**
-     * Sets a new rOVehicle.
+     * Sets a new rOVehicle
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $rOVehicle
-     *
      * @return self
      */
-    public function setROVehicle(CustomerVehicleType $rOVehicle)
+    public function setROVehicle(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $rOVehicle)
     {
         $this->rOVehicle = $rOVehicle;
-
         return $this;
     }
+
+
 }
+

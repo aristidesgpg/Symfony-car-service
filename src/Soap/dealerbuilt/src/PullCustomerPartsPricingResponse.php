@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerPartsPricingResponse.
+ * Class representing PullCustomerPartsPricingResponse
  */
 class PullCustomerPartsPricingResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[] $pullCustomerPartsPricingResult
      */
     private $pullCustomerPartsPricingResult = null;
 
     /**
-     * Adds as customerPart.
+     * Adds as customerPart
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType $customerPart
      */
-    public function addToPullCustomerPartsPricingResult(BaseApi\CustomerPartType $customerPart)
+    public function addToPullCustomerPartsPricingResult(\App\Soap\dealerbuilt\src\BaseApi\CustomerPartType $customerPart)
     {
         $this->pullCustomerPartsPricingResult[] = $customerPart;
-
         return $this;
     }
 
     /**
-     * isset pullCustomerPartsPricingResult.
+     * isset pullCustomerPartsPricingResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullCustomerPartsPricingResult($index)
@@ -39,10 +37,9 @@ class PullCustomerPartsPricingResponse
     }
 
     /**
-     * unset pullCustomerPartsPricingResult.
+     * unset pullCustomerPartsPricingResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullCustomerPartsPricingResult($index)
@@ -51,7 +48,7 @@ class PullCustomerPartsPricingResponse
     }
 
     /**
-     * Gets as pullCustomerPartsPricingResult.
+     * Gets as pullCustomerPartsPricingResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[]
      */
@@ -61,16 +58,17 @@ class PullCustomerPartsPricingResponse
     }
 
     /**
-     * Sets a new pullCustomerPartsPricingResult.
+     * Sets a new pullCustomerPartsPricingResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[] $pullCustomerPartsPricingResult
-     *
      * @return self
      */
     public function setPullCustomerPartsPricingResult(array $pullCustomerPartsPricingResult)
     {
         $this->pullCustomerPartsPricingResult = $pullCustomerPartsPricingResult;
-
         return $this;
     }
+
+
 }
+

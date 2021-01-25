@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPartsOrder.
+ * Class representing ArrayOfPartsOrder
  */
 class ArrayOfPartsOrder extends ArrayOfPartsOrderType
 {
+
+
 }
+

@@ -41,7 +41,6 @@ services:
   App\Service\ShortUrlHelper:
     arguments:
       - '%env(SHORT_URL_ACCESS_TOKEN)%'
-  Twilio\Rest\Client:
   App\Service\SpacesClient:
     arguments:
       - '%env(CUSTOMER_URL)%'

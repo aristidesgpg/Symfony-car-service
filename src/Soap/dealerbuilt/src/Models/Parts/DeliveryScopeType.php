@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing DeliveryScopeType.
+ * Class representing DeliveryScopeType
  */
 class DeliveryScopeType
 {
+
     /**
-     * @var string
+     * @var string $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param string $value
      */
@@ -23,10 +24,9 @@ class DeliveryScopeType
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param string $value
-     *
      * @return string
      */
     public function value()
@@ -34,12 +34,11 @@ class DeliveryScopeType
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class DeliveryScopeType
     {
         return strval($this->__value);
     }
+
+
 }
+

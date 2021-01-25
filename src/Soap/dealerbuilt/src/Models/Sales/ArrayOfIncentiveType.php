@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfIncentiveType.
+ * Class representing ArrayOfIncentiveType
  *
+ * 
  * XSD Type: ArrayOfIncentive
  */
 class ArrayOfIncentiveType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType[] $incentive
      */
     private $incentive = [
+        
     ];
 
     /**
-     * Adds as incentive.
+     * Adds as incentive
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType $incentive
      */
-    public function addToIncentive(IncentiveType $incentive)
+    public function addToIncentive(\App\Soap\dealerbuilt\src\Models\Sales\IncentiveType $incentive)
     {
         $this->incentive[] = $incentive;
-
         return $this;
     }
 
     /**
-     * isset incentive.
+     * isset incentive
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetIncentive($index)
@@ -42,10 +42,9 @@ class ArrayOfIncentiveType
     }
 
     /**
-     * unset incentive.
+     * unset incentive
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetIncentive($index)
@@ -54,7 +53,7 @@ class ArrayOfIncentiveType
     }
 
     /**
-     * Gets as incentive.
+     * Gets as incentive
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfIncentiveType
     }
 
     /**
-     * Sets a new incentive.
+     * Sets a new incentive
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\IncentiveType[] $incentive
-     *
      * @return self
      */
     public function setIncentive(array $incentive)
     {
         $this->incentive = $incentive;
-
         return $this;
     }
+
+
 }
+

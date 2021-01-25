@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationsSearchCriteriaType.
+ * Class representing ServiceLocationsSearchCriteriaType
  *
+ * 
  * XSD Type: ServiceLocationsSearchCriteria
  */
 class ServiceLocationsSearchCriteriaType extends SearchCriteriaType
 {
+
     /**
-     * @var int[]
+     * @var int[] $serviceLocationIds
      */
     private $serviceLocationIds = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToServiceLocationIds($long)
     {
         $this->serviceLocationIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset serviceLocationIds.
+     * isset serviceLocationIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceLocationIds($index)
@@ -41,10 +40,9 @@ class ServiceLocationsSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * unset serviceLocationIds.
+     * unset serviceLocationIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceLocationIds($index)
@@ -53,7 +51,7 @@ class ServiceLocationsSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Gets as serviceLocationIds.
+     * Gets as serviceLocationIds
      *
      * @return int[]
      */
@@ -63,16 +61,17 @@ class ServiceLocationsSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new serviceLocationIds.
+     * Sets a new serviceLocationIds
      *
      * @param int[] $serviceLocationIds
-     *
      * @return self
      */
     public function setServiceLocationIds(array $serviceLocationIds)
     {
         $this->serviceLocationIds = $serviceLocationIds;
-
         return $this;
     }
+
+
 }
+

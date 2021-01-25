@@ -3,259 +3,261 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing InventoryPartAttributesType.
+ * Class representing InventoryPartAttributesType
  *
+ * 
  * XSD Type: InventoryPartAttributes
  */
 class InventoryPartAttributesType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $addedDate
      */
     private $addedDate = null;
 
     /**
-     * @var float
+     * @var float $backorderedQuantity
      */
     private $backorderedQuantity = null;
 
     /**
-     * @var float
+     * @var float $bestStockingLevel
      */
     private $bestStockingLevel = null;
 
     /**
-     * @var string[]
+     * @var string[] $bins
      */
     private $bins = null;
 
     /**
-     * @var float
+     * @var float $cTQuantitySoldMonthToDate
      */
     private $cTQuantitySoldMonthToDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $coreCost
      */
     private $coreCost = null;
 
     /**
-     * @var float
+     * @var float $coreQuantity
      */
     private $coreQuantity = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var int
+     * @var int $dealerPartId
      */
     private $dealerPartId = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var bool
+     * @var bool $factoryControlled
      */
     private $factoryControlled = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $inventoryStamp
      */
     private $inventoryStamp = null;
 
     /**
-     * @var string[]
+     * @var string[] $inventorySupercessionChain
      */
     private $inventorySupercessionChain = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $lastPhysicalInventoryDate
      */
     private $lastPhysicalInventoryDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $lastReceiptDate
      */
     private $lastReceiptDate = null;
 
     /**
-     * @var float
+     * @var float $lastReceiptQuantity
      */
     private $lastReceiptQuantity = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $lastSoldDate
      */
     private $lastSoldDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $listPrice
      */
     private $listPrice = null;
 
     /**
-     * @var float
+     * @var float $maximumOnHandQuantity
      */
     private $maximumOnHandQuantity = null;
 
     /**
-     * @var float
+     * @var float $minimumOnHandQuantity
      */
     private $minimumOnHandQuantity = null;
 
     /**
-     * @var int
+     * @var int $monthsWithoutSale
      */
     private $monthsWithoutSale = null;
 
     /**
-     * @var float
+     * @var float $onHandQuantity
      */
     private $onHandQuantity = null;
 
     /**
-     * @var float
+     * @var float $onHoldQuantity
      */
     private $onHoldQuantity = null;
 
     /**
-     * @var float
+     * @var float $onOrderQuantity
      */
     private $onOrderQuantity = null;
 
     /**
-     * @var float
+     * @var float $packQuantity
      */
     private $packQuantity = null;
 
     /**
-     * @var string
+     * @var string $partNumber
      */
     private $partNumber = null;
 
     /**
-     * @var string
+     * @var string $partNumberFormatted
      */
     private $partNumberFormatted = null;
 
     /**
-     * @var float
+     * @var float $quantityLostMonthToDate
      */
     private $quantityLostMonthToDate = null;
 
     /**
-     * @var float[]
+     * @var float[] $quantityLostPerMonth
      */
     private $quantityLostPerMonth = null;
 
     /**
-     * @var float
+     * @var float $quantityLostToday
      */
     private $quantityLostToday = null;
 
     /**
-     * @var float
+     * @var float $quantityReturnedMonthToDate
      */
     private $quantityReturnedMonthToDate = null;
 
     /**
-     * @var float
+     * @var float $quantityReturnedToday
      */
     private $quantityReturnedToday = null;
 
     /**
-     * @var float
+     * @var float $quantitySoldMonthToDate
      */
     private $quantitySoldMonthToDate = null;
 
     /**
-     * @var float[]
+     * @var float[] $quantitySoldPerMonth
      */
     private $quantitySoldPerMonth = null;
 
     /**
-     * @var float
+     * @var float $quantitySoldToday
      */
     private $quantitySoldToday = null;
 
     /**
-     * @var float
+     * @var float $rOQuantitySoldMonthToDate
      */
     private $rOQuantitySoldMonthToDate = null;
 
     /**
-     * @var float
+     * @var float $receiptQuantityMonthToDate
      */
     private $receiptQuantityMonthToDate = null;
 
     /**
-     * @var string
+     * @var string $remarks
      */
     private $remarks = null;
 
     /**
-     * @var float
+     * @var float $reorderPoint
      */
     private $reorderPoint = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $retailPrice
      */
     private $retailPrice = null;
 
     /**
-     * @var string
+     * @var string $source
      */
     private $source = null;
 
     /**
-     * @var string
+     * @var string $stockingStatus
      */
     private $stockingStatus = null;
 
     /**
-     * @var string
+     * @var string $supercededByVendorPartNumber
      */
     private $supercededByVendorPartNumber = null;
 
     /**
-     * @var string
+     * @var string $supercedesVendorPartNumber
      */
     private $supercedesVendorPartNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tradePrice
      */
     private $tradePrice = null;
 
     /**
-     * @var float
+     * @var float $twelveMonthLostQuantity
      */
     private $twelveMonthLostQuantity = null;
 
     /**
-     * @var float
+     * @var float $twelveMonthSalesQuantity
      */
     private $twelveMonthSalesQuantity = null;
 
     /**
-     * @var string
+     * @var string $vendor
      */
     private $vendor = null;
 
     /**
-     * @var string[]
+     * @var string[] $vendorSupercessionChain
      */
     private $vendorSupercessionChain = null;
 
     /**
-     * Gets as addedDate.
+     * Gets as addedDate
      *
      * @return \DateTime
      */
@@ -265,21 +267,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new addedDate.
+     * Sets a new addedDate
      *
      * @param \DateTime $addedDate
-     *
      * @return self
      */
     public function setAddedDate(\DateTime $addedDate = null)
     {
         $this->addedDate = $addedDate;
-
         return $this;
     }
 
     /**
-     * Gets as backorderedQuantity.
+     * Gets as backorderedQuantity
      *
      * @return float
      */
@@ -289,21 +289,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new backorderedQuantity.
+     * Sets a new backorderedQuantity
      *
      * @param float $backorderedQuantity
-     *
      * @return self
      */
     public function setBackorderedQuantity($backorderedQuantity)
     {
         $this->backorderedQuantity = $backorderedQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as bestStockingLevel.
+     * Gets as bestStockingLevel
      *
      * @return float
      */
@@ -313,38 +311,33 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new bestStockingLevel.
+     * Sets a new bestStockingLevel
      *
      * @param float $bestStockingLevel
-     *
      * @return self
      */
     public function setBestStockingLevel($bestStockingLevel)
     {
         $this->bestStockingLevel = $bestStockingLevel;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToBins($string)
     {
         $this->bins[] = $string;
-
         return $this;
     }
 
     /**
-     * isset bins.
+     * isset bins
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetBins($index)
@@ -353,10 +346,9 @@ class InventoryPartAttributesType
     }
 
     /**
-     * unset bins.
+     * unset bins
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetBins($index)
@@ -365,7 +357,7 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Gets as bins.
+     * Gets as bins
      *
      * @return string[]
      */
@@ -375,21 +367,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new bins.
+     * Sets a new bins
      *
      * @param string[] $bins
-     *
      * @return self
      */
     public function setBins(array $bins = null)
     {
         $this->bins = $bins;
-
         return $this;
     }
 
     /**
-     * Gets as cTQuantitySoldMonthToDate.
+     * Gets as cTQuantitySoldMonthToDate
      *
      * @return float
      */
@@ -399,21 +389,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new cTQuantitySoldMonthToDate.
+     * Sets a new cTQuantitySoldMonthToDate
      *
      * @param float $cTQuantitySoldMonthToDate
-     *
      * @return self
      */
     public function setCTQuantitySoldMonthToDate($cTQuantitySoldMonthToDate)
     {
         $this->cTQuantitySoldMonthToDate = $cTQuantitySoldMonthToDate;
-
         return $this;
     }
 
     /**
-     * Gets as coreCost.
+     * Gets as coreCost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -423,19 +411,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new coreCost.
+     * Sets a new coreCost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $coreCost
      * @return self
      */
     public function setCoreCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $coreCost)
     {
         $this->coreCost = $coreCost;
-
         return $this;
     }
 
     /**
-     * Gets as coreQuantity.
+     * Gets as coreQuantity
      *
      * @return float
      */
@@ -445,21 +433,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new coreQuantity.
+     * Sets a new coreQuantity
      *
      * @param float $coreQuantity
-     *
      * @return self
      */
     public function setCoreQuantity($coreQuantity)
     {
         $this->coreQuantity = $coreQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -469,19 +455,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as dealerPartId.
+     * Gets as dealerPartId
      *
      * @return int
      */
@@ -491,21 +477,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new dealerPartId.
+     * Sets a new dealerPartId
      *
      * @param int $dealerPartId
-     *
      * @return self
      */
     public function setDealerPartId($dealerPartId)
     {
         $this->dealerPartId = $dealerPartId;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -515,21 +499,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as factoryControlled.
+     * Gets as factoryControlled
      *
      * @return bool
      */
@@ -539,21 +521,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new factoryControlled.
+     * Sets a new factoryControlled
      *
      * @param bool $factoryControlled
-     *
      * @return self
      */
     public function setFactoryControlled($factoryControlled)
     {
         $this->factoryControlled = $factoryControlled;
-
         return $this;
     }
 
     /**
-     * Gets as inventoryStamp.
+     * Gets as inventoryStamp
      *
      * @return \DateTime
      */
@@ -563,38 +543,33 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new inventoryStamp.
+     * Sets a new inventoryStamp
      *
      * @param \DateTime $inventoryStamp
-     *
      * @return self
      */
     public function setInventoryStamp(\DateTime $inventoryStamp = null)
     {
         $this->inventoryStamp = $inventoryStamp;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToInventorySupercessionChain($string)
     {
         $this->inventorySupercessionChain[] = $string;
-
         return $this;
     }
 
     /**
-     * isset inventorySupercessionChain.
+     * isset inventorySupercessionChain
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInventorySupercessionChain($index)
@@ -603,10 +578,9 @@ class InventoryPartAttributesType
     }
 
     /**
-     * unset inventorySupercessionChain.
+     * unset inventorySupercessionChain
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInventorySupercessionChain($index)
@@ -615,7 +589,7 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Gets as inventorySupercessionChain.
+     * Gets as inventorySupercessionChain
      *
      * @return string[]
      */
@@ -625,21 +599,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new inventorySupercessionChain.
+     * Sets a new inventorySupercessionChain
      *
      * @param string[] $inventorySupercessionChain
-     *
      * @return self
      */
     public function setInventorySupercessionChain(array $inventorySupercessionChain)
     {
         $this->inventorySupercessionChain = $inventorySupercessionChain;
-
         return $this;
     }
 
     /**
-     * Gets as lastPhysicalInventoryDate.
+     * Gets as lastPhysicalInventoryDate
      *
      * @return \DateTime
      */
@@ -649,21 +621,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new lastPhysicalInventoryDate.
+     * Sets a new lastPhysicalInventoryDate
      *
      * @param \DateTime $lastPhysicalInventoryDate
-     *
      * @return self
      */
     public function setLastPhysicalInventoryDate(\DateTime $lastPhysicalInventoryDate = null)
     {
         $this->lastPhysicalInventoryDate = $lastPhysicalInventoryDate;
-
         return $this;
     }
 
     /**
-     * Gets as lastReceiptDate.
+     * Gets as lastReceiptDate
      *
      * @return \DateTime
      */
@@ -673,21 +643,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new lastReceiptDate.
+     * Sets a new lastReceiptDate
      *
      * @param \DateTime $lastReceiptDate
-     *
      * @return self
      */
     public function setLastReceiptDate(\DateTime $lastReceiptDate = null)
     {
         $this->lastReceiptDate = $lastReceiptDate;
-
         return $this;
     }
 
     /**
-     * Gets as lastReceiptQuantity.
+     * Gets as lastReceiptQuantity
      *
      * @return float
      */
@@ -697,21 +665,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new lastReceiptQuantity.
+     * Sets a new lastReceiptQuantity
      *
      * @param float $lastReceiptQuantity
-     *
      * @return self
      */
     public function setLastReceiptQuantity($lastReceiptQuantity)
     {
         $this->lastReceiptQuantity = $lastReceiptQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as lastSoldDate.
+     * Gets as lastSoldDate
      *
      * @return \DateTime
      */
@@ -721,21 +687,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new lastSoldDate.
+     * Sets a new lastSoldDate
      *
      * @param \DateTime $lastSoldDate
-     *
      * @return self
      */
     public function setLastSoldDate(\DateTime $lastSoldDate = null)
     {
         $this->lastSoldDate = $lastSoldDate;
-
         return $this;
     }
 
     /**
-     * Gets as listPrice.
+     * Gets as listPrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -745,19 +709,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new listPrice.
+     * Sets a new listPrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $listPrice
      * @return self
      */
     public function setListPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $listPrice)
     {
         $this->listPrice = $listPrice;
-
         return $this;
     }
 
     /**
-     * Gets as maximumOnHandQuantity.
+     * Gets as maximumOnHandQuantity
      *
      * @return float
      */
@@ -767,21 +731,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new maximumOnHandQuantity.
+     * Sets a new maximumOnHandQuantity
      *
      * @param float $maximumOnHandQuantity
-     *
      * @return self
      */
     public function setMaximumOnHandQuantity($maximumOnHandQuantity)
     {
         $this->maximumOnHandQuantity = $maximumOnHandQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as minimumOnHandQuantity.
+     * Gets as minimumOnHandQuantity
      *
      * @return float
      */
@@ -791,21 +753,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new minimumOnHandQuantity.
+     * Sets a new minimumOnHandQuantity
      *
      * @param float $minimumOnHandQuantity
-     *
      * @return self
      */
     public function setMinimumOnHandQuantity($minimumOnHandQuantity)
     {
         $this->minimumOnHandQuantity = $minimumOnHandQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as monthsWithoutSale.
+     * Gets as monthsWithoutSale
      *
      * @return int
      */
@@ -815,21 +775,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new monthsWithoutSale.
+     * Sets a new monthsWithoutSale
      *
      * @param int $monthsWithoutSale
-     *
      * @return self
      */
     public function setMonthsWithoutSale($monthsWithoutSale)
     {
         $this->monthsWithoutSale = $monthsWithoutSale;
-
         return $this;
     }
 
     /**
-     * Gets as onHandQuantity.
+     * Gets as onHandQuantity
      *
      * @return float
      */
@@ -839,21 +797,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new onHandQuantity.
+     * Sets a new onHandQuantity
      *
      * @param float $onHandQuantity
-     *
      * @return self
      */
     public function setOnHandQuantity($onHandQuantity)
     {
         $this->onHandQuantity = $onHandQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as onHoldQuantity.
+     * Gets as onHoldQuantity
      *
      * @return float
      */
@@ -863,21 +819,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new onHoldQuantity.
+     * Sets a new onHoldQuantity
      *
      * @param float $onHoldQuantity
-     *
      * @return self
      */
     public function setOnHoldQuantity($onHoldQuantity)
     {
         $this->onHoldQuantity = $onHoldQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as onOrderQuantity.
+     * Gets as onOrderQuantity
      *
      * @return float
      */
@@ -887,21 +841,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new onOrderQuantity.
+     * Sets a new onOrderQuantity
      *
      * @param float $onOrderQuantity
-     *
      * @return self
      */
     public function setOnOrderQuantity($onOrderQuantity)
     {
         $this->onOrderQuantity = $onOrderQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as packQuantity.
+     * Gets as packQuantity
      *
      * @return float
      */
@@ -911,21 +863,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new packQuantity.
+     * Sets a new packQuantity
      *
      * @param float $packQuantity
-     *
      * @return self
      */
     public function setPackQuantity($packQuantity)
     {
         $this->packQuantity = $packQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as partNumber.
+     * Gets as partNumber
      *
      * @return string
      */
@@ -935,21 +885,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new partNumber.
+     * Sets a new partNumber
      *
      * @param string $partNumber
-     *
      * @return self
      */
     public function setPartNumber($partNumber)
     {
         $this->partNumber = $partNumber;
-
         return $this;
     }
 
     /**
-     * Gets as partNumberFormatted.
+     * Gets as partNumberFormatted
      *
      * @return string
      */
@@ -959,21 +907,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new partNumberFormatted.
+     * Sets a new partNumberFormatted
      *
      * @param string $partNumberFormatted
-     *
      * @return self
      */
     public function setPartNumberFormatted($partNumberFormatted)
     {
         $this->partNumberFormatted = $partNumberFormatted;
-
         return $this;
     }
 
     /**
-     * Gets as quantityLostMonthToDate.
+     * Gets as quantityLostMonthToDate
      *
      * @return float
      */
@@ -983,38 +929,33 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new quantityLostMonthToDate.
+     * Sets a new quantityLostMonthToDate
      *
      * @param float $quantityLostMonthToDate
-     *
      * @return self
      */
     public function setQuantityLostMonthToDate($quantityLostMonthToDate)
     {
         $this->quantityLostMonthToDate = $quantityLostMonthToDate;
-
         return $this;
     }
 
     /**
-     * Adds as decimal.
+     * Adds as decimal
      *
      * @return self
-     *
      * @param float $decimal
      */
     public function addToQuantityLostPerMonth($decimal)
     {
         $this->quantityLostPerMonth[] = $decimal;
-
         return $this;
     }
 
     /**
-     * isset quantityLostPerMonth.
+     * isset quantityLostPerMonth
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetQuantityLostPerMonth($index)
@@ -1023,10 +964,9 @@ class InventoryPartAttributesType
     }
 
     /**
-     * unset quantityLostPerMonth.
+     * unset quantityLostPerMonth
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetQuantityLostPerMonth($index)
@@ -1035,7 +975,7 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Gets as quantityLostPerMonth.
+     * Gets as quantityLostPerMonth
      *
      * @return float[]
      */
@@ -1045,21 +985,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new quantityLostPerMonth.
+     * Sets a new quantityLostPerMonth
      *
      * @param float[] $quantityLostPerMonth
-     *
      * @return self
      */
     public function setQuantityLostPerMonth(array $quantityLostPerMonth)
     {
         $this->quantityLostPerMonth = $quantityLostPerMonth;
-
         return $this;
     }
 
     /**
-     * Gets as quantityLostToday.
+     * Gets as quantityLostToday
      *
      * @return float
      */
@@ -1069,21 +1007,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new quantityLostToday.
+     * Sets a new quantityLostToday
      *
      * @param float $quantityLostToday
-     *
      * @return self
      */
     public function setQuantityLostToday($quantityLostToday)
     {
         $this->quantityLostToday = $quantityLostToday;
-
         return $this;
     }
 
     /**
-     * Gets as quantityReturnedMonthToDate.
+     * Gets as quantityReturnedMonthToDate
      *
      * @return float
      */
@@ -1093,21 +1029,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new quantityReturnedMonthToDate.
+     * Sets a new quantityReturnedMonthToDate
      *
      * @param float $quantityReturnedMonthToDate
-     *
      * @return self
      */
     public function setQuantityReturnedMonthToDate($quantityReturnedMonthToDate)
     {
         $this->quantityReturnedMonthToDate = $quantityReturnedMonthToDate;
-
         return $this;
     }
 
     /**
-     * Gets as quantityReturnedToday.
+     * Gets as quantityReturnedToday
      *
      * @return float
      */
@@ -1117,21 +1051,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new quantityReturnedToday.
+     * Sets a new quantityReturnedToday
      *
      * @param float $quantityReturnedToday
-     *
      * @return self
      */
     public function setQuantityReturnedToday($quantityReturnedToday)
     {
         $this->quantityReturnedToday = $quantityReturnedToday;
-
         return $this;
     }
 
     /**
-     * Gets as quantitySoldMonthToDate.
+     * Gets as quantitySoldMonthToDate
      *
      * @return float
      */
@@ -1141,38 +1073,33 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new quantitySoldMonthToDate.
+     * Sets a new quantitySoldMonthToDate
      *
      * @param float $quantitySoldMonthToDate
-     *
      * @return self
      */
     public function setQuantitySoldMonthToDate($quantitySoldMonthToDate)
     {
         $this->quantitySoldMonthToDate = $quantitySoldMonthToDate;
-
         return $this;
     }
 
     /**
-     * Adds as decimal.
+     * Adds as decimal
      *
      * @return self
-     *
      * @param float $decimal
      */
     public function addToQuantitySoldPerMonth($decimal)
     {
         $this->quantitySoldPerMonth[] = $decimal;
-
         return $this;
     }
 
     /**
-     * isset quantitySoldPerMonth.
+     * isset quantitySoldPerMonth
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetQuantitySoldPerMonth($index)
@@ -1181,10 +1108,9 @@ class InventoryPartAttributesType
     }
 
     /**
-     * unset quantitySoldPerMonth.
+     * unset quantitySoldPerMonth
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetQuantitySoldPerMonth($index)
@@ -1193,7 +1119,7 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Gets as quantitySoldPerMonth.
+     * Gets as quantitySoldPerMonth
      *
      * @return float[]
      */
@@ -1203,21 +1129,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new quantitySoldPerMonth.
+     * Sets a new quantitySoldPerMonth
      *
      * @param float[] $quantitySoldPerMonth
-     *
      * @return self
      */
     public function setQuantitySoldPerMonth(array $quantitySoldPerMonth)
     {
         $this->quantitySoldPerMonth = $quantitySoldPerMonth;
-
         return $this;
     }
 
     /**
-     * Gets as quantitySoldToday.
+     * Gets as quantitySoldToday
      *
      * @return float
      */
@@ -1227,21 +1151,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new quantitySoldToday.
+     * Sets a new quantitySoldToday
      *
      * @param float $quantitySoldToday
-     *
      * @return self
      */
     public function setQuantitySoldToday($quantitySoldToday)
     {
         $this->quantitySoldToday = $quantitySoldToday;
-
         return $this;
     }
 
     /**
-     * Gets as rOQuantitySoldMonthToDate.
+     * Gets as rOQuantitySoldMonthToDate
      *
      * @return float
      */
@@ -1251,21 +1173,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new rOQuantitySoldMonthToDate.
+     * Sets a new rOQuantitySoldMonthToDate
      *
      * @param float $rOQuantitySoldMonthToDate
-     *
      * @return self
      */
     public function setROQuantitySoldMonthToDate($rOQuantitySoldMonthToDate)
     {
         $this->rOQuantitySoldMonthToDate = $rOQuantitySoldMonthToDate;
-
         return $this;
     }
 
     /**
-     * Gets as receiptQuantityMonthToDate.
+     * Gets as receiptQuantityMonthToDate
      *
      * @return float
      */
@@ -1275,21 +1195,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new receiptQuantityMonthToDate.
+     * Sets a new receiptQuantityMonthToDate
      *
      * @param float $receiptQuantityMonthToDate
-     *
      * @return self
      */
     public function setReceiptQuantityMonthToDate($receiptQuantityMonthToDate)
     {
         $this->receiptQuantityMonthToDate = $receiptQuantityMonthToDate;
-
         return $this;
     }
 
     /**
-     * Gets as remarks.
+     * Gets as remarks
      *
      * @return string
      */
@@ -1299,21 +1217,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new remarks.
+     * Sets a new remarks
      *
      * @param string $remarks
-     *
      * @return self
      */
     public function setRemarks($remarks)
     {
         $this->remarks = $remarks;
-
         return $this;
     }
 
     /**
-     * Gets as reorderPoint.
+     * Gets as reorderPoint
      *
      * @return float
      */
@@ -1323,21 +1239,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new reorderPoint.
+     * Sets a new reorderPoint
      *
      * @param float $reorderPoint
-     *
      * @return self
      */
     public function setReorderPoint($reorderPoint)
     {
         $this->reorderPoint = $reorderPoint;
-
         return $this;
     }
 
     /**
-     * Gets as retailPrice.
+     * Gets as retailPrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1347,19 +1261,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new retailPrice.
+     * Sets a new retailPrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $retailPrice
      * @return self
      */
     public function setRetailPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $retailPrice)
     {
         $this->retailPrice = $retailPrice;
-
         return $this;
     }
 
     /**
-     * Gets as source.
+     * Gets as source
      *
      * @return string
      */
@@ -1369,21 +1283,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new source.
+     * Sets a new source
      *
      * @param string $source
-     *
      * @return self
      */
     public function setSource($source)
     {
         $this->source = $source;
-
         return $this;
     }
 
     /**
-     * Gets as stockingStatus.
+     * Gets as stockingStatus
      *
      * @return string
      */
@@ -1393,21 +1305,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new stockingStatus.
+     * Sets a new stockingStatus
      *
      * @param string $stockingStatus
-     *
      * @return self
      */
     public function setStockingStatus($stockingStatus)
     {
         $this->stockingStatus = $stockingStatus;
-
         return $this;
     }
 
     /**
-     * Gets as supercededByVendorPartNumber.
+     * Gets as supercededByVendorPartNumber
      *
      * @return string
      */
@@ -1417,21 +1327,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new supercededByVendorPartNumber.
+     * Sets a new supercededByVendorPartNumber
      *
      * @param string $supercededByVendorPartNumber
-     *
      * @return self
      */
     public function setSupercededByVendorPartNumber($supercededByVendorPartNumber)
     {
         $this->supercededByVendorPartNumber = $supercededByVendorPartNumber;
-
         return $this;
     }
 
     /**
-     * Gets as supercedesVendorPartNumber.
+     * Gets as supercedesVendorPartNumber
      *
      * @return string
      */
@@ -1441,21 +1349,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new supercedesVendorPartNumber.
+     * Sets a new supercedesVendorPartNumber
      *
      * @param string $supercedesVendorPartNumber
-     *
      * @return self
      */
     public function setSupercedesVendorPartNumber($supercedesVendorPartNumber)
     {
         $this->supercedesVendorPartNumber = $supercedesVendorPartNumber;
-
         return $this;
     }
 
     /**
-     * Gets as tradePrice.
+     * Gets as tradePrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -1465,19 +1371,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new tradePrice.
+     * Sets a new tradePrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tradePrice
      * @return self
      */
     public function setTradePrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $tradePrice)
     {
         $this->tradePrice = $tradePrice;
-
         return $this;
     }
 
     /**
-     * Gets as twelveMonthLostQuantity.
+     * Gets as twelveMonthLostQuantity
      *
      * @return float
      */
@@ -1487,21 +1393,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new twelveMonthLostQuantity.
+     * Sets a new twelveMonthLostQuantity
      *
      * @param float $twelveMonthLostQuantity
-     *
      * @return self
      */
     public function setTwelveMonthLostQuantity($twelveMonthLostQuantity)
     {
         $this->twelveMonthLostQuantity = $twelveMonthLostQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as twelveMonthSalesQuantity.
+     * Gets as twelveMonthSalesQuantity
      *
      * @return float
      */
@@ -1511,21 +1415,19 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new twelveMonthSalesQuantity.
+     * Sets a new twelveMonthSalesQuantity
      *
      * @param float $twelveMonthSalesQuantity
-     *
      * @return self
      */
     public function setTwelveMonthSalesQuantity($twelveMonthSalesQuantity)
     {
         $this->twelveMonthSalesQuantity = $twelveMonthSalesQuantity;
-
         return $this;
     }
 
     /**
-     * Gets as vendor.
+     * Gets as vendor
      *
      * @return string
      */
@@ -1535,38 +1437,33 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new vendor.
+     * Sets a new vendor
      *
      * @param string $vendor
-     *
      * @return self
      */
     public function setVendor($vendor)
     {
         $this->vendor = $vendor;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToVendorSupercessionChain($string)
     {
         $this->vendorSupercessionChain[] = $string;
-
         return $this;
     }
 
     /**
-     * isset vendorSupercessionChain.
+     * isset vendorSupercessionChain
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVendorSupercessionChain($index)
@@ -1575,10 +1472,9 @@ class InventoryPartAttributesType
     }
 
     /**
-     * unset vendorSupercessionChain.
+     * unset vendorSupercessionChain
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVendorSupercessionChain($index)
@@ -1587,7 +1483,7 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Gets as vendorSupercessionChain.
+     * Gets as vendorSupercessionChain
      *
      * @return string[]
      */
@@ -1597,16 +1493,17 @@ class InventoryPartAttributesType
     }
 
     /**
-     * Sets a new vendorSupercessionChain.
+     * Sets a new vendorSupercessionChain
      *
      * @param string[] $vendorSupercessionChain
-     *
      * @return self
      */
     public function setVendorSupercessionChain(array $vendorSupercessionChain)
     {
         $this->vendorSupercessionChain = $vendorSupercessionChain;
-
         return $this;
     }
+
+
 }
+

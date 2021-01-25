@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing RecordAttributesType.
+ * Class representing RecordAttributesType
  *
+ * 
  * XSD Type: RecordAttributes
  */
 class RecordAttributesType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedStamp
      */
     private $modifiedStamp = null;
 
     /**
-     * Gets as modifiedStamp.
+     * Gets as modifiedStamp
      *
      * @return \DateTime
      */
@@ -25,14 +27,17 @@ class RecordAttributesType
     }
 
     /**
-     * Sets a new modifiedStamp.
+     * Sets a new modifiedStamp
      *
+     * @param \DateTime $modifiedStamp
      * @return self
      */
     public function setModifiedStamp(\DateTime $modifiedStamp)
     {
         $this->modifiedStamp = $modifiedStamp;
-
         return $this;
     }
+
+
 }
+

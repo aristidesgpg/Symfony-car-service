@@ -3,114 +3,116 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing PartsOrderAttributesType.
+ * Class representing PartsOrderAttributesType
  *
+ * 
  * XSD Type: PartsOrderAttributes
  */
 class PartsOrderAttributesType
 {
+
     /**
-     * @var bool
+     * @var bool $allowCrossShipmentIndicator
      */
     private $allowCrossShipmentIndicator = null;
 
     /**
-     * @var string
+     * @var string $alternateShipPriority
      */
     private $alternateShipPriority = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $alternateShipTo
      */
     private $alternateShipTo = null;
 
     /**
-     * @var string
+     * @var string $comments
      */
     private $comments = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $completedStamp
      */
     private $completedStamp = null;
 
     /**
-     * @var string
+     * @var string $factoryCode
      */
     private $factoryCode = null;
 
     /**
-     * @var string
+     * @var string $factoryOrderReferenceNumber
      */
     private $factoryOrderReferenceNumber = null;
 
     /**
-     * @var bool
+     * @var bool $isAlternateShipTo
      */
     private $isAlternateShipTo = null;
 
     /**
-     * @var bool
+     * @var bool $isTransmitted
      */
     private $isTransmitted = null;
 
     /**
-     * @var string
+     * @var string $lastModifiedBy
      */
     private $lastModifiedBy = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType[] $lines
      */
     private $lines = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $orderStamp
      */
     private $orderStamp = null;
 
     /**
-     * @var string
+     * @var string $orderType
      */
     private $orderType = null;
 
     /**
-     * @var string
+     * @var string $partsOrderNumber
      */
     private $partsOrderNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
+     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $placedBy
      */
     private $placedBy = null;
 
     /**
-     * @var string
+     * @var string $promotionCode
      */
     private $promotionCode = null;
 
     /**
-     * @var string
+     * @var string $shipPriority
      */
     private $shipPriority = null;
 
     /**
-     * @var string
+     * @var string $specialInstructions
      */
     private $specialInstructions = null;
 
     /**
-     * @var string
+     * @var string $vendorCode
      */
     private $vendorCode = null;
 
     /**
-     * @var string
+     * @var string $vendorName
      */
     private $vendorName = null;
 
     /**
-     * Gets as allowCrossShipmentIndicator.
+     * Gets as allowCrossShipmentIndicator
      *
      * @return bool
      */
@@ -120,21 +122,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new allowCrossShipmentIndicator.
+     * Sets a new allowCrossShipmentIndicator
      *
      * @param bool $allowCrossShipmentIndicator
-     *
      * @return self
      */
     public function setAllowCrossShipmentIndicator($allowCrossShipmentIndicator)
     {
         $this->allowCrossShipmentIndicator = $allowCrossShipmentIndicator;
-
         return $this;
     }
 
     /**
-     * Gets as alternateShipPriority.
+     * Gets as alternateShipPriority
      *
      * @return string
      */
@@ -144,21 +144,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new alternateShipPriority.
+     * Sets a new alternateShipPriority
      *
      * @param string $alternateShipPriority
-     *
      * @return self
      */
     public function setAlternateShipPriority($alternateShipPriority)
     {
         $this->alternateShipPriority = $alternateShipPriority;
-
         return $this;
     }
 
     /**
-     * Gets as alternateShipTo.
+     * Gets as alternateShipTo
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -168,19 +166,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new alternateShipTo.
+     * Sets a new alternateShipTo
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $alternateShipTo
      * @return self
      */
     public function setAlternateShipTo(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $alternateShipTo)
     {
         $this->alternateShipTo = $alternateShipTo;
-
         return $this;
     }
 
     /**
-     * Gets as comments.
+     * Gets as comments
      *
      * @return string
      */
@@ -190,21 +188,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new comments.
+     * Sets a new comments
      *
      * @param string $comments
-     *
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
-
         return $this;
     }
 
     /**
-     * Gets as completedStamp.
+     * Gets as completedStamp
      *
      * @return \DateTime
      */
@@ -214,19 +210,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new completedStamp.
+     * Sets a new completedStamp
      *
+     * @param \DateTime $completedStamp
      * @return self
      */
     public function setCompletedStamp(\DateTime $completedStamp)
     {
         $this->completedStamp = $completedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as factoryCode.
+     * Gets as factoryCode
      *
      * @return string
      */
@@ -236,21 +232,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new factoryCode.
+     * Sets a new factoryCode
      *
      * @param string $factoryCode
-     *
      * @return self
      */
     public function setFactoryCode($factoryCode)
     {
         $this->factoryCode = $factoryCode;
-
         return $this;
     }
 
     /**
-     * Gets as factoryOrderReferenceNumber.
+     * Gets as factoryOrderReferenceNumber
      *
      * @return string
      */
@@ -260,21 +254,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new factoryOrderReferenceNumber.
+     * Sets a new factoryOrderReferenceNumber
      *
      * @param string $factoryOrderReferenceNumber
-     *
      * @return self
      */
     public function setFactoryOrderReferenceNumber($factoryOrderReferenceNumber)
     {
         $this->factoryOrderReferenceNumber = $factoryOrderReferenceNumber;
-
         return $this;
     }
 
     /**
-     * Gets as isAlternateShipTo.
+     * Gets as isAlternateShipTo
      *
      * @return bool
      */
@@ -284,21 +276,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new isAlternateShipTo.
+     * Sets a new isAlternateShipTo
      *
      * @param bool $isAlternateShipTo
-     *
      * @return self
      */
     public function setIsAlternateShipTo($isAlternateShipTo)
     {
         $this->isAlternateShipTo = $isAlternateShipTo;
-
         return $this;
     }
 
     /**
-     * Gets as isTransmitted.
+     * Gets as isTransmitted
      *
      * @return bool
      */
@@ -308,21 +298,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new isTransmitted.
+     * Sets a new isTransmitted
      *
      * @param bool $isTransmitted
-     *
      * @return self
      */
     public function setIsTransmitted($isTransmitted)
     {
         $this->isTransmitted = $isTransmitted;
-
         return $this;
     }
 
     /**
-     * Gets as lastModifiedBy.
+     * Gets as lastModifiedBy
      *
      * @return string
      */
@@ -332,38 +320,33 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new lastModifiedBy.
+     * Sets a new lastModifiedBy
      *
      * @param string $lastModifiedBy
-     *
      * @return self
      */
     public function setLastModifiedBy($lastModifiedBy)
     {
         $this->lastModifiedBy = $lastModifiedBy;
-
         return $this;
     }
 
     /**
-     * Adds as partsOrderLine.
+     * Adds as partsOrderLine
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType $partsOrderLine
      */
-    public function addToLines(PartsOrderLineType $partsOrderLine)
+    public function addToLines(\App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType $partsOrderLine)
     {
         $this->lines[] = $partsOrderLine;
-
         return $this;
     }
 
     /**
-     * isset lines.
+     * isset lines
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLines($index)
@@ -372,10 +355,9 @@ class PartsOrderAttributesType
     }
 
     /**
-     * unset lines.
+     * unset lines
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLines($index)
@@ -384,7 +366,7 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Gets as lines.
+     * Gets as lines
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType[]
      */
@@ -394,21 +376,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new lines.
+     * Sets a new lines
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType[] $lines
-     *
      * @return self
      */
     public function setLines(array $lines)
     {
         $this->lines = $lines;
-
         return $this;
     }
 
     /**
-     * Gets as orderStamp.
+     * Gets as orderStamp
      *
      * @return \DateTime
      */
@@ -418,19 +398,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new orderStamp.
+     * Sets a new orderStamp
      *
+     * @param \DateTime $orderStamp
      * @return self
      */
     public function setOrderStamp(\DateTime $orderStamp)
     {
         $this->orderStamp = $orderStamp;
-
         return $this;
     }
 
     /**
-     * Gets as orderType.
+     * Gets as orderType
      *
      * @return string
      */
@@ -440,21 +420,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new orderType.
+     * Sets a new orderType
      *
      * @param string $orderType
-     *
      * @return self
      */
     public function setOrderType($orderType)
     {
         $this->orderType = $orderType;
-
         return $this;
     }
 
     /**
-     * Gets as partsOrderNumber.
+     * Gets as partsOrderNumber
      *
      * @return string
      */
@@ -464,21 +442,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new partsOrderNumber.
+     * Sets a new partsOrderNumber
      *
      * @param string $partsOrderNumber
-     *
      * @return self
      */
     public function setPartsOrderNumber($partsOrderNumber)
     {
         $this->partsOrderNumber = $partsOrderNumber;
-
         return $this;
     }
 
     /**
-     * Gets as placedBy.
+     * Gets as placedBy
      *
      * @return \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
      */
@@ -488,19 +464,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new placedBy.
+     * Sets a new placedBy
      *
+     * @param \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $placedBy
      * @return self
      */
     public function setPlacedBy(\App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $placedBy)
     {
         $this->placedBy = $placedBy;
-
         return $this;
     }
 
     /**
-     * Gets as promotionCode.
+     * Gets as promotionCode
      *
      * @return string
      */
@@ -510,21 +486,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new promotionCode.
+     * Sets a new promotionCode
      *
      * @param string $promotionCode
-     *
      * @return self
      */
     public function setPromotionCode($promotionCode)
     {
         $this->promotionCode = $promotionCode;
-
         return $this;
     }
 
     /**
-     * Gets as shipPriority.
+     * Gets as shipPriority
      *
      * @return string
      */
@@ -534,21 +508,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new shipPriority.
+     * Sets a new shipPriority
      *
      * @param string $shipPriority
-     *
      * @return self
      */
     public function setShipPriority($shipPriority)
     {
         $this->shipPriority = $shipPriority;
-
         return $this;
     }
 
     /**
-     * Gets as specialInstructions.
+     * Gets as specialInstructions
      *
      * @return string
      */
@@ -558,21 +530,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new specialInstructions.
+     * Sets a new specialInstructions
      *
      * @param string $specialInstructions
-     *
      * @return self
      */
     public function setSpecialInstructions($specialInstructions)
     {
         $this->specialInstructions = $specialInstructions;
-
         return $this;
     }
 
     /**
-     * Gets as vendorCode.
+     * Gets as vendorCode
      *
      * @return string
      */
@@ -582,21 +552,19 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new vendorCode.
+     * Sets a new vendorCode
      *
      * @param string $vendorCode
-     *
      * @return self
      */
     public function setVendorCode($vendorCode)
     {
         $this->vendorCode = $vendorCode;
-
         return $this;
     }
 
     /**
-     * Gets as vendorName.
+     * Gets as vendorName
      *
      * @return string
      */
@@ -606,16 +574,17 @@ class PartsOrderAttributesType
     }
 
     /**
-     * Sets a new vendorName.
+     * Sets a new vendorName
      *
      * @param string $vendorName
-     *
      * @return self
      */
     public function setVendorName($vendorName)
     {
         $this->vendorName = $vendorName;
-
         return $this;
     }
+
+
 }
+

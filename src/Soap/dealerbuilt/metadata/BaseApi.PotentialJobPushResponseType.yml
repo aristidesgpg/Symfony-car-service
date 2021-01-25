@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
             access_type: public_method
             serialized_name: ExternalJobId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExternalJobId
                 setter: setExternalJobId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
             access_type: public_method
             serialized_name: JobKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getJobKey
                 setter: setJobKey
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
             access_type: public_method
             serialized_name: JobNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getJobNumber
                 setter: setJobNumber
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
             access_type: public_method
             serialized_name: LaborItemPushResponses
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getLaborItemPushResponses
                 setter: setLaborItemPushResponses
@@ -44,13 +44,13 @@ App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
                 inline: false
                 entry_name: PotentialLaborItemPushResponse
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
         message:
             expose: true
             access_type: public_method
             serialized_name: Message
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMessage
                 setter: setMessage
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
             access_type: public_method
             serialized_name: PartPushResponses
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPartPushResponses
                 setter: setPartPushResponses
@@ -69,13 +69,13 @@ App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
                 inline: false
                 entry_name: PushResponse
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
         result:
             expose: true
             access_type: public_method
             serialized_name: Result
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getResult
                 setter: setResult
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
             access_type: public_method
             serialized_name: ServiceLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationId
                 setter: setServiceLocationId

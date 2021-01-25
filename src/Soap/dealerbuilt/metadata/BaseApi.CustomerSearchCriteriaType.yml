@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType:
             access_type: public_method
             serialized_name: ActivityStoreIds
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getActivityStoreIds
                 setter: setActivityStoreIds
@@ -20,7 +20,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType:
             access_type: public_method
             serialized_name: CustomerNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerNumber
                 setter: setCustomerNumber
@@ -30,7 +30,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType:
             access_type: public_method
             serialized_name: DriverLicenseNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDriverLicenseNumber
                 setter: setDriverLicenseNumber
@@ -40,7 +40,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumUpdateStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumUpdateStamp
                 setter: setMaximumUpdateStamp
@@ -50,7 +50,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumUpdateStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumUpdateStamp
                 setter: setMinimumUpdateStamp
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType:
             access_type: public_method
             serialized_name: PartialName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPartialName
                 setter: setPartialName
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType:
             access_type: public_method
             serialized_name: Phone
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPhone
                 setter: setPhone

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PotentialPartPushRequest.
+ * Class representing PotentialPartPushRequest
  */
 class PotentialPartPushRequest extends PotentialPartPushRequestType
 {
+
+
 }
+

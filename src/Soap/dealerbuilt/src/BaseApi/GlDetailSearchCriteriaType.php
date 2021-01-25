@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing GlDetailSearchCriteriaType.
+ * Class representing GlDetailSearchCriteriaType
  *
+ * 
  * XSD Type: GlDetailSearchCriteria
  */
 class GlDetailSearchCriteriaType extends AccountsSearchCriteriaType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $endDate
      */
     private $endDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $startDate
      */
     private $startDate = null;
 
     /**
-     * Gets as endDate.
+     * Gets as endDate
      *
      * @return \DateTime
      */
@@ -30,19 +32,19 @@ class GlDetailSearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new endDate.
+     * Sets a new endDate
      *
+     * @param \DateTime $endDate
      * @return self
      */
     public function setEndDate(\DateTime $endDate)
     {
         $this->endDate = $endDate;
-
         return $this;
     }
 
     /**
-     * Gets as startDate.
+     * Gets as startDate
      *
      * @return \DateTime
      */
@@ -52,14 +54,17 @@ class GlDetailSearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new startDate.
+     * Sets a new startDate
      *
+     * @param \DateTime $startDate
      * @return self
      */
     public function setStartDate(\DateTime $startDate)
     {
         $this->startDate = $startDate;
-
         return $this;
     }
+
+
 }
+

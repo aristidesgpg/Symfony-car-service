@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing ArrayOfShipmentCarrierDetail.
+ * Class representing ArrayOfShipmentCarrierDetail
  */
 class ArrayOfShipmentCarrierDetail extends ArrayOfShipmentCarrierDetailType
 {
+
+
 }
+

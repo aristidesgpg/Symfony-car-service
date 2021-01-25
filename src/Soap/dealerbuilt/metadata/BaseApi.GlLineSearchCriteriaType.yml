@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: Divisions
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDivisions
                 setter: setDivisions
@@ -20,7 +20,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: IncludeBalanceForwardRecords
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getIncludeBalanceForwardRecords
                 setter: setIncludeBalanceForwardRecords
@@ -30,7 +30,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: MaxElapsedSinceUpdate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaxElapsedSinceUpdate
                 setter: setMaxElapsedSinceUpdate
@@ -40,7 +40,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumAccountingDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumAccountingDate
                 setter: setMaximumAccountingDate
@@ -50,7 +50,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumCreatedStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumCreatedStamp
                 setter: setMaximumCreatedStamp
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumUpdateStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumUpdateStamp
                 setter: setMaximumUpdateStamp
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumAccountingDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumAccountingDate
                 setter: setMinimumAccountingDate
@@ -80,7 +80,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumCreatedStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumCreatedStamp
                 setter: setMinimumCreatedStamp
@@ -90,7 +90,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumUpdateStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumUpdateStamp
                 setter: setMinimumUpdateStamp
@@ -100,7 +100,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: ReconciledScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getReconciledScope
                 setter: setReconciledScope
@@ -110,7 +110,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
             access_type: public_method
             serialized_name: VoidStatuses
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVoidStatuses
                 setter: setVoidStatuses
@@ -119,13 +119,13 @@ App\Soap\dealerbuilt\src\BaseApi\GlLineSearchCriteriaType:
                 inline: false
                 entry_name: VoidStatusType
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
         zeroDateScope:
             expose: true
             access_type: public_method
             serialized_name: ZeroDateScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getZeroDateScope
                 setter: setZeroDateScope

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDeferredJobsByRepairOrderKeyResponse.
+ * Class representing PullDeferredJobsByRepairOrderKeyResponse
  */
 class PullDeferredJobsByRepairOrderKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType[] $pullDeferredJobsByRepairOrderKeyResult
      */
     private $pullDeferredJobsByRepairOrderKeyResult = null;
 
     /**
-     * Adds as deferredJob.
+     * Adds as deferredJob
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType $deferredJob
      */
-    public function addToPullDeferredJobsByRepairOrderKeyResult(BaseApi\DeferredJobType $deferredJob)
+    public function addToPullDeferredJobsByRepairOrderKeyResult(\App\Soap\dealerbuilt\src\BaseApi\DeferredJobType $deferredJob)
     {
         $this->pullDeferredJobsByRepairOrderKeyResult[] = $deferredJob;
-
         return $this;
     }
 
     /**
-     * isset pullDeferredJobsByRepairOrderKeyResult.
+     * isset pullDeferredJobsByRepairOrderKeyResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullDeferredJobsByRepairOrderKeyResult($index)
@@ -39,10 +37,9 @@ class PullDeferredJobsByRepairOrderKeyResponse
     }
 
     /**
-     * unset pullDeferredJobsByRepairOrderKeyResult.
+     * unset pullDeferredJobsByRepairOrderKeyResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullDeferredJobsByRepairOrderKeyResult($index)
@@ -51,7 +48,7 @@ class PullDeferredJobsByRepairOrderKeyResponse
     }
 
     /**
-     * Gets as pullDeferredJobsByRepairOrderKeyResult.
+     * Gets as pullDeferredJobsByRepairOrderKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType[]
      */
@@ -61,16 +58,17 @@ class PullDeferredJobsByRepairOrderKeyResponse
     }
 
     /**
-     * Sets a new pullDeferredJobsByRepairOrderKeyResult.
+     * Sets a new pullDeferredJobsByRepairOrderKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType[] $pullDeferredJobsByRepairOrderKeyResult
-     *
      * @return self
      */
     public function setPullDeferredJobsByRepairOrderKeyResult(array $pullDeferredJobsByRepairOrderKeyResult)
     {
         $this->pullDeferredJobsByRepairOrderKeyResult = $pullDeferredJobsByRepairOrderKeyResult;
-
         return $this;
     }
+
+
 }
+

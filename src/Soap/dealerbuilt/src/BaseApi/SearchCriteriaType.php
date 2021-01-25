@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing SearchCriteriaType.
+ * Class representing SearchCriteriaType
  *
+ * 
  * XSD Type: SearchCriteria
  */
 class SearchCriteriaType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $changedPeriodEnd
      */
     private $changedPeriodEnd = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $changedPeriodStart
      */
     private $changedPeriodStart = null;
 
     /**
-     * @var \DateInterval
+     * @var \DateInterval $maxElapsedSinceUpdate
      */
     private $maxElapsedSinceUpdate = null;
 
     /**
-     * @var bool
+     * @var bool $suppressErrors
      */
     private $suppressErrors = null;
 
     /**
-     * Gets as changedPeriodEnd.
+     * Gets as changedPeriodEnd
      *
      * @return \DateTime
      */
@@ -40,19 +42,19 @@ class SearchCriteriaType
     }
 
     /**
-     * Sets a new changedPeriodEnd.
+     * Sets a new changedPeriodEnd
      *
+     * @param \DateTime $changedPeriodEnd
      * @return self
      */
     public function setChangedPeriodEnd(\DateTime $changedPeriodEnd)
     {
         $this->changedPeriodEnd = $changedPeriodEnd;
-
         return $this;
     }
 
     /**
-     * Gets as changedPeriodStart.
+     * Gets as changedPeriodStart
      *
      * @return \DateTime
      */
@@ -62,19 +64,19 @@ class SearchCriteriaType
     }
 
     /**
-     * Sets a new changedPeriodStart.
+     * Sets a new changedPeriodStart
      *
+     * @param \DateTime $changedPeriodStart
      * @return self
      */
     public function setChangedPeriodStart(\DateTime $changedPeriodStart)
     {
         $this->changedPeriodStart = $changedPeriodStart;
-
         return $this;
     }
 
     /**
-     * Gets as maxElapsedSinceUpdate.
+     * Gets as maxElapsedSinceUpdate
      *
      * @return \DateInterval
      */
@@ -84,19 +86,19 @@ class SearchCriteriaType
     }
 
     /**
-     * Sets a new maxElapsedSinceUpdate.
+     * Sets a new maxElapsedSinceUpdate
      *
+     * @param \DateInterval $maxElapsedSinceUpdate
      * @return self
      */
     public function setMaxElapsedSinceUpdate(\DateInterval $maxElapsedSinceUpdate)
     {
         $this->maxElapsedSinceUpdate = $maxElapsedSinceUpdate;
-
         return $this;
     }
 
     /**
-     * Gets as suppressErrors.
+     * Gets as suppressErrors
      *
      * @return bool
      */
@@ -106,16 +108,17 @@ class SearchCriteriaType
     }
 
     /**
-     * Sets a new suppressErrors.
+     * Sets a new suppressErrors
      *
      * @param bool $suppressErrors
-     *
      * @return self
      */
     public function setSuppressErrors($suppressErrors)
     {
         $this->suppressErrors = $suppressErrors;
-
         return $this;
     }
+
+
 }
+

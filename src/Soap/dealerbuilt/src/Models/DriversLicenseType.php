@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing DriversLicenseType.
+ * Class representing DriversLicenseType
  *
+ * 
  * XSD Type: DriversLicense
  */
 class DriversLicenseType
 {
+
     /**
-     * @var string
+     * @var string $number
      */
     private $number = null;
 
     /**
-     * @var string
+     * @var string $state
      */
     private $state = null;
 
     /**
-     * Gets as number.
+     * Gets as number
      *
      * @return string
      */
@@ -30,21 +32,19 @@ class DriversLicenseType
     }
 
     /**
-     * Sets a new number.
+     * Sets a new number
      *
      * @param string $number
-     *
      * @return self
      */
     public function setNumber($number)
     {
         $this->number = $number;
-
         return $this;
     }
 
     /**
-     * Gets as state.
+     * Gets as state
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class DriversLicenseType
     }
 
     /**
-     * Sets a new state.
+     * Sets a new state
      *
      * @param string $state
-     *
      * @return self
      */
     public function setState($state)
     {
         $this->state = $state;
-
         return $this;
     }
+
+
 }
+

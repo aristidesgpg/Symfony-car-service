@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing StorePlacementType.
+ * Class representing StorePlacementType
  *
+ * 
  * XSD Type: StorePlacement
  */
 class StorePlacementType extends CompanyPlacementType
 {
+
     /**
-     * @var string
+     * @var string $factoryDealerCode
      */
     private $factoryDealerCode = null;
 
     /**
-     * @var int
+     * @var int $lySetupLocationId
      */
     private $lySetupLocationId = null;
 
     /**
-     * Gets as factoryDealerCode.
+     * Gets as factoryDealerCode
      *
      * @return string
      */
@@ -30,21 +32,19 @@ class StorePlacementType extends CompanyPlacementType
     }
 
     /**
-     * Sets a new factoryDealerCode.
+     * Sets a new factoryDealerCode
      *
      * @param string $factoryDealerCode
-     *
      * @return self
      */
     public function setFactoryDealerCode($factoryDealerCode)
     {
         $this->factoryDealerCode = $factoryDealerCode;
-
         return $this;
     }
 
     /**
-     * Gets as lySetupLocationId.
+     * Gets as lySetupLocationId
      *
      * @return int
      */
@@ -54,16 +54,17 @@ class StorePlacementType extends CompanyPlacementType
     }
 
     /**
-     * Sets a new lySetupLocationId.
+     * Sets a new lySetupLocationId
      *
      * @param int $lySetupLocationId
-     *
      * @return self
      */
     public function setLySetupLocationId($lySetupLocationId)
     {
         $this->lySetupLocationId = $lySetupLocationId;
-
         return $this;
     }
+
+
 }
+

@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerVehicleType.
+ * Class representing CustomerVehicleType
  *
+ * 
  * XSD Type: CustomerVehicle
  */
 class CustomerVehicleType extends ApiSourceItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleReferencesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleReferencesType $references
      */
     private $references = null;
 
     /**
-     * @var string
+     * @var string $vehicleKey
      */
     private $vehicleKey = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
      */
@@ -35,19 +37,19 @@ class CustomerVehicleType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as references.
+     * Gets as references
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleReferencesType
      */
@@ -57,21 +59,19 @@ class CustomerVehicleType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new references.
+     * Sets a new references
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleReferencesType $references
-     *
      * @return self
      */
-    public function setReferences(CustomerVehicleReferencesType $references)
+    public function setReferences(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleReferencesType $references)
     {
         $this->references = $references;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleKey.
+     * Gets as vehicleKey
      *
      * @return string
      */
@@ -81,16 +81,17 @@ class CustomerVehicleType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new vehicleKey.
+     * Sets a new vehicleKey
      *
      * @param string $vehicleKey
-     *
      * @return self
      */
     public function setVehicleKey($vehicleKey)
     {
         $this->vehicleKey = $vehicleKey;
-
         return $this;
     }
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Stock\CodeTypeDetailType:
             access_type: public_method
             serialized_name: CodeDetails
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getCodeDetails
                 setter: setCodeDetails
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Stock\CodeTypeDetailType:
             access_type: public_method
             serialized_name: CodeType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getCodeType
                 setter: setCodeType

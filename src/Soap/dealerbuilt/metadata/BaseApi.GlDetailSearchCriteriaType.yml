@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailSearchCriteriaType:
             access_type: public_method
             serialized_name: EndDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEndDate
                 setter: setEndDate
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailSearchCriteriaType:
             access_type: public_method
             serialized_name: StartDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStartDate
                 setter: setStartDate

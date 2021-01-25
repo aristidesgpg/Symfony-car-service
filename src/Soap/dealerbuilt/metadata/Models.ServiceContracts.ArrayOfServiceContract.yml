@@ -1,3 +1,3 @@
 App\Soap\dealerbuilt\src\Models\ServiceContracts\ArrayOfServiceContract:
     xml_root_name: ArrayOfServiceContract
-    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceContracts'
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceContracts'

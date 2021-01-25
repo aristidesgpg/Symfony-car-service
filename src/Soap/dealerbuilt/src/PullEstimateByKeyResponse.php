@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullEstimateByKeyResponse.
+ * Class representing PullEstimateByKeyResponse
  */
 class PullEstimateByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateType $pullEstimateByKeyResult
      */
     private $pullEstimateByKeyResult = null;
 
     /**
-     * Gets as pullEstimateByKeyResult.
+     * Gets as pullEstimateByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateType
      */
@@ -23,16 +24,17 @@ class PullEstimateByKeyResponse
     }
 
     /**
-     * Sets a new pullEstimateByKeyResult.
+     * Sets a new pullEstimateByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateType $pullEstimateByKeyResult
-     *
      * @return self
      */
-    public function setPullEstimateByKeyResult(BaseApi\EstimateType $pullEstimateByKeyResult)
+    public function setPullEstimateByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\EstimateType $pullEstimateByKeyResult)
     {
         $this->pullEstimateByKeyResult = $pullEstimateByKeyResult;
-
         return $this;
     }
+
+
 }
+

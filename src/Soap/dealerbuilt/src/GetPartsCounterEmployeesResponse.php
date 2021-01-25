@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetPartsCounterEmployeesResponse.
+ * Class representing GetPartsCounterEmployeesResponse
  */
 class GetPartsCounterEmployeesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType $getPartsCounterEmployeesResult
      */
     private $getPartsCounterEmployeesResult = null;
 
     /**
-     * Gets as getPartsCounterEmployeesResult.
+     * Gets as getPartsCounterEmployeesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType
      */
@@ -23,16 +24,17 @@ class GetPartsCounterEmployeesResponse
     }
 
     /**
-     * Sets a new getPartsCounterEmployeesResult.
+     * Sets a new getPartsCounterEmployeesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType $getPartsCounterEmployeesResult
-     *
      * @return self
      */
-    public function setGetPartsCounterEmployeesResult(BaseApi\ServiceLocationPersonsType $getPartsCounterEmployeesResult)
+    public function setGetPartsCounterEmployeesResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType $getPartsCounterEmployeesResult)
     {
         $this->getPartsCounterEmployeesResult = $getPartsCounterEmployeesResult;
-
         return $this;
     }
+
+
 }
+

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushDeferredLaborOperationSubletsResponse.
+ * Class representing PushDeferredLaborOperationSubletsResponse
  */
 class PushDeferredLaborOperationSubletsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushDeferredLaborOperationSubletsResult
      */
     private $pushDeferredLaborOperationSubletsResult = null;
 
     /**
-     * Adds as serviceLocationPushResponse.
+     * Adds as serviceLocationPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse
      */
-    public function addToPushDeferredLaborOperationSubletsResult(BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
+    public function addToPushDeferredLaborOperationSubletsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
     {
         $this->pushDeferredLaborOperationSubletsResult[] = $serviceLocationPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushDeferredLaborOperationSubletsResult.
+     * isset pushDeferredLaborOperationSubletsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushDeferredLaborOperationSubletsResult($index)
@@ -39,10 +37,9 @@ class PushDeferredLaborOperationSubletsResponse
     }
 
     /**
-     * unset pushDeferredLaborOperationSubletsResult.
+     * unset pushDeferredLaborOperationSubletsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushDeferredLaborOperationSubletsResult($index)
@@ -51,7 +48,7 @@ class PushDeferredLaborOperationSubletsResponse
     }
 
     /**
-     * Gets as pushDeferredLaborOperationSubletsResult.
+     * Gets as pushDeferredLaborOperationSubletsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushDeferredLaborOperationSubletsResponse
     }
 
     /**
-     * Sets a new pushDeferredLaborOperationSubletsResult.
+     * Sets a new pushDeferredLaborOperationSubletsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushDeferredLaborOperationSubletsResult
-     *
      * @return self
      */
     public function setPushDeferredLaborOperationSubletsResult(array $pushDeferredLaborOperationSubletsResult)
     {
         $this->pushDeferredLaborOperationSubletsResult = $pushDeferredLaborOperationSubletsResult;
-
         return $this;
     }
+
+
 }
+

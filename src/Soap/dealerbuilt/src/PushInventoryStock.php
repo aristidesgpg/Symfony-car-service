@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushInventoryStock.
+ * Class representing PushInventoryStock
  */
 class PushInventoryStock
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type[] $inventoryItems
      */
     private $inventoryItems = null;
 
     /**
-     * Adds as stockItemPushRequestV2.
+     * Adds as stockItemPushRequestV2
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type $stockItemPushRequestV2
      */
-    public function addToInventoryItems(BaseApi\StockItemPushRequestV2Type $stockItemPushRequestV2)
+    public function addToInventoryItems(\App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type $stockItemPushRequestV2)
     {
         $this->inventoryItems[] = $stockItemPushRequestV2;
-
         return $this;
     }
 
     /**
-     * isset inventoryItems.
+     * isset inventoryItems
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInventoryItems($index)
@@ -39,10 +37,9 @@ class PushInventoryStock
     }
 
     /**
-     * unset inventoryItems.
+     * unset inventoryItems
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInventoryItems($index)
@@ -51,7 +48,7 @@ class PushInventoryStock
     }
 
     /**
-     * Gets as inventoryItems.
+     * Gets as inventoryItems
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type[]
      */
@@ -61,16 +58,17 @@ class PushInventoryStock
     }
 
     /**
-     * Sets a new inventoryItems.
+     * Sets a new inventoryItems
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type[] $inventoryItems
-     *
      * @return self
      */
     public function setInventoryItems(array $inventoryItems)
     {
         $this->inventoryItems = $inventoryItems;
-
         return $this;
     }
+
+
 }
+

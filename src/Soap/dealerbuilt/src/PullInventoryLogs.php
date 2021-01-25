@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryLogs.
+ * Class representing PullInventoryLogs
  */
 class PullInventoryLogs
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ApiLogSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ApiLogSearchCriteriaType $apiSearchCriteria
      */
     private $apiSearchCriteria = null;
 
     /**
-     * Gets as apiSearchCriteria.
+     * Gets as apiSearchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ApiLogSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullInventoryLogs
     }
 
     /**
-     * Sets a new apiSearchCriteria.
+     * Sets a new apiSearchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ApiLogSearchCriteriaType $apiSearchCriteria
-     *
      * @return self
      */
-    public function setApiSearchCriteria(BaseApi\ApiLogSearchCriteriaType $apiSearchCriteria)
+    public function setApiSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\ApiLogSearchCriteriaType $apiSearchCriteria)
     {
         $this->apiSearchCriteria = $apiSearchCriteria;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing AccountingTransactionLineItem.
+ * Class representing AccountingTransactionLineItem
  */
 class AccountingTransactionLineItem extends AccountingTransactionLineItemType
 {
+
+
 }
+

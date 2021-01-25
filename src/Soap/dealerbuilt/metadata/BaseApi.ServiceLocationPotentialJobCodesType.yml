@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType:
             access_type: public_method
             serialized_name: Jobs
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getJobs
                 setter: setJobs
@@ -14,4 +14,4 @@ App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType:
                 inline: false
                 entry_name: PushedPotentialJobAttributes
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'

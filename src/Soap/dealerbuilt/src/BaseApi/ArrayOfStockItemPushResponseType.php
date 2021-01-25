@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStockItemPushResponseType.
+ * Class representing ArrayOfStockItemPushResponseType
  *
+ * 
  * XSD Type: ArrayOfStockItemPushResponse
  */
 class ArrayOfStockItemPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[] $stockItemPushResponse
      */
     private $stockItemPushResponse = [
+        
     ];
 
     /**
-     * Adds as stockItemPushResponse.
+     * Adds as stockItemPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType $stockItemPushResponse
      */
-    public function addToStockItemPushResponse(StockItemPushResponseType $stockItemPushResponse)
+    public function addToStockItemPushResponse(\App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType $stockItemPushResponse)
     {
         $this->stockItemPushResponse[] = $stockItemPushResponse;
-
         return $this;
     }
 
     /**
-     * isset stockItemPushResponse.
+     * isset stockItemPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStockItemPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfStockItemPushResponseType
     }
 
     /**
-     * unset stockItemPushResponse.
+     * unset stockItemPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStockItemPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfStockItemPushResponseType
     }
 
     /**
-     * Gets as stockItemPushResponse.
+     * Gets as stockItemPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfStockItemPushResponseType
     }
 
     /**
-     * Sets a new stockItemPushResponse.
+     * Sets a new stockItemPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[] $stockItemPushResponse
-     *
      * @return self
      */
     public function setStockItemPushResponse(array $stockItemPushResponse)
     {
         $this->stockItemPushResponse = $stockItemPushResponse;
-
         return $this;
     }
+
+
 }
+

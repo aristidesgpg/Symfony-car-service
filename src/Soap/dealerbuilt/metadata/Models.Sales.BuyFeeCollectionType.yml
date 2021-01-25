@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType:
             access_type: public_method
             serialized_name: Bank
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getBank
                 setter: setBank
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType:
             access_type: public_method
             serialized_name: DealerFees
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDealerFees
                 setter: setDealerFees
@@ -24,13 +24,13 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType:
                 inline: false
                 entry_name: DealerFee
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         licensing:
             expose: true
             access_type: public_method
             serialized_name: Licensing
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getLicensing
                 setter: setLicensing
@@ -40,7 +40,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType:
             access_type: public_method
             serialized_name: LoanOrigination
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getLoanOrigination
                 setter: setLoanOrigination
@@ -50,7 +50,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType:
             access_type: public_method
             serialized_name: LoanProcessing
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getLoanProcessing
                 setter: setLoanProcessing
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType:
             access_type: public_method
             serialized_name: ProratedLicensing
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getProratedLicensing
                 setter: setProratedLicensing
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType:
             access_type: public_method
             serialized_name: TradeLicensing
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTradeLicensing
                 setter: setTradeLicensing

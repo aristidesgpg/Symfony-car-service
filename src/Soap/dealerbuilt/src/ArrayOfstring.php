@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ArrayOfstring.
+ * Class representing ArrayOfstring
  */
 class ArrayOfstring extends ArrayOfstringType
 {
+
+
 }
+

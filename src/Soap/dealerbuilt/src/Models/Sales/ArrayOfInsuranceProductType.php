@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfInsuranceProductType.
+ * Class representing ArrayOfInsuranceProductType
  *
+ * 
  * XSD Type: ArrayOfInsuranceProduct
  */
 class ArrayOfInsuranceProductType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType[] $insuranceProduct
      */
     private $insuranceProduct = [
+        
     ];
 
     /**
-     * Adds as insuranceProduct.
+     * Adds as insuranceProduct
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType $insuranceProduct
      */
-    public function addToInsuranceProduct(InsuranceProductType $insuranceProduct)
+    public function addToInsuranceProduct(\App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType $insuranceProduct)
     {
         $this->insuranceProduct[] = $insuranceProduct;
-
         return $this;
     }
 
     /**
-     * isset insuranceProduct.
+     * isset insuranceProduct
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInsuranceProduct($index)
@@ -42,10 +42,9 @@ class ArrayOfInsuranceProductType
     }
 
     /**
-     * unset insuranceProduct.
+     * unset insuranceProduct
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInsuranceProduct($index)
@@ -54,7 +53,7 @@ class ArrayOfInsuranceProductType
     }
 
     /**
-     * Gets as insuranceProduct.
+     * Gets as insuranceProduct
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfInsuranceProductType
     }
 
     /**
-     * Sets a new insuranceProduct.
+     * Sets a new insuranceProduct
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType[] $insuranceProduct
-     *
      * @return self
      */
     public function setInsuranceProduct(array $insuranceProduct)
     {
         $this->insuranceProduct = $insuranceProduct;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing CompanyPlacement.
+ * Class representing CompanyPlacement
  */
 class CompanyPlacement extends CompanyPlacementType
 {
+
+
 }
+

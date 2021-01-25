@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PushedPaymentType.
+ * Class representing PushedPaymentType
  *
+ * 
  * XSD Type: PushedPayment
  */
 class PushedPaymentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      */
     private $amount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentAttributesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var string
+     * @var string $externalPaymentId
      */
     private $externalPaymentId = null;
 
     /**
-     * @var bool
+     * @var bool $isRefund
      */
     private $isRefund = null;
 
     /**
-     * @var string
+     * @var string $paymentMethodKey
      */
     private $paymentMethodKey = null;
 
     /**
-     * @var string
+     * @var string $username
      */
     private $username = null;
 
     /**
-     * Gets as amount.
+     * Gets as amount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -55,19 +57,19 @@ class PushedPaymentType
     }
 
     /**
-     * Sets a new amount.
+     * Sets a new amount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      * @return self
      */
     public function setAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount)
     {
         $this->amount = $amount;
-
         return $this;
     }
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentAttributesType
      */
@@ -77,21 +79,19 @@ class PushedPaymentType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentAttributesType $attributes
-     *
      * @return self
      */
-    public function setAttributes(PaymentAttributesType $attributes)
+    public function setAttributes(\App\Soap\dealerbuilt\src\BaseApi\PaymentAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -101,21 +101,19 @@ class PushedPaymentType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as externalPaymentId.
+     * Gets as externalPaymentId
      *
      * @return string
      */
@@ -125,21 +123,19 @@ class PushedPaymentType
     }
 
     /**
-     * Sets a new externalPaymentId.
+     * Sets a new externalPaymentId
      *
      * @param string $externalPaymentId
-     *
      * @return self
      */
     public function setExternalPaymentId($externalPaymentId)
     {
         $this->externalPaymentId = $externalPaymentId;
-
         return $this;
     }
 
     /**
-     * Gets as isRefund.
+     * Gets as isRefund
      *
      * @return bool
      */
@@ -149,21 +145,19 @@ class PushedPaymentType
     }
 
     /**
-     * Sets a new isRefund.
+     * Sets a new isRefund
      *
      * @param bool $isRefund
-     *
      * @return self
      */
     public function setIsRefund($isRefund)
     {
         $this->isRefund = $isRefund;
-
         return $this;
     }
 
     /**
-     * Gets as paymentMethodKey.
+     * Gets as paymentMethodKey
      *
      * @return string
      */
@@ -173,21 +167,19 @@ class PushedPaymentType
     }
 
     /**
-     * Sets a new paymentMethodKey.
+     * Sets a new paymentMethodKey
      *
      * @param string $paymentMethodKey
-     *
      * @return self
      */
     public function setPaymentMethodKey($paymentMethodKey)
     {
         $this->paymentMethodKey = $paymentMethodKey;
-
         return $this;
     }
 
     /**
-     * Gets as username.
+     * Gets as username
      *
      * @return string
      */
@@ -197,16 +189,17 @@ class PushedPaymentType
     }
 
     /**
-     * Sets a new username.
+     * Sets a new username
      *
      * @param string $username
-     *
      * @return self
      */
     public function setUsername($username)
     {
         $this->username = $username;
-
         return $this;
     }
+
+
 }
+

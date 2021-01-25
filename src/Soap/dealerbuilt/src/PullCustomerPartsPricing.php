@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerPartsPricing.
+ * Class representing PullCustomerPartsPricing
  */
 class PullCustomerPartsPricing
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPartSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPartSearchCriteriaType $searchCriteria
      */
     private $searchCriteria = null;
 
     /**
-     * Gets as searchCriteria.
+     * Gets as searchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerPartSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullCustomerPartsPricing
     }
 
     /**
-     * Sets a new searchCriteria.
+     * Sets a new searchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPartSearchCriteriaType $searchCriteria
-     *
      * @return self
      */
-    public function setSearchCriteria(BaseApi\CustomerPartSearchCriteriaType $searchCriteria)
+    public function setSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\CustomerPartSearchCriteriaType $searchCriteria)
     {
         $this->searchCriteria = $searchCriteria;
-
         return $this;
     }
+
+
 }
+

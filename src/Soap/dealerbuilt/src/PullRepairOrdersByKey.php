@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullRepairOrdersByKey.
+ * Class representing PullRepairOrdersByKey
  */
 class PullRepairOrdersByKey
 {
+
     /**
-     * @var string[]
+     * @var string[] $repairOrderKeys
      */
     private $repairOrderKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToRepairOrderKeys($string)
     {
         $this->repairOrderKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset repairOrderKeys.
+     * isset repairOrderKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRepairOrderKeys($index)
@@ -39,10 +37,9 @@ class PullRepairOrdersByKey
     }
 
     /**
-     * unset repairOrderKeys.
+     * unset repairOrderKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRepairOrderKeys($index)
@@ -51,7 +48,7 @@ class PullRepairOrdersByKey
     }
 
     /**
-     * Gets as repairOrderKeys.
+     * Gets as repairOrderKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class PullRepairOrdersByKey
     }
 
     /**
-     * Sets a new repairOrderKeys.
+     * Sets a new repairOrderKeys
      *
      * @param string[] $repairOrderKeys
-     *
      * @return self
      */
     public function setRepairOrderKeys(array $repairOrderKeys)
     {
         $this->repairOrderKeys = $repairOrderKeys;
-
         return $this;
     }
+
+
 }
+

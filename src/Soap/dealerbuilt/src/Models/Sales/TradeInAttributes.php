@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing TradeInAttributes.
+ * Class representing TradeInAttributes
  */
 class TradeInAttributes extends TradeInAttributesType
 {
+
+
 }
+

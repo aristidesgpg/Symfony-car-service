@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing ArrayOfCounterTicketPartPushResponse.
+ * Class representing ArrayOfCounterTicketPartPushResponse
  */
 class ArrayOfCounterTicketPartPushResponse extends ArrayOfCounterTicketPartPushResponseType
 {
+
+
 }
+

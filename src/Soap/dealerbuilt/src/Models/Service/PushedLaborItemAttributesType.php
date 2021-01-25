@@ -3,119 +3,121 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedLaborItemAttributesType.
+ * Class representing PushedLaborItemAttributesType
  *
+ * 
  * XSD Type: PushedLaborItemAttributes
  */
 class PushedLaborItemAttributesType
 {
+
     /**
-     * @var float
+     * @var float $adminHours
      */
     private $adminHours = null;
 
     /**
-     * @var string
+     * @var string $cause
      */
     private $cause = null;
 
     /**
-     * @var string
+     * @var string $code
      */
     private $code = null;
 
     /**
-     * @var string
+     * @var string $correction
      */
     private $correction = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var float
+     * @var float $diagnosisHours
      */
     private $diagnosisHours = null;
 
     /**
-     * @var string
+     * @var string $externalLaborItemId
      */
     private $externalLaborItemId = null;
 
     /**
-     * @var string
+     * @var string $failCode
      */
     private $failCode = null;
 
     /**
-     * @var float
+     * @var float $hours
      */
     private $hours = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount
      */
     private $laborAmount = null;
 
     /**
-     * @var string
+     * @var string $laborPriceCode
      */
     private $laborPriceCode = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborRate
      */
     private $laborRate = null;
 
     /**
-     * @var string
+     * @var string $laborType
      */
     private $laborType = null;
 
     /**
-     * @var int
+     * @var int $lineNumber
      */
     private $lineNumber = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var float
+     * @var float $otherLaborHours
      */
     private $otherLaborHours = null;
 
     /**
-     * @var float
+     * @var float $paintMixHours
      */
     private $paintMixHours = null;
 
     /**
-     * @var string
+     * @var string $quickCode
      */
     private $quickCode = null;
 
     /**
-     * @var string
+     * @var string $remark
      */
     private $remark = null;
 
     /**
-     * @var float
+     * @var float $setupHours
      */
     private $setupHours = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType[] $sublets
      */
     private $sublets = null;
 
     /**
-     * Gets as adminHours.
+     * Gets as adminHours
      *
      * @return float
      */
@@ -125,21 +127,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new adminHours.
+     * Sets a new adminHours
      *
      * @param float $adminHours
-     *
      * @return self
      */
     public function setAdminHours($adminHours)
     {
         $this->adminHours = $adminHours;
-
         return $this;
     }
 
     /**
-     * Gets as cause.
+     * Gets as cause
      *
      * @return string
      */
@@ -149,21 +149,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new cause.
+     * Sets a new cause
      *
      * @param string $cause
-     *
      * @return self
      */
     public function setCause($cause)
     {
         $this->cause = $cause;
-
         return $this;
     }
 
     /**
-     * Gets as code.
+     * Gets as code
      *
      * @return string
      */
@@ -173,21 +171,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new code.
+     * Sets a new code
      *
      * @param string $code
-     *
      * @return self
      */
     public function setCode($code)
     {
         $this->code = $code;
-
         return $this;
     }
 
     /**
-     * Gets as correction.
+     * Gets as correction
      *
      * @return string
      */
@@ -197,21 +193,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new correction.
+     * Sets a new correction
      *
      * @param string $correction
-     *
      * @return self
      */
     public function setCorrection($correction)
     {
         $this->correction = $correction;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -221,21 +215,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as diagnosisHours.
+     * Gets as diagnosisHours
      *
      * @return float
      */
@@ -245,21 +237,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new diagnosisHours.
+     * Sets a new diagnosisHours
      *
      * @param float $diagnosisHours
-     *
      * @return self
      */
     public function setDiagnosisHours($diagnosisHours)
     {
         $this->diagnosisHours = $diagnosisHours;
-
         return $this;
     }
 
     /**
-     * Gets as externalLaborItemId.
+     * Gets as externalLaborItemId
      *
      * @return string
      */
@@ -269,21 +259,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new externalLaborItemId.
+     * Sets a new externalLaborItemId
      *
      * @param string $externalLaborItemId
-     *
      * @return self
      */
     public function setExternalLaborItemId($externalLaborItemId)
     {
         $this->externalLaborItemId = $externalLaborItemId;
-
         return $this;
     }
 
     /**
-     * Gets as failCode.
+     * Gets as failCode
      *
      * @return string
      */
@@ -293,21 +281,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new failCode.
+     * Sets a new failCode
      *
      * @param string $failCode
-     *
      * @return self
      */
     public function setFailCode($failCode)
     {
         $this->failCode = $failCode;
-
         return $this;
     }
 
     /**
-     * Gets as hours.
+     * Gets as hours
      *
      * @return float
      */
@@ -317,21 +303,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new hours.
+     * Sets a new hours
      *
      * @param float $hours
-     *
      * @return self
      */
     public function setHours($hours)
     {
         $this->hours = $hours;
-
         return $this;
     }
 
     /**
-     * Gets as laborAmount.
+     * Gets as laborAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -341,19 +325,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new laborAmount.
+     * Sets a new laborAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount
      * @return self
      */
     public function setLaborAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount)
     {
         $this->laborAmount = $laborAmount;
-
         return $this;
     }
 
     /**
-     * Gets as laborPriceCode.
+     * Gets as laborPriceCode
      *
      * @return string
      */
@@ -363,21 +347,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new laborPriceCode.
+     * Sets a new laborPriceCode
      *
      * @param string $laborPriceCode
-     *
      * @return self
      */
     public function setLaborPriceCode($laborPriceCode)
     {
         $this->laborPriceCode = $laborPriceCode;
-
         return $this;
     }
 
     /**
-     * Gets as laborRate.
+     * Gets as laborRate
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -387,19 +369,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new laborRate.
+     * Sets a new laborRate
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborRate
      * @return self
      */
     public function setLaborRate(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborRate)
     {
         $this->laborRate = $laborRate;
-
         return $this;
     }
 
     /**
-     * Gets as laborType.
+     * Gets as laborType
      *
      * @return string
      */
@@ -409,21 +391,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new laborType.
+     * Sets a new laborType
      *
      * @param string $laborType
-     *
      * @return self
      */
     public function setLaborType($laborType)
     {
         $this->laborType = $laborType;
-
         return $this;
     }
 
     /**
-     * Gets as lineNumber.
+     * Gets as lineNumber
      *
      * @return int
      */
@@ -433,21 +413,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new lineNumber.
+     * Sets a new lineNumber
      *
      * @param int $lineNumber
-     *
      * @return self
      */
     public function setLineNumber($lineNumber)
     {
         $this->lineNumber = $lineNumber;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -457,21 +435,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as otherLaborHours.
+     * Gets as otherLaborHours
      *
      * @return float
      */
@@ -481,21 +457,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new otherLaborHours.
+     * Sets a new otherLaborHours
      *
      * @param float $otherLaborHours
-     *
      * @return self
      */
     public function setOtherLaborHours($otherLaborHours)
     {
         $this->otherLaborHours = $otherLaborHours;
-
         return $this;
     }
 
     /**
-     * Gets as paintMixHours.
+     * Gets as paintMixHours
      *
      * @return float
      */
@@ -505,21 +479,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new paintMixHours.
+     * Sets a new paintMixHours
      *
      * @param float $paintMixHours
-     *
      * @return self
      */
     public function setPaintMixHours($paintMixHours)
     {
         $this->paintMixHours = $paintMixHours;
-
         return $this;
     }
 
     /**
-     * Gets as quickCode.
+     * Gets as quickCode
      *
      * @return string
      */
@@ -529,21 +501,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new quickCode.
+     * Sets a new quickCode
      *
      * @param string $quickCode
-     *
      * @return self
      */
     public function setQuickCode($quickCode)
     {
         $this->quickCode = $quickCode;
-
         return $this;
     }
 
     /**
-     * Gets as remark.
+     * Gets as remark
      *
      * @return string
      */
@@ -553,21 +523,19 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new remark.
+     * Sets a new remark
      *
      * @param string $remark
-     *
      * @return self
      */
     public function setRemark($remark)
     {
         $this->remark = $remark;
-
         return $this;
     }
 
     /**
-     * Gets as setupHours.
+     * Gets as setupHours
      *
      * @return float
      */
@@ -577,38 +545,33 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new setupHours.
+     * Sets a new setupHours
      *
      * @param float $setupHours
-     *
      * @return self
      */
     public function setSetupHours($setupHours)
     {
         $this->setupHours = $setupHours;
-
         return $this;
     }
 
     /**
-     * Adds as pushedLaborOperationSubletAttributes.
+     * Adds as pushedLaborOperationSubletAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType $pushedLaborOperationSubletAttributes
      */
-    public function addToSublets(PushedLaborOperationSubletAttributesType $pushedLaborOperationSubletAttributes)
+    public function addToSublets(\App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType $pushedLaborOperationSubletAttributes)
     {
         $this->sublets[] = $pushedLaborOperationSubletAttributes;
-
         return $this;
     }
 
     /**
-     * isset sublets.
+     * isset sublets
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSublets($index)
@@ -617,10 +580,9 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * unset sublets.
+     * unset sublets
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSublets($index)
@@ -629,7 +591,7 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Gets as sublets.
+     * Gets as sublets
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType[]
      */
@@ -639,16 +601,17 @@ class PushedLaborItemAttributesType
     }
 
     /**
-     * Sets a new sublets.
+     * Sets a new sublets
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType[] $sublets
-     *
      * @return self
      */
     public function setSublets(array $sublets)
     {
         $this->sublets = $sublets;
-
         return $this;
     }
+
+
 }
+

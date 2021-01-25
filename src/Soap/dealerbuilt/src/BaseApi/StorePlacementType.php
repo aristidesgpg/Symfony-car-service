@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StorePlacementType.
+ * Class representing StorePlacementType
  *
+ * 
  * XSD Type: StorePlacement
  */
 class StorePlacementType extends CompanyPlacementType
 {
+
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * @var string
+     * @var string $storeName
      */
     private $storeName = null;
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -30,21 +32,19 @@ class StorePlacementType extends CompanyPlacementType
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
 
     /**
-     * Gets as storeName.
+     * Gets as storeName
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class StorePlacementType extends CompanyPlacementType
     }
 
     /**
-     * Sets a new storeName.
+     * Sets a new storeName
      *
      * @param string $storeName
-     *
      * @return self
      */
     public function setStoreName($storeName)
     {
         $this->storeName = $storeName;
-
         return $this;
     }
+
+
 }
+

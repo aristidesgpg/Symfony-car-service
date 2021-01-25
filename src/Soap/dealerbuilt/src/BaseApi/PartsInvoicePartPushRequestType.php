@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsInvoicePartPushRequestType.
+ * Class representing PartsInvoicePartPushRequestType
  *
+ * 
  * XSD Type: PartsInvoicePartPushRequest
  */
 class PartsInvoicePartPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $counterTicketNumber
      */
     private $counterTicketNumber = null;
 
     /**
-     * @var string
+     * @var string $customerId
      */
     private $customerId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartType $part
      */
     private $part = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as counterTicketNumber.
+     * Gets as counterTicketNumber
      *
      * @return string
      */
@@ -40,21 +42,19 @@ class PartsInvoicePartPushRequestType
     }
 
     /**
-     * Sets a new counterTicketNumber.
+     * Sets a new counterTicketNumber
      *
      * @param string $counterTicketNumber
-     *
      * @return self
      */
     public function setCounterTicketNumber($counterTicketNumber)
     {
         $this->counterTicketNumber = $counterTicketNumber;
-
         return $this;
     }
 
     /**
-     * Gets as customerId.
+     * Gets as customerId
      *
      * @return string
      */
@@ -64,21 +64,19 @@ class PartsInvoicePartPushRequestType
     }
 
     /**
-     * Sets a new customerId.
+     * Sets a new customerId
      *
      * @param string $customerId
-     *
      * @return self
      */
     public function setCustomerId($customerId)
     {
         $this->customerId = $customerId;
-
         return $this;
     }
 
     /**
-     * Gets as part.
+     * Gets as part
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartType
      */
@@ -88,19 +86,19 @@ class PartsInvoicePartPushRequestType
     }
 
     /**
-     * Sets a new part.
+     * Sets a new part
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Parts\PartType $part
      * @return self
      */
     public function setPart(\App\Soap\dealerbuilt\src\Models\Parts\PartType $part)
     {
         $this->part = $part;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -110,16 +108,17 @@ class PartsInvoicePartPushRequestType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

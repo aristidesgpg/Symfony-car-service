@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: AllowsEmailContact
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getAllowsEmailContact
                 setter: setAllowsEmailContact
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: AllowsMailContact
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getAllowsMailContact
                 setter: setAllowsMailContact
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: AllowsPhoneContact
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getAllowsPhoneContact
                 setter: setAllowsPhoneContact
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: AllowsSmsContact
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getAllowsSmsContact
                 setter: setAllowsSmsContact
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: Comments
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getComments
                 setter: setComments
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: CustomerNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getCustomerNumber
                 setter: setCustomerNumber
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: CustomerType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getCustomerType
                 setter: setCustomerType
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: DriverLicenseNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getDriverLicenseNumber
                 setter: setDriverLicenseNumber
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: DriverLicenseState
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getDriverLicenseState
                 setter: setDriverLicenseState
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: Identity
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getIdentity
                 setter: setIdentity
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: IsDealerToDealer
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getIsDealerToDealer
                 setter: setIsDealerToDealer
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: IsMarried
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getIsMarried
                 setter: setIsMarried
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: IsWholesale
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getIsWholesale
                 setter: setIsWholesale
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: LastContactDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getLastContactDate
                 setter: setLastContactDate
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: ModifiedStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getModifiedStamp
                 setter: setModifiedStamp
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
             access_type: public_method
             serialized_name: SpouseName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getSpouseName
                 setter: setSpouseName

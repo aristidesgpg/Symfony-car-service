@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullEstimatesByKeyResponse.
+ * Class representing PullEstimatesByKeyResponse
  */
 class PullEstimatesByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateType[] $pullEstimatesByKeyResult
      */
     private $pullEstimatesByKeyResult = null;
 
     /**
-     * Adds as estimate.
+     * Adds as estimate
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateType $estimate
      */
-    public function addToPullEstimatesByKeyResult(BaseApi\EstimateType $estimate)
+    public function addToPullEstimatesByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\EstimateType $estimate)
     {
         $this->pullEstimatesByKeyResult[] = $estimate;
-
         return $this;
     }
 
     /**
-     * isset pullEstimatesByKeyResult.
+     * isset pullEstimatesByKeyResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullEstimatesByKeyResult($index)
@@ -39,10 +37,9 @@ class PullEstimatesByKeyResponse
     }
 
     /**
-     * unset pullEstimatesByKeyResult.
+     * unset pullEstimatesByKeyResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullEstimatesByKeyResult($index)
@@ -51,7 +48,7 @@ class PullEstimatesByKeyResponse
     }
 
     /**
-     * Gets as pullEstimatesByKeyResult.
+     * Gets as pullEstimatesByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateType[]
      */
@@ -61,16 +58,17 @@ class PullEstimatesByKeyResponse
     }
 
     /**
-     * Sets a new pullEstimatesByKeyResult.
+     * Sets a new pullEstimatesByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateType[] $pullEstimatesByKeyResult
-     *
      * @return self
      */
     public function setPullEstimatesByKeyResult(array $pullEstimatesByKeyResult)
     {
         $this->pullEstimatesByKeyResult = $pullEstimatesByKeyResult;
-
         return $this;
     }
+
+
 }
+

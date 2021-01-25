@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPartPushRequestType:
             access_type: public_method
             serialized_name: JobNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getJobNumber
                 setter: setJobNumber
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPartPushRequestType:
             access_type: public_method
             serialized_name: Part
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPart
                 setter: setPart
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPartPushRequestType:
             access_type: public_method
             serialized_name: RepairOrderKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getRepairOrderKey
                 setter: setRepairOrderKey
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPartPushRequestType:
             access_type: public_method
             serialized_name: ServiceLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationId
                 setter: setServiceLocationId

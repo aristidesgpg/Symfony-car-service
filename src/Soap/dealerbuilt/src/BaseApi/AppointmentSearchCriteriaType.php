@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing AppointmentSearchCriteriaType.
+ * Class representing AppointmentSearchCriteriaType
  *
+ * 
  * XSD Type: AppointmentSearchCriteria
  */
 class AppointmentSearchCriteriaType extends ServiceLocationsSearchCriteriaType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $periodEnd
      */
     private $periodEnd = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $periodStart
      */
     private $periodStart = null;
 
     /**
-     * @var string[]
+     * @var string[] $statuses
      */
     private $statuses = null;
 
     /**
-     * Gets as periodEnd.
+     * Gets as periodEnd
      *
      * @return \DateTime
      */
@@ -35,19 +37,19 @@ class AppointmentSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new periodEnd.
+     * Sets a new periodEnd
      *
+     * @param \DateTime $periodEnd
      * @return self
      */
     public function setPeriodEnd(\DateTime $periodEnd)
     {
         $this->periodEnd = $periodEnd;
-
         return $this;
     }
 
     /**
-     * Gets as periodStart.
+     * Gets as periodStart
      *
      * @return \DateTime
      */
@@ -57,36 +59,33 @@ class AppointmentSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new periodStart.
+     * Sets a new periodStart
      *
+     * @param \DateTime $periodStart
      * @return self
      */
     public function setPeriodStart(\DateTime $periodStart)
     {
         $this->periodStart = $periodStart;
-
         return $this;
     }
 
     /**
-     * Adds as appointmentStatus.
+     * Adds as appointmentStatus
      *
      * @return self
-     *
      * @param string $appointmentStatus
      */
     public function addToStatuses($appointmentStatus)
     {
         $this->statuses[] = $appointmentStatus;
-
         return $this;
     }
 
     /**
-     * isset statuses.
+     * isset statuses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStatuses($index)
@@ -95,10 +94,9 @@ class AppointmentSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * unset statuses.
+     * unset statuses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStatuses($index)
@@ -107,7 +105,7 @@ class AppointmentSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Gets as statuses.
+     * Gets as statuses
      *
      * @return string[]
      */
@@ -117,16 +115,17 @@ class AppointmentSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new statuses.
+     * Sets a new statuses
      *
      * @param string $statuses
-     *
      * @return self
      */
     public function setStatuses(array $statuses)
     {
         $this->statuses = $statuses;
-
         return $this;
     }
+
+
 }
+

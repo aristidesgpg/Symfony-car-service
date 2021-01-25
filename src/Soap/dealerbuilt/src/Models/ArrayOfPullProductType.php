@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing ArrayOfPullProductType.
+ * Class representing ArrayOfPullProductType
  *
+ * 
  * XSD Type: ArrayOfPullProduct
  */
 class ArrayOfPullProductType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\PullProductType[]
+     * @var \App\Soap\dealerbuilt\src\Models\PullProductType[] $pullProduct
      */
     private $pullProduct = [
+        
     ];
 
     /**
-     * Adds as pullProduct.
+     * Adds as pullProduct
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\PullProductType $pullProduct
      */
-    public function addToPullProduct(PullProductType $pullProduct)
+    public function addToPullProduct(\App\Soap\dealerbuilt\src\Models\PullProductType $pullProduct)
     {
         $this->pullProduct[] = $pullProduct;
-
         return $this;
     }
 
     /**
-     * isset pullProduct.
+     * isset pullProduct
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullProduct($index)
@@ -42,10 +42,9 @@ class ArrayOfPullProductType
     }
 
     /**
-     * unset pullProduct.
+     * unset pullProduct
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullProduct($index)
@@ -54,7 +53,7 @@ class ArrayOfPullProductType
     }
 
     /**
-     * Gets as pullProduct.
+     * Gets as pullProduct
      *
      * @return \App\Soap\dealerbuilt\src\Models\PullProductType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPullProductType
     }
 
     /**
-     * Sets a new pullProduct.
+     * Sets a new pullProduct
      *
      * @param \App\Soap\dealerbuilt\src\Models\PullProductType[] $pullProduct
-     *
      * @return self
      */
     public function setPullProduct(array $pullProduct)
     {
         $this->pullProduct = $pullProduct;
-
         return $this;
     }
+
+
 }
+

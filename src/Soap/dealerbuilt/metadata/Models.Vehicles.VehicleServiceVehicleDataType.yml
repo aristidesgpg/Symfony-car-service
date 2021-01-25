@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: BrandingStateCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getBrandingStateCode
                 setter: setBrandingStateCode
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: BrandingStateReference
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getBrandingStateReference
                 setter: setBrandingStateReference
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: BrandingTitleDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getBrandingTitleDate
                 setter: setBrandingTitleDate
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: BuildDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getBuildDate
                 setter: setBuildDate
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: DeliveryDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getDeliveryDate
                 setter: setDeliveryDate
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: DeliveryMileage
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getDeliveryMileage
                 setter: setDeliveryMileage
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: EngineNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getEngineNumber
                 setter: setEngineNumber
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: InServiceDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getInServiceDate
                 setter: setInServiceDate
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: InServiceDistanceMeasure
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getInServiceDistanceMeasure
                 setter: setInServiceDistanceMeasure
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: InServiceTypeDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getInServiceTypeDescription
                 setter: setInServiceTypeDescription
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: Make
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getMake
                 setter: setMake
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: Model
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getModel
                 setter: setModel
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: ModelDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getModelDescription
                 setter: setModelDescription
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: ModelYear
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getModelYear
                 setter: setModelYear
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: NonUSVehicleInd
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getNonUSVehicleInd
                 setter: setNonUSVehicleInd
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: Options
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getOptions
                 setter: setOptions
@@ -164,13 +164,13 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
                 inline: false
                 entry_name: VehicleService.VehicleData.Option
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
         trim:
             expose: true
             access_type: public_method
             serialized_name: Trim
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getTrim
                 setter: setTrim
@@ -180,7 +180,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
             access_type: public_method
             serialized_name: VIN
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getVIN
                 setter: setVIN

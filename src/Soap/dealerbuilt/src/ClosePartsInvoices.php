@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ClosePartsInvoices.
+ * Class representing ClosePartsInvoices
  */
 class ClosePartsInvoices
 {
+
     /**
-     * @var string[]
+     * @var string[] $partsInvoiceKeys
      */
     private $partsInvoiceKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToPartsInvoiceKeys($string)
     {
         $this->partsInvoiceKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset partsInvoiceKeys.
+     * isset partsInvoiceKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsInvoiceKeys($index)
@@ -39,10 +37,9 @@ class ClosePartsInvoices
     }
 
     /**
-     * unset partsInvoiceKeys.
+     * unset partsInvoiceKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsInvoiceKeys($index)
@@ -51,7 +48,7 @@ class ClosePartsInvoices
     }
 
     /**
-     * Gets as partsInvoiceKeys.
+     * Gets as partsInvoiceKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class ClosePartsInvoices
     }
 
     /**
-     * Sets a new partsInvoiceKeys.
+     * Sets a new partsInvoiceKeys
      *
      * @param string[] $partsInvoiceKeys
-     *
      * @return self
      */
     public function setPartsInvoiceKeys(array $partsInvoiceKeys)
     {
         $this->partsInvoiceKeys = $partsInvoiceKeys;
-
         return $this;
     }
+
+
 }
+

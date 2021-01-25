@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType:
             access_type: public_method
             serialized_name: BillingAddress
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getBillingAddress
                 setter: setBillingAddress
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType:
             access_type: public_method
             serialized_name: HomePhone
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getHomePhone
                 setter: setHomePhone
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType:
             access_type: public_method
             serialized_name: OtherPhone
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getOtherPhone
                 setter: setOtherPhone
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType:
             access_type: public_method
             serialized_name: WorkPhone
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getWorkPhone
                 setter: setWorkPhone

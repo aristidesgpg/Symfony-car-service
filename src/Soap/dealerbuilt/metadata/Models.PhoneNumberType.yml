@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\PhoneNumberType:
             access_type: public_method
             serialized_name: Digits
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getDigits
                 setter: setDigits
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\PhoneNumberType:
             access_type: public_method
             serialized_name: NumberType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getNumberType
                 setter: setNumberType

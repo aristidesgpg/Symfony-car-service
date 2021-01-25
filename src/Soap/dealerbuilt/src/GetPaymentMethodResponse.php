@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetPaymentMethodResponse.
+ * Class representing GetPaymentMethodResponse
  */
 class GetPaymentMethodResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType[] $getPaymentMethodResult
      */
     private $getPaymentMethodResult = null;
 
     /**
-     * Adds as paymentMethod.
+     * Adds as paymentMethod
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType $paymentMethod
      */
-    public function addToGetPaymentMethodResult(BaseApi\PaymentMethodType $paymentMethod)
+    public function addToGetPaymentMethodResult(\App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType $paymentMethod)
     {
         $this->getPaymentMethodResult[] = $paymentMethod;
-
         return $this;
     }
 
     /**
-     * isset getPaymentMethodResult.
+     * isset getPaymentMethodResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetPaymentMethodResult($index)
@@ -39,10 +37,9 @@ class GetPaymentMethodResponse
     }
 
     /**
-     * unset getPaymentMethodResult.
+     * unset getPaymentMethodResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetPaymentMethodResult($index)
@@ -51,7 +48,7 @@ class GetPaymentMethodResponse
     }
 
     /**
-     * Gets as getPaymentMethodResult.
+     * Gets as getPaymentMethodResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType[]
      */
@@ -61,16 +58,17 @@ class GetPaymentMethodResponse
     }
 
     /**
-     * Sets a new getPaymentMethodResult.
+     * Sets a new getPaymentMethodResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType[] $getPaymentMethodResult
-     *
      * @return self
      */
     public function setGetPaymentMethodResult(array $getPaymentMethodResult)
     {
         $this->getPaymentMethodResult = $getPaymentMethodResult;
-
         return $this;
     }
+
+
 }
+

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfCustomerVehicleSummaryType.
+ * Class representing ArrayOfCustomerVehicleSummaryType
  *
+ * 
  * XSD Type: ArrayOfCustomerVehicleSummary
  */
 class ArrayOfCustomerVehicleSummaryType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleSummaryType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleSummaryType[] $customerVehicleSummary
      */
     private $customerVehicleSummary = [
+        
     ];
 
     /**
-     * Adds as customerVehicleSummary.
+     * Adds as customerVehicleSummary
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleSummaryType $customerVehicleSummary
      */
-    public function addToCustomerVehicleSummary(CustomerVehicleSummaryType $customerVehicleSummary)
+    public function addToCustomerVehicleSummary(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleSummaryType $customerVehicleSummary)
     {
         $this->customerVehicleSummary[] = $customerVehicleSummary;
-
         return $this;
     }
 
     /**
-     * isset customerVehicleSummary.
+     * isset customerVehicleSummary
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCustomerVehicleSummary($index)
@@ -42,10 +42,9 @@ class ArrayOfCustomerVehicleSummaryType
     }
 
     /**
-     * unset customerVehicleSummary.
+     * unset customerVehicleSummary
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCustomerVehicleSummary($index)
@@ -54,7 +53,7 @@ class ArrayOfCustomerVehicleSummaryType
     }
 
     /**
-     * Gets as customerVehicleSummary.
+     * Gets as customerVehicleSummary
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleSummaryType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCustomerVehicleSummaryType
     }
 
     /**
-     * Sets a new customerVehicleSummary.
+     * Sets a new customerVehicleSummary
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleSummaryType[] $customerVehicleSummary
-     *
      * @return self
      */
     public function setCustomerVehicleSummary(array $customerVehicleSummary)
     {
         $this->customerVehicleSummary = $customerVehicleSummary;
-
         return $this;
     }
+
+
 }
+

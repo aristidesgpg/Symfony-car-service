@@ -139,11 +139,15 @@ class DMS
         $defaultTechnician = $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC']);
         $defaultAdvisor = $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_PARTS_ADVISOR'], ['id' => 'ASC']);
         $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
+        dump($dmsOpenRepairOrders);
+
         // Loop over found repair orders
         /**
          * @var DMSResult $dmsOpenRepairOrder
          */
         foreach ($dmsOpenRepairOrders as $dmsOpenRepairOrder) {
+            dump('here');
+
             // First check if it exists already
             $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsOpenRepairOrder->getNumber()]);
             if ($repairOrderExists) {
@@ -160,18 +164,18 @@ class DMS
             //$roKey            = isset($dmsOpenRepairOrder->roKey) ? $dmsOpenRepairOrder->roKey : null;
             $roKey = $dmsOpenRepairOrder->getRoKey();
 
-            // No phone numbers passed, create new customer.
-            if (!$phoneNumbers) {
-                $customer = new Customer();
-                $this->customerHelper->commitCustomer($customer, ['name' => $name, 'email' => $email]);
-            }
+            $customer = $this->customerFinder($dmsOpenRepairOrder);
 
             // Check if the customer exists already
             if (!$customer) {
                 foreach ($phoneNumbers as $phoneNumber) {
                     // Try to find the customer
                     // Check if the customer exists and use that one instead if so
-                    $customer = $this->customerRepo->findOneBy(['phone' => $phoneNumber]);
+                    $customer = $this->customerRepo->findOneBy(['phone' => $phoneNumber->getDigits()]);
+                    //Found a customer so stop looping.
+                    if ($customer) {
+                        break;
+                    }
                 }
             }
 
@@ -190,20 +194,48 @@ class DMS
 
                         if ($phoneValid) {
                             $customer = new Customer();
-                            $newCustomer = $this->customerHelper->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
+                            $newCustomer = $this->customerHelper->commitCustomer($customer, ['phone' => $phoneNumber->getDigits(), 'name' => $name, 'email' => $email]);
 
                             dump($newCustomer);
-                            exit;
+                            //exit;
                         }
                         break;
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         // Nothing for now
                         continue;
                     }
                 }
             }
+
+            // STILL no customer, just used the first number we got
+            if (!$customer && isset($phoneNumbers[0])) {
+                $phoneNumber = $phoneNumbers[0];
+                $customer = new Customer();
+                $this->customerHelper->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
+            }
+
+            // If there isn't a customer at this state, just skip the RO, something seriously weird happened
+            if (!$customer || !$customer->getId()) {
+                continue;
+            }
         }
         dd($dmsOpenRepairOrders);
+    }
+
+    public function customerFinder(DMSResult $dmsOpenRepairOrder)
+    {
+        // No phone numbers passed, create new customer.
+        dump($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers());
+
+        if (empty($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers())) {
+            dd('No PHone Number, ', $dmsOpenRepairOrder);
+            $customer = new Customer();
+            $this->customerHelper->commitCustomer($customer, ['name' => $name, 'email' => $email]);
+            return $customer;
+        }
+
+
+        return null;
     }
 
     public function getDms(): DMSClientInterface

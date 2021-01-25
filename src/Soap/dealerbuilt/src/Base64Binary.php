@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing Base64Binary.
+ * Class representing Base64Binary
  */
 class Base64Binary
 {
+
     /**
-     * @var mixed
+     * @var mixed $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param mixed $value
      */
@@ -23,10 +24,9 @@ class Base64Binary
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param mixed $value
-     *
      * @return mixed
      */
     public function value()
@@ -34,12 +34,11 @@ class Base64Binary
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class Base64Binary
     {
         return strval($this->__value);
     }
+
+
 }
+

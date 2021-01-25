@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PotentialLaborItemPushResponse.
+ * Class representing PotentialLaborItemPushResponse
  */
 class PotentialLaborItemPushResponse extends PotentialLaborItemPushResponseType
 {
+
+
 }
+

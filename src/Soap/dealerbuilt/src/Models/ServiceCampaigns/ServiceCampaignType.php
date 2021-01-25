@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\Models\ServiceCampaigns;
 
 /**
- * Class representing ServiceCampaignType.
+ * Class representing ServiceCampaignType
  *
+ * 
  * XSD Type: ServiceCampaign
  */
 class ServiceCampaignType
 {
+
     /**
-     * @var string
+     * @var string $campaignDescription
      */
     private $campaignDescription = null;
 
     /**
-     * @var string
+     * @var string $campaignDispositionCode
      */
     private $campaignDispositionCode = null;
 
     /**
-     * @var string
+     * @var string $campaignNotes
      */
     private $campaignNotes = null;
 
     /**
-     * @var string
+     * @var string $campaignNumber
      */
     private $campaignNumber = null;
 
     /**
-     * @var string
+     * @var string $customerMemo
      */
     private $customerMemo = null;
 
     /**
-     * @var string
+     * @var string $repairStatusCode
      */
     private $repairStatusCode = null;
 
     /**
-     * @var string[]
+     * @var string[] $serviceBulletinURI
      */
     private $serviceBulletinURI = null;
 
     /**
-     * Gets as campaignDescription.
+     * Gets as campaignDescription
      *
      * @return string
      */
@@ -55,21 +57,19 @@ class ServiceCampaignType
     }
 
     /**
-     * Sets a new campaignDescription.
+     * Sets a new campaignDescription
      *
      * @param string $campaignDescription
-     *
      * @return self
      */
     public function setCampaignDescription($campaignDescription)
     {
         $this->campaignDescription = $campaignDescription;
-
         return $this;
     }
 
     /**
-     * Gets as campaignDispositionCode.
+     * Gets as campaignDispositionCode
      *
      * @return string
      */
@@ -79,21 +79,19 @@ class ServiceCampaignType
     }
 
     /**
-     * Sets a new campaignDispositionCode.
+     * Sets a new campaignDispositionCode
      *
      * @param string $campaignDispositionCode
-     *
      * @return self
      */
     public function setCampaignDispositionCode($campaignDispositionCode)
     {
         $this->campaignDispositionCode = $campaignDispositionCode;
-
         return $this;
     }
 
     /**
-     * Gets as campaignNotes.
+     * Gets as campaignNotes
      *
      * @return string
      */
@@ -103,21 +101,19 @@ class ServiceCampaignType
     }
 
     /**
-     * Sets a new campaignNotes.
+     * Sets a new campaignNotes
      *
      * @param string $campaignNotes
-     *
      * @return self
      */
     public function setCampaignNotes($campaignNotes)
     {
         $this->campaignNotes = $campaignNotes;
-
         return $this;
     }
 
     /**
-     * Gets as campaignNumber.
+     * Gets as campaignNumber
      *
      * @return string
      */
@@ -127,21 +123,19 @@ class ServiceCampaignType
     }
 
     /**
-     * Sets a new campaignNumber.
+     * Sets a new campaignNumber
      *
      * @param string $campaignNumber
-     *
      * @return self
      */
     public function setCampaignNumber($campaignNumber)
     {
         $this->campaignNumber = $campaignNumber;
-
         return $this;
     }
 
     /**
-     * Gets as customerMemo.
+     * Gets as customerMemo
      *
      * @return string
      */
@@ -151,21 +145,19 @@ class ServiceCampaignType
     }
 
     /**
-     * Sets a new customerMemo.
+     * Sets a new customerMemo
      *
      * @param string $customerMemo
-     *
      * @return self
      */
     public function setCustomerMemo($customerMemo)
     {
         $this->customerMemo = $customerMemo;
-
         return $this;
     }
 
     /**
-     * Gets as repairStatusCode.
+     * Gets as repairStatusCode
      *
      * @return string
      */
@@ -175,38 +167,33 @@ class ServiceCampaignType
     }
 
     /**
-     * Sets a new repairStatusCode.
+     * Sets a new repairStatusCode
      *
      * @param string $repairStatusCode
-     *
      * @return self
      */
     public function setRepairStatusCode($repairStatusCode)
     {
         $this->repairStatusCode = $repairStatusCode;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToServiceBulletinURI($string)
     {
         $this->serviceBulletinURI[] = $string;
-
         return $this;
     }
 
     /**
-     * isset serviceBulletinURI.
+     * isset serviceBulletinURI
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceBulletinURI($index)
@@ -215,10 +202,9 @@ class ServiceCampaignType
     }
 
     /**
-     * unset serviceBulletinURI.
+     * unset serviceBulletinURI
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceBulletinURI($index)
@@ -227,7 +213,7 @@ class ServiceCampaignType
     }
 
     /**
-     * Gets as serviceBulletinURI.
+     * Gets as serviceBulletinURI
      *
      * @return string[]
      */
@@ -237,16 +223,17 @@ class ServiceCampaignType
     }
 
     /**
-     * Sets a new serviceBulletinURI.
+     * Sets a new serviceBulletinURI
      *
      * @param string[] $serviceBulletinURI
-     *
      * @return self
      */
     public function setServiceBulletinURI(array $serviceBulletinURI)
     {
         $this->serviceBulletinURI = $serviceBulletinURI;
-
         return $this;
     }
+
+
 }
+

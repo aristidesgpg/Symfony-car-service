@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ArrayOflongType.
+ * Class representing ArrayOflongType
  *
+ * 
  * XSD Type: ArrayOflong
  */
 class ArrayOflongType
 {
+
     /**
-     * @var int[]
+     * @var int[] $long
      */
     private $long = [
+        
     ];
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToLong($long)
     {
         $this->long[] = $long;
-
         return $this;
     }
 
     /**
-     * isset long.
+     * isset long
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLong($index)
@@ -42,10 +42,9 @@ class ArrayOflongType
     }
 
     /**
-     * unset long.
+     * unset long
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLong($index)
@@ -54,7 +53,7 @@ class ArrayOflongType
     }
 
     /**
-     * Gets as long.
+     * Gets as long
      *
      * @return int[]
      */
@@ -64,16 +63,17 @@ class ArrayOflongType
     }
 
     /**
-     * Sets a new long.
+     * Sets a new long
      *
      * @param int[] $long
-     *
      * @return self
      */
     public function setLong(array $long)
     {
         $this->long = $long;
-
         return $this;
     }
+
+
 }
+

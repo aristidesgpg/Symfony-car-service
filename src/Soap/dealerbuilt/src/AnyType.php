@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing AnyType.
+ * Class representing AnyType
  */
 class AnyType
 {
+
     /**
-     * @var mixed
+     * @var mixed $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param mixed $value
      */
@@ -23,10 +24,9 @@ class AnyType
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param mixed $value
-     *
      * @return mixed
      */
     public function value()
@@ -34,12 +34,11 @@ class AnyType
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class AnyType
     {
         return strval($this->__value);
     }
+
+
 }
+

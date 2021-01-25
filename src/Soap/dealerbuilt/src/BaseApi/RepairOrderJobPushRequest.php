@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderJobPushRequest.
+ * Class representing RepairOrderJobPushRequest
  */
 class RepairOrderJobPushRequest extends RepairOrderJobPushRequestType
 {
+
+
 }
+

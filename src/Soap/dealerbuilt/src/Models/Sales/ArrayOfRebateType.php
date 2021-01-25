@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfRebateType.
+ * Class representing ArrayOfRebateType
  *
+ * 
  * XSD Type: ArrayOfRebate
  */
 class ArrayOfRebateType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\RebateType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\RebateType[] $rebate
      */
     private $rebate = [
+        
     ];
 
     /**
-     * Adds as rebate.
+     * Adds as rebate
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\RebateType $rebate
      */
-    public function addToRebate(RebateType $rebate)
+    public function addToRebate(\App\Soap\dealerbuilt\src\Models\Sales\RebateType $rebate)
     {
         $this->rebate[] = $rebate;
-
         return $this;
     }
 
     /**
-     * isset rebate.
+     * isset rebate
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRebate($index)
@@ -42,10 +42,9 @@ class ArrayOfRebateType
     }
 
     /**
-     * unset rebate.
+     * unset rebate
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRebate($index)
@@ -54,7 +53,7 @@ class ArrayOfRebateType
     }
 
     /**
-     * Gets as rebate.
+     * Gets as rebate
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\RebateType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfRebateType
     }
 
     /**
-     * Sets a new rebate.
+     * Sets a new rebate
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\RebateType[] $rebate
-     *
      * @return self
      */
     public function setRebate(array $rebate)
     {
         $this->rebate = $rebate;
-
         return $this;
     }
+
+
 }
+

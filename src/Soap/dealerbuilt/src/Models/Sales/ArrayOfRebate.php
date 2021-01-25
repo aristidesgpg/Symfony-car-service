@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfRebate.
+ * Class representing ArrayOfRebate
  */
 class ArrayOfRebate extends ArrayOfRebateType
 {
+
+
 }
+

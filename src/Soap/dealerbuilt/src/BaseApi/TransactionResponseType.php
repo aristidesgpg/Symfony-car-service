@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing TransactionResponseType.
+ * Class representing TransactionResponseType
  *
+ * 
  * XSD Type: TransactionResponse
  */
 class TransactionResponseType
 {
+
     /**
-     * @var string
+     * @var string $message
      */
     private $message = null;
 
     /**
-     * @var string
+     * @var string $recordKey
      */
     private $recordKey = null;
 
     /**
-     * @var string
+     * @var string $result
      */
     private $result = null;
 
     /**
-     * Gets as message.
+     * Gets as message
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class TransactionResponseType
     }
 
     /**
-     * Sets a new message.
+     * Sets a new message
      *
      * @param string $message
-     *
      * @return self
      */
     public function setMessage($message)
     {
         $this->message = $message;
-
         return $this;
     }
 
     /**
-     * Gets as recordKey.
+     * Gets as recordKey
      *
      * @return string
      */
@@ -59,21 +59,19 @@ class TransactionResponseType
     }
 
     /**
-     * Sets a new recordKey.
+     * Sets a new recordKey
      *
      * @param string $recordKey
-     *
      * @return self
      */
     public function setRecordKey($recordKey)
     {
         $this->recordKey = $recordKey;
-
         return $this;
     }
 
     /**
-     * Gets as result.
+     * Gets as result
      *
      * @return string
      */
@@ -83,16 +81,17 @@ class TransactionResponseType
     }
 
     /**
-     * Sets a new result.
+     * Sets a new result
      *
      * @param string $result
-     *
      * @return self
      */
     public function setResult($result)
     {
         $this->result = $result;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiSourceItem.
+ * Class representing ApiSourceItem
  */
 class ApiSourceItem extends ApiSourceItemType
 {
+
+
 }
+

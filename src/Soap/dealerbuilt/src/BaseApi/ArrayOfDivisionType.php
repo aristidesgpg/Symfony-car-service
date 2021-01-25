@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDivisionType.
+ * Class representing ArrayOfDivisionType
  *
+ * 
  * XSD Type: ArrayOfDivision
  */
 class ArrayOfDivisionType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DivisionType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DivisionType[] $division
      */
     private $division = [
+        
     ];
 
     /**
-     * Adds as division.
+     * Adds as division
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DivisionType $division
      */
-    public function addToDivision(DivisionType $division)
+    public function addToDivision(\App\Soap\dealerbuilt\src\BaseApi\DivisionType $division)
     {
         $this->division[] = $division;
-
         return $this;
     }
 
     /**
-     * isset division.
+     * isset division
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDivision($index)
@@ -42,10 +42,9 @@ class ArrayOfDivisionType
     }
 
     /**
-     * unset division.
+     * unset division
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDivision($index)
@@ -54,7 +53,7 @@ class ArrayOfDivisionType
     }
 
     /**
-     * Gets as division.
+     * Gets as division
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DivisionType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDivisionType
     }
 
     /**
-     * Sets a new division.
+     * Sets a new division
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DivisionType[] $division
-     *
      * @return self
      */
     public function setDivision(array $division)
     {
         $this->division = $division;
-
         return $this;
     }
+
+
 }
+

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPartsByKey.
+ * Class representing PullPartsByKey
  */
 class PullPartsByKey
 {
+
     /**
-     * @var string[]
+     * @var string[] $partKeys
      */
     private $partKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToPartKeys($string)
     {
         $this->partKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset partKeys.
+     * isset partKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartKeys($index)
@@ -39,10 +37,9 @@ class PullPartsByKey
     }
 
     /**
-     * unset partKeys.
+     * unset partKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartKeys($index)
@@ -51,7 +48,7 @@ class PullPartsByKey
     }
 
     /**
-     * Gets as partKeys.
+     * Gets as partKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class PullPartsByKey
     }
 
     /**
-     * Sets a new partKeys.
+     * Sets a new partKeys
      *
      * @param string[] $partKeys
-     *
      * @return self
      */
     public function setPartKeys(array $partKeys)
     {
         $this->partKeys = $partKeys;
-
         return $this;
     }
+
+
 }
+

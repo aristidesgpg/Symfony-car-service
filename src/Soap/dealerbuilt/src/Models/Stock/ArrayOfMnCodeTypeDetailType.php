@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing ArrayOfMnCodeTypeDetailType.
+ * Class representing ArrayOfMnCodeTypeDetailType
  *
+ * 
  * XSD Type: ArrayOfMnCodeTypeDetail
  */
 class ArrayOfMnCodeTypeDetailType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType[] $mnCodeTypeDetail
      */
     private $mnCodeTypeDetail = [
+        
     ];
 
     /**
-     * Adds as mnCodeTypeDetail.
+     * Adds as mnCodeTypeDetail
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType $mnCodeTypeDetail
      */
-    public function addToMnCodeTypeDetail(MnCodeTypeDetailType $mnCodeTypeDetail)
+    public function addToMnCodeTypeDetail(\App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType $mnCodeTypeDetail)
     {
         $this->mnCodeTypeDetail[] = $mnCodeTypeDetail;
-
         return $this;
     }
 
     /**
-     * isset mnCodeTypeDetail.
+     * isset mnCodeTypeDetail
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetMnCodeTypeDetail($index)
@@ -42,10 +42,9 @@ class ArrayOfMnCodeTypeDetailType
     }
 
     /**
-     * unset mnCodeTypeDetail.
+     * unset mnCodeTypeDetail
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetMnCodeTypeDetail($index)
@@ -54,7 +53,7 @@ class ArrayOfMnCodeTypeDetailType
     }
 
     /**
-     * Gets as mnCodeTypeDetail.
+     * Gets as mnCodeTypeDetail
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfMnCodeTypeDetailType
     }
 
     /**
-     * Sets a new mnCodeTypeDetail.
+     * Sets a new mnCodeTypeDetail
      *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType[] $mnCodeTypeDetail
-     *
      * @return self
      */
     public function setMnCodeTypeDetail(array $mnCodeTypeDetail)
     {
         $this->mnCodeTypeDetail = $mnCodeTypeDetail;
-
         return $this;
     }
+
+
 }
+

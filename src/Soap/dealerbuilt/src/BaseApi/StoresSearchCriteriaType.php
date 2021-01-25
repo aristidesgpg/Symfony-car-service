@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StoresSearchCriteriaType.
+ * Class representing StoresSearchCriteriaType
  *
+ * 
  * XSD Type: StoresSearchCriteria
  */
 class StoresSearchCriteriaType extends SearchCriteriaType
 {
+
     /**
-     * @var int[]
+     * @var int[] $storeIds
      */
     private $storeIds = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToStoreIds($long)
     {
         $this->storeIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset storeIds.
+     * isset storeIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStoreIds($index)
@@ -41,10 +40,9 @@ class StoresSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * unset storeIds.
+     * unset storeIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStoreIds($index)
@@ -53,7 +51,7 @@ class StoresSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Gets as storeIds.
+     * Gets as storeIds
      *
      * @return int[]
      */
@@ -63,16 +61,17 @@ class StoresSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new storeIds.
+     * Sets a new storeIds
      *
      * @param int[] $storeIds
-     *
      * @return self
      */
     public function setStoreIds(array $storeIds)
     {
         $this->storeIds = $storeIds;
-
         return $this;
     }
+
+
 }
+

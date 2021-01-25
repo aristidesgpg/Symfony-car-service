@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfCustomerVehiclePushRequestType.
+ * Class representing ArrayOfCustomerVehiclePushRequestType
  *
+ * 
  * XSD Type: ArrayOfCustomerVehiclePushRequest
  */
 class ArrayOfCustomerVehiclePushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType[] $customerVehiclePushRequest
      */
     private $customerVehiclePushRequest = [
+        
     ];
 
     /**
-     * Adds as customerVehiclePushRequest.
+     * Adds as customerVehiclePushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType $customerVehiclePushRequest
      */
-    public function addToCustomerVehiclePushRequest(CustomerVehiclePushRequestType $customerVehiclePushRequest)
+    public function addToCustomerVehiclePushRequest(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType $customerVehiclePushRequest)
     {
         $this->customerVehiclePushRequest[] = $customerVehiclePushRequest;
-
         return $this;
     }
 
     /**
-     * isset customerVehiclePushRequest.
+     * isset customerVehiclePushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCustomerVehiclePushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfCustomerVehiclePushRequestType
     }
 
     /**
-     * unset customerVehiclePushRequest.
+     * unset customerVehiclePushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCustomerVehiclePushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfCustomerVehiclePushRequestType
     }
 
     /**
-     * Gets as customerVehiclePushRequest.
+     * Gets as customerVehiclePushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCustomerVehiclePushRequestType
     }
 
     /**
-     * Sets a new customerVehiclePushRequest.
+     * Sets a new customerVehiclePushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType[] $customerVehiclePushRequest
-     *
      * @return self
      */
     public function setCustomerVehiclePushRequest(array $customerVehiclePushRequest)
     {
         $this->customerVehiclePushRequest = $customerVehiclePushRequest;
-
         return $this;
     }
+
+
 }
+

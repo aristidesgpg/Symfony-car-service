@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
             access_type: public_method
             serialized_name: MaxOrderDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaxOrderDate
                 setter: setMaxOrderDate
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumCloseDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumCloseDate
                 setter: setMaximumCloseDate
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
             access_type: public_method
             serialized_name: MinOrderDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinOrderDate
                 setter: setMinOrderDate
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
             access_type: public_method
             serialized_name: MininumCloseDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMininumCloseDate
                 setter: setMininumCloseDate
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
             access_type: public_method
             serialized_name: OpenScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getOpenScope
                 setter: setOpenScope
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
             access_type: public_method
             serialized_name: OrderTransmissionScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getOrderTransmissionScope
                 setter: setOrderTransmissionScope
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
             access_type: public_method
             serialized_name: SpecialOrderScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getSpecialOrderScope
                 setter: setSpecialOrderScope
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
             access_type: public_method
             serialized_name: VendorCodes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVendorCodes
                 setter: setVendorCodes

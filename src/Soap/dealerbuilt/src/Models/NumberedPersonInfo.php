@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing NumberedPersonInfo.
+ * Class representing NumberedPersonInfo
  */
 class NumberedPersonInfo extends NumberedPersonInfoType
 {
+
+
 }
+

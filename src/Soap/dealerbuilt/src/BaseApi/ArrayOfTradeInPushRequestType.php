@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfTradeInPushRequestType.
+ * Class representing ArrayOfTradeInPushRequestType
  *
+ * 
  * XSD Type: ArrayOfTradeInPushRequest
  */
 class ArrayOfTradeInPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\TradeInPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\TradeInPushRequestType[] $tradeInPushRequest
      */
     private $tradeInPushRequest = [
+        
     ];
 
     /**
-     * Adds as tradeInPushRequest.
+     * Adds as tradeInPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\TradeInPushRequestType $tradeInPushRequest
      */
-    public function addToTradeInPushRequest(TradeInPushRequestType $tradeInPushRequest)
+    public function addToTradeInPushRequest(\App\Soap\dealerbuilt\src\BaseApi\TradeInPushRequestType $tradeInPushRequest)
     {
         $this->tradeInPushRequest[] = $tradeInPushRequest;
-
         return $this;
     }
 
     /**
-     * isset tradeInPushRequest.
+     * isset tradeInPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetTradeInPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfTradeInPushRequestType
     }
 
     /**
-     * unset tradeInPushRequest.
+     * unset tradeInPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetTradeInPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfTradeInPushRequestType
     }
 
     /**
-     * Gets as tradeInPushRequest.
+     * Gets as tradeInPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\TradeInPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfTradeInPushRequestType
     }
 
     /**
-     * Sets a new tradeInPushRequest.
+     * Sets a new tradeInPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\TradeInPushRequestType[] $tradeInPushRequest
-     *
      * @return self
      */
     public function setTradeInPushRequest(array $tradeInPushRequest)
     {
         $this->tradeInPushRequest = $tradeInPushRequest;
-
         return $this;
     }
+
+
 }
+

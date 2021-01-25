@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfEstimatePushResponse.
+ * Class representing ArrayOfEstimatePushResponse
  */
 class ArrayOfEstimatePushResponse extends ArrayOfEstimatePushResponseType
 {
+
+
 }
+

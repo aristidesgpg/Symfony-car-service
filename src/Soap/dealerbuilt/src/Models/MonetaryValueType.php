@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing MonetaryValueType.
+ * Class representing MonetaryValueType
  *
+ * 
  * XSD Type: MonetaryValue
  */
 class MonetaryValueType
 {
+
     /**
-     * @var float
+     * @var float $amount
      */
     private $amount = null;
 
     /**
-     * @var string
+     * @var string $currency
      */
     private $currency = null;
 
     /**
-     * Gets as amount.
+     * Gets as amount
      *
      * @return float
      */
@@ -30,21 +32,19 @@ class MonetaryValueType
     }
 
     /**
-     * Sets a new amount.
+     * Sets a new amount
      *
      * @param float $amount
-     *
      * @return self
      */
     public function setAmount($amount)
     {
         $this->amount = $amount;
-
         return $this;
     }
 
     /**
-     * Gets as currency.
+     * Gets as currency
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class MonetaryValueType
     }
 
     /**
-     * Sets a new currency.
+     * Sets a new currency
      *
      * @param string $currency
-     *
      * @return self
      */
     public function setCurrency($currency)
     {
         $this->currency = $currency;
-
         return $this;
     }
+
+
 }
+

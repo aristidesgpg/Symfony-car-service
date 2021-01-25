@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DealerAppointmentStatusList.
+ * Class representing DealerAppointmentStatusList
  */
 class DealerAppointmentStatusList extends DealerAppointmentStatusListType
 {
+
+
 }
+

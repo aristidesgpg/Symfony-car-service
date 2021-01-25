@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: AdvertisingSource
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAdvertisingSource
                 setter: setAdvertisingSource
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: CustomerKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerKey
                 setter: setCustomerKey
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: DealKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDealKey
                 setter: setDealKey
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: ExternalProspectId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExternalProspectId
                 setter: setExternalProspectId
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: Identity
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getIdentity
                 setter: setIdentity
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: License
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getLicense
                 setter: setLicense
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: ProspectSource
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getProspectSource
                 setter: setProspectSource
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: SalesNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getSalesNumber
                 setter: setSalesNumber
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
             access_type: public_method
             serialized_name: StoreId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStoreId
                 setter: setStoreId

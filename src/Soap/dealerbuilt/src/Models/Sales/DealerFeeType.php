@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing DealerFeeType.
+ * Class representing DealerFeeType
  *
+ * 
  * XSD Type: DealerFee
  */
 class DealerFeeType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $feeAmount
      */
     private $feeAmount = null;
 
     /**
-     * @var string
+     * @var string $feeDescription
      */
     private $feeDescription = null;
 
     /**
-     * @var string
+     * @var string $feeHandlingType
      */
     private $feeHandlingType = null;
 
     /**
-     * @var string
+     * @var string $feeType
      */
     private $feeType = null;
 
     /**
-     * Gets as feeAmount.
+     * Gets as feeAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -40,19 +42,19 @@ class DealerFeeType
     }
 
     /**
-     * Sets a new feeAmount.
+     * Sets a new feeAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $feeAmount
      * @return self
      */
     public function setFeeAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $feeAmount)
     {
         $this->feeAmount = $feeAmount;
-
         return $this;
     }
 
     /**
-     * Gets as feeDescription.
+     * Gets as feeDescription
      *
      * @return string
      */
@@ -62,21 +64,19 @@ class DealerFeeType
     }
 
     /**
-     * Sets a new feeDescription.
+     * Sets a new feeDescription
      *
      * @param string $feeDescription
-     *
      * @return self
      */
     public function setFeeDescription($feeDescription)
     {
         $this->feeDescription = $feeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as feeHandlingType.
+     * Gets as feeHandlingType
      *
      * @return string
      */
@@ -86,21 +86,19 @@ class DealerFeeType
     }
 
     /**
-     * Sets a new feeHandlingType.
+     * Sets a new feeHandlingType
      *
      * @param string $feeHandlingType
-     *
      * @return self
      */
     public function setFeeHandlingType($feeHandlingType)
     {
         $this->feeHandlingType = $feeHandlingType;
-
         return $this;
     }
 
     /**
-     * Gets as feeType.
+     * Gets as feeType
      *
      * @return string
      */
@@ -110,16 +108,17 @@ class DealerFeeType
     }
 
     /**
-     * Sets a new feeType.
+     * Sets a new feeType
      *
      * @param string $feeType
-     *
      * @return self
      */
     public function setFeeType($feeType)
     {
         $this->feeType = $feeType;
-
         return $this;
     }
+
+
 }
+

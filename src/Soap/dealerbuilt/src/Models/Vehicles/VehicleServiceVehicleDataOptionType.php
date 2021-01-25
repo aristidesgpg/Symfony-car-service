@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\Models\Vehicles;
 
 /**
- * Class representing VehicleServiceVehicleDataOptionType.
+ * Class representing VehicleServiceVehicleDataOptionType
  *
+ * 
  * XSD Type: VehicleService.VehicleData.Option
  */
 class VehicleServiceVehicleDataOptionType
 {
+
     /**
-     * @var string
+     * @var string $optionID
      */
     private $optionID = null;
 
     /**
-     * @var string
+     * @var string $optionNotes
      */
     private $optionNotes = null;
 
     /**
-     * @var string
+     * @var string $optionShortDescription
      */
     private $optionShortDescription = null;
 
     /**
-     * Gets as optionID.
+     * Gets as optionID
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class VehicleServiceVehicleDataOptionType
     }
 
     /**
-     * Sets a new optionID.
+     * Sets a new optionID
      *
      * @param string $optionID
-     *
      * @return self
      */
     public function setOptionID($optionID)
     {
         $this->optionID = $optionID;
-
         return $this;
     }
 
     /**
-     * Gets as optionNotes.
+     * Gets as optionNotes
      *
      * @return string
      */
@@ -59,21 +59,19 @@ class VehicleServiceVehicleDataOptionType
     }
 
     /**
-     * Sets a new optionNotes.
+     * Sets a new optionNotes
      *
      * @param string $optionNotes
-     *
      * @return self
      */
     public function setOptionNotes($optionNotes)
     {
         $this->optionNotes = $optionNotes;
-
         return $this;
     }
 
     /**
-     * Gets as optionShortDescription.
+     * Gets as optionShortDescription
      *
      * @return string
      */
@@ -83,16 +81,17 @@ class VehicleServiceVehicleDataOptionType
     }
 
     /**
-     * Sets a new optionShortDescription.
+     * Sets a new optionShortDescription
      *
      * @param string $optionShortDescription
-     *
      * @return self
      */
     public function setOptionShortDescription($optionShortDescription)
     {
         $this->optionShortDescription = $optionShortDescription;
-
         return $this;
     }
+
+
 }
+

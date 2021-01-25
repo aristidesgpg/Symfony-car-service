@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
             access_type: public_method
             serialized_name: ClosedScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getClosedScope
                 setter: setClosedScope
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
             access_type: public_method
             serialized_name: DeliveredScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDeliveredScope
                 setter: setDeliveredScope
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
             access_type: public_method
             serialized_name: DeliveryScope
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDeliveryScope
                 setter: setDeliveryScope
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumClosedStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumClosedStamp
                 setter: setMaximumClosedStamp
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumClosedStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumClosedStamp
                 setter: setMinimumClosedStamp
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
             access_type: public_method
             serialized_name: PartsInvoiceNumbers
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPartsInvoiceNumbers
                 setter: setPartsInvoiceNumbers
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
             access_type: public_method
             serialized_name: SoldToCustomerKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getSoldToCustomerKey
                 setter: setSoldToCustomerKey

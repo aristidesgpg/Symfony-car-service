@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StoreSetupType.
+ * Class representing StoreSetupType
  *
+ * 
  * XSD Type: StoreSetup
  */
 class StoreSetupType extends ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType
      */
@@ -25,14 +27,17 @@ class StoreSetupType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
+
+
 }
+

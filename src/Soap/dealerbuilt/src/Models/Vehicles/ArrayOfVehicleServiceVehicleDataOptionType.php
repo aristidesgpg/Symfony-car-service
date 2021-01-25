@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Vehicles;
 
 /**
- * Class representing ArrayOfVehicleServiceVehicleDataOptionType.
+ * Class representing ArrayOfVehicleServiceVehicleDataOptionType
  *
+ * 
  * XSD Type: ArrayOfVehicleService.VehicleData.Option
  */
 class ArrayOfVehicleServiceVehicleDataOptionType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataOptionType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataOptionType[] $vehicleServiceVehicleDataOption
      */
     private $vehicleServiceVehicleDataOption = [
+        
     ];
 
     /**
-     * Adds as vehicleServiceVehicleDataOption.
+     * Adds as vehicleServiceVehicleDataOption
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataOptionType $vehicleServiceVehicleDataOption
      */
-    public function addToVehicleServiceVehicleDataOption(VehicleServiceVehicleDataOptionType $vehicleServiceVehicleDataOption)
+    public function addToVehicleServiceVehicleDataOption(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataOptionType $vehicleServiceVehicleDataOption)
     {
         $this->vehicleServiceVehicleDataOption[] = $vehicleServiceVehicleDataOption;
-
         return $this;
     }
 
     /**
-     * isset vehicleServiceVehicleDataOption.
+     * isset vehicleServiceVehicleDataOption
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVehicleServiceVehicleDataOption($index)
@@ -42,10 +42,9 @@ class ArrayOfVehicleServiceVehicleDataOptionType
     }
 
     /**
-     * unset vehicleServiceVehicleDataOption.
+     * unset vehicleServiceVehicleDataOption
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVehicleServiceVehicleDataOption($index)
@@ -54,7 +53,7 @@ class ArrayOfVehicleServiceVehicleDataOptionType
     }
 
     /**
-     * Gets as vehicleServiceVehicleDataOption.
+     * Gets as vehicleServiceVehicleDataOption
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataOptionType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfVehicleServiceVehicleDataOptionType
     }
 
     /**
-     * Sets a new vehicleServiceVehicleDataOption.
+     * Sets a new vehicleServiceVehicleDataOption
      *
      * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataOptionType[] $vehicleServiceVehicleDataOption
-     *
      * @return self
      */
     public function setVehicleServiceVehicleDataOption(array $vehicleServiceVehicleDataOption)
     {
         $this->vehicleServiceVehicleDataOption = $vehicleServiceVehicleDataOption;
-
         return $this;
     }
+
+
 }
+

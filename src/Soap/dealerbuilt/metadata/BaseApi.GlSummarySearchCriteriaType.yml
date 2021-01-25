@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlSummarySearchCriteriaType:
             access_type: public_method
             serialized_name: Divisions
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDivisions
                 setter: setDivisions
@@ -20,7 +20,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlSummarySearchCriteriaType:
             access_type: public_method
             serialized_name: EndMonth
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEndMonth
                 setter: setEndMonth
@@ -30,7 +30,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlSummarySearchCriteriaType:
             access_type: public_method
             serialized_name: EndYear
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEndYear
                 setter: setEndYear
@@ -40,7 +40,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlSummarySearchCriteriaType:
             access_type: public_method
             serialized_name: IncludeFuturePostedActivity
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getIncludeFuturePostedActivity
                 setter: setIncludeFuturePostedActivity
@@ -50,7 +50,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlSummarySearchCriteriaType:
             access_type: public_method
             serialized_name: RollUpSpreadAccounts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getRollUpSpreadAccounts
                 setter: setRollUpSpreadAccounts
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlSummarySearchCriteriaType:
             access_type: public_method
             serialized_name: StartMonth
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStartMonth
                 setter: setStartMonth
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlSummarySearchCriteriaType:
             access_type: public_method
             serialized_name: StartYear
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStartYear
                 setter: setStartYear

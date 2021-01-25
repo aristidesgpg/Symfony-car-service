@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetLendersResponse.
+ * Class representing GetLendersResponse
  */
 class GetLendersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\LenderType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\LenderType[] $getLendersResult
      */
     private $getLendersResult = null;
 
     /**
-     * Adds as lender.
+     * Adds as lender
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LenderType $lender
      */
-    public function addToGetLendersResult(BaseApi\LenderType $lender)
+    public function addToGetLendersResult(\App\Soap\dealerbuilt\src\BaseApi\LenderType $lender)
     {
         $this->getLendersResult[] = $lender;
-
         return $this;
     }
 
     /**
-     * isset getLendersResult.
+     * isset getLendersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetLendersResult($index)
@@ -39,10 +37,9 @@ class GetLendersResponse
     }
 
     /**
-     * unset getLendersResult.
+     * unset getLendersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetLendersResult($index)
@@ -51,7 +48,7 @@ class GetLendersResponse
     }
 
     /**
-     * Gets as getLendersResult.
+     * Gets as getLendersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\LenderType[]
      */
@@ -61,16 +58,17 @@ class GetLendersResponse
     }
 
     /**
-     * Sets a new getLendersResult.
+     * Sets a new getLendersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LenderType[] $getLendersResult
-     *
      * @return self
      */
     public function setGetLendersResult(array $getLendersResult)
     {
         $this->getLendersResult = $getLendersResult;
-
         return $this;
     }
+
+
 }
+

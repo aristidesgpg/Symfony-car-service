@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPurchaseOrderType.
+ * Class representing ArrayOfPurchaseOrderType
  *
+ * 
  * XSD Type: ArrayOfPurchaseOrder
  */
 class ArrayOfPurchaseOrderType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType[] $purchaseOrder
      */
     private $purchaseOrder = [
+        
     ];
 
     /**
-     * Adds as purchaseOrder.
+     * Adds as purchaseOrder
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType $purchaseOrder
      */
-    public function addToPurchaseOrder(PurchaseOrderType $purchaseOrder)
+    public function addToPurchaseOrder(\App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType $purchaseOrder)
     {
         $this->purchaseOrder[] = $purchaseOrder;
-
         return $this;
     }
 
     /**
-     * isset purchaseOrder.
+     * isset purchaseOrder
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPurchaseOrder($index)
@@ -42,10 +42,9 @@ class ArrayOfPurchaseOrderType
     }
 
     /**
-     * unset purchaseOrder.
+     * unset purchaseOrder
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPurchaseOrder($index)
@@ -54,7 +53,7 @@ class ArrayOfPurchaseOrderType
     }
 
     /**
-     * Gets as purchaseOrder.
+     * Gets as purchaseOrder
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPurchaseOrderType
     }
 
     /**
-     * Sets a new purchaseOrder.
+     * Sets a new purchaseOrder
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType[] $purchaseOrder
-     *
      * @return self
      */
     public function setPurchaseOrder(array $purchaseOrder)
     {
         $this->purchaseOrder = $purchaseOrder;
-
         return $this;
     }
+
+
 }
+

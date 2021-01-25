@@ -3,84 +3,86 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing CounterTicketType.
+ * Class representing CounterTicketType
  *
+ * 
  * XSD Type: CounterTicket
  */
 class CounterTicketType
 {
+
     /**
-     * @var string
+     * @var string $correlationId
      */
     private $correlationId = null;
 
     /**
-     * @var string
+     * @var string $counterTicketNumber
      */
     private $counterTicketNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType $customer
      */
     private $customer = null;
 
     /**
-     * @var string
+     * @var string $customerId
      */
     private $customerId = null;
 
     /**
-     * @var bool
+     * @var bool $isEstimate
      */
     private $isEstimate = null;
 
     /**
-     * @var string
+     * @var string $notes
      */
     private $notes = null;
 
     /**
-     * @var string
+     * @var string $pONumber
      */
     private $pONumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartType[] $parts
      */
     private $parts = null;
 
     /**
-     * @var string
+     * @var string $paymentMethod
      */
     private $paymentMethod = null;
 
     /**
-     * @var string
+     * @var string $salesPerson1
      */
     private $salesPerson1 = null;
 
     /**
-     * @var string
+     * @var string $salesPerson2
      */
     private $salesPerson2 = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\AddressType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\AddressType $shippingAddress
      */
     private $shippingAddress = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $shippingCost
      */
     private $shippingCost = null;
 
     /**
-     * @var string
+     * @var string $shippingMethod
      */
     private $shippingMethod = null;
 
     /**
-     * Gets as correlationId.
+     * Gets as correlationId
      *
      * @return string
      */
@@ -90,21 +92,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new correlationId.
+     * Sets a new correlationId
      *
      * @param string $correlationId
-     *
      * @return self
      */
     public function setCorrelationId($correlationId)
     {
         $this->correlationId = $correlationId;
-
         return $this;
     }
 
     /**
-     * Gets as counterTicketNumber.
+     * Gets as counterTicketNumber
      *
      * @return string
      */
@@ -114,21 +114,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new counterTicketNumber.
+     * Sets a new counterTicketNumber
      *
      * @param string $counterTicketNumber
-     *
      * @return self
      */
     public function setCounterTicketNumber($counterTicketNumber)
     {
         $this->counterTicketNumber = $counterTicketNumber;
-
         return $this;
     }
 
     /**
-     * Gets as customer.
+     * Gets as customer
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType
      */
@@ -138,21 +136,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new customer.
+     * Sets a new customer
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType $customer
-     *
      * @return self
      */
-    public function setCustomer(CounterTicketCustomerType $customer)
+    public function setCustomer(\App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType $customer)
     {
         $this->customer = $customer;
-
         return $this;
     }
 
     /**
-     * Gets as customerId.
+     * Gets as customerId
      *
      * @return string
      */
@@ -162,21 +158,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new customerId.
+     * Sets a new customerId
      *
      * @param string $customerId
-     *
      * @return self
      */
     public function setCustomerId($customerId)
     {
         $this->customerId = $customerId;
-
         return $this;
     }
 
     /**
-     * Gets as isEstimate.
+     * Gets as isEstimate
      *
      * @return bool
      */
@@ -186,21 +180,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new isEstimate.
+     * Sets a new isEstimate
      *
      * @param bool $isEstimate
-     *
      * @return self
      */
     public function setIsEstimate($isEstimate)
     {
         $this->isEstimate = $isEstimate;
-
         return $this;
     }
 
     /**
-     * Gets as notes.
+     * Gets as notes
      *
      * @return string
      */
@@ -210,21 +202,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new notes.
+     * Sets a new notes
      *
      * @param string $notes
-     *
      * @return self
      */
     public function setNotes($notes)
     {
         $this->notes = $notes;
-
         return $this;
     }
 
     /**
-     * Gets as pONumber.
+     * Gets as pONumber
      *
      * @return string
      */
@@ -234,38 +224,33 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new pONumber.
+     * Sets a new pONumber
      *
      * @param string $pONumber
-     *
      * @return self
      */
     public function setPONumber($pONumber)
     {
         $this->pONumber = $pONumber;
-
         return $this;
     }
 
     /**
-     * Adds as part.
+     * Adds as part
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartType $part
      */
-    public function addToParts(PartType $part)
+    public function addToParts(\App\Soap\dealerbuilt\src\Models\Parts\PartType $part)
     {
         $this->parts[] = $part;
-
         return $this;
     }
 
     /**
-     * isset parts.
+     * isset parts
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetParts($index)
@@ -274,10 +259,9 @@ class CounterTicketType
     }
 
     /**
-     * unset parts.
+     * unset parts
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetParts($index)
@@ -286,7 +270,7 @@ class CounterTicketType
     }
 
     /**
-     * Gets as parts.
+     * Gets as parts
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartType[]
      */
@@ -296,21 +280,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new parts.
+     * Sets a new parts
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartType[] $parts
-     *
      * @return self
      */
     public function setParts(array $parts)
     {
         $this->parts = $parts;
-
         return $this;
     }
 
     /**
-     * Gets as paymentMethod.
+     * Gets as paymentMethod
      *
      * @return string
      */
@@ -320,21 +302,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new paymentMethod.
+     * Sets a new paymentMethod
      *
      * @param string $paymentMethod
-     *
      * @return self
      */
     public function setPaymentMethod($paymentMethod)
     {
         $this->paymentMethod = $paymentMethod;
-
         return $this;
     }
 
     /**
-     * Gets as salesPerson1.
+     * Gets as salesPerson1
      *
      * @return string
      */
@@ -344,21 +324,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new salesPerson1.
+     * Sets a new salesPerson1
      *
      * @param string $salesPerson1
-     *
      * @return self
      */
     public function setSalesPerson1($salesPerson1)
     {
         $this->salesPerson1 = $salesPerson1;
-
         return $this;
     }
 
     /**
-     * Gets as salesPerson2.
+     * Gets as salesPerson2
      *
      * @return string
      */
@@ -368,21 +346,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new salesPerson2.
+     * Sets a new salesPerson2
      *
      * @param string $salesPerson2
-     *
      * @return self
      */
     public function setSalesPerson2($salesPerson2)
     {
         $this->salesPerson2 = $salesPerson2;
-
         return $this;
     }
 
     /**
-     * Gets as shippingAddress.
+     * Gets as shippingAddress
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\AddressType
      */
@@ -392,21 +368,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new shippingAddress.
+     * Sets a new shippingAddress
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\AddressType $shippingAddress
-     *
      * @return self
      */
-    public function setShippingAddress(AddressType $shippingAddress)
+    public function setShippingAddress(\App\Soap\dealerbuilt\src\Models\Parts\AddressType $shippingAddress)
     {
         $this->shippingAddress = $shippingAddress;
-
         return $this;
     }
 
     /**
-     * Gets as shippingCost.
+     * Gets as shippingCost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -416,19 +390,19 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new shippingCost.
+     * Sets a new shippingCost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $shippingCost
      * @return self
      */
     public function setShippingCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $shippingCost)
     {
         $this->shippingCost = $shippingCost;
-
         return $this;
     }
 
     /**
-     * Gets as shippingMethod.
+     * Gets as shippingMethod
      *
      * @return string
      */
@@ -438,16 +412,17 @@ class CounterTicketType
     }
 
     /**
-     * Sets a new shippingMethod.
+     * Sets a new shippingMethod
      *
      * @param string $shippingMethod
-     *
      * @return self
      */
     public function setShippingMethod($shippingMethod)
     {
         $this->shippingMethod = $shippingMethod;
-
         return $this;
     }
+
+
 }
+

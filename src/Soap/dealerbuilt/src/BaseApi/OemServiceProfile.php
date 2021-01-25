@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing OemServiceProfile.
+ * Class representing OemServiceProfile
  */
 class OemServiceProfile extends OemServiceProfileType
 {
+
+
 }
+

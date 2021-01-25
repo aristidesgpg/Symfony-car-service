@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\ArrayOfNumberedPersonInfoType:
             access_type: public_method
             serialized_name: NumberedPersonInfo
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getNumberedPersonInfo
                 setter: setNumberedPersonInfo
             xml_list:
                 inline: true
                 entry_name: NumberedPersonInfo
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             type: array<App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType>

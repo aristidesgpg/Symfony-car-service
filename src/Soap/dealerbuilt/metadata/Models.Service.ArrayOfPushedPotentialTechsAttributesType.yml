@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\Service\ArrayOfPushedPotentialTechsAttributesTyp
             access_type: public_method
             serialized_name: PushedPotentialTechsAttributes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPushedPotentialTechsAttributes
                 setter: setPushedPotentialTechsAttributes
             xml_list:
                 inline: true
                 entry_name: PushedPotentialTechsAttributes
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             type: array<App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType>

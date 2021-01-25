@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfEstimate.
+ * Class representing ArrayOfEstimate
  */
 class ArrayOfEstimate extends ArrayOfEstimateType
 {
+
+
 }
+

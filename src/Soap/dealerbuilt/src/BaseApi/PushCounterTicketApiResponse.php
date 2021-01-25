@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PushCounterTicketApiResponse.
+ * Class representing PushCounterTicketApiResponse
  */
 class PushCounterTicketApiResponse extends PushCounterTicketApiResponseType
 {
+
+
 }
+

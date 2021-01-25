@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CheckSearchCriteria.
+ * Class representing CheckSearchCriteria
  */
 class CheckSearchCriteria extends CheckSearchCriteriaType
 {
+
+
 }
+

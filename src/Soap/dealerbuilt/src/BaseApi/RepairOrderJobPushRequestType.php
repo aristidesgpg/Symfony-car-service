@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderJobPushRequestType.
+ * Class representing RepairOrderJobPushRequestType
  *
+ * 
  * XSD Type: RepairOrderJobPushRequest
  */
 class RepairOrderJobPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType $job
      */
     private $job = null;
 
     /**
-     * @var int
+     * @var int $jobNumber
      */
     private $jobNumber = null;
 
     /**
-     * @var string
+     * @var string $repairOrderKey
      */
     private $repairOrderKey = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as job.
+     * Gets as job
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType
      */
@@ -40,19 +42,19 @@ class RepairOrderJobPushRequestType
     }
 
     /**
-     * Sets a new job.
+     * Sets a new job
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType $job
      * @return self
      */
     public function setJob(\App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType $job)
     {
         $this->job = $job;
-
         return $this;
     }
 
     /**
-     * Gets as jobNumber.
+     * Gets as jobNumber
      *
      * @return int
      */
@@ -62,21 +64,19 @@ class RepairOrderJobPushRequestType
     }
 
     /**
-     * Sets a new jobNumber.
+     * Sets a new jobNumber
      *
      * @param int $jobNumber
-     *
      * @return self
      */
     public function setJobNumber($jobNumber)
     {
         $this->jobNumber = $jobNumber;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderKey.
+     * Gets as repairOrderKey
      *
      * @return string
      */
@@ -86,21 +86,19 @@ class RepairOrderJobPushRequestType
     }
 
     /**
-     * Sets a new repairOrderKey.
+     * Sets a new repairOrderKey
      *
      * @param string $repairOrderKey
-     *
      * @return self
      */
     public function setRepairOrderKey($repairOrderKey)
     {
         $this->repairOrderKey = $repairOrderKey;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -110,16 +108,17 @@ class RepairOrderJobPushRequestType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

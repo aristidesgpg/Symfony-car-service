@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerType:
             access_type: public_method
             serialized_name: Attributes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getAttributes
                 setter: setAttributes
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Customers\CustomerType:
             access_type: public_method
             serialized_name: CustomerId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers'
             accessor:
                 getter: getCustomerId
                 setter: setCustomerId

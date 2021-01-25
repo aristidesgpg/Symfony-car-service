@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPartsOrdersByNumberResponse.
+ * Class representing PullPartsOrdersByNumberResponse
  */
 class PullPartsOrdersByNumberResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType[] $pullPartsOrdersByNumberResult
      */
     private $pullPartsOrdersByNumberResult = null;
 
     /**
-     * Adds as partsOrder.
+     * Adds as partsOrder
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType $partsOrder
      */
-    public function addToPullPartsOrdersByNumberResult(BaseApi\PartsOrderType $partsOrder)
+    public function addToPullPartsOrdersByNumberResult(\App\Soap\dealerbuilt\src\BaseApi\PartsOrderType $partsOrder)
     {
         $this->pullPartsOrdersByNumberResult[] = $partsOrder;
-
         return $this;
     }
 
     /**
-     * isset pullPartsOrdersByNumberResult.
+     * isset pullPartsOrdersByNumberResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullPartsOrdersByNumberResult($index)
@@ -39,10 +37,9 @@ class PullPartsOrdersByNumberResponse
     }
 
     /**
-     * unset pullPartsOrdersByNumberResult.
+     * unset pullPartsOrdersByNumberResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullPartsOrdersByNumberResult($index)
@@ -51,7 +48,7 @@ class PullPartsOrdersByNumberResponse
     }
 
     /**
-     * Gets as pullPartsOrdersByNumberResult.
+     * Gets as pullPartsOrdersByNumberResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType[]
      */
@@ -61,16 +58,17 @@ class PullPartsOrdersByNumberResponse
     }
 
     /**
-     * Sets a new pullPartsOrdersByNumberResult.
+     * Sets a new pullPartsOrdersByNumberResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType[] $pullPartsOrdersByNumberResult
-     *
      * @return self
      */
     public function setPullPartsOrdersByNumberResult(array $pullPartsOrdersByNumberResult)
     {
         $this->pullPartsOrdersByNumberResult = $pullPartsOrdersByNumberResult;
-
         return $this;
     }
+
+
 }
+

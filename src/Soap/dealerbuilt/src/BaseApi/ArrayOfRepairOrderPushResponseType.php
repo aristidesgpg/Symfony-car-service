@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfRepairOrderPushResponseType.
+ * Class representing ArrayOfRepairOrderPushResponseType
  *
+ * 
  * XSD Type: ArrayOfRepairOrderPushResponse
  */
 class ArrayOfRepairOrderPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[] $repairOrderPushResponse
      */
     private $repairOrderPushResponse = [
+        
     ];
 
     /**
-     * Adds as repairOrderPushResponse.
+     * Adds as repairOrderPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType $repairOrderPushResponse
      */
-    public function addToRepairOrderPushResponse(RepairOrderPushResponseType $repairOrderPushResponse)
+    public function addToRepairOrderPushResponse(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType $repairOrderPushResponse)
     {
         $this->repairOrderPushResponse[] = $repairOrderPushResponse;
-
         return $this;
     }
 
     /**
-     * isset repairOrderPushResponse.
+     * isset repairOrderPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRepairOrderPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfRepairOrderPushResponseType
     }
 
     /**
-     * unset repairOrderPushResponse.
+     * unset repairOrderPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRepairOrderPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfRepairOrderPushResponseType
     }
 
     /**
-     * Gets as repairOrderPushResponse.
+     * Gets as repairOrderPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfRepairOrderPushResponseType
     }
 
     /**
-     * Sets a new repairOrderPushResponse.
+     * Sets a new repairOrderPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[] $repairOrderPushResponse
-     *
      * @return self
      */
     public function setRepairOrderPushResponse(array $repairOrderPushResponse)
     {
         $this->repairOrderPushResponse = $repairOrderPushResponse;
-
         return $this;
     }
+
+
 }
+

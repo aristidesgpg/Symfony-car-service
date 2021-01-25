@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfSoftAddType.
+ * Class representing ArrayOfSoftAddType
  *
+ * 
  * XSD Type: ArrayOfSoftAdd
  */
 class ArrayOfSoftAddType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType[] $softAdd
      */
     private $softAdd = [
+        
     ];
 
     /**
-     * Adds as softAdd.
+     * Adds as softAdd
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType $softAdd
      */
-    public function addToSoftAdd(SoftAddType $softAdd)
+    public function addToSoftAdd(\App\Soap\dealerbuilt\src\Models\Sales\SoftAddType $softAdd)
     {
         $this->softAdd[] = $softAdd;
-
         return $this;
     }
 
     /**
-     * isset softAdd.
+     * isset softAdd
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSoftAdd($index)
@@ -42,10 +42,9 @@ class ArrayOfSoftAddType
     }
 
     /**
-     * unset softAdd.
+     * unset softAdd
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSoftAdd($index)
@@ -54,7 +53,7 @@ class ArrayOfSoftAddType
     }
 
     /**
-     * Gets as softAdd.
+     * Gets as softAdd
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfSoftAddType
     }
 
     /**
-     * Sets a new softAdd.
+     * Sets a new softAdd
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\SoftAddType[] $softAdd
-     *
      * @return self
      */
     public function setSoftAdd(array $softAdd)
     {
         $this->softAdd = $softAdd;
-
         return $this;
     }
+
+
 }
+

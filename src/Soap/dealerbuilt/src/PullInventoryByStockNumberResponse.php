@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryByStockNumberResponse.
+ * Class representing PullInventoryByStockNumberResponse
  */
 class PullInventoryByStockNumberResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType $pullInventoryByStockNumberResult
      */
     private $pullInventoryByStockNumberResult = null;
 
     /**
-     * Gets as pullInventoryByStockNumberResult.
+     * Gets as pullInventoryByStockNumberResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemType
      */
@@ -23,16 +24,17 @@ class PullInventoryByStockNumberResponse
     }
 
     /**
-     * Sets a new pullInventoryByStockNumberResult.
+     * Sets a new pullInventoryByStockNumberResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType $pullInventoryByStockNumberResult
-     *
      * @return self
      */
-    public function setPullInventoryByStockNumberResult(BaseApi\StockItemType $pullInventoryByStockNumberResult)
+    public function setPullInventoryByStockNumberResult(\App\Soap\dealerbuilt\src\BaseApi\StockItemType $pullInventoryByStockNumberResult)
     {
         $this->pullInventoryByStockNumberResult = $pullInventoryByStockNumberResult;
-
         return $this;
     }
+
+
 }
+

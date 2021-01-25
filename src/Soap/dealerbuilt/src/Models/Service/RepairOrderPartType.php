@@ -3,124 +3,126 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing RepairOrderPartType.
+ * Class representing RepairOrderPartType
  *
+ * 
  * XSD Type: RepairOrderPart
  */
 class RepairOrderPartType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var int
+     * @var int $backOrderQty
      */
     private $backOrderQty = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var bool
+     * @var bool $isFailed
      */
     private $isFailed = null;
 
     /**
-     * @var int
+     * @var int $laborItemLineNumber
      */
     private $laborItemLineNumber = null;
 
     /**
-     * @var string
+     * @var string $orderNumber
      */
     private $orderNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $partFreight
      */
     private $partFreight = null;
 
     /**
-     * @var string
+     * @var string $partIndex
      */
     private $partIndex = null;
 
     /**
-     * @var string
+     * @var string $partKey
      */
     private $partKey = null;
 
     /**
-     * @var string
+     * @var string $partNumber
      */
     private $partNumber = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $partSoldDate
      */
     private $partSoldDate = null;
 
     /**
-     * @var string
+     * @var string $partSourceCode
      */
     private $partSourceCode = null;
 
     /**
-     * @var float
+     * @var float $partsTax
      */
     private $partsTax = null;
 
     /**
-     * @var string
+     * @var string $partsWriter
      */
     private $partsWriter = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      */
     private $price = null;
 
     /**
-     * @var string
+     * @var string $priceCategoryCode
      */
     private $priceCategoryCode = null;
 
     /**
-     * @var float
+     * @var float $quantity
      */
     private $quantity = null;
 
     /**
-     * @var string
+     * @var string $saleType
      */
     private $saleType = null;
 
     /**
-     * @var string[]
+     * @var string[] $serialNumbers
      */
     private $serialNumbers = null;
 
     /**
-     * @var string
+     * @var string $sourceDescription
      */
     private $sourceDescription = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount
      */
     private $taxAmount = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType
      */
@@ -130,19 +132,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as backOrderQty.
+     * Gets as backOrderQty
      *
      * @return int
      */
@@ -152,21 +154,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new backOrderQty.
+     * Sets a new backOrderQty
      *
      * @param int $backOrderQty
-     *
      * @return self
      */
     public function setBackOrderQty($backOrderQty)
     {
         $this->backOrderQty = $backOrderQty;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -176,19 +176,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -198,21 +198,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as isFailed.
+     * Gets as isFailed
      *
      * @return bool
      */
@@ -222,21 +220,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new isFailed.
+     * Sets a new isFailed
      *
      * @param bool $isFailed
-     *
      * @return self
      */
     public function setIsFailed($isFailed)
     {
         $this->isFailed = $isFailed;
-
         return $this;
     }
 
     /**
-     * Gets as laborItemLineNumber.
+     * Gets as laborItemLineNumber
      *
      * @return int
      */
@@ -246,21 +242,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new laborItemLineNumber.
+     * Sets a new laborItemLineNumber
      *
      * @param int $laborItemLineNumber
-     *
      * @return self
      */
     public function setLaborItemLineNumber($laborItemLineNumber)
     {
         $this->laborItemLineNumber = $laborItemLineNumber;
-
         return $this;
     }
 
     /**
-     * Gets as orderNumber.
+     * Gets as orderNumber
      *
      * @return string
      */
@@ -270,21 +264,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new orderNumber.
+     * Sets a new orderNumber
      *
      * @param string $orderNumber
-     *
      * @return self
      */
     public function setOrderNumber($orderNumber)
     {
         $this->orderNumber = $orderNumber;
-
         return $this;
     }
 
     /**
-     * Gets as partFreight.
+     * Gets as partFreight
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -294,19 +286,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new partFreight.
+     * Sets a new partFreight
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $partFreight
      * @return self
      */
     public function setPartFreight(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $partFreight)
     {
         $this->partFreight = $partFreight;
-
         return $this;
     }
 
     /**
-     * Gets as partIndex.
+     * Gets as partIndex
      *
      * @return string
      */
@@ -316,21 +308,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new partIndex.
+     * Sets a new partIndex
      *
      * @param string $partIndex
-     *
      * @return self
      */
     public function setPartIndex($partIndex)
     {
         $this->partIndex = $partIndex;
-
         return $this;
     }
 
     /**
-     * Gets as partKey.
+     * Gets as partKey
      *
      * @return string
      */
@@ -340,21 +330,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new partKey.
+     * Sets a new partKey
      *
      * @param string $partKey
-     *
      * @return self
      */
     public function setPartKey($partKey)
     {
         $this->partKey = $partKey;
-
         return $this;
     }
 
     /**
-     * Gets as partNumber.
+     * Gets as partNumber
      *
      * @return string
      */
@@ -364,21 +352,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new partNumber.
+     * Sets a new partNumber
      *
      * @param string $partNumber
-     *
      * @return self
      */
     public function setPartNumber($partNumber)
     {
         $this->partNumber = $partNumber;
-
         return $this;
     }
 
     /**
-     * Gets as partSoldDate.
+     * Gets as partSoldDate
      *
      * @return \DateTime
      */
@@ -388,19 +374,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new partSoldDate.
+     * Sets a new partSoldDate
      *
+     * @param \DateTime $partSoldDate
      * @return self
      */
     public function setPartSoldDate(\DateTime $partSoldDate)
     {
         $this->partSoldDate = $partSoldDate;
-
         return $this;
     }
 
     /**
-     * Gets as partSourceCode.
+     * Gets as partSourceCode
      *
      * @return string
      */
@@ -410,21 +396,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new partSourceCode.
+     * Sets a new partSourceCode
      *
      * @param string $partSourceCode
-     *
      * @return self
      */
     public function setPartSourceCode($partSourceCode)
     {
         $this->partSourceCode = $partSourceCode;
-
         return $this;
     }
 
     /**
-     * Gets as partsTax.
+     * Gets as partsTax
      *
      * @return float
      */
@@ -434,21 +418,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new partsTax.
+     * Sets a new partsTax
      *
      * @param float $partsTax
-     *
      * @return self
      */
     public function setPartsTax($partsTax)
     {
         $this->partsTax = $partsTax;
-
         return $this;
     }
 
     /**
-     * Gets as partsWriter.
+     * Gets as partsWriter
      *
      * @return string
      */
@@ -458,21 +440,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new partsWriter.
+     * Sets a new partsWriter
      *
      * @param string $partsWriter
-     *
      * @return self
      */
     public function setPartsWriter($partsWriter)
     {
         $this->partsWriter = $partsWriter;
-
         return $this;
     }
 
     /**
-     * Gets as price.
+     * Gets as price
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -482,19 +462,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new price.
+     * Sets a new price
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      * @return self
      */
     public function setPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $price)
     {
         $this->price = $price;
-
         return $this;
     }
 
     /**
-     * Gets as priceCategoryCode.
+     * Gets as priceCategoryCode
      *
      * @return string
      */
@@ -504,21 +484,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new priceCategoryCode.
+     * Sets a new priceCategoryCode
      *
      * @param string $priceCategoryCode
-     *
      * @return self
      */
     public function setPriceCategoryCode($priceCategoryCode)
     {
         $this->priceCategoryCode = $priceCategoryCode;
-
         return $this;
     }
 
     /**
-     * Gets as quantity.
+     * Gets as quantity
      *
      * @return float
      */
@@ -528,21 +506,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new quantity.
+     * Sets a new quantity
      *
      * @param float $quantity
-     *
      * @return self
      */
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
-
         return $this;
     }
 
     /**
-     * Gets as saleType.
+     * Gets as saleType
      *
      * @return string
      */
@@ -552,38 +528,33 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new saleType.
+     * Sets a new saleType
      *
      * @param string $saleType
-     *
      * @return self
      */
     public function setSaleType($saleType)
     {
         $this->saleType = $saleType;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToSerialNumbers($string)
     {
         $this->serialNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset serialNumbers.
+     * isset serialNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSerialNumbers($index)
@@ -592,10 +563,9 @@ class RepairOrderPartType
     }
 
     /**
-     * unset serialNumbers.
+     * unset serialNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSerialNumbers($index)
@@ -604,7 +574,7 @@ class RepairOrderPartType
     }
 
     /**
-     * Gets as serialNumbers.
+     * Gets as serialNumbers
      *
      * @return string[]
      */
@@ -614,21 +584,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new serialNumbers.
+     * Sets a new serialNumbers
      *
      * @param string[] $serialNumbers
-     *
      * @return self
      */
     public function setSerialNumbers(array $serialNumbers)
     {
         $this->serialNumbers = $serialNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as sourceDescription.
+     * Gets as sourceDescription
      *
      * @return string
      */
@@ -638,21 +606,19 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new sourceDescription.
+     * Sets a new sourceDescription
      *
      * @param string $sourceDescription
-     *
      * @return self
      */
     public function setSourceDescription($sourceDescription)
     {
         $this->sourceDescription = $sourceDescription;
-
         return $this;
     }
 
     /**
-     * Gets as taxAmount.
+     * Gets as taxAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -662,14 +628,17 @@ class RepairOrderPartType
     }
 
     /**
-     * Sets a new taxAmount.
+     * Sets a new taxAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount
      * @return self
      */
     public function setTaxAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount)
     {
         $this->taxAmount = $taxAmount;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PushedPayment.
+ * Class representing PushedPayment
  */
 class PushedPayment extends PushedPaymentType
 {
+
+
 }
+

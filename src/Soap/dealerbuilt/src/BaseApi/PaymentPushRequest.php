@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PaymentPushRequest.
+ * Class representing PaymentPushRequest
  */
 class PaymentPushRequest extends PaymentPushRequestType
 {
+
+
 }
+

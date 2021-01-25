@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing LoggingType.
+ * Class representing LoggingType
  *
+ * 
  * XSD Type: Logging
  */
 class LoggingType extends ApiSourceItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Logging\LogAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Logging\LogAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $inventoryKey
      */
     private $inventoryKey = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Logging\LogAttributesType
      */
@@ -30,19 +32,19 @@ class LoggingType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Logging\LogAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Logging\LogAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as inventoryKey.
+     * Gets as inventoryKey
      *
      * @return string
      */
@@ -52,16 +54,17 @@ class LoggingType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new inventoryKey.
+     * Sets a new inventoryKey
      *
      * @param string $inventoryKey
-     *
      * @return self
      */
     public function setInventoryKey($inventoryKey)
     {
         $this->inventoryKey = $inventoryKey;
-
         return $this;
     }
+
+
 }
+

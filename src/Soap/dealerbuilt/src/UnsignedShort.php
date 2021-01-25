@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing UnsignedShort.
+ * Class representing UnsignedShort
  */
 class UnsignedShort
 {
+
     /**
-     * @var int
+     * @var int $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param int $value
      */
@@ -23,10 +24,9 @@ class UnsignedShort
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param int $value
-     *
      * @return int
      */
     public function value()
@@ -34,12 +34,11 @@ class UnsignedShort
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class UnsignedShort
     {
         return strval($this->__value);
     }
+
+
 }
+

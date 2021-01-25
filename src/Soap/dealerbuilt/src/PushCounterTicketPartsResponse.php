@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCounterTicketPartsResponse.
+ * Class representing PushCounterTicketPartsResponse
  */
 class PushCounterTicketPartsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushCounterTicketPartsResult
      */
     private $pushCounterTicketPartsResult = null;
 
     /**
-     * Adds as serviceLocationPushResponse.
+     * Adds as serviceLocationPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse
      */
-    public function addToPushCounterTicketPartsResult(BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
+    public function addToPushCounterTicketPartsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
     {
         $this->pushCounterTicketPartsResult[] = $serviceLocationPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushCounterTicketPartsResult.
+     * isset pushCounterTicketPartsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushCounterTicketPartsResult($index)
@@ -39,10 +37,9 @@ class PushCounterTicketPartsResponse
     }
 
     /**
-     * unset pushCounterTicketPartsResult.
+     * unset pushCounterTicketPartsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushCounterTicketPartsResult($index)
@@ -51,7 +48,7 @@ class PushCounterTicketPartsResponse
     }
 
     /**
-     * Gets as pushCounterTicketPartsResult.
+     * Gets as pushCounterTicketPartsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushCounterTicketPartsResponse
     }
 
     /**
-     * Sets a new pushCounterTicketPartsResult.
+     * Sets a new pushCounterTicketPartsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushCounterTicketPartsResult
-     *
      * @return self
      */
     public function setPushCounterTicketPartsResult(array $pushCounterTicketPartsResult)
     {
         $this->pushCounterTicketPartsResult = $pushCounterTicketPartsResult;
-
         return $this;
     }
+
+
 }
+

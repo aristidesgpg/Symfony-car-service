@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushGeneralJournalAccountingResponse.
+ * Class representing PushGeneralJournalAccountingResponse
  */
 class PushGeneralJournalAccountingResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionPushResponseType
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionPushResponseType $pushGeneralJournalAccountingResult
      */
     private $pushGeneralJournalAccountingResult = null;
 
     /**
-     * Gets as pushGeneralJournalAccountingResult.
+     * Gets as pushGeneralJournalAccountingResult
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionPushResponseType
      */
@@ -23,16 +24,17 @@ class PushGeneralJournalAccountingResponse
     }
 
     /**
-     * Sets a new pushGeneralJournalAccountingResult.
+     * Sets a new pushGeneralJournalAccountingResult
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionPushResponseType $pushGeneralJournalAccountingResult
-     *
      * @return self
      */
-    public function setPushGeneralJournalAccountingResult(Models\Accounting\AccountingTransactionPushResponseType $pushGeneralJournalAccountingResult)
+    public function setPushGeneralJournalAccountingResult(\App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionPushResponseType $pushGeneralJournalAccountingResult)
     {
         $this->pushGeneralJournalAccountingResult = $pushGeneralJournalAccountingResult;
-
         return $this;
     }
+
+
 }
+

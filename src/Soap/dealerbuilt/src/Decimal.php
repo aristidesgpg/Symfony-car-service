@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing Decimal.
+ * Class representing Decimal
  */
 class Decimal
 {
+
     /**
-     * @var float
+     * @var float $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param float $value
      */
@@ -23,10 +24,9 @@ class Decimal
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param float $value
-     *
      * @return float
      */
     public function value()
@@ -34,12 +34,11 @@ class Decimal
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class Decimal
     {
         return strval($this->__value);
     }
+
+
 }
+

@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetDeferredJobCodesResponse.
+ * Class representing GetDeferredJobCodesResponse
  */
 class GetDeferredJobCodesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getDeferredJobCodesResult
      */
     private $getDeferredJobCodesResult = null;
 
     /**
-     * Gets as getDeferredJobCodesResult.
+     * Gets as getDeferredJobCodesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType
      */
@@ -23,16 +24,17 @@ class GetDeferredJobCodesResponse
     }
 
     /**
-     * Sets a new getDeferredJobCodesResult.
+     * Sets a new getDeferredJobCodesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getDeferredJobCodesResult
-     *
      * @return self
      */
-    public function setGetDeferredJobCodesResult(BaseApi\ServiceLocationPotentialJobCodesType $getDeferredJobCodesResult)
+    public function setGetDeferredJobCodesResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getDeferredJobCodesResult)
     {
         $this->getDeferredJobCodesResult = $getDeferredJobCodesResult;
-
         return $this;
     }
+
+
 }
+

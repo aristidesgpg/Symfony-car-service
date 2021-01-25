@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing SourcePlacementType.
+ * Class representing SourcePlacementType
  *
+ * 
  * XSD Type: SourcePlacement
  */
 class SourcePlacementType extends EnvironmentPlacementType
 {
+
     /**
-     * @var int
+     * @var int $dealerId
      */
     private $dealerId = null;
 
     /**
-     * @var int
+     * @var int $sourceId
      */
     private $sourceId = null;
 
     /**
-     * Gets as dealerId.
+     * Gets as dealerId
      *
      * @return int
      */
@@ -30,21 +32,19 @@ class SourcePlacementType extends EnvironmentPlacementType
     }
 
     /**
-     * Sets a new dealerId.
+     * Sets a new dealerId
      *
      * @param int $dealerId
-     *
      * @return self
      */
     public function setDealerId($dealerId)
     {
         $this->dealerId = $dealerId;
-
         return $this;
     }
 
     /**
-     * Gets as sourceId.
+     * Gets as sourceId
      *
      * @return int
      */
@@ -54,16 +54,17 @@ class SourcePlacementType extends EnvironmentPlacementType
     }
 
     /**
-     * Sets a new sourceId.
+     * Sets a new sourceId
      *
      * @param int $sourceId
-     *
      * @return self
      */
     public function setSourceId($sourceId)
     {
         $this->sourceId = $sourceId;
-
         return $this;
     }
+
+
 }
+

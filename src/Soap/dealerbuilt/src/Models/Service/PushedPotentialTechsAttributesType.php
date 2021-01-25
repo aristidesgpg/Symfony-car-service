@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedPotentialTechsAttributesType.
+ * Class representing PushedPotentialTechsAttributesType
  *
+ * 
  * XSD Type: PushedPotentialTechsAttributes
  */
 class PushedPotentialTechsAttributesType
 {
+
     /**
-     * @var float
+     * @var float $actualHours
      */
     private $actualHours = null;
 
     /**
-     * @var float
+     * @var float $cost
      */
     private $cost = null;
 
     /**
-     * @var float
+     * @var float $estimatedHours
      */
     private $estimatedHours = null;
 
     /**
-     * @var float
+     * @var float $flatRateHours
      */
     private $flatRateHours = null;
 
     /**
-     * @var float
+     * @var float $laborAmount
      */
     private $laborAmount = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * @var string
+     * @var string $techId
      */
     private $techId = null;
 
     /**
-     * Gets as actualHours.
+     * Gets as actualHours
      *
      * @return float
      */
@@ -55,21 +57,19 @@ class PushedPotentialTechsAttributesType
     }
 
     /**
-     * Sets a new actualHours.
+     * Sets a new actualHours
      *
      * @param float $actualHours
-     *
      * @return self
      */
     public function setActualHours($actualHours)
     {
         $this->actualHours = $actualHours;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return float
      */
@@ -79,21 +79,19 @@ class PushedPotentialTechsAttributesType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
      * @param float $cost
-     *
      * @return self
      */
     public function setCost($cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as estimatedHours.
+     * Gets as estimatedHours
      *
      * @return float
      */
@@ -103,21 +101,19 @@ class PushedPotentialTechsAttributesType
     }
 
     /**
-     * Sets a new estimatedHours.
+     * Sets a new estimatedHours
      *
      * @param float $estimatedHours
-     *
      * @return self
      */
     public function setEstimatedHours($estimatedHours)
     {
         $this->estimatedHours = $estimatedHours;
-
         return $this;
     }
 
     /**
-     * Gets as flatRateHours.
+     * Gets as flatRateHours
      *
      * @return float
      */
@@ -127,21 +123,19 @@ class PushedPotentialTechsAttributesType
     }
 
     /**
-     * Sets a new flatRateHours.
+     * Sets a new flatRateHours
      *
      * @param float $flatRateHours
-     *
      * @return self
      */
     public function setFlatRateHours($flatRateHours)
     {
         $this->flatRateHours = $flatRateHours;
-
         return $this;
     }
 
     /**
-     * Gets as laborAmount.
+     * Gets as laborAmount
      *
      * @return float
      */
@@ -151,21 +145,19 @@ class PushedPotentialTechsAttributesType
     }
 
     /**
-     * Sets a new laborAmount.
+     * Sets a new laborAmount
      *
      * @param float $laborAmount
-     *
      * @return self
      */
     public function setLaborAmount($laborAmount)
     {
         $this->laborAmount = $laborAmount;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -175,21 +167,19 @@ class PushedPotentialTechsAttributesType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
 
     /**
-     * Gets as techId.
+     * Gets as techId
      *
      * @return string
      */
@@ -199,16 +189,17 @@ class PushedPotentialTechsAttributesType
     }
 
     /**
-     * Sets a new techId.
+     * Sets a new techId
      *
      * @param string $techId
-     *
      * @return self
      */
     public function setTechId($techId)
     {
         $this->techId = $techId;
-
         return $this;
     }
+
+
 }
+

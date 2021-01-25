@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationItemSearchCriteriaType.
+ * Class representing ServiceLocationItemSearchCriteriaType
  *
+ * 
  * XSD Type: ServiceLocationItemSearchCriteria
  */
 class ServiceLocationItemSearchCriteriaType
 {
+
     /**
-     * @var \DateInterval
+     * @var \DateInterval $maxElapsedSinceUpdate
      */
     private $maxElapsedSinceUpdate = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as maxElapsedSinceUpdate.
+     * Gets as maxElapsedSinceUpdate
      *
      * @return \DateInterval
      */
@@ -30,19 +32,19 @@ class ServiceLocationItemSearchCriteriaType
     }
 
     /**
-     * Sets a new maxElapsedSinceUpdate.
+     * Sets a new maxElapsedSinceUpdate
      *
+     * @param \DateInterval $maxElapsedSinceUpdate
      * @return self
      */
     public function setMaxElapsedSinceUpdate(\DateInterval $maxElapsedSinceUpdate)
     {
         $this->maxElapsedSinceUpdate = $maxElapsedSinceUpdate;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -52,16 +54,17 @@ class ServiceLocationItemSearchCriteriaType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

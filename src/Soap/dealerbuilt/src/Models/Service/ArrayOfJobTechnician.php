@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfJobTechnician.
+ * Class representing ArrayOfJobTechnician
  */
 class ArrayOfJobTechnician extends ArrayOfJobTechnicianType
 {
+
+
 }
+

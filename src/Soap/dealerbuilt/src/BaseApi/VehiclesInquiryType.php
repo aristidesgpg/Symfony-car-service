@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing VehiclesInquiryType.
+ * Class representing VehiclesInquiryType
  *
+ * 
  * XSD Type: VehiclesInquiry
  */
 class VehiclesInquiryType
 {
+
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType[] $vehicles
      */
     private $vehicles = null;
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -30,38 +32,33 @@ class VehiclesInquiryType
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
 
     /**
-     * Adds as vehicleLookup.
+     * Adds as vehicleLookup
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType $vehicleLookup
      */
-    public function addToVehicles(VehicleLookupType $vehicleLookup)
+    public function addToVehicles(\App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType $vehicleLookup)
     {
         $this->vehicles[] = $vehicleLookup;
-
         return $this;
     }
 
     /**
-     * isset vehicles.
+     * isset vehicles
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVehicles($index)
@@ -70,10 +67,9 @@ class VehiclesInquiryType
     }
 
     /**
-     * unset vehicles.
+     * unset vehicles
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVehicles($index)
@@ -82,7 +78,7 @@ class VehiclesInquiryType
     }
 
     /**
-     * Gets as vehicles.
+     * Gets as vehicles
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType[]
      */
@@ -92,16 +88,17 @@ class VehiclesInquiryType
     }
 
     /**
-     * Sets a new vehicles.
+     * Sets a new vehicles
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType[] $vehicles
-     *
      * @return self
      */
     public function setVehicles(array $vehicles)
     {
         $this->vehicles = $vehicles;
-
         return $this;
     }
+
+
 }
+

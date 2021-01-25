@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing DealAttributes.
+ * Class representing DealAttributes
  */
 class DealAttributes extends DealAttributesType
 {
+
+
 }
+

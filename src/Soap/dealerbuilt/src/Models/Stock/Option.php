@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing Option.
+ * Class representing Option
  */
 class Option extends OptionType
 {
+
+
 }
+

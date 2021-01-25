@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PushedLaborOperationSublet.
+ * Class representing PushedLaborOperationSublet
  */
 class PushedLaborOperationSublet extends PushedLaborOperationSubletType
 {
+
+
 }
+

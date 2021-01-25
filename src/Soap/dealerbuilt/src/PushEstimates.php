@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushEstimates.
+ * Class representing PushEstimates
  */
 class PushEstimates
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType[] $apiEstimates
      */
     private $apiEstimates = null;
 
     /**
-     * Adds as estimatePushRequest.
+     * Adds as estimatePushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType $estimatePushRequest
      */
-    public function addToApiEstimates(BaseApi\EstimatePushRequestType $estimatePushRequest)
+    public function addToApiEstimates(\App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType $estimatePushRequest)
     {
         $this->apiEstimates[] = $estimatePushRequest;
-
         return $this;
     }
 
     /**
-     * isset apiEstimates.
+     * isset apiEstimates
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetApiEstimates($index)
@@ -39,10 +37,9 @@ class PushEstimates
     }
 
     /**
-     * unset apiEstimates.
+     * unset apiEstimates
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetApiEstimates($index)
@@ -51,7 +48,7 @@ class PushEstimates
     }
 
     /**
-     * Gets as apiEstimates.
+     * Gets as apiEstimates
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushEstimates
     }
 
     /**
-     * Sets a new apiEstimates.
+     * Sets a new apiEstimates
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType[] $apiEstimates
-     *
      * @return self
      */
     public function setApiEstimates(array $apiEstimates)
     {
         $this->apiEstimates = $apiEstimates;
-
         return $this;
     }
+
+
 }
+

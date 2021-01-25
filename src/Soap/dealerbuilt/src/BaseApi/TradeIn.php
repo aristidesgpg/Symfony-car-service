@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing TradeIn.
+ * Class representing TradeIn
  */
 class TradeIn extends TradeInType
 {
+
+
 }
+

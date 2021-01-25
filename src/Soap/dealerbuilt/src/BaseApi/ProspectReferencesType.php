@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ProspectReferencesType.
+ * Class representing ProspectReferencesType
  *
+ * 
  * XSD Type: ProspectReferences
  */
 class ProspectReferencesType
 {
+
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -25,16 +27,17 @@ class ProspectReferencesType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
+
+
 }
+

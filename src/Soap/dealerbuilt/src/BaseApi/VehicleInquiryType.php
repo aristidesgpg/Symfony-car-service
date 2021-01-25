@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing VehicleInquiryType.
+ * Class representing VehicleInquiryType
  *
+ * 
  * XSD Type: VehicleInquiry
  */
 class VehicleInquiryType
 {
+
     /**
-     * @var int
+     * @var int $currentMileage
      */
     private $currentMileage = null;
 
     /**
-     * @var string
+     * @var string $ownerLastName
      */
     private $ownerLastName = null;
 
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * Gets as currentMileage.
+     * Gets as currentMileage
      *
      * @return int
      */
@@ -40,21 +42,19 @@ class VehicleInquiryType
     }
 
     /**
-     * Sets a new currentMileage.
+     * Sets a new currentMileage
      *
      * @param int $currentMileage
-     *
      * @return self
      */
     public function setCurrentMileage($currentMileage)
     {
         $this->currentMileage = $currentMileage;
-
         return $this;
     }
 
     /**
-     * Gets as ownerLastName.
+     * Gets as ownerLastName
      *
      * @return string
      */
@@ -64,21 +64,19 @@ class VehicleInquiryType
     }
 
     /**
-     * Sets a new ownerLastName.
+     * Sets a new ownerLastName
      *
      * @param string $ownerLastName
-     *
      * @return self
      */
     public function setOwnerLastName($ownerLastName)
     {
         $this->ownerLastName = $ownerLastName;
-
         return $this;
     }
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -88,21 +86,19 @@ class VehicleInquiryType
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -112,16 +108,17 @@ class VehicleInquiryType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
+
+
 }
+

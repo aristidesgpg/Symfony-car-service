@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsOrderReferencesType.
+ * Class representing PartsOrderReferencesType
  *
+ * 
  * XSD Type: PartsOrderReferences
  */
 class PartsOrderReferencesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType $lineCustomer
      */
     private $lineCustomer = null;
 
     /**
-     * Gets as lineCustomer.
+     * Gets as lineCustomer
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerType
      */
@@ -25,16 +27,17 @@ class PartsOrderReferencesType
     }
 
     /**
-     * Sets a new lineCustomer.
+     * Sets a new lineCustomer
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType $lineCustomer
-     *
      * @return self
      */
-    public function setLineCustomer(CustomerType $lineCustomer)
+    public function setLineCustomer(\App\Soap\dealerbuilt\src\BaseApi\CustomerType $lineCustomer)
     {
         $this->lineCustomer = $lineCustomer;
-
         return $this;
     }
+
+
 }
+

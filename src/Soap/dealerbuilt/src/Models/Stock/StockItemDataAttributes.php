@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing StockItemDataAttributes.
+ * Class representing StockItemDataAttributes
  */
 class StockItemDataAttributes extends StockItemDataAttributesType
 {
+
+
 }
+

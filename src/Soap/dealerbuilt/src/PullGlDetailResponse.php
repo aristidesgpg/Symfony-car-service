@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullGlDetailResponse.
+ * Class representing PullGlDetailResponse
  */
 class PullGlDetailResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType[] $pullGlDetailResult
      */
     private $pullGlDetailResult = null;
 
     /**
-     * Adds as glDetailItem.
+     * Adds as glDetailItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType $glDetailItem
      */
-    public function addToPullGlDetailResult(BaseApi\GlDetailItemType $glDetailItem)
+    public function addToPullGlDetailResult(\App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType $glDetailItem)
     {
         $this->pullGlDetailResult[] = $glDetailItem;
-
         return $this;
     }
 
     /**
-     * isset pullGlDetailResult.
+     * isset pullGlDetailResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullGlDetailResult($index)
@@ -39,10 +37,9 @@ class PullGlDetailResponse
     }
 
     /**
-     * unset pullGlDetailResult.
+     * unset pullGlDetailResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullGlDetailResult($index)
@@ -51,7 +48,7 @@ class PullGlDetailResponse
     }
 
     /**
-     * Gets as pullGlDetailResult.
+     * Gets as pullGlDetailResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType[]
      */
@@ -61,16 +58,17 @@ class PullGlDetailResponse
     }
 
     /**
-     * Sets a new pullGlDetailResult.
+     * Sets a new pullGlDetailResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType[] $pullGlDetailResult
-     *
      * @return self
      */
     public function setPullGlDetailResult(array $pullGlDetailResult)
     {
         $this->pullGlDetailResult = $pullGlDetailResult;
-
         return $this;
     }
+
+
 }
+

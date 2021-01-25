@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing ArrayOfOptionType.
+ * Class representing ArrayOfOptionType
  *
+ * 
  * XSD Type: ArrayOfOption
  */
 class ArrayOfOptionType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\OptionType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\OptionType[] $option
      */
     private $option = [
+        
     ];
 
     /**
-     * Adds as option.
+     * Adds as option
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\OptionType $option
      */
-    public function addToOption(OptionType $option)
+    public function addToOption(\App\Soap\dealerbuilt\src\Models\Stock\OptionType $option)
     {
         $this->option[] = $option;
-
         return $this;
     }
 
     /**
-     * isset option.
+     * isset option
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetOption($index)
@@ -42,10 +42,9 @@ class ArrayOfOptionType
     }
 
     /**
-     * unset option.
+     * unset option
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetOption($index)
@@ -54,7 +53,7 @@ class ArrayOfOptionType
     }
 
     /**
-     * Gets as option.
+     * Gets as option
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\OptionType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfOptionType
     }
 
     /**
-     * Sets a new option.
+     * Sets a new option
      *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\OptionType[] $option
-     *
      * @return self
      */
     public function setOption(array $option)
     {
         $this->option = $option;
-
         return $this;
     }
+
+
 }
+

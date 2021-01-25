@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfLenderType.
+ * Class representing ArrayOfLenderType
  *
+ * 
  * XSD Type: ArrayOfLender
  */
 class ArrayOfLenderType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\LenderType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\LenderType[] $lender
      */
     private $lender = [
+        
     ];
 
     /**
-     * Adds as lender.
+     * Adds as lender
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LenderType $lender
      */
-    public function addToLender(LenderType $lender)
+    public function addToLender(\App\Soap\dealerbuilt\src\BaseApi\LenderType $lender)
     {
         $this->lender[] = $lender;
-
         return $this;
     }
 
     /**
-     * isset lender.
+     * isset lender
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLender($index)
@@ -42,10 +42,9 @@ class ArrayOfLenderType
     }
 
     /**
-     * unset lender.
+     * unset lender
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLender($index)
@@ -54,7 +53,7 @@ class ArrayOfLenderType
     }
 
     /**
-     * Gets as lender.
+     * Gets as lender
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\LenderType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfLenderType
     }
 
     /**
-     * Sets a new lender.
+     * Sets a new lender
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LenderType[] $lender
-     *
      * @return self
      */
     public function setLender(array $lender)
     {
         $this->lender = $lender;
-
         return $this;
     }
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType:
             access_type: public_method
             serialized_name: CustomerKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerKey
                 setter: setCustomerKey
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType:
             access_type: public_method
             serialized_name: InventoryKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getInventoryKey
                 setter: setInventoryKey
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType:
             access_type: public_method
             serialized_name: TradeIns
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getTradeIns
                 setter: setTradeIns
@@ -34,4 +34,4 @@ App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType:
                 inline: false
                 entry_name: TradeIn
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

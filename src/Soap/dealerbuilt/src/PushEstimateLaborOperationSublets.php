@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushEstimateLaborOperationSublets.
+ * Class representing PushEstimateLaborOperationSublets
  */
 class PushEstimateLaborOperationSublets
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType[] $requests
      */
     private $requests = null;
 
     /**
-     * Adds as potentialLaborOperationSubletPushRequest.
+     * Adds as potentialLaborOperationSubletPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType $potentialLaborOperationSubletPushRequest
      */
-    public function addToRequests(BaseApi\PotentialLaborOperationSubletPushRequestType $potentialLaborOperationSubletPushRequest)
+    public function addToRequests(\App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType $potentialLaborOperationSubletPushRequest)
     {
         $this->requests[] = $potentialLaborOperationSubletPushRequest;
-
         return $this;
     }
 
     /**
-     * isset requests.
+     * isset requests
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRequests($index)
@@ -39,10 +37,9 @@ class PushEstimateLaborOperationSublets
     }
 
     /**
-     * unset requests.
+     * unset requests
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRequests($index)
@@ -51,7 +48,7 @@ class PushEstimateLaborOperationSublets
     }
 
     /**
-     * Gets as requests.
+     * Gets as requests
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushEstimateLaborOperationSublets
     }
 
     /**
-     * Sets a new requests.
+     * Sets a new requests
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType[] $requests
-     *
      * @return self
      */
     public function setRequests(array $requests)
     {
         $this->requests = $requests;
-
         return $this;
     }
+
+
 }
+

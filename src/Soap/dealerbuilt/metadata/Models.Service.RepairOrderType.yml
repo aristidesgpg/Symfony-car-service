@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderType:
             access_type: public_method
             serialized_name: Attributes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getAttributes
                 setter: setAttributes
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderType:
             access_type: public_method
             serialized_name: References
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getReferences
                 setter: setReferences

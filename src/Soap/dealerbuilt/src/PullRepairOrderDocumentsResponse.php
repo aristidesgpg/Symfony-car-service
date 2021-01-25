@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullRepairOrderDocumentsResponse.
+ * Class representing PullRepairOrderDocumentsResponse
  */
 class PullRepairOrderDocumentsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType[] $pullRepairOrderDocumentsResult
      */
     private $pullRepairOrderDocumentsResult = null;
 
     /**
-     * Adds as apiServiceDocument.
+     * Adds as apiServiceDocument
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType $apiServiceDocument
      */
-    public function addToPullRepairOrderDocumentsResult(BaseApi\ApiServiceDocumentType $apiServiceDocument)
+    public function addToPullRepairOrderDocumentsResult(\App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType $apiServiceDocument)
     {
         $this->pullRepairOrderDocumentsResult[] = $apiServiceDocument;
-
         return $this;
     }
 
     /**
-     * isset pullRepairOrderDocumentsResult.
+     * isset pullRepairOrderDocumentsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullRepairOrderDocumentsResult($index)
@@ -39,10 +37,9 @@ class PullRepairOrderDocumentsResponse
     }
 
     /**
-     * unset pullRepairOrderDocumentsResult.
+     * unset pullRepairOrderDocumentsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullRepairOrderDocumentsResult($index)
@@ -51,7 +48,7 @@ class PullRepairOrderDocumentsResponse
     }
 
     /**
-     * Gets as pullRepairOrderDocumentsResult.
+     * Gets as pullRepairOrderDocumentsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType[]
      */
@@ -61,16 +58,17 @@ class PullRepairOrderDocumentsResponse
     }
 
     /**
-     * Sets a new pullRepairOrderDocumentsResult.
+     * Sets a new pullRepairOrderDocumentsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType[] $pullRepairOrderDocumentsResult
-     *
      * @return self
      */
     public function setPullRepairOrderDocumentsResult(array $pullRepairOrderDocumentsResult)
     {
         $this->pullRepairOrderDocumentsResult = $pullRepairOrderDocumentsResult;
-
         return $this;
     }
+
+
 }
+

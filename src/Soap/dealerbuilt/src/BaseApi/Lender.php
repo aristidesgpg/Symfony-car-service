@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing Lender.
+ * Class representing Lender
  */
 class Lender extends LenderType
 {
+
+
 }
+

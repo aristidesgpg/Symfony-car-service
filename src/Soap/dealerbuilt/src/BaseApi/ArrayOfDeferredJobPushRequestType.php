@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDeferredJobPushRequestType.
+ * Class representing ArrayOfDeferredJobPushRequestType
  *
+ * 
  * XSD Type: ArrayOfDeferredJobPushRequest
  */
 class ArrayOfDeferredJobPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType[] $deferredJobPushRequest
      */
     private $deferredJobPushRequest = [
+        
     ];
 
     /**
-     * Adds as deferredJobPushRequest.
+     * Adds as deferredJobPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType $deferredJobPushRequest
      */
-    public function addToDeferredJobPushRequest(DeferredJobPushRequestType $deferredJobPushRequest)
+    public function addToDeferredJobPushRequest(\App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType $deferredJobPushRequest)
     {
         $this->deferredJobPushRequest[] = $deferredJobPushRequest;
-
         return $this;
     }
 
     /**
-     * isset deferredJobPushRequest.
+     * isset deferredJobPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDeferredJobPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfDeferredJobPushRequestType
     }
 
     /**
-     * unset deferredJobPushRequest.
+     * unset deferredJobPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDeferredJobPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfDeferredJobPushRequestType
     }
 
     /**
-     * Gets as deferredJobPushRequest.
+     * Gets as deferredJobPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDeferredJobPushRequestType
     }
 
     /**
-     * Sets a new deferredJobPushRequest.
+     * Sets a new deferredJobPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType[] $deferredJobPushRequest
-     *
      * @return self
      */
     public function setDeferredJobPushRequest(array $deferredJobPushRequest)
     {
         $this->deferredJobPushRequest = $deferredJobPushRequest;
-
         return $this;
     }
+
+
 }
+

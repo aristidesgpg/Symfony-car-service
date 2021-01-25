@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: Bin
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getBin
                 setter: setBin
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: CounterTicketId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCounterTicketId
                 setter: setCounterTicketId
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: DealerPrice
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getDealerPrice
                 setter: setDealerPrice
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: ExternalManufacturerPartsOrderId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getExternalManufacturerPartsOrderId
                 setter: setExternalManufacturerPartsOrderId
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: ExternalPartsOrderId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getExternalPartsOrderId
                 setter: setExternalPartsOrderId
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: ExternalPartsOrderLineId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getExternalPartsOrderLineId
                 setter: setExternalPartsOrderLineId
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: KitPartNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getKitPartNumber
                 setter: setKitPartNumber
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: LineSequence
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getLineSequence
                 setter: setLineSequence
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: PartDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPartDescription
                 setter: setPartDescription
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: PartNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPartNumber
                 setter: setPartNumber
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: QuantityBackordered
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getQuantityBackordered
                 setter: setQuantityBackordered
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: QuantityOrdered
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getQuantityOrdered
                 setter: setQuantityOrdered
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: QuantityShipped
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getQuantityShipped
                 setter: setQuantityShipped
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: RepairOrderId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getRepairOrderId
                 setter: setRepairOrderId
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: RepairOrderJobNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getRepairOrderJobNumber
                 setter: setRepairOrderJobNumber
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: ShippedPartNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShippedPartNumber
                 setter: setShippedPartNumber
@@ -165,7 +165,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: ShipperNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShipperNumber
                 setter: setShipperNumber
@@ -175,7 +175,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: Source
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getSource
                 setter: setSource
@@ -185,7 +185,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: Vendor
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getVendor
                 setter: setVendor

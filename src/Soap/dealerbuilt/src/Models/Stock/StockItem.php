@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing StockItem.
+ * Class representing StockItem
  */
 class StockItem extends StockItemType
 {
+
+
 }
+

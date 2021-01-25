@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushDeals.
+ * Class representing PushDeals
  */
 class PushDeals
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType[] $deals
      */
     private $deals = null;
 
     /**
-     * Adds as dealPushRequest.
+     * Adds as dealPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType $dealPushRequest
      */
-    public function addToDeals(BaseApi\DealPushRequestType $dealPushRequest)
+    public function addToDeals(\App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType $dealPushRequest)
     {
         $this->deals[] = $dealPushRequest;
-
         return $this;
     }
 
     /**
-     * isset deals.
+     * isset deals
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDeals($index)
@@ -39,10 +37,9 @@ class PushDeals
     }
 
     /**
-     * unset deals.
+     * unset deals
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDeals($index)
@@ -51,7 +48,7 @@ class PushDeals
     }
 
     /**
-     * Gets as deals.
+     * Gets as deals
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushDeals
     }
 
     /**
-     * Sets a new deals.
+     * Sets a new deals
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType[] $deals
-     *
      * @return self
      */
     public function setDeals(array $deals)
     {
         $this->deals = $deals;
-
         return $this;
     }
+
+
 }
+

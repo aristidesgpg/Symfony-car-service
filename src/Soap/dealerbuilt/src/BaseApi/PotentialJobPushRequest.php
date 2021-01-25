@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PotentialJobPushRequest.
+ * Class representing PotentialJobPushRequest
  */
 class PotentialJobPushRequest extends PotentialJobPushRequestType
 {
+
+
 }
+

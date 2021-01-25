@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing GlDetailLine.
+ * Class representing GlDetailLine
  */
 class GlDetailLine extends GlDetailLineType
 {
+
+
 }
+

@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing Double.
+ * Class representing Double
  */
 class Double
 {
+
     /**
-     * @var float
+     * @var float $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param float $value
      */
@@ -23,10 +24,9 @@ class Double
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param float $value
-     *
      * @return float
      */
     public function value()
@@ -34,12 +34,11 @@ class Double
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class Double
     {
         return strval($this->__value);
     }
+
+
 }
+

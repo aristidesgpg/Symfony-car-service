@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Company
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getCompany
                 setter: setCompany
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: ContractId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getContractId
                 setter: setContractId
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: ContractRemaining
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getContractRemaining
                 setter: setContractRemaining
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Cost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getCost
                 setter: setCost
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Deductible
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDeductible
                 setter: setDeductible
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: DeleteFlag
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDeleteFlag
                 setter: setDeleteFlag
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Department
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDepartment
                 setter: setDepartment
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: EffectiveDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getEffectiveDate
                 setter: setEffectiveDate
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: ExpirationDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getExpirationDate
                 setter: setExpirationDate
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: InServiceMiles
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getInServiceMiles
                 setter: setInServiceMiles
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: ItemCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getItemCode
                 setter: setItemCode
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: ItemizationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getItemizationId
                 setter: setItemizationId
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Name
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getName
                 setter: setName
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: PlanCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getPlanCode
                 setter: setPlanCode
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Premium
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getPremium
                 setter: setPremium
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Price
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getPrice
                 setter: setPrice
@@ -165,7 +165,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: PurchaseDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getPurchaseDate
                 setter: setPurchaseDate
@@ -175,7 +175,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Status
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getStatus
                 setter: setStatus
@@ -185,7 +185,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: TermMileage
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTermMileage
                 setter: setTermMileage
@@ -195,7 +195,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: TermMonths
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTermMonths
                 setter: setTermMonths
@@ -205,7 +205,7 @@ App\Soap\dealerbuilt\src\Models\Sales\ServiceContractType:
             access_type: public_method
             serialized_name: Transferred
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTransferred
                 setter: setTransferred

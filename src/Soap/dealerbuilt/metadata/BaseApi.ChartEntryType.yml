@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: AccountClass
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountClass
                 setter: setAccountClass
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: AccountDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountDescription
                 setter: setAccountDescription
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: AccountDescriptionAbbreviated
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountDescriptionAbbreviated
                 setter: setAccountDescriptionAbbreviated
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: AccountNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountNumber
                 setter: setAccountNumber
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: ChainAccountNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getChainAccountNumber
                 setter: setChainAccountNumber
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: Control1Type
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getControl1Type
                 setter: setControl1Type
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: Control2Type
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getControl2Type
                 setter: setControl2Type
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: DepartmentCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDepartmentCode
                 setter: setDepartmentCode
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: FactoryAccountNumbers
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getFactoryAccountNumbers
                 setter: setFactoryAccountNumbers
@@ -94,13 +94,13 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
                 inline: false
                 entry_name: FactoryAccountNumbersType
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
         forwardType:
             expose: true
             access_type: public_method
             serialized_name: ForwardType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getForwardType
                 setter: setForwardType
@@ -110,7 +110,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: IsActive
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getIsActive
                 setter: setIsActive
@@ -120,7 +120,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: ScheduleClass
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getScheduleClass
                 setter: setScheduleClass
@@ -130,7 +130,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: ScheduleCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getScheduleCode
                 setter: setScheduleCode
@@ -140,7 +140,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: ScheduleStartDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getScheduleStartDate
                 setter: setScheduleStartDate
@@ -150,7 +150,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: ScheduleType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getScheduleType
                 setter: setScheduleType
@@ -160,7 +160,7 @@ App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
             access_type: public_method
             serialized_name: SpreadAccountNumbers
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getSpreadAccountNumbers
                 setter: setSpreadAccountNumbers

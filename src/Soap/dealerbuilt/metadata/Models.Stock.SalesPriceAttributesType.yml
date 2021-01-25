@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
             access_type: public_method
             serialized_name: AdvertisedSalePrice
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getAdvertisedSalePrice
                 setter: setAdvertisedSalePrice
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
             access_type: public_method
             serialized_name: DealerDefinedStatus
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getDealerDefinedStatus
                 setter: setDealerDefinedStatus
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
             access_type: public_method
             serialized_name: ExplodeVin
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getExplodeVin
                 setter: setExplodeVin
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
             access_type: public_method
             serialized_name: InvoiceNumberString
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getInvoiceNumberString
                 setter: setInvoiceNumberString
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
             access_type: public_method
             serialized_name: ModifiedBy
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getModifiedBy
                 setter: setModifiedBy
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
             access_type: public_method
             serialized_name: ModifiedStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getModifiedStamp
                 setter: setModifiedStamp
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
             access_type: public_method
             serialized_name: StockDataAttributes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getStockDataAttributes
                 setter: setStockDataAttributes
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
             access_type: public_method
             serialized_name: StockNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getStockNumber
                 setter: setStockNumber

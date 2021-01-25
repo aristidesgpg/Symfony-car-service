@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing AccountingTransactionPushRequestType.
+ * Class representing AccountingTransactionPushRequestType
  *
+ * 
  * XSD Type: AccountingTransactionPushRequest
  */
 class AccountingTransactionPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionAttributesType $accountingAttributes
      */
     private $accountingAttributes = null;
 
     /**
-     * Gets as accountingAttributes.
+     * Gets as accountingAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionAttributesType
      */
@@ -25,16 +27,17 @@ class AccountingTransactionPushRequestType
     }
 
     /**
-     * Sets a new accountingAttributes.
+     * Sets a new accountingAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionAttributesType $accountingAttributes
-     *
      * @return self
      */
-    public function setAccountingAttributes(AccountingTransactionAttributesType $accountingAttributes)
+    public function setAccountingAttributes(\App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionAttributesType $accountingAttributes)
     {
         $this->accountingAttributes = $accountingAttributes;
-
         return $this;
     }
+
+
 }
+

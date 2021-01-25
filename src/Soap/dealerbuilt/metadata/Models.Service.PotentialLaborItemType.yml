@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: AllowanceHours
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getAllowanceHours
                 setter: setAllowanceHours
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: Hours
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getHours
                 setter: setHours
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: IsApproved
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getIsApproved
                 setter: setIsApproved
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: LaborAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborAmount
                 setter: setLaborAmount
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: LaborRate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborRate
                 setter: setLaborRate
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: LaborType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborType
                 setter: setLaborType
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: LineNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLineNumber
                 setter: setLineNumber
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: Operation
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getOperation
                 setter: setOperation
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: Remark
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getRemark
                 setter: setRemark
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
             access_type: public_method
             serialized_name: Sublets
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getSublets
                 setter: setSublets
@@ -104,4 +104,4 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
                 inline: false
                 entry_name: PotentialLaborOperationSublet
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'

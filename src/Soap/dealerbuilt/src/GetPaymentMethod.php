@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetPaymentMethod.
+ * Class representing GetPaymentMethod
  */
 class GetPaymentMethod
 {
+
     /**
-     * @var string[]
+     * @var string[] $paymentMethodKeys
      */
     private $paymentMethodKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToPaymentMethodKeys($string)
     {
         $this->paymentMethodKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset paymentMethodKeys.
+     * isset paymentMethodKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPaymentMethodKeys($index)
@@ -39,10 +37,9 @@ class GetPaymentMethod
     }
 
     /**
-     * unset paymentMethodKeys.
+     * unset paymentMethodKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPaymentMethodKeys($index)
@@ -51,7 +48,7 @@ class GetPaymentMethod
     }
 
     /**
-     * Gets as paymentMethodKeys.
+     * Gets as paymentMethodKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class GetPaymentMethod
     }
 
     /**
-     * Sets a new paymentMethodKeys.
+     * Sets a new paymentMethodKeys
      *
      * @param string[] $paymentMethodKeys
-     *
      * @return self
      */
     public function setPaymentMethodKeys(array $paymentMethodKeys)
     {
         $this->paymentMethodKeys = $paymentMethodKeys;
-
         return $this;
     }
+
+
 }
+

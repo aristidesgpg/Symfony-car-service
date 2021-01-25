@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPotentialServiceComponentType.
+ * Class representing ArrayOfPotentialServiceComponentType
  *
+ * 
  * XSD Type: ArrayOfPotentialServiceComponent
  */
 class ArrayOfPotentialServiceComponentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType[] $potentialServiceComponent
      */
     private $potentialServiceComponent = [
+        
     ];
 
     /**
-     * Adds as potentialServiceComponent.
+     * Adds as potentialServiceComponent
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType $potentialServiceComponent
      */
-    public function addToPotentialServiceComponent(PotentialServiceComponentType $potentialServiceComponent)
+    public function addToPotentialServiceComponent(\App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType $potentialServiceComponent)
     {
         $this->potentialServiceComponent[] = $potentialServiceComponent;
-
         return $this;
     }
 
     /**
-     * isset potentialServiceComponent.
+     * isset potentialServiceComponent
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPotentialServiceComponent($index)
@@ -42,10 +42,9 @@ class ArrayOfPotentialServiceComponentType
     }
 
     /**
-     * unset potentialServiceComponent.
+     * unset potentialServiceComponent
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPotentialServiceComponent($index)
@@ -54,7 +53,7 @@ class ArrayOfPotentialServiceComponentType
     }
 
     /**
-     * Gets as potentialServiceComponent.
+     * Gets as potentialServiceComponent
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPotentialServiceComponentType
     }
 
     /**
-     * Sets a new potentialServiceComponent.
+     * Sets a new potentialServiceComponent
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType[] $potentialServiceComponent
-     *
      * @return self
      */
     public function setPotentialServiceComponent(array $potentialServiceComponent)
     {
         $this->potentialServiceComponent = $potentialServiceComponent;
-
         return $this;
     }
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Apr
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getApr
                 setter: setApr
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Aug
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getAug
                 setter: setAug
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Dec
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getDec
                 setter: setDec
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Feb
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getFeb
                 setter: setFeb
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Jan
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getJan
                 setter: setJan
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Jul
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getJul
                 setter: setJul
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Jun
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getJun
                 setter: setJun
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Mar
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getMar
                 setter: setMar
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: May
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getMay
                 setter: setMay
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Nov
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getNov
                 setter: setNov
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Oct
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getOct
                 setter: setOct
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: Sep
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getSep
                 setter: setSep
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartNumbersStockedType:
             access_type: public_method
             serialized_name: YearAverage
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getYearAverage
                 setter: setYearAverage

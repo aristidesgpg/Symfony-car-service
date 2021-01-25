@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfServiceLocationPushResponseType.
+ * Class representing ArrayOfServiceLocationPushResponseType
  *
+ * 
  * XSD Type: ArrayOfServiceLocationPushResponse
  */
 class ArrayOfServiceLocationPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $serviceLocationPushResponse
      */
     private $serviceLocationPushResponse = [
+        
     ];
 
     /**
-     * Adds as serviceLocationPushResponse.
+     * Adds as serviceLocationPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse
      */
-    public function addToServiceLocationPushResponse(ServiceLocationPushResponseType $serviceLocationPushResponse)
+    public function addToServiceLocationPushResponse(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
     {
         $this->serviceLocationPushResponse[] = $serviceLocationPushResponse;
-
         return $this;
     }
 
     /**
-     * isset serviceLocationPushResponse.
+     * isset serviceLocationPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceLocationPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfServiceLocationPushResponseType
     }
 
     /**
-     * unset serviceLocationPushResponse.
+     * unset serviceLocationPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceLocationPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfServiceLocationPushResponseType
     }
 
     /**
-     * Gets as serviceLocationPushResponse.
+     * Gets as serviceLocationPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfServiceLocationPushResponseType
     }
 
     /**
-     * Sets a new serviceLocationPushResponse.
+     * Sets a new serviceLocationPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $serviceLocationPushResponse
-     *
      * @return self
      */
     public function setServiceLocationPushResponse(array $serviceLocationPushResponse)
     {
         $this->serviceLocationPushResponse = $serviceLocationPushResponse;
-
         return $this;
     }
+
+
 }
+

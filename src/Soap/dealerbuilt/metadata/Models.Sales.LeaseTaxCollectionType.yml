@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseTaxCollectionType:
             access_type: public_method
             serialized_name: DealerTaxes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDealerTaxes
                 setter: setDealerTaxes
@@ -14,13 +14,13 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseTaxCollectionType:
                 inline: false
                 entry_name: DealerTax
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         monthlyUse:
             expose: true
             access_type: public_method
             serialized_name: MonthlyUse
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getMonthlyUse
                 setter: setMonthlyUse
@@ -30,7 +30,7 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseTaxCollectionType:
             access_type: public_method
             serialized_name: Property
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getProperty
                 setter: setProperty

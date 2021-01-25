@@ -5,24 +5,26 @@ namespace App\Soap\dealerbuilt\src\Models\Customers;
 use App\Soap\dealerbuilt\src\Models\SourceItemType;
 
 /**
- * Class representing CustomerType.
+ * Class representing CustomerType
  *
+ * 
  * XSD Type: Customer
  */
 class CustomerType extends SourceItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var int
+     * @var int $customerId
      */
     private $customerId = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType
      */
@@ -32,21 +34,19 @@ class CustomerType extends SourceItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $attributes
-     *
      * @return self
      */
-    public function setAttributes(CustomerAttributesType $attributes)
+    public function setAttributes(\App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as customerId.
+     * Gets as customerId
      *
      * @return int
      */
@@ -56,16 +56,17 @@ class CustomerType extends SourceItemType
     }
 
     /**
-     * Sets a new customerId.
+     * Sets a new customerId
      *
      * @param int $customerId
-     *
      * @return self
      */
     public function setCustomerId($customerId)
     {
         $this->customerId = $customerId;
-
         return $this;
     }
+
+
 }
+

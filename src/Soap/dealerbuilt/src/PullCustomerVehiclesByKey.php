@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerVehiclesByKey.
+ * Class representing PullCustomerVehiclesByKey
  */
 class PullCustomerVehiclesByKey
 {
+
     /**
-     * @var string[]
+     * @var string[] $vehicleKeys
      */
     private $vehicleKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToVehicleKeys($string)
     {
         $this->vehicleKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset vehicleKeys.
+     * isset vehicleKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVehicleKeys($index)
@@ -39,10 +37,9 @@ class PullCustomerVehiclesByKey
     }
 
     /**
-     * unset vehicleKeys.
+     * unset vehicleKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVehicleKeys($index)
@@ -51,7 +48,7 @@ class PullCustomerVehiclesByKey
     }
 
     /**
-     * Gets as vehicleKeys.
+     * Gets as vehicleKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class PullCustomerVehiclesByKey
     }
 
     /**
-     * Sets a new vehicleKeys.
+     * Sets a new vehicleKeys
      *
      * @param string[] $vehicleKeys
-     *
      * @return self
      */
     public function setVehicleKeys(array $vehicleKeys)
     {
         $this->vehicleKeys = $vehicleKeys;
-
         return $this;
     }
+
+
 }
+

@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing SourcePlacementType.
+ * Class representing SourcePlacementType
  *
+ * 
  * XSD Type: SourcePlacement
  */
 class SourcePlacementType extends EnvironmentPlacementType
 {
+
     /**
-     * @var int
+     * @var int $dataSourceId
      */
     private $dataSourceId = null;
 
     /**
-     * @var string
+     * @var string $keyPrefix
      */
     private $keyPrefix = null;
 
     /**
-     * Gets as dataSourceId.
+     * Gets as dataSourceId
      *
      * @return int
      */
@@ -30,21 +32,19 @@ class SourcePlacementType extends EnvironmentPlacementType
     }
 
     /**
-     * Sets a new dataSourceId.
+     * Sets a new dataSourceId
      *
      * @param int $dataSourceId
-     *
      * @return self
      */
     public function setDataSourceId($dataSourceId)
     {
         $this->dataSourceId = $dataSourceId;
-
         return $this;
     }
 
     /**
-     * Gets as keyPrefix.
+     * Gets as keyPrefix
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class SourcePlacementType extends EnvironmentPlacementType
     }
 
     /**
-     * Sets a new keyPrefix.
+     * Sets a new keyPrefix
      *
      * @param string $keyPrefix
-     *
      * @return self
      */
     public function setKeyPrefix($keyPrefix)
     {
         $this->keyPrefix = $keyPrefix;
-
         return $this;
     }
+
+
 }
+

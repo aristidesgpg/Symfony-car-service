@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushDeferredJobs.
+ * Class representing PushDeferredJobs
  */
 class PushDeferredJobs
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType[] $requests
      */
     private $requests = null;
 
     /**
-     * Adds as deferredJobPushRequest.
+     * Adds as deferredJobPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType $deferredJobPushRequest
      */
-    public function addToRequests(BaseApi\DeferredJobPushRequestType $deferredJobPushRequest)
+    public function addToRequests(\App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType $deferredJobPushRequest)
     {
         $this->requests[] = $deferredJobPushRequest;
-
         return $this;
     }
 
     /**
-     * isset requests.
+     * isset requests
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRequests($index)
@@ -39,10 +37,9 @@ class PushDeferredJobs
     }
 
     /**
-     * unset requests.
+     * unset requests
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRequests($index)
@@ -51,7 +48,7 @@ class PushDeferredJobs
     }
 
     /**
-     * Gets as requests.
+     * Gets as requests
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushDeferredJobs
     }
 
     /**
-     * Sets a new requests.
+     * Sets a new requests
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType[] $requests
-     *
      * @return self
      */
     public function setRequests(array $requests)
     {
         $this->requests = $requests;
-
         return $this;
     }
+
+
 }
+

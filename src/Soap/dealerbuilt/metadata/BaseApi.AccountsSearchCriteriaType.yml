@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\AccountsSearchCriteriaType:
             access_type: public_method
             serialized_name: AccountClassGroup
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountClassGroup
                 setter: setAccountClassGroup
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\AccountsSearchCriteriaType:
             access_type: public_method
             serialized_name: AccountClasses
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountClasses
                 setter: setAccountClasses
@@ -24,13 +24,13 @@ App\Soap\dealerbuilt\src\BaseApi\AccountsSearchCriteriaType:
                 inline: false
                 entry_name: AccountClassType
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
         accounts:
             expose: true
             access_type: public_method
             serialized_name: Accounts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccounts
                 setter: setAccounts
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\AccountsSearchCriteriaType:
             access_type: public_method
             serialized_name: OmitAccountsWithNoActivity
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getOmitAccountsWithNoActivity
                 setter: setOmitAccountsWithNoActivity

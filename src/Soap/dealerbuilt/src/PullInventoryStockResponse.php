@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryStockResponse.
+ * Class representing PullInventoryStockResponse
  */
 class PullInventoryStockResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $pullInventoryStockResult
      */
     private $pullInventoryStockResult = null;
 
     /**
-     * Adds as stockItem.
+     * Adds as stockItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem
      */
-    public function addToPullInventoryStockResult(BaseApi\StockItemType $stockItem)
+    public function addToPullInventoryStockResult(\App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem)
     {
         $this->pullInventoryStockResult[] = $stockItem;
-
         return $this;
     }
 
     /**
-     * isset pullInventoryStockResult.
+     * isset pullInventoryStockResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullInventoryStockResult($index)
@@ -39,10 +37,9 @@ class PullInventoryStockResponse
     }
 
     /**
-     * unset pullInventoryStockResult.
+     * unset pullInventoryStockResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullInventoryStockResult($index)
@@ -51,7 +48,7 @@ class PullInventoryStockResponse
     }
 
     /**
-     * Gets as pullInventoryStockResult.
+     * Gets as pullInventoryStockResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
      */
@@ -61,16 +58,17 @@ class PullInventoryStockResponse
     }
 
     /**
-     * Sets a new pullInventoryStockResult.
+     * Sets a new pullInventoryStockResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $pullInventoryStockResult
-     *
      * @return self
      */
     public function setPullInventoryStockResult(array $pullInventoryStockResult)
     {
         $this->pullInventoryStockResult = $pullInventoryStockResult;
-
         return $this;
     }
+
+
 }
+

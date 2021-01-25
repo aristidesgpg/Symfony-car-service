@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfChartEntryType.
+ * Class representing ArrayOfChartEntryType
  *
+ * 
  * XSD Type: ArrayOfChartEntry
  */
 class ArrayOfChartEntryType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ChartEntryType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ChartEntryType[] $chartEntry
      */
     private $chartEntry = [
+        
     ];
 
     /**
-     * Adds as chartEntry.
+     * Adds as chartEntry
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ChartEntryType $chartEntry
      */
-    public function addToChartEntry(ChartEntryType $chartEntry)
+    public function addToChartEntry(\App\Soap\dealerbuilt\src\BaseApi\ChartEntryType $chartEntry)
     {
         $this->chartEntry[] = $chartEntry;
-
         return $this;
     }
 
     /**
-     * isset chartEntry.
+     * isset chartEntry
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetChartEntry($index)
@@ -42,10 +42,9 @@ class ArrayOfChartEntryType
     }
 
     /**
-     * unset chartEntry.
+     * unset chartEntry
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetChartEntry($index)
@@ -54,7 +53,7 @@ class ArrayOfChartEntryType
     }
 
     /**
-     * Gets as chartEntry.
+     * Gets as chartEntry
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ChartEntryType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfChartEntryType
     }
 
     /**
-     * Sets a new chartEntry.
+     * Sets a new chartEntry
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ChartEntryType[] $chartEntry
-     *
      * @return self
      */
     public function setChartEntry(array $chartEntry)
     {
         $this->chartEntry = $chartEntry;
-
         return $this;
     }
+
+
 }
+

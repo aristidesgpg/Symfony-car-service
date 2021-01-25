@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType:
             access_type: public_method
             serialized_name: DealKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDealKey
                 setter: setDealKey
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType:
             access_type: public_method
             serialized_name: Document
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDocument
                 setter: setDocument
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType:
             access_type: public_method
             serialized_name: DocumentKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDocumentKey
                 setter: setDocumentKey
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType:
             access_type: public_method
             serialized_name: DocumentName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDocumentName
                 setter: setDocumentName
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType:
             access_type: public_method
             serialized_name: ExternalDocumentKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExternalDocumentKey
                 setter: setExternalDocumentKey
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType:
             access_type: public_method
             serialized_name: StoreId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStoreId
                 setter: setStoreId

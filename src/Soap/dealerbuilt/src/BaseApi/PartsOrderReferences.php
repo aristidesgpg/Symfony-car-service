@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsOrderReferences.
+ * Class representing PartsOrderReferences
  */
 class PartsOrderReferences extends PartsOrderReferencesType
 {
+
+
 }
+

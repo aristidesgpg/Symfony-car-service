@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderType.
+ * Class representing RepairOrderType
  *
+ * 
  * XSD Type: RepairOrder
  */
 class RepairOrderType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $rOKey
      */
     private $rOKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderReferencesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderReferencesType $references
      */
     private $references = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType
      */
@@ -35,19 +37,19 @@ class RepairOrderType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as rOKey.
+     * Gets as rOKey
      *
      * @return string
      */
@@ -57,21 +59,19 @@ class RepairOrderType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new rOKey.
+     * Sets a new rOKey
      *
      * @param string $rOKey
-     *
      * @return self
      */
     public function setROKey($rOKey)
     {
         $this->rOKey = $rOKey;
-
         return $this;
     }
 
     /**
-     * Gets as references.
+     * Gets as references
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderReferencesType
      */
@@ -81,16 +81,17 @@ class RepairOrderType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new references.
+     * Sets a new references
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderReferencesType $references
-     *
      * @return self
      */
-    public function setReferences(RepairOrderReferencesType $references)
+    public function setReferences(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderReferencesType $references)
     {
         $this->references = $references;
-
         return $this;
     }
+
+
 }
+

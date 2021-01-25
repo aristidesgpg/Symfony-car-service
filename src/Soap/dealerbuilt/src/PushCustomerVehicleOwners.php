@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCustomerVehicleOwners.
+ * Class representing PushCustomerVehicleOwners
  */
 class PushCustomerVehicleOwners
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleOwnerPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleOwnerPushRequestType[] $vehicleOwners
      */
     private $vehicleOwners = null;
 
     /**
-     * Adds as customerVehicleOwnerPushRequest.
+     * Adds as customerVehicleOwnerPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleOwnerPushRequestType $customerVehicleOwnerPushRequest
      */
-    public function addToVehicleOwners(BaseApi\CustomerVehicleOwnerPushRequestType $customerVehicleOwnerPushRequest)
+    public function addToVehicleOwners(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleOwnerPushRequestType $customerVehicleOwnerPushRequest)
     {
         $this->vehicleOwners[] = $customerVehicleOwnerPushRequest;
-
         return $this;
     }
 
     /**
-     * isset vehicleOwners.
+     * isset vehicleOwners
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVehicleOwners($index)
@@ -39,10 +37,9 @@ class PushCustomerVehicleOwners
     }
 
     /**
-     * unset vehicleOwners.
+     * unset vehicleOwners
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVehicleOwners($index)
@@ -51,7 +48,7 @@ class PushCustomerVehicleOwners
     }
 
     /**
-     * Gets as vehicleOwners.
+     * Gets as vehicleOwners
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleOwnerPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushCustomerVehicleOwners
     }
 
     /**
-     * Sets a new vehicleOwners.
+     * Sets a new vehicleOwners
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleOwnerPushRequestType[] $vehicleOwners
-     *
      * @return self
      */
     public function setVehicleOwners(array $vehicleOwners)
     {
         $this->vehicleOwners = $vehicleOwners;
-
         return $this;
     }
+
+
 }
+

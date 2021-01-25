@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfServiceLocationPlacement.
+ * Class representing ArrayOfServiceLocationPlacement
  */
 class ArrayOfServiceLocationPlacement extends ArrayOfServiceLocationPlacementType
 {
+
+
 }
+

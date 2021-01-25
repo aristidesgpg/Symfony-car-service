@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing CodeTypeDetailType.
+ * Class representing CodeTypeDetailType
  *
+ * 
  * XSD Type: CodeTypeDetail
  */
 class CodeTypeDetailType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\CodeDetailType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\CodeDetailType $codeDetails
      */
     private $codeDetails = null;
 
     /**
-     * @var string
+     * @var string $codeType
      */
     private $codeType = null;
 
     /**
-     * Gets as codeDetails.
+     * Gets as codeDetails
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\CodeDetailType
      */
@@ -30,21 +32,19 @@ class CodeTypeDetailType
     }
 
     /**
-     * Sets a new codeDetails.
+     * Sets a new codeDetails
      *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\CodeDetailType $codeDetails
-     *
      * @return self
      */
-    public function setCodeDetails(CodeDetailType $codeDetails)
+    public function setCodeDetails(\App\Soap\dealerbuilt\src\Models\Stock\CodeDetailType $codeDetails)
     {
         $this->codeDetails = $codeDetails;
-
         return $this;
     }
 
     /**
-     * Gets as codeType.
+     * Gets as codeType
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class CodeTypeDetailType
     }
 
     /**
-     * Sets a new codeType.
+     * Sets a new codeType
      *
      * @param string $codeType
-     *
      * @return self
      */
     public function setCodeType($codeType)
     {
         $this->codeType = $codeType;
-
         return $this;
     }
+
+
 }
+

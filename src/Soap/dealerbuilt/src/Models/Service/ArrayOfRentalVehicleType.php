@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfRentalVehicleType.
+ * Class representing ArrayOfRentalVehicleType
  *
+ * 
  * XSD Type: ArrayOfRentalVehicle
  */
 class ArrayOfRentalVehicleType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType[] $rentalVehicle
      */
     private $rentalVehicle = [
+        
     ];
 
     /**
-     * Adds as rentalVehicle.
+     * Adds as rentalVehicle
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType $rentalVehicle
      */
-    public function addToRentalVehicle(RentalVehicleType $rentalVehicle)
+    public function addToRentalVehicle(\App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType $rentalVehicle)
     {
         $this->rentalVehicle[] = $rentalVehicle;
-
         return $this;
     }
 
     /**
-     * isset rentalVehicle.
+     * isset rentalVehicle
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRentalVehicle($index)
@@ -42,10 +42,9 @@ class ArrayOfRentalVehicleType
     }
 
     /**
-     * unset rentalVehicle.
+     * unset rentalVehicle
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRentalVehicle($index)
@@ -54,7 +53,7 @@ class ArrayOfRentalVehicleType
     }
 
     /**
-     * Gets as rentalVehicle.
+     * Gets as rentalVehicle
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfRentalVehicleType
     }
 
     /**
-     * Sets a new rentalVehicle.
+     * Sets a new rentalVehicle
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType[] $rentalVehicle
-     *
      * @return self
      */
     public function setRentalVehicle(array $rentalVehicle)
     {
         $this->rentalVehicle = $rentalVehicle;
-
         return $this;
     }
+
+
 }
+

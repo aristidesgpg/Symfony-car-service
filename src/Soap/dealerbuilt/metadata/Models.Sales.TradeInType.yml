@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\TradeInType:
             access_type: public_method
             serialized_name: Attributes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getAttributes
                 setter: setAttributes
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Sales\TradeInType:
             access_type: public_method
             serialized_name: TradeInSequence
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTradeInSequence
                 setter: setTradeInSequence
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Sales\TradeInType:
             access_type: public_method
             serialized_name: Vehicle
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getVehicle
                 setter: setVehicle

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPotentialLaborItemPushRequestType.
+ * Class representing ArrayOfPotentialLaborItemPushRequestType
  *
+ * 
  * XSD Type: ArrayOfPotentialLaborItemPushRequest
  */
 class ArrayOfPotentialLaborItemPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType[] $potentialLaborItemPushRequest
      */
     private $potentialLaborItemPushRequest = [
+        
     ];
 
     /**
-     * Adds as potentialLaborItemPushRequest.
+     * Adds as potentialLaborItemPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType $potentialLaborItemPushRequest
      */
-    public function addToPotentialLaborItemPushRequest(PotentialLaborItemPushRequestType $potentialLaborItemPushRequest)
+    public function addToPotentialLaborItemPushRequest(\App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType $potentialLaborItemPushRequest)
     {
         $this->potentialLaborItemPushRequest[] = $potentialLaborItemPushRequest;
-
         return $this;
     }
 
     /**
-     * isset potentialLaborItemPushRequest.
+     * isset potentialLaborItemPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPotentialLaborItemPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfPotentialLaborItemPushRequestType
     }
 
     /**
-     * unset potentialLaborItemPushRequest.
+     * unset potentialLaborItemPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPotentialLaborItemPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfPotentialLaborItemPushRequestType
     }
 
     /**
-     * Gets as potentialLaborItemPushRequest.
+     * Gets as potentialLaborItemPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPotentialLaborItemPushRequestType
     }
 
     /**
-     * Sets a new potentialLaborItemPushRequest.
+     * Sets a new potentialLaborItemPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType[] $potentialLaborItemPushRequest
-     *
      * @return self
      */
     public function setPotentialLaborItemPushRequest(array $potentialLaborItemPushRequest)
     {
         $this->potentialLaborItemPushRequest = $potentialLaborItemPushRequest;
-
         return $this;
     }
+
+
 }
+

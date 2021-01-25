@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryItemsByKeyResponse.
+ * Class representing PullInventoryItemsByKeyResponse
  */
 class PullInventoryItemsByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $pullInventoryItemsByKeyResult
      */
     private $pullInventoryItemsByKeyResult = null;
 
     /**
-     * Adds as stockItem.
+     * Adds as stockItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem
      */
-    public function addToPullInventoryItemsByKeyResult(BaseApi\StockItemType $stockItem)
+    public function addToPullInventoryItemsByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem)
     {
         $this->pullInventoryItemsByKeyResult[] = $stockItem;
-
         return $this;
     }
 
     /**
-     * isset pullInventoryItemsByKeyResult.
+     * isset pullInventoryItemsByKeyResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullInventoryItemsByKeyResult($index)
@@ -39,10 +37,9 @@ class PullInventoryItemsByKeyResponse
     }
 
     /**
-     * unset pullInventoryItemsByKeyResult.
+     * unset pullInventoryItemsByKeyResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullInventoryItemsByKeyResult($index)
@@ -51,7 +48,7 @@ class PullInventoryItemsByKeyResponse
     }
 
     /**
-     * Gets as pullInventoryItemsByKeyResult.
+     * Gets as pullInventoryItemsByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
      */
@@ -61,16 +58,17 @@ class PullInventoryItemsByKeyResponse
     }
 
     /**
-     * Sets a new pullInventoryItemsByKeyResult.
+     * Sets a new pullInventoryItemsByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $pullInventoryItemsByKeyResult
-     *
      * @return self
      */
     public function setPullInventoryItemsByKeyResult(array $pullInventoryItemsByKeyResult)
     {
         $this->pullInventoryItemsByKeyResult = $pullInventoryItemsByKeyResult;
-
         return $this;
     }
+
+
 }
+

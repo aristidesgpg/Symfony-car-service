@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPotentialLaborOperationSubletType.
+ * Class representing ArrayOfPotentialLaborOperationSubletType
  *
+ * 
  * XSD Type: ArrayOfPotentialLaborOperationSublet
  */
 class ArrayOfPotentialLaborOperationSubletType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PotentialLaborOperationSubletType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PotentialLaborOperationSubletType[] $potentialLaborOperationSublet
      */
     private $potentialLaborOperationSublet = [
+        
     ];
 
     /**
-     * Adds as potentialLaborOperationSublet.
+     * Adds as potentialLaborOperationSublet
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PotentialLaborOperationSubletType $potentialLaborOperationSublet
      */
-    public function addToPotentialLaborOperationSublet(PotentialLaborOperationSubletType $potentialLaborOperationSublet)
+    public function addToPotentialLaborOperationSublet(\App\Soap\dealerbuilt\src\Models\Service\PotentialLaborOperationSubletType $potentialLaborOperationSublet)
     {
         $this->potentialLaborOperationSublet[] = $potentialLaborOperationSublet;
-
         return $this;
     }
 
     /**
-     * isset potentialLaborOperationSublet.
+     * isset potentialLaborOperationSublet
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPotentialLaborOperationSublet($index)
@@ -42,10 +42,9 @@ class ArrayOfPotentialLaborOperationSubletType
     }
 
     /**
-     * unset potentialLaborOperationSublet.
+     * unset potentialLaborOperationSublet
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPotentialLaborOperationSublet($index)
@@ -54,7 +53,7 @@ class ArrayOfPotentialLaborOperationSubletType
     }
 
     /**
-     * Gets as potentialLaborOperationSublet.
+     * Gets as potentialLaborOperationSublet
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PotentialLaborOperationSubletType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPotentialLaborOperationSubletType
     }
 
     /**
-     * Sets a new potentialLaborOperationSublet.
+     * Sets a new potentialLaborOperationSublet
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PotentialLaborOperationSubletType[] $potentialLaborOperationSublet
-     *
      * @return self
      */
     public function setPotentialLaborOperationSublet(array $potentialLaborOperationSublet)
     {
         $this->potentialLaborOperationSublet = $potentialLaborOperationSublet;
-
         return $this;
     }
+
+
 }
+

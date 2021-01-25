@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfCustomerSummaryType.
+ * Class representing ArrayOfCustomerSummaryType
  *
+ * 
  * XSD Type: ArrayOfCustomerSummary
  */
 class ArrayOfCustomerSummaryType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType[] $customerSummary
      */
     private $customerSummary = [
+        
     ];
 
     /**
-     * Adds as customerSummary.
+     * Adds as customerSummary
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType $customerSummary
      */
-    public function addToCustomerSummary(CustomerSummaryType $customerSummary)
+    public function addToCustomerSummary(\App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType $customerSummary)
     {
         $this->customerSummary[] = $customerSummary;
-
         return $this;
     }
 
     /**
-     * isset customerSummary.
+     * isset customerSummary
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCustomerSummary($index)
@@ -42,10 +42,9 @@ class ArrayOfCustomerSummaryType
     }
 
     /**
-     * unset customerSummary.
+     * unset customerSummary
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCustomerSummary($index)
@@ -54,7 +53,7 @@ class ArrayOfCustomerSummaryType
     }
 
     /**
-     * Gets as customerSummary.
+     * Gets as customerSummary
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCustomerSummaryType
     }
 
     /**
-     * Sets a new customerSummary.
+     * Sets a new customerSummary
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType[] $customerSummary
-     *
      * @return self
      */
     public function setCustomerSummary(array $customerSummary)
     {
         $this->customerSummary = $customerSummary;
-
         return $this;
     }
+
+
 }
+

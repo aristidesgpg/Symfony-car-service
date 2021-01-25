@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing MonetaryValue.
+ * Class representing MonetaryValue
  */
 class MonetaryValue extends MonetaryValueType
 {
+
+
 }
+

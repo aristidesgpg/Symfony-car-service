@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing ArrayOfCounterTicket.
+ * Class representing ArrayOfCounterTicket
  */
 class ArrayOfCounterTicket extends ArrayOfCounterTicketType
 {
+
+
 }
+

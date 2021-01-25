@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfHardAddType.
+ * Class representing ArrayOfHardAddType
  *
+ * 
  * XSD Type: ArrayOfHardAdd
  */
 class ArrayOfHardAddType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\HardAddType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\HardAddType[] $hardAdd
      */
     private $hardAdd = [
+        
     ];
 
     /**
-     * Adds as hardAdd.
+     * Adds as hardAdd
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\HardAddType $hardAdd
      */
-    public function addToHardAdd(HardAddType $hardAdd)
+    public function addToHardAdd(\App\Soap\dealerbuilt\src\Models\Sales\HardAddType $hardAdd)
     {
         $this->hardAdd[] = $hardAdd;
-
         return $this;
     }
 
     /**
-     * isset hardAdd.
+     * isset hardAdd
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetHardAdd($index)
@@ -42,10 +42,9 @@ class ArrayOfHardAddType
     }
 
     /**
-     * unset hardAdd.
+     * unset hardAdd
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetHardAdd($index)
@@ -54,7 +53,7 @@ class ArrayOfHardAddType
     }
 
     /**
-     * Gets as hardAdd.
+     * Gets as hardAdd
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\HardAddType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfHardAddType
     }
 
     /**
-     * Sets a new hardAdd.
+     * Sets a new hardAdd
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\HardAddType[] $hardAdd
-     *
      * @return self
      */
     public function setHardAdd(array $hardAdd)
     {
         $this->hardAdd = $hardAdd;
-
         return $this;
     }
+
+
 }
+

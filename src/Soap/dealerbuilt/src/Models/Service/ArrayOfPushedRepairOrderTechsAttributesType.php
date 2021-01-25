@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedRepairOrderTechsAttributesType.
+ * Class representing ArrayOfPushedRepairOrderTechsAttributesType
  *
+ * 
  * XSD Type: ArrayOfPushedRepairOrderTechsAttributes
  */
 class ArrayOfPushedRepairOrderTechsAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType[] $pushedRepairOrderTechsAttributes
      */
     private $pushedRepairOrderTechsAttributes = [
+        
     ];
 
     /**
-     * Adds as pushedRepairOrderTechsAttributes.
+     * Adds as pushedRepairOrderTechsAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType $pushedRepairOrderTechsAttributes
      */
-    public function addToPushedRepairOrderTechsAttributes(PushedRepairOrderTechsAttributesType $pushedRepairOrderTechsAttributes)
+    public function addToPushedRepairOrderTechsAttributes(\App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType $pushedRepairOrderTechsAttributes)
     {
         $this->pushedRepairOrderTechsAttributes[] = $pushedRepairOrderTechsAttributes;
-
         return $this;
     }
 
     /**
-     * isset pushedRepairOrderTechsAttributes.
+     * isset pushedRepairOrderTechsAttributes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushedRepairOrderTechsAttributes($index)
@@ -42,10 +42,9 @@ class ArrayOfPushedRepairOrderTechsAttributesType
     }
 
     /**
-     * unset pushedRepairOrderTechsAttributes.
+     * unset pushedRepairOrderTechsAttributes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushedRepairOrderTechsAttributes($index)
@@ -54,7 +53,7 @@ class ArrayOfPushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Gets as pushedRepairOrderTechsAttributes.
+     * Gets as pushedRepairOrderTechsAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPushedRepairOrderTechsAttributesType
     }
 
     /**
-     * Sets a new pushedRepairOrderTechsAttributes.
+     * Sets a new pushedRepairOrderTechsAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType[] $pushedRepairOrderTechsAttributes
-     *
      * @return self
      */
     public function setPushedRepairOrderTechsAttributes(array $pushedRepairOrderTechsAttributes)
     {
         $this->pushedRepairOrderTechsAttributes = $pushedRepairOrderTechsAttributes;
-
         return $this;
     }
+
+
 }
+

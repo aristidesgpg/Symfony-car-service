@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing ArrayOfPartsInvoiceLineType.
+ * Class representing ArrayOfPartsInvoiceLineType
  *
+ * 
  * XSD Type: ArrayOfPartsInvoiceLine
  */
 class ArrayOfPartsInvoiceLineType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType[] $partsInvoiceLine
      */
     private $partsInvoiceLine = [
+        
     ];
 
     /**
-     * Adds as partsInvoiceLine.
+     * Adds as partsInvoiceLine
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType $partsInvoiceLine
      */
-    public function addToPartsInvoiceLine(PartsInvoiceLineType $partsInvoiceLine)
+    public function addToPartsInvoiceLine(\App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType $partsInvoiceLine)
     {
         $this->partsInvoiceLine[] = $partsInvoiceLine;
-
         return $this;
     }
 
     /**
-     * isset partsInvoiceLine.
+     * isset partsInvoiceLine
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsInvoiceLine($index)
@@ -42,10 +42,9 @@ class ArrayOfPartsInvoiceLineType
     }
 
     /**
-     * unset partsInvoiceLine.
+     * unset partsInvoiceLine
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsInvoiceLine($index)
@@ -54,7 +53,7 @@ class ArrayOfPartsInvoiceLineType
     }
 
     /**
-     * Gets as partsInvoiceLine.
+     * Gets as partsInvoiceLine
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPartsInvoiceLineType
     }
 
     /**
-     * Sets a new partsInvoiceLine.
+     * Sets a new partsInvoiceLine
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType[] $partsInvoiceLine
-     *
      * @return self
      */
     public function setPartsInvoiceLine(array $partsInvoiceLine)
     {
         $this->partsInvoiceLine = $partsInvoiceLine;
-
         return $this;
     }
+
+
 }
+

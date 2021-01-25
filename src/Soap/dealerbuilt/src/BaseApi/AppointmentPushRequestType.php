@@ -3,104 +3,106 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing AppointmentPushRequestType.
+ * Class representing AppointmentPushRequestType
  *
+ * 
  * XSD Type: AppointmentPushRequest
  */
 class AppointmentPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $advisorId
      */
     private $advisorId = null;
 
     /**
-     * @var string
+     * @var string $appointmentKey
      */
     private $appointmentKey = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $appointmentTime
      */
     private $appointmentTime = null;
 
     /**
-     * @var string
+     * @var string $comment
      */
     private $comment = null;
 
     /**
-     * @var string
+     * @var string $concernPushMethod
      */
     private $concernPushMethod = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[] $concerns
      */
     private $concerns = null;
 
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var string
+     * @var string $customerStatementPushMethod
      */
     private $customerStatementPushMethod = null;
 
     /**
-     * @var string
+     * @var string $externalAppointmentId
      */
     private $externalAppointmentId = null;
 
     /**
-     * @var int
+     * @var int $mileage
      */
     private $mileage = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $promisedTime
      */
     private $promisedTime = null;
 
     /**
-     * @var string
+     * @var string $repairOrderNumber
      */
     private $repairOrderNumber = null;
 
     /**
-     * @var string
+     * @var string $scenario
      */
     private $scenario = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var string
+     * @var string $status
      */
     private $status = null;
 
     /**
-     * @var string
+     * @var string $statusDescription
      */
     private $statusDescription = null;
 
     /**
-     * @var string
+     * @var string $vehicleKey
      */
     private $vehicleKey = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * Gets as advisorId.
+     * Gets as advisorId
      *
      * @return string
      */
@@ -110,21 +112,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new advisorId.
+     * Sets a new advisorId
      *
      * @param string $advisorId
-     *
      * @return self
      */
     public function setAdvisorId($advisorId)
     {
         $this->advisorId = $advisorId;
-
         return $this;
     }
 
     /**
-     * Gets as appointmentKey.
+     * Gets as appointmentKey
      *
      * @return string
      */
@@ -134,21 +134,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new appointmentKey.
+     * Sets a new appointmentKey
      *
      * @param string $appointmentKey
-     *
      * @return self
      */
     public function setAppointmentKey($appointmentKey)
     {
         $this->appointmentKey = $appointmentKey;
-
         return $this;
     }
 
     /**
-     * Gets as appointmentTime.
+     * Gets as appointmentTime
      *
      * @return \DateTime
      */
@@ -158,19 +156,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new appointmentTime.
+     * Sets a new appointmentTime
      *
+     * @param \DateTime $appointmentTime
      * @return self
      */
     public function setAppointmentTime(\DateTime $appointmentTime)
     {
         $this->appointmentTime = $appointmentTime;
-
         return $this;
     }
 
     /**
-     * Gets as comment.
+     * Gets as comment
      *
      * @return string
      */
@@ -180,21 +178,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new comment.
+     * Sets a new comment
      *
      * @param string $comment
-     *
      * @return self
      */
     public function setComment($comment)
     {
         $this->comment = $comment;
-
         return $this;
     }
 
     /**
-     * Gets as concernPushMethod.
+     * Gets as concernPushMethod
      *
      * @return string
      */
@@ -204,36 +200,33 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new concernPushMethod.
+     * Sets a new concernPushMethod
      *
      * @param string $concernPushMethod
-     *
      * @return self
      */
     public function setConcernPushMethod($concernPushMethod)
     {
         $this->concernPushMethod = $concernPushMethod;
-
         return $this;
     }
 
     /**
-     * Adds as concern.
+     * Adds as concern
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType $concern
      */
     public function addToConcerns(\App\Soap\dealerbuilt\src\Models\Appointments\ConcernType $concern)
     {
         $this->concerns[] = $concern;
-
         return $this;
     }
 
     /**
-     * isset concerns.
+     * isset concerns
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetConcerns($index)
@@ -242,10 +235,9 @@ class AppointmentPushRequestType
     }
 
     /**
-     * unset concerns.
+     * unset concerns
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetConcerns($index)
@@ -254,7 +246,7 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Gets as concerns.
+     * Gets as concerns
      *
      * @return \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[]
      */
@@ -264,21 +256,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new concerns.
+     * Sets a new concerns
      *
      * @param \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[] $concerns
-     *
      * @return self
      */
     public function setConcerns(array $concerns)
     {
         $this->concerns = $concerns;
-
         return $this;
     }
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -288,21 +278,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as customerStatementPushMethod.
+     * Gets as customerStatementPushMethod
      *
      * @return string
      */
@@ -312,21 +300,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new customerStatementPushMethod.
+     * Sets a new customerStatementPushMethod
      *
      * @param string $customerStatementPushMethod
-     *
      * @return self
      */
     public function setCustomerStatementPushMethod($customerStatementPushMethod)
     {
         $this->customerStatementPushMethod = $customerStatementPushMethod;
-
         return $this;
     }
 
     /**
-     * Gets as externalAppointmentId.
+     * Gets as externalAppointmentId
      *
      * @return string
      */
@@ -336,21 +322,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new externalAppointmentId.
+     * Sets a new externalAppointmentId
      *
      * @param string $externalAppointmentId
-     *
      * @return self
      */
     public function setExternalAppointmentId($externalAppointmentId)
     {
         $this->externalAppointmentId = $externalAppointmentId;
-
         return $this;
     }
 
     /**
-     * Gets as mileage.
+     * Gets as mileage
      *
      * @return int
      */
@@ -360,21 +344,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new mileage.
+     * Sets a new mileage
      *
      * @param int $mileage
-     *
      * @return self
      */
     public function setMileage($mileage)
     {
         $this->mileage = $mileage;
-
         return $this;
     }
 
     /**
-     * Gets as promisedTime.
+     * Gets as promisedTime
      *
      * @return \DateTime
      */
@@ -384,19 +366,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new promisedTime.
+     * Sets a new promisedTime
      *
+     * @param \DateTime $promisedTime
      * @return self
      */
     public function setPromisedTime(\DateTime $promisedTime)
     {
         $this->promisedTime = $promisedTime;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderNumber.
+     * Gets as repairOrderNumber
      *
      * @return string
      */
@@ -406,21 +388,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new repairOrderNumber.
+     * Sets a new repairOrderNumber
      *
      * @param string $repairOrderNumber
-     *
      * @return self
      */
     public function setRepairOrderNumber($repairOrderNumber)
     {
         $this->repairOrderNumber = $repairOrderNumber;
-
         return $this;
     }
 
     /**
-     * Gets as scenario.
+     * Gets as scenario
      *
      * @return string
      */
@@ -430,21 +410,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new scenario.
+     * Sets a new scenario
      *
      * @param string $scenario
-     *
      * @return self
      */
     public function setScenario($scenario)
     {
         $this->scenario = $scenario;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -454,21 +432,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Gets as status.
+     * Gets as status
      *
      * @return string
      */
@@ -478,21 +454,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new status.
+     * Sets a new status
      *
      * @param string $status
-     *
      * @return self
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
     /**
-     * Gets as statusDescription.
+     * Gets as statusDescription
      *
      * @return string
      */
@@ -502,21 +476,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new statusDescription.
+     * Sets a new statusDescription
      *
      * @param string $statusDescription
-     *
      * @return self
      */
     public function setStatusDescription($statusDescription)
     {
         $this->statusDescription = $statusDescription;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleKey.
+     * Gets as vehicleKey
      *
      * @return string
      */
@@ -526,21 +498,19 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new vehicleKey.
+     * Sets a new vehicleKey
      *
      * @param string $vehicleKey
-     *
      * @return self
      */
     public function setVehicleKey($vehicleKey)
     {
         $this->vehicleKey = $vehicleKey;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -550,16 +520,17 @@ class AppointmentPushRequestType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
+
+
 }
+

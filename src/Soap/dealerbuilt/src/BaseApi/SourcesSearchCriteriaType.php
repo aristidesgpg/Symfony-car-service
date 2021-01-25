@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing SourcesSearchCriteriaType.
+ * Class representing SourcesSearchCriteriaType
  *
+ * 
  * XSD Type: SourcesSearchCriteria
  */
 class SourcesSearchCriteriaType extends SearchCriteriaType
 {
+
     /**
-     * @var int[]
+     * @var int[] $sourceIds
      */
     private $sourceIds = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToSourceIds($long)
     {
         $this->sourceIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset sourceIds.
+     * isset sourceIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSourceIds($index)
@@ -41,10 +40,9 @@ class SourcesSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * unset sourceIds.
+     * unset sourceIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSourceIds($index)
@@ -53,7 +51,7 @@ class SourcesSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Gets as sourceIds.
+     * Gets as sourceIds
      *
      * @return int[]
      */
@@ -63,16 +61,17 @@ class SourcesSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new sourceIds.
+     * Sets a new sourceIds
      *
      * @param int[] $sourceIds
-     *
      * @return self
      */
     public function setSourceIds(array $sourceIds)
     {
         $this->sourceIds = $sourceIds;
-
         return $this;
     }
+
+
 }
+

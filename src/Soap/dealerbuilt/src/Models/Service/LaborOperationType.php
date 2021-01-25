@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing LaborOperationType.
+ * Class representing LaborOperationType
  *
+ * 
  * XSD Type: LaborOperation
  */
 class LaborOperationType
 {
+
     /**
-     * @var string
+     * @var string $code
      */
     private $code = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var string
+     * @var string $quickCode
      */
     private $quickCode = null;
 
     /**
-     * Gets as code.
+     * Gets as code
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class LaborOperationType
     }
 
     /**
-     * Sets a new code.
+     * Sets a new code
      *
      * @param string $code
-     *
      * @return self
      */
     public function setCode($code)
     {
         $this->code = $code;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -59,21 +59,19 @@ class LaborOperationType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as quickCode.
+     * Gets as quickCode
      *
      * @return string
      */
@@ -83,16 +81,17 @@ class LaborOperationType
     }
 
     /**
-     * Sets a new quickCode.
+     * Sets a new quickCode
      *
      * @param string $quickCode
-     *
      * @return self
      */
     public function setQuickCode($quickCode)
     {
         $this->quickCode = $quickCode;
-
         return $this;
     }
+
+
 }
+

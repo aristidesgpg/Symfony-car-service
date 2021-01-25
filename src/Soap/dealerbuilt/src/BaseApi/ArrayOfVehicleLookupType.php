@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfVehicleLookupType.
+ * Class representing ArrayOfVehicleLookupType
  *
+ * 
  * XSD Type: ArrayOfVehicleLookup
  */
 class ArrayOfVehicleLookupType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType[] $vehicleLookup
      */
     private $vehicleLookup = [
+        
     ];
 
     /**
-     * Adds as vehicleLookup.
+     * Adds as vehicleLookup
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType $vehicleLookup
      */
-    public function addToVehicleLookup(VehicleLookupType $vehicleLookup)
+    public function addToVehicleLookup(\App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType $vehicleLookup)
     {
         $this->vehicleLookup[] = $vehicleLookup;
-
         return $this;
     }
 
     /**
-     * isset vehicleLookup.
+     * isset vehicleLookup
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVehicleLookup($index)
@@ -42,10 +42,9 @@ class ArrayOfVehicleLookupType
     }
 
     /**
-     * unset vehicleLookup.
+     * unset vehicleLookup
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVehicleLookup($index)
@@ -54,7 +53,7 @@ class ArrayOfVehicleLookupType
     }
 
     /**
-     * Gets as vehicleLookup.
+     * Gets as vehicleLookup
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfVehicleLookupType
     }
 
     /**
-     * Sets a new vehicleLookup.
+     * Sets a new vehicleLookup
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VehicleLookupType[] $vehicleLookup
-     *
      * @return self
      */
     public function setVehicleLookup(array $vehicleLookup)
     {
         $this->vehicleLookup = $vehicleLookup;
-
         return $this;
     }
+
+
 }
+

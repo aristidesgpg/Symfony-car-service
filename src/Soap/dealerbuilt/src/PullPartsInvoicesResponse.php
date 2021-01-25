@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPartsInvoicesResponse.
+ * Class representing PullPartsInvoicesResponse
  */
 class PullPartsInvoicesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[] $pullPartsInvoicesResult
      */
     private $pullPartsInvoicesResult = null;
 
     /**
-     * Adds as partsInvoice.
+     * Adds as partsInvoice
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $partsInvoice
      */
-    public function addToPullPartsInvoicesResult(BaseApi\PartsInvoiceType $partsInvoice)
+    public function addToPullPartsInvoicesResult(\App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $partsInvoice)
     {
         $this->pullPartsInvoicesResult[] = $partsInvoice;
-
         return $this;
     }
 
     /**
-     * isset pullPartsInvoicesResult.
+     * isset pullPartsInvoicesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullPartsInvoicesResult($index)
@@ -39,10 +37,9 @@ class PullPartsInvoicesResponse
     }
 
     /**
-     * unset pullPartsInvoicesResult.
+     * unset pullPartsInvoicesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullPartsInvoicesResult($index)
@@ -51,7 +48,7 @@ class PullPartsInvoicesResponse
     }
 
     /**
-     * Gets as pullPartsInvoicesResult.
+     * Gets as pullPartsInvoicesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[]
      */
@@ -61,16 +58,17 @@ class PullPartsInvoicesResponse
     }
 
     /**
-     * Sets a new pullPartsInvoicesResult.
+     * Sets a new pullPartsInvoicesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType[] $pullPartsInvoicesResult
-     *
      * @return self
      */
     public function setPullPartsInvoicesResult(array $pullPartsInvoicesResult)
     {
         $this->pullPartsInvoicesResult = $pullPartsInvoicesResult;
-
         return $this;
     }
+
+
 }
+

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing ArrayOfPartsOrderLinePushRequestType.
+ * Class representing ArrayOfPartsOrderLinePushRequestType
  *
+ * 
  * XSD Type: ArrayOfPartsOrderLinePushRequest
  */
 class ArrayOfPartsOrderLinePushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType[] $partsOrderLinePushRequest
      */
     private $partsOrderLinePushRequest = [
+        
     ];
 
     /**
-     * Adds as partsOrderLinePushRequest.
+     * Adds as partsOrderLinePushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType $partsOrderLinePushRequest
      */
-    public function addToPartsOrderLinePushRequest(PartsOrderLinePushRequestType $partsOrderLinePushRequest)
+    public function addToPartsOrderLinePushRequest(\App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType $partsOrderLinePushRequest)
     {
         $this->partsOrderLinePushRequest[] = $partsOrderLinePushRequest;
-
         return $this;
     }
 
     /**
-     * isset partsOrderLinePushRequest.
+     * isset partsOrderLinePushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsOrderLinePushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfPartsOrderLinePushRequestType
     }
 
     /**
-     * unset partsOrderLinePushRequest.
+     * unset partsOrderLinePushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsOrderLinePushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfPartsOrderLinePushRequestType
     }
 
     /**
-     * Gets as partsOrderLinePushRequest.
+     * Gets as partsOrderLinePushRequest
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new partsOrderLinePushRequest.
+     * Sets a new partsOrderLinePushRequest
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType[] $partsOrderLinePushRequest
-     *
      * @return self
      */
     public function setPartsOrderLinePushRequest(array $partsOrderLinePushRequest)
     {
         $this->partsOrderLinePushRequest = $partsOrderLinePushRequest;
-
         return $this;
     }
+
+
 }
+

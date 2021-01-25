@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfAppointmentType.
+ * Class representing ArrayOfAppointmentType
  *
+ * 
  * XSD Type: ArrayOfAppointment
  */
 class ArrayOfAppointmentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[] $appointment
      */
     private $appointment = [
+        
     ];
 
     /**
-     * Adds as appointment.
+     * Adds as appointment
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentType $appointment
      */
-    public function addToAppointment(AppointmentType $appointment)
+    public function addToAppointment(\App\Soap\dealerbuilt\src\BaseApi\AppointmentType $appointment)
     {
         $this->appointment[] = $appointment;
-
         return $this;
     }
 
     /**
-     * isset appointment.
+     * isset appointment
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAppointment($index)
@@ -42,10 +42,9 @@ class ArrayOfAppointmentType
     }
 
     /**
-     * unset appointment.
+     * unset appointment
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAppointment($index)
@@ -54,7 +53,7 @@ class ArrayOfAppointmentType
     }
 
     /**
-     * Gets as appointment.
+     * Gets as appointment
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfAppointmentType
     }
 
     /**
-     * Sets a new appointment.
+     * Sets a new appointment
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[] $appointment
-     *
      * @return self
      */
     public function setAppointment(array $appointment)
     {
         $this->appointment = $appointment;
-
         return $this;
     }
+
+
 }
+

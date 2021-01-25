@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderSearchCriteria.
+ * Class representing RepairOrderSearchCriteria
  */
 class RepairOrderSearchCriteria extends RepairOrderSearchCriteriaType
 {
+
+
 }
+

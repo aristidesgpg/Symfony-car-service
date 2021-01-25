@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ChartSearchCriteria.
+ * Class representing ChartSearchCriteria
  */
 class ChartSearchCriteria extends ChartSearchCriteriaType
 {
+
+
 }
+

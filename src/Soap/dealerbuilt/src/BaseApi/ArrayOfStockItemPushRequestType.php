@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStockItemPushRequestType.
+ * Class representing ArrayOfStockItemPushRequestType
  *
+ * 
  * XSD Type: ArrayOfStockItemPushRequest
  */
 class ArrayOfStockItemPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType[] $stockItemPushRequest
      */
     private $stockItemPushRequest = [
+        
     ];
 
     /**
-     * Adds as stockItemPushRequest.
+     * Adds as stockItemPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType $stockItemPushRequest
      */
-    public function addToStockItemPushRequest(StockItemPushRequestType $stockItemPushRequest)
+    public function addToStockItemPushRequest(\App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType $stockItemPushRequest)
     {
         $this->stockItemPushRequest[] = $stockItemPushRequest;
-
         return $this;
     }
 
     /**
-     * isset stockItemPushRequest.
+     * isset stockItemPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStockItemPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfStockItemPushRequestType
     }
 
     /**
-     * unset stockItemPushRequest.
+     * unset stockItemPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStockItemPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfStockItemPushRequestType
     }
 
     /**
-     * Gets as stockItemPushRequest.
+     * Gets as stockItemPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfStockItemPushRequestType
     }
 
     /**
-     * Sets a new stockItemPushRequest.
+     * Sets a new stockItemPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType[] $stockItemPushRequest
-     *
      * @return self
      */
     public function setStockItemPushRequest(array $stockItemPushRequest)
     {
         $this->stockItemPushRequest = $stockItemPushRequest;
-
         return $this;
     }
+
+
 }
+

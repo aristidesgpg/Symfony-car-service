@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedLaborOperationSubletAttributes.
+ * Class representing ArrayOfPushedLaborOperationSubletAttributes
  */
 class ArrayOfPushedLaborOperationSubletAttributes extends ArrayOfPushedLaborOperationSubletAttributesType
 {
+
+
 }
+

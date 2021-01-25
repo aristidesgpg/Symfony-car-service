@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: CorrelationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCorrelationId
                 setter: setCorrelationId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: CounterTicketNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCounterTicketNumber
                 setter: setCounterTicketNumber
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: Customer
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCustomer
                 setter: setCustomer
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: CustomerId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCustomerId
                 setter: setCustomerId
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: IsEstimate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getIsEstimate
                 setter: setIsEstimate
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: Notes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getNotes
                 setter: setNotes
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: PONumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPONumber
                 setter: setPONumber
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: Parts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getParts
                 setter: setParts
@@ -84,13 +84,13 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
                 inline: false
                 entry_name: Part
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
         paymentMethod:
             expose: true
             access_type: public_method
             serialized_name: PaymentMethod
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPaymentMethod
                 setter: setPaymentMethod
@@ -100,7 +100,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: SalesPerson1
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getSalesPerson1
                 setter: setSalesPerson1
@@ -110,7 +110,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: SalesPerson2
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getSalesPerson2
                 setter: setSalesPerson2
@@ -120,7 +120,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: ShippingAddress
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShippingAddress
                 setter: setShippingAddress
@@ -130,7 +130,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: ShippingCost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShippingCost
                 setter: setShippingCost
@@ -140,7 +140,7 @@ App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
             access_type: public_method
             serialized_name: ShippingMethod
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShippingMethod
                 setter: setShippingMethod

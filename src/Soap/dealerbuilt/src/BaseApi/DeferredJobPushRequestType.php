@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DeferredJobPushRequestType.
+ * Class representing DeferredJobPushRequestType
  *
+ * 
  * XSD Type: DeferredJobPushRequest
  */
 class DeferredJobPushRequestType extends PotentialJobPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var string
+     * @var string $repairOrderNumber
      */
     private $repairOrderNumber = null;
 
     /**
-     * @var string
+     * @var string $vehicleKey
      */
     private $vehicleKey = null;
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class DeferredJobPushRequestType extends PotentialJobPushRequestType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderNumber.
+     * Gets as repairOrderNumber
      *
      * @return string
      */
@@ -59,21 +59,19 @@ class DeferredJobPushRequestType extends PotentialJobPushRequestType
     }
 
     /**
-     * Sets a new repairOrderNumber.
+     * Sets a new repairOrderNumber
      *
      * @param string $repairOrderNumber
-     *
      * @return self
      */
     public function setRepairOrderNumber($repairOrderNumber)
     {
         $this->repairOrderNumber = $repairOrderNumber;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleKey.
+     * Gets as vehicleKey
      *
      * @return string
      */
@@ -83,16 +81,17 @@ class DeferredJobPushRequestType extends PotentialJobPushRequestType
     }
 
     /**
-     * Sets a new vehicleKey.
+     * Sets a new vehicleKey
      *
      * @param string $vehicleKey
-     *
      * @return self
      */
     public function setVehicleKey($vehicleKey)
     {
         $this->vehicleKey = $vehicleKey;
-
         return $this;
     }
+
+
 }
+

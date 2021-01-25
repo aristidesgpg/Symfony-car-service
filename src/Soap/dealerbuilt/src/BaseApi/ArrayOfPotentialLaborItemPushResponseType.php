@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPotentialLaborItemPushResponseType.
+ * Class representing ArrayOfPotentialLaborItemPushResponseType
  *
+ * 
  * XSD Type: ArrayOfPotentialLaborItemPushResponse
  */
 class ArrayOfPotentialLaborItemPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[] $potentialLaborItemPushResponse
      */
     private $potentialLaborItemPushResponse = [
+        
     ];
 
     /**
-     * Adds as potentialLaborItemPushResponse.
+     * Adds as potentialLaborItemPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType $potentialLaborItemPushResponse
      */
-    public function addToPotentialLaborItemPushResponse(PotentialLaborItemPushResponseType $potentialLaborItemPushResponse)
+    public function addToPotentialLaborItemPushResponse(\App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType $potentialLaborItemPushResponse)
     {
         $this->potentialLaborItemPushResponse[] = $potentialLaborItemPushResponse;
-
         return $this;
     }
 
     /**
-     * isset potentialLaborItemPushResponse.
+     * isset potentialLaborItemPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPotentialLaborItemPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfPotentialLaborItemPushResponseType
     }
 
     /**
-     * unset potentialLaborItemPushResponse.
+     * unset potentialLaborItemPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPotentialLaborItemPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfPotentialLaborItemPushResponseType
     }
 
     /**
-     * Gets as potentialLaborItemPushResponse.
+     * Gets as potentialLaborItemPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPotentialLaborItemPushResponseType
     }
 
     /**
-     * Sets a new potentialLaborItemPushResponse.
+     * Sets a new potentialLaborItemPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType[] $potentialLaborItemPushResponse
-     *
      * @return self
      */
     public function setPotentialLaborItemPushResponse(array $potentialLaborItemPushResponse)
     {
         $this->potentialLaborItemPushResponse = $potentialLaborItemPushResponse;
-
         return $this;
     }
+
+
 }
+

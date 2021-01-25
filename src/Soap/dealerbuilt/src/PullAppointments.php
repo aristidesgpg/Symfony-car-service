@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullAppointments.
+ * Class representing PullAppointments
  */
 class PullAppointments
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType $searchCriteria
      */
     private $searchCriteria = null;
 
     /**
-     * Gets as searchCriteria.
+     * Gets as searchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullAppointments
     }
 
     /**
-     * Sets a new searchCriteria.
+     * Sets a new searchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType $searchCriteria
-     *
      * @return self
      */
-    public function setSearchCriteria(BaseApi\AppointmentSearchCriteriaType $searchCriteria)
+    public function setSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType $searchCriteria)
     {
         $this->searchCriteria = $searchCriteria;
-
         return $this;
     }
+
+
 }
+

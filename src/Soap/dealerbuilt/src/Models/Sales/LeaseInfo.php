@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing LeaseInfo.
+ * Class representing LeaseInfo
  */
 class LeaseInfo extends LeaseInfoType
 {
+
+
 }
+

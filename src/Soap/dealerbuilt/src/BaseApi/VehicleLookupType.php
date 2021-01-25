@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing VehicleLookupType.
+ * Class representing VehicleLookupType
  *
+ * 
  * XSD Type: VehicleLookup
  */
 class VehicleLookupType
 {
+
     /**
-     * @var int
+     * @var int $currentMileage
      */
     private $currentMileage = null;
 
     /**
-     * @var string
+     * @var string $ownerLastName
      */
     private $ownerLastName = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * Gets as currentMileage.
+     * Gets as currentMileage
      *
      * @return int
      */
@@ -35,21 +37,19 @@ class VehicleLookupType
     }
 
     /**
-     * Sets a new currentMileage.
+     * Sets a new currentMileage
      *
      * @param int $currentMileage
-     *
      * @return self
      */
     public function setCurrentMileage($currentMileage)
     {
         $this->currentMileage = $currentMileage;
-
         return $this;
     }
 
     /**
-     * Gets as ownerLastName.
+     * Gets as ownerLastName
      *
      * @return string
      */
@@ -59,21 +59,19 @@ class VehicleLookupType
     }
 
     /**
-     * Sets a new ownerLastName.
+     * Sets a new ownerLastName
      *
      * @param string $ownerLastName
-     *
      * @return self
      */
     public function setOwnerLastName($ownerLastName)
     {
         $this->ownerLastName = $ownerLastName;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -83,16 +81,17 @@ class VehicleLookupType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
+
+
 }
+

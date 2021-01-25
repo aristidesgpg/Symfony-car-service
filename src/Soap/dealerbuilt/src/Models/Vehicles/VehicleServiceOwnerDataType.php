@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models\Vehicles;
 
 /**
- * Class representing VehicleServiceOwnerDataType.
+ * Class representing VehicleServiceOwnerDataType
  *
+ * 
  * XSD Type: VehicleService.OwnerData
  */
 class VehicleServiceOwnerDataType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity
      */
     private $identity = null;
 
     /**
-     * @var string
+     * @var string $specialRemarks
      */
     private $specialRemarks = null;
 
     /**
-     * Gets as identity.
+     * Gets as identity
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -30,19 +32,19 @@ class VehicleServiceOwnerDataType
     }
 
     /**
-     * Sets a new identity.
+     * Sets a new identity
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity
      * @return self
      */
     public function setIdentity(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity)
     {
         $this->identity = $identity;
-
         return $this;
     }
 
     /**
-     * Gets as specialRemarks.
+     * Gets as specialRemarks
      *
      * @return string
      */
@@ -52,16 +54,17 @@ class VehicleServiceOwnerDataType
     }
 
     /**
-     * Sets a new specialRemarks.
+     * Sets a new specialRemarks
      *
      * @param string $specialRemarks
-     *
      * @return self
      */
     public function setSpecialRemarks($specialRemarks)
     {
         $this->specialRemarks = $specialRemarks;
-
         return $this;
     }
+
+
 }
+

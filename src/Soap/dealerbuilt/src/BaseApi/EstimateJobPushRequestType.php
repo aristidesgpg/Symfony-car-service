@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing EstimateJobPushRequestType.
+ * Class representing EstimateJobPushRequestType
  *
+ * 
  * XSD Type: EstimateJobPushRequest
  */
 class EstimateJobPushRequestType extends PotentialJobPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $estimateKey
      */
     private $estimateKey = null;
 
     /**
-     * Gets as estimateKey.
+     * Gets as estimateKey
      *
      * @return string
      */
@@ -25,16 +27,17 @@ class EstimateJobPushRequestType extends PotentialJobPushRequestType
     }
 
     /**
-     * Sets a new estimateKey.
+     * Sets a new estimateKey
      *
      * @param string $estimateKey
-     *
      * @return self
      */
     public function setEstimateKey($estimateKey)
     {
         $this->estimateKey = $estimateKey;
-
         return $this;
     }
+
+
 }
+

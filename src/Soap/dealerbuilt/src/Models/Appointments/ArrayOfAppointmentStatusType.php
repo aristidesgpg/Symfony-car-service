@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Appointments;
 
 /**
- * Class representing ArrayOfAppointmentStatusType.
+ * Class representing ArrayOfAppointmentStatusType
  *
+ * 
  * XSD Type: ArrayOfAppointmentStatus
  */
 class ArrayOfAppointmentStatusType
 {
+
     /**
-     * @var string[]
+     * @var string[] $appointmentStatus
      */
     private $appointmentStatus = [
+        
     ];
 
     /**
-     * Adds as appointmentStatus.
+     * Adds as appointmentStatus
      *
      * @return self
-     *
      * @param string $appointmentStatus
      */
     public function addToAppointmentStatus($appointmentStatus)
     {
         $this->appointmentStatus[] = $appointmentStatus;
-
         return $this;
     }
 
     /**
-     * isset appointmentStatus.
+     * isset appointmentStatus
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAppointmentStatus($index)
@@ -42,10 +42,9 @@ class ArrayOfAppointmentStatusType
     }
 
     /**
-     * unset appointmentStatus.
+     * unset appointmentStatus
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAppointmentStatus($index)
@@ -54,7 +53,7 @@ class ArrayOfAppointmentStatusType
     }
 
     /**
-     * Gets as appointmentStatus.
+     * Gets as appointmentStatus
      *
      * @return string[]
      */
@@ -64,16 +63,17 @@ class ArrayOfAppointmentStatusType
     }
 
     /**
-     * Sets a new appointmentStatus.
+     * Sets a new appointmentStatus
      *
      * @param string $appointmentStatus
-     *
      * @return self
      */
     public function setAppointmentStatus(array $appointmentStatus)
     {
         $this->appointmentStatus = $appointmentStatus;
-
         return $this;
     }
+
+
 }
+

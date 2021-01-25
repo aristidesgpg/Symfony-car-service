@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfDealerFeeType.
+ * Class representing ArrayOfDealerFeeType
  *
+ * 
  * XSD Type: ArrayOfDealerFee
  */
 class ArrayOfDealerFeeType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType[] $dealerFee
      */
     private $dealerFee = [
+        
     ];
 
     /**
-     * Adds as dealerFee.
+     * Adds as dealerFee
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType $dealerFee
      */
-    public function addToDealerFee(DealerFeeType $dealerFee)
+    public function addToDealerFee(\App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType $dealerFee)
     {
         $this->dealerFee[] = $dealerFee;
-
         return $this;
     }
 
     /**
-     * isset dealerFee.
+     * isset dealerFee
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDealerFee($index)
@@ -42,10 +42,9 @@ class ArrayOfDealerFeeType
     }
 
     /**
-     * unset dealerFee.
+     * unset dealerFee
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDealerFee($index)
@@ -54,7 +53,7 @@ class ArrayOfDealerFeeType
     }
 
     /**
-     * Gets as dealerFee.
+     * Gets as dealerFee
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDealerFeeType
     }
 
     /**
-     * Sets a new dealerFee.
+     * Sets a new dealerFee
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType[] $dealerFee
-     *
      * @return self
      */
     public function setDealerFee(array $dealerFee)
     {
         $this->dealerFee = $dealerFee;
-
         return $this;
     }
+
+
 }
+

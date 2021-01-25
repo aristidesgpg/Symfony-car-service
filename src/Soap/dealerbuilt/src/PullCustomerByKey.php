@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerByKey.
+ * Class representing PullCustomerByKey
  */
 class PullCustomerByKey
 {
+
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -23,16 +24,17 @@ class PullCustomerByKey
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
+
+
 }
+

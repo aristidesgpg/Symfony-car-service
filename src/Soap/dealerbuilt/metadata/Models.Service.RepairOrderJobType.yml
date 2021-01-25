@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: AddOnRepairIndicator
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getAddOnRepairIndicator
                 setter: setAddOnRepairIndicator
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: CampaignDispositionCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCampaignDispositionCode
                 setter: setCampaignDispositionCode
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: CampaignNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCampaignNumber
                 setter: setCampaignNumber
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: CauseCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCauseCode
                 setter: setCauseCode
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: CauseDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCauseDescription
                 setter: setCauseDescription
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: ClaimComment
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getClaimComment
                 setter: setClaimComment
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: Complaint
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getComplaint
                 setter: setComplaint
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: ComplaintCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getComplaintCode
                 setter: setComplaintCode
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: ComplaintDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getComplaintDescription
                 setter: setComplaintDescription
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: Correction
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCorrection
                 setter: setCorrection
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: CorrectionDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCorrectionDescription
                 setter: setCorrectionDescription
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: CouponDiscountAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCouponDiscountAmount
                 setter: setCouponDiscountAmount
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: DefectCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getDefectCode
                 setter: setDefectCode
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: DiagnosticName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getDiagnosticName
                 setter: setDiagnosticName
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: FreightTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getFreightTotal
                 setter: setFreightTotal
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: HazmatTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getHazmatTotal
                 setter: setHazmatTotal
@@ -165,7 +165,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: IsFailedPartJob
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getIsFailedPartJob
                 setter: setIsFailedPartJob
@@ -175,7 +175,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobCode
                 setter: setJobCode
@@ -185,7 +185,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobCodeDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobCodeDescription
                 setter: setJobCodeDescription
@@ -195,7 +195,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobCodeGroup
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobCodeGroup
                 setter: setJobCodeGroup
@@ -205,7 +205,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobCost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobCost
                 setter: setJobCost
@@ -215,7 +215,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobLaborRate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobLaborRate
                 setter: setJobLaborRate
@@ -225,7 +225,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobNumber
                 setter: setJobNumber
@@ -235,7 +235,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobTax
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobTax
                 setter: setJobTax
@@ -245,7 +245,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobTotal
                 setter: setJobTotal
@@ -255,7 +255,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: JobTypeString
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobTypeString
                 setter: setJobTypeString
@@ -265,7 +265,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborActionCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborActionCode
                 setter: setLaborActionCode
@@ -275,7 +275,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborActionDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborActionDescription
                 setter: setLaborActionDescription
@@ -285,7 +285,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborActualHours
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborActualHours
                 setter: setLaborActualHours
@@ -295,7 +295,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborActualHoursNumeric
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborActualHoursNumeric
                 setter: setLaborActualHoursNumeric
@@ -305,7 +305,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborAllowanceHours
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborAllowanceHours
                 setter: setLaborAllowanceHours
@@ -315,7 +315,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborCost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborCost
                 setter: setLaborCost
@@ -325,7 +325,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborInvoiceNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborInvoiceNumber
                 setter: setLaborInvoiceNumber
@@ -335,7 +335,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborItems
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborItems
                 setter: setLaborItems
@@ -344,13 +344,13 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
                 inline: false
                 entry_name: LaborItem
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         laborOperationComment:
             expose: true
             access_type: public_method
             serialized_name: LaborOperationComment
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborOperationComment
                 setter: setLaborOperationComment
@@ -360,7 +360,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LaborTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLaborTotal
                 setter: setLaborTotal
@@ -370,7 +370,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: LocationDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLocationDescription
                 setter: setLocationDescription
@@ -380,7 +380,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: MenuPartsPrice
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getMenuPartsPrice
                 setter: setMenuPartsPrice
@@ -390,7 +390,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: MiscFees
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getMiscFees
                 setter: setMiscFees
@@ -400,7 +400,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: MiscellaneousNotes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getMiscellaneousNotes
                 setter: setMiscellaneousNotes
@@ -410,7 +410,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: OperationName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getOperationName
                 setter: setOperationName
@@ -420,7 +420,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: PackageCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPackageCode
                 setter: setPackageCode
@@ -430,7 +430,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: Parts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getParts
                 setter: setParts
@@ -439,13 +439,13 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
                 inline: false
                 entry_name: RepairOrderPart
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         partsCost:
             expose: true
             access_type: public_method
             serialized_name: PartsCost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPartsCost
                 setter: setPartsCost
@@ -455,7 +455,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: PartsTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPartsTotal
                 setter: setPartsTotal
@@ -465,7 +465,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: PartsWriter
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPartsWriter
                 setter: setPartsWriter
@@ -475,7 +475,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: PayType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPayType
                 setter: setPayType
@@ -485,7 +485,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: Recommendation
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getRecommendation
                 setter: setRecommendation
@@ -495,7 +495,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: RentalTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getRentalTotal
                 setter: setRentalTotal
@@ -505,7 +505,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: RentalVehicles
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getRentalVehicles
                 setter: setRentalVehicles
@@ -514,13 +514,13 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
                 inline: false
                 entry_name: RentalVehicle
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         repeatRepairIndicator:
             expose: true
             access_type: public_method
             serialized_name: RepeatRepairIndicator
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getRepeatRepairIndicator
                 setter: setRepeatRepairIndicator
@@ -530,7 +530,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: ServiceComponents
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceComponents
                 setter: setServiceComponents
@@ -539,13 +539,13 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
                 inline: false
                 entry_name: RepairOrderServiceComponent
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         serviceDept:
             expose: true
             access_type: public_method
             serialized_name: ServiceDept
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceDept
                 setter: setServiceDept
@@ -555,7 +555,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: ServiceLeadID
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceLeadID
                 setter: setServiceLeadID
@@ -565,7 +565,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: Status
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getStatus
                 setter: setStatus
@@ -575,7 +575,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: SubletCost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getSubletCost
                 setter: setSubletCost
@@ -585,7 +585,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: SubletTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getSubletTotal
                 setter: setSubletTotal
@@ -595,7 +595,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: TaxAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTaxAmount
                 setter: setTaxAmount
@@ -605,7 +605,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: TechnicianNotes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTechnicianNotes
                 setter: setTechnicianNotes
@@ -615,7 +615,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: Techs
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTechs
                 setter: setTechs
@@ -624,13 +624,13 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
                 inline: false
                 entry_name: JobTechnician
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         warrantyClaimNumber:
             expose: true
             access_type: public_method
             serialized_name: WarrantyClaimNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getWarrantyClaimNumber
                 setter: setWarrantyClaimNumber
@@ -640,7 +640,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
             access_type: public_method
             serialized_name: WarrantyClaimType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getWarrantyClaimType
                 setter: setWarrantyClaimType

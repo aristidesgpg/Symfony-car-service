@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
             access_type: public_method
             serialized_name: CampaignDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceCampaigns'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
             accessor:
                 getter: getCampaignDescription
                 setter: setCampaignDescription
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
             access_type: public_method
             serialized_name: CampaignDispositionCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceCampaigns'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
             accessor:
                 getter: getCampaignDispositionCode
                 setter: setCampaignDispositionCode
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
             access_type: public_method
             serialized_name: CampaignNotes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceCampaigns'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
             accessor:
                 getter: getCampaignNotes
                 setter: setCampaignNotes
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
             access_type: public_method
             serialized_name: CampaignNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceCampaigns'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
             accessor:
                 getter: getCampaignNumber
                 setter: setCampaignNumber
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
             access_type: public_method
             serialized_name: CustomerMemo
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceCampaigns'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
             accessor:
                 getter: getCustomerMemo
                 setter: setCustomerMemo
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
             access_type: public_method
             serialized_name: RepairStatusCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceCampaigns'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
             accessor:
                 getter: getRepairStatusCode
                 setter: setRepairStatusCode
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
             access_type: public_method
             serialized_name: ServiceBulletinURI
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceCampaigns'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
             accessor:
                 getter: getServiceBulletinURI
                 setter: setServiceBulletinURI

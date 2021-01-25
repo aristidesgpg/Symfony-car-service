@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfLender.
+ * Class representing ArrayOfLender
  */
 class ArrayOfLender extends ArrayOfLenderType
 {
+
+
 }
+

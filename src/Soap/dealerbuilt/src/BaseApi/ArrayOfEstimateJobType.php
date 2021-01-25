@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfEstimateJobType.
+ * Class representing ArrayOfEstimateJobType
  *
+ * 
  * XSD Type: ArrayOfEstimateJob
  */
 class ArrayOfEstimateJobType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType[] $estimateJob
      */
     private $estimateJob = [
+        
     ];
 
     /**
-     * Adds as estimateJob.
+     * Adds as estimateJob
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType $estimateJob
      */
-    public function addToEstimateJob(EstimateJobType $estimateJob)
+    public function addToEstimateJob(\App\Soap\dealerbuilt\src\BaseApi\EstimateJobType $estimateJob)
     {
         $this->estimateJob[] = $estimateJob;
-
         return $this;
     }
 
     /**
-     * isset estimateJob.
+     * isset estimateJob
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetEstimateJob($index)
@@ -42,10 +42,9 @@ class ArrayOfEstimateJobType
     }
 
     /**
-     * unset estimateJob.
+     * unset estimateJob
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetEstimateJob($index)
@@ -54,7 +53,7 @@ class ArrayOfEstimateJobType
     }
 
     /**
-     * Gets as estimateJob.
+     * Gets as estimateJob
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfEstimateJobType
     }
 
     /**
-     * Sets a new estimateJob.
+     * Sets a new estimateJob
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType[] $estimateJob
-     *
      * @return self
      */
     public function setEstimateJob(array $estimateJob)
     {
         $this->estimateJob = $estimateJob;
-
         return $this;
     }
+
+
 }
+

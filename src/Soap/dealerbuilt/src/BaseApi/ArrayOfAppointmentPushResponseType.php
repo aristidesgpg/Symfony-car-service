@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfAppointmentPushResponseType.
+ * Class representing ArrayOfAppointmentPushResponseType
  *
+ * 
  * XSD Type: ArrayOfAppointmentPushResponse
  */
 class ArrayOfAppointmentPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType[] $appointmentPushResponse
      */
     private $appointmentPushResponse = [
+        
     ];
 
     /**
-     * Adds as appointmentPushResponse.
+     * Adds as appointmentPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType $appointmentPushResponse
      */
-    public function addToAppointmentPushResponse(AppointmentPushResponseType $appointmentPushResponse)
+    public function addToAppointmentPushResponse(\App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType $appointmentPushResponse)
     {
         $this->appointmentPushResponse[] = $appointmentPushResponse;
-
         return $this;
     }
 
     /**
-     * isset appointmentPushResponse.
+     * isset appointmentPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAppointmentPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfAppointmentPushResponseType
     }
 
     /**
-     * unset appointmentPushResponse.
+     * unset appointmentPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAppointmentPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfAppointmentPushResponseType
     }
 
     /**
-     * Gets as appointmentPushResponse.
+     * Gets as appointmentPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfAppointmentPushResponseType
     }
 
     /**
-     * Sets a new appointmentPushResponse.
+     * Sets a new appointmentPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType[] $appointmentPushResponse
-     *
      * @return self
      */
     public function setAppointmentPushResponse(array $appointmentPushResponse)
     {
         $this->appointmentPushResponse = $appointmentPushResponse;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PotentialLaborOperationSublet.
+ * Class representing PotentialLaborOperationSublet
  */
 class PotentialLaborOperationSublet extends PotentialLaborOperationSubletType
 {
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ProspectReferences.
+ * Class representing ProspectReferences
  */
 class ProspectReferences extends ProspectReferencesType
 {
+
+
 }
+

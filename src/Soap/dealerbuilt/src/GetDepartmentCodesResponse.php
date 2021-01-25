@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetDepartmentCodesResponse.
+ * Class representing GetDepartmentCodesResponse
  */
 class GetDepartmentCodesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DepartmentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DepartmentType[] $getDepartmentCodesResult
      */
     private $getDepartmentCodesResult = null;
 
     /**
-     * Adds as department.
+     * Adds as department
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DepartmentType $department
      */
-    public function addToGetDepartmentCodesResult(BaseApi\DepartmentType $department)
+    public function addToGetDepartmentCodesResult(\App\Soap\dealerbuilt\src\BaseApi\DepartmentType $department)
     {
         $this->getDepartmentCodesResult[] = $department;
-
         return $this;
     }
 
     /**
-     * isset getDepartmentCodesResult.
+     * isset getDepartmentCodesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetDepartmentCodesResult($index)
@@ -39,10 +37,9 @@ class GetDepartmentCodesResponse
     }
 
     /**
-     * unset getDepartmentCodesResult.
+     * unset getDepartmentCodesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetDepartmentCodesResult($index)
@@ -51,7 +48,7 @@ class GetDepartmentCodesResponse
     }
 
     /**
-     * Gets as getDepartmentCodesResult.
+     * Gets as getDepartmentCodesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DepartmentType[]
      */
@@ -61,16 +58,17 @@ class GetDepartmentCodesResponse
     }
 
     /**
-     * Sets a new getDepartmentCodesResult.
+     * Sets a new getDepartmentCodesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DepartmentType[] $getDepartmentCodesResult
-     *
      * @return self
      */
     public function setGetDepartmentCodesResult(array $getDepartmentCodesResult)
     {
         $this->getDepartmentCodesResult = $getDepartmentCodesResult;
-
         return $this;
     }
+
+
 }
+

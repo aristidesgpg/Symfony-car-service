@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPaymentPushResponseType.
+ * Class representing ArrayOfPaymentPushResponseType
  *
+ * 
  * XSD Type: ArrayOfPaymentPushResponse
  */
 class ArrayOfPaymentPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType[] $paymentPushResponse
      */
     private $paymentPushResponse = [
+        
     ];
 
     /**
-     * Adds as paymentPushResponse.
+     * Adds as paymentPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType $paymentPushResponse
      */
-    public function addToPaymentPushResponse(PaymentPushResponseType $paymentPushResponse)
+    public function addToPaymentPushResponse(\App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType $paymentPushResponse)
     {
         $this->paymentPushResponse[] = $paymentPushResponse;
-
         return $this;
     }
 
     /**
-     * isset paymentPushResponse.
+     * isset paymentPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPaymentPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfPaymentPushResponseType
     }
 
     /**
-     * unset paymentPushResponse.
+     * unset paymentPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPaymentPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfPaymentPushResponseType
     }
 
     /**
-     * Gets as paymentPushResponse.
+     * Gets as paymentPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPaymentPushResponseType
     }
 
     /**
-     * Sets a new paymentPushResponse.
+     * Sets a new paymentPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType[] $paymentPushResponse
-     *
      * @return self
      */
     public function setPaymentPushResponse(array $paymentPushResponse)
     {
         $this->paymentPushResponse = $paymentPushResponse;
-
         return $this;
     }
+
+
 }
+

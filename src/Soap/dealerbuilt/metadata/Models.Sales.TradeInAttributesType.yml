@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType:
             access_type: public_method
             serialized_name: Acv
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getAcv
                 setter: setAcv
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType:
             access_type: public_method
             serialized_name: Allowance
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getAllowance
                 setter: setAllowance
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType:
             access_type: public_method
             serialized_name: Payoff
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getPayoff
                 setter: setPayoff
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType:
             access_type: public_method
             serialized_name: PayoffDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getPayoffDate
                 setter: setPayoffDate

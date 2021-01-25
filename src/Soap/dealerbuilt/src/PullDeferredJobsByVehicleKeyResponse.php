@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDeferredJobsByVehicleKeyResponse.
+ * Class representing PullDeferredJobsByVehicleKeyResponse
  */
 class PullDeferredJobsByVehicleKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType[] $pullDeferredJobsByVehicleKeyResult
      */
     private $pullDeferredJobsByVehicleKeyResult = null;
 
     /**
-     * Adds as deferredJob.
+     * Adds as deferredJob
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType $deferredJob
      */
-    public function addToPullDeferredJobsByVehicleKeyResult(BaseApi\DeferredJobType $deferredJob)
+    public function addToPullDeferredJobsByVehicleKeyResult(\App\Soap\dealerbuilt\src\BaseApi\DeferredJobType $deferredJob)
     {
         $this->pullDeferredJobsByVehicleKeyResult[] = $deferredJob;
-
         return $this;
     }
 
     /**
-     * isset pullDeferredJobsByVehicleKeyResult.
+     * isset pullDeferredJobsByVehicleKeyResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullDeferredJobsByVehicleKeyResult($index)
@@ -39,10 +37,9 @@ class PullDeferredJobsByVehicleKeyResponse
     }
 
     /**
-     * unset pullDeferredJobsByVehicleKeyResult.
+     * unset pullDeferredJobsByVehicleKeyResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullDeferredJobsByVehicleKeyResult($index)
@@ -51,7 +48,7 @@ class PullDeferredJobsByVehicleKeyResponse
     }
 
     /**
-     * Gets as pullDeferredJobsByVehicleKeyResult.
+     * Gets as pullDeferredJobsByVehicleKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType[]
      */
@@ -61,16 +58,17 @@ class PullDeferredJobsByVehicleKeyResponse
     }
 
     /**
-     * Sets a new pullDeferredJobsByVehicleKeyResult.
+     * Sets a new pullDeferredJobsByVehicleKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DeferredJobType[] $pullDeferredJobsByVehicleKeyResult
-     *
      * @return self
      */
     public function setPullDeferredJobsByVehicleKeyResult(array $pullDeferredJobsByVehicleKeyResult)
     {
         $this->pullDeferredJobsByVehicleKeyResult = $pullDeferredJobsByVehicleKeyResult;
-
         return $this;
     }
+
+
 }
+

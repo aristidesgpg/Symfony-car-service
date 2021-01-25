@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: AmountFinanced
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getAmountFinanced
                 setter: setAmountFinanced
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: BalloonRate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getBalloonRate
                 setter: setBalloonRate
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: BeaconScore
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getBeaconScore
                 setter: setBeaconScore
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: DeferredDownPayments
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDeferredDownPayments
                 setter: setDeferredDownPayments
@@ -44,13 +44,13 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
                 inline: false
                 entry_name: DeferredDownPayment
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         deliveredPrice:
             expose: true
             access_type: public_method
             serialized_name: DeliveredPrice
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDeliveredPrice
                 setter: setDeliveredPrice
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: Deposit
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDeposit
                 setter: setDeposit
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: Fees
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFees
                 setter: setFees
@@ -80,7 +80,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: FinalPayment
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFinalPayment
                 setter: setFinalPayment
@@ -90,7 +90,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: FinanceCharge
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFinanceCharge
                 setter: setFinanceCharge
@@ -100,7 +100,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: LsiVsi
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getLsiVsi
                 setter: setLsiVsi
@@ -110,7 +110,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: PaymentDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getPaymentDescription
                 setter: setPaymentDescription
@@ -120,7 +120,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: Taxes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTaxes
                 setter: setTaxes
@@ -130,7 +130,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: TotalAmountFinanced
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTotalAmountFinanced
                 setter: setTotalAmountFinanced
@@ -140,7 +140,7 @@ App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
             access_type: public_method
             serialized_name: TradeTaxCredit
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTradeTaxCredit
                 setter: setTradeTaxCredit

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullGlLinesResponse.
+ * Class representing PullGlLinesResponse
  */
 class PullGlLinesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\GlLineType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\GlLineType[] $pullGlLinesResult
      */
     private $pullGlLinesResult = null;
 
     /**
-     * Adds as glLine.
+     * Adds as glLine
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlLineType $glLine
      */
-    public function addToPullGlLinesResult(BaseApi\GlLineType $glLine)
+    public function addToPullGlLinesResult(\App\Soap\dealerbuilt\src\BaseApi\GlLineType $glLine)
     {
         $this->pullGlLinesResult[] = $glLine;
-
         return $this;
     }
 
     /**
-     * isset pullGlLinesResult.
+     * isset pullGlLinesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullGlLinesResult($index)
@@ -39,10 +37,9 @@ class PullGlLinesResponse
     }
 
     /**
-     * unset pullGlLinesResult.
+     * unset pullGlLinesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullGlLinesResult($index)
@@ -51,7 +48,7 @@ class PullGlLinesResponse
     }
 
     /**
-     * Gets as pullGlLinesResult.
+     * Gets as pullGlLinesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\GlLineType[]
      */
@@ -61,16 +58,17 @@ class PullGlLinesResponse
     }
 
     /**
-     * Sets a new pullGlLinesResult.
+     * Sets a new pullGlLinesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlLineType[] $pullGlLinesResult
-     *
      * @return self
      */
     public function setPullGlLinesResult(array $pullGlLinesResult)
     {
         $this->pullGlLinesResult = $pullGlLinesResult;
-
         return $this;
     }
+
+
 }
+

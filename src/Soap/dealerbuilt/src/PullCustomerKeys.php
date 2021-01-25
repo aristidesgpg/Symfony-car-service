@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerKeys.
+ * Class representing PullCustomerKeys
  */
 class PullCustomerKeys
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType $searchCriteria
      */
     private $searchCriteria = null;
 
     /**
-     * Gets as searchCriteria.
+     * Gets as searchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullCustomerKeys
     }
 
     /**
-     * Sets a new searchCriteria.
+     * Sets a new searchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType $searchCriteria
-     *
      * @return self
      */
-    public function setSearchCriteria(BaseApi\CustomerSearchCriteriaType $searchCriteria)
+    public function setSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType $searchCriteria)
     {
         $this->searchCriteria = $searchCriteria;
-
         return $this;
     }
+
+
 }
+

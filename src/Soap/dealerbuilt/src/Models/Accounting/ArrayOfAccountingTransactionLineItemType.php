@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing ArrayOfAccountingTransactionLineItemType.
+ * Class representing ArrayOfAccountingTransactionLineItemType
  *
+ * 
  * XSD Type: ArrayOfAccountingTransactionLineItem
  */
 class ArrayOfAccountingTransactionLineItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType[] $accountingTransactionLineItem
      */
     private $accountingTransactionLineItem = [
+        
     ];
 
     /**
-     * Adds as accountingTransactionLineItem.
+     * Adds as accountingTransactionLineItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType $accountingTransactionLineItem
      */
-    public function addToAccountingTransactionLineItem(AccountingTransactionLineItemType $accountingTransactionLineItem)
+    public function addToAccountingTransactionLineItem(\App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType $accountingTransactionLineItem)
     {
         $this->accountingTransactionLineItem[] = $accountingTransactionLineItem;
-
         return $this;
     }
 
     /**
-     * isset accountingTransactionLineItem.
+     * isset accountingTransactionLineItem
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAccountingTransactionLineItem($index)
@@ -42,10 +42,9 @@ class ArrayOfAccountingTransactionLineItemType
     }
 
     /**
-     * unset accountingTransactionLineItem.
+     * unset accountingTransactionLineItem
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAccountingTransactionLineItem($index)
@@ -54,7 +53,7 @@ class ArrayOfAccountingTransactionLineItemType
     }
 
     /**
-     * Gets as accountingTransactionLineItem.
+     * Gets as accountingTransactionLineItem
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfAccountingTransactionLineItemType
     }
 
     /**
-     * Sets a new accountingTransactionLineItem.
+     * Sets a new accountingTransactionLineItem
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType[] $accountingTransactionLineItem
-     *
      * @return self
      */
     public function setAccountingTransactionLineItem(array $accountingTransactionLineItem)
     {
         $this->accountingTransactionLineItem = $accountingTransactionLineItem;
-
         return $this;
     }
+
+
 }
+

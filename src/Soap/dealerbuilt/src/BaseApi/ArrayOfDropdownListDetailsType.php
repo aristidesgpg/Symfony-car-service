@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDropdownListDetailsType.
+ * Class representing ArrayOfDropdownListDetailsType
  *
+ * 
  * XSD Type: ArrayOfDropdownListDetails
  */
 class ArrayOfDropdownListDetailsType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType[] $dropdownListDetails
      */
     private $dropdownListDetails = [
+        
     ];
 
     /**
-     * Adds as dropdownListDetails.
+     * Adds as dropdownListDetails
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType $dropdownListDetails
      */
-    public function addToDropdownListDetails(DropdownListDetailsType $dropdownListDetails)
+    public function addToDropdownListDetails(\App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType $dropdownListDetails)
     {
         $this->dropdownListDetails[] = $dropdownListDetails;
-
         return $this;
     }
 
     /**
-     * isset dropdownListDetails.
+     * isset dropdownListDetails
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDropdownListDetails($index)
@@ -42,10 +42,9 @@ class ArrayOfDropdownListDetailsType
     }
 
     /**
-     * unset dropdownListDetails.
+     * unset dropdownListDetails
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDropdownListDetails($index)
@@ -54,7 +53,7 @@ class ArrayOfDropdownListDetailsType
     }
 
     /**
-     * Gets as dropdownListDetails.
+     * Gets as dropdownListDetails
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDropdownListDetailsType
     }
 
     /**
-     * Sets a new dropdownListDetails.
+     * Sets a new dropdownListDetails
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType[] $dropdownListDetails
-     *
      * @return self
      */
     public function setDropdownListDetails(array $dropdownListDetails)
     {
         $this->dropdownListDetails = $dropdownListDetails;
-
         return $this;
     }
+
+
 }
+

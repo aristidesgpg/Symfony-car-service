@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing CobuyerInfo.
+ * Class representing CobuyerInfo
  */
 class CobuyerInfo extends CobuyerInfoType
 {
+
+
 }
+

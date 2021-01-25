@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStoreSetup.
+ * Class representing ArrayOfStoreSetup
  */
 class ArrayOfStoreSetup extends ArrayOfStoreSetupType
 {
+
+
 }
+

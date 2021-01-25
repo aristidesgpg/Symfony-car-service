@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DeferredJob.
+ * Class representing DeferredJob
  */
 class DeferredJob extends DeferredJobType
 {
+
+
 }
+

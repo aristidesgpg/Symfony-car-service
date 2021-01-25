@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfCustomerPushRequestType.
+ * Class representing ArrayOfCustomerPushRequestType
  *
+ * 
  * XSD Type: ArrayOfCustomerPushRequest
  */
 class ArrayOfCustomerPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType[] $customerPushRequest
      */
     private $customerPushRequest = [
+        
     ];
 
     /**
-     * Adds as customerPushRequest.
+     * Adds as customerPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType $customerPushRequest
      */
-    public function addToCustomerPushRequest(CustomerPushRequestType $customerPushRequest)
+    public function addToCustomerPushRequest(\App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType $customerPushRequest)
     {
         $this->customerPushRequest[] = $customerPushRequest;
-
         return $this;
     }
 
     /**
-     * isset customerPushRequest.
+     * isset customerPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCustomerPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfCustomerPushRequestType
     }
 
     /**
-     * unset customerPushRequest.
+     * unset customerPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCustomerPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfCustomerPushRequestType
     }
 
     /**
-     * Gets as customerPushRequest.
+     * Gets as customerPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCustomerPushRequestType
     }
 
     /**
-     * Sets a new customerPushRequest.
+     * Sets a new customerPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType[] $customerPushRequest
-     *
      * @return self
      */
     public function setCustomerPushRequest(array $customerPushRequest)
     {
         $this->customerPushRequest = $customerPushRequest;
-
         return $this;
     }
+
+
 }
+

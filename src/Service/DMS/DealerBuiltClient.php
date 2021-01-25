@@ -83,6 +83,8 @@ class DealerBuiltClient extends AbstractDMSClient
                 $pullRepairOrders = $client->__soapCall('PullRepairOrders', [$searchCriteria]);
             } catch (SoapFault $e) {
                 //Most likely a malformed request/invalid parameters were provided.
+
+                dd($e->getMessage());
                 $this->logError($this->getWsdl(), $e->getMessage());
 
                 return $repairOrders;
@@ -155,8 +157,6 @@ class DealerBuiltClient extends AbstractDMSClient
                 $repairOrders[] = $dmsResult;
             }
         }
-
-        dd($repairOrders);
 
         return $repairOrders;
     }

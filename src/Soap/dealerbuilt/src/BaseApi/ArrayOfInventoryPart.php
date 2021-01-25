@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfInventoryPart.
+ * Class representing ArrayOfInventoryPart
  */
 class ArrayOfInventoryPart extends ArrayOfInventoryPartType
 {
+
+
 }
+

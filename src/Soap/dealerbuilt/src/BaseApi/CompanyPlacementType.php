@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CompanyPlacementType.
+ * Class representing CompanyPlacementType
  *
+ * 
  * XSD Type: CompanyPlacement
  */
 class CompanyPlacementType extends SourcePlacementType
 {
+
     /**
-     * @var int
+     * @var int $companyId
      */
     private $companyId = null;
 
     /**
-     * @var string
+     * @var string $companyName
      */
     private $companyName = null;
 
     /**
-     * Gets as companyId.
+     * Gets as companyId
      *
      * @return int
      */
@@ -30,21 +32,19 @@ class CompanyPlacementType extends SourcePlacementType
     }
 
     /**
-     * Sets a new companyId.
+     * Sets a new companyId
      *
      * @param int $companyId
-     *
      * @return self
      */
     public function setCompanyId($companyId)
     {
         $this->companyId = $companyId;
-
         return $this;
     }
 
     /**
-     * Gets as companyName.
+     * Gets as companyName
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class CompanyPlacementType extends SourcePlacementType
     }
 
     /**
-     * Sets a new companyName.
+     * Sets a new companyName
      *
      * @param string $companyName
-     *
      * @return self
      */
     public function setCompanyName($companyName)
     {
         $this->companyName = $companyName;
-
         return $this;
     }
+
+
 }
+

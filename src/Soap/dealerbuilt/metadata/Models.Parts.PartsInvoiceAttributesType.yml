@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: AccountingDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getAccountingDate
                 setter: setAccountingDate
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: ActualWholesaleAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getActualWholesaleAmount
                 setter: setActualWholesaleAmount
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: Address
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getAddress
                 setter: setAddress
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: BalanceDue
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getBalanceDue
                 setter: setBalanceDue
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: City
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCity
                 setter: setCity
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: CloseDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCloseDate
                 setter: setCloseDate
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: Comments
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getComments
                 setter: setComments
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: CoreAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCoreAmount
                 setter: setCoreAmount
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: Cost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCost
                 setter: setCost
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: CountyTaxAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCountyTaxAmount
                 setter: setCountyTaxAmount
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: CustomerFocusIncentives
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCustomerFocusIncentives
                 setter: setCustomerFocusIncentives
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: CustomerPurchaseOrderNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCustomerPurchaseOrderNumber
                 setter: setCustomerPurchaseOrderNumber
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: DealerDiscountAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getDealerDiscountAmount
                 setter: setDealerDiscountAmount
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: DealerNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getDealerNumber
                 setter: setDealerNumber
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: DeliveredDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getDeliveredDate
                 setter: setDeliveredDate
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: DeliveryType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getDeliveryType
                 setter: setDeliveryType
@@ -165,7 +165,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: DocumentDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getDocumentDate
                 setter: setDocumentDate
@@ -175,7 +175,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: DocumentID
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getDocumentID
                 setter: setDocumentID
@@ -185,7 +185,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: FooterText
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getFooterText
                 setter: setFooterText
@@ -195,7 +195,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: FreightCharge
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getFreightCharge
                 setter: setFreightCharge
@@ -205,7 +205,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: FreightTerms
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getFreightTerms
                 setter: setFreightTerms
@@ -215,7 +215,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: HeaderText
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getHeaderText
                 setter: setHeaderText
@@ -225,7 +225,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: InvoiceDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getInvoiceDate
                 setter: setInvoiceDate
@@ -235,7 +235,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: InvoiceNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getInvoiceNumber
                 setter: setInvoiceNumber
@@ -245,7 +245,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: InvoiceTask
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getInvoiceTask
                 setter: setInvoiceTask
@@ -255,7 +255,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: InvoiceType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getInvoiceType
                 setter: setInvoiceType
@@ -265,7 +265,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: IsCod
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getIsCod
                 setter: setIsCod
@@ -275,7 +275,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: IsDelivered
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getIsDelivered
                 setter: setIsDelivered
@@ -285,7 +285,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: IsDelivery
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getIsDelivery
                 setter: setIsDelivery
@@ -295,7 +295,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: IsReturn
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getIsReturn
                 setter: setIsReturn
@@ -305,7 +305,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: IsTaxable
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getIsTaxable
                 setter: setIsTaxable
@@ -315,7 +315,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: IsWholesale
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getIsWholesale
                 setter: setIsWholesale
@@ -325,7 +325,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: LegalName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getLegalName
                 setter: setLegalName
@@ -335,7 +335,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: LetterOfCredit
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getLetterOfCredit
                 setter: setLetterOfCredit
@@ -345,7 +345,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: LocationName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getLocationName
                 setter: setLocationName
@@ -355,7 +355,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: MiscChargeTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getMiscChargeTotal
                 setter: setMiscChargeTotal
@@ -365,7 +365,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: ModifiedDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getModifiedDate
                 setter: setModifiedDate
@@ -375,7 +375,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: MonthlyDiscountsOrAllowancesAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getMonthlyDiscountsOrAllowancesAmount
                 setter: setMonthlyDiscountsOrAllowancesAmount
@@ -385,7 +385,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: MonthlyMiscSalesChargesAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getMonthlyMiscSalesChargesAmount
                 setter: setMonthlyMiscSalesChargesAmount
@@ -395,7 +395,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: MonthlyPartsTotalAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getMonthlyPartsTotalAmount
                 setter: setMonthlyPartsTotalAmount
@@ -405,7 +405,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: MonthlyTotalAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getMonthlyTotalAmount
                 setter: setMonthlyTotalAmount
@@ -415,7 +415,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: PartNumbersStocked
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPartNumbersStocked
                 setter: setPartNumbersStocked
@@ -425,7 +425,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: PartsDiscountAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPartsDiscountAmount
                 setter: setPartsDiscountAmount
@@ -435,7 +435,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: PartsInvoiceItemAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPartsInvoiceItemAmount
                 setter: setPartsInvoiceItemAmount
@@ -445,7 +445,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: PartsInvoiceLines
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPartsInvoiceLines
                 setter: setPartsInvoiceLines
@@ -454,13 +454,13 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
                 inline: false
                 entry_name: PartsInvoiceLine
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
         purchaseOrderNumber:
             expose: true
             access_type: public_method
             serialized_name: PurchaseOrderNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPurchaseOrderNumber
                 setter: setPurchaseOrderNumber
@@ -470,7 +470,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: ReferenceNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getReferenceNumber
                 setter: setReferenceNumber
@@ -480,7 +480,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: RestockingFee
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getRestockingFee
                 setter: setRestockingFee
@@ -490,7 +490,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: SecondaryDealerNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getSecondaryDealerNumber
                 setter: setSecondaryDealerNumber
@@ -500,7 +500,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: ShipMethod
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShipMethod
                 setter: setShipMethod
@@ -510,7 +510,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: ShipTo
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShipTo
                 setter: setShipTo
@@ -520,7 +520,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: ShipToLocationID
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShipToLocationID
                 setter: setShipToLocationID
@@ -530,7 +530,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: ShipmentCarrierDetails
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShipmentCarrierDetails
                 setter: setShipmentCarrierDetails
@@ -539,13 +539,13 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
                 inline: false
                 entry_name: ShipmentCarrierDetail
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
         shipmentNumber:
             expose: true
             access_type: public_method
             serialized_name: ShipmentNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShipmentNumber
                 setter: setShipmentNumber
@@ -555,7 +555,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: SoldBy
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getSoldBy
                 setter: setSoldBy
@@ -565,7 +565,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: State
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getState
                 setter: setState
@@ -575,7 +575,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: Status
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getStatus
                 setter: setStatus
@@ -585,7 +585,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: SubHeaderText
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getSubHeaderText
                 setter: setSubHeaderText
@@ -595,7 +595,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: SubTotal
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getSubTotal
                 setter: setSubTotal
@@ -605,7 +605,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TaxDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTaxDescription
                 setter: setTaxDescription
@@ -615,7 +615,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TaxOnTradeInTaxAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTaxOnTradeInTaxAmount
                 setter: setTaxOnTradeInTaxAmount
@@ -625,7 +625,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TaxPercent
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTaxPercent
                 setter: setTaxPercent
@@ -635,7 +635,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TitleText
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTitleText
                 setter: setTitleText
@@ -645,7 +645,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TotalAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTotalAmount
                 setter: setTotalAmount
@@ -655,7 +655,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TotalDiscountAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTotalDiscountAmount
                 setter: setTotalDiscountAmount
@@ -665,7 +665,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TotalOtherAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTotalOtherAmount
                 setter: setTotalOtherAmount
@@ -675,7 +675,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TotalQuantity
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTotalQuantity
                 setter: setTotalQuantity
@@ -685,7 +685,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TotalTaxAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTotalTaxAmount
                 setter: setTotalTaxAmount
@@ -695,7 +695,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: TradeInAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getTradeInAmount
                 setter: setTradeInAmount
@@ -705,7 +705,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: YTDDiscountsOrAllowancesAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getYTDDiscountsOrAllowancesAmount
                 setter: setYTDDiscountsOrAllowancesAmount
@@ -715,7 +715,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: YTDMiscSalesChargesAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getYTDMiscSalesChargesAmount
                 setter: setYTDMiscSalesChargesAmount
@@ -725,7 +725,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: YTDPartsTotalAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getYTDPartsTotalAmount
                 setter: setYTDPartsTotalAmount
@@ -735,7 +735,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: YTDTotalAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getYTDTotalAmount
                 setter: setYTDTotalAmount
@@ -745,7 +745,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
             access_type: public_method
             serialized_name: Zipcode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getZipcode
                 setter: setZipcode

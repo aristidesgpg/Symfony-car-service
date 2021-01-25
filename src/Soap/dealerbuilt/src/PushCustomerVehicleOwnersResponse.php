@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCustomerVehicleOwnersResponse.
+ * Class representing PushCustomerVehicleOwnersResponse
  */
 class PushCustomerVehicleOwnersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[] $pushCustomerVehicleOwnersResult
      */
     private $pushCustomerVehicleOwnersResult = null;
 
     /**
-     * Adds as sourcePushResponse.
+     * Adds as sourcePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType $sourcePushResponse
      */
-    public function addToPushCustomerVehicleOwnersResult(BaseApi\SourcePushResponseType $sourcePushResponse)
+    public function addToPushCustomerVehicleOwnersResult(\App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType $sourcePushResponse)
     {
         $this->pushCustomerVehicleOwnersResult[] = $sourcePushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushCustomerVehicleOwnersResult.
+     * isset pushCustomerVehicleOwnersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushCustomerVehicleOwnersResult($index)
@@ -39,10 +37,9 @@ class PushCustomerVehicleOwnersResponse
     }
 
     /**
-     * unset pushCustomerVehicleOwnersResult.
+     * unset pushCustomerVehicleOwnersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushCustomerVehicleOwnersResult($index)
@@ -51,7 +48,7 @@ class PushCustomerVehicleOwnersResponse
     }
 
     /**
-     * Gets as pushCustomerVehicleOwnersResult.
+     * Gets as pushCustomerVehicleOwnersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushCustomerVehicleOwnersResponse
     }
 
     /**
-     * Sets a new pushCustomerVehicleOwnersResult.
+     * Sets a new pushCustomerVehicleOwnersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[] $pushCustomerVehicleOwnersResult
-     *
      * @return self
      */
     public function setPushCustomerVehicleOwnersResult(array $pushCustomerVehicleOwnersResult)
     {
         $this->pushCustomerVehicleOwnersResult = $pushCustomerVehicleOwnersResult;
-
         return $this;
     }
+
+
 }
+

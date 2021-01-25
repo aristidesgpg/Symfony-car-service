@@ -3,69 +3,71 @@
 namespace App\Soap\dealerbuilt\src\Models\Appointments;
 
 /**
- * Class representing ConcernType.
+ * Class representing ConcernType
  *
+ * 
  * XSD Type: Concern
  */
 class ConcernType
 {
+
     /**
-     * @var string
+     * @var string $campaignDispositionCode
      */
     private $campaignDispositionCode = null;
 
     /**
-     * @var string
+     * @var string $campaignNumber
      */
     private $campaignNumber = null;
 
     /**
-     * @var string
+     * @var string $causeDescription
      */
     private $causeDescription = null;
 
     /**
-     * @var string
+     * @var string $correction
      */
     private $correction = null;
 
     /**
-     * @var string
+     * @var string $customerStatement
      */
     private $customerStatement = null;
 
     /**
-     * @var string
+     * @var string $departmentDescription
      */
     private $departmentDescription = null;
 
     /**
-     * @var int
+     * @var int $departmentId
      */
     private $departmentId = null;
 
     /**
-     * @var string
+     * @var string $jobCode
      */
     private $jobCode = null;
 
     /**
-     * @var int
+     * @var int $minutesEstimated
      */
     private $minutesEstimated = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * @var int
+     * @var int $seq
      */
     private $seq = null;
 
     /**
-     * Gets as campaignDispositionCode.
+     * Gets as campaignDispositionCode
      *
      * @return string
      */
@@ -75,21 +77,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new campaignDispositionCode.
+     * Sets a new campaignDispositionCode
      *
      * @param string $campaignDispositionCode
-     *
      * @return self
      */
     public function setCampaignDispositionCode($campaignDispositionCode)
     {
         $this->campaignDispositionCode = $campaignDispositionCode;
-
         return $this;
     }
 
     /**
-     * Gets as campaignNumber.
+     * Gets as campaignNumber
      *
      * @return string
      */
@@ -99,21 +99,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new campaignNumber.
+     * Sets a new campaignNumber
      *
      * @param string $campaignNumber
-     *
      * @return self
      */
     public function setCampaignNumber($campaignNumber)
     {
         $this->campaignNumber = $campaignNumber;
-
         return $this;
     }
 
     /**
-     * Gets as causeDescription.
+     * Gets as causeDescription
      *
      * @return string
      */
@@ -123,21 +121,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new causeDescription.
+     * Sets a new causeDescription
      *
      * @param string $causeDescription
-     *
      * @return self
      */
     public function setCauseDescription($causeDescription)
     {
         $this->causeDescription = $causeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as correction.
+     * Gets as correction
      *
      * @return string
      */
@@ -147,21 +143,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new correction.
+     * Sets a new correction
      *
      * @param string $correction
-     *
      * @return self
      */
     public function setCorrection($correction)
     {
         $this->correction = $correction;
-
         return $this;
     }
 
     /**
-     * Gets as customerStatement.
+     * Gets as customerStatement
      *
      * @return string
      */
@@ -171,21 +165,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new customerStatement.
+     * Sets a new customerStatement
      *
      * @param string $customerStatement
-     *
      * @return self
      */
     public function setCustomerStatement($customerStatement)
     {
         $this->customerStatement = $customerStatement;
-
         return $this;
     }
 
     /**
-     * Gets as departmentDescription.
+     * Gets as departmentDescription
      *
      * @return string
      */
@@ -195,21 +187,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new departmentDescription.
+     * Sets a new departmentDescription
      *
      * @param string $departmentDescription
-     *
      * @return self
      */
     public function setDepartmentDescription($departmentDescription)
     {
         $this->departmentDescription = $departmentDescription;
-
         return $this;
     }
 
     /**
-     * Gets as departmentId.
+     * Gets as departmentId
      *
      * @return int
      */
@@ -219,21 +209,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new departmentId.
+     * Sets a new departmentId
      *
      * @param int $departmentId
-     *
      * @return self
      */
     public function setDepartmentId($departmentId)
     {
         $this->departmentId = $departmentId;
-
         return $this;
     }
 
     /**
-     * Gets as jobCode.
+     * Gets as jobCode
      *
      * @return string
      */
@@ -243,21 +231,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new jobCode.
+     * Sets a new jobCode
      *
      * @param string $jobCode
-     *
      * @return self
      */
     public function setJobCode($jobCode)
     {
         $this->jobCode = $jobCode;
-
         return $this;
     }
 
     /**
-     * Gets as minutesEstimated.
+     * Gets as minutesEstimated
      *
      * @return int
      */
@@ -267,21 +253,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new minutesEstimated.
+     * Sets a new minutesEstimated
      *
      * @param int $minutesEstimated
-     *
      * @return self
      */
     public function setMinutesEstimated($minutesEstimated)
     {
         $this->minutesEstimated = $minutesEstimated;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -291,21 +275,19 @@ class ConcernType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
 
     /**
-     * Gets as seq.
+     * Gets as seq
      *
      * @return int
      */
@@ -315,16 +297,17 @@ class ConcernType
     }
 
     /**
-     * Sets a new seq.
+     * Sets a new seq
      *
      * @param int $seq
-     *
      * @return self
      */
     public function setSeq($seq)
     {
         $this->seq = $seq;
-
         return $this;
     }
+
+
 }
+

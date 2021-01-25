@@ -5,59 +5,61 @@ namespace App\Soap\dealerbuilt\src\Models\Stock;
 use App\Soap\dealerbuilt\src\Models\StoreItemType;
 
 /**
- * Class representing StockItemType.
+ * Class representing StockItemType
  *
+ * 
  * XSD Type: StockItem
  */
 class StockItemType extends StoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $eventDescription
      */
     private $eventDescription = null;
 
     /**
-     * @var string
+     * @var string $eventID
      */
     private $eventID = null;
 
     /**
-     * @var string
+     * @var string $locationID
      */
     private $locationID = null;
 
     /**
-     * @var string
+     * @var string $locationName
      */
     private $locationName = null;
 
     /**
-     * @var string
+     * @var string $optionCD
      */
     private $optionCD = null;
 
     /**
-     * @var string
+     * @var string $optionDesc
      */
     private $optionDesc = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $unitAttributes
      */
     private $unitAttributes = null;
 
     /**
-     * @var string
+     * @var string $vehicleDealerOptionsDesc
      */
     private $vehicleDealerOptionsDesc = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
      */
@@ -67,21 +69,19 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $attributes
-     *
      * @return self
      */
-    public function setAttributes(StockItemAttributesType $attributes)
+    public function setAttributes(\App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as eventDescription.
+     * Gets as eventDescription
      *
      * @return string
      */
@@ -91,21 +91,19 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new eventDescription.
+     * Sets a new eventDescription
      *
      * @param string $eventDescription
-     *
      * @return self
      */
     public function setEventDescription($eventDescription)
     {
         $this->eventDescription = $eventDescription;
-
         return $this;
     }
 
     /**
-     * Gets as eventID.
+     * Gets as eventID
      *
      * @return string
      */
@@ -115,21 +113,19 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new eventID.
+     * Sets a new eventID
      *
      * @param string $eventID
-     *
      * @return self
      */
     public function setEventID($eventID)
     {
         $this->eventID = $eventID;
-
         return $this;
     }
 
     /**
-     * Gets as locationID.
+     * Gets as locationID
      *
      * @return string
      */
@@ -139,21 +135,19 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new locationID.
+     * Sets a new locationID
      *
      * @param string $locationID
-     *
      * @return self
      */
     public function setLocationID($locationID)
     {
         $this->locationID = $locationID;
-
         return $this;
     }
 
     /**
-     * Gets as locationName.
+     * Gets as locationName
      *
      * @return string
      */
@@ -163,21 +157,19 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new locationName.
+     * Sets a new locationName
      *
      * @param string $locationName
-     *
      * @return self
      */
     public function setLocationName($locationName)
     {
         $this->locationName = $locationName;
-
         return $this;
     }
 
     /**
-     * Gets as optionCD.
+     * Gets as optionCD
      *
      * @return string
      */
@@ -187,21 +179,19 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new optionCD.
+     * Sets a new optionCD
      *
      * @param string $optionCD
-     *
      * @return self
      */
     public function setOptionCD($optionCD)
     {
         $this->optionCD = $optionCD;
-
         return $this;
     }
 
     /**
-     * Gets as optionDesc.
+     * Gets as optionDesc
      *
      * @return string
      */
@@ -211,21 +201,19 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new optionDesc.
+     * Sets a new optionDesc
      *
      * @param string $optionDesc
-     *
      * @return self
      */
     public function setOptionDesc($optionDesc)
     {
         $this->optionDesc = $optionDesc;
-
         return $this;
     }
 
     /**
-     * Gets as unitAttributes.
+     * Gets as unitAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
      */
@@ -235,19 +223,19 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new unitAttributes.
+     * Sets a new unitAttributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $unitAttributes
      * @return self
      */
     public function setUnitAttributes(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $unitAttributes)
     {
         $this->unitAttributes = $unitAttributes;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleDealerOptionsDesc.
+     * Gets as vehicleDealerOptionsDesc
      *
      * @return string
      */
@@ -257,16 +245,17 @@ class StockItemType extends StoreItemType
     }
 
     /**
-     * Sets a new vehicleDealerOptionsDesc.
+     * Sets a new vehicleDealerOptionsDesc
      *
      * @param string $vehicleDealerOptionsDesc
-     *
      * @return self
      */
     public function setVehicleDealerOptionsDesc($vehicleDealerOptionsDesc)
     {
         $this->vehicleDealerOptionsDesc = $vehicleDealerOptionsDesc;
-
         return $this;
     }
+
+
 }
+

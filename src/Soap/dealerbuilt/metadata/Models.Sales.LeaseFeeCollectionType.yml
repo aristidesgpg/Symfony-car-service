@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType:
             access_type: public_method
             serialized_name: Acquisition
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getAcquisition
                 setter: setAcquisition
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType:
             access_type: public_method
             serialized_name: DealerFees
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDealerFees
                 setter: setDealerFees
@@ -24,13 +24,13 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType:
                 inline: false
                 entry_name: DealerFee
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
         disposition:
             expose: true
             access_type: public_method
             serialized_name: Disposition
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDisposition
                 setter: setDisposition
@@ -40,7 +40,7 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType:
             access_type: public_method
             serialized_name: Licensing
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getLicensing
                 setter: setLicensing
@@ -50,7 +50,7 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType:
             access_type: public_method
             serialized_name: ProratedLicensing
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getProratedLicensing
                 setter: setProratedLicensing
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType:
             access_type: public_method
             serialized_name: TradeLicensing
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTradeLicensing
                 setter: setTradeLicensing

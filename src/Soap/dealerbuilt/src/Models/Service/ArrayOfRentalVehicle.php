@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfRentalVehicle.
+ * Class representing ArrayOfRentalVehicle
  */
 class ArrayOfRentalVehicle extends ArrayOfRentalVehicleType
 {
+
+
 }
+

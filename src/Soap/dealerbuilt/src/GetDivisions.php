@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetDivisions.
+ * Class representing GetDivisions
  */
 class GetDivisions
 {
+
     /**
-     * @var int
+     * @var int $companyId
      */
     private $companyId = null;
 
     /**
-     * Gets as companyId.
+     * Gets as companyId
      *
      * @return int
      */
@@ -23,16 +24,17 @@ class GetDivisions
     }
 
     /**
-     * Sets a new companyId.
+     * Sets a new companyId
      *
      * @param int $companyId
-     *
      * @return self
      */
     public function setCompanyId($companyId)
     {
         $this->companyId = $companyId;
-
         return $this;
     }
+
+
 }
+

@@ -8,21 +8,21 @@ namespace App\Entity;
 class DMSResultAdvisor
 {
     /**
-     * @var int
+     * @var ?int
      */
     private $id;
 
     /**
-     * @var string
+     * @var ?string
      */
     private $firstName;
 
     /**
-     * @var string
+     * @var ?string
      */
     private $lastName;
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -38,7 +38,7 @@ class DMSResultAdvisor
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -54,7 +54,7 @@ class DMSResultAdvisor
     /**
      * @return mixed
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }

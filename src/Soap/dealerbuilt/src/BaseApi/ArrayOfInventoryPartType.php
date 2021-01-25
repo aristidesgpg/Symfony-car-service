@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfInventoryPartType.
+ * Class representing ArrayOfInventoryPartType
  *
+ * 
  * XSD Type: ArrayOfInventoryPart
  */
 class ArrayOfInventoryPartType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType[] $inventoryPart
      */
     private $inventoryPart = [
+        
     ];
 
     /**
-     * Adds as inventoryPart.
+     * Adds as inventoryPart
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType $inventoryPart
      */
-    public function addToInventoryPart(InventoryPartType $inventoryPart)
+    public function addToInventoryPart(\App\Soap\dealerbuilt\src\BaseApi\InventoryPartType $inventoryPart)
     {
         $this->inventoryPart[] = $inventoryPart;
-
         return $this;
     }
 
     /**
-     * isset inventoryPart.
+     * isset inventoryPart
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInventoryPart($index)
@@ -42,10 +42,9 @@ class ArrayOfInventoryPartType
     }
 
     /**
-     * unset inventoryPart.
+     * unset inventoryPart
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInventoryPart($index)
@@ -54,7 +53,7 @@ class ArrayOfInventoryPartType
     }
 
     /**
-     * Gets as inventoryPart.
+     * Gets as inventoryPart
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfInventoryPartType
     }
 
     /**
-     * Sets a new inventoryPart.
+     * Sets a new inventoryPart
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\InventoryPartType[] $inventoryPart
-     *
      * @return self
      */
     public function setInventoryPart(array $inventoryPart)
     {
         $this->inventoryPart = $inventoryPart;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing VehicleLookup.
+ * Class representing VehicleLookup
  */
 class VehicleLookup extends VehicleLookupType
 {
+
+
 }
+

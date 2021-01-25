@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PaymentAttributes.
+ * Class representing PaymentAttributes
  */
 class PaymentAttributes extends PaymentAttributesType
 {
+
+
 }
+

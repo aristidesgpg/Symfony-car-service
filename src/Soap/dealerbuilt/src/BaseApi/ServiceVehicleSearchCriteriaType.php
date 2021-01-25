@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceVehicleSearchCriteriaType.
+ * Class representing ServiceVehicleSearchCriteriaType
  *
+ * 
  * XSD Type: ServiceVehicleSearchCriteria
  */
 class ServiceVehicleSearchCriteriaType extends ServiceLocationSearchCriteriaType
 {
+
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -25,16 +27,17 @@ class ServiceVehicleSearchCriteriaType extends ServiceLocationSearchCriteriaType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
+
+
 }
+

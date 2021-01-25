@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfLaborOperationSublet.
+ * Class representing ArrayOfLaborOperationSublet
  */
 class ArrayOfLaborOperationSublet extends ArrayOfLaborOperationSubletType
 {
+
+
 }
+

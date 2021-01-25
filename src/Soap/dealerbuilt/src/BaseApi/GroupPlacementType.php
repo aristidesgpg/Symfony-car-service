@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing GroupPlacementType.
+ * Class representing GroupPlacementType
  *
+ * 
  * XSD Type: GroupPlacement
  */
 class GroupPlacementType
 {
+
     /**
-     * @var int
+     * @var int $groupId
      */
     private $groupId = null;
 
     /**
-     * @var string
+     * @var string $groupName
      */
     private $groupName = null;
 
     /**
-     * Gets as groupId.
+     * Gets as groupId
      *
      * @return int
      */
@@ -30,21 +32,19 @@ class GroupPlacementType
     }
 
     /**
-     * Sets a new groupId.
+     * Sets a new groupId
      *
      * @param int $groupId
-     *
      * @return self
      */
     public function setGroupId($groupId)
     {
         $this->groupId = $groupId;
-
         return $this;
     }
 
     /**
-     * Gets as groupName.
+     * Gets as groupName
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class GroupPlacementType
     }
 
     /**
-     * Sets a new groupName.
+     * Sets a new groupName
      *
      * @param string $groupName
-     *
      * @return self
      */
     public function setGroupName($groupName)
     {
         $this->groupName = $groupName;
-
         return $this;
     }
+
+
 }
+

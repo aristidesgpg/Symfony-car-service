@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfCustomerVehicleType.
+ * Class representing ArrayOfCustomerVehicleType
  *
+ * 
  * XSD Type: ArrayOfCustomerVehicle
  */
 class ArrayOfCustomerVehicleType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType[] $customerVehicle
      */
     private $customerVehicle = [
+        
     ];
 
     /**
-     * Adds as customerVehicle.
+     * Adds as customerVehicle
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $customerVehicle
      */
-    public function addToCustomerVehicle(CustomerVehicleType $customerVehicle)
+    public function addToCustomerVehicle(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $customerVehicle)
     {
         $this->customerVehicle[] = $customerVehicle;
-
         return $this;
     }
 
     /**
-     * isset customerVehicle.
+     * isset customerVehicle
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCustomerVehicle($index)
@@ -42,10 +42,9 @@ class ArrayOfCustomerVehicleType
     }
 
     /**
-     * unset customerVehicle.
+     * unset customerVehicle
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCustomerVehicle($index)
@@ -54,7 +53,7 @@ class ArrayOfCustomerVehicleType
     }
 
     /**
-     * Gets as customerVehicle.
+     * Gets as customerVehicle
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCustomerVehicleType
     }
 
     /**
-     * Sets a new customerVehicle.
+     * Sets a new customerVehicle
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType[] $customerVehicle
-     *
      * @return self
      */
     public function setCustomerVehicle(array $customerVehicle)
     {
         $this->customerVehicle = $customerVehicle;
-
         return $this;
     }
+
+
 }
+

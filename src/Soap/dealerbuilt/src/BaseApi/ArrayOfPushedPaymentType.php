@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPushedPaymentType.
+ * Class representing ArrayOfPushedPaymentType
  *
+ * 
  * XSD Type: ArrayOfPushedPayment
  */
 class ArrayOfPushedPaymentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PushedPaymentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PushedPaymentType[] $pushedPayment
      */
     private $pushedPayment = [
+        
     ];
 
     /**
-     * Adds as pushedPayment.
+     * Adds as pushedPayment
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushedPaymentType $pushedPayment
      */
-    public function addToPushedPayment(PushedPaymentType $pushedPayment)
+    public function addToPushedPayment(\App\Soap\dealerbuilt\src\BaseApi\PushedPaymentType $pushedPayment)
     {
         $this->pushedPayment[] = $pushedPayment;
-
         return $this;
     }
 
     /**
-     * isset pushedPayment.
+     * isset pushedPayment
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushedPayment($index)
@@ -42,10 +42,9 @@ class ArrayOfPushedPaymentType
     }
 
     /**
-     * unset pushedPayment.
+     * unset pushedPayment
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushedPayment($index)
@@ -54,7 +53,7 @@ class ArrayOfPushedPaymentType
     }
 
     /**
-     * Gets as pushedPayment.
+     * Gets as pushedPayment
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PushedPaymentType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPushedPaymentType
     }
 
     /**
-     * Sets a new pushedPayment.
+     * Sets a new pushedPayment
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushedPaymentType[] $pushedPayment
-     *
      * @return self
      */
     public function setPushedPayment(array $pushedPayment)
     {
         $this->pushedPayment = $pushedPayment;
-
         return $this;
     }
+
+
 }
+

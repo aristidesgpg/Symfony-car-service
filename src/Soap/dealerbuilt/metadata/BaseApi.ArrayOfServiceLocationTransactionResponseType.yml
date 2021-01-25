@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\BaseApi\ArrayOfServiceLocationTransactionResponseType:
             access_type: public_method
             serialized_name: ServiceLocationTransactionResponse
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationTransactionResponse
                 setter: setServiceLocationTransactionResponse
             xml_list:
                 inline: true
                 entry_name: ServiceLocationTransactionResponse
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             type: array<App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType>

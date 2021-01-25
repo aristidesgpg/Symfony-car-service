@@ -3,22 +3,23 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryByStockNumber.
+ * Class representing PullInventoryByStockNumber
  */
 class PullInventoryByStockNumber
 {
+
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * @var string
+     * @var string $stockNumber
      */
     private $stockNumber = null;
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -28,21 +29,19 @@ class PullInventoryByStockNumber
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
 
     /**
-     * Gets as stockNumber.
+     * Gets as stockNumber
      *
      * @return string
      */
@@ -52,16 +51,17 @@ class PullInventoryByStockNumber
     }
 
     /**
-     * Sets a new stockNumber.
+     * Sets a new stockNumber
      *
      * @param string $stockNumber
-     *
      * @return self
      */
     public function setStockNumber($stockNumber)
     {
         $this->stockNumber = $stockNumber;
-
         return $this;
     }
+
+
 }
+

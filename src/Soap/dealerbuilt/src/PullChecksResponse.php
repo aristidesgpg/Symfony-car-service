@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullChecksResponse.
+ * Class representing PullChecksResponse
  */
 class PullChecksResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CheckType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CheckType[] $pullChecksResult
      */
     private $pullChecksResult = null;
 
     /**
-     * Adds as check.
+     * Adds as check
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CheckType $check
      */
-    public function addToPullChecksResult(BaseApi\CheckType $check)
+    public function addToPullChecksResult(\App\Soap\dealerbuilt\src\BaseApi\CheckType $check)
     {
         $this->pullChecksResult[] = $check;
-
         return $this;
     }
 
     /**
-     * isset pullChecksResult.
+     * isset pullChecksResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullChecksResult($index)
@@ -39,10 +37,9 @@ class PullChecksResponse
     }
 
     /**
-     * unset pullChecksResult.
+     * unset pullChecksResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullChecksResult($index)
@@ -51,7 +48,7 @@ class PullChecksResponse
     }
 
     /**
-     * Gets as pullChecksResult.
+     * Gets as pullChecksResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CheckType[]
      */
@@ -61,16 +58,17 @@ class PullChecksResponse
     }
 
     /**
-     * Sets a new pullChecksResult.
+     * Sets a new pullChecksResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CheckType[] $pullChecksResult
-     *
      * @return self
      */
     public function setPullChecksResult(array $pullChecksResult)
     {
         $this->pullChecksResult = $pullChecksResult;
-
         return $this;
     }
+
+
 }
+

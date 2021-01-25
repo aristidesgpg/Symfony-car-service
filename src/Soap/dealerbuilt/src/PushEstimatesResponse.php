@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushEstimatesResponse.
+ * Class representing PushEstimatesResponse
  */
 class PushEstimatesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType[] $pushEstimatesResult
      */
     private $pushEstimatesResult = null;
 
     /**
-     * Adds as estimatePushResponse.
+     * Adds as estimatePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType $estimatePushResponse
      */
-    public function addToPushEstimatesResult(BaseApi\EstimatePushResponseType $estimatePushResponse)
+    public function addToPushEstimatesResult(\App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType $estimatePushResponse)
     {
         $this->pushEstimatesResult[] = $estimatePushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushEstimatesResult.
+     * isset pushEstimatesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushEstimatesResult($index)
@@ -39,10 +37,9 @@ class PushEstimatesResponse
     }
 
     /**
-     * unset pushEstimatesResult.
+     * unset pushEstimatesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushEstimatesResult($index)
@@ -51,7 +48,7 @@ class PushEstimatesResponse
     }
 
     /**
-     * Gets as pushEstimatesResult.
+     * Gets as pushEstimatesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushEstimatesResponse
     }
 
     /**
-     * Sets a new pushEstimatesResult.
+     * Sets a new pushEstimatesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType[] $pushEstimatesResult
-     *
      * @return self
      */
     public function setPushEstimatesResult(array $pushEstimatesResult)
     {
         $this->pushEstimatesResult = $pushEstimatesResult;
-
         return $this;
     }
+
+
 }
+

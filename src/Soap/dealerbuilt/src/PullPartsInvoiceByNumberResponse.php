@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPartsInvoiceByNumberResponse.
+ * Class representing PullPartsInvoiceByNumberResponse
  */
 class PullPartsInvoiceByNumberResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $pullPartsInvoiceByNumberResult
      */
     private $pullPartsInvoiceByNumberResult = null;
 
     /**
-     * Gets as pullPartsInvoiceByNumberResult.
+     * Gets as pullPartsInvoiceByNumberResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType
      */
@@ -23,16 +24,17 @@ class PullPartsInvoiceByNumberResponse
     }
 
     /**
-     * Sets a new pullPartsInvoiceByNumberResult.
+     * Sets a new pullPartsInvoiceByNumberResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $pullPartsInvoiceByNumberResult
-     *
      * @return self
      */
-    public function setPullPartsInvoiceByNumberResult(BaseApi\PartsInvoiceType $pullPartsInvoiceByNumberResult)
+    public function setPullPartsInvoiceByNumberResult(\App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceType $pullPartsInvoiceByNumberResult)
     {
         $this->pullPartsInvoiceByNumberResult = $pullPartsInvoiceByNumberResult;
-
         return $this;
     }
+
+
 }
+

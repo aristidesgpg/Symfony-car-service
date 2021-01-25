@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPaymentPushRequestType.
+ * Class representing ArrayOfPaymentPushRequestType
  *
+ * 
  * XSD Type: ArrayOfPaymentPushRequest
  */
 class ArrayOfPaymentPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType[] $paymentPushRequest
      */
     private $paymentPushRequest = [
+        
     ];
 
     /**
-     * Adds as paymentPushRequest.
+     * Adds as paymentPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType $paymentPushRequest
      */
-    public function addToPaymentPushRequest(PaymentPushRequestType $paymentPushRequest)
+    public function addToPaymentPushRequest(\App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType $paymentPushRequest)
     {
         $this->paymentPushRequest[] = $paymentPushRequest;
-
         return $this;
     }
 
     /**
-     * isset paymentPushRequest.
+     * isset paymentPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPaymentPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfPaymentPushRequestType
     }
 
     /**
-     * unset paymentPushRequest.
+     * unset paymentPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPaymentPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfPaymentPushRequestType
     }
 
     /**
-     * Gets as paymentPushRequest.
+     * Gets as paymentPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPaymentPushRequestType
     }
 
     /**
-     * Sets a new paymentPushRequest.
+     * Sets a new paymentPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType[] $paymentPushRequest
-     *
      * @return self
      */
     public function setPaymentPushRequest(array $paymentPushRequest)
     {
         $this->paymentPushRequest = $paymentPushRequest;
-
         return $this;
     }
+
+
 }
+

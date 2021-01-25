@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDocumentPushRequestType.
+ * Class representing ArrayOfDocumentPushRequestType
  *
+ * 
  * XSD Type: ArrayOfDocumentPushRequest
  */
 class ArrayOfDocumentPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType[] $documentPushRequest
      */
     private $documentPushRequest = [
+        
     ];
 
     /**
-     * Adds as documentPushRequest.
+     * Adds as documentPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType $documentPushRequest
      */
-    public function addToDocumentPushRequest(DocumentPushRequestType $documentPushRequest)
+    public function addToDocumentPushRequest(\App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType $documentPushRequest)
     {
         $this->documentPushRequest[] = $documentPushRequest;
-
         return $this;
     }
 
     /**
-     * isset documentPushRequest.
+     * isset documentPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDocumentPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfDocumentPushRequestType
     }
 
     /**
-     * unset documentPushRequest.
+     * unset documentPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDocumentPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfDocumentPushRequestType
     }
 
     /**
-     * Gets as documentPushRequest.
+     * Gets as documentPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDocumentPushRequestType
     }
 
     /**
-     * Sets a new documentPushRequest.
+     * Sets a new documentPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType[] $documentPushRequest
-     *
      * @return self
      */
     public function setDocumentPushRequest(array $documentPushRequest)
     {
         $this->documentPushRequest = $documentPushRequest;
-
         return $this;
     }
+
+
 }
+

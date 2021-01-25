@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing PushResponseType.
+ * Class representing PushResponseType
  *
+ * 
  * XSD Type: PushResponse
  */
 class PushResponseType
 {
+
     /**
-     * @var string
+     * @var string $externalRecordId
      */
     private $externalRecordId = null;
 
     /**
-     * @var string
+     * @var string $message
      */
     private $message = null;
 
     /**
-     * @var string
+     * @var string $pushResult
      */
     private $pushResult = null;
 
     /**
-     * @var int
+     * @var int $pushedRecordId
      */
     private $pushedRecordId = null;
 
     /**
-     * Gets as externalRecordId.
+     * Gets as externalRecordId
      *
      * @return string
      */
@@ -40,21 +42,19 @@ class PushResponseType
     }
 
     /**
-     * Sets a new externalRecordId.
+     * Sets a new externalRecordId
      *
      * @param string $externalRecordId
-     *
      * @return self
      */
     public function setExternalRecordId($externalRecordId)
     {
         $this->externalRecordId = $externalRecordId;
-
         return $this;
     }
 
     /**
-     * Gets as message.
+     * Gets as message
      *
      * @return string
      */
@@ -64,21 +64,19 @@ class PushResponseType
     }
 
     /**
-     * Sets a new message.
+     * Sets a new message
      *
      * @param string $message
-     *
      * @return self
      */
     public function setMessage($message)
     {
         $this->message = $message;
-
         return $this;
     }
 
     /**
-     * Gets as pushResult.
+     * Gets as pushResult
      *
      * @return string
      */
@@ -88,21 +86,19 @@ class PushResponseType
     }
 
     /**
-     * Sets a new pushResult.
+     * Sets a new pushResult
      *
      * @param string $pushResult
-     *
      * @return self
      */
     public function setPushResult($pushResult)
     {
         $this->pushResult = $pushResult;
-
         return $this;
     }
 
     /**
-     * Gets as pushedRecordId.
+     * Gets as pushedRecordId
      *
      * @return int
      */
@@ -112,16 +108,17 @@ class PushResponseType
     }
 
     /**
-     * Sets a new pushedRecordId.
+     * Sets a new pushedRecordId
      *
      * @param int $pushedRecordId
-     *
      * @return self
      */
     public function setPushedRecordId($pushedRecordId)
     {
         $this->pushedRecordId = $pushedRecordId;
-
         return $this;
     }
+
+
 }
+

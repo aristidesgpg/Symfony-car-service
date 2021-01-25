@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfLaborItemType.
+ * Class representing ArrayOfLaborItemType
  *
+ * 
  * XSD Type: ArrayOfLaborItem
  */
 class ArrayOfLaborItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\LaborItemType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\LaborItemType[] $laborItem
      */
     private $laborItem = [
+        
     ];
 
     /**
-     * Adds as laborItem.
+     * Adds as laborItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\LaborItemType $laborItem
      */
-    public function addToLaborItem(LaborItemType $laborItem)
+    public function addToLaborItem(\App\Soap\dealerbuilt\src\Models\Service\LaborItemType $laborItem)
     {
         $this->laborItem[] = $laborItem;
-
         return $this;
     }
 
     /**
-     * isset laborItem.
+     * isset laborItem
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLaborItem($index)
@@ -42,10 +42,9 @@ class ArrayOfLaborItemType
     }
 
     /**
-     * unset laborItem.
+     * unset laborItem
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLaborItem($index)
@@ -54,7 +53,7 @@ class ArrayOfLaborItemType
     }
 
     /**
-     * Gets as laborItem.
+     * Gets as laborItem
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\LaborItemType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfLaborItemType
     }
 
     /**
-     * Sets a new laborItem.
+     * Sets a new laborItem
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\LaborItemType[] $laborItem
-     *
      * @return self
      */
     public function setLaborItem(array $laborItem)
     {
         $this->laborItem = $laborItem;
-
         return $this;
     }
+
+
 }
+

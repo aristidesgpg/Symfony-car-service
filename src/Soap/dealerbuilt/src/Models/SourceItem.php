@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing SourceItem.
+ * Class representing SourceItem
  */
 class SourceItem extends SourceItemType
 {
+
+
 }
+

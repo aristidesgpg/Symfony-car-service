@@ -5,34 +5,36 @@ namespace App\Soap\dealerbuilt\src\Models\Vehicles;
 use App\Soap\dealerbuilt\src\Models\SourceItemType;
 
 /**
- * Class representing CustomerVehicleType.
+ * Class representing CustomerVehicleType
  *
+ * 
  * XSD Type: CustomerVehicle
  */
 class CustomerVehicleType extends SourceItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType $references
      */
     private $references = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $stockAttributes
      */
     private $stockAttributes = null;
 
     /**
-     * @var int
+     * @var int $vehicleId
      */
     private $vehicleId = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
      */
@@ -42,21 +44,19 @@ class CustomerVehicleType extends SourceItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes
-     *
      * @return self
      */
-    public function setAttributes(VehicleAttributesType $attributes)
+    public function setAttributes(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as references.
+     * Gets as references
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType
      */
@@ -66,21 +66,19 @@ class CustomerVehicleType extends SourceItemType
     }
 
     /**
-     * Sets a new references.
+     * Sets a new references
      *
      * @param \App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType $references
-     *
      * @return self
      */
-    public function setReferences(CustomerVehicleReferencesType $references)
+    public function setReferences(\App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType $references)
     {
         $this->references = $references;
-
         return $this;
     }
 
     /**
-     * Gets as stockAttributes.
+     * Gets as stockAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
      */
@@ -90,19 +88,19 @@ class CustomerVehicleType extends SourceItemType
     }
 
     /**
-     * Sets a new stockAttributes.
+     * Sets a new stockAttributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $stockAttributes
      * @return self
      */
     public function setStockAttributes(\App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType $stockAttributes)
     {
         $this->stockAttributes = $stockAttributes;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleId.
+     * Gets as vehicleId
      *
      * @return int
      */
@@ -112,16 +110,17 @@ class CustomerVehicleType extends SourceItemType
     }
 
     /**
-     * Sets a new vehicleId.
+     * Sets a new vehicleId
      *
      * @param int $vehicleId
-     *
      * @return self
      */
     public function setVehicleId($vehicleId)
     {
         $this->vehicleId = $vehicleId;
-
         return $this;
     }
+
+
 }
+

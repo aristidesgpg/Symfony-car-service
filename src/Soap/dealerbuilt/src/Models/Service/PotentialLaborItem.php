@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PotentialLaborItem.
+ * Class representing PotentialLaborItem
  */
 class PotentialLaborItem extends PotentialLaborItemType
 {
+
+
 }
+

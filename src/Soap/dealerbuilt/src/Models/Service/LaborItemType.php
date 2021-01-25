@@ -3,89 +3,91 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing LaborItemType.
+ * Class representing LaborItemType
  *
+ * 
  * XSD Type: LaborItem
  */
 class LaborItemType
 {
+
     /**
-     * @var float
+     * @var float $additionalHours
      */
     private $additionalHours = null;
 
     /**
-     * @var float
+     * @var float $adminHours
      */
     private $adminHours = null;
 
     /**
-     * @var float
+     * @var float $allowanceHours
      */
     private $allowanceHours = null;
 
     /**
-     * @var float
+     * @var float $diagnosisHours
      */
     private $diagnosisHours = null;
 
     /**
-     * @var float
+     * @var float $hours
      */
     private $hours = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount
      */
     private $laborAmount = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborRate
      */
     private $laborRate = null;
 
     /**
-     * @var string
+     * @var string $laborType
      */
     private $laborType = null;
 
     /**
-     * @var int
+     * @var int $lineNumber
      */
     private $lineNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\LaborOperationType
+     * @var \App\Soap\dealerbuilt\src\Models\Service\LaborOperationType $operation
      */
     private $operation = null;
 
     /**
-     * @var float
+     * @var float $otherLaborHours
      */
     private $otherLaborHours = null;
 
     /**
-     * @var float
+     * @var float $paintMixHours
      */
     private $paintMixHours = null;
 
     /**
-     * @var string
+     * @var string $remark
      */
     private $remark = null;
 
     /**
-     * @var float
+     * @var float $setupHours
      */
     private $setupHours = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType[] $sublets
      */
     private $sublets = null;
 
     /**
-     * Gets as additionalHours.
+     * Gets as additionalHours
      *
      * @return float
      */
@@ -95,21 +97,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new additionalHours.
+     * Sets a new additionalHours
      *
      * @param float $additionalHours
-     *
      * @return self
      */
     public function setAdditionalHours($additionalHours)
     {
         $this->additionalHours = $additionalHours;
-
         return $this;
     }
 
     /**
-     * Gets as adminHours.
+     * Gets as adminHours
      *
      * @return float
      */
@@ -119,21 +119,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new adminHours.
+     * Sets a new adminHours
      *
      * @param float $adminHours
-     *
      * @return self
      */
     public function setAdminHours($adminHours)
     {
         $this->adminHours = $adminHours;
-
         return $this;
     }
 
     /**
-     * Gets as allowanceHours.
+     * Gets as allowanceHours
      *
      * @return float
      */
@@ -143,21 +141,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new allowanceHours.
+     * Sets a new allowanceHours
      *
      * @param float $allowanceHours
-     *
      * @return self
      */
     public function setAllowanceHours($allowanceHours)
     {
         $this->allowanceHours = $allowanceHours;
-
         return $this;
     }
 
     /**
-     * Gets as diagnosisHours.
+     * Gets as diagnosisHours
      *
      * @return float
      */
@@ -167,21 +163,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new diagnosisHours.
+     * Sets a new diagnosisHours
      *
      * @param float $diagnosisHours
-     *
      * @return self
      */
     public function setDiagnosisHours($diagnosisHours)
     {
         $this->diagnosisHours = $diagnosisHours;
-
         return $this;
     }
 
     /**
-     * Gets as hours.
+     * Gets as hours
      *
      * @return float
      */
@@ -191,21 +185,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new hours.
+     * Sets a new hours
      *
      * @param float $hours
-     *
      * @return self
      */
     public function setHours($hours)
     {
         $this->hours = $hours;
-
         return $this;
     }
 
     /**
-     * Gets as laborAmount.
+     * Gets as laborAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -215,19 +207,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new laborAmount.
+     * Sets a new laborAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount
      * @return self
      */
     public function setLaborAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount)
     {
         $this->laborAmount = $laborAmount;
-
         return $this;
     }
 
     /**
-     * Gets as laborRate.
+     * Gets as laborRate
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -237,19 +229,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new laborRate.
+     * Sets a new laborRate
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborRate
      * @return self
      */
     public function setLaborRate(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborRate)
     {
         $this->laborRate = $laborRate;
-
         return $this;
     }
 
     /**
-     * Gets as laborType.
+     * Gets as laborType
      *
      * @return string
      */
@@ -259,21 +251,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new laborType.
+     * Sets a new laborType
      *
      * @param string $laborType
-     *
      * @return self
      */
     public function setLaborType($laborType)
     {
         $this->laborType = $laborType;
-
         return $this;
     }
 
     /**
-     * Gets as lineNumber.
+     * Gets as lineNumber
      *
      * @return int
      */
@@ -283,21 +273,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new lineNumber.
+     * Sets a new lineNumber
      *
      * @param int $lineNumber
-     *
      * @return self
      */
     public function setLineNumber($lineNumber)
     {
         $this->lineNumber = $lineNumber;
-
         return $this;
     }
 
     /**
-     * Gets as operation.
+     * Gets as operation
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\LaborOperationType
      */
@@ -307,21 +295,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new operation.
+     * Sets a new operation
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\LaborOperationType $operation
-     *
      * @return self
      */
-    public function setOperation(LaborOperationType $operation)
+    public function setOperation(\App\Soap\dealerbuilt\src\Models\Service\LaborOperationType $operation)
     {
         $this->operation = $operation;
-
         return $this;
     }
 
     /**
-     * Gets as otherLaborHours.
+     * Gets as otherLaborHours
      *
      * @return float
      */
@@ -331,21 +317,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new otherLaborHours.
+     * Sets a new otherLaborHours
      *
      * @param float $otherLaborHours
-     *
      * @return self
      */
     public function setOtherLaborHours($otherLaborHours)
     {
         $this->otherLaborHours = $otherLaborHours;
-
         return $this;
     }
 
     /**
-     * Gets as paintMixHours.
+     * Gets as paintMixHours
      *
      * @return float
      */
@@ -355,21 +339,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new paintMixHours.
+     * Sets a new paintMixHours
      *
      * @param float $paintMixHours
-     *
      * @return self
      */
     public function setPaintMixHours($paintMixHours)
     {
         $this->paintMixHours = $paintMixHours;
-
         return $this;
     }
 
     /**
-     * Gets as remark.
+     * Gets as remark
      *
      * @return string
      */
@@ -379,21 +361,19 @@ class LaborItemType
     }
 
     /**
-     * Sets a new remark.
+     * Sets a new remark
      *
      * @param string $remark
-     *
      * @return self
      */
     public function setRemark($remark)
     {
         $this->remark = $remark;
-
         return $this;
     }
 
     /**
-     * Gets as setupHours.
+     * Gets as setupHours
      *
      * @return float
      */
@@ -403,38 +383,33 @@ class LaborItemType
     }
 
     /**
-     * Sets a new setupHours.
+     * Sets a new setupHours
      *
      * @param float $setupHours
-     *
      * @return self
      */
     public function setSetupHours($setupHours)
     {
         $this->setupHours = $setupHours;
-
         return $this;
     }
 
     /**
-     * Adds as laborOperationSublet.
+     * Adds as laborOperationSublet
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType $laborOperationSublet
      */
-    public function addToSublets(LaborOperationSubletType $laborOperationSublet)
+    public function addToSublets(\App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType $laborOperationSublet)
     {
         $this->sublets[] = $laborOperationSublet;
-
         return $this;
     }
 
     /**
-     * isset sublets.
+     * isset sublets
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSublets($index)
@@ -443,10 +418,9 @@ class LaborItemType
     }
 
     /**
-     * unset sublets.
+     * unset sublets
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSublets($index)
@@ -455,7 +429,7 @@ class LaborItemType
     }
 
     /**
-     * Gets as sublets.
+     * Gets as sublets
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType[]
      */
@@ -465,16 +439,17 @@ class LaborItemType
     }
 
     /**
-     * Sets a new sublets.
+     * Sets a new sublets
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType[] $sublets
-     *
      * @return self
      */
     public function setSublets(array $sublets)
     {
         $this->sublets = $sublets;
-
         return $this;
     }
+
+
 }
+

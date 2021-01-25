@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfEstimatePushResponseType.
+ * Class representing ArrayOfEstimatePushResponseType
  *
+ * 
  * XSD Type: ArrayOfEstimatePushResponse
  */
 class ArrayOfEstimatePushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType[] $estimatePushResponse
      */
     private $estimatePushResponse = [
+        
     ];
 
     /**
-     * Adds as estimatePushResponse.
+     * Adds as estimatePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType $estimatePushResponse
      */
-    public function addToEstimatePushResponse(EstimatePushResponseType $estimatePushResponse)
+    public function addToEstimatePushResponse(\App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType $estimatePushResponse)
     {
         $this->estimatePushResponse[] = $estimatePushResponse;
-
         return $this;
     }
 
     /**
-     * isset estimatePushResponse.
+     * isset estimatePushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetEstimatePushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfEstimatePushResponseType
     }
 
     /**
-     * unset estimatePushResponse.
+     * unset estimatePushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetEstimatePushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfEstimatePushResponseType
     }
 
     /**
-     * Gets as estimatePushResponse.
+     * Gets as estimatePushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfEstimatePushResponseType
     }
 
     /**
-     * Sets a new estimatePushResponse.
+     * Sets a new estimatePushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType[] $estimatePushResponse
-     *
      * @return self
      */
     public function setEstimatePushResponse(array $estimatePushResponse)
     {
         $this->estimatePushResponse = $estimatePushResponse;
-
         return $this;
     }
+
+
 }
+

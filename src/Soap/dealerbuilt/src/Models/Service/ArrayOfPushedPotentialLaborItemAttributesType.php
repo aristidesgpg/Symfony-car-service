@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedPotentialLaborItemAttributesType.
+ * Class representing ArrayOfPushedPotentialLaborItemAttributesType
  *
+ * 
  * XSD Type: ArrayOfPushedPotentialLaborItemAttributes
  */
 class ArrayOfPushedPotentialLaborItemAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[] $pushedPotentialLaborItemAttributes
      */
     private $pushedPotentialLaborItemAttributes = [
+        
     ];
 
     /**
-     * Adds as pushedPotentialLaborItemAttributes.
+     * Adds as pushedPotentialLaborItemAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType $pushedPotentialLaborItemAttributes
      */
-    public function addToPushedPotentialLaborItemAttributes(PushedPotentialLaborItemAttributesType $pushedPotentialLaborItemAttributes)
+    public function addToPushedPotentialLaborItemAttributes(\App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType $pushedPotentialLaborItemAttributes)
     {
         $this->pushedPotentialLaborItemAttributes[] = $pushedPotentialLaborItemAttributes;
-
         return $this;
     }
 
     /**
-     * isset pushedPotentialLaborItemAttributes.
+     * isset pushedPotentialLaborItemAttributes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushedPotentialLaborItemAttributes($index)
@@ -42,10 +42,9 @@ class ArrayOfPushedPotentialLaborItemAttributesType
     }
 
     /**
-     * unset pushedPotentialLaborItemAttributes.
+     * unset pushedPotentialLaborItemAttributes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushedPotentialLaborItemAttributes($index)
@@ -54,7 +53,7 @@ class ArrayOfPushedPotentialLaborItemAttributesType
     }
 
     /**
-     * Gets as pushedPotentialLaborItemAttributes.
+     * Gets as pushedPotentialLaborItemAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPushedPotentialLaborItemAttributesType
     }
 
     /**
-     * Sets a new pushedPotentialLaborItemAttributes.
+     * Sets a new pushedPotentialLaborItemAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[] $pushedPotentialLaborItemAttributes
-     *
      * @return self
      */
     public function setPushedPotentialLaborItemAttributes(array $pushedPotentialLaborItemAttributes)
     {
         $this->pushedPotentialLaborItemAttributes = $pushedPotentialLaborItemAttributes;
-
         return $this;
     }
+
+
 }
+

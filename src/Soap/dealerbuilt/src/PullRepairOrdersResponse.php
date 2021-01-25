@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullRepairOrdersResponse.
+ * Class representing PullRepairOrdersResponse
  */
 class PullRepairOrdersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType[] $pullRepairOrdersResult
      */
     private $pullRepairOrdersResult = null;
 
     /**
-     * Adds as repairOrder.
+     * Adds as repairOrder
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $repairOrder
      */
-    public function addToPullRepairOrdersResult(BaseApi\RepairOrderType $repairOrder)
+    public function addToPullRepairOrdersResult(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $repairOrder)
     {
         $this->pullRepairOrdersResult[] = $repairOrder;
-
         return $this;
     }
 
     /**
-     * isset pullRepairOrdersResult.
+     * isset pullRepairOrdersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullRepairOrdersResult($index)
@@ -39,10 +37,9 @@ class PullRepairOrdersResponse
     }
 
     /**
-     * unset pullRepairOrdersResult.
+     * unset pullRepairOrdersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullRepairOrdersResult($index)
@@ -51,7 +48,7 @@ class PullRepairOrdersResponse
     }
 
     /**
-     * Gets as pullRepairOrdersResult.
+     * Gets as pullRepairOrdersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType[]
      */
@@ -61,16 +58,17 @@ class PullRepairOrdersResponse
     }
 
     /**
-     * Sets a new pullRepairOrdersResult.
+     * Sets a new pullRepairOrdersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType[] $pullRepairOrdersResult
-     *
      * @return self
      */
     public function setPullRepairOrdersResult(array $pullRepairOrdersResult)
     {
         $this->pullRepairOrdersResult = $pullRepairOrdersResult;
-
         return $this;
     }
+
+
 }
+

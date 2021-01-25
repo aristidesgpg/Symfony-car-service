@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing MnCodeDetailType.
+ * Class representing MnCodeDetailType
  *
+ * 
  * XSD Type: MnCodeDetail
  */
 class MnCodeDetailType
 {
+
     /**
-     * @var string
+     * @var string $code
      */
     private $code = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * Gets as code.
+     * Gets as code
      *
      * @return string
      */
@@ -30,21 +32,19 @@ class MnCodeDetailType
     }
 
     /**
-     * Sets a new code.
+     * Sets a new code
      *
      * @param string $code
-     *
      * @return self
      */
     public function setCode($code)
     {
         $this->code = $code;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class MnCodeDetailType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
+
+
 }
+

@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing FactoryAccountNumbersType.
+ * Class representing FactoryAccountNumbersType
  *
+ * 
  * XSD Type: FactoryAccountNumbersType
  */
 class FactoryAccountNumbersType
 {
+
     /**
-     * @var string
+     * @var string $factory
      */
     private $factory = null;
 
     /**
-     * @var string[]
+     * @var string[] $factoryAccountNumbers
      */
     private $factoryAccountNumbers = null;
 
     /**
-     * Gets as factory.
+     * Gets as factory
      *
      * @return string
      */
@@ -30,38 +32,33 @@ class FactoryAccountNumbersType
     }
 
     /**
-     * Sets a new factory.
+     * Sets a new factory
      *
      * @param string $factory
-     *
      * @return self
      */
     public function setFactory($factory)
     {
         $this->factory = $factory;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToFactoryAccountNumbers($string)
     {
         $this->factoryAccountNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset factoryAccountNumbers.
+     * isset factoryAccountNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetFactoryAccountNumbers($index)
@@ -70,10 +67,9 @@ class FactoryAccountNumbersType
     }
 
     /**
-     * unset factoryAccountNumbers.
+     * unset factoryAccountNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetFactoryAccountNumbers($index)
@@ -82,7 +78,7 @@ class FactoryAccountNumbersType
     }
 
     /**
-     * Gets as factoryAccountNumbers.
+     * Gets as factoryAccountNumbers
      *
      * @return string[]
      */
@@ -92,16 +88,17 @@ class FactoryAccountNumbersType
     }
 
     /**
-     * Sets a new factoryAccountNumbers.
+     * Sets a new factoryAccountNumbers
      *
      * @param string[] $factoryAccountNumbers
-     *
      * @return self
      */
     public function setFactoryAccountNumbers(array $factoryAccountNumbers)
     {
         $this->factoryAccountNumbers = $factoryAccountNumbers;
-
         return $this;
     }
+
+
 }
+
