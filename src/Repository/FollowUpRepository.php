@@ -53,8 +53,8 @@ class FollowUpRepository extends ServiceEntityRepository
      * 
      * @return FollowUp[] Returns array of FolloUp ojbects
      */
-    public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date_crated', $sortDirection = 'DESC', $searchField = null, $searchTerm = null ){
-        if($end === null) {
+    public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date_crated', $sortDirection = 'DESC', $searchTerm = null, $columns = [] ){
+        if(is_null($end)) {
             $end   = new \DateTime();
         } else{
             $end   = new \DateTime($end);
@@ -72,12 +72,20 @@ class FollowUpRepository extends ServiceEntityRepository
                    ->setParameter('start', $start->format('Y-m-d H:i'))
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             } else{
-                $qb->andWhere('fu.dateCreated < :end OR fu.dateSent < :end OR fu.dateViewed < :end OR fu.dateConverted < :end OR')
+                $qb->andWhere('fu.dateCreated < :end OR fu.dateSent < :end OR fu.dateViewed < :end OR fu.dateConverted < :end')
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
             if($searchTerm)
             {
-                $qb->andWhere('fu.'.$searchField.' LIKE :searchTerm')
+                $query = "";
+
+                foreach($columns as $column){
+                    if($query){
+                        $query .= " OR ";
+                    }
+                    $query .='fu.'.$column.' LIKE :searchTerm';
+                }
+                $qb->andWhere($query)
                    ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 

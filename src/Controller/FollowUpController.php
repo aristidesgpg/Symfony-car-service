@@ -76,12 +76,6 @@ class FollowUpController extends AbstractFOSRestController {
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
-     *  @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
@@ -128,7 +122,6 @@ class FollowUpController extends AbstractFOSRestController {
         $urlParameters = [];
         $sortField     = "";
         $sortDirection = "";
-        $searchField   = "";
         $searchTerm    = "";      
         $errors        = [];              
     
@@ -154,17 +147,10 @@ class FollowUpController extends AbstractFOSRestController {
 
         }
 
-        if($request->query->has('searchField') && $request->query->has('searchTerm'))
+        if($request->query->has('searchTerm'))
         {
-            $searchField                    = $request->query->get('searchField');
-            
-            //check if the searchfield exist
-            if(!in_array($searchField, $columns))
-                $errors['searchField']      = 'Invalid search field name';
-
             $searchTerm                     = $request->query->get('searchTerm');
 
-            $urlParameters['searchField']   = $searchField;
             $urlParameters['searchTerm']    = $searchTerm;
         }
 
@@ -172,11 +158,11 @@ class FollowUpController extends AbstractFOSRestController {
             return new ValidationResponse($errors);
         }
 
-        $followUpQuery = $followUpRepository->getAllItems($startDate, $endDate, $status,  $sortField, $sortDirection, $searchField, $searchTerm);
+        $followUpQuery = $followUpRepository->getAllItems($startDate, $endDate, $status,  $sortField, $sortDirection, $searchTerm, $columns);
         $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $pager        = $paginator->paginate($followUpQuery, $page, $pageLimit);
         $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
-
+        
         $json = [
             'followUps'    => $pager->getItems(),
             'totalResults' => $pagination->totalResults,

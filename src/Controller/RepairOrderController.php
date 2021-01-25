@@ -489,12 +489,14 @@ class RepairOrderController extends AbstractFOSRestController
 
         //if myReviewActivated is true, proceed with review action
         $isMyReviewActivated = $settingsHelper->getSetting('myReviewActivated');
-        if ($isMyReviewActivated) {
+        if ($isMyReviewActivated) 
+        {
             $user = $this->getUser();
             $myReviewHelper->new($ro, $user);
         }
 
-        if( ($ro->getQuoteStatus() === 'Completed') || ($ro->getQuoteStatus() === 'Confirmed') ){
+        if( ($ro->getQuoteStatus() === 'Complete') || ($ro->getQuoteStatus() === 'Confirmed') )
+        {
             $recommendations = $ro->getRepairOrderQuote()->getRepairOrderQuoteRecommendations();
             if($recommendations){
                 $flag = false;

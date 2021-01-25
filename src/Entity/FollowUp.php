@@ -13,7 +13,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class FollowUp
 {
-    public const GROUPS = ['fu_list', 'ro_list', 'fui_list'];
+    public const GROUPS = ['fu_list', 'ro_list', 'fui_list','customer_list', 'user_list', 'roq_list', 'rot_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
