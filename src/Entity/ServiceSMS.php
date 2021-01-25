@@ -65,6 +65,16 @@ class ServiceSMS
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $sid;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $sent;
+
     public function __construct()
     {
         $this->date = new DateTime();
@@ -155,6 +165,30 @@ class ServiceSMS
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getSid(): ?string
+    {
+        return $this->sid;
+    }
+
+    public function setSid(string $sid): self
+    {
+        $this->sid = $sid;
+
+        return $this;
+    }
+
+    public function getSent(): ?bool
+    {
+        return $this->sent;
+    }
+
+    public function setSent(bool $sent): self
+    {
+        $this->sent = $sent;
 
         return $this;
     }
