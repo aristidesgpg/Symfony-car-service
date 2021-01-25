@@ -5,7 +5,7 @@ namespace App\Tests;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class CustomerControllerTest extends WebTestCase
+class MPIControllerTest extends WebTestCase
 {
     private $client = null;
 
@@ -26,7 +26,7 @@ class CustomerControllerTest extends WebTestCase
         $this->token = $authData->token;
     }
 
-    public function testGetAll() {
+    public function testGetTemplates() {
         // Get all, Ok
         $this->requestAction('GET');
 
@@ -46,67 +46,39 @@ class CustomerControllerTest extends WebTestCase
 
         // sortField, sortDirection, searchField, searchTerm
         $params = [
-            'page' => 1,
-            'pageLimit' => 25,
-            'sortField' => ['phone', 'emai'],
+            'page'          => 1,
+            'pageLimit'     => 25,
+            'sortField'     => 'emal',
             'sortDirection' => 'ASC',
-            'searchField' => ['name', 'emai'],
-            'searchTerm' => 'Prof'
+            'searchField'   => 'name',
+            'searchTerm'    => 'Prof'
         ];
         $this->requestAction('GET', '', $params);
         $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testGetCustomer() {
-        // Not found
-        $this->requestAction('GET', '/{9999999999999999}');
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-
+    public function testGetTemplate() {
         // Ok
         $id = 1;
         $this->requestAction('GET', '/'.$id);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertGreaterThanOrEqual($id, $response->id);
+
+        // Not found
+        $this->requestAction('GET', '/{9999999999999999}');
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testAddCustomer() {
+    public function testCreateTemplate() {
         // Ok
+        $name = 'MPI Template Name';
+        $axleInfo = "[{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6},{'wheels':4,'brakesRangeMaximum':12,'tireRangeMaximum':12},{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6}]";
         $params = [
-            'name' => 'Name Tester',
-            'phone' => '8623084956',
-            'email' => 'emails@gmail.com',
-            'doNotContact' => true,
-            'skipMobileVerification' => true
+            'name'     => $name,
+            'axleInfo' => $axleInfo
         ];
         $this->requestAction('POST', '', $params);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals('Name Tester', $response->name);
-
-        // Validate parameters
-        $params = [
-            'name' => 'Name Tester',
-            'email' => '',
-            'doNotContact' => false,
-            'skipMobileVerification' => true
-        ];
-
-        $this->requestAction('POST', '', $params);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
-    }
-
-    public function testUpdateCustomer() {
-        // Ok
-        $name = 'Updater Name';
-        $params = [
-            'name' => $name,
-            'phone' => '8623064956',
-            'email' => 'updatedemail@gmail.com',
-            'doNotContact' => false,
-            'skipMobileVerification' => false
-        ];
-        $this->requestAction('PUT', '/1', $params);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals($name, $response->name);
@@ -114,30 +86,49 @@ class CustomerControllerTest extends WebTestCase
         // Validate parameters
         $params = [
             'name' => $name,
-            'phone' => '',
-            'email' => 'updatedemail@gmail.com',
-            'doNotContact' => false,
-            'skipMobileVerification' => false
         ];
-        $this->requestAction('PUT', '/1', $params);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+
+        $this->requestAction('POST', '', $params);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testDeleteCustomer() {
+    public function testEditTemplate() {
+        // Ok
+        $name = 'MPI template name for update';
+        $params = [
+            'name' => $name
+        ];
+        $this->requestAction('PUT', '/1', $params);
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($this->client->getResponse()->getContent());
+        $this->assertEquals($name, $response->name);
+
+        // Require parameters
+        $this->requestAction('PUT', '/1');
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testDeactivateTemplate() {
+        // Ok
+        $this->requestAction('PUT', '/de-activate/1');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testReactivateTemplate() {
+        // Ok
+        $this->requestAction('PUT', '/re-activate/1');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testDeleteTemplate() {
         // Ok
         $id = 1;
         $this->requestAction('DELETE', '/'.$id);
         $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals($id, $response->id);
-
-        // Not found
-        $this->requestAction('DELETE', '/9999999999999999999999999');
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     private function requestAction($method, $endpoint='', $params=[]) {
-        $apiUrl = '/api/customer' . $endpoint;
+        $apiUrl = '/api/mpi-template' . $endpoint;
         $crawler = $this->client->request($method, $apiUrl, $params, [], [
             'HTTP_Authorization' => 'Bearer '.$this->token,
             'HTTP_CONTENT_TYPE'  => 'application/json',
