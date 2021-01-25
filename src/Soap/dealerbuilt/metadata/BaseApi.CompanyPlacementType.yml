@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\BaseApi\CompanyPlacementType:
+    properties:
+        companyId:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCompanyId
+                setter: setCompanyId
+            type: int
+        companyName:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCompanyName
+                setter: setCompanyName
+            type: string

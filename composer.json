@@ -36,7 +36,9 @@
     "symfony/yaml": "4.4.*",
     "twilio/sdk": "^6.10",
     "ext-simplexml": "*",
-    "ext-libxml": "*"
+    "ext-libxml": "*",
+    "ext-soap": "*",
+    "goetas-webservices/xsd2php-runtime": "^0.2.2"
   },
   "require-dev": {
     "doctrine/doctrine-fixtures-bundle": "^3.3",

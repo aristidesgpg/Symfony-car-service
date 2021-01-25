@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPotentialLaborItemPushRequestType:
+    properties:
+        potentialLaborItemPushRequest:
+            -
+                Valid: null

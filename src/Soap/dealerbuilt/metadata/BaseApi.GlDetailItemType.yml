@@ -1,0 +1,117 @@
+App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
+    properties:
+        account:
+            expose: true
+            access_type: public_method
+            serialized_name: Account
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccount
+                setter: setAccount
+            type: string
+        accountClass:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountClass
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccountClass
+                setter: setAccountClass
+            type: string
+        accountDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccountDescription
+                setter: setAccountDescription
+            type: string
+        accountDescriptionAbbreviated:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountDescriptionAbbreviated
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccountDescriptionAbbreviated
+                setter: setAccountDescriptionAbbreviated
+            type: string
+        balanceForward:
+            expose: true
+            access_type: public_method
+            serialized_name: BalanceForward
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getBalanceForward
+                setter: setBalanceForward
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        lines:
+            expose: true
+            access_type: public_method
+            serialized_name: Lines
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLines
+                setter: setLines
+            type: array<App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType>
+            xml_list:
+                inline: false
+                entry_name: GlDetailLine
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+        totalCredits:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalCredits
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getTotalCredits
+                setter: setTotalCredits
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        totalDebits:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalDebits
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getTotalDebits
+                setter: setTotalDebits
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        totalMonthToDate:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalMonthToDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getTotalMonthToDate
+                setter: setTotalMonthToDate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        totalUnitCount:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalUnitCount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getTotalUnitCount
+                setter: setTotalUnitCount
+            type: int
+        totalYearToDate:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalYearToDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getTotalYearToDate
+                setter: setTotalYearToDate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

@@ -1,0 +1,82 @@
+App\Soap\dealerbuilt\src\BaseApi\InventorySearchCriteriaType:
+    properties:
+        availability:
+            expose: true
+            access_type: public_method
+            serialized_name: Availability
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAvailability
+                setter: setAvailability
+            type: App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType
+        maxDateReceived:
+            expose: true
+            access_type: public_method
+            serialized_name: MaxDateReceived
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMaxDateReceived
+                setter: setMaxDateReceived
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        maxDateSold:
+            expose: true
+            access_type: public_method
+            serialized_name: MaxDateSold
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMaxDateSold
+                setter: setMaxDateSold
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minDateReceived:
+            expose: true
+            access_type: public_method
+            serialized_name: MinDateReceived
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMinDateReceived
+                setter: setMinDateReceived
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minDateSold:
+            expose: true
+            access_type: public_method
+            serialized_name: MinDateSold
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMinDateSold
+                setter: setMinDateSold
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        partialMake:
+            expose: true
+            access_type: public_method
+            serialized_name: PartialMake
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPartialMake
+                setter: setPartialMake
+            type: string
+        partialModel:
+            expose: true
+            access_type: public_method
+            serialized_name: PartialModel
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPartialModel
+                setter: setPartialModel
+            type: string
+        year:
+            expose: true
+            access_type: public_method
+            serialized_name: Year
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getYear
+                setter: setYear
+            type: int

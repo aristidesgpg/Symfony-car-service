@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\BaseApi\InventoryPartType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType
+        partKey:
+            expose: true
+            access_type: public_method
+            serialized_name: PartKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPartKey
+                setter: setPartKey
+            type: string

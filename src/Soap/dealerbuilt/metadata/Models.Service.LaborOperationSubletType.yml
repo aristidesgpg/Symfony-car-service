@@ -1,0 +1,52 @@
+App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType:
+    properties:
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: Cost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        invoiceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: InvoiceNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getInvoiceNumber
+                setter: setInvoiceNumber
+            type: string
+        salePrice:
+            expose: true
+            access_type: public_method
+            serialized_name: SalePrice
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getSalePrice
+                setter: setSalePrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        tax:
+            expose: true
+            access_type: public_method
+            serialized_name: Tax
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getTax
+                setter: setTax
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\CloseRepairOrderPayTypeResponse:
+    properties:
+        closeRepairOrderPayTypeResult:
+            -
+                Valid: null

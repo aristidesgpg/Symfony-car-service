@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfOemServiceProfileType:
+    properties:
+        oemServiceProfile:
+            -
+                Valid: null

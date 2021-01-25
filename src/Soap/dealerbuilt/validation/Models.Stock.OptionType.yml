@@ -1,0 +1,18 @@
+App\Soap\dealerbuilt\src\Models\Stock\OptionType:
+    properties:
+        cost:
+            -
+                Valid: null
+        listPrice:
+            -
+                Valid: null
+        optionType:
+            -
+                Choice:
+                    choices:
+                        - Dealer
+                        - Option
+                        - Accessory
+                        - OptionGroup
+                    groups:
+                        - xsd_rules

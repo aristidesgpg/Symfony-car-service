@@ -1,0 +1,192 @@
+App\Soap\dealerbuilt\src\Models\Sales\ServiceProductType:
+    properties:
+        contractNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ContractNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getContractNumber
+                setter: setContractNumber
+            type: string
+        contractStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: ContractStatus
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getContractStatus
+                setter: setContractStatus
+            type: int
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: Cost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        coverageMiles:
+            expose: true
+            access_type: public_method
+            serialized_name: CoverageMiles
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getCoverageMiles
+                setter: setCoverageMiles
+            type: string
+        coverageMilesUnlimited:
+            expose: true
+            access_type: public_method
+            serialized_name: CoverageMilesUnlimited
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getCoverageMilesUnlimited
+                setter: setCoverageMilesUnlimited
+            type: int
+        coverageMonth:
+            expose: true
+            access_type: public_method
+            serialized_name: CoverageMonth
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getCoverageMonth
+                setter: setCoverageMonth
+            type: int
+        coverageMonthsUnlimited:
+            expose: true
+            access_type: public_method
+            serialized_name: CoverageMonthsUnlimited
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getCoverageMonthsUnlimited
+                setter: setCoverageMonthsUnlimited
+            type: int
+        deductible:
+            expose: true
+            access_type: public_method
+            serialized_name: Deductible
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getDeductible
+                setter: setDeductible
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        expireDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ExpireDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getExpireDate
+                setter: setExpireDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        expireMiles:
+            expose: true
+            access_type: public_method
+            serialized_name: ExpireMiles
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getExpireMiles
+                setter: setExpireMiles
+            type: string
+        factoryDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryDesc
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFactoryDesc
+                setter: setFactoryDesc
+            type: string
+        inserviceDate:
+            expose: true
+            access_type: public_method
+            serialized_name: InserviceDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getInserviceDate
+                setter: setInserviceDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        inserviceMiles:
+            expose: true
+            access_type: public_method
+            serialized_name: InserviceMiles
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getInserviceMiles
+                setter: setInserviceMiles
+            type: string
+        memo:
+            expose: true
+            access_type: public_method
+            serialized_name: Memo
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getMemo
+                setter: setMemo
+            type: string
+        providerCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ProviderCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getProviderCode
+                setter: setProviderCode
+            type: string
+        retail:
+            expose: true
+            access_type: public_method
+            serialized_name: Retail
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getRetail
+                setter: setRetail
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        saleDate:
+            expose: true
+            access_type: public_method
+            serialized_name: SaleDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getSaleDate
+                setter: setSaleDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        transferCost:
+            expose: true
+            access_type: public_method
+            serialized_name: TransferCost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTransferCost
+                setter: setTransferCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

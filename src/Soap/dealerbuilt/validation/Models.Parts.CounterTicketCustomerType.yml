@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType:
+    properties:
+        billingAddress:
+            -
+                Valid: null

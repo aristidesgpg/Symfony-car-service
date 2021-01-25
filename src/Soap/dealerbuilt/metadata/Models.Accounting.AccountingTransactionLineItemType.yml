@@ -1,0 +1,182 @@
+App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType:
+    properties:
+        account:
+            expose: true
+            access_type: public_method
+            serialized_name: Account
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getAccount
+                setter: setAccount
+            type: string
+        accountingDate:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getAccountingDate
+                setter: setAccountingDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        claimGasIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: ClaimGasIndicator
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getClaimGasIndicator
+                setter: setClaimGasIndicator
+            type: bool
+        claimType:
+            expose: true
+            access_type: public_method
+            serialized_name: ClaimType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getClaimType
+                setter: setClaimType
+            type: string
+        company:
+            expose: true
+            access_type: public_method
+            serialized_name: Company
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getCompany
+                setter: setCompany
+            type: int
+        control:
+            expose: true
+            access_type: public_method
+            serialized_name: Control
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getControl
+                setter: setControl
+            type: string
+        control2:
+            expose: true
+            access_type: public_method
+            serialized_name: Control2
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getControl2
+                setter: setControl2
+            type: string
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        gLVouch:
+            expose: true
+            access_type: public_method
+            serialized_name: GLVouch
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getGLVouch
+                setter: setGLVouch
+            type: string
+        groupUnique:
+            expose: true
+            access_type: public_method
+            serialized_name: GroupUnique
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getGroupUnique
+                setter: setGroupUnique
+            type: string
+        journal:
+            expose: true
+            access_type: public_method
+            serialized_name: Journal
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getJournal
+                setter: setJournal
+            type: string
+        lineNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: LineNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getLineNumber
+                setter: setLineNumber
+            type: int
+        period:
+            expose: true
+            access_type: public_method
+            serialized_name: Period
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getPeriod
+                setter: setPeriod
+            type: int
+        reference:
+            expose: true
+            access_type: public_method
+            serialized_name: Reference
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getReference
+                setter: setReference
+            type: string
+        scheduleCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ScheduleCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getScheduleCode
+                setter: setScheduleCode
+            type: string
+        unitCount:
+            expose: true
+            access_type: public_method
+            serialized_name: UnitCount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getUnitCount
+                setter: setUnitCount
+            type: int
+        vIN:
+            expose: true
+            access_type: public_method
+            serialized_name: VIN
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getVIN
+                setter: setVIN
+            type: string

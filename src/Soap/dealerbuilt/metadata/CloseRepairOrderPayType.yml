@@ -1,0 +1,24 @@
+App\Soap\dealerbuilt\src\CloseRepairOrderPayType:
+    xml_root_name: CloseRepairOrderPayType
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        repairOrderKey:
+            expose: true
+            access_type: public_method
+            serialized_name: repairOrderKey
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getRepairOrderKey
+                setter: setRepairOrderKey
+            type: string
+        payType:
+            expose: true
+            access_type: public_method
+            serialized_name: payType
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPayType
+                setter: setPayType
+            type: string

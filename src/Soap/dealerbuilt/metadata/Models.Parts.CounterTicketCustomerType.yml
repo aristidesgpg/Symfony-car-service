@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType:
+    properties:
+        billingAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: BillingAddress
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getBillingAddress
+                setter: setBillingAddress
+            type: App\Soap\dealerbuilt\src\Models\Parts\AddressType
+        homePhone:
+            expose: true
+            access_type: public_method
+            serialized_name: HomePhone
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getHomePhone
+                setter: setHomePhone
+            type: string
+        otherPhone:
+            expose: true
+            access_type: public_method
+            serialized_name: OtherPhone
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getOtherPhone
+                setter: setOtherPhone
+            type: string
+        workPhone:
+            expose: true
+            access_type: public_method
+            serialized_name: WorkPhone
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getWorkPhone
+                setter: setWorkPhone
+            type: string

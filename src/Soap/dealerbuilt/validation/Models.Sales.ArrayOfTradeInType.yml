@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfTradeInType:
+    properties:
+        tradeIn:
+            -
+                Valid: null

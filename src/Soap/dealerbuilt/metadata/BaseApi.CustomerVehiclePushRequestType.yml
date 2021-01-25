@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        externalVehicleId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalVehicleId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getExternalVehicleId
+                setter: setExternalVehicleId
+            type: string
+        pushMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: PushMethod
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPushMethod
+                setter: setPushMethod
+            type: string
+        sourceId:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSourceId
+                setter: setSourceId
+            type: int
+        userStoreId:
+            expose: true
+            access_type: public_method
+            serialized_name: UserStoreId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getUserStoreId
+                setter: setUserStoreId
+            type: int
+        vehicleKey:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVehicleKey
+                setter: setVehicleKey
+            type: string

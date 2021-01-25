@@ -1,0 +1,162 @@
+App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType:
+    properties:
+        allowsEmailContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowsEmailContact
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getAllowsEmailContact
+                setter: setAllowsEmailContact
+            type: bool
+        allowsMailContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowsMailContact
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getAllowsMailContact
+                setter: setAllowsMailContact
+            type: bool
+        allowsPhoneContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowsPhoneContact
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getAllowsPhoneContact
+                setter: setAllowsPhoneContact
+            type: bool
+        allowsSmsContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowsSmsContact
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getAllowsSmsContact
+                setter: setAllowsSmsContact
+            type: bool
+        comments:
+            expose: true
+            access_type: public_method
+            serialized_name: Comments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getComments
+                setter: setComments
+            type: string
+        customerNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getCustomerNumber
+                setter: setCustomerNumber
+            type: string
+        customerType:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getCustomerType
+                setter: setCustomerType
+            type: string
+        driverLicenseNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: DriverLicenseNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getDriverLicenseNumber
+                setter: setDriverLicenseNumber
+            type: string
+        driverLicenseState:
+            expose: true
+            access_type: public_method
+            serialized_name: DriverLicenseState
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getDriverLicenseState
+                setter: setDriverLicenseState
+            type: string
+        identity:
+            expose: true
+            access_type: public_method
+            serialized_name: Identity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getIdentity
+                setter: setIdentity
+            type: App\Soap\dealerbuilt\src\Models\IdentityProfileType
+        isDealerToDealer:
+            expose: true
+            access_type: public_method
+            serialized_name: IsDealerToDealer
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getIsDealerToDealer
+                setter: setIsDealerToDealer
+            type: bool
+        isMarried:
+            expose: true
+            access_type: public_method
+            serialized_name: IsMarried
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getIsMarried
+                setter: setIsMarried
+            type: bool
+        isWholesale:
+            expose: true
+            access_type: public_method
+            serialized_name: IsWholesale
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getIsWholesale
+                setter: setIsWholesale
+            type: bool
+        lastContactDate:
+            expose: true
+            access_type: public_method
+            serialized_name: LastContactDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getLastContactDate
+                setter: setLastContactDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        modifiedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getModifiedStamp
+                setter: setModifiedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        spouseName:
+            expose: true
+            access_type: public_method
+            serialized_name: SpouseName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Customers'
+            accessor:
+                getter: getSpouseName
+                setter: setSpouseName
+            type: string

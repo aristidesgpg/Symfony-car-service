@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfCustomerPartType:
+    properties:
+        customerPart:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerPart
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerPart
+                setter: setCustomerPart
+            xml_list:
+                inline: true
+                entry_name: CustomerPart
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\CustomerPartType>

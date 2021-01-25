@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfStockItemPushRequestV2Type:
+    properties:
+        stockItemPushRequestV2:
+            expose: true
+            access_type: public_method
+            serialized_name: StockItemPushRequestV2
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getStockItemPushRequestV2
+                setter: setStockItemPushRequestV2
+            xml_list:
+                inline: true
+                entry_name: StockItemPushRequestV2
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type>

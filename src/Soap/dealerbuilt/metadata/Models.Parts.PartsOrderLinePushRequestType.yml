@@ -1,0 +1,192 @@
+App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
+    properties:
+        bin:
+            expose: true
+            access_type: public_method
+            serialized_name: Bin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getBin
+                setter: setBin
+            type: string
+        counterTicketId:
+            expose: true
+            access_type: public_method
+            serialized_name: CounterTicketId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCounterTicketId
+                setter: setCounterTicketId
+            type: int
+        dealerPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerPrice
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getDealerPrice
+                setter: setDealerPrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        externalManufacturerPartsOrderId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalManufacturerPartsOrderId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getExternalManufacturerPartsOrderId
+                setter: setExternalManufacturerPartsOrderId
+            type: string
+        externalPartsOrderId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalPartsOrderId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getExternalPartsOrderId
+                setter: setExternalPartsOrderId
+            type: string
+        externalPartsOrderLineId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalPartsOrderLineId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getExternalPartsOrderLineId
+                setter: setExternalPartsOrderLineId
+            type: string
+        kitPartNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: KitPartNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getKitPartNumber
+                setter: setKitPartNumber
+            type: string
+        lineSequence:
+            expose: true
+            access_type: public_method
+            serialized_name: LineSequence
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getLineSequence
+                setter: setLineSequence
+            type: int
+        partDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: PartDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPartDescription
+                setter: setPartDescription
+            type: string
+        partNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PartNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPartNumber
+                setter: setPartNumber
+            type: string
+        quantityBackordered:
+            expose: true
+            access_type: public_method
+            serialized_name: QuantityBackordered
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getQuantityBackordered
+                setter: setQuantityBackordered
+            type: float
+        quantityOrdered:
+            expose: true
+            access_type: public_method
+            serialized_name: QuantityOrdered
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getQuantityOrdered
+                setter: setQuantityOrdered
+            type: float
+        quantityShipped:
+            expose: true
+            access_type: public_method
+            serialized_name: QuantityShipped
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getQuantityShipped
+                setter: setQuantityShipped
+            type: float
+        repairOrderId:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getRepairOrderId
+                setter: setRepairOrderId
+            type: int
+        repairOrderJobNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderJobNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getRepairOrderJobNumber
+                setter: setRepairOrderJobNumber
+            type: int
+        shippedPartNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ShippedPartNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getShippedPartNumber
+                setter: setShippedPartNumber
+            type: string
+        shipperNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ShipperNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getShipperNumber
+                setter: setShipperNumber
+            type: string
+        source:
+            expose: true
+            access_type: public_method
+            serialized_name: Source
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getSource
+                setter: setSource
+            type: string
+        vendor:
+            expose: true
+            access_type: public_method
+            serialized_name: Vendor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getVendor
+                setter: setVendor
+            type: string

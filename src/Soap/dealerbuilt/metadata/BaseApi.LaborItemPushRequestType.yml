@@ -1,0 +1,52 @@
+App\Soap\dealerbuilt\src\BaseApi\LaborItemPushRequestType:
+    properties:
+        jobNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: JobNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getJobNumber
+                setter: setJobNumber
+            type: int
+        laborItem:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborItem
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLaborItem
+                setter: setLaborItem
+            type: App\Soap\dealerbuilt\src\BaseApi\PushedLaborItemType
+        laborItemKey:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborItemKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLaborItemKey
+                setter: setLaborItemKey
+            type: string
+        repairOrderKey:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getRepairOrderKey
+                setter: setRepairOrderKey
+            type: string
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int

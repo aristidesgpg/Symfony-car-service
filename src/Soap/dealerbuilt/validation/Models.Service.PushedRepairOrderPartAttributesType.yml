@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderPartAttributesType:
+    properties:
+        lop:
+            -
+                GreaterThanOrEqual:
+                    value: '-32768'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '32767'
+                    groups:
+                        - xsd_rules
+        price:
+            -
+                Valid: null
+        serialNumbers:
+            -
+                Valid: null
+        taxAmount:
+            -
+                Valid: null

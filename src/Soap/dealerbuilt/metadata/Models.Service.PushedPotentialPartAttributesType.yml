@@ -1,0 +1,147 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType:
+    properties:
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: Cost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        externalPartId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalPartId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getExternalPartId
+                setter: setExternalPartId
+            type: string
+        isApproved:
+            expose: true
+            access_type: public_method
+            serialized_name: IsApproved
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getIsApproved
+                setter: setIsApproved
+            type: bool
+        isFailed:
+            expose: true
+            access_type: public_method
+            serialized_name: IsFailed
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getIsFailed
+                setter: setIsFailed
+            type: bool
+        laborOperationNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborOperationNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getLaborOperationNumber
+                setter: setLaborOperationNumber
+            type: int
+        modifiedBy:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedBy
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getModifiedBy
+                setter: setModifiedBy
+            type: string
+        partNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PartNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPartNumber
+                setter: setPartNumber
+            type: string
+        price:
+            expose: true
+            access_type: public_method
+            serialized_name: Price
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPrice
+                setter: setPrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        priceCategory:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceCategory
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPriceCategory
+                setter: setPriceCategory
+            type: string
+        quantity:
+            expose: true
+            access_type: public_method
+            serialized_name: Quantity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getQuantity
+                setter: setQuantity
+            type: float
+        serialNumbers:
+            expose: true
+            access_type: public_method
+            serialized_name: SerialNumbers
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getSerialNumbers
+                setter: setSerialNumbers
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+        taxAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getTaxAmount
+                setter: setTaxAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        vendor:
+            expose: true
+            access_type: public_method
+            serialized_name: Vendor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getVendor
+                setter: setVendor
+            type: string

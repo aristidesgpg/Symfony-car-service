@@ -108,6 +108,9 @@
     "exsyst/swagger": {
         "version": "v0.4.1"
     },
+    "friendsofphp/proxy-manager-lts": {
+        "version": "v1.0.1"
+    },
     "friendsofsymfony/rest-bundle": {
         "version": "2.2",
         "recipe": {
@@ -125,6 +128,9 @@
     },
     "gedmo/doctrine-extensions": {
         "version": "v3.0.0"
+    },
+    "goetas-webservices/xsd2php-runtime": {
+        "version": "v0.2.13"
     },
     "guzzlehttp/guzzle": {
         "version": "6.5.5"
@@ -281,6 +287,9 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "1.4.0"
+    },
+    "phpstan/phpdoc-parser": {
+        "version": "0.4.10"
     },
     "psr/cache": {
         "version": "1.0.1"

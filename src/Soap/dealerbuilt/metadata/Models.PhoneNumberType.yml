@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\Models\PhoneNumberType:
+    properties:
+        digits:
+            expose: true
+            access_type: public_method
+            serialized_name: Digits
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getDigits
+                setter: setDigits
+            type: string
+        numberType:
+            expose: true
+            access_type: public_method
+            serialized_name: NumberType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getNumberType
+                setter: setNumberType
+            type: string

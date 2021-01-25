@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PushDeferredLaborOperationSublets:
+    xml_root_name: PushDeferredLaborOperationSublets
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        requests:
+            expose: true
+            access_type: public_method
+            serialized_name: requests
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getRequests
+                setter: setRequests
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType>
+            xml_list:
+                inline: false
+                entry_name: PotentialLaborOperationSubletPushRequest
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfPushedPotentialLaborOperationSubletAttributesType:
+    properties:
+        pushedPotentialLaborOperationSubletAttributes:
+            expose: true
+            access_type: public_method
+            serialized_name: PushedPotentialLaborOperationSubletAttributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPushedPotentialLaborOperationSubletAttributes
+                setter: setPushedPotentialLaborOperationSubletAttributes
+            xml_list:
+                inline: true
+                entry_name: PushedPotentialLaborOperationSubletAttributes
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            type: array<App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborOperationSubletAttributesType>

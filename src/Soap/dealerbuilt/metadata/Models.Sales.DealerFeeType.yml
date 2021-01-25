@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType:
+    properties:
+        feeAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: FeeAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFeeAmount
+                setter: setFeeAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        feeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: FeeDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFeeDescription
+                setter: setFeeDescription
+            type: string
+        feeHandlingType:
+            expose: true
+            access_type: public_method
+            serialized_name: FeeHandlingType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFeeHandlingType
+                setter: setFeeHandlingType
+            type: string
+        feeType:
+            expose: true
+            access_type: public_method
+            serialized_name: FeeType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFeeType
+                setter: setFeeType
+            type: string

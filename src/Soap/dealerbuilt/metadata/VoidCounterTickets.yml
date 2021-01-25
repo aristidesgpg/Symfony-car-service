@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\VoidCounterTickets:
+    xml_root_name: VoidCounterTickets
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        voidCounterTicketRequests:
+            expose: true
+            access_type: public_method
+            serialized_name: voidCounterTicketRequests
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getVoidCounterTicketRequests
+                setter: setVoidCounterTicketRequests
+            type: array<App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType>
+            xml_list:
+                inline: false
+                entry_name: VoidCounterTicketApiRequest
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

@@ -1,0 +1,23 @@
+App\Soap\dealerbuilt\src\BaseApi\EnvironmentPlacementType:
+    properties:
+        environmentId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        environmentType:
+            -
+                Choice:
+                    choices:
+                        - Undefined
+                        - Production
+                        - Testing
+                        - Staging
+                    groups:
+                        - xsd_rules

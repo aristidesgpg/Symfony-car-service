@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ApiServiceLocationItemType:
+    properties:
+        placement:
+            -
+                Valid: null

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfStockItemPushRequestType:
+    properties:
+        stockItemPushRequest:
+            -
+                Valid: null

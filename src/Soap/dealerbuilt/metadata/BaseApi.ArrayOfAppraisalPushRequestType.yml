@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfAppraisalPushRequestType:
+    properties:
+        appraisalPushRequest:
+            expose: true
+            access_type: public_method
+            serialized_name: AppraisalPushRequest
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAppraisalPushRequest
+                setter: setAppraisalPushRequest
+            xml_list:
+                inline: true
+                entry_name: AppraisalPushRequest
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType>

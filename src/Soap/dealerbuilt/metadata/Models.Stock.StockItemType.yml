@@ -1,0 +1,92 @@
+App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
+        eventDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: EventDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getEventDescription
+                setter: setEventDescription
+            type: string
+        eventID:
+            expose: true
+            access_type: public_method
+            serialized_name: EventID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getEventID
+                setter: setEventID
+            type: string
+        locationID:
+            expose: true
+            access_type: public_method
+            serialized_name: LocationID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getLocationID
+                setter: setLocationID
+            type: string
+        locationName:
+            expose: true
+            access_type: public_method
+            serialized_name: LocationName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getLocationName
+                setter: setLocationName
+            type: string
+        optionCD:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionCD
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getOptionCD
+                setter: setOptionCD
+            type: string
+        optionDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionDesc
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getOptionDesc
+                setter: setOptionDesc
+            type: string
+        unitAttributes:
+            expose: true
+            access_type: public_method
+            serialized_name: UnitAttributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getUnitAttributes
+                setter: setUnitAttributes
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+        vehicleDealerOptionsDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleDealerOptionsDesc
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+            accessor:
+                getter: getVehicleDealerOptionsDesc
+                setter: setVehicleDealerOptionsDesc
+            type: string

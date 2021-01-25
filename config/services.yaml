@@ -47,5 +47,15 @@ services:
     arguments:
       - '%env(TWILIO_SID)%'
       - '%env(TWILIO_AUTH_TOKEN)%'
+
+  #service locators
+  _instanceof:
+    App\Service\DMS\DMSClientInterface:
+      tags:
+        - { name: "dms_clients" }
+
+  App\Service\DMS\DMS:
+    arguments: [ !tagged_locator { tag: 'dms_clients', default_index_method: 'getDefaultIndexName' } ]
+
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones

@@ -1,0 +1,152 @@
+App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
+    properties:
+        accountClass:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Asset
+                        - CostOfSales
+                        - Equity
+                        - Expense
+                        - Liabilities
+                        - OtherDeductions
+                        - OtherIncome
+                        - Sales
+                    groups:
+                        - xsd_rules
+        control1Type:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - StockNumber
+                        - Last8OfVin
+                        - Last6OfVin
+                        - CustomerId
+                        - AccountsReceivableCardControlNumber
+                        - AccountsPayableCardControlNumber
+                        - RepairOrderOrCounterTicketNumber
+                        - RepairOrderNumberAndJobNumber
+                        - RepairOrderNumberHyphenJobNumber
+                        - RepairOrderNumberAndJobLetter
+                        - RepairOrderNumberHyphenJobLetter
+                        - EmployeeId
+                        - RepairOrderTechnicianNumber
+                        - RepairOrderAdvisorNumber
+                        - AccountingLookupCode
+                        - UserDefined
+                        - SalesPerson1Control
+                        - SalesPerson2Control
+                        - FinanceManager1Control
+                        - FinanceManager2Control
+                        - SalesManagerControl
+                        - GeneralSalesManagerControl
+                        - LenderLookupCode
+                        - ServiceContractLookupControl
+                        - GapInsuranceLookupControl
+                        - CreditInsuranceLookupControl
+                        - CustomerName
+                        - SalesPersonNumber
+                        - SalesPersonLookupControl
+                        - ControlNumberInFinanceAndInsuranceLookupCodes
+                        - WarrantyRecordNumberRepairOrderNumber
+                        - ServiceContractRecordNumberRepairOrderNumber
+                        - AccountsReceivableInvoiceReferenceNumber
+                        - AccountsPayableInvoiceReferenceNumber
+                        - DealNumber
+                        - Other
+                    groups:
+                        - xsd_rules
+        control2Type:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - StockNumber
+                        - Last8OfVin
+                        - Last6OfVin
+                        - CustomerId
+                        - AccountsReceivableCardControlNumber
+                        - AccountsPayableCardControlNumber
+                        - RepairOrderOrCounterTicketNumber
+                        - RepairOrderNumberAndJobNumber
+                        - RepairOrderNumberHyphenJobNumber
+                        - RepairOrderNumberAndJobLetter
+                        - RepairOrderNumberHyphenJobLetter
+                        - EmployeeId
+                        - RepairOrderTechnicianNumber
+                        - RepairOrderAdvisorNumber
+                        - AccountingLookupCode
+                        - UserDefined
+                        - SalesPerson1Control
+                        - SalesPerson2Control
+                        - FinanceManager1Control
+                        - FinanceManager2Control
+                        - SalesManagerControl
+                        - GeneralSalesManagerControl
+                        - LenderLookupCode
+                        - ServiceContractLookupControl
+                        - GapInsuranceLookupControl
+                        - CreditInsuranceLookupControl
+                        - CustomerName
+                        - SalesPersonNumber
+                        - SalesPersonLookupControl
+                        - ControlNumberInFinanceAndInsuranceLookupCodes
+                        - WarrantyRecordNumberRepairOrderNumber
+                        - ServiceContractRecordNumberRepairOrderNumber
+                        - AccountsReceivableInvoiceReferenceNumber
+                        - AccountsPayableInvoiceReferenceNumber
+                        - DealNumber
+                        - Other
+                    groups:
+                        - xsd_rules
+        factoryAccountNumbers:
+            -
+                Valid: null
+        forwardType:
+            -
+                Choice:
+                    choices:
+                        - BalanceForward
+                        - DetailForward
+                    groups:
+                        - xsd_rules
+        scheduleClass:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - NoAccountId
+                        - AccountsReceivableAndLeaseReceivables
+                        - ContractsInTransit
+                        - CashAccounts
+                        - BankReserves
+                        - LeaseDepreciation
+                        - FloorPlan
+                        - Holdback
+                        - InventoryAccounts
+                        - LienPayoffs
+                        - LeaseAsset
+                        - OwedCustomersDueBills
+                        - AccountsPayable
+                        - LicenseFeesPayable
+                        - VehicleSalesTaxPayable
+                        - Sublets
+                        - VehicleAndRebateReceivables
+                        - Warranty
+                        - OtherScheduledAccounts
+                        - RetainedEarnings
+                    groups:
+                        - xsd_rules
+        scheduleType:
+            -
+                Choice:
+                    choices:
+                        - BalanceForward
+                        - DetailForward
+                    groups:
+                        - xsd_rules
+        spreadAccountNumbers:
+            -
+                Valid: null

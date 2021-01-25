@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Appointments\ArrayOfConcernType:
+    properties:
+        concern:
+            expose: true
+            access_type: public_method
+            serialized_name: Concern
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getConcern
+                setter: setConcern
+            xml_list:
+                inline: true
+                entry_name: Concern
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            type: array<App\Soap\dealerbuilt\src\Models\Appointments\ConcernType>

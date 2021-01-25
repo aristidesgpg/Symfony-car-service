@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfDropdownListDetailsType:
+    properties:
+        dropdownListDetails:
+            expose: true
+            access_type: public_method
+            serialized_name: DropdownListDetails
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDropdownListDetails
+                setter: setDropdownListDetails
+            xml_list:
+                inline: true
+                entry_name: DropdownListDetails
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType>

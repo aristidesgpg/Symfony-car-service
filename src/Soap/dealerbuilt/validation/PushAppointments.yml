@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushAppointments:
+    properties:
+        appointment:
+            -
+                Valid: null

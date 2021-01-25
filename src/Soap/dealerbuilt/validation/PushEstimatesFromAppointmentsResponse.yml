@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushEstimatesFromAppointmentsResponse:
+    properties:
+        pushEstimatesFromAppointmentsResult:
+            -
+                Valid: null

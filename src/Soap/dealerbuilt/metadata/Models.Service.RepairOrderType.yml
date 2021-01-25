@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType
+        references:
+            expose: true
+            access_type: public_method
+            serialized_name: References
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getReferences
+                setter: setReferences
+            type: App\Soap\dealerbuilt\src\Models\Service\RepairOrderReferencesType

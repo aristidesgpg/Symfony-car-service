@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetServicePersons:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

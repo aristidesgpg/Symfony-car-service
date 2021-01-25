@@ -1,0 +1,3 @@
+App\Soap\automate\src\ProcessEvent:
+    xml_root_name: 'ns-84f8d60d:processEvent'
+    xml_root_namespace: 'http://openmate.automate-webservices.com/'

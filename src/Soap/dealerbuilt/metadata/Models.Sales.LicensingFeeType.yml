@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\Models\Sales\LicensingFeeType:
+    xml_root_name: LicensingFeeType
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: string

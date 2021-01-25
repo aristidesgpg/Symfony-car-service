@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ApiStoreItemType:
+    properties:
+        placement:
+            -
+                Valid: null

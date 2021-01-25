@@ -1,0 +1,512 @@
+App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType:
+    properties:
+        actualWholesaleAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualWholesaleAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getActualWholesaleAmount
+                setter: setActualWholesaleAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        binLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: BinLocation
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getBinLocation
+                setter: setBinLocation
+            type: string
+        caseCartonNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CaseCartonNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCaseCartonNumber
+                setter: setCaseCartonNumber
+            type: string
+        comments:
+            expose: true
+            access_type: public_method
+            serialized_name: Comments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getComments
+                setter: setComments
+            type: string
+        conveyanceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ConveyanceNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getConveyanceNumber
+                setter: setConveyanceNumber
+            type: string
+        coreAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CoreAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCoreAmount
+                setter: setCoreAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        coreUnitAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CoreUnitAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCoreUnitAmount
+                setter: setCoreUnitAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        dealerDiscountAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerDiscountAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getDealerDiscountAmount
+                setter: setDealerDiscountAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        detailNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: DetailNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getDetailNotes
+                setter: setDetailNotes
+            type: string
+        discountPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: DiscountPercentage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getDiscountPercentage
+                setter: setDiscountPercentage
+            type: float
+        eTADate:
+            expose: true
+            access_type: public_method
+            serialized_name: ETADate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getETADate
+                setter: setETADate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        extendedAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ExtendedAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getExtendedAmount
+                setter: setExtendedAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        extendedCoreAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ExtendedCoreAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getExtendedCoreAmount
+                setter: setExtendedCoreAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        freightCharge:
+            expose: true
+            access_type: public_method
+            serialized_name: FreightCharge
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getFreightCharge
+                setter: setFreightCharge
+            type: float
+        grossDiscountAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: GrossDiscountAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getGrossDiscountAmount
+                setter: setGrossDiscountAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        hTSCode:
+            expose: true
+            access_type: public_method
+            serialized_name: HTSCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getHTSCode
+                setter: setHTSCode
+            type: string
+        headerNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: HeaderNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getHeaderNotes
+                setter: setHeaderNotes
+            type: string
+        linenumber:
+            expose: true
+            access_type: public_method
+            serialized_name: Linenumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getLinenumber
+                setter: setLinenumber
+            type: int
+        manufacturerOrderNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ManufacturerOrderNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getManufacturerOrderNumber
+                setter: setManufacturerOrderNumber
+            type: string
+        miscChargeTotal:
+            expose: true
+            access_type: public_method
+            serialized_name: MiscChargeTotal
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getMiscChargeTotal
+                setter: setMiscChargeTotal
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        miscDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: MiscDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getMiscDescription
+                setter: setMiscDescription
+            type: string
+        orderDate:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getOrderDate
+                setter: setOrderDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        orderReferenceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderReferenceNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getOrderReferenceNumber
+                setter: setOrderReferenceNumber
+            type: string
+        orderType:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getOrderType
+                setter: setOrderType
+            type: string
+        packQty:
+            expose: true
+            access_type: public_method
+            serialized_name: PackQty
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPackQty
+                setter: setPackQty
+            type: float
+        partClass:
+            expose: true
+            access_type: public_method
+            serialized_name: PartClass
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPartClass
+                setter: setPartClass
+            type: string
+        partKey:
+            expose: true
+            access_type: public_method
+            serialized_name: PartKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPartKey
+                setter: setPartKey
+            type: string
+        partName:
+            expose: true
+            access_type: public_method
+            serialized_name: PartName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPartName
+                setter: setPartName
+            type: string
+        partNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PartNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPartNumber
+                setter: setPartNumber
+            type: string
+        partsInvoiceItemNetAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsInvoiceItemNetAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPartsInvoiceItemNetAmount
+                setter: setPartsInvoiceItemNetAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        priceDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPriceDescription
+                setter: setPriceDescription
+            type: string
+        processCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ProcessCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getProcessCode
+                setter: setProcessCode
+            type: string
+        processDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ProcessDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getProcessDate
+                setter: setProcessDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        purchaseOrderNum:
+            expose: true
+            access_type: public_method
+            serialized_name: PurchaseOrderNum
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getPurchaseOrderNum
+                setter: setPurchaseOrderNum
+            type: string
+        quantityOrdered:
+            expose: true
+            access_type: public_method
+            serialized_name: QuantityOrdered
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getQuantityOrdered
+                setter: setQuantityOrdered
+            type: float
+        quantityShipped:
+            expose: true
+            access_type: public_method
+            serialized_name: QuantityShipped
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getQuantityShipped
+                setter: setQuantityShipped
+            type: float
+        retailAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: RetailAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getRetailAmount
+                setter: setRetailAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        saleType:
+            expose: true
+            access_type: public_method
+            serialized_name: SaleType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getSaleType
+                setter: setSaleType
+            type: string
+        shipmentNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ShipmentNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getShipmentNumber
+                setter: setShipmentNumber
+            type: string
+        shippingPDC:
+            expose: true
+            access_type: public_method
+            serialized_name: ShippingPDC
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getShippingPDC
+                setter: setShippingPDC
+            type: string
+        soldAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: SoldAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getSoldAmount
+                setter: setSoldAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        soldDate:
+            expose: true
+            access_type: public_method
+            serialized_name: SoldDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getSoldDate
+                setter: setSoldDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        source:
+            expose: true
+            access_type: public_method
+            serialized_name: Source
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getSource
+                setter: setSource
+            type: string
+        sourceDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getSourceDescription
+                setter: setSourceDescription
+            type: string
+        specialTax:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialTax
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getSpecialTax
+                setter: setSpecialTax
+            type: float
+        submittedAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: SubmittedAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getSubmittedAmount
+                setter: setSubmittedAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        taxAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getTaxAmount
+                setter: setTaxAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        taxDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getTaxDescription
+                setter: setTaxDescription
+            type: string
+        taxPaidToName:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxPaidToName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getTaxPaidToName
+                setter: setTaxPaidToName
+            type: string
+        tradeInAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TradeInAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getTradeInAmount
+                setter: setTradeInAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        vendor:
+            expose: true
+            access_type: public_method
+            serialized_name: Vendor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getVendor
+                setter: setVendor
+            type: string

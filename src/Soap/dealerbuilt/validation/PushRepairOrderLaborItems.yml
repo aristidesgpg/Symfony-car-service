@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushRepairOrderLaborItems:
+    properties:
+        requests:
+            -
+                Valid: null

@@ -1,0 +1,27 @@
+App\Soap\dealerbuilt\src\BaseApi\ReceiptSearchCriteriaType:
+    properties:
+        maxElapsedSinceUpdate:
+            expose: true
+            access_type: public_method
+            serialized_name: MaxElapsedSinceUpdate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMaxElapsedSinceUpdate
+                setter: setMaxElapsedSinceUpdate
+            type: DateInterval
+        receiptNumbers:
+            expose: true
+            access_type: public_method
+            serialized_name: ReceiptNumbers
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getReceiptNumbers
+                setter: setReceiptNumbers
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

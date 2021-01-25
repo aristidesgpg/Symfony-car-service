@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfGlSummaryItemType:
+    properties:
+        glSummaryItem:
+            expose: true
+            access_type: public_method
+            serialized_name: GlSummaryItem
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getGlSummaryItem
+                setter: setGlSummaryItem
+            xml_list:
+                inline: true
+                entry_name: GlSummaryItem
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType>

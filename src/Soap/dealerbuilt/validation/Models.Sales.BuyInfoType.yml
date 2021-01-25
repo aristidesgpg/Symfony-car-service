@@ -1,0 +1,46 @@
+App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
+    properties:
+        amountFinanced:
+            -
+                Valid: null
+        beaconScore:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        deferredDownPayments:
+            -
+                Valid: null
+        deliveredPrice:
+            -
+                Valid: null
+        deposit:
+            -
+                Valid: null
+        fees:
+            -
+                Valid: null
+        finalPayment:
+            -
+                Valid: null
+        financeCharge:
+            -
+                Valid: null
+        lsiVsi:
+            -
+                Valid: null
+        taxes:
+            -
+                Valid: null
+        totalAmountFinanced:
+            -
+                Valid: null
+        tradeTaxCredit:
+            -
+                Valid: null

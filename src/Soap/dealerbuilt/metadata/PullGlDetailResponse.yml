@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullGlDetailResponse:
+    xml_root_name: PullGlDetailResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullGlDetailResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullGlDetailResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullGlDetailResult
+                setter: setPullGlDetailResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType>
+            xml_list:
+                inline: false
+                entry_name: GlDetailItem
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

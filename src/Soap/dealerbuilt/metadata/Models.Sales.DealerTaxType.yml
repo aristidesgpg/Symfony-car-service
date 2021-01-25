@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType:
+    properties:
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        isAddedToMonthlyUseTax:
+            expose: true
+            access_type: public_method
+            serialized_name: IsAddedToMonthlyUseTax
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getIsAddedToMonthlyUseTax
+                setter: setIsAddedToMonthlyUseTax
+            type: bool
+        isCapitalized:
+            expose: true
+            access_type: public_method
+            serialized_name: IsCapitalized
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getIsCapitalized
+                setter: setIsCapitalized
+            type: bool
+        isPaidUpFront:
+            expose: true
+            access_type: public_method
+            serialized_name: IsPaidUpFront
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getIsPaidUpFront
+                setter: setIsPaidUpFront
+            type: bool
+        rate:
+            expose: true
+            access_type: public_method
+            serialized_name: Rate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getRate
+                setter: setRate
+            type: float
+        taxType:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTaxType
+                setter: setTaxType
+            type: string

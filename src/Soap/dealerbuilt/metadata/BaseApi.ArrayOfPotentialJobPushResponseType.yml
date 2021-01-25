@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPotentialJobPushResponseType:
+    properties:
+        potentialJobPushResponse:
+            expose: true
+            access_type: public_method
+            serialized_name: PotentialJobPushResponse
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPotentialJobPushResponse
+                setter: setPotentialJobPushResponse
+            xml_list:
+                inline: true
+                entry_name: PotentialJobPushResponse
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType>
