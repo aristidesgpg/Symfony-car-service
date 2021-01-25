@@ -67,6 +67,11 @@ class FollowUpRepository extends ServiceEntityRepository
         try {
             $qb    = $this->createQueryBuilder('fu');
 
+            $qb->leftJoin('fu.repairOrder', 'ro');
+            $qb->leftJoin('ro.primaryCustomer', 'ro_customer');
+            $qb->leftJoin('ro.primaryTechnician', 'ro_technician');
+            $qb->leftJoin('ro.primaryAdvisor', 'ro_advisor');
+
             if ($start && $end) {
                 $qb->andWhere('fu.dateCreated BETWEEN :start AND :end OR fu.dateSent BETWEEN :start AND :end OR 
                                fu.dateViewed BETWEEN :start AND :end OR fu.dateConverted BETWEEN :start AND :end ')
@@ -77,6 +82,31 @@ class FollowUpRepository extends ServiceEntityRepository
                     ->setParameter('end', $end->format('Y-m-d H:i'));
             }
             if ($searchTerm) {
+                $query          = "";
+
+
+                $searchFields = [
+                    "ro"             => ["number", "year", "model", "miles", "vin"],
+                    "ro_customer"    => ["name", "phone", "email"],
+                    "ro_advisor"     => ["combine_name", "phone", "email"],
+                    "ro_technician"  => ["combine_name", "phone", "email"],
+
+
+                ];
+
+                foreach ($searchFields as $class => $fields) {
+                    foreach ($fields as $field) {
+                        if ($field === "combine_name")
+                            $query .= "CONCAT($class.firstName,' ',$class.lastName) LIKE :searchTerm OR ";
+                        else
+                            $query .= "$class.$field LIKE :searchTerm OR ";
+                    }
+                }
+
+                $query = substr($query, 0, strlen($query) - 4);
+
+                $qb->andWhere($query)
+                    ->setParameter('searchTerm', '%' . $searchTerm . '%');
             }
 
             if ($sortDirection) {
