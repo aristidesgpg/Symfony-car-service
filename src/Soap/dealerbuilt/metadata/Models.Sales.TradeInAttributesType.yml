@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType:
+    properties:
+        acv:
+            expose: true
+            access_type: public_method
+            serialized_name: Acv
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getAcv
+                setter: setAcv
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        allowance:
+            expose: true
+            access_type: public_method
+            serialized_name: Allowance
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getAllowance
+                setter: setAllowance
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        payoff:
+            expose: true
+            access_type: public_method
+            serialized_name: Payoff
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getPayoff
+                setter: setPayoff
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        payoffDate:
+            expose: true
+            access_type: public_method
+            serialized_name: PayoffDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getPayoffDate
+                setter: setPayoffDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime

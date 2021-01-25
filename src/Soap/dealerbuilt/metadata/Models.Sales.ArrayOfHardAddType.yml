@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfHardAddType:
+    properties:
+        hardAdd:
+            expose: true
+            access_type: public_method
+            serialized_name: HardAdd
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getHardAdd
+                setter: setHardAdd
+            xml_list:
+                inline: true
+                entry_name: HardAdd
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\HardAddType>

@@ -1,0 +1,3 @@
+App\Soap\dealerbuilt\src\Models\Sales\AcquisitionFee:
+    xml_root_name: AcquisitionFee
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'

@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
- * Class CDK
+ * Class CDKClient
  *
  * @package App\Service
  */
@@ -62,7 +62,7 @@ class CDK extends SOAP {
     private $closedROExtractURL;
 
     /**
-     * CDK constructor.
+     * CDKClient constructor.
      *
      * @param EntityManagerInterface $em
      * @param PhoneValidator         $phoneValidator
@@ -93,7 +93,7 @@ class CDK extends SOAP {
     }
 
     /**
-     * Gets all open repair orders from CDK, parses what we need from it, then returns an array of objects
+     * Gets all open repair orders from CDKClient, parses what we need from it, then returns an array of objects
      *
      * @return array
      */
@@ -154,7 +154,7 @@ class CDK extends SOAP {
             $openRepairOrderNumbers[] = $repairOrder->getNumber();
         }
 
-        // Check CDK for all closed today
+        // Check CDKClient for all closed today
         $curlOptions = [
             CURLOPT_URL            => $this->closedROExtractURL,
             CURLOPT_POST           => true,

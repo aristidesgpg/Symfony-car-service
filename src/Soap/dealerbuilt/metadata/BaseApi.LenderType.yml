@@ -1,0 +1,82 @@
+App\Soap\dealerbuilt\src\BaseApi\LenderType:
+    properties:
+        address:
+            expose: true
+            access_type: public_method
+            serialized_name: Address
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAddress
+                setter: setAddress
+            type: string
+        city:
+            expose: true
+            access_type: public_method
+            serialized_name: City
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCity
+                setter: setCity
+            type: string
+        code:
+            expose: true
+            access_type: public_method
+            serialized_name: Code
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCode
+                setter: setCode
+            type: string
+        lenderType:
+            expose: true
+            access_type: public_method
+            serialized_name: LenderType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLenderType
+                setter: setLenderType
+            type: string
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getName
+                setter: setName
+            type: string
+        phone:
+            expose: true
+            access_type: public_method
+            serialized_name: Phone
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPhone
+                setter: setPhone
+            type: string
+        state:
+            expose: true
+            access_type: public_method
+            serialized_name: State
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getState
+                setter: setState
+            type: string
+        zip:
+            expose: true
+            access_type: public_method
+            serialized_name: Zip
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getZip
+                setter: setZip
+            type: string

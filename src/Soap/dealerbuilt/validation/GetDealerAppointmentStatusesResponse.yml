@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetDealerAppointmentStatusesResponse:
+    properties:
+        getDealerAppointmentStatusesResult:
+            -
+                Valid: null

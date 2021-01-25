@@ -1,0 +1,3 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfRepairOrderPushRequest:
+    xml_root_name: ArrayOfRepairOrderPushRequest
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

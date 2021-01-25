@@ -1,0 +1,252 @@
+App\Soap\dealerbuilt\src\BaseApi\GlLineType:
+    properties:
+        account:
+            expose: true
+            access_type: public_method
+            serialized_name: Account
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccount
+                setter: setAccount
+            type: string
+        accountClass:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountClass
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccountClass
+                setter: setAccountClass
+            type: string
+        accountDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccountDescription
+                setter: setAccountDescription
+            type: string
+        accountDescriptionAbbreviated:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountDescriptionAbbreviated
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccountDescriptionAbbreviated
+                setter: setAccountDescriptionAbbreviated
+            type: string
+        accountingDate:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAccountingDate
+                setter: setAccountingDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        control1Code:
+            expose: true
+            access_type: public_method
+            serialized_name: Control1Code
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getControl1Code
+                setter: setControl1Code
+            type: string
+        control2Code:
+            expose: true
+            access_type: public_method
+            serialized_name: Control2Code
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getControl2Code
+                setter: setControl2Code
+            type: string
+        createdStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: CreatedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCreatedStamp
+                setter: setCreatedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        dateReconciledOnBankRecord:
+            expose: true
+            access_type: public_method
+            serialized_name: DateReconciledOnBankRecord
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDateReconciledOnBankRecord
+                setter: setDateReconciledOnBankRecord
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        division:
+            expose: true
+            access_type: public_method
+            serialized_name: Division
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDivision
+                setter: setDivision
+            type: int
+        glHeaderDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: GlHeaderDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getGlHeaderDescription
+                setter: setGlHeaderDescription
+            type: string
+        glVouch:
+            expose: true
+            access_type: public_method
+            serialized_name: GlVouch
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getGlVouch
+                setter: setGlVouch
+            type: string
+        isClearedBank:
+            expose: true
+            access_type: public_method
+            serialized_name: IsClearedBank
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getIsClearedBank
+                setter: setIsClearedBank
+            type: bool
+        isReconciled:
+            expose: true
+            access_type: public_method
+            serialized_name: IsReconciled
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getIsReconciled
+                setter: setIsReconciled
+            type: bool
+        journal:
+            expose: true
+            access_type: public_method
+            serialized_name: Journal
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getJournal
+                setter: setJournal
+            type: string
+        journalDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: JournalDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getJournalDescription
+                setter: setJournalDescription
+            type: string
+        journalType:
+            expose: true
+            access_type: public_method
+            serialized_name: JournalType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getJournalType
+                setter: setJournalType
+            type: string
+        lineDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: LineDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLineDescription
+                setter: setLineDescription
+            type: string
+        lineId:
+            expose: true
+            access_type: public_method
+            serialized_name: LineId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLineId
+                setter: setLineId
+            type: int
+        modifiedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getModifiedStamp
+                setter: setModifiedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        reference:
+            expose: true
+            access_type: public_method
+            serialized_name: Reference
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getReference
+                setter: setReference
+            type: string
+        unitCount:
+            expose: true
+            access_type: public_method
+            serialized_name: UnitCount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getUnitCount
+                setter: setUnitCount
+            type: int
+        voidStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: VoidStatus
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVoidStatus
+                setter: setVoidStatus
+            type: string
+        zeroDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ZeroDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getZeroDate
+                setter: setZeroDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime

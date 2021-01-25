@@ -1,0 +1,137 @@
+App\Soap\dealerbuilt\src\Models\Appointments\AppointmentAttributesType:
+    properties:
+        appointmentMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: AppointmentMethod
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getAppointmentMethod
+                setter: setAppointmentMethod
+            type: string
+        appointmentNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: AppointmentNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getAppointmentNumber
+                setter: setAppointmentNumber
+            type: int
+        appointmentScenario:
+            expose: true
+            access_type: public_method
+            serialized_name: AppointmentScenario
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getAppointmentScenario
+                setter: setAppointmentScenario
+            type: string
+        appointmentTime:
+            expose: true
+            access_type: public_method
+            serialized_name: AppointmentTime
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getAppointmentTime
+                setter: setAppointmentTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        comment:
+            expose: true
+            access_type: public_method
+            serialized_name: Comment
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getComment
+                setter: setComment
+            type: string
+        concerns:
+            expose: true
+            access_type: public_method
+            serialized_name: Concerns
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getConcerns
+                setter: setConcerns
+            type: array<App\Soap\dealerbuilt\src\Models\Appointments\ConcernType>
+            xml_list:
+                inline: false
+                entry_name: Concern
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+        created:
+            expose: true
+            access_type: public_method
+            serialized_name: Created
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getCreated
+                setter: setCreated
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        mileage:
+            expose: true
+            access_type: public_method
+            serialized_name: Mileage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getMileage
+                setter: setMileage
+            type: int
+        neededBy:
+            expose: true
+            access_type: public_method
+            serialized_name: NeededBy
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getNeededBy
+                setter: setNeededBy
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        promisedTime:
+            expose: true
+            access_type: public_method
+            serialized_name: PromisedTime
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getPromisedTime
+                setter: setPromisedTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        serviceAdvisor:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceAdvisor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getServiceAdvisor
+                setter: setServiceAdvisor
+            type: App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
+        status:
+            expose: true
+            access_type: public_method
+            serialized_name: Status
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getStatus
+                setter: setStatus
+            type: string
+        statusDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: StatusDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+            accessor:
+                getter: getStatusDescription
+                setter: setStatusDescription
+            type: string

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushAppraisals:
+    properties:
+        appraisals:
+            -
+                Valid: null

@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Parts\ArrayOfCounterTicketType:
+    properties:
+        counterTicket:
+            expose: true
+            access_type: public_method
+            serialized_name: CounterTicket
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            accessor:
+                getter: getCounterTicket
+                setter: setCounterTicket
+            xml_list:
+                inline: true
+                entry_name: CounterTicket
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+            type: array<App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType>

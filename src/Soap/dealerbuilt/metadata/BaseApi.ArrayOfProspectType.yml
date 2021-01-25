@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfProspectType:
+    properties:
+        prospect:
+            expose: true
+            access_type: public_method
+            serialized_name: Prospect
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getProspect
+                setter: setProspect
+            xml_list:
+                inline: true
+                entry_name: Prospect
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\ProspectType>

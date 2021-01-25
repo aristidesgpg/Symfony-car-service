@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\DeferredJobPushRequestType:
+    properties:
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        repairOrderNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getRepairOrderNumber
+                setter: setRepairOrderNumber
+            type: string
+        vehicleKey:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVehicleKey
+                setter: setVehicleKey
+            type: string

@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataOptionType:
+    properties:
+        optionID:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getOptionID
+                setter: setOptionID
+            type: string
+        optionNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getOptionNotes
+                setter: setOptionNotes
+            type: string
+        optionShortDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionShortDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getOptionShortDescription
+                setter: setOptionShortDescription
+            type: string

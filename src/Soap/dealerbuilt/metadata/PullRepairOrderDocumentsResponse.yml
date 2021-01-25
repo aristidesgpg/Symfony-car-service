@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullRepairOrderDocumentsResponse:
+    xml_root_name: PullRepairOrderDocumentsResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullRepairOrderDocumentsResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullRepairOrderDocumentsResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullRepairOrderDocumentsResult
+                setter: setPullRepairOrderDocumentsResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType>
+            xml_list:
+                inline: false
+                entry_name: ApiServiceDocument
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

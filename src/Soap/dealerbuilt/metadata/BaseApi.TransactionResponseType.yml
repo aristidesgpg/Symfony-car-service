@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\TransactionResponseType:
+    properties:
+        message:
+            expose: true
+            access_type: public_method
+            serialized_name: Message
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getMessage
+                setter: setMessage
+            type: string
+        recordKey:
+            expose: true
+            access_type: public_method
+            serialized_name: RecordKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getRecordKey
+                setter: setRecordKey
+            type: string
+        result:
+            expose: true
+            access_type: public_method
+            serialized_name: Result
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getResult
+                setter: setResult
+            type: string

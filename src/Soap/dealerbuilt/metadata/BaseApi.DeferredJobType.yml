@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\DeferredJobType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        deferredJobKey:
+            expose: true
+            access_type: public_method
+            serialized_name: DeferredJobKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDeferredJobKey
+                setter: setDeferredJobKey
+            type: string
+        vehicleKey:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVehicleKey
+                setter: setVehicleKey
+            type: string

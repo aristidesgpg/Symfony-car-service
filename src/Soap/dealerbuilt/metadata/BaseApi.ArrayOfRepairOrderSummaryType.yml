@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfRepairOrderSummaryType:
+    properties:
+        repairOrderSummary:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderSummary
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getRepairOrderSummary
+                setter: setRepairOrderSummary
+            xml_list:
+                inline: true
+                entry_name: RepairOrderSummary
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\RepairOrderSummaryType>

@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfTradeInType:
+    properties:
+        tradeIn:
+            expose: true
+            access_type: public_method
+            serialized_name: TradeIn
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getTradeIn
+                setter: setTradeIn
+            xml_list:
+                inline: true
+                entry_name: TradeIn
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\TradeInType>

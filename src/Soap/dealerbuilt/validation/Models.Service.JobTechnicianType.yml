@@ -1,0 +1,23 @@
+App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
+    properties:
+        cost:
+            -
+                Valid: null
+        laborAmount:
+            -
+                Valid: null
+        payType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - CustomerCounterTicket
+                        - Customer
+                        - Internal
+                        - ServiceContract
+                        - Warranty
+                    groups:
+                        - xsd_rules
+        tech:
+            -
+                Valid: null

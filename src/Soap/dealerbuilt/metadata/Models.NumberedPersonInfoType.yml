@@ -1,0 +1,122 @@
+App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
+    properties:
+        eventDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: EventDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getEventDescription
+                setter: setEventDescription
+            type: string
+        eventID:
+            expose: true
+            access_type: public_method
+            serialized_name: EventID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getEventID
+                setter: setEventID
+            type: string
+        eventOccurrenceDateTime:
+            expose: true
+            access_type: public_method
+            serialized_name: EventOccurrenceDateTime
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getEventOccurrenceDateTime
+                setter: setEventOccurrenceDateTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        factoryID:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getFactoryID
+                setter: setFactoryID
+            type: string
+        isActive:
+            expose: true
+            access_type: public_method
+            serialized_name: IsActive
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getIsActive
+                setter: setIsActive
+            type: bool
+        number:
+            expose: true
+            access_type: public_method
+            serialized_name: Number
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getNumber
+                setter: setNumber
+            type: string
+        otherId:
+            expose: true
+            access_type: public_method
+            serialized_name: OtherId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getOtherId
+                setter: setOtherId
+            type: string
+        personalName:
+            expose: true
+            access_type: public_method
+            serialized_name: PersonalName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getPersonalName
+                setter: setPersonalName
+            type: App\Soap\dealerbuilt\src\Models\NameType
+        specialRemarksDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialRemarksDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getSpecialRemarksDescription
+                setter: setSpecialRemarksDescription
+            type: string
+        ssn:
+            expose: true
+            access_type: public_method
+            serialized_name: Ssn
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getSsn
+                setter: setSsn
+            type: string
+        streetAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: StreetAddress
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getStreetAddress
+                setter: setStreetAddress
+            type: App\Soap\dealerbuilt\src\Models\AddressType
+        username:
+            expose: true
+            access_type: public_method
+            serialized_name: Username
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getUsername
+                setter: setUsername
+            type: string

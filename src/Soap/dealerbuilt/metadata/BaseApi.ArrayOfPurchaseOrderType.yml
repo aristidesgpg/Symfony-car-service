@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPurchaseOrderType:
+    properties:
+        purchaseOrder:
+            expose: true
+            access_type: public_method
+            serialized_name: PurchaseOrder
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPurchaseOrder
+                setter: setPurchaseOrder
+            xml_list:
+                inline: true
+                entry_name: PurchaseOrder
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType>

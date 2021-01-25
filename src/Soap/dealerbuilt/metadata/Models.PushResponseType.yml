@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\PushResponseType:
+    properties:
+        externalRecordId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalRecordId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getExternalRecordId
+                setter: setExternalRecordId
+            type: string
+        message:
+            expose: true
+            access_type: public_method
+            serialized_name: Message
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getMessage
+                setter: setMessage
+            type: string
+        pushResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PushResult
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getPushResult
+                setter: setPushResult
+            type: string
+        pushedRecordId:
+            expose: true
+            access_type: public_method
+            serialized_name: PushedRecordId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+            accessor:
+                getter: getPushedRecordId
+                setter: setPushedRecordId
+            type: int

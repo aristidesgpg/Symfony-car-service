@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullEstimatesResponse:
+    properties:
+        pullEstimatesResult:
+            -
+                Valid: null

@@ -1,0 +1,82 @@
+App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
+    properties:
+        controlNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ControlNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getControlNumber
+                setter: setControlNumber
+            type: string
+        isDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: IsDiscount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getIsDiscount
+                setter: setIsDiscount
+            type: bool
+        percent:
+            expose: true
+            access_type: public_method
+            serialized_name: Percent
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPercent
+                setter: setPercent
+            type: float
+        price:
+            expose: true
+            access_type: public_method
+            serialized_name: Price
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPrice
+                setter: setPrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        serviceCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceCode
+                setter: setServiceCode
+            type: string
+        serviceCodeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceCodeDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceCodeDescription
+                setter: setServiceCodeDescription
+            type: string
+        tax:
+            expose: true
+            access_type: public_method
+            serialized_name: Tax
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getTax
+                setter: setTax
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        taxable:
+            expose: true
+            access_type: public_method
+            serialized_name: Taxable
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getTaxable
+                setter: setTaxable
+            type: bool

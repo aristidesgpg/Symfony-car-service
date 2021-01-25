@@ -1,0 +1,92 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType:
+    properties:
+        actualHours:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getActualHours
+                setter: setActualHours
+            type: float
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: Cost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        estimatedHours:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getEstimatedHours
+                setter: setEstimatedHours
+            type: float
+        factoryId:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getFactoryId
+                setter: setFactoryId
+            type: string
+        flatRateHours:
+            expose: true
+            access_type: public_method
+            serialized_name: FlatRateHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getFlatRateHours
+                setter: setFlatRateHours
+            type: float
+        laborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getLaborAmount
+                setter: setLaborAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        modifiedBy:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedBy
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getModifiedBy
+                setter: setModifiedBy
+            type: string
+        payType:
+            expose: true
+            access_type: public_method
+            serialized_name: PayType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPayType
+                setter: setPayType
+            type: string
+        techId:
+            expose: true
+            access_type: public_method
+            serialized_name: TechId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getTechId
+                setter: setTechId
+            type: string

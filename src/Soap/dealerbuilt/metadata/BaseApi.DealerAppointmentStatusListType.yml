@@ -1,0 +1,17 @@
+App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType:
+    properties:
+        statuses:
+            expose: true
+            access_type: public_method
+            serialized_name: Statuses
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getStatuses
+                setter: setStatuses
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfCustomerVehiclePushRequestType:
+    properties:
+        customerVehiclePushRequest:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerVehiclePushRequest
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerVehiclePushRequest
+                setter: setCustomerVehiclePushRequest
+            xml_list:
+                inline: true
+                entry_name: CustomerVehiclePushRequest
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType>

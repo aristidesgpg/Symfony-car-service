@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullPartsOrdersResponse:
+    xml_root_name: PullPartsOrdersResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullPartsOrdersResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullPartsOrdersResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullPartsOrdersResult
+                setter: setPullPartsOrdersResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PartsOrderType>
+            xml_list:
+                inline: false
+                entry_name: PartsOrder
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

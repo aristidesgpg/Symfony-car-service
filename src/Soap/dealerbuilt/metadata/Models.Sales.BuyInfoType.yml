@@ -1,0 +1,147 @@
+App\Soap\dealerbuilt\src\Models\Sales\BuyInfoType:
+    properties:
+        amountFinanced:
+            expose: true
+            access_type: public_method
+            serialized_name: AmountFinanced
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getAmountFinanced
+                setter: setAmountFinanced
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        balloonRate:
+            expose: true
+            access_type: public_method
+            serialized_name: BalloonRate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getBalloonRate
+                setter: setBalloonRate
+            type: float
+        beaconScore:
+            expose: true
+            access_type: public_method
+            serialized_name: BeaconScore
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getBeaconScore
+                setter: setBeaconScore
+            type: int
+        deferredDownPayments:
+            expose: true
+            access_type: public_method
+            serialized_name: DeferredDownPayments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getDeferredDownPayments
+                setter: setDeferredDownPayments
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType>
+            xml_list:
+                inline: false
+                entry_name: DeferredDownPayment
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+        deliveredPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveredPrice
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getDeliveredPrice
+                setter: setDeliveredPrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        deposit:
+            expose: true
+            access_type: public_method
+            serialized_name: Deposit
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getDeposit
+                setter: setDeposit
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        fees:
+            expose: true
+            access_type: public_method
+            serialized_name: Fees
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFees
+                setter: setFees
+            type: App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType
+        finalPayment:
+            expose: true
+            access_type: public_method
+            serialized_name: FinalPayment
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFinalPayment
+                setter: setFinalPayment
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        financeCharge:
+            expose: true
+            access_type: public_method
+            serialized_name: FinanceCharge
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getFinanceCharge
+                setter: setFinanceCharge
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        lsiVsi:
+            expose: true
+            access_type: public_method
+            serialized_name: LsiVsi
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getLsiVsi
+                setter: setLsiVsi
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        paymentDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: PaymentDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getPaymentDescription
+                setter: setPaymentDescription
+            type: string
+        taxes:
+            expose: true
+            access_type: public_method
+            serialized_name: Taxes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTaxes
+                setter: setTaxes
+            type: App\Soap\dealerbuilt\src\Models\Sales\BuyTaxCollectionType
+        totalAmountFinanced:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalAmountFinanced
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTotalAmountFinanced
+                setter: setTotalAmountFinanced
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        tradeTaxCredit:
+            expose: true
+            access_type: public_method
+            serialized_name: TradeTaxCredit
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+            accessor:
+                getter: getTradeTaxCredit
+                setter: setTradeTaxCredit
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

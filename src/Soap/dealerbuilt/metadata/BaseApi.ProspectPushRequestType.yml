@@ -1,0 +1,92 @@
+App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType:
+    properties:
+        advertisingSource:
+            expose: true
+            access_type: public_method
+            serialized_name: AdvertisingSource
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAdvertisingSource
+                setter: setAdvertisingSource
+            type: string
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        dealKey:
+            expose: true
+            access_type: public_method
+            serialized_name: DealKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDealKey
+                setter: setDealKey
+            type: string
+        externalProspectId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalProspectId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getExternalProspectId
+                setter: setExternalProspectId
+            type: string
+        identity:
+            expose: true
+            access_type: public_method
+            serialized_name: Identity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getIdentity
+                setter: setIdentity
+            type: App\Soap\dealerbuilt\src\Models\IdentityProfileType
+        license:
+            expose: true
+            access_type: public_method
+            serialized_name: License
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getLicense
+                setter: setLicense
+            type: App\Soap\dealerbuilt\src\Models\DriversLicenseType
+        prospectSource:
+            expose: true
+            access_type: public_method
+            serialized_name: ProspectSource
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getProspectSource
+                setter: setProspectSource
+            type: string
+        salesNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: SalesNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSalesNumber
+                setter: setSalesNumber
+            type: string
+        storeId:
+            expose: true
+            access_type: public_method
+            serialized_name: StoreId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getStoreId
+                setter: setStoreId
+            type: int

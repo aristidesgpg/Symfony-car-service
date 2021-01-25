@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceSoldByDealerType:
+    properties:
+        dealerCity:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerCity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getDealerCity
+                setter: setDealerCity
+            type: string
+        dealerCode:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getDealerCode
+                setter: setDealerCode
+            type: string
+        dealerName:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getDealerName
+                setter: setDealerName
+            type: string
+        dealerState:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerState
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getDealerState
+                setter: setDealerState
+            type: string

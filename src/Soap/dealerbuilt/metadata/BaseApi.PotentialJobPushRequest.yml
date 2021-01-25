@@ -1,0 +1,3 @@
+App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushRequest:
+    xml_root_name: PotentialJobPushRequest
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

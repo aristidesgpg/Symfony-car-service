@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetStoreSetupsResponse:
+    properties:
+        getStoreSetupsResult:
+            -
+                Valid: null

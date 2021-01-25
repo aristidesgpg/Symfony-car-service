@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\BaseApi\ServiceVehicleSearchCriteriaType:
+    properties:
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: Vin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string

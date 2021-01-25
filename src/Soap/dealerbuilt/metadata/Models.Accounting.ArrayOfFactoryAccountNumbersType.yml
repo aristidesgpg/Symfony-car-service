@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfFactoryAccountNumbersType:
+    properties:
+        factoryAccountNumbersType:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryAccountNumbersType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getFactoryAccountNumbersType
+                setter: setFactoryAccountNumbersType
+            xml_list:
+                inline: true
+                entry_name: FactoryAccountNumbersType
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            type: array<App\Soap\dealerbuilt\src\Models\Accounting\FactoryAccountNumbersType>

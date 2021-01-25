@@ -1,0 +1,67 @@
+App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType:
+    properties:
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        invoiceNumbers:
+            expose: true
+            access_type: public_method
+            serialized_name: InvoiceNumbers
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getInvoiceNumbers
+                setter: setInvoiceNumbers
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+        purchaseOrderDate:
+            expose: true
+            access_type: public_method
+            serialized_name: PurchaseOrderDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPurchaseOrderDate
+                setter: setPurchaseOrderDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        purchaseOrderNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PurchaseOrderNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPurchaseOrderNumber
+                setter: setPurchaseOrderNumber
+            type: string
+        vendorId:
+            expose: true
+            access_type: public_method
+            serialized_name: VendorId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVendorId
+                setter: setVendorId
+            type: string
+        vendorName:
+            expose: true
+            access_type: public_method
+            serialized_name: VendorName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVendorName
+                setter: setVendorName
+            type: string

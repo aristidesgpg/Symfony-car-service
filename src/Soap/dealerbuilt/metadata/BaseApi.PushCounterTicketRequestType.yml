@@ -1,0 +1,27 @@
+App\Soap\dealerbuilt\src\BaseApi\PushCounterTicketRequestType:
+    properties:
+        counterTickets:
+            expose: true
+            access_type: public_method
+            serialized_name: CounterTickets
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCounterTickets
+                setter: setCounterTickets
+            type: array<App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType>
+            xml_list:
+                inline: false
+                entry_name: CounterTicket
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int

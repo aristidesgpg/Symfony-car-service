@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType:
+    properties:
+        inventoryKey:
+            expose: true
+            access_type: public_method
+            serialized_name: InventoryKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getInventoryKey
+                setter: setInventoryKey
+            type: string
+        stockNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: StockNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getStockNumber
+                setter: setStockNumber
+            type: string
+        vehicleKey:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getVehicleKey
+                setter: setVehicleKey
+            type: string

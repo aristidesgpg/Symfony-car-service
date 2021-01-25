@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfGlDetailLineType:
+    properties:
+        glDetailLine:
+            expose: true
+            access_type: public_method
+            serialized_name: GlDetailLine
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            accessor:
+                getter: getGlDetailLine
+                setter: setGlDetailLine
+            xml_list:
+                inline: true
+                entry_name: GlDetailLine
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+            type: array<App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType>

@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\RepairOrderType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType
+        rOKey:
+            expose: true
+            access_type: public_method
+            serialized_name: ROKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getROKey
+                setter: setROKey
+            type: string
+        references:
+            expose: true
+            access_type: public_method
+            serialized_name: References
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getReferences
+                setter: setReferences
+            type: App\Soap\dealerbuilt\src\BaseApi\RepairOrderReferencesType

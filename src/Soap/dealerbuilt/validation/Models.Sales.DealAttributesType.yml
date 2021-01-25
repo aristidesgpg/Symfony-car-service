@@ -1,0 +1,316 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealAttributesType:
+    properties:
+        basePaymentAmount:
+            -
+                Valid: null
+        baseVehicleGross:
+            -
+                Valid: null
+        buy:
+            -
+                Valid: null
+        cashDownPayment:
+            -
+                Valid: null
+        cobuyer:
+            -
+                Valid: null
+        costAdds:
+            -
+                Valid: null
+        customerDriverLicense:
+            -
+                Valid: null
+        customerType:
+            -
+                Choice:
+                    choices:
+                        - Retail
+                        - Fleet
+                        - Wholesale
+                        - Other
+                        - Unknown
+                    groups:
+                        - xsd_rules
+        daysToFirstPayment:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        dealNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        dealPurchaseProgram:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - Unknown
+                        - ToyotaRetailSPP
+                        - ToyotaRental
+                    groups:
+                        - xsd_rules
+        dealStatus:
+            -
+                Choice:
+                    choices:
+                        - Open
+                        - Closed
+                        - Canceled
+                        - New
+                        - Sold
+                        - Approved
+                        - Processed
+                        - Accounting
+                    groups:
+                        - xsd_rules
+        dealStatusList:
+            -
+                Valid: null
+        dealType:
+            -
+                Choice:
+                    choices:
+                        - Cash
+                        - Finance
+                        - Lease
+                        - FlexBuy
+                        - Balloon
+                        - Wholesale
+                        - DealerTrade
+                    groups:
+                        - xsd_rules
+        dealerRebateAmount:
+            -
+                Valid: null
+        decrLifePremium:
+            -
+                Valid: null
+        discountOtherTotal:
+            -
+                Valid: null
+        downPayment:
+            -
+                Valid: null
+        feeAmount:
+            -
+                Valid: null
+        finalAmount:
+            -
+                Valid: null
+        financeCharge:
+            -
+                Valid: null
+        financeChargeAmount:
+            -
+                Valid: null
+        financeDeptGross:
+            -
+                Valid: null
+        financeDeptGrossWithHoldback:
+            -
+                Valid: null
+        financeManagers:
+            -
+                Valid: null
+        financeReserve:
+            -
+                Valid: null
+        grossSellingPrice:
+            -
+                Valid: null
+        hardAdds:
+            -
+                Valid: null
+        hardAddsTotal:
+            -
+                Valid: null
+        incentives:
+            -
+                Valid: null
+        incentivesTotal:
+            -
+                Valid: null
+        insuranceProducts:
+            -
+                Valid: null
+        interestDays:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        lease:
+            -
+                Valid: null
+        leasePrice:
+            -
+                Valid: null
+        lenderPhone:
+            -
+                Valid: null
+        manufacturerRebateAmount:
+            -
+                Valid: null
+        milesAtSaleDate:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        mrm:
+            -
+                Valid: null
+        msrp:
+            -
+                Valid: null
+        netAmountFinanced:
+            -
+                Valid: null
+        netCapitalizedCostAmount:
+            -
+                Valid: null
+        netTradeAllowance:
+            -
+                Valid: null
+        netTradeAllowanceAmount:
+            -
+                Valid: null
+        otherDeptGross:
+            -
+                Valid: null
+        otherDeptGrossWithHoldback:
+            -
+                Valid: null
+        paymentCount:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        prepaidFinanceChargeAmount:
+            -
+                Valid: null
+        productDetails:
+            -
+                Valid: null
+        protectionPackages:
+            -
+                Valid: null
+        purchasePriceAmount:
+            -
+                Valid: null
+        rebates:
+            -
+                Valid: null
+        rebatesTotal:
+            -
+                Valid: null
+        regularPayment:
+            -
+                Valid: null
+        residualAmount:
+            -
+                Valid: null
+        salesDeptGross:
+            -
+                Valid: null
+        salesDeptGrossWithHoldback:
+            -
+                Valid: null
+        salesGeneralManager:
+            -
+                Valid: null
+        salesManager:
+            -
+                Valid: null
+        salesPeople:
+            -
+                Valid: null
+        securityDepositAmount:
+            -
+                Valid: null
+        sellingPrice:
+            -
+                Valid: null
+        serviceContracts:
+            -
+                Valid: null
+        softAdds:
+            -
+                Valid: null
+        taxAmount:
+            -
+                Valid: null
+        taxableSalesAmount:
+            -
+                Valid: null
+        taxes:
+            -
+                Valid: null
+        termMonths:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        totalDownPayment:
+            -
+                Valid: null
+        totalOfPayments:
+            -
+                Valid: null
+        totalReductionsAmount:
+            -
+                Valid: null
+        totalTradeAllowance:
+            -
+                Valid: null
+        transactionPrice:
+            -
+                Valid: null
+        vehicleType:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Car
+                        - Truck
+                        - Van
+                        - Suv
+                    groups:
+                        - xsd_rules

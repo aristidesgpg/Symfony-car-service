@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullAppointmentsResponse:
+    properties:
+        pullAppointmentsResult:
+            -
+                Valid: null

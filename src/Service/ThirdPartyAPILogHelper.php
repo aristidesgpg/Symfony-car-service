@@ -3,23 +3,24 @@
 namespace App\Service;
 
 use App\Entity\ThirdPartyAPILog;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException as Exception;
-use DateTime;
 
-class ThirdPartyAPILogHelper {
-
+class ThirdPartyAPILogHelper
+{
     /** @var EntityManagerInterface */
     private $em;
 
-    public function __construct(EntityManagerInterface $em) {
+    public function __construct(EntityManagerInterface $em)
+    {
         $this->em = $em;
     }
 
-    public function commitAPILog($endpoint, $soapAction, $response, $isRest = true) {
-
+    public function commitAPILog($endpoint, $soapAction, $response, $isRest = true)
+    {
         // Delete old logs
-        $twoDaysAgo  = (new DateTime())->modify('-2 days');
+        $twoDaysAgo = (new DateTime())->modify('-2 days');
         $deleteQuery = $this->em->createQueryBuilder()
                             ->delete('App:ThirdPartyAPILog', 's')
                             ->where('s.date < :twoDaysAgo')
@@ -45,11 +46,9 @@ class ThirdPartyAPILogHelper {
         try {
             $this->em->flush();
             $this->em->commit();
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             $this->em->rollback();
             throw new \RuntimeException('Caught exception during flush', 0, $e);
         }
     }
 }
-
-?>

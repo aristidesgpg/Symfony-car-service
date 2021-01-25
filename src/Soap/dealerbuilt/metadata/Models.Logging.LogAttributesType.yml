@@ -1,0 +1,102 @@
+App\Soap\dealerbuilt\src\Models\Logging\LogAttributesType:
+    properties:
+        clientAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: ClientAddress
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getClientAddress
+                setter: setClientAddress
+            type: string
+        columnName:
+            expose: true
+            access_type: public_method
+            serialized_name: ColumnName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getColumnName
+                setter: setColumnName
+            type: string
+        event:
+            expose: true
+            access_type: public_method
+            serialized_name: Event
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getEvent
+                setter: setEvent
+            type: string
+        loggingSeq:
+            expose: true
+            access_type: public_method
+            serialized_name: LoggingSeq
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getLoggingSeq
+                setter: setLoggingSeq
+            type: int
+        modifiedBy:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedBy
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getModifiedBy
+                setter: setModifiedBy
+            type: string
+        modifiedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getModifiedStamp
+                setter: setModifiedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        newValue:
+            expose: true
+            access_type: public_method
+            serialized_name: NewValue
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getNewValue
+                setter: setNewValue
+            type: string
+        oldValue:
+            expose: true
+            access_type: public_method
+            serialized_name: OldValue
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getOldValue
+                setter: setOldValue
+            type: string
+        schemaName:
+            expose: true
+            access_type: public_method
+            serialized_name: SchemaName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getSchemaName
+                setter: setSchemaName
+            type: string
+        tableName:
+            expose: true
+            access_type: public_method
+            serialized_name: TableName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Logging'
+            accessor:
+                getter: getTableName
+                setter: setTableName
+            type: string

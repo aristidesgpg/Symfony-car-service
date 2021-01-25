@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\BaseApi\PaymentAttributesType:
+    properties:
+        control2:
+            expose: true
+            access_type: public_method
+            serialized_name: Control2
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getControl2
+                setter: setControl2
+            type: string

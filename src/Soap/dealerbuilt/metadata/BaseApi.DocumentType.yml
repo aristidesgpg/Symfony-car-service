@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\BaseApi\DocumentType:
+    properties:
+        dealKey:
+            expose: true
+            access_type: public_method
+            serialized_name: DealKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDealKey
+                setter: setDealKey
+            type: string
+        documentKey:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDocumentKey
+                setter: setDocumentKey
+            type: string
+        documentName:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDocumentName
+                setter: setDocumentName
+            type: string
+        documentOrderSeq:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentOrderSeq
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDocumentOrderSeq
+                setter: setDocumentOrderSeq
+            type: int
+        externalDocumentKey:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalDocumentKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getExternalDocumentKey
+                setter: setExternalDocumentKey
+            type: string
+        signedDocument:
+            expose: true
+            access_type: public_method
+            serialized_name: SignedDocument
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSignedDocument
+                setter: setSignedDocument
+            type: string
+        unSignedDocument:
+            expose: true
+            access_type: public_method
+            serialized_name: UnSignedDocument
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getUnSignedDocument
+                setter: setUnSignedDocument
+            type: string

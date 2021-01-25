@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushDeferredLaborItemsResponse:
+    properties:
+        pushDeferredLaborItemsResult:
+            -
+                Valid: null

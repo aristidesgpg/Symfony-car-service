@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfDealPushRequestType:
+    properties:
+        dealPushRequest:
+            expose: true
+            access_type: public_method
+            serialized_name: DealPushRequest
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getDealPushRequest
+                setter: setDealPushRequest
+            xml_list:
+                inline: true
+                entry_name: DealPushRequest
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType>

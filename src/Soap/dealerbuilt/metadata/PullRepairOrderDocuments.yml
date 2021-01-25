@@ -1,0 +1,39 @@
+App\Soap\dealerbuilt\src\PullRepairOrderDocuments:
+    xml_root_name: PullRepairOrderDocuments
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        repairOrderKeys:
+            expose: true
+            access_type: public_method
+            serialized_name: repairOrderKeys
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getRepairOrderKeys
+                setter: setRepairOrderKeys
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+        documentType:
+            expose: true
+            access_type: public_method
+            serialized_name: documentType
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getDocumentType
+                setter: setDocumentType
+            type: string
+        format:
+            expose: true
+            access_type: public_method
+            serialized_name: format
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getFormat
+                setter: setFormat
+            type: string

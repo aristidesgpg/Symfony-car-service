@@ -1,0 +1,3 @@
+App\Soap\dealerbuilt\src\BaseApi\PushCounterTicketRequest:
+    xml_root_name: PushCounterTicketRequest
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'

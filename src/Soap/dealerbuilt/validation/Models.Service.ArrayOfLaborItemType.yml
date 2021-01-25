@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfLaborItemType:
+    properties:
+        laborItem:
+            -
+                Valid: null

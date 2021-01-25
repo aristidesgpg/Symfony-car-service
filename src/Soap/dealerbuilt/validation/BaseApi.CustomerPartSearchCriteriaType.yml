@@ -1,0 +1,35 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerPartSearchCriteriaType:
+    properties:
+        customerId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        onHandScope:
+            -
+                Choice:
+                    choices:
+                        - All
+                        - OnHand
+                        - NotOnHand
+                    groups:
+                        - xsd_rules
+        partialPartNumbers:
+            -
+                Valid: null
+        serviceLocationIds:
+            -
+                Valid: null
+        sourceIds:
+            -
+                Valid: null

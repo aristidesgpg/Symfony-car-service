@@ -1,0 +1,122 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerPushRequestType:
+    properties:
+        allowsEmailContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowsEmailContact
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAllowsEmailContact
+                setter: setAllowsEmailContact
+            type: bool
+        allowsMailContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowsMailContact
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAllowsMailContact
+                setter: setAllowsMailContact
+            type: bool
+        allowsPhoneContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowsPhoneContact
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAllowsPhoneContact
+                setter: setAllowsPhoneContact
+            type: bool
+        allowsSmsContact:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowsSmsContact
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getAllowsSmsContact
+                setter: setAllowsSmsContact
+            type: bool
+        comments:
+            expose: true
+            access_type: public_method
+            serialized_name: Comments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getComments
+                setter: setComments
+            type: string
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        externalCustomerId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalCustomerId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getExternalCustomerId
+                setter: setExternalCustomerId
+            type: string
+        identity:
+            expose: true
+            access_type: public_method
+            serialized_name: Identity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getIdentity
+                setter: setIdentity
+            type: App\Soap\dealerbuilt\src\Models\IdentityProfileType
+        isWholesale:
+            expose: true
+            access_type: public_method
+            serialized_name: IsWholesale
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getIsWholesale
+                setter: setIsWholesale
+            type: bool
+        sourceId:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSourceId
+                setter: setSourceId
+            type: int
+        spouseName:
+            expose: true
+            access_type: public_method
+            serialized_name: SpouseName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getSpouseName
+                setter: setSpouseName
+            type: string
+        userStoreId:
+            expose: true
+            access_type: public_method
+            serialized_name: UserStoreId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getUserStoreId
+                setter: setUserStoreId
+            type: int

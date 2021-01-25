@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceOwnerDataType:
+    properties:
+        identity:
+            expose: true
+            access_type: public_method
+            serialized_name: Identity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getIdentity
+                setter: setIdentity
+            type: App\Soap\dealerbuilt\src\Models\IdentityProfileType
+        specialRemarks:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialRemarks
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+            accessor:
+                getter: getSpecialRemarks
+                setter: setSpecialRemarks
+            type: string

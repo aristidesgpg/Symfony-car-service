@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPotentialPartPushRequestType:
+    properties:
+        potentialPartPushRequest:
+            expose: true
+            access_type: public_method
+            serialized_name: PotentialPartPushRequest
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            accessor:
+                getter: getPotentialPartPushRequest
+                setter: setPotentialPartPushRequest
+            xml_list:
+                inline: true
+                entry_name: PotentialPartPushRequest
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType>

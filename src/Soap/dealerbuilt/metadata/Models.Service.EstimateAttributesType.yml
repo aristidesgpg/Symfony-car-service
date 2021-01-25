@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\Models\Service\EstimateAttributesType:
+    properties:
+        estimateNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimateNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getEstimateNumber
+                setter: setEstimateNumber
+            type: string
+        repairOrderNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getRepairOrderNumber
+                setter: setRepairOrderNumber
+            type: string
+        serviceAdvisor:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceAdvisor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceAdvisor
+                setter: setServiceAdvisor
+            type: App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType

@@ -1,0 +1,667 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType:
+    properties:
+        balanceDue:
+            expose: true
+            access_type: public_method
+            serialized_name: BalanceDue
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getBalanceDue
+                setter: setBalanceDue
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        closedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ClosedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getClosedStamp
+                setter: setClosedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        color:
+            expose: true
+            access_type: public_method
+            serialized_name: Color
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getColor
+                setter: setColor
+            type: string
+        completedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: CompletedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCompletedDate
+                setter: setCompletedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        completionEstimatedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: CompletionEstimatedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCompletionEstimatedStamp
+                setter: setCompletionEstimatedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        customerAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCustomerAmount
+                setter: setCustomerAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        customerAppointmentFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerAppointmentFlag
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCustomerAppointmentFlag
+                setter: setCustomerAppointmentFlag
+            type: bool
+        customerAppointmentNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerAppointmentNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCustomerAppointmentNumber
+                setter: setCustomerAppointmentNumber
+            type: string
+        customerClosedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerClosedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCustomerClosedDate
+                setter: setCustomerClosedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        customerLaborDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerLaborDiscount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCustomerLaborDiscount
+                setter: setCustomerLaborDiscount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        customerPartsDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerPartsDiscount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCustomerPartsDiscount
+                setter: setCustomerPartsDiscount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        customerPay:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerPay
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCustomerPay
+                setter: setCustomerPay
+            type: App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType
+        customerSubletDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerSubletDiscount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getCustomerSubletDiscount
+                setter: setCustomerSubletDiscount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        defaultCustomerPayRate:
+            expose: true
+            access_type: public_method
+            serialized_name: DefaultCustomerPayRate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDefaultCustomerPayRate
+                setter: setDefaultCustomerPayRate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        deliveredDate:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveredDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDeliveredDate
+                setter: setDeliveredDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        departmentType:
+            expose: true
+            access_type: public_method
+            serialized_name: DepartmentType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDepartmentType
+                setter: setDepartmentType
+            type: string
+        documentID:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDocumentID
+                setter: setDocumentID
+            type: string
+        driverPartyFamilyName:
+            expose: true
+            access_type: public_method
+            serialized_name: DriverPartyFamilyName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDriverPartyFamilyName
+                setter: setDriverPartyFamilyName
+            type: string
+        driverPartyGivenName:
+            expose: true
+            access_type: public_method
+            serialized_name: DriverPartyGivenName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDriverPartyGivenName
+                setter: setDriverPartyGivenName
+            type: string
+        driverPartyMiddleName:
+            expose: true
+            access_type: public_method
+            serialized_name: DriverPartyMiddleName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getDriverPartyMiddleName
+                setter: setDriverPartyMiddleName
+            type: string
+        hat:
+            expose: true
+            access_type: public_method
+            serialized_name: Hat
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getHat
+                setter: setHat
+            type: string
+        inDistanceMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: InDistanceMeasure
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getInDistanceMeasure
+                setter: setInDistanceMeasure
+            type: int
+        internalAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getInternalAmount
+                setter: setInternalAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        internalClosedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalClosedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getInternalClosedDate
+                setter: setInternalClosedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        internalCustomerCopay:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalCustomerCopay
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getInternalCustomerCopay
+                setter: setInternalCustomerCopay
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        internalNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getInternalNotes
+                setter: setInternalNotes
+            type: string
+        internalPay:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalPay
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getInternalPay
+                setter: setInternalPay
+            type: App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType
+        isWaiter:
+            expose: true
+            access_type: public_method
+            serialized_name: IsWaiter
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getIsWaiter
+                setter: setIsWaiter
+            type: bool
+        isWholesale:
+            expose: true
+            access_type: public_method
+            serialized_name: IsWholesale
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getIsWholesale
+                setter: setIsWholesale
+            type: bool
+        jobs:
+            expose: true
+            access_type: public_method
+            serialized_name: Jobs
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getJobs
+                setter: setJobs
+            type: array<App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType>
+            xml_list:
+                inline: false
+                entry_name: RepairOrderJob
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+        milesIn:
+            expose: true
+            access_type: public_method
+            serialized_name: MilesIn
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getMilesIn
+                setter: setMilesIn
+            type: int
+        milesOut:
+            expose: true
+            access_type: public_method
+            serialized_name: MilesOut
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getMilesOut
+                setter: setMilesOut
+            type: int
+        notes:
+            expose: true
+            access_type: public_method
+            serialized_name: Notes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getNotes
+                setter: setNotes
+            type: string
+        notifyDate:
+            expose: true
+            access_type: public_method
+            serialized_name: NotifyDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getNotifyDate
+                setter: setNotifyDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        openedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: OpenedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getOpenedStamp
+                setter: setOpenedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        orderInternalNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderInternalNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getOrderInternalNotes
+                setter: setOrderInternalNotes
+            type: string
+        orderNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getOrderNotes
+                setter: setOrderNotes
+            type: string
+        originalEstimate:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginalEstimate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getOriginalEstimate
+                setter: setOriginalEstimate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        payTypeStatuses:
+            expose: true
+            access_type: public_method
+            serialized_name: PayTypeStatuses
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPayTypeStatuses
+                setter: setPayTypeStatuses
+            type: array<App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType>
+            xml_list:
+                inline: false
+                entry_name: PayTypeStatus
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+        payerType:
+            expose: true
+            access_type: public_method
+            serialized_name: PayerType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPayerType
+                setter: setPayerType
+            type: string
+        priority:
+            expose: true
+            access_type: public_method
+            serialized_name: Priority
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPriority
+                setter: setPriority
+            type: int
+        promisedRepairCompletionDate:
+            expose: true
+            access_type: public_method
+            serialized_name: PromisedRepairCompletionDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getPromisedRepairCompletionDate
+                setter: setPromisedRepairCompletionDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        rentalVehicles:
+            expose: true
+            access_type: public_method
+            serialized_name: RentalVehicles
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getRentalVehicles
+                setter: setRentalVehicles
+            type: array<App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType>
+            xml_list:
+                inline: false
+                entry_name: RentalVehicle
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+        repairOrderNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getRepairOrderNumber
+                setter: setRepairOrderNumber
+            type: string
+        repairOrderOpenedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderOpenedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getRepairOrderOpenedDate
+                setter: setRepairOrderOpenedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        serviceAdvisor:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceAdvisor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceAdvisor
+                setter: setServiceAdvisor
+            type: App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
+        serviceContractAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceContractAmount
+                setter: setServiceContractAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        serviceContractClosedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractClosedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceContractClosedDate
+                setter: setServiceContractClosedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        serviceContractCustomerCopay:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractCustomerCopay
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceContractCustomerCopay
+                setter: setServiceContractCustomerCopay
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        serviceContractPay:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractPay
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceContractPay
+                setter: setServiceContractPay
+            type: App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType
+        serviceLeadID:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLeadID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getServiceLeadID
+                setter: setServiceLeadID
+            type: string
+        specialRemarksDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialRemarksDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getSpecialRemarksDescription
+                setter: setSpecialRemarksDescription
+            type: string
+        status:
+            expose: true
+            access_type: public_method
+            serialized_name: Status
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getStatus
+                setter: setStatus
+            type: string
+        stopEmail:
+            expose: true
+            access_type: public_method
+            serialized_name: StopEmail
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getStopEmail
+                setter: setStopEmail
+            type: bool
+        stopText:
+            expose: true
+            access_type: public_method
+            serialized_name: StopText
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getStopText
+                setter: setStopText
+            type: bool
+        taxDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getTaxDescription
+                setter: setTaxDescription
+            type: string
+        taxExempt:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxExempt
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getTaxExempt
+                setter: setTaxExempt
+            type: bool
+        totalAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getTotalAmount
+                setter: setTotalAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        type:
+            expose: true
+            access_type: public_method
+            serialized_name: Type
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getType
+                setter: setType
+            type: string
+        warrClaimType:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrClaimType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getWarrClaimType
+                setter: setWarrClaimType
+            type: string
+        warrantyAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getWarrantyAmount
+                setter: setWarrantyAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        warrantyClosedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyClosedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getWarrantyClosedDate
+                setter: setWarrantyClosedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        warrantyCustomerCopay:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyCustomerCopay
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getWarrantyCustomerCopay
+                setter: setWarrantyCustomerCopay
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        warrantyPay:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyPay
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getWarrantyPay
+                setter: setWarrantyPay
+            type: App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType
+        warrantyPostedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyPostedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+            accessor:
+                getter: getWarrantyPostedStamp
+                setter: setWarrantyPostedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
