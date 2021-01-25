@@ -208,44 +208,35 @@ class RepairOrderController extends AbstractFOSRestController
             $sortDirection = $request->query->get('sortDirection');
         }
 
-        if (  $request->query->has('searchTerm')) {
+        if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
             $query          = "";
             $qb->leftJoin('ro.primaryCustomer', 'ro_customer');
             $qb->leftJoin('ro.primaryTechnician', 'ro_technician');
             $qb->leftJoin('ro.primaryAdvisor', 'ro_advisor');
-            $qb->leftJoin('ro.repairOrderQuote', 'ro_quote');
-            $qb->leftJoin('ro_quote.repairOrderQuoteRecommendations', 'ro_quote_recommendations');
-            $qb->leftJoin('ro.repairOrderTeam', 'ro_team');
-            $qb->leftJoin('ro_team.user', 'ro_team_user');
-            $qb->leftJoin('ro.repairOrderMPI', 'ro_mpi');
-            $qb->leftJoin('ro.notes', 'ro_notes');
-            
-            
-            $relationships = ["ro_customer", "ro_technician", "ro_advisor", "ro_quote", "ro_quote_recommendations", "ro_mpi", "ro_notes", 'ro_team_user'];
-            $relationshipsEntities = ["Customer", "User", "User", "RepairOrderQuote", "RepairOrderQuoteRecommendation", "RepairOrderMPI", "RepairOrderNote", "User"] ;
 
-            $entityFields = array();
-            foreach($relationships as $i => $relationship){
-                $entityFields[$relationship] = $em->getClassMetadata('App\Entity\\'.$relationshipsEntities[$i])->getFieldNames();
-            }
+            $searchFields = [
+                "ro"             => ["number", "year", "model", "miles", "vin"],
+                "ro_customer"    => ["name", "phone", "email"],
+                "ro_advisor"     => ["combine_name", "phone", "email"],
+                "ro_technician"  => ["combine_name", "phone", "email"],
 
-            foreach($columns as $column){
-                if($query)
-                    $query .= " OR ";
 
-                $query     .= 'ro.'.$column . ' LIKE :searchTerm ';
-            }
+            ];
 
-            foreach($relationships as $relationship){
-                $fields     = $entityFields[$relationship];
-                foreach($fields as $field){
-                    $query .= " OR " . $relationship . "." . $field . ' LIKE :searchTerm ';
+            foreach ($searchFields as $class => $fields) {
+                foreach ($fields as $field) {
+                    if ($field === "combine_name")
+                        $query .= "CONCAT($class.firstName,' ',$class.lastName) LIKE :searchTerm OR ";
+                    else
+                        $query .= "$class.$field LIKE :searchTerm OR ";
                 }
             }
-             
+
+            $query = substr($query, 0, strlen($query) - 4);
+
             $qb->andWhere($query);
-            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            $queryParameters['searchTerm'] = '%' . $searchTerm . '%';
         }
 
         if (!empty($errors)) {
@@ -269,7 +260,7 @@ class RepairOrderController extends AbstractFOSRestController
         }
 
         if ($sortDirection) {
-            $qb->orderBy('ro.'.$sortField, $sortDirection);
+            $qb->orderBy('ro.' . $sortField, $sortDirection);
 
             $urlParameters['sortField'] = $sortField;
             $urlParameters['sortDirection'] = $sortDirection;
