@@ -136,7 +136,7 @@ class ServiceSMSController extends AbstractFOSRestController {
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Message Was Sent" }),
+     *                                              "Message Was Resent" }),
      *         )
      * )
      *
