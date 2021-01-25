@@ -180,6 +180,49 @@ class MPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testCreateItem() {
+        // Ok
+        $name   = 'New MPI item name';
+        $params = [
+            'id'   => 1, // MPI group ID
+            'name' => $name
+        ];
+        $this->requestAction('POST', '/mpi-item', $params);
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($this->client->getResponse()->getContent());
+        $this->assertEquals($name, $response->name);
+
+        // Missing required parameter
+        $this->requestAction('POST', '/mpi-item');
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+
+        // Invalid Template Parameter
+        $params = [
+            'id'   => 999999999999999999,
+            'name' => $name
+        ];
+        $this->requestAction('POST', '/mpi-item', $params);
+        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testEditItem() {
+        // Ok
+        $name = 'New name of MPI item';
+        $this->requestAction('PUT', '/mpi-item/1', ['name' => $name]);
+        $this->assertResponseIsSuccessful();
+        $response = json_decode($this->client->getResponse()->getContent());
+        $this->assertEquals($name, $response->name);
+
+        // Missing required parameter
+        $this->requestAction('PUT', '/mpi-item/1');
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testDeleteItem() {
+        $this->requestAction('DELETE', '/mpi-item/1');
+        $this->assertResponseIsSuccessful();
+    }
+
     private function requestAction($method, $endpoint='', $params=[]) {
         $apiUrl = '/api' . $endpoint;
         $crawler = $this->client->request($method, $apiUrl, $params, [], [

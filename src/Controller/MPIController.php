@@ -842,12 +842,12 @@ class MPIController extends AbstractFOSRestController
         $mpiGroup = $mpiGroupRepo->find($groupID);
         //check if MPI Group exists
         if (!$mpiGroup) {
-            return $this->handleView($this->view('Invalid Group Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Invalid Group Parameter', Response::HTTP_NOT_ACCEPTABLE));
         }
         //check if name is duplicated
         $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiGroup->getId());
         if ($duplicatedItems) {
-            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_NOT_ACCEPTABLE));
         }
 
         // create item
@@ -912,7 +912,7 @@ class MPIController extends AbstractFOSRestController
         //check if name is duplicated
         $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiItem->getMPIGroup()->getId());
         if ($duplicatedItems) {
-            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_NOT_ACCEPTABLE));
         }
 
         // update Item
