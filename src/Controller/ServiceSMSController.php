@@ -143,46 +143,30 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @param ServiceSMS             $serviceSMS
      * @param TwilioHelper           $twilioHelper
      * @param EntityManagerInterface $em
-     * @param CustomerRepository     $customerRepo
-     * @param UserRepository         $userRepo
      *
      * @return Response
      */
     public function resend (
         ServiceSMS             $serviceSMS,
         TwilioHelper           $twilioHelper, 
-        EntityManagerInterface $em,
-        CustomerRepository     $customerRepo,
-        UserRepository         $userRepo
+        EntityManagerInterface $em
     ) {
-
-        //check if parameters are valid
-        if (!$customerID || !$message) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        $customerID = $serviceSMS->getCustomer();
+        $message    = $serviceSMS->getMessage();
+        $inComing   = $serviceSMS->getIncoming();
+        //check if message is inbound
+        if($inComing){
+            return $this->handleView($this->view('Can not Resend Inbound Message', Response::HTTP_BAD_REQUEST));
         }
-        //check if user exists
-        $user     = $userRepo->findOneBy(["id" => $userID]);
-        if(!$user){
-            return $this->handleView($this->view('User Does Not Exist', Response::HTTP_BAD_REQUEST));
-        }
-        //check if cusomter exists
-        $customer = $customerRepo->findOneBy(["id" => $customerID]);
-        if(!$customer){
-            return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
-        }
-        //save message
-        $serviceSMS = new ServiceSMS();
-        $serviceSMS->setUser($user)
-                   ->setCustomer($customer)
-                   ->setPhone($customer->getPhone())
-                   ->setMessage($message)
-                   ->setIncoming(false);
+        //send message to a customer
+        $sid = $twilioHelper->sendSms($customer->getPhone(), $message);
+        //update serviceSMS
+        $serviceSMS->setIncoming(false)
+                   ->setSid($sid)
+                   ->setStatus("");
 
         $em->persist($serviceSMS);
         $em->flush();
-
-        //send message to a customer
-        // $twilioHelper->sendSms($customer->getPhone(), $message);
 
         return $this->handleView($this->view([
             'message' => 'Message Was Sent'
@@ -469,5 +453,8 @@ class ServiceSMSController extends AbstractFOSRestController {
         //find ServiceSMS by sid and update status
         $serviceSMS = $serviceSMSRepo->findOneBy(["sid" => $sid]);
         $serviceSMS->setStatus($smsStatus);
+
+        $em->persist($serviceSMS);
+        $em->flush();
     }
 }
