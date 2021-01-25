@@ -281,7 +281,12 @@ class CustomerController extends AbstractFOSRestController
     /**
      * @Rest\Delete("/{id}")
      *
-     * @SWG\Response(response="200", description="Success!")
+     * @SWG\Response(
+     *      response="200",
+     *      description="Return deleted customer",
+     *      @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
+     * )
+     * 
      * @SWG\Response(response="404", description="Customer does not exist")
      */
     public function deleteCustomer(Customer $customer, CustomerHelper $helper): Response

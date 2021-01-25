@@ -69,8 +69,6 @@ class CheckInControllerTest extends WebTestCase
             'HTTP_CONTENT_TYPE'  => 'application/json',
             'HTTP_ACCEPT'        => 'application/json',
         ]);
-
-        $response = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
     }
 
