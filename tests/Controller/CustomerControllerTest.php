@@ -59,7 +59,7 @@ class CustomerControllerTest extends WebTestCase
 
     public function testGetCustomer() {
         // Not found
-        $this->requestAction('GET', '/{9999999999999999}');
+        $this->requestAction('GET', '/9999999999999999');
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         // Ok

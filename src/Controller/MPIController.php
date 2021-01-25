@@ -590,7 +590,7 @@ class MPIController extends AbstractFOSRestController
         $mpiTemplate = $mpiTemplateRepo->find($templateID);
         //Check if MPI Template exists
         if (!$mpiTemplate) {
-            return $this->handleView($this->view('Invalid Template Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Invalid Template Parameter', Response::HTTP_NOT_ACCEPTABLE));
         }
         // create group
         $mpiGroup = new MPIGroup();
