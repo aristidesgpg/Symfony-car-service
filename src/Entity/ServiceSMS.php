@@ -68,12 +68,12 @@ class ServiceSMS
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $sid;
+    private $sid = "SMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $sent;
+    private $sent = false;
 
     public function __construct()
     {
