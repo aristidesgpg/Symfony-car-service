@@ -108,7 +108,7 @@ class OperationCodeController extends AbstractFOSRestController
 
         if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
-            
+
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
@@ -121,7 +121,6 @@ class OperationCodeController extends AbstractFOSRestController
             $sortField,
             $sortDirection,
             $searchTerm,
-            $columns
         );
 
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
@@ -241,13 +240,13 @@ class OperationCodeController extends AbstractFOSRestController
         //create a new operation code
         $operationCode = new OperationCode();
         $operationCode->setCode($code)
-                      ->setDescription($description)
-                      ->setLaborHours($laborHours)
-                      ->setLaborTaxable($laborTaxable)
-                      ->setPartsPrice($partsPrice)
-                      ->setPartsTaxable($partsTaxable)
-                      ->setSuppliesPrice($suppliesPrice)
-                      ->setSuppliesTaxable($suppliesTaxable);
+            ->setDescription($description)
+            ->setLaborHours($laborHours)
+            ->setLaborTaxable($laborTaxable)
+            ->setPartsPrice($partsPrice)
+            ->setPartsTaxable($partsTaxable)
+            ->setSuppliesPrice($suppliesPrice)
+            ->setSuppliesTaxable($suppliesTaxable);
 
         $em->persist($operationCode);
         $em->flush();
@@ -359,13 +358,13 @@ class OperationCodeController extends AbstractFOSRestController
 
         //update a operation code
         $operationCode->setCode($code)
-                      ->setDescription($description)
-                      ->setLaborHours($laborHours)
-                      ->setLaborTaxable(filter_var($laborTaxable, FILTER_VALIDATE_BOOLEAN))
-                      ->setPartsPrice($partsPrice)
-                      ->setPartsTaxable(filter_var($partsTaxable, FILTER_VALIDATE_BOOLEAN))
-                      ->setSuppliesPrice($suppliesPrice)
-                      ->setSuppliesTaxable(filter_var($suppliesTaxable, FILTER_VALIDATE_BOOLEAN));
+            ->setDescription($description)
+            ->setLaborHours($laborHours)
+            ->setLaborTaxable(filter_var($laborTaxable, FILTER_VALIDATE_BOOLEAN))
+            ->setPartsPrice($partsPrice)
+            ->setPartsTaxable(filter_var($partsTaxable, FILTER_VALIDATE_BOOLEAN))
+            ->setSuppliesPrice($suppliesPrice)
+            ->setSuppliesTaxable(filter_var($suppliesTaxable, FILTER_VALIDATE_BOOLEAN));
 
         $em->persist($operationCode);
         $em->flush();
