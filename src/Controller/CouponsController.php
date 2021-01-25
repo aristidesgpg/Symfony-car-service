@@ -118,23 +118,15 @@ class CouponsController extends AbstractFOSRestController
         $qb->andWhere('co.deleted = 0');
 
         if ($searchTerm) {
-            $query          = "";
-            foreach($columns as $column){
-                if($query)
-                    $query .= " OR ";
+            $qb->andWhere("co.title LIKE :searchTerm ");
 
-                $query     .= 'co.'.$column . ' LIKE :searchTerm ';
-            }
-
-            $qb->andWhere($query);
-            
-            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            $queryParameters['searchTerm'] = '%' . $searchTerm . '%';
 
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
         if ($sortDirection) {
-            $qb->orderBy('co.'.$sortField, $sortDirection);
+            $qb->orderBy('co.' . $sortField, $sortDirection);
 
             $urlParameters['sortField'] = $sortField;
             $urlParameters['sortDirection'] = $sortDirection;
@@ -297,5 +289,4 @@ class CouponsController extends AbstractFOSRestController
 
         return $this->handleView($this->view('Coupon Deleted', Response::HTTP_OK));
     }
-
 }
