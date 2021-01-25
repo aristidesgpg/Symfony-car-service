@@ -67,9 +67,7 @@ class CheckInRepository extends ServiceEntityRepository
         $end = null,
         $sortField = 'date',
         $sortDirection = 'DESC',
-        $searchTerm = null,
-        $columns = [],
-        $userColumns = []
+        $searchTerm = null
     ) {
         if (is_null($end)) {
             $end = new DateTime();
@@ -87,33 +85,19 @@ class CheckInRepository extends ServiceEntityRepository
 
             if ($start && $end) {
                 $qb->andWhere('ch.date BETWEEN :start AND :end')
-                   ->setParameter('start', $start->format('Y-m-d H:i'))
-                   ->setParameter('end', $end->format('Y-m-d H:i'));
+                    ->setParameter('start', $start->format('Y-m-d H:i'))
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
             } else {
                 $qb->andWhere('ch.date < :end')
-                   ->setParameter('end', $end->format('Y-m-d H:i'));
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
             if ($searchTerm) {
-                $qb->innerJoin('ch.user', 'ch_user');
-                
-                $query          = "";
-                foreach($columns as $column){
-                    if($query)
-                        $query .= " OR ";
-
-                    $query     .= 'ch.'.$column . ' LIKE :searchTerm ';
-                }
-
-                foreach($userColumns as $column){
-                    $query .= 'OR ch_user.'.$column . ' LIKE :searchTerm ';
-                }
-
-                $qb->andWhere($query)
-                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
+                $qb->andWhere("ch.identification LIKE :searchTerm")
+                    ->setParameter('searchTerm', '%' . $searchTerm . '%');
             }
 
             if ($sortDirection) {
-                $qb->orderBy('ch.'.$sortField, $sortDirection);
+                $qb->orderBy('ch.' . $sortField, $sortDirection);
             } else {
                 $qb->orderBy('ch.date', 'DESC');
             }

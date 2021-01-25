@@ -108,9 +108,8 @@ class CheckInController extends AbstractFOSRestController
         $sortDirection = '';
         $searchTerm = '';
         $errors = [];
-        
+
         $columns = $em->getClassMetadata('App\Entity\CheckIn')->getFieldNames();
-        $userColumns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         // Invalid page
         if ($page < 1) {
@@ -153,8 +152,6 @@ class CheckInController extends AbstractFOSRestController
             $sortField,
             $sortDirection,
             $searchTerm,
-            $columns,
-            $userColumns
         );
         $pager = $paginator->paginate($checkInQuery, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
@@ -243,5 +240,4 @@ class CheckInController extends AbstractFOSRestController
 
         return $this->handleView($view);
     }
-
 }
