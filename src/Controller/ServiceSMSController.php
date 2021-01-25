@@ -104,19 +104,20 @@ class ServiceSMSController extends AbstractFOSRestController {
         if(!$customer){
             return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
+        //send message to a customer
+        $sid = $twilioHelper->sendSms($customer->getPhone(), $message);
+
         //save message
         $serviceSMS = new ServiceSMS();
         $serviceSMS->setUser($user)
                    ->setCustomer($customer)
                    ->setPhone($customer->getPhone())
                    ->setMessage($message)
-                   ->setIncoming(false);
+                   ->setIncoming(false)
+                   ->setSid($sid);
 
         $em->persist($serviceSMS);
         $em->flush();
-
-        //send message to a customer
-        // $twilioHelper->sendSms($customer->getPhone(), $message);
 
         return $this->handleView($this->view([
             'message' => 'Message Was Sent'
@@ -448,6 +449,7 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @param EntityManagerInterface $em
      * @param CustomerRepository     $customerRepo
      * @param PhoneValidator         $phoneValidator
+     * @param ServiceSMSRepository   $serviceSMSRepo
      *
      * @return Response
      */
@@ -456,12 +458,16 @@ class ServiceSMSController extends AbstractFOSRestController {
         TwilioHelper           $twilioHelper, 
         EntityManagerInterface $em,
         CustomerRepository     $customerRepo,
-        PhoneValidator         $phoneValidator
+        PhoneValidator         $phoneValidator,
+        ServiceSMSRepository   $serviceSMSRepo
     ) {
         $smsStatus = $request->get('SmsStatus');
         $to        = $phoneValidator->clean($request->get('To'));
-
-        $customer  = $customerRepo->findOneBy(["phone" => $to]);
-        
+        $sid       = $request->get('sid');
+        //find customer by phone
+        $customer   = $customerRepo->findOneBy(["phone" => $to]);
+        //find ServiceSMS by sid and update status
+        $serviceSMS = $serviceSMSRepo->findOneBy(["sid" => $sid]);
+        $serviceSMS->setSent($smsStatus == "Sent" ? true : false);
     }
 }
