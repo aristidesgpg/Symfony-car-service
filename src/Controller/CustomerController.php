@@ -144,7 +144,6 @@ class CustomerController extends AbstractFOSRestController
             $sortField,
             $sortDirection,
             $searchTerm,
-            $columns
         );
 
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
