@@ -70,6 +70,11 @@ class ServiceSMS
      */
     private $sid = "SMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $status;
+
     public function __construct()
     {
         $this->date = new DateTime();
@@ -172,6 +177,18 @@ class ServiceSMS
     public function setSid(string $sid): self
     {
         $this->sid = $sid;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
