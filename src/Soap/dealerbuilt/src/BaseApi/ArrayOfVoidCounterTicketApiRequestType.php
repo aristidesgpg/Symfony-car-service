@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfVoidCounterTicketApiRequestType.
+ * Class representing ArrayOfVoidCounterTicketApiRequestType
  *
+ * 
  * XSD Type: ArrayOfVoidCounterTicketApiRequest
  */
 class ArrayOfVoidCounterTicketApiRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType[] $voidCounterTicketApiRequest
      */
     private $voidCounterTicketApiRequest = [
+        
     ];
 
     /**
-     * Adds as voidCounterTicketApiRequest.
+     * Adds as voidCounterTicketApiRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType $voidCounterTicketApiRequest
      */
-    public function addToVoidCounterTicketApiRequest(VoidCounterTicketApiRequestType $voidCounterTicketApiRequest)
+    public function addToVoidCounterTicketApiRequest(\App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType $voidCounterTicketApiRequest)
     {
         $this->voidCounterTicketApiRequest[] = $voidCounterTicketApiRequest;
-
         return $this;
     }
 
     /**
-     * isset voidCounterTicketApiRequest.
+     * isset voidCounterTicketApiRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVoidCounterTicketApiRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfVoidCounterTicketApiRequestType
     }
 
     /**
-     * unset voidCounterTicketApiRequest.
+     * unset voidCounterTicketApiRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVoidCounterTicketApiRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfVoidCounterTicketApiRequestType
     }
 
     /**
-     * Gets as voidCounterTicketApiRequest.
+     * Gets as voidCounterTicketApiRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfVoidCounterTicketApiRequestType
     }
 
     /**
-     * Sets a new voidCounterTicketApiRequest.
+     * Sets a new voidCounterTicketApiRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType[] $voidCounterTicketApiRequest
-     *
      * @return self
      */
     public function setVoidCounterTicketApiRequest(array $voidCounterTicketApiRequest)
     {
         $this->voidCounterTicketApiRequest = $voidCounterTicketApiRequest;
-
         return $this;
     }
+
+
 }
+

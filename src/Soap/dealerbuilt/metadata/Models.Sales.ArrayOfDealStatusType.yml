@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\Sales\ArrayOfDealStatusType:
             access_type: public_method
             serialized_name: DealStatus
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDealStatus
                 setter: setDealStatus
             xml_list:
                 inline: true
                 entry_name: DealStatus
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             type: array<string>

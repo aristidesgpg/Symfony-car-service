@@ -16,4 +16,4 @@ App\Soap\dealerbuilt\src\GetStoreSetupsResponse:
                 inline: false
                 entry_name: StoreSetup
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

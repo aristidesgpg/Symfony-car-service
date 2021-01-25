@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPartsOrderPushRequestType.
+ * Class representing ArrayOfPartsOrderPushRequestType
  *
+ * 
  * XSD Type: ArrayOfPartsOrderPushRequest
  */
 class ArrayOfPartsOrderPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType[] $partsOrderPushRequest
      */
     private $partsOrderPushRequest = [
+        
     ];
 
     /**
-     * Adds as partsOrderPushRequest.
+     * Adds as partsOrderPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType $partsOrderPushRequest
      */
-    public function addToPartsOrderPushRequest(PartsOrderPushRequestType $partsOrderPushRequest)
+    public function addToPartsOrderPushRequest(\App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType $partsOrderPushRequest)
     {
         $this->partsOrderPushRequest[] = $partsOrderPushRequest;
-
         return $this;
     }
 
     /**
-     * isset partsOrderPushRequest.
+     * isset partsOrderPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsOrderPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfPartsOrderPushRequestType
     }
 
     /**
-     * unset partsOrderPushRequest.
+     * unset partsOrderPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsOrderPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfPartsOrderPushRequestType
     }
 
     /**
-     * Gets as partsOrderPushRequest.
+     * Gets as partsOrderPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPartsOrderPushRequestType
     }
 
     /**
-     * Sets a new partsOrderPushRequest.
+     * Sets a new partsOrderPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType[] $partsOrderPushRequest
-     *
      * @return self
      */
     public function setPartsOrderPushRequest(array $partsOrderPushRequest)
     {
         $this->partsOrderPushRequest = $partsOrderPushRequest;
-
         return $this;
     }
+
+
 }
+

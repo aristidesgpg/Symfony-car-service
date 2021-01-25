@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType:
             access_type: public_method
             serialized_name: CustomerKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerKey
                 setter: setCustomerKey
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType:
             access_type: public_method
             serialized_name: EstimateNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEstimateNumber
                 setter: setEstimateNumber
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType:
             access_type: public_method
             serialized_name: JobPushResponses
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getJobPushResponses
                 setter: setJobPushResponses
@@ -34,13 +34,13 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType:
                 inline: false
                 entry_name: PotentialJobPushResponse
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
         serviceLocationId:
             expose: true
             access_type: public_method
             serialized_name: ServiceLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationId
                 setter: setServiceLocationId
@@ -50,7 +50,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushResponseType:
             access_type: public_method
             serialized_name: VehicleKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVehicleKey
                 setter: setVehicleKey

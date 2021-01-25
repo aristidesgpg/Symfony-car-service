@@ -3,64 +3,66 @@
 namespace App\Soap\dealerbuilt\src\Models\Logging;
 
 /**
- * Class representing LogAttributesType.
+ * Class representing LogAttributesType
  *
+ * 
  * XSD Type: LogAttributes
  */
 class LogAttributesType
 {
+
     /**
-     * @var string
+     * @var string $clientAddress
      */
     private $clientAddress = null;
 
     /**
-     * @var string
+     * @var string $columnName
      */
     private $columnName = null;
 
     /**
-     * @var string
+     * @var string $event
      */
     private $event = null;
 
     /**
-     * @var int
+     * @var int $loggingSeq
      */
     private $loggingSeq = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedStamp
      */
     private $modifiedStamp = null;
 
     /**
-     * @var string
+     * @var string $newValue
      */
     private $newValue = null;
 
     /**
-     * @var string
+     * @var string $oldValue
      */
     private $oldValue = null;
 
     /**
-     * @var string
+     * @var string $schemaName
      */
     private $schemaName = null;
 
     /**
-     * @var string
+     * @var string $tableName
      */
     private $tableName = null;
 
     /**
-     * Gets as clientAddress.
+     * Gets as clientAddress
      *
      * @return string
      */
@@ -70,21 +72,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new clientAddress.
+     * Sets a new clientAddress
      *
      * @param string $clientAddress
-     *
      * @return self
      */
     public function setClientAddress($clientAddress)
     {
         $this->clientAddress = $clientAddress;
-
         return $this;
     }
 
     /**
-     * Gets as columnName.
+     * Gets as columnName
      *
      * @return string
      */
@@ -94,21 +94,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new columnName.
+     * Sets a new columnName
      *
      * @param string $columnName
-     *
      * @return self
      */
     public function setColumnName($columnName)
     {
         $this->columnName = $columnName;
-
         return $this;
     }
 
     /**
-     * Gets as event.
+     * Gets as event
      *
      * @return string
      */
@@ -118,21 +116,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new event.
+     * Sets a new event
      *
      * @param string $event
-     *
      * @return self
      */
     public function setEvent($event)
     {
         $this->event = $event;
-
         return $this;
     }
 
     /**
-     * Gets as loggingSeq.
+     * Gets as loggingSeq
      *
      * @return int
      */
@@ -142,21 +138,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new loggingSeq.
+     * Sets a new loggingSeq
      *
      * @param int $loggingSeq
-     *
      * @return self
      */
     public function setLoggingSeq($loggingSeq)
     {
         $this->loggingSeq = $loggingSeq;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -166,21 +160,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedStamp.
+     * Gets as modifiedStamp
      *
      * @return \DateTime
      */
@@ -190,19 +182,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new modifiedStamp.
+     * Sets a new modifiedStamp
      *
+     * @param \DateTime $modifiedStamp
      * @return self
      */
     public function setModifiedStamp(\DateTime $modifiedStamp)
     {
         $this->modifiedStamp = $modifiedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as newValue.
+     * Gets as newValue
      *
      * @return string
      */
@@ -212,21 +204,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new newValue.
+     * Sets a new newValue
      *
      * @param string $newValue
-     *
      * @return self
      */
     public function setNewValue($newValue)
     {
         $this->newValue = $newValue;
-
         return $this;
     }
 
     /**
-     * Gets as oldValue.
+     * Gets as oldValue
      *
      * @return string
      */
@@ -236,21 +226,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new oldValue.
+     * Sets a new oldValue
      *
      * @param string $oldValue
-     *
      * @return self
      */
     public function setOldValue($oldValue)
     {
         $this->oldValue = $oldValue;
-
         return $this;
     }
 
     /**
-     * Gets as schemaName.
+     * Gets as schemaName
      *
      * @return string
      */
@@ -260,21 +248,19 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new schemaName.
+     * Sets a new schemaName
      *
      * @param string $schemaName
-     *
      * @return self
      */
     public function setSchemaName($schemaName)
     {
         $this->schemaName = $schemaName;
-
         return $this;
     }
 
     /**
-     * Gets as tableName.
+     * Gets as tableName
      *
      * @return string
      */
@@ -284,16 +270,17 @@ class LogAttributesType
     }
 
     /**
-     * Sets a new tableName.
+     * Sets a new tableName
      *
      * @param string $tableName
-     *
      * @return self
      */
     public function setTableName($tableName)
     {
         $this->tableName = $tableName;
-
         return $this;
     }
+
+
 }
+

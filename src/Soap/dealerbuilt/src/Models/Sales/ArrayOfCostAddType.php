@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfCostAddType.
+ * Class representing ArrayOfCostAddType
  *
+ * 
  * XSD Type: ArrayOfCostAdd
  */
 class ArrayOfCostAddType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\CostAddType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\CostAddType[] $costAdd
      */
     private $costAdd = [
+        
     ];
 
     /**
-     * Adds as costAdd.
+     * Adds as costAdd
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\CostAddType $costAdd
      */
-    public function addToCostAdd(CostAddType $costAdd)
+    public function addToCostAdd(\App\Soap\dealerbuilt\src\Models\Sales\CostAddType $costAdd)
     {
         $this->costAdd[] = $costAdd;
-
         return $this;
     }
 
     /**
-     * isset costAdd.
+     * isset costAdd
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCostAdd($index)
@@ -42,10 +42,9 @@ class ArrayOfCostAddType
     }
 
     /**
-     * unset costAdd.
+     * unset costAdd
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCostAdd($index)
@@ -54,7 +53,7 @@ class ArrayOfCostAddType
     }
 
     /**
-     * Gets as costAdd.
+     * Gets as costAdd
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\CostAddType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCostAddType
     }
 
     /**
-     * Sets a new costAdd.
+     * Sets a new costAdd
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\CostAddType[] $costAdd
-     *
      * @return self
      */
     public function setCostAdd(array $costAdd)
     {
         $this->costAdd = $costAdd;
-
         return $this;
     }
+
+
 }
+

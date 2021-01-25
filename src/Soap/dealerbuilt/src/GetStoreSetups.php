@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetStoreSetups.
+ * Class representing GetStoreSetups
  */
 class GetStoreSetups
 {
+
     /**
-     * @var int[]
+     * @var int[] $storeIds
      */
     private $storeIds = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToStoreIds($long)
     {
         $this->storeIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset storeIds.
+     * isset storeIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStoreIds($index)
@@ -39,10 +37,9 @@ class GetStoreSetups
     }
 
     /**
-     * unset storeIds.
+     * unset storeIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStoreIds($index)
@@ -51,7 +48,7 @@ class GetStoreSetups
     }
 
     /**
-     * Gets as storeIds.
+     * Gets as storeIds
      *
      * @return int[]
      */
@@ -61,16 +58,17 @@ class GetStoreSetups
     }
 
     /**
-     * Sets a new storeIds.
+     * Sets a new storeIds
      *
      * @param int[] $storeIds
-     *
      * @return self
      */
     public function setStoreIds(array $storeIds)
     {
         $this->storeIds = $storeIds;
-
         return $this;
     }
+
+
 }
+

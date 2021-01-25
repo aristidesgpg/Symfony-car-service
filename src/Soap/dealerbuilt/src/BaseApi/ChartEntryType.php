@@ -3,94 +3,96 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ChartEntryType.
+ * Class representing ChartEntryType
  *
+ * 
  * XSD Type: ChartEntry
  */
 class ChartEntryType extends ApiCompanyItemType
 {
+
     /**
-     * @var string
+     * @var string $accountClass
      */
     private $accountClass = null;
 
     /**
-     * @var string
+     * @var string $accountDescription
      */
     private $accountDescription = null;
 
     /**
-     * @var string
+     * @var string $accountDescriptionAbbreviated
      */
     private $accountDescriptionAbbreviated = null;
 
     /**
-     * @var string
+     * @var string $accountNumber
      */
     private $accountNumber = null;
 
     /**
-     * @var string
+     * @var string $chainAccountNumber
      */
     private $chainAccountNumber = null;
 
     /**
-     * @var string
+     * @var string $control1Type
      */
     private $control1Type = null;
 
     /**
-     * @var string
+     * @var string $control2Type
      */
     private $control2Type = null;
 
     /**
-     * @var string
+     * @var string $departmentCode
      */
     private $departmentCode = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\FactoryAccountNumbersType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\FactoryAccountNumbersType[] $factoryAccountNumbers
      */
     private $factoryAccountNumbers = null;
 
     /**
-     * @var string
+     * @var string $forwardType
      */
     private $forwardType = null;
 
     /**
-     * @var bool
+     * @var bool $isActive
      */
     private $isActive = null;
 
     /**
-     * @var string
+     * @var string $scheduleClass
      */
     private $scheduleClass = null;
 
     /**
-     * @var string
+     * @var string $scheduleCode
      */
     private $scheduleCode = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $scheduleStartDate
      */
     private $scheduleStartDate = null;
 
     /**
-     * @var string
+     * @var string $scheduleType
      */
     private $scheduleType = null;
 
     /**
-     * @var string[]
+     * @var string[] $spreadAccountNumbers
      */
     private $spreadAccountNumbers = null;
 
     /**
-     * Gets as accountClass.
+     * Gets as accountClass
      *
      * @return string
      */
@@ -100,21 +102,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new accountClass.
+     * Sets a new accountClass
      *
      * @param string $accountClass
-     *
      * @return self
      */
     public function setAccountClass($accountClass)
     {
         $this->accountClass = $accountClass;
-
         return $this;
     }
 
     /**
-     * Gets as accountDescription.
+     * Gets as accountDescription
      *
      * @return string
      */
@@ -124,21 +124,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new accountDescription.
+     * Sets a new accountDescription
      *
      * @param string $accountDescription
-     *
      * @return self
      */
     public function setAccountDescription($accountDescription)
     {
         $this->accountDescription = $accountDescription;
-
         return $this;
     }
 
     /**
-     * Gets as accountDescriptionAbbreviated.
+     * Gets as accountDescriptionAbbreviated
      *
      * @return string
      */
@@ -148,21 +146,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new accountDescriptionAbbreviated.
+     * Sets a new accountDescriptionAbbreviated
      *
      * @param string $accountDescriptionAbbreviated
-     *
      * @return self
      */
     public function setAccountDescriptionAbbreviated($accountDescriptionAbbreviated)
     {
         $this->accountDescriptionAbbreviated = $accountDescriptionAbbreviated;
-
         return $this;
     }
 
     /**
-     * Gets as accountNumber.
+     * Gets as accountNumber
      *
      * @return string
      */
@@ -172,21 +168,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new accountNumber.
+     * Sets a new accountNumber
      *
      * @param string $accountNumber
-     *
      * @return self
      */
     public function setAccountNumber($accountNumber)
     {
         $this->accountNumber = $accountNumber;
-
         return $this;
     }
 
     /**
-     * Gets as chainAccountNumber.
+     * Gets as chainAccountNumber
      *
      * @return string
      */
@@ -196,21 +190,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new chainAccountNumber.
+     * Sets a new chainAccountNumber
      *
      * @param string $chainAccountNumber
-     *
      * @return self
      */
     public function setChainAccountNumber($chainAccountNumber)
     {
         $this->chainAccountNumber = $chainAccountNumber;
-
         return $this;
     }
 
     /**
-     * Gets as control1Type.
+     * Gets as control1Type
      *
      * @return string
      */
@@ -220,21 +212,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new control1Type.
+     * Sets a new control1Type
      *
      * @param string $control1Type
-     *
      * @return self
      */
     public function setControl1Type($control1Type)
     {
         $this->control1Type = $control1Type;
-
         return $this;
     }
 
     /**
-     * Gets as control2Type.
+     * Gets as control2Type
      *
      * @return string
      */
@@ -244,21 +234,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new control2Type.
+     * Sets a new control2Type
      *
      * @param string $control2Type
-     *
      * @return self
      */
     public function setControl2Type($control2Type)
     {
         $this->control2Type = $control2Type;
-
         return $this;
     }
 
     /**
-     * Gets as departmentCode.
+     * Gets as departmentCode
      *
      * @return string
      */
@@ -268,36 +256,33 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new departmentCode.
+     * Sets a new departmentCode
      *
      * @param string $departmentCode
-     *
      * @return self
      */
     public function setDepartmentCode($departmentCode)
     {
         $this->departmentCode = $departmentCode;
-
         return $this;
     }
 
     /**
-     * Adds as factoryAccountNumbersType.
+     * Adds as factoryAccountNumbersType
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Accounting\FactoryAccountNumbersType $factoryAccountNumbersType
      */
     public function addToFactoryAccountNumbers(\App\Soap\dealerbuilt\src\Models\Accounting\FactoryAccountNumbersType $factoryAccountNumbersType)
     {
         $this->factoryAccountNumbers[] = $factoryAccountNumbersType;
-
         return $this;
     }
 
     /**
-     * isset factoryAccountNumbers.
+     * isset factoryAccountNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetFactoryAccountNumbers($index)
@@ -306,10 +291,9 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * unset factoryAccountNumbers.
+     * unset factoryAccountNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetFactoryAccountNumbers($index)
@@ -318,7 +302,7 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Gets as factoryAccountNumbers.
+     * Gets as factoryAccountNumbers
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\FactoryAccountNumbersType[]
      */
@@ -328,21 +312,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new factoryAccountNumbers.
+     * Sets a new factoryAccountNumbers
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\FactoryAccountNumbersType[] $factoryAccountNumbers
-     *
      * @return self
      */
     public function setFactoryAccountNumbers(array $factoryAccountNumbers)
     {
         $this->factoryAccountNumbers = $factoryAccountNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as forwardType.
+     * Gets as forwardType
      *
      * @return string
      */
@@ -352,21 +334,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new forwardType.
+     * Sets a new forwardType
      *
      * @param string $forwardType
-     *
      * @return self
      */
     public function setForwardType($forwardType)
     {
         $this->forwardType = $forwardType;
-
         return $this;
     }
 
     /**
-     * Gets as isActive.
+     * Gets as isActive
      *
      * @return bool
      */
@@ -376,21 +356,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new isActive.
+     * Sets a new isActive
      *
      * @param bool $isActive
-     *
      * @return self
      */
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
-
         return $this;
     }
 
     /**
-     * Gets as scheduleClass.
+     * Gets as scheduleClass
      *
      * @return string
      */
@@ -400,21 +378,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new scheduleClass.
+     * Sets a new scheduleClass
      *
      * @param string $scheduleClass
-     *
      * @return self
      */
     public function setScheduleClass($scheduleClass)
     {
         $this->scheduleClass = $scheduleClass;
-
         return $this;
     }
 
     /**
-     * Gets as scheduleCode.
+     * Gets as scheduleCode
      *
      * @return string
      */
@@ -424,21 +400,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new scheduleCode.
+     * Sets a new scheduleCode
      *
      * @param string $scheduleCode
-     *
      * @return self
      */
     public function setScheduleCode($scheduleCode)
     {
         $this->scheduleCode = $scheduleCode;
-
         return $this;
     }
 
     /**
-     * Gets as scheduleStartDate.
+     * Gets as scheduleStartDate
      *
      * @return \DateTime
      */
@@ -448,19 +422,19 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new scheduleStartDate.
+     * Sets a new scheduleStartDate
      *
+     * @param \DateTime $scheduleStartDate
      * @return self
      */
     public function setScheduleStartDate(\DateTime $scheduleStartDate)
     {
         $this->scheduleStartDate = $scheduleStartDate;
-
         return $this;
     }
 
     /**
-     * Gets as scheduleType.
+     * Gets as scheduleType
      *
      * @return string
      */
@@ -470,38 +444,33 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new scheduleType.
+     * Sets a new scheduleType
      *
      * @param string $scheduleType
-     *
      * @return self
      */
     public function setScheduleType($scheduleType)
     {
         $this->scheduleType = $scheduleType;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToSpreadAccountNumbers($string)
     {
         $this->spreadAccountNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset spreadAccountNumbers.
+     * isset spreadAccountNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSpreadAccountNumbers($index)
@@ -510,10 +479,9 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * unset spreadAccountNumbers.
+     * unset spreadAccountNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSpreadAccountNumbers($index)
@@ -522,7 +490,7 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Gets as spreadAccountNumbers.
+     * Gets as spreadAccountNumbers
      *
      * @return string[]
      */
@@ -532,16 +500,17 @@ class ChartEntryType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new spreadAccountNumbers.
+     * Sets a new spreadAccountNumbers
      *
      * @param string[] $spreadAccountNumbers
-     *
      * @return self
      */
     public function setSpreadAccountNumbers(array $spreadAccountNumbers)
     {
         $this->spreadAccountNumbers = $spreadAccountNumbers;
-
         return $this;
     }
+
+
 }
+

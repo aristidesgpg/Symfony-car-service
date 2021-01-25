@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryItemsByKey.
+ * Class representing PullInventoryItemsByKey
  */
 class PullInventoryItemsByKey
 {
+
     /**
-     * @var string[]
+     * @var string[] $inventoryKeys
      */
     private $inventoryKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToInventoryKeys($string)
     {
         $this->inventoryKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset inventoryKeys.
+     * isset inventoryKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInventoryKeys($index)
@@ -39,10 +37,9 @@ class PullInventoryItemsByKey
     }
 
     /**
-     * unset inventoryKeys.
+     * unset inventoryKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInventoryKeys($index)
@@ -51,7 +48,7 @@ class PullInventoryItemsByKey
     }
 
     /**
-     * Gets as inventoryKeys.
+     * Gets as inventoryKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class PullInventoryItemsByKey
     }
 
     /**
-     * Sets a new inventoryKeys.
+     * Sets a new inventoryKeys
      *
      * @param string[] $inventoryKeys
-     *
      * @return self
      */
     public function setInventoryKeys(array $inventoryKeys)
     {
         $this->inventoryKeys = $inventoryKeys;
-
         return $this;
     }
+
+
 }
+

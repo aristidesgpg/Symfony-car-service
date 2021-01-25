@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType:
             access_type: public_method
             serialized_name: BalanceDue
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getBalanceDue
                 setter: setBalanceDue
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType:
             access_type: public_method
             serialized_name: OriginalAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getOriginalAmount
                 setter: setOriginalAmount
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType:
             access_type: public_method
             serialized_name: PayType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getPayType
                 setter: setPayType

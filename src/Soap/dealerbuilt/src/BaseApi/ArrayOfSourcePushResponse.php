@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfSourcePushResponse.
+ * Class representing ArrayOfSourcePushResponse
  */
 class ArrayOfSourcePushResponse extends ArrayOfSourcePushResponseType
 {
+
+
 }
+

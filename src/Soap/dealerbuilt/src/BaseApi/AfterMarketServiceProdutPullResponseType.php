@@ -3,149 +3,151 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing AfterMarketServiceProdutPullResponseType.
+ * Class representing AfterMarketServiceProdutPullResponseType
  *
+ * 
  * XSD Type: AfterMarketServiceProdutPullResponse
  */
 class AfterMarketServiceProdutPullResponseType
 {
+
     /**
-     * @var string
+     * @var string $afterSaleFinancemGrid
      */
     private $afterSaleFinancemGrid = null;
 
     /**
-     * @var string
+     * @var string $afterSaleLocationid
      */
     private $afterSaleLocationid = null;
 
     /**
-     * @var string
+     * @var string $color
      */
     private $color = null;
 
     /**
-     * @var string
+     * @var string $contractNumber
      */
     private $contractNumber = null;
 
     /**
-     * @var string
+     * @var string $cost
      */
     private $cost = null;
 
     /**
-     * @var string
+     * @var string $coverageMiles
      */
     private $coverageMiles = null;
 
     /**
-     * @var string
+     * @var string $coverageMonths
      */
     private $coverageMonths = null;
 
     /**
-     * @var string
+     * @var string $customerid
      */
     private $customerid = null;
 
     /**
-     * @var string
+     * @var string $deductible
      */
     private $deductible = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $expireDate
      */
     private $expireDate = null;
 
     /**
-     * @var string
+     * @var string $expireMiles
      */
     private $expireMiles = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $inserviceDate
      */
     private $inserviceDate = null;
 
     /**
-     * @var string
+     * @var string $inserviceMiles
      */
     private $inserviceMiles = null;
 
     /**
-     * @var string
+     * @var string $lyvehicleSeq
      */
     private $lyvehicleSeq = null;
 
     /**
-     * @var string
+     * @var string $make
      */
     private $make = null;
 
     /**
-     * @var string
+     * @var string $memo
      */
     private $memo = null;
 
     /**
-     * @var string
+     * @var string $message
      */
     private $message = null;
 
     /**
-     * @var string
+     * @var string $model
      */
     private $model = null;
 
     /**
-     * @var string
+     * @var string $provider
      */
     private $provider = null;
 
     /**
-     * @var string
+     * @var string $retail
      */
     private $retail = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $saleDate
      */
     private $saleDate = null;
 
     /**
-     * @var string
+     * @var string $transferCost
      */
     private $transferCost = null;
 
     /**
-     * @var string
+     * @var string $vehFn
      */
     private $vehFn = null;
 
     /**
-     * @var string
+     * @var string $vehIn
      */
     private $vehIn = null;
 
     /**
-     * @var string
+     * @var string $vehYear
      */
     private $vehYear = null;
 
     /**
-     * @var string
+     * @var string $vin2
      */
     private $vin2 = null;
 
     /**
-     * Gets as afterSaleFinancemGrid.
+     * Gets as afterSaleFinancemGrid
      *
      * @return string
      */
@@ -155,21 +157,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new afterSaleFinancemGrid.
+     * Sets a new afterSaleFinancemGrid
      *
      * @param string $afterSaleFinancemGrid
-     *
      * @return self
      */
     public function setAfterSaleFinancemGrid($afterSaleFinancemGrid)
     {
         $this->afterSaleFinancemGrid = $afterSaleFinancemGrid;
-
         return $this;
     }
 
     /**
-     * Gets as afterSaleLocationid.
+     * Gets as afterSaleLocationid
      *
      * @return string
      */
@@ -179,21 +179,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new afterSaleLocationid.
+     * Sets a new afterSaleLocationid
      *
      * @param string $afterSaleLocationid
-     *
      * @return self
      */
     public function setAfterSaleLocationid($afterSaleLocationid)
     {
         $this->afterSaleLocationid = $afterSaleLocationid;
-
         return $this;
     }
 
     /**
-     * Gets as color.
+     * Gets as color
      *
      * @return string
      */
@@ -203,21 +201,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new color.
+     * Sets a new color
      *
      * @param string $color
-     *
      * @return self
      */
     public function setColor($color)
     {
         $this->color = $color;
-
         return $this;
     }
 
     /**
-     * Gets as contractNumber.
+     * Gets as contractNumber
      *
      * @return string
      */
@@ -227,21 +223,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new contractNumber.
+     * Sets a new contractNumber
      *
      * @param string $contractNumber
-     *
      * @return self
      */
     public function setContractNumber($contractNumber)
     {
         $this->contractNumber = $contractNumber;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return string
      */
@@ -251,21 +245,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
      * @param string $cost
-     *
      * @return self
      */
     public function setCost($cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as coverageMiles.
+     * Gets as coverageMiles
      *
      * @return string
      */
@@ -275,21 +267,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new coverageMiles.
+     * Sets a new coverageMiles
      *
      * @param string $coverageMiles
-     *
      * @return self
      */
     public function setCoverageMiles($coverageMiles)
     {
         $this->coverageMiles = $coverageMiles;
-
         return $this;
     }
 
     /**
-     * Gets as coverageMonths.
+     * Gets as coverageMonths
      *
      * @return string
      */
@@ -299,21 +289,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new coverageMonths.
+     * Sets a new coverageMonths
      *
      * @param string $coverageMonths
-     *
      * @return self
      */
     public function setCoverageMonths($coverageMonths)
     {
         $this->coverageMonths = $coverageMonths;
-
         return $this;
     }
 
     /**
-     * Gets as customerid.
+     * Gets as customerid
      *
      * @return string
      */
@@ -323,21 +311,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new customerid.
+     * Sets a new customerid
      *
      * @param string $customerid
-     *
      * @return self
      */
     public function setCustomerid($customerid)
     {
         $this->customerid = $customerid;
-
         return $this;
     }
 
     /**
-     * Gets as deductible.
+     * Gets as deductible
      *
      * @return string
      */
@@ -347,21 +333,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new deductible.
+     * Sets a new deductible
      *
      * @param string $deductible
-     *
      * @return self
      */
     public function setDeductible($deductible)
     {
         $this->deductible = $deductible;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -371,21 +355,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as expireDate.
+     * Gets as expireDate
      *
      * @return \DateTime
      */
@@ -395,19 +377,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new expireDate.
+     * Sets a new expireDate
      *
+     * @param \DateTime $expireDate
      * @return self
      */
     public function setExpireDate(\DateTime $expireDate)
     {
         $this->expireDate = $expireDate;
-
         return $this;
     }
 
     /**
-     * Gets as expireMiles.
+     * Gets as expireMiles
      *
      * @return string
      */
@@ -417,21 +399,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new expireMiles.
+     * Sets a new expireMiles
      *
      * @param string $expireMiles
-     *
      * @return self
      */
     public function setExpireMiles($expireMiles)
     {
         $this->expireMiles = $expireMiles;
-
         return $this;
     }
 
     /**
-     * Gets as inserviceDate.
+     * Gets as inserviceDate
      *
      * @return \DateTime
      */
@@ -441,19 +421,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new inserviceDate.
+     * Sets a new inserviceDate
      *
+     * @param \DateTime $inserviceDate
      * @return self
      */
     public function setInserviceDate(\DateTime $inserviceDate)
     {
         $this->inserviceDate = $inserviceDate;
-
         return $this;
     }
 
     /**
-     * Gets as inserviceMiles.
+     * Gets as inserviceMiles
      *
      * @return string
      */
@@ -463,21 +443,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new inserviceMiles.
+     * Sets a new inserviceMiles
      *
      * @param string $inserviceMiles
-     *
      * @return self
      */
     public function setInserviceMiles($inserviceMiles)
     {
         $this->inserviceMiles = $inserviceMiles;
-
         return $this;
     }
 
     /**
-     * Gets as lyvehicleSeq.
+     * Gets as lyvehicleSeq
      *
      * @return string
      */
@@ -487,21 +465,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new lyvehicleSeq.
+     * Sets a new lyvehicleSeq
      *
      * @param string $lyvehicleSeq
-     *
      * @return self
      */
     public function setLyvehicleSeq($lyvehicleSeq)
     {
         $this->lyvehicleSeq = $lyvehicleSeq;
-
         return $this;
     }
 
     /**
-     * Gets as make.
+     * Gets as make
      *
      * @return string
      */
@@ -511,21 +487,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new make.
+     * Sets a new make
      *
      * @param string $make
-     *
      * @return self
      */
     public function setMake($make)
     {
         $this->make = $make;
-
         return $this;
     }
 
     /**
-     * Gets as memo.
+     * Gets as memo
      *
      * @return string
      */
@@ -535,21 +509,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new memo.
+     * Sets a new memo
      *
      * @param string $memo
-     *
      * @return self
      */
     public function setMemo($memo)
     {
         $this->memo = $memo;
-
         return $this;
     }
 
     /**
-     * Gets as message.
+     * Gets as message
      *
      * @return string
      */
@@ -559,21 +531,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new message.
+     * Sets a new message
      *
      * @param string $message
-     *
      * @return self
      */
     public function setMessage($message)
     {
         $this->message = $message;
-
         return $this;
     }
 
     /**
-     * Gets as model.
+     * Gets as model
      *
      * @return string
      */
@@ -583,21 +553,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new model.
+     * Sets a new model
      *
      * @param string $model
-     *
      * @return self
      */
     public function setModel($model)
     {
         $this->model = $model;
-
         return $this;
     }
 
     /**
-     * Gets as provider.
+     * Gets as provider
      *
      * @return string
      */
@@ -607,21 +575,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new provider.
+     * Sets a new provider
      *
      * @param string $provider
-     *
      * @return self
      */
     public function setProvider($provider)
     {
         $this->provider = $provider;
-
         return $this;
     }
 
     /**
-     * Gets as retail.
+     * Gets as retail
      *
      * @return string
      */
@@ -631,21 +597,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new retail.
+     * Sets a new retail
      *
      * @param string $retail
-     *
      * @return self
      */
     public function setRetail($retail)
     {
         $this->retail = $retail;
-
         return $this;
     }
 
     /**
-     * Gets as saleDate.
+     * Gets as saleDate
      *
      * @return \DateTime
      */
@@ -655,19 +619,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new saleDate.
+     * Sets a new saleDate
      *
+     * @param \DateTime $saleDate
      * @return self
      */
     public function setSaleDate(\DateTime $saleDate)
     {
         $this->saleDate = $saleDate;
-
         return $this;
     }
 
     /**
-     * Gets as transferCost.
+     * Gets as transferCost
      *
      * @return string
      */
@@ -677,21 +641,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new transferCost.
+     * Sets a new transferCost
      *
      * @param string $transferCost
-     *
      * @return self
      */
     public function setTransferCost($transferCost)
     {
         $this->transferCost = $transferCost;
-
         return $this;
     }
 
     /**
-     * Gets as vehFn.
+     * Gets as vehFn
      *
      * @return string
      */
@@ -701,21 +663,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new vehFn.
+     * Sets a new vehFn
      *
      * @param string $vehFn
-     *
      * @return self
      */
     public function setVehFn($vehFn)
     {
         $this->vehFn = $vehFn;
-
         return $this;
     }
 
     /**
-     * Gets as vehIn.
+     * Gets as vehIn
      *
      * @return string
      */
@@ -725,21 +685,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new vehIn.
+     * Sets a new vehIn
      *
      * @param string $vehIn
-     *
      * @return self
      */
     public function setVehIn($vehIn)
     {
         $this->vehIn = $vehIn;
-
         return $this;
     }
 
     /**
-     * Gets as vehYear.
+     * Gets as vehYear
      *
      * @return string
      */
@@ -749,21 +707,19 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new vehYear.
+     * Sets a new vehYear
      *
      * @param string $vehYear
-     *
      * @return self
      */
     public function setVehYear($vehYear)
     {
         $this->vehYear = $vehYear;
-
         return $this;
     }
 
     /**
-     * Gets as vin2.
+     * Gets as vin2
      *
      * @return string
      */
@@ -773,16 +729,17 @@ class AfterMarketServiceProdutPullResponseType
     }
 
     /**
-     * Sets a new vin2.
+     * Sets a new vin2
      *
      * @param string $vin2
-     *
      * @return self
      */
     public function setVin2($vin2)
     {
         $this->vin2 = $vin2;
-
         return $this;
     }
+
+
 }
+

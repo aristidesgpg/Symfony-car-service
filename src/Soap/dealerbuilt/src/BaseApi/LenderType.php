@@ -3,54 +3,56 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing LenderType.
+ * Class representing LenderType
  *
+ * 
  * XSD Type: Lender
  */
 class LenderType extends ApiSourceItemType
 {
+
     /**
-     * @var string
+     * @var string $address
      */
     private $address = null;
 
     /**
-     * @var string
+     * @var string $city
      */
     private $city = null;
 
     /**
-     * @var string
+     * @var string $code
      */
     private $code = null;
 
     /**
-     * @var string
+     * @var string $lenderType
      */
     private $lenderType = null;
 
     /**
-     * @var string
+     * @var string $name
      */
     private $name = null;
 
     /**
-     * @var string
+     * @var string $phone
      */
     private $phone = null;
 
     /**
-     * @var string
+     * @var string $state
      */
     private $state = null;
 
     /**
-     * @var string
+     * @var string $zip
      */
     private $zip = null;
 
     /**
-     * Gets as address.
+     * Gets as address
      *
      * @return string
      */
@@ -60,21 +62,19 @@ class LenderType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new address.
+     * Sets a new address
      *
      * @param string $address
-     *
      * @return self
      */
     public function setAddress($address)
     {
         $this->address = $address;
-
         return $this;
     }
 
     /**
-     * Gets as city.
+     * Gets as city
      *
      * @return string
      */
@@ -84,21 +84,19 @@ class LenderType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new city.
+     * Sets a new city
      *
      * @param string $city
-     *
      * @return self
      */
     public function setCity($city)
     {
         $this->city = $city;
-
         return $this;
     }
 
     /**
-     * Gets as code.
+     * Gets as code
      *
      * @return string
      */
@@ -108,21 +106,19 @@ class LenderType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new code.
+     * Sets a new code
      *
      * @param string $code
-     *
      * @return self
      */
     public function setCode($code)
     {
         $this->code = $code;
-
         return $this;
     }
 
     /**
-     * Gets as lenderType.
+     * Gets as lenderType
      *
      * @return string
      */
@@ -132,21 +128,19 @@ class LenderType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new lenderType.
+     * Sets a new lenderType
      *
      * @param string $lenderType
-     *
      * @return self
      */
     public function setLenderType($lenderType)
     {
         $this->lenderType = $lenderType;
-
         return $this;
     }
 
     /**
-     * Gets as name.
+     * Gets as name
      *
      * @return string
      */
@@ -156,21 +150,19 @@ class LenderType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new name.
+     * Sets a new name
      *
      * @param string $name
-     *
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
     /**
-     * Gets as phone.
+     * Gets as phone
      *
      * @return string
      */
@@ -180,21 +172,19 @@ class LenderType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new phone.
+     * Sets a new phone
      *
      * @param string $phone
-     *
      * @return self
      */
     public function setPhone($phone)
     {
         $this->phone = $phone;
-
         return $this;
     }
 
     /**
-     * Gets as state.
+     * Gets as state
      *
      * @return string
      */
@@ -204,21 +194,19 @@ class LenderType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new state.
+     * Sets a new state
      *
      * @param string $state
-     *
      * @return self
      */
     public function setState($state)
     {
         $this->state = $state;
-
         return $this;
     }
 
     /**
-     * Gets as zip.
+     * Gets as zip
      *
      * @return string
      */
@@ -228,16 +216,17 @@ class LenderType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new zip.
+     * Sets a new zip
      *
      * @param string $zip
-     *
      * @return self
      */
     public function setZip($zip)
     {
         $this->zip = $zip;
-
         return $this;
     }
+
+
 }
+

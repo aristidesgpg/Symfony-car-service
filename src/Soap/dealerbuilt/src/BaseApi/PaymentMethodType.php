@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PaymentMethodType.
+ * Class representing PaymentMethodType
  *
+ * 
  * XSD Type: PaymentMethod
  */
 class PaymentMethodType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var string
+     * @var string $code
      */
     private $code = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * @var string
+     * @var string $paymentMethodKey
      */
     private $paymentMethodKey = null;
 
     /**
-     * Gets as code.
+     * Gets as code
      *
      * @return string
      */
@@ -40,21 +42,19 @@ class PaymentMethodType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new code.
+     * Sets a new code
      *
      * @param string $code
-     *
      * @return self
      */
     public function setCode($code)
     {
         $this->code = $code;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -64,21 +64,19 @@ class PaymentMethodType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -88,21 +86,19 @@ class PaymentMethodType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
 
     /**
-     * Gets as paymentMethodKey.
+     * Gets as paymentMethodKey
      *
      * @return string
      */
@@ -112,16 +108,17 @@ class PaymentMethodType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new paymentMethodKey.
+     * Sets a new paymentMethodKey
      *
      * @param string $paymentMethodKey
-     *
      * @return self
      */
     public function setPaymentMethodKey($paymentMethodKey)
     {
         $this->paymentMethodKey = $paymentMethodKey;
-
         return $this;
     }
+
+
 }
+

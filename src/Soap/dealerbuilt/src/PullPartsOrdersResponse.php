@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPartsOrdersResponse.
+ * Class representing PullPartsOrdersResponse
  */
 class PullPartsOrdersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType[] $pullPartsOrdersResult
      */
     private $pullPartsOrdersResult = null;
 
     /**
-     * Adds as partsOrder.
+     * Adds as partsOrder
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType $partsOrder
      */
-    public function addToPullPartsOrdersResult(BaseApi\PartsOrderType $partsOrder)
+    public function addToPullPartsOrdersResult(\App\Soap\dealerbuilt\src\BaseApi\PartsOrderType $partsOrder)
     {
         $this->pullPartsOrdersResult[] = $partsOrder;
-
         return $this;
     }
 
     /**
-     * isset pullPartsOrdersResult.
+     * isset pullPartsOrdersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullPartsOrdersResult($index)
@@ -39,10 +37,9 @@ class PullPartsOrdersResponse
     }
 
     /**
-     * unset pullPartsOrdersResult.
+     * unset pullPartsOrdersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullPartsOrdersResult($index)
@@ -51,7 +48,7 @@ class PullPartsOrdersResponse
     }
 
     /**
-     * Gets as pullPartsOrdersResult.
+     * Gets as pullPartsOrdersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType[]
      */
@@ -61,16 +58,17 @@ class PullPartsOrdersResponse
     }
 
     /**
-     * Sets a new pullPartsOrdersResult.
+     * Sets a new pullPartsOrdersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderType[] $pullPartsOrdersResult
-     *
      * @return self
      */
     public function setPullPartsOrdersResult(array $pullPartsOrdersResult)
     {
         $this->pullPartsOrdersResult = $pullPartsOrdersResult;
-
         return $this;
     }
+
+
 }
+

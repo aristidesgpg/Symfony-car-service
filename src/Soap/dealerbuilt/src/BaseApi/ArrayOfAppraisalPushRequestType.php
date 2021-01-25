@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfAppraisalPushRequestType.
+ * Class representing ArrayOfAppraisalPushRequestType
  *
+ * 
  * XSD Type: ArrayOfAppraisalPushRequest
  */
 class ArrayOfAppraisalPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType[] $appraisalPushRequest
      */
     private $appraisalPushRequest = [
+        
     ];
 
     /**
-     * Adds as appraisalPushRequest.
+     * Adds as appraisalPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType $appraisalPushRequest
      */
-    public function addToAppraisalPushRequest(AppraisalPushRequestType $appraisalPushRequest)
+    public function addToAppraisalPushRequest(\App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType $appraisalPushRequest)
     {
         $this->appraisalPushRequest[] = $appraisalPushRequest;
-
         return $this;
     }
 
     /**
-     * isset appraisalPushRequest.
+     * isset appraisalPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAppraisalPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfAppraisalPushRequestType
     }
 
     /**
-     * unset appraisalPushRequest.
+     * unset appraisalPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAppraisalPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfAppraisalPushRequestType
     }
 
     /**
-     * Gets as appraisalPushRequest.
+     * Gets as appraisalPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfAppraisalPushRequestType
     }
 
     /**
-     * Sets a new appraisalPushRequest.
+     * Sets a new appraisalPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType[] $appraisalPushRequest
-     *
      * @return self
      */
     public function setAppraisalPushRequest(array $appraisalPushRequest)
     {
         $this->appraisalPushRequest = $appraisalPushRequest;
-
         return $this;
     }
+
+
 }
+

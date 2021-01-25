@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullEstimatesByKey.
+ * Class representing PullEstimatesByKey
  */
 class PullEstimatesByKey
 {
+
     /**
-     * @var string[]
+     * @var string[] $estimateKeys
      */
     private $estimateKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToEstimateKeys($string)
     {
         $this->estimateKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset estimateKeys.
+     * isset estimateKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetEstimateKeys($index)
@@ -39,10 +37,9 @@ class PullEstimatesByKey
     }
 
     /**
-     * unset estimateKeys.
+     * unset estimateKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetEstimateKeys($index)
@@ -51,7 +48,7 @@ class PullEstimatesByKey
     }
 
     /**
-     * Gets as estimateKeys.
+     * Gets as estimateKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class PullEstimatesByKey
     }
 
     /**
-     * Sets a new estimateKeys.
+     * Sets a new estimateKeys
      *
      * @param string[] $estimateKeys
-     *
      * @return self
      */
     public function setEstimateKeys(array $estimateKeys)
     {
         $this->estimateKeys = $estimateKeys;
-
         return $this;
     }
+
+
 }
+

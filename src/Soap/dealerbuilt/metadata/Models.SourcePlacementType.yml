@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\SourcePlacementType:
             access_type: public_method
             serialized_name: DataSourceId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getDataSourceId
                 setter: setDataSourceId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\SourcePlacementType:
             access_type: public_method
             serialized_name: KeyPrefix
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getKeyPrefix
                 setter: setKeyPrefix

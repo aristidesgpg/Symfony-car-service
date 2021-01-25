@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfServiceLocationPlacementType.
+ * Class representing ArrayOfServiceLocationPlacementType
  *
+ * 
  * XSD Type: ArrayOfServiceLocationPlacement
  */
 class ArrayOfServiceLocationPlacementType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType[] $serviceLocationPlacement
      */
     private $serviceLocationPlacement = [
+        
     ];
 
     /**
-     * Adds as serviceLocationPlacement.
+     * Adds as serviceLocationPlacement
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType $serviceLocationPlacement
      */
-    public function addToServiceLocationPlacement(ServiceLocationPlacementType $serviceLocationPlacement)
+    public function addToServiceLocationPlacement(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType $serviceLocationPlacement)
     {
         $this->serviceLocationPlacement[] = $serviceLocationPlacement;
-
         return $this;
     }
 
     /**
-     * isset serviceLocationPlacement.
+     * isset serviceLocationPlacement
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceLocationPlacement($index)
@@ -42,10 +42,9 @@ class ArrayOfServiceLocationPlacementType
     }
 
     /**
-     * unset serviceLocationPlacement.
+     * unset serviceLocationPlacement
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceLocationPlacement($index)
@@ -54,7 +53,7 @@ class ArrayOfServiceLocationPlacementType
     }
 
     /**
-     * Gets as serviceLocationPlacement.
+     * Gets as serviceLocationPlacement
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfServiceLocationPlacementType
     }
 
     /**
-     * Sets a new serviceLocationPlacement.
+     * Sets a new serviceLocationPlacement
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType[] $serviceLocationPlacement
-     *
      * @return self
      */
     public function setServiceLocationPlacement(array $serviceLocationPlacement)
     {
         $this->serviceLocationPlacement = $serviceLocationPlacement;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStockItem.
+ * Class representing ArrayOfStockItem
  */
 class ArrayOfStockItem extends ArrayOfStockItemType
 {
+
+
 }
+

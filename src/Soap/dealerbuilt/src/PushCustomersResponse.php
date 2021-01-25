@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCustomersResponse.
+ * Class representing PushCustomersResponse
  */
 class PushCustomersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[] $pushCustomersResult
      */
     private $pushCustomersResult = null;
 
     /**
-     * Adds as sourcePushResponse.
+     * Adds as sourcePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType $sourcePushResponse
      */
-    public function addToPushCustomersResult(BaseApi\SourcePushResponseType $sourcePushResponse)
+    public function addToPushCustomersResult(\App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType $sourcePushResponse)
     {
         $this->pushCustomersResult[] = $sourcePushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushCustomersResult.
+     * isset pushCustomersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushCustomersResult($index)
@@ -39,10 +37,9 @@ class PushCustomersResponse
     }
 
     /**
-     * unset pushCustomersResult.
+     * unset pushCustomersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushCustomersResult($index)
@@ -51,7 +48,7 @@ class PushCustomersResponse
     }
 
     /**
-     * Gets as pushCustomersResult.
+     * Gets as pushCustomersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushCustomersResponse
     }
 
     /**
-     * Sets a new pushCustomersResult.
+     * Sets a new pushCustomersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[] $pushCustomersResult
-     *
      * @return self
      */
     public function setPushCustomersResult(array $pushCustomersResult)
     {
         $this->pushCustomersResult = $pushCustomersResult;
-
         return $this;
     }
+
+
 }
+

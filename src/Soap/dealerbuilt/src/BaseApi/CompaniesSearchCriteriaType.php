@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CompaniesSearchCriteriaType.
+ * Class representing CompaniesSearchCriteriaType
  *
+ * 
  * XSD Type: CompaniesSearchCriteria
  */
 class CompaniesSearchCriteriaType
 {
+
     /**
-     * @var int[]
+     * @var int[] $companyIds
      */
     private $companyIds = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToCompanyIds($long)
     {
         $this->companyIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset companyIds.
+     * isset companyIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCompanyIds($index)
@@ -41,10 +40,9 @@ class CompaniesSearchCriteriaType
     }
 
     /**
-     * unset companyIds.
+     * unset companyIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCompanyIds($index)
@@ -53,7 +51,7 @@ class CompaniesSearchCriteriaType
     }
 
     /**
-     * Gets as companyIds.
+     * Gets as companyIds
      *
      * @return int[]
      */
@@ -63,16 +61,17 @@ class CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new companyIds.
+     * Sets a new companyIds
      *
      * @param int[] $companyIds
-     *
      * @return self
      */
     public function setCompanyIds(array $companyIds)
     {
         $this->companyIds = $companyIds;
-
         return $this;
     }
+
+
 }
+

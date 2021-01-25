@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushRepairOrdersFromAppointmentsResponse.
+ * Class representing PushRepairOrdersFromAppointmentsResponse
  */
 class PushRepairOrdersFromAppointmentsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[] $pushRepairOrdersFromAppointmentsResult
      */
     private $pushRepairOrdersFromAppointmentsResult = null;
 
     /**
-     * Adds as repairOrderPushResponse.
+     * Adds as repairOrderPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType $repairOrderPushResponse
      */
-    public function addToPushRepairOrdersFromAppointmentsResult(BaseApi\RepairOrderPushResponseType $repairOrderPushResponse)
+    public function addToPushRepairOrdersFromAppointmentsResult(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType $repairOrderPushResponse)
     {
         $this->pushRepairOrdersFromAppointmentsResult[] = $repairOrderPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushRepairOrdersFromAppointmentsResult.
+     * isset pushRepairOrdersFromAppointmentsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushRepairOrdersFromAppointmentsResult($index)
@@ -39,10 +37,9 @@ class PushRepairOrdersFromAppointmentsResponse
     }
 
     /**
-     * unset pushRepairOrdersFromAppointmentsResult.
+     * unset pushRepairOrdersFromAppointmentsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushRepairOrdersFromAppointmentsResult($index)
@@ -51,7 +48,7 @@ class PushRepairOrdersFromAppointmentsResponse
     }
 
     /**
-     * Gets as pushRepairOrdersFromAppointmentsResult.
+     * Gets as pushRepairOrdersFromAppointmentsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushRepairOrdersFromAppointmentsResponse
     }
 
     /**
-     * Sets a new pushRepairOrdersFromAppointmentsResult.
+     * Sets a new pushRepairOrdersFromAppointmentsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[] $pushRepairOrdersFromAppointmentsResult
-     *
      * @return self
      */
     public function setPushRepairOrdersFromAppointmentsResult(array $pushRepairOrdersFromAppointmentsResult)
     {
         $this->pushRepairOrdersFromAppointmentsResult = $pushRepairOrdersFromAppointmentsResult;
-
         return $this;
     }
+
+
 }
+

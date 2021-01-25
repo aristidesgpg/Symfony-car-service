@@ -3,79 +3,81 @@
 namespace App\Soap\dealerbuilt\src\Models\Appointments;
 
 /**
- * Class representing AppointmentAttributesType.
+ * Class representing AppointmentAttributesType
  *
+ * 
  * XSD Type: AppointmentAttributes
  */
 class AppointmentAttributesType
 {
+
     /**
-     * @var string
+     * @var string $appointmentMethod
      */
     private $appointmentMethod = null;
 
     /**
-     * @var int
+     * @var int $appointmentNumber
      */
     private $appointmentNumber = null;
 
     /**
-     * @var string
+     * @var string $appointmentScenario
      */
     private $appointmentScenario = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $appointmentTime
      */
     private $appointmentTime = null;
 
     /**
-     * @var string
+     * @var string $comment
      */
     private $comment = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[] $concerns
      */
     private $concerns = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $created
      */
     private $created = null;
 
     /**
-     * @var int
+     * @var int $mileage
      */
     private $mileage = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $neededBy
      */
     private $neededBy = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $promisedTime
      */
     private $promisedTime = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
+     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $serviceAdvisor
      */
     private $serviceAdvisor = null;
 
     /**
-     * @var string
+     * @var string $status
      */
     private $status = null;
 
     /**
-     * @var string
+     * @var string $statusDescription
      */
     private $statusDescription = null;
 
     /**
-     * Gets as appointmentMethod.
+     * Gets as appointmentMethod
      *
      * @return string
      */
@@ -85,21 +87,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new appointmentMethod.
+     * Sets a new appointmentMethod
      *
      * @param string $appointmentMethod
-     *
      * @return self
      */
     public function setAppointmentMethod($appointmentMethod)
     {
         $this->appointmentMethod = $appointmentMethod;
-
         return $this;
     }
 
     /**
-     * Gets as appointmentNumber.
+     * Gets as appointmentNumber
      *
      * @return int
      */
@@ -109,21 +109,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new appointmentNumber.
+     * Sets a new appointmentNumber
      *
      * @param int $appointmentNumber
-     *
      * @return self
      */
     public function setAppointmentNumber($appointmentNumber)
     {
         $this->appointmentNumber = $appointmentNumber;
-
         return $this;
     }
 
     /**
-     * Gets as appointmentScenario.
+     * Gets as appointmentScenario
      *
      * @return string
      */
@@ -133,21 +131,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new appointmentScenario.
+     * Sets a new appointmentScenario
      *
      * @param string $appointmentScenario
-     *
      * @return self
      */
     public function setAppointmentScenario($appointmentScenario)
     {
         $this->appointmentScenario = $appointmentScenario;
-
         return $this;
     }
 
     /**
-     * Gets as appointmentTime.
+     * Gets as appointmentTime
      *
      * @return \DateTime
      */
@@ -157,19 +153,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new appointmentTime.
+     * Sets a new appointmentTime
      *
+     * @param \DateTime $appointmentTime
      * @return self
      */
     public function setAppointmentTime(\DateTime $appointmentTime)
     {
         $this->appointmentTime = $appointmentTime;
-
         return $this;
     }
 
     /**
-     * Gets as comment.
+     * Gets as comment
      *
      * @return string
      */
@@ -179,38 +175,33 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new comment.
+     * Sets a new comment
      *
      * @param string $comment
-     *
      * @return self
      */
     public function setComment($comment)
     {
         $this->comment = $comment;
-
         return $this;
     }
 
     /**
-     * Adds as concern.
+     * Adds as concern
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType $concern
      */
-    public function addToConcerns(ConcernType $concern)
+    public function addToConcerns(\App\Soap\dealerbuilt\src\Models\Appointments\ConcernType $concern)
     {
         $this->concerns[] = $concern;
-
         return $this;
     }
 
     /**
-     * isset concerns.
+     * isset concerns
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetConcerns($index)
@@ -219,10 +210,9 @@ class AppointmentAttributesType
     }
 
     /**
-     * unset concerns.
+     * unset concerns
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetConcerns($index)
@@ -231,7 +221,7 @@ class AppointmentAttributesType
     }
 
     /**
-     * Gets as concerns.
+     * Gets as concerns
      *
      * @return \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[]
      */
@@ -241,21 +231,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new concerns.
+     * Sets a new concerns
      *
      * @param \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[] $concerns
-     *
      * @return self
      */
     public function setConcerns(array $concerns)
     {
         $this->concerns = $concerns;
-
         return $this;
     }
 
     /**
-     * Gets as created.
+     * Gets as created
      *
      * @return \DateTime
      */
@@ -265,19 +253,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new created.
+     * Sets a new created
      *
+     * @param \DateTime $created
      * @return self
      */
     public function setCreated(\DateTime $created)
     {
         $this->created = $created;
-
         return $this;
     }
 
     /**
-     * Gets as mileage.
+     * Gets as mileage
      *
      * @return int
      */
@@ -287,21 +275,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new mileage.
+     * Sets a new mileage
      *
      * @param int $mileage
-     *
      * @return self
      */
     public function setMileage($mileage)
     {
         $this->mileage = $mileage;
-
         return $this;
     }
 
     /**
-     * Gets as neededBy.
+     * Gets as neededBy
      *
      * @return \DateTime
      */
@@ -311,19 +297,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new neededBy.
+     * Sets a new neededBy
      *
+     * @param \DateTime $neededBy
      * @return self
      */
     public function setNeededBy(\DateTime $neededBy)
     {
         $this->neededBy = $neededBy;
-
         return $this;
     }
 
     /**
-     * Gets as promisedTime.
+     * Gets as promisedTime
      *
      * @return \DateTime
      */
@@ -333,19 +319,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new promisedTime.
+     * Sets a new promisedTime
      *
+     * @param \DateTime $promisedTime
      * @return self
      */
     public function setPromisedTime(\DateTime $promisedTime)
     {
         $this->promisedTime = $promisedTime;
-
         return $this;
     }
 
     /**
-     * Gets as serviceAdvisor.
+     * Gets as serviceAdvisor
      *
      * @return \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
      */
@@ -355,19 +341,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new serviceAdvisor.
+     * Sets a new serviceAdvisor
      *
+     * @param \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $serviceAdvisor
      * @return self
      */
     public function setServiceAdvisor(\App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $serviceAdvisor)
     {
         $this->serviceAdvisor = $serviceAdvisor;
-
         return $this;
     }
 
     /**
-     * Gets as status.
+     * Gets as status
      *
      * @return string
      */
@@ -377,21 +363,19 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new status.
+     * Sets a new status
      *
      * @param string $status
-     *
      * @return self
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
     /**
-     * Gets as statusDescription.
+     * Gets as statusDescription
      *
      * @return string
      */
@@ -401,16 +385,17 @@ class AppointmentAttributesType
     }
 
     /**
-     * Sets a new statusDescription.
+     * Sets a new statusDescription
      *
      * @param string $statusDescription
-     *
      * @return self
      */
     public function setStatusDescription($statusDescription)
     {
         $this->statusDescription = $statusDescription;
-
         return $this;
     }
+
+
 }
+

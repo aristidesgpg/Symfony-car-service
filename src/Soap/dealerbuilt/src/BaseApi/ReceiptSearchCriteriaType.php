@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ReceiptSearchCriteriaType.
+ * Class representing ReceiptSearchCriteriaType
  *
+ * 
  * XSD Type: ReceiptSearchCriteria
  */
 class ReceiptSearchCriteriaType extends CompaniesSearchCriteriaType
 {
+
     /**
-     * @var \DateInterval
+     * @var \DateInterval $maxElapsedSinceUpdate
      */
     private $maxElapsedSinceUpdate = null;
 
     /**
-     * @var string[]
+     * @var string[] $receiptNumbers
      */
     private $receiptNumbers = null;
 
     /**
-     * Gets as maxElapsedSinceUpdate.
+     * Gets as maxElapsedSinceUpdate
      *
      * @return \DateInterval
      */
@@ -30,36 +32,33 @@ class ReceiptSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new maxElapsedSinceUpdate.
+     * Sets a new maxElapsedSinceUpdate
      *
+     * @param \DateInterval $maxElapsedSinceUpdate
      * @return self
      */
     public function setMaxElapsedSinceUpdate(\DateInterval $maxElapsedSinceUpdate)
     {
         $this->maxElapsedSinceUpdate = $maxElapsedSinceUpdate;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToReceiptNumbers($string)
     {
         $this->receiptNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset receiptNumbers.
+     * isset receiptNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetReceiptNumbers($index)
@@ -68,10 +67,9 @@ class ReceiptSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * unset receiptNumbers.
+     * unset receiptNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetReceiptNumbers($index)
@@ -80,7 +78,7 @@ class ReceiptSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Gets as receiptNumbers.
+     * Gets as receiptNumbers
      *
      * @return string[]
      */
@@ -90,16 +88,17 @@ class ReceiptSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new receiptNumbers.
+     * Sets a new receiptNumbers
      *
      * @param string[] $receiptNumbers
-     *
      * @return self
      */
     public function setReceiptNumbers(array $receiptNumbers)
     {
         $this->receiptNumbers = $receiptNumbers;
-
         return $this;
     }
+
+
 }
+

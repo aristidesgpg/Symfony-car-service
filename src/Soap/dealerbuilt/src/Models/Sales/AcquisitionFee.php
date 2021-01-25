@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing AcquisitionFee.
+ * Class representing AcquisitionFee
  */
 class AcquisitionFee extends AcquisitionFeeType
 {
+
+
 }
+

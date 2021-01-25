@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\Sales\ArrayOfDealerFeeType:
             access_type: public_method
             serialized_name: DealerFee
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDealerFee
                 setter: setDealerFee
             xml_list:
                 inline: true
                 entry_name: DealerFee
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             type: array<App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType>

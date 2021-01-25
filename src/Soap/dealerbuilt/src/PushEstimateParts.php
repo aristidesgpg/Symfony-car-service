@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushEstimateParts.
+ * Class representing PushEstimateParts
  */
 class PushEstimateParts
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType[] $requests
      */
     private $requests = null;
 
     /**
-     * Adds as potentialPartPushRequest.
+     * Adds as potentialPartPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType $potentialPartPushRequest
      */
-    public function addToRequests(BaseApi\PotentialPartPushRequestType $potentialPartPushRequest)
+    public function addToRequests(\App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType $potentialPartPushRequest)
     {
         $this->requests[] = $potentialPartPushRequest;
-
         return $this;
     }
 
     /**
-     * isset requests.
+     * isset requests
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRequests($index)
@@ -39,10 +37,9 @@ class PushEstimateParts
     }
 
     /**
-     * unset requests.
+     * unset requests
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRequests($index)
@@ -51,7 +48,7 @@ class PushEstimateParts
     }
 
     /**
-     * Gets as requests.
+     * Gets as requests
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushEstimateParts
     }
 
     /**
-     * Sets a new requests.
+     * Sets a new requests
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType[] $requests
-     *
      * @return self
      */
     public function setRequests(array $requests)
     {
         $this->requests = $requests;
-
         return $this;
     }
+
+
 }
+

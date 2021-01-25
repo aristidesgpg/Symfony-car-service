@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing ServiceLocationItemType.
+ * Class representing ServiceLocationItemType
  *
+ * 
  * XSD Type: ServiceLocationItem
  */
 class ServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\ServiceLocationPlacementType
+     * @var \App\Soap\dealerbuilt\src\Models\ServiceLocationPlacementType $placement
      */
     private $placement = null;
 
     /**
-     * Gets as placement.
+     * Gets as placement
      *
      * @return \App\Soap\dealerbuilt\src\Models\ServiceLocationPlacementType
      */
@@ -25,16 +27,17 @@ class ServiceLocationItemType
     }
 
     /**
-     * Sets a new placement.
+     * Sets a new placement
      *
      * @param \App\Soap\dealerbuilt\src\Models\ServiceLocationPlacementType $placement
-     *
      * @return self
      */
-    public function setPlacement(ServiceLocationPlacementType $placement)
+    public function setPlacement(\App\Soap\dealerbuilt\src\Models\ServiceLocationPlacementType $placement)
     {
         $this->placement = $placement;
-
         return $this;
     }
+
+
 }
+

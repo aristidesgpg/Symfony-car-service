@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing DeferredDownPaymentType.
+ * Class representing DeferredDownPaymentType
  *
+ * 
  * XSD Type: DeferredDownPayment
  */
 class DeferredDownPaymentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      */
     private $amount = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $paymentDate
      */
     private $paymentDate = null;
 
     /**
-     * Gets as amount.
+     * Gets as amount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -30,19 +32,19 @@ class DeferredDownPaymentType
     }
 
     /**
-     * Sets a new amount.
+     * Sets a new amount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      * @return self
      */
     public function setAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount)
     {
         $this->amount = $amount;
-
         return $this;
     }
 
     /**
-     * Gets as paymentDate.
+     * Gets as paymentDate
      *
      * @return \DateTime
      */
@@ -52,14 +54,17 @@ class DeferredDownPaymentType
     }
 
     /**
-     * Sets a new paymentDate.
+     * Sets a new paymentDate
      *
+     * @param \DateTime $paymentDate
      * @return self
      */
     public function setPaymentDate(\DateTime $paymentDate)
     {
         $this->paymentDate = $paymentDate;
-
         return $this;
     }
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType:
             access_type: public_method
             serialized_name: PeriodEnd
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPeriodEnd
                 setter: setPeriodEnd
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType:
             access_type: public_method
             serialized_name: PeriodStart
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPeriodStart
                 setter: setPeriodStart
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType:
             access_type: public_method
             serialized_name: Statuses
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStatuses
                 setter: setStatuses
@@ -34,4 +34,4 @@ App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType:
                 inline: false
                 entry_name: AppointmentStatus
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'

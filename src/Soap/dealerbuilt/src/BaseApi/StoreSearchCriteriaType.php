@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StoreSearchCriteriaType.
+ * Class representing StoreSearchCriteriaType
  *
+ * 
  * XSD Type: StoreSearchCriteria
  */
 class StoreSearchCriteriaType extends SearchCriteriaType
 {
+
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -25,16 +27,17 @@ class StoreSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
+
+
 }
+

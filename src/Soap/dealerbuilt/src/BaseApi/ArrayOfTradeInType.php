@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfTradeInType.
+ * Class representing ArrayOfTradeInType
  *
+ * 
  * XSD Type: ArrayOfTradeIn
  */
 class ArrayOfTradeInType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\TradeInType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\TradeInType[] $tradeIn
      */
     private $tradeIn = [
+        
     ];
 
     /**
-     * Adds as tradeIn.
+     * Adds as tradeIn
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\TradeInType $tradeIn
      */
-    public function addToTradeIn(TradeInType $tradeIn)
+    public function addToTradeIn(\App\Soap\dealerbuilt\src\BaseApi\TradeInType $tradeIn)
     {
         $this->tradeIn[] = $tradeIn;
-
         return $this;
     }
 
     /**
-     * isset tradeIn.
+     * isset tradeIn
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetTradeIn($index)
@@ -42,10 +42,9 @@ class ArrayOfTradeInType
     }
 
     /**
-     * unset tradeIn.
+     * unset tradeIn
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetTradeIn($index)
@@ -54,7 +53,7 @@ class ArrayOfTradeInType
     }
 
     /**
-     * Gets as tradeIn.
+     * Gets as tradeIn
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\TradeInType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfTradeInType
     }
 
     /**
-     * Sets a new tradeIn.
+     * Sets a new tradeIn
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\TradeInType[] $tradeIn
-     *
      * @return self
      */
     public function setTradeIn(array $tradeIn)
     {
         $this->tradeIn = $tradeIn;
-
         return $this;
     }
+
+
 }
+

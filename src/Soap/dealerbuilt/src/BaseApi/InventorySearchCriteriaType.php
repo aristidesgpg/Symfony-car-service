@@ -3,54 +3,56 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing InventorySearchCriteriaType.
+ * Class representing InventorySearchCriteriaType
  *
+ * 
  * XSD Type: InventorySearchCriteria
  */
 class InventorySearchCriteriaType extends StoresSearchCriteriaType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType $availability
      */
     private $availability = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maxDateReceived
      */
     private $maxDateReceived = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maxDateSold
      */
     private $maxDateSold = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minDateReceived
      */
     private $minDateReceived = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minDateSold
      */
     private $minDateSold = null;
 
     /**
-     * @var string
+     * @var string $partialMake
      */
     private $partialMake = null;
 
     /**
-     * @var string
+     * @var string $partialModel
      */
     private $partialModel = null;
 
     /**
-     * @var int
+     * @var int $year
      */
     private $year = null;
 
     /**
-     * Gets as availability.
+     * Gets as availability
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType
      */
@@ -60,19 +62,19 @@ class InventorySearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new availability.
+     * Sets a new availability
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType $availability
      * @return self
      */
     public function setAvailability(\App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType $availability)
     {
         $this->availability = $availability;
-
         return $this;
     }
 
     /**
-     * Gets as maxDateReceived.
+     * Gets as maxDateReceived
      *
      * @return \DateTime
      */
@@ -82,19 +84,19 @@ class InventorySearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new maxDateReceived.
+     * Sets a new maxDateReceived
      *
+     * @param \DateTime $maxDateReceived
      * @return self
      */
     public function setMaxDateReceived(\DateTime $maxDateReceived)
     {
         $this->maxDateReceived = $maxDateReceived;
-
         return $this;
     }
 
     /**
-     * Gets as maxDateSold.
+     * Gets as maxDateSold
      *
      * @return \DateTime
      */
@@ -104,19 +106,19 @@ class InventorySearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new maxDateSold.
+     * Sets a new maxDateSold
      *
+     * @param \DateTime $maxDateSold
      * @return self
      */
     public function setMaxDateSold(\DateTime $maxDateSold)
     {
         $this->maxDateSold = $maxDateSold;
-
         return $this;
     }
 
     /**
-     * Gets as minDateReceived.
+     * Gets as minDateReceived
      *
      * @return \DateTime
      */
@@ -126,19 +128,19 @@ class InventorySearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new minDateReceived.
+     * Sets a new minDateReceived
      *
+     * @param \DateTime $minDateReceived
      * @return self
      */
     public function setMinDateReceived(\DateTime $minDateReceived)
     {
         $this->minDateReceived = $minDateReceived;
-
         return $this;
     }
 
     /**
-     * Gets as minDateSold.
+     * Gets as minDateSold
      *
      * @return \DateTime
      */
@@ -148,19 +150,19 @@ class InventorySearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new minDateSold.
+     * Sets a new minDateSold
      *
+     * @param \DateTime $minDateSold
      * @return self
      */
     public function setMinDateSold(\DateTime $minDateSold)
     {
         $this->minDateSold = $minDateSold;
-
         return $this;
     }
 
     /**
-     * Gets as partialMake.
+     * Gets as partialMake
      *
      * @return string
      */
@@ -170,21 +172,19 @@ class InventorySearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new partialMake.
+     * Sets a new partialMake
      *
      * @param string $partialMake
-     *
      * @return self
      */
     public function setPartialMake($partialMake)
     {
         $this->partialMake = $partialMake;
-
         return $this;
     }
 
     /**
-     * Gets as partialModel.
+     * Gets as partialModel
      *
      * @return string
      */
@@ -194,21 +194,19 @@ class InventorySearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new partialModel.
+     * Sets a new partialModel
      *
      * @param string $partialModel
-     *
      * @return self
      */
     public function setPartialModel($partialModel)
     {
         $this->partialModel = $partialModel;
-
         return $this;
     }
 
     /**
-     * Gets as year.
+     * Gets as year
      *
      * @return int
      */
@@ -218,16 +216,17 @@ class InventorySearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new year.
+     * Sets a new year
      *
      * @param int $year
-     *
      * @return self
      */
     public function setYear($year)
     {
         $this->year = $year;
-
         return $this;
     }
+
+
 }
+

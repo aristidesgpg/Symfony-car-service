@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullOemServiceProfilesResponse.
+ * Class representing PullOemServiceProfilesResponse
  */
 class PullOemServiceProfilesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType[] $pullOemServiceProfilesResult
      */
     private $pullOemServiceProfilesResult = null;
 
     /**
-     * Adds as oemServiceProfile.
+     * Adds as oemServiceProfile
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType $oemServiceProfile
      */
-    public function addToPullOemServiceProfilesResult(BaseApi\OemServiceProfileType $oemServiceProfile)
+    public function addToPullOemServiceProfilesResult(\App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType $oemServiceProfile)
     {
         $this->pullOemServiceProfilesResult[] = $oemServiceProfile;
-
         return $this;
     }
 
     /**
-     * isset pullOemServiceProfilesResult.
+     * isset pullOemServiceProfilesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullOemServiceProfilesResult($index)
@@ -39,10 +37,9 @@ class PullOemServiceProfilesResponse
     }
 
     /**
-     * unset pullOemServiceProfilesResult.
+     * unset pullOemServiceProfilesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullOemServiceProfilesResult($index)
@@ -51,7 +48,7 @@ class PullOemServiceProfilesResponse
     }
 
     /**
-     * Gets as pullOemServiceProfilesResult.
+     * Gets as pullOemServiceProfilesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType[]
      */
@@ -61,16 +58,17 @@ class PullOemServiceProfilesResponse
     }
 
     /**
-     * Sets a new pullOemServiceProfilesResult.
+     * Sets a new pullOemServiceProfilesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType[] $pullOemServiceProfilesResult
-     *
      * @return self
      */
     public function setPullOemServiceProfilesResult(array $pullOemServiceProfilesResult)
     {
         $this->pullOemServiceProfilesResult = $pullOemServiceProfilesResult;
-
         return $this;
     }
+
+
 }
+

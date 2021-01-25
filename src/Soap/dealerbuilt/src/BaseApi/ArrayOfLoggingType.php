@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfLoggingType.
+ * Class representing ArrayOfLoggingType
  *
+ * 
  * XSD Type: ArrayOfLogging
  */
 class ArrayOfLoggingType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\LoggingType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\LoggingType[] $logging
      */
     private $logging = [
+        
     ];
 
     /**
-     * Adds as logging.
+     * Adds as logging
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LoggingType $logging
      */
-    public function addToLogging(LoggingType $logging)
+    public function addToLogging(\App\Soap\dealerbuilt\src\BaseApi\LoggingType $logging)
     {
         $this->logging[] = $logging;
-
         return $this;
     }
 
     /**
-     * isset logging.
+     * isset logging
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLogging($index)
@@ -42,10 +42,9 @@ class ArrayOfLoggingType
     }
 
     /**
-     * unset logging.
+     * unset logging
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLogging($index)
@@ -54,7 +53,7 @@ class ArrayOfLoggingType
     }
 
     /**
-     * Gets as logging.
+     * Gets as logging
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\LoggingType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfLoggingType
     }
 
     /**
-     * Sets a new logging.
+     * Sets a new logging
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LoggingType[] $logging
-     *
      * @return self
      */
     public function setLogging(array $logging)
     {
         $this->logging = $logging;
-
         return $this;
     }
+
+
 }
+

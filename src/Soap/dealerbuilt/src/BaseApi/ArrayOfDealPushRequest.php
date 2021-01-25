@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDealPushRequest.
+ * Class representing ArrayOfDealPushRequest
  */
 class ArrayOfDealPushRequest extends ArrayOfDealPushRequestType
 {
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfLogging.
+ * Class representing ArrayOfLogging
  */
 class ArrayOfLogging extends ArrayOfLoggingType
 {
+
+
 }
+

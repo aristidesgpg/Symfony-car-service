@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPotentialLaborOperationSubletPushRequestType.
+ * Class representing ArrayOfPotentialLaborOperationSubletPushRequestType
  *
+ * 
  * XSD Type: ArrayOfPotentialLaborOperationSubletPushRequest
  */
 class ArrayOfPotentialLaborOperationSubletPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType[] $potentialLaborOperationSubletPushRequest
      */
     private $potentialLaborOperationSubletPushRequest = [
+        
     ];
 
     /**
-     * Adds as potentialLaborOperationSubletPushRequest.
+     * Adds as potentialLaborOperationSubletPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType $potentialLaborOperationSubletPushRequest
      */
-    public function addToPotentialLaborOperationSubletPushRequest(PotentialLaborOperationSubletPushRequestType $potentialLaborOperationSubletPushRequest)
+    public function addToPotentialLaborOperationSubletPushRequest(\App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType $potentialLaborOperationSubletPushRequest)
     {
         $this->potentialLaborOperationSubletPushRequest[] = $potentialLaborOperationSubletPushRequest;
-
         return $this;
     }
 
     /**
-     * isset potentialLaborOperationSubletPushRequest.
+     * isset potentialLaborOperationSubletPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPotentialLaborOperationSubletPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfPotentialLaborOperationSubletPushRequestType
     }
 
     /**
-     * unset potentialLaborOperationSubletPushRequest.
+     * unset potentialLaborOperationSubletPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPotentialLaborOperationSubletPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfPotentialLaborOperationSubletPushRequestType
     }
 
     /**
-     * Gets as potentialLaborOperationSubletPushRequest.
+     * Gets as potentialLaborOperationSubletPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPotentialLaborOperationSubletPushRequestType
     }
 
     /**
-     * Sets a new potentialLaborOperationSubletPushRequest.
+     * Sets a new potentialLaborOperationSubletPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialLaborOperationSubletPushRequestType[] $potentialLaborOperationSubletPushRequest
-     *
      * @return self
      */
     public function setPotentialLaborOperationSubletPushRequest(array $potentialLaborOperationSubletPushRequest)
     {
         $this->potentialLaborOperationSubletPushRequest = $potentialLaborOperationSubletPushRequest;
-
         return $this;
     }
+
+
 }
+

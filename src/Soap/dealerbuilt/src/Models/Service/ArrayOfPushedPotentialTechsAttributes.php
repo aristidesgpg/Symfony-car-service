@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedPotentialTechsAttributes.
+ * Class representing ArrayOfPushedPotentialTechsAttributes
  */
 class ArrayOfPushedPotentialTechsAttributes extends ArrayOfPushedPotentialTechsAttributesType
 {
+
+
 }
+

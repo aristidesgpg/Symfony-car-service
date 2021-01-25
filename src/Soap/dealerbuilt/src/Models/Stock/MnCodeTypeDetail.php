@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing MnCodeTypeDetail.
+ * Class representing MnCodeTypeDetail
  */
 class MnCodeTypeDetail extends MnCodeTypeDetailType
 {
+
+
 }
+

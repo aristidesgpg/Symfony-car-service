@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing TradeInType.
+ * Class representing TradeInType
  *
+ * 
  * XSD Type: TradeIn
  */
 class TradeInType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var int
+     * @var int $tradeInSequence
      */
     private $tradeInSequence = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType $vehicle
      */
     private $vehicle = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType
      */
@@ -35,19 +37,19 @@ class TradeInType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as tradeInSequence.
+     * Gets as tradeInSequence
      *
      * @return int
      */
@@ -57,21 +59,19 @@ class TradeInType
     }
 
     /**
-     * Sets a new tradeInSequence.
+     * Sets a new tradeInSequence
      *
      * @param int $tradeInSequence
-     *
      * @return self
      */
     public function setTradeInSequence($tradeInSequence)
     {
         $this->tradeInSequence = $tradeInSequence;
-
         return $this;
     }
 
     /**
-     * Gets as vehicle.
+     * Gets as vehicle
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemType
      */
@@ -81,16 +81,17 @@ class TradeInType
     }
 
     /**
-     * Sets a new vehicle.
+     * Sets a new vehicle
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType $vehicle
-     *
      * @return self
      */
-    public function setVehicle(StockItemType $vehicle)
+    public function setVehicle(\App\Soap\dealerbuilt\src\BaseApi\StockItemType $vehicle)
     {
         $this->vehicle = $vehicle;
-
         return $this;
     }
+
+
 }
+

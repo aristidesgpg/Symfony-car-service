@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiDealReferencesType.
+ * Class representing ApiDealReferencesType
  *
+ * 
  * XSD Type: ApiDealReferences
  */
 class ApiDealReferencesType
 {
+
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var string
+     * @var string $inventoryKey
      */
     private $inventoryKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\TradeInType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\TradeInType[] $tradeIns
      */
     private $tradeIns = null;
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class ApiDealReferencesType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as inventoryKey.
+     * Gets as inventoryKey
      *
      * @return string
      */
@@ -59,38 +59,33 @@ class ApiDealReferencesType
     }
 
     /**
-     * Sets a new inventoryKey.
+     * Sets a new inventoryKey
      *
      * @param string $inventoryKey
-     *
      * @return self
      */
     public function setInventoryKey($inventoryKey)
     {
         $this->inventoryKey = $inventoryKey;
-
         return $this;
     }
 
     /**
-     * Adds as tradeIn.
+     * Adds as tradeIn
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\TradeInType $tradeIn
      */
-    public function addToTradeIns(TradeInType $tradeIn)
+    public function addToTradeIns(\App\Soap\dealerbuilt\src\BaseApi\TradeInType $tradeIn)
     {
         $this->tradeIns[] = $tradeIn;
-
         return $this;
     }
 
     /**
-     * isset tradeIns.
+     * isset tradeIns
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetTradeIns($index)
@@ -99,10 +94,9 @@ class ApiDealReferencesType
     }
 
     /**
-     * unset tradeIns.
+     * unset tradeIns
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetTradeIns($index)
@@ -111,7 +105,7 @@ class ApiDealReferencesType
     }
 
     /**
-     * Gets as tradeIns.
+     * Gets as tradeIns
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\TradeInType[]
      */
@@ -121,16 +115,17 @@ class ApiDealReferencesType
     }
 
     /**
-     * Sets a new tradeIns.
+     * Sets a new tradeIns
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\TradeInType[] $tradeIns
-     *
      * @return self
      */
     public function setTradeIns(array $tradeIns)
     {
         $this->tradeIns = $tradeIns;
-
         return $this;
     }
+
+
 }
+

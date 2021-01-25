@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing Customer.
+ * Class representing Customer
  */
 class Customer extends CustomerType
 {
+
+
 }
+

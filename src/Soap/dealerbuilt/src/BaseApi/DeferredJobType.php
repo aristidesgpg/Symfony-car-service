@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DeferredJobType.
+ * Class representing DeferredJobType
  *
+ * 
  * XSD Type: DeferredJob
  */
 class DeferredJobType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var string
+     * @var string $deferredJobKey
      */
     private $deferredJobKey = null;
 
     /**
-     * @var string
+     * @var string $vehicleKey
      */
     private $vehicleKey = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType
      */
@@ -40,19 +42,19 @@ class DeferredJobType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -62,21 +64,19 @@ class DeferredJobType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as deferredJobKey.
+     * Gets as deferredJobKey
      *
      * @return string
      */
@@ -86,21 +86,19 @@ class DeferredJobType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new deferredJobKey.
+     * Sets a new deferredJobKey
      *
      * @param string $deferredJobKey
-     *
      * @return self
      */
     public function setDeferredJobKey($deferredJobKey)
     {
         $this->deferredJobKey = $deferredJobKey;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleKey.
+     * Gets as vehicleKey
      *
      * @return string
      */
@@ -110,16 +108,17 @@ class DeferredJobType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new vehicleKey.
+     * Sets a new vehicleKey
      *
      * @param string $vehicleKey
-     *
      * @return self
      */
     public function setVehicleKey($vehicleKey)
     {
         $this->vehicleKey = $vehicleKey;
-
         return $this;
     }
+
+
 }
+

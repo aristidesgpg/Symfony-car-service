@@ -3,59 +3,61 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PaymentType.
+ * Class representing PaymentType
  *
+ * 
  * XSD Type: Payment
  */
 class PaymentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      */
     private $amount = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $createdStamp
      */
     private $createdStamp = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var string
+     * @var string $glAccount
      */
     private $glAccount = null;
 
     /**
-     * @var bool
+     * @var bool $includedInBalance
      */
     private $includedInBalance = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * @var string
+     * @var string $paymentKey
      */
     private $paymentKey = null;
 
     /**
-     * @var string
+     * @var string $paymentMethodCode
      */
     private $paymentMethodCode = null;
 
     /**
-     * @var string
+     * @var string $username
      */
     private $username = null;
 
     /**
-     * Gets as amount.
+     * Gets as amount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -65,19 +67,19 @@ class PaymentType
     }
 
     /**
-     * Sets a new amount.
+     * Sets a new amount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      * @return self
      */
     public function setAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount)
     {
         $this->amount = $amount;
-
         return $this;
     }
 
     /**
-     * Gets as createdStamp.
+     * Gets as createdStamp
      *
      * @return \DateTime
      */
@@ -87,19 +89,19 @@ class PaymentType
     }
 
     /**
-     * Sets a new createdStamp.
+     * Sets a new createdStamp
      *
+     * @param \DateTime $createdStamp
      * @return self
      */
     public function setCreatedStamp(\DateTime $createdStamp)
     {
         $this->createdStamp = $createdStamp;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -109,21 +111,19 @@ class PaymentType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as glAccount.
+     * Gets as glAccount
      *
      * @return string
      */
@@ -133,21 +133,19 @@ class PaymentType
     }
 
     /**
-     * Sets a new glAccount.
+     * Sets a new glAccount
      *
      * @param string $glAccount
-     *
      * @return self
      */
     public function setGlAccount($glAccount)
     {
         $this->glAccount = $glAccount;
-
         return $this;
     }
 
     /**
-     * Gets as includedInBalance.
+     * Gets as includedInBalance
      *
      * @return bool
      */
@@ -157,21 +155,19 @@ class PaymentType
     }
 
     /**
-     * Sets a new includedInBalance.
+     * Sets a new includedInBalance
      *
      * @param bool $includedInBalance
-     *
      * @return self
      */
     public function setIncludedInBalance($includedInBalance)
     {
         $this->includedInBalance = $includedInBalance;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -181,21 +177,19 @@ class PaymentType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
 
     /**
-     * Gets as paymentKey.
+     * Gets as paymentKey
      *
      * @return string
      */
@@ -205,21 +199,19 @@ class PaymentType
     }
 
     /**
-     * Sets a new paymentKey.
+     * Sets a new paymentKey
      *
      * @param string $paymentKey
-     *
      * @return self
      */
     public function setPaymentKey($paymentKey)
     {
         $this->paymentKey = $paymentKey;
-
         return $this;
     }
 
     /**
-     * Gets as paymentMethodCode.
+     * Gets as paymentMethodCode
      *
      * @return string
      */
@@ -229,21 +221,19 @@ class PaymentType
     }
 
     /**
-     * Sets a new paymentMethodCode.
+     * Sets a new paymentMethodCode
      *
      * @param string $paymentMethodCode
-     *
      * @return self
      */
     public function setPaymentMethodCode($paymentMethodCode)
     {
         $this->paymentMethodCode = $paymentMethodCode;
-
         return $this;
     }
 
     /**
-     * Gets as username.
+     * Gets as username
      *
      * @return string
      */
@@ -253,16 +243,17 @@ class PaymentType
     }
 
     /**
-     * Sets a new username.
+     * Sets a new username
      *
      * @param string $username
-     *
      * @return self
      */
     public function setUsername($username)
     {
         $this->username = $username;
-
         return $this;
     }
+
+
 }
+

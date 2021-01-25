@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: Acv
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAcv
                 setter: setAcv
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: Allowance
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAllowance
                 setter: setAllowance
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: AppraisalKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAppraisalKey
                 setter: setAppraisalKey
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: Attributes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAttributes
                 setter: setAttributes
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: DealKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDealKey
                 setter: setDealKey
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: ExternalAppraisalId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExternalAppraisalId
                 setter: setExternalAppraisalId
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: Payoff
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoff
                 setter: setPayoff
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffAccount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffAccount
                 setter: setPayoffAccount
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffAddress
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffAddress
                 setter: setPayoffAddress
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffAmount
                 setter: setPayoffAmount
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffCityStateZip
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffCityStateZip
                 setter: setPayoffCityStateZip
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffComments
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffComments
                 setter: setPayoffComments
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffDate
                 setter: setPayoffDate
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffLenderCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffLenderCode
                 setter: setPayoffLenderCode
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffLenderName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffLenderName
                 setter: setPayoffLenderName
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffPerDiem
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffPerDiem
                 setter: setPayoffPerDiem
@@ -165,7 +165,7 @@ App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
             access_type: public_method
             serialized_name: PayoffPhone
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayoffPhone
                 setter: setPayoffPhone

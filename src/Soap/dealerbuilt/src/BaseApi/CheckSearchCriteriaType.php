@@ -3,41 +3,40 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CheckSearchCriteriaType.
+ * Class representing CheckSearchCriteriaType
  *
+ * 
  * XSD Type: CheckSearchCriteria
  */
 class CheckSearchCriteriaType extends CompaniesSearchCriteriaType
 {
+
     /**
-     * @var string[]
+     * @var string[] $checkNumbers
      */
     private $checkNumbers = null;
 
     /**
-     * @var \DateInterval
+     * @var \DateInterval $maxElapsedSinceUpdate
      */
     private $maxElapsedSinceUpdate = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToCheckNumbers($string)
     {
         $this->checkNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset checkNumbers.
+     * isset checkNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCheckNumbers($index)
@@ -46,10 +45,9 @@ class CheckSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * unset checkNumbers.
+     * unset checkNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCheckNumbers($index)
@@ -58,7 +56,7 @@ class CheckSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Gets as checkNumbers.
+     * Gets as checkNumbers
      *
      * @return string[]
      */
@@ -68,21 +66,19 @@ class CheckSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new checkNumbers.
+     * Sets a new checkNumbers
      *
      * @param string[] $checkNumbers
-     *
      * @return self
      */
     public function setCheckNumbers(array $checkNumbers)
     {
         $this->checkNumbers = $checkNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as maxElapsedSinceUpdate.
+     * Gets as maxElapsedSinceUpdate
      *
      * @return \DateInterval
      */
@@ -92,14 +88,17 @@ class CheckSearchCriteriaType extends CompaniesSearchCriteriaType
     }
 
     /**
-     * Sets a new maxElapsedSinceUpdate.
+     * Sets a new maxElapsedSinceUpdate
      *
+     * @param \DateInterval $maxElapsedSinceUpdate
      * @return self
      */
     public function setMaxElapsedSinceUpdate(\DateInterval $maxElapsedSinceUpdate)
     {
         $this->maxElapsedSinceUpdate = $maxElapsedSinceUpdate;
-
         return $this;
     }
+
+
 }
+

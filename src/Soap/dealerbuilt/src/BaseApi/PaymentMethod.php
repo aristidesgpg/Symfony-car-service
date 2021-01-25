@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PaymentMethod.
+ * Class representing PaymentMethod
  */
 class PaymentMethod extends PaymentMethodType
 {
+
+
 }
+

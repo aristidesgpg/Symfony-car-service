@@ -1,16 +1,19 @@
 <?php
 
+
 namespace App\Soap\dealerbuilt\src;
+
 
 class DealerBuiltSoapEnvelope
 {
     /**
-     * @var \App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeHeader
+     * @var \App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeHeader $header
      */
     private $header = null;
 
+
     /**
-     * @var \App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeBody
+     * @var \App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeBody $body
      */
     private $body = null;
 
@@ -22,6 +25,9 @@ class DealerBuiltSoapEnvelope
         return $this->header;
     }
 
+    /**
+     * @param DealerBuiltSoapEnvelopeHeader|null $header
+     */
     public function setHeader(?DealerBuiltSoapEnvelopeHeader $header): void
     {
         $this->header = $header;
@@ -35,8 +41,16 @@ class DealerBuiltSoapEnvelope
         return $this->body;
     }
 
+    /**
+     * @param DealerBuiltSoapEnvelopeBody|null $body
+     */
     public function setBody(?DealerBuiltSoapEnvelopeBody $body): void
     {
         $this->body = $body;
     }
+
+
+
+
+
 }

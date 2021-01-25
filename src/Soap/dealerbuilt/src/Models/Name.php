@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing Name.
+ * Class representing Name
  */
 class Name extends NameType
 {
+
+
 }
+

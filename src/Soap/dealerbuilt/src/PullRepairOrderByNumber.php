@@ -3,22 +3,23 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullRepairOrderByNumber.
+ * Class representing PullRepairOrderByNumber
  */
 class PullRepairOrderByNumber
 {
+
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var string
+     * @var string $repairOrderNumber
      */
     private $repairOrderNumber = null;
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -28,21 +29,19 @@ class PullRepairOrderByNumber
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderNumber.
+     * Gets as repairOrderNumber
      *
      * @return string
      */
@@ -52,16 +51,17 @@ class PullRepairOrderByNumber
     }
 
     /**
-     * Sets a new repairOrderNumber.
+     * Sets a new repairOrderNumber
      *
      * @param string $repairOrderNumber
-     *
      * @return self
      */
     public function setRepairOrderNumber($repairOrderNumber)
     {
         $this->repairOrderNumber = $repairOrderNumber;
-
         return $this;
     }
+
+
 }
+

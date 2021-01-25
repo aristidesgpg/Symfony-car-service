@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\SearchCriteriaType:
             access_type: public_method
             serialized_name: ChangedPeriodEnd
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getChangedPeriodEnd
                 setter: setChangedPeriodEnd
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\SearchCriteriaType:
             access_type: public_method
             serialized_name: ChangedPeriodStart
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getChangedPeriodStart
                 setter: setChangedPeriodStart
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\SearchCriteriaType:
             access_type: public_method
             serialized_name: MaxElapsedSinceUpdate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaxElapsedSinceUpdate
                 setter: setMaxElapsedSinceUpdate
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\SearchCriteriaType:
             access_type: public_method
             serialized_name: SuppressErrors
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getSuppressErrors
                 setter: setSuppressErrors

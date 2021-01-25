@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing AppraisalPushRequest.
+ * Class representing AppraisalPushRequest
  */
 class AppraisalPushRequest extends AppraisalPushRequestType
 {
+
+
 }
+

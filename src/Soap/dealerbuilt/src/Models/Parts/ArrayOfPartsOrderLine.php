@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing ArrayOfPartsOrderLine.
+ * Class representing ArrayOfPartsOrderLine
  */
 class ArrayOfPartsOrderLine extends ArrayOfPartsOrderLineType
 {
+
+
 }
+

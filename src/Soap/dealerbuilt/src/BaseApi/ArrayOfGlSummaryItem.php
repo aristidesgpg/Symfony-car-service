@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfGlSummaryItem.
+ * Class representing ArrayOfGlSummaryItem
  */
 class ArrayOfGlSummaryItem extends ArrayOfGlSummaryItemType
 {
+
+
 }
+

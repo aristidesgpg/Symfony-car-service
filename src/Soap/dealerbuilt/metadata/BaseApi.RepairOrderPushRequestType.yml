@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: Color
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getColor
                 setter: setColor
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: CustomerKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerKey
                 setter: setCustomerKey
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: ExternalRepairOrderId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExternalRepairOrderId
                 setter: setExternalRepairOrderId
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: ForceRepairOrderCreation
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getForceRepairOrderCreation
                 setter: setForceRepairOrderCreation
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: Hat
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getHat
                 setter: setHat
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: InternalNotes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getInternalNotes
                 setter: setInternalNotes
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: IsWaiter
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getIsWaiter
                 setter: setIsWaiter
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: Jobs
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getJobs
                 setter: setJobs
@@ -84,13 +84,13 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
                 inline: false
                 entry_name: PushedRepairOrderJobAttributes
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         milesIn:
             expose: true
             access_type: public_method
             serialized_name: MilesIn
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMilesIn
                 setter: setMilesIn
@@ -100,7 +100,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: MilesOut
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMilesOut
                 setter: setMilesOut
@@ -110,7 +110,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: OriginalEstimate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getOriginalEstimate
                 setter: setOriginalEstimate
@@ -120,7 +120,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: Priority
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPriority
                 setter: setPriority
@@ -130,7 +130,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: PromisedTime
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPromisedTime
                 setter: setPromisedTime
@@ -140,7 +140,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: RepairOrderKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getRepairOrderKey
                 setter: setRepairOrderKey
@@ -150,7 +150,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: ServiceAdvisorNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceAdvisorNumber
                 setter: setServiceAdvisorNumber
@@ -160,7 +160,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: ServiceLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationId
                 setter: setServiceLocationId
@@ -170,7 +170,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: Status
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStatus
                 setter: setStatus
@@ -180,7 +180,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: VehicleKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVehicleKey
                 setter: setVehicleKey
@@ -190,7 +190,7 @@ App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
             access_type: public_method
             serialized_name: Vin
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVin
                 setter: setVin

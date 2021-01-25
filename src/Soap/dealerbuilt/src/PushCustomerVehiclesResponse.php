@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCustomerVehiclesResponse.
+ * Class representing PushCustomerVehiclesResponse
  */
 class PushCustomerVehiclesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[] $pushCustomerVehiclesResult
      */
     private $pushCustomerVehiclesResult = null;
 
     /**
-     * Adds as sourcePushResponse.
+     * Adds as sourcePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType $sourcePushResponse
      */
-    public function addToPushCustomerVehiclesResult(BaseApi\SourcePushResponseType $sourcePushResponse)
+    public function addToPushCustomerVehiclesResult(\App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType $sourcePushResponse)
     {
         $this->pushCustomerVehiclesResult[] = $sourcePushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushCustomerVehiclesResult.
+     * isset pushCustomerVehiclesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushCustomerVehiclesResult($index)
@@ -39,10 +37,9 @@ class PushCustomerVehiclesResponse
     }
 
     /**
-     * unset pushCustomerVehiclesResult.
+     * unset pushCustomerVehiclesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushCustomerVehiclesResult($index)
@@ -51,7 +48,7 @@ class PushCustomerVehiclesResponse
     }
 
     /**
-     * Gets as pushCustomerVehiclesResult.
+     * Gets as pushCustomerVehiclesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushCustomerVehiclesResponse
     }
 
     /**
-     * Sets a new pushCustomerVehiclesResult.
+     * Sets a new pushCustomerVehiclesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType[] $pushCustomerVehiclesResult
-     *
      * @return self
      */
     public function setPushCustomerVehiclesResult(array $pushCustomerVehiclesResult)
     {
         $this->pushCustomerVehiclesResult = $pushCustomerVehiclesResult;
-
         return $this;
     }
+
+
 }
+

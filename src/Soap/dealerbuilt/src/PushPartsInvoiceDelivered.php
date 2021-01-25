@@ -3,39 +3,37 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushPartsInvoiceDelivered.
+ * Class representing PushPartsInvoiceDelivered
  */
 class PushPartsInvoiceDelivered
 {
+
     /**
-     * @var string[]
+     * @var string[] $partsInvoiceKeys
      */
     private $partsInvoiceKeys = null;
 
     /**
-     * @var bool
+     * @var bool $isDelivered
      */
     private $isDelivered = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToPartsInvoiceKeys($string)
     {
         $this->partsInvoiceKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset partsInvoiceKeys.
+     * isset partsInvoiceKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsInvoiceKeys($index)
@@ -44,10 +42,9 @@ class PushPartsInvoiceDelivered
     }
 
     /**
-     * unset partsInvoiceKeys.
+     * unset partsInvoiceKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsInvoiceKeys($index)
@@ -56,7 +53,7 @@ class PushPartsInvoiceDelivered
     }
 
     /**
-     * Gets as partsInvoiceKeys.
+     * Gets as partsInvoiceKeys
      *
      * @return string[]
      */
@@ -66,21 +63,19 @@ class PushPartsInvoiceDelivered
     }
 
     /**
-     * Sets a new partsInvoiceKeys.
+     * Sets a new partsInvoiceKeys
      *
      * @param string[] $partsInvoiceKeys
-     *
      * @return self
      */
     public function setPartsInvoiceKeys(array $partsInvoiceKeys)
     {
         $this->partsInvoiceKeys = $partsInvoiceKeys;
-
         return $this;
     }
 
     /**
-     * Gets as isDelivered.
+     * Gets as isDelivered
      *
      * @return bool
      */
@@ -90,16 +85,17 @@ class PushPartsInvoiceDelivered
     }
 
     /**
-     * Sets a new isDelivered.
+     * Sets a new isDelivered
      *
      * @param bool $isDelivered
-     *
      * @return self
      */
     public function setIsDelivered($isDelivered)
     {
         $this->isDelivered = $isDelivered;
-
         return $this;
     }
+
+
 }
+

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfEstimateJobPushRequestType.
+ * Class representing ArrayOfEstimateJobPushRequestType
  *
+ * 
  * XSD Type: ArrayOfEstimateJobPushRequest
  */
 class ArrayOfEstimateJobPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType[] $estimateJobPushRequest
      */
     private $estimateJobPushRequest = [
+        
     ];
 
     /**
-     * Adds as estimateJobPushRequest.
+     * Adds as estimateJobPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType $estimateJobPushRequest
      */
-    public function addToEstimateJobPushRequest(EstimateJobPushRequestType $estimateJobPushRequest)
+    public function addToEstimateJobPushRequest(\App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType $estimateJobPushRequest)
     {
         $this->estimateJobPushRequest[] = $estimateJobPushRequest;
-
         return $this;
     }
 
     /**
-     * isset estimateJobPushRequest.
+     * isset estimateJobPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetEstimateJobPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfEstimateJobPushRequestType
     }
 
     /**
-     * unset estimateJobPushRequest.
+     * unset estimateJobPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetEstimateJobPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfEstimateJobPushRequestType
     }
 
     /**
-     * Gets as estimateJobPushRequest.
+     * Gets as estimateJobPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfEstimateJobPushRequestType
     }
 
     /**
-     * Sets a new estimateJobPushRequest.
+     * Sets a new estimateJobPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType[] $estimateJobPushRequest
-     *
      * @return self
      */
     public function setEstimateJobPushRequest(array $estimateJobPushRequest)
     {
         $this->estimateJobPushRequest = $estimateJobPushRequest;
-
         return $this;
     }
+
+
 }
+

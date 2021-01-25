@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing Part.
+ * Class representing Part
  */
 class Part extends PartType
 {
+
+
 }
+

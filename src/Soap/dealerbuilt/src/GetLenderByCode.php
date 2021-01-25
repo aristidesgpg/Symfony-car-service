@@ -3,22 +3,23 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetLenderByCode.
+ * Class representing GetLenderByCode
  */
 class GetLenderByCode
 {
+
     /**
-     * @var int
+     * @var int $sourceId
      */
     private $sourceId = null;
 
     /**
-     * @var string
+     * @var string $lenderCode
      */
     private $lenderCode = null;
 
     /**
-     * Gets as sourceId.
+     * Gets as sourceId
      *
      * @return int
      */
@@ -28,21 +29,19 @@ class GetLenderByCode
     }
 
     /**
-     * Sets a new sourceId.
+     * Sets a new sourceId
      *
      * @param int $sourceId
-     *
      * @return self
      */
     public function setSourceId($sourceId)
     {
         $this->sourceId = $sourceId;
-
         return $this;
     }
 
     /**
-     * Gets as lenderCode.
+     * Gets as lenderCode
      *
      * @return string
      */
@@ -52,16 +51,17 @@ class GetLenderByCode
     }
 
     /**
-     * Sets a new lenderCode.
+     * Sets a new lenderCode
      *
      * @param string $lenderCode
-     *
      * @return self
      */
     public function setLenderCode($lenderCode)
     {
         $this->lenderCode = $lenderCode;
-
         return $this;
     }
+
+
 }
+

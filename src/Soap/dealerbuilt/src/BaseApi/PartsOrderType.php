@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsOrderType.
+ * Class representing PartsOrderType
  *
+ * 
  * XSD Type: PartsOrder
  */
 class PartsOrderType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $partsOrderKey
      */
     private $partsOrderKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderReferencesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderReferencesType $references
      */
     private $references = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType
      */
@@ -35,19 +37,19 @@ class PartsOrderType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as partsOrderKey.
+     * Gets as partsOrderKey
      *
      * @return string
      */
@@ -57,21 +59,19 @@ class PartsOrderType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new partsOrderKey.
+     * Sets a new partsOrderKey
      *
      * @param string $partsOrderKey
-     *
      * @return self
      */
     public function setPartsOrderKey($partsOrderKey)
     {
         $this->partsOrderKey = $partsOrderKey;
-
         return $this;
     }
 
     /**
-     * Gets as references.
+     * Gets as references
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsOrderReferencesType
      */
@@ -81,16 +81,17 @@ class PartsOrderType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new references.
+     * Sets a new references
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderReferencesType $references
-     *
      * @return self
      */
-    public function setReferences(PartsOrderReferencesType $references)
+    public function setReferences(\App\Soap\dealerbuilt\src\BaseApi\PartsOrderReferencesType $references)
     {
         $this->references = $references;
-
         return $this;
     }
+
+
 }
+

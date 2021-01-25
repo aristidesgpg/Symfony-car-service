@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPurchaseOrders.
+ * Class representing PullPurchaseOrders
  */
 class PullPurchaseOrders
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderSearchCriteriaType $apiSearchCriteria
      */
     private $apiSearchCriteria = null;
 
     /**
-     * Gets as apiSearchCriteria.
+     * Gets as apiSearchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class PullPurchaseOrders
     }
 
     /**
-     * Sets a new apiSearchCriteria.
+     * Sets a new apiSearchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderSearchCriteriaType $apiSearchCriteria
-     *
      * @return self
      */
-    public function setApiSearchCriteria(BaseApi\PurchaseOrderSearchCriteriaType $apiSearchCriteria)
+    public function setApiSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderSearchCriteriaType $apiSearchCriteria)
     {
         $this->apiSearchCriteria = $apiSearchCriteria;
-
         return $this;
     }
+
+
 }
+

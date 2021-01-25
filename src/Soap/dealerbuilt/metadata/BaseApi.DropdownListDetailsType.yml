@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType:
             access_type: public_method
             serialized_name: DropdownListDetailsResponse
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDropdownListDetailsResponse
                 setter: setDropdownListDetailsResponse

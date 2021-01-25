@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing CobuyerInfoType.
+ * Class representing CobuyerInfoType
  *
+ * 
  * XSD Type: CobuyerInfo
  */
 class CobuyerInfoType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity
      */
     private $identity = null;
 
     /**
-     * @var bool
+     * @var bool $isMarried
      */
     private $isMarried = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\DriversLicenseType
+     * @var \App\Soap\dealerbuilt\src\Models\DriversLicenseType $license
      */
     private $license = null;
 
     /**
-     * @var string
+     * @var string $relationshipType
      */
     private $relationshipType = null;
 
     /**
-     * Gets as identity.
+     * Gets as identity
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -40,19 +42,19 @@ class CobuyerInfoType
     }
 
     /**
-     * Sets a new identity.
+     * Sets a new identity
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity
      * @return self
      */
     public function setIdentity(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity)
     {
         $this->identity = $identity;
-
         return $this;
     }
 
     /**
-     * Gets as isMarried.
+     * Gets as isMarried
      *
      * @return bool
      */
@@ -62,21 +64,19 @@ class CobuyerInfoType
     }
 
     /**
-     * Sets a new isMarried.
+     * Sets a new isMarried
      *
      * @param bool $isMarried
-     *
      * @return self
      */
     public function setIsMarried($isMarried)
     {
         $this->isMarried = $isMarried;
-
         return $this;
     }
 
     /**
-     * Gets as license.
+     * Gets as license
      *
      * @return \App\Soap\dealerbuilt\src\Models\DriversLicenseType
      */
@@ -86,19 +86,19 @@ class CobuyerInfoType
     }
 
     /**
-     * Sets a new license.
+     * Sets a new license
      *
+     * @param \App\Soap\dealerbuilt\src\Models\DriversLicenseType $license
      * @return self
      */
     public function setLicense(\App\Soap\dealerbuilt\src\Models\DriversLicenseType $license)
     {
         $this->license = $license;
-
         return $this;
     }
 
     /**
-     * Gets as relationshipType.
+     * Gets as relationshipType
      *
      * @return string
      */
@@ -108,16 +108,17 @@ class CobuyerInfoType
     }
 
     /**
-     * Sets a new relationshipType.
+     * Sets a new relationshipType
      *
      * @param string $relationshipType
-     *
      * @return self
      */
     public function setRelationshipType($relationshipType)
     {
         $this->relationshipType = $relationshipType;
-
         return $this;
     }
+
+
 }
+

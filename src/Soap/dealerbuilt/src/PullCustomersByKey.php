@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomersByKey.
+ * Class representing PullCustomersByKey
  */
 class PullCustomersByKey
 {
+
     /**
-     * @var string[]
+     * @var string[] $customerKeys
      */
     private $customerKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToCustomerKeys($string)
     {
         $this->customerKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset customerKeys.
+     * isset customerKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCustomerKeys($index)
@@ -39,10 +37,9 @@ class PullCustomersByKey
     }
 
     /**
-     * unset customerKeys.
+     * unset customerKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCustomerKeys($index)
@@ -51,7 +48,7 @@ class PullCustomersByKey
     }
 
     /**
-     * Gets as customerKeys.
+     * Gets as customerKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class PullCustomersByKey
     }
 
     /**
-     * Sets a new customerKeys.
+     * Sets a new customerKeys
      *
      * @param string[] $customerKeys
-     *
      * @return self
      */
     public function setCustomerKeys(array $customerKeys)
     {
         $this->customerKeys = $customerKeys;
-
         return $this;
     }
+
+
 }
+

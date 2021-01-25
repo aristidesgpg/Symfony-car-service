@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ProtectionPackage.
+ * Class representing ProtectionPackage
  */
 class ProtectionPackage extends ProtectionPackageType
 {
+
+
 }
+

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDealerLocationsResponse.
+ * Class representing PullDealerLocationsResponse
  */
 class PullDealerLocationsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType[] $pullDealerLocationsResult
      */
     private $pullDealerLocationsResult = null;
 
     /**
-     * Adds as serviceLocationPlacement.
+     * Adds as serviceLocationPlacement
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType $serviceLocationPlacement
      */
-    public function addToPullDealerLocationsResult(BaseApi\ServiceLocationPlacementType $serviceLocationPlacement)
+    public function addToPullDealerLocationsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType $serviceLocationPlacement)
     {
         $this->pullDealerLocationsResult[] = $serviceLocationPlacement;
-
         return $this;
     }
 
     /**
-     * isset pullDealerLocationsResult.
+     * isset pullDealerLocationsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullDealerLocationsResult($index)
@@ -39,10 +37,9 @@ class PullDealerLocationsResponse
     }
 
     /**
-     * unset pullDealerLocationsResult.
+     * unset pullDealerLocationsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullDealerLocationsResult($index)
@@ -51,7 +48,7 @@ class PullDealerLocationsResponse
     }
 
     /**
-     * Gets as pullDealerLocationsResult.
+     * Gets as pullDealerLocationsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType[]
      */
@@ -61,16 +58,17 @@ class PullDealerLocationsResponse
     }
 
     /**
-     * Sets a new pullDealerLocationsResult.
+     * Sets a new pullDealerLocationsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType[] $pullDealerLocationsResult
-     *
      * @return self
      */
     public function setPullDealerLocationsResult(array $pullDealerLocationsResult)
     {
         $this->pullDealerLocationsResult = $pullDealerLocationsResult;
-
         return $this;
     }
+
+
 }
+

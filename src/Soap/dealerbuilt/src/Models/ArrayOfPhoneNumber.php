@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing ArrayOfPhoneNumber.
+ * Class representing ArrayOfPhoneNumber
  */
 class ArrayOfPhoneNumber extends ArrayOfPhoneNumberType
 {
+
+
 }
+

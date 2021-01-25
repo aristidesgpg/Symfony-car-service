@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\AddressType:
             access_type: public_method
             serialized_name: City
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getCity
                 setter: setCity
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\AddressType:
             access_type: public_method
             serialized_name: Country
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getCountry
                 setter: setCountry
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\AddressType:
             access_type: public_method
             serialized_name: County
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getCounty
                 setter: setCounty
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\AddressType:
             access_type: public_method
             serialized_name: Line1
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getLine1
                 setter: setLine1
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\AddressType:
             access_type: public_method
             serialized_name: Line2
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getLine2
                 setter: setLine2
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\AddressType:
             access_type: public_method
             serialized_name: State
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getState
                 setter: setState
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\AddressType:
             access_type: public_method
             serialized_name: Zip
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getZip
                 setter: setZip

@@ -3,44 +3,46 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing RebateType.
+ * Class representing RebateType
  *
+ * 
  * XSD Type: Rebate
  */
 class RebateType
 {
+
     /**
-     * @var bool
+     * @var bool $deleteFlag
      */
     private $deleteFlag = null;
 
     /**
-     * @var string
+     * @var string $department
      */
     private $department = null;
 
     /**
-     * @var int
+     * @var int $itemizationId
      */
     private $itemizationId = null;
 
     /**
-     * @var string
+     * @var string $name
      */
     private $name = null;
 
     /**
-     * @var string
+     * @var string $note
      */
     private $note = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $rebateAmount
      */
     private $rebateAmount = null;
 
     /**
-     * Gets as deleteFlag.
+     * Gets as deleteFlag
      *
      * @return bool
      */
@@ -50,21 +52,19 @@ class RebateType
     }
 
     /**
-     * Sets a new deleteFlag.
+     * Sets a new deleteFlag
      *
      * @param bool $deleteFlag
-     *
      * @return self
      */
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-
         return $this;
     }
 
     /**
-     * Gets as department.
+     * Gets as department
      *
      * @return string
      */
@@ -74,21 +74,19 @@ class RebateType
     }
 
     /**
-     * Sets a new department.
+     * Sets a new department
      *
      * @param string $department
-     *
      * @return self
      */
     public function setDepartment($department)
     {
         $this->department = $department;
-
         return $this;
     }
 
     /**
-     * Gets as itemizationId.
+     * Gets as itemizationId
      *
      * @return int
      */
@@ -98,21 +96,19 @@ class RebateType
     }
 
     /**
-     * Sets a new itemizationId.
+     * Sets a new itemizationId
      *
      * @param int $itemizationId
-     *
      * @return self
      */
     public function setItemizationId($itemizationId)
     {
         $this->itemizationId = $itemizationId;
-
         return $this;
     }
 
     /**
-     * Gets as name.
+     * Gets as name
      *
      * @return string
      */
@@ -122,21 +118,19 @@ class RebateType
     }
 
     /**
-     * Sets a new name.
+     * Sets a new name
      *
      * @param string $name
-     *
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
     /**
-     * Gets as note.
+     * Gets as note
      *
      * @return string
      */
@@ -146,21 +140,19 @@ class RebateType
     }
 
     /**
-     * Sets a new note.
+     * Sets a new note
      *
      * @param string $note
-     *
      * @return self
      */
     public function setNote($note)
     {
         $this->note = $note;
-
         return $this;
     }
 
     /**
-     * Gets as rebateAmount.
+     * Gets as rebateAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -170,14 +162,17 @@ class RebateType
     }
 
     /**
-     * Sets a new rebateAmount.
+     * Sets a new rebateAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $rebateAmount
      * @return self
      */
     public function setRebateAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $rebateAmount)
     {
         $this->rebateAmount = $rebateAmount;
-
         return $this;
     }
+
+
 }
+

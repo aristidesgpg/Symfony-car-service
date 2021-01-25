@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\Service\ArrayOfPotentialLaborOperationSubletType
             access_type: public_method
             serialized_name: PotentialLaborOperationSublet
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPotentialLaborOperationSublet
                 setter: setPotentialLaborOperationSublet
             xml_list:
                 inline: true
                 entry_name: PotentialLaborOperationSublet
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             type: array<App\Soap\dealerbuilt\src\Models\Service\PotentialLaborOperationSubletType>

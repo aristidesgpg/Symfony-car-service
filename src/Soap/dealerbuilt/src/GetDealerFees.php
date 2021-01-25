@@ -3,27 +3,28 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetDealerFees.
+ * Class representing GetDealerFees
  */
 class GetDealerFees
 {
+
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * @var string
+     * @var string $guestState
      */
     private $guestState = null;
 
     /**
-     * @var string
+     * @var string $dealType
      */
     private $dealType = null;
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -33,21 +34,19 @@ class GetDealerFees
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
 
     /**
-     * Gets as guestState.
+     * Gets as guestState
      *
      * @return string
      */
@@ -57,21 +56,19 @@ class GetDealerFees
     }
 
     /**
-     * Sets a new guestState.
+     * Sets a new guestState
      *
      * @param string $guestState
-     *
      * @return self
      */
     public function setGuestState($guestState)
     {
         $this->guestState = $guestState;
-
         return $this;
     }
 
     /**
-     * Gets as dealType.
+     * Gets as dealType
      *
      * @return string
      */
@@ -81,16 +78,17 @@ class GetDealerFees
     }
 
     /**
-     * Sets a new dealType.
+     * Sets a new dealType
      *
      * @param string $dealType
-     *
      * @return self
      */
     public function setDealType($dealType)
     {
         $this->dealType = $dealType;
-
         return $this;
     }
+
+
 }
+

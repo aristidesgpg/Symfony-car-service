@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
             access_type: public_method
             serialized_name: ExactVin
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExactVin
                 setter: setExactVin
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
             access_type: public_method
             serialized_name: IncludeUnstockedTrades
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getIncludeUnstockedTrades
                 setter: setIncludeUnstockedTrades
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
             access_type: public_method
             serialized_name: MaxDateSold
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaxDateSold
                 setter: setMaxDateSold
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
             access_type: public_method
             serialized_name: MaximumUpdateStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMaximumUpdateStamp
                 setter: setMaximumUpdateStamp
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
             access_type: public_method
             serialized_name: MinDateSold
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinDateSold
                 setter: setMinDateSold
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
             access_type: public_method
             serialized_name: MinimumUpdateStamp
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMinimumUpdateStamp
                 setter: setMinimumUpdateStamp
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
             access_type: public_method
             serialized_name: PartialVin
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPartialVin
                 setter: setPartialVin
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
             access_type: public_method
             serialized_name: StockNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStockNumber
                 setter: setStockNumber

@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DivisionType.
+ * Class representing DivisionType
  *
+ * 
  * XSD Type: Division
  */
 class DivisionType extends ApiCompanyItemType
 {
+
     /**
-     * @var int
+     * @var int $balanceSheetDivision
      */
     private $balanceSheetDivision = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var int
+     * @var int $divsionNumber
      */
     private $divsionNumber = null;
 
     /**
-     * @var int
+     * @var int $retainedEarningsDivision
      */
     private $retainedEarningsDivision = null;
 
     /**
-     * Gets as balanceSheetDivision.
+     * Gets as balanceSheetDivision
      *
      * @return int
      */
@@ -40,21 +42,19 @@ class DivisionType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new balanceSheetDivision.
+     * Sets a new balanceSheetDivision
      *
      * @param int $balanceSheetDivision
-     *
      * @return self
      */
     public function setBalanceSheetDivision($balanceSheetDivision)
     {
         $this->balanceSheetDivision = $balanceSheetDivision;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -64,21 +64,19 @@ class DivisionType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as divsionNumber.
+     * Gets as divsionNumber
      *
      * @return int
      */
@@ -88,21 +86,19 @@ class DivisionType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new divsionNumber.
+     * Sets a new divsionNumber
      *
      * @param int $divsionNumber
-     *
      * @return self
      */
     public function setDivsionNumber($divsionNumber)
     {
         $this->divsionNumber = $divsionNumber;
-
         return $this;
     }
 
     /**
-     * Gets as retainedEarningsDivision.
+     * Gets as retainedEarningsDivision
      *
      * @return int
      */
@@ -112,16 +108,17 @@ class DivisionType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new retainedEarningsDivision.
+     * Sets a new retainedEarningsDivision
      *
      * @param int $retainedEarningsDivision
-     *
      * @return self
      */
     public function setRetainedEarningsDivision($retainedEarningsDivision)
     {
         $this->retainedEarningsDivision = $retainedEarningsDivision;
-
         return $this;
     }
+
+
 }
+

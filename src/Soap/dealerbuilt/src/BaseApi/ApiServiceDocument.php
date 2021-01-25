@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiServiceDocument.
+ * Class representing ApiServiceDocument
  */
 class ApiServiceDocument extends ApiServiceDocumentType
 {
+
+
 }
+

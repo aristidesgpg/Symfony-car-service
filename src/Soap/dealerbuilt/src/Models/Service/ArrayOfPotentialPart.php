@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPotentialPart.
+ * Class representing ArrayOfPotentialPart
  */
 class ArrayOfPotentialPart extends ArrayOfPotentialPartType
 {
+
+
 }
+

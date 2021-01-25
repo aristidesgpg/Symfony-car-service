@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedPotentialPartAttributesType.
+ * Class representing ArrayOfPushedPotentialPartAttributesType
  *
+ * 
  * XSD Type: ArrayOfPushedPotentialPartAttributes
  */
 class ArrayOfPushedPotentialPartAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[] $pushedPotentialPartAttributes
      */
     private $pushedPotentialPartAttributes = [
+        
     ];
 
     /**
-     * Adds as pushedPotentialPartAttributes.
+     * Adds as pushedPotentialPartAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType $pushedPotentialPartAttributes
      */
-    public function addToPushedPotentialPartAttributes(PushedPotentialPartAttributesType $pushedPotentialPartAttributes)
+    public function addToPushedPotentialPartAttributes(\App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType $pushedPotentialPartAttributes)
     {
         $this->pushedPotentialPartAttributes[] = $pushedPotentialPartAttributes;
-
         return $this;
     }
 
     /**
-     * isset pushedPotentialPartAttributes.
+     * isset pushedPotentialPartAttributes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushedPotentialPartAttributes($index)
@@ -42,10 +42,9 @@ class ArrayOfPushedPotentialPartAttributesType
     }
 
     /**
-     * unset pushedPotentialPartAttributes.
+     * unset pushedPotentialPartAttributes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushedPotentialPartAttributes($index)
@@ -54,7 +53,7 @@ class ArrayOfPushedPotentialPartAttributesType
     }
 
     /**
-     * Gets as pushedPotentialPartAttributes.
+     * Gets as pushedPotentialPartAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new pushedPotentialPartAttributes.
+     * Sets a new pushedPotentialPartAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[] $pushedPotentialPartAttributes
-     *
      * @return self
      */
     public function setPushedPotentialPartAttributes(array $pushedPotentialPartAttributes)
     {
         $this->pushedPotentialPartAttributes = $pushedPotentialPartAttributes;
-
         return $this;
     }
+
+
 }
+

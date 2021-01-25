@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerPushRequest.
+ * Class representing CustomerPushRequest
  */
 class CustomerPushRequest extends CustomerPushRequestType
 {
+
+
 }
+

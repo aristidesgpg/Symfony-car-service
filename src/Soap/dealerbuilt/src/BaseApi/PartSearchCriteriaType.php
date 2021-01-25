@@ -3,59 +3,61 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartSearchCriteriaType.
+ * Class representing PartSearchCriteriaType
  *
+ * 
  * XSD Type: PartSearchCriteria
  */
 class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumAddedDate
      */
     private $maximumAddedDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumFirstSoldDate
      */
     private $maximumFirstSoldDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumLastReceiptDate
      */
     private $maximumLastReceiptDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumAddedDate
      */
     private $minimumAddedDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumFirstSoldDate
      */
     private $minimumFirstSoldDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumLastReceiptDate
      */
     private $minimumLastReceiptDate = null;
 
     /**
-     * @var string
+     * @var string $onHandScope
      */
     private $onHandScope = null;
 
     /**
-     * @var string
+     * @var string $partialPartNumber
      */
     private $partialPartNumber = null;
 
     /**
-     * @var string
+     * @var string $vendor
      */
     private $vendor = null;
 
     /**
-     * Gets as maximumAddedDate.
+     * Gets as maximumAddedDate
      *
      * @return \DateTime
      */
@@ -65,19 +67,19 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new maximumAddedDate.
+     * Sets a new maximumAddedDate
      *
+     * @param \DateTime $maximumAddedDate
      * @return self
      */
     public function setMaximumAddedDate(\DateTime $maximumAddedDate)
     {
         $this->maximumAddedDate = $maximumAddedDate;
-
         return $this;
     }
 
     /**
-     * Gets as maximumFirstSoldDate.
+     * Gets as maximumFirstSoldDate
      *
      * @return \DateTime
      */
@@ -87,19 +89,19 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new maximumFirstSoldDate.
+     * Sets a new maximumFirstSoldDate
      *
+     * @param \DateTime $maximumFirstSoldDate
      * @return self
      */
     public function setMaximumFirstSoldDate(\DateTime $maximumFirstSoldDate)
     {
         $this->maximumFirstSoldDate = $maximumFirstSoldDate;
-
         return $this;
     }
 
     /**
-     * Gets as maximumLastReceiptDate.
+     * Gets as maximumLastReceiptDate
      *
      * @return \DateTime
      */
@@ -109,19 +111,19 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new maximumLastReceiptDate.
+     * Sets a new maximumLastReceiptDate
      *
+     * @param \DateTime $maximumLastReceiptDate
      * @return self
      */
     public function setMaximumLastReceiptDate(\DateTime $maximumLastReceiptDate)
     {
         $this->maximumLastReceiptDate = $maximumLastReceiptDate;
-
         return $this;
     }
 
     /**
-     * Gets as minimumAddedDate.
+     * Gets as minimumAddedDate
      *
      * @return \DateTime
      */
@@ -131,19 +133,19 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new minimumAddedDate.
+     * Sets a new minimumAddedDate
      *
+     * @param \DateTime $minimumAddedDate
      * @return self
      */
     public function setMinimumAddedDate(\DateTime $minimumAddedDate)
     {
         $this->minimumAddedDate = $minimumAddedDate;
-
         return $this;
     }
 
     /**
-     * Gets as minimumFirstSoldDate.
+     * Gets as minimumFirstSoldDate
      *
      * @return \DateTime
      */
@@ -153,19 +155,19 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new minimumFirstSoldDate.
+     * Sets a new minimumFirstSoldDate
      *
+     * @param \DateTime $minimumFirstSoldDate
      * @return self
      */
     public function setMinimumFirstSoldDate(\DateTime $minimumFirstSoldDate)
     {
         $this->minimumFirstSoldDate = $minimumFirstSoldDate;
-
         return $this;
     }
 
     /**
-     * Gets as minimumLastReceiptDate.
+     * Gets as minimumLastReceiptDate
      *
      * @return \DateTime
      */
@@ -175,19 +177,19 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new minimumLastReceiptDate.
+     * Sets a new minimumLastReceiptDate
      *
+     * @param \DateTime $minimumLastReceiptDate
      * @return self
      */
     public function setMinimumLastReceiptDate(\DateTime $minimumLastReceiptDate)
     {
         $this->minimumLastReceiptDate = $minimumLastReceiptDate;
-
         return $this;
     }
 
     /**
-     * Gets as onHandScope.
+     * Gets as onHandScope
      *
      * @return string
      */
@@ -197,21 +199,19 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new onHandScope.
+     * Sets a new onHandScope
      *
      * @param string $onHandScope
-     *
      * @return self
      */
     public function setOnHandScope($onHandScope)
     {
         $this->onHandScope = $onHandScope;
-
         return $this;
     }
 
     /**
-     * Gets as partialPartNumber.
+     * Gets as partialPartNumber
      *
      * @return string
      */
@@ -221,21 +221,19 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new partialPartNumber.
+     * Sets a new partialPartNumber
      *
      * @param string $partialPartNumber
-     *
      * @return self
      */
     public function setPartialPartNumber($partialPartNumber)
     {
         $this->partialPartNumber = $partialPartNumber;
-
         return $this;
     }
 
     /**
-     * Gets as vendor.
+     * Gets as vendor
      *
      * @return string
      */
@@ -245,16 +243,17 @@ class PartSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new vendor.
+     * Sets a new vendor
      *
      * @param string $vendor
-     *
      * @return self
      */
     public function setVendor($vendor)
     {
         $this->vendor = $vendor;
-
         return $this;
     }
+
+
 }
+

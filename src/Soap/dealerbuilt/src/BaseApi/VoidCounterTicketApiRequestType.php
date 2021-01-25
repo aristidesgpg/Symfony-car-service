@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing VoidCounterTicketApiRequestType.
+ * Class representing VoidCounterTicketApiRequestType
  *
+ * 
  * XSD Type: VoidCounterTicketApiRequest
  */
 class VoidCounterTicketApiRequestType
 {
+
     /**
-     * @var string
+     * @var string $counterTicketNumber
      */
     private $counterTicketNumber = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as counterTicketNumber.
+     * Gets as counterTicketNumber
      *
      * @return string
      */
@@ -30,21 +32,19 @@ class VoidCounterTicketApiRequestType
     }
 
     /**
-     * Sets a new counterTicketNumber.
+     * Sets a new counterTicketNumber
      *
      * @param string $counterTicketNumber
-     *
      * @return self
      */
     public function setCounterTicketNumber($counterTicketNumber)
     {
         $this->counterTicketNumber = $counterTicketNumber;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -54,16 +54,17 @@ class VoidCounterTicketApiRequestType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

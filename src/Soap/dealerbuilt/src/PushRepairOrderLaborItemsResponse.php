@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushRepairOrderLaborItemsResponse.
+ * Class representing PushRepairOrderLaborItemsResponse
  */
 class PushRepairOrderLaborItemsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType[] $pushRepairOrderLaborItemsResult
      */
     private $pushRepairOrderLaborItemsResult = null;
 
     /**
-     * Adds as laborItemPushResponse.
+     * Adds as laborItemPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType $laborItemPushResponse
      */
-    public function addToPushRepairOrderLaborItemsResult(BaseApi\LaborItemPushResponseType $laborItemPushResponse)
+    public function addToPushRepairOrderLaborItemsResult(\App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType $laborItemPushResponse)
     {
         $this->pushRepairOrderLaborItemsResult[] = $laborItemPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushRepairOrderLaborItemsResult.
+     * isset pushRepairOrderLaborItemsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushRepairOrderLaborItemsResult($index)
@@ -39,10 +37,9 @@ class PushRepairOrderLaborItemsResponse
     }
 
     /**
-     * unset pushRepairOrderLaborItemsResult.
+     * unset pushRepairOrderLaborItemsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushRepairOrderLaborItemsResult($index)
@@ -51,7 +48,7 @@ class PushRepairOrderLaborItemsResponse
     }
 
     /**
-     * Gets as pushRepairOrderLaborItemsResult.
+     * Gets as pushRepairOrderLaborItemsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushRepairOrderLaborItemsResponse
     }
 
     /**
-     * Sets a new pushRepairOrderLaborItemsResult.
+     * Sets a new pushRepairOrderLaborItemsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType[] $pushRepairOrderLaborItemsResult
-     *
      * @return self
      */
     public function setPushRepairOrderLaborItemsResult(array $pushRepairOrderLaborItemsResult)
     {
         $this->pushRepairOrderLaborItemsResult = $pushRepairOrderLaborItemsResult;
-
         return $this;
     }
+
+
 }
+

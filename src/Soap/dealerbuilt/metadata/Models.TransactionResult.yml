@@ -1,6 +1,6 @@
 App\Soap\dealerbuilt\src\Models\TransactionResult:
     xml_root_name: TransactionResult
-    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
     properties:
         __value:
             expose: true

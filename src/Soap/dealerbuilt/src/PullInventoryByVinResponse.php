@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryByVinResponse.
+ * Class representing PullInventoryByVinResponse
  */
 class PullInventoryByVinResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $pullInventoryByVinResult
      */
     private $pullInventoryByVinResult = null;
 
     /**
-     * Adds as stockItem.
+     * Adds as stockItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem
      */
-    public function addToPullInventoryByVinResult(BaseApi\StockItemType $stockItem)
+    public function addToPullInventoryByVinResult(\App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem)
     {
         $this->pullInventoryByVinResult[] = $stockItem;
-
         return $this;
     }
 
     /**
-     * isset pullInventoryByVinResult.
+     * isset pullInventoryByVinResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullInventoryByVinResult($index)
@@ -39,10 +37,9 @@ class PullInventoryByVinResponse
     }
 
     /**
-     * unset pullInventoryByVinResult.
+     * unset pullInventoryByVinResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullInventoryByVinResult($index)
@@ -51,7 +48,7 @@ class PullInventoryByVinResponse
     }
 
     /**
-     * Gets as pullInventoryByVinResult.
+     * Gets as pullInventoryByVinResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
      */
@@ -61,16 +58,17 @@ class PullInventoryByVinResponse
     }
 
     /**
-     * Sets a new pullInventoryByVinResult.
+     * Sets a new pullInventoryByVinResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $pullInventoryByVinResult
-     *
      * @return self
      */
     public function setPullInventoryByVinResult(array $pullInventoryByVinResult)
     {
         $this->pullInventoryByVinResult = $pullInventoryByVinResult;
-
         return $this;
     }
+
+
 }
+

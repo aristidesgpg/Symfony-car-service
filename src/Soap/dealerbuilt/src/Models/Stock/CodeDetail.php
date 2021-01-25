@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing CodeDetail.
+ * Class representing CodeDetail
  */
 class CodeDetail extends CodeDetailType
 {
+
+
 }
+

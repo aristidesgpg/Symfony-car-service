@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetStoreSetupsResponse.
+ * Class representing GetStoreSetupsResponse
  */
 class GetStoreSetupsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StoreSetupType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StoreSetupType[] $getStoreSetupsResult
      */
     private $getStoreSetupsResult = null;
 
     /**
-     * Adds as storeSetup.
+     * Adds as storeSetup
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StoreSetupType $storeSetup
      */
-    public function addToGetStoreSetupsResult(BaseApi\StoreSetupType $storeSetup)
+    public function addToGetStoreSetupsResult(\App\Soap\dealerbuilt\src\BaseApi\StoreSetupType $storeSetup)
     {
         $this->getStoreSetupsResult[] = $storeSetup;
-
         return $this;
     }
 
     /**
-     * isset getStoreSetupsResult.
+     * isset getStoreSetupsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetStoreSetupsResult($index)
@@ -39,10 +37,9 @@ class GetStoreSetupsResponse
     }
 
     /**
-     * unset getStoreSetupsResult.
+     * unset getStoreSetupsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetStoreSetupsResult($index)
@@ -51,7 +48,7 @@ class GetStoreSetupsResponse
     }
 
     /**
-     * Gets as getStoreSetupsResult.
+     * Gets as getStoreSetupsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StoreSetupType[]
      */
@@ -61,16 +58,17 @@ class GetStoreSetupsResponse
     }
 
     /**
-     * Sets a new getStoreSetupsResult.
+     * Sets a new getStoreSetupsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StoreSetupType[] $getStoreSetupsResult
-     *
      * @return self
      */
     public function setGetStoreSetupsResult(array $getStoreSetupsResult)
     {
         $this->getStoreSetupsResult = $getStoreSetupsResult;
-
         return $this;
     }
+
+
 }
+

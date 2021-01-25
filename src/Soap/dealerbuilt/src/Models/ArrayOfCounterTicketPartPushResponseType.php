@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing ArrayOfCounterTicketPartPushResponseType.
+ * Class representing ArrayOfCounterTicketPartPushResponseType
  *
+ * 
  * XSD Type: ArrayOfCounterTicketPartPushResponse
  */
 class ArrayOfCounterTicketPartPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType[] $counterTicketPartPushResponse
      */
     private $counterTicketPartPushResponse = [
+        
     ];
 
     /**
-     * Adds as counterTicketPartPushResponse.
+     * Adds as counterTicketPartPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType $counterTicketPartPushResponse
      */
-    public function addToCounterTicketPartPushResponse(CounterTicketPartPushResponseType $counterTicketPartPushResponse)
+    public function addToCounterTicketPartPushResponse(\App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType $counterTicketPartPushResponse)
     {
         $this->counterTicketPartPushResponse[] = $counterTicketPartPushResponse;
-
         return $this;
     }
 
     /**
-     * isset counterTicketPartPushResponse.
+     * isset counterTicketPartPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCounterTicketPartPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfCounterTicketPartPushResponseType
     }
 
     /**
-     * unset counterTicketPartPushResponse.
+     * unset counterTicketPartPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCounterTicketPartPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfCounterTicketPartPushResponseType
     }
 
     /**
-     * Gets as counterTicketPartPushResponse.
+     * Gets as counterTicketPartPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCounterTicketPartPushResponseType
     }
 
     /**
-     * Sets a new counterTicketPartPushResponse.
+     * Sets a new counterTicketPartPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType[] $counterTicketPartPushResponse
-     *
      * @return self
      */
     public function setCounterTicketPartPushResponse(array $counterTicketPartPushResponse)
     {
         $this->counterTicketPartPushResponse = $counterTicketPartPushResponse;
-
         return $this;
     }
+
+
 }
+

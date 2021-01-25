@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDocumentsByDealKey.
+ * Class representing PullDocumentsByDealKey
  */
 class PullDocumentsByDealKey
 {
+
     /**
-     * @var string[]
+     * @var string[] $dealKeys
      */
     private $dealKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToDealKeys($string)
     {
         $this->dealKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset dealKeys.
+     * isset dealKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDealKeys($index)
@@ -39,10 +37,9 @@ class PullDocumentsByDealKey
     }
 
     /**
-     * unset dealKeys.
+     * unset dealKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDealKeys($index)
@@ -51,7 +48,7 @@ class PullDocumentsByDealKey
     }
 
     /**
-     * Gets as dealKeys.
+     * Gets as dealKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class PullDocumentsByDealKey
     }
 
     /**
-     * Sets a new dealKeys.
+     * Sets a new dealKeys
      *
      * @param string[] $dealKeys
-     *
      * @return self
      */
     public function setDealKeys(array $dealKeys)
     {
         $this->dealKeys = $dealKeys;
-
         return $this;
     }
+
+
 }
+

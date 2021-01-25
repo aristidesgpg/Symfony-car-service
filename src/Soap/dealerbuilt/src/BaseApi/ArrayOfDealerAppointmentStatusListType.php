@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDealerAppointmentStatusListType.
+ * Class representing ArrayOfDealerAppointmentStatusListType
  *
+ * 
  * XSD Type: ArrayOfDealerAppointmentStatusList
  */
 class ArrayOfDealerAppointmentStatusListType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType[] $dealerAppointmentStatusList
      */
     private $dealerAppointmentStatusList = [
+        
     ];
 
     /**
-     * Adds as dealerAppointmentStatusList.
+     * Adds as dealerAppointmentStatusList
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType $dealerAppointmentStatusList
      */
-    public function addToDealerAppointmentStatusList(DealerAppointmentStatusListType $dealerAppointmentStatusList)
+    public function addToDealerAppointmentStatusList(\App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType $dealerAppointmentStatusList)
     {
         $this->dealerAppointmentStatusList[] = $dealerAppointmentStatusList;
-
         return $this;
     }
 
     /**
-     * isset dealerAppointmentStatusList.
+     * isset dealerAppointmentStatusList
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDealerAppointmentStatusList($index)
@@ -42,10 +42,9 @@ class ArrayOfDealerAppointmentStatusListType
     }
 
     /**
-     * unset dealerAppointmentStatusList.
+     * unset dealerAppointmentStatusList
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDealerAppointmentStatusList($index)
@@ -54,7 +53,7 @@ class ArrayOfDealerAppointmentStatusListType
     }
 
     /**
-     * Gets as dealerAppointmentStatusList.
+     * Gets as dealerAppointmentStatusList
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDealerAppointmentStatusListType
     }
 
     /**
-     * Sets a new dealerAppointmentStatusList.
+     * Sets a new dealerAppointmentStatusList
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType[] $dealerAppointmentStatusList
-     *
      * @return self
      */
     public function setDealerAppointmentStatusList(array $dealerAppointmentStatusList)
     {
         $this->dealerAppointmentStatusList = $dealerAppointmentStatusList;
-
         return $this;
     }
+
+
 }
+

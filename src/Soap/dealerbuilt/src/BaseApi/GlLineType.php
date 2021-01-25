@@ -3,139 +3,141 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing GlLineType.
+ * Class representing GlLineType
  *
+ * 
  * XSD Type: GlLine
  */
 class GlLineType extends ApiCompanyItemType
 {
+
     /**
-     * @var string
+     * @var string $account
      */
     private $account = null;
 
     /**
-     * @var string
+     * @var string $accountClass
      */
     private $accountClass = null;
 
     /**
-     * @var string
+     * @var string $accountDescription
      */
     private $accountDescription = null;
 
     /**
-     * @var string
+     * @var string $accountDescriptionAbbreviated
      */
     private $accountDescriptionAbbreviated = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $accountingDate
      */
     private $accountingDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      */
     private $amount = null;
 
     /**
-     * @var string
+     * @var string $control1Code
      */
     private $control1Code = null;
 
     /**
-     * @var string
+     * @var string $control2Code
      */
     private $control2Code = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $createdStamp
      */
     private $createdStamp = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $dateReconciledOnBankRecord
      */
     private $dateReconciledOnBankRecord = null;
 
     /**
-     * @var int
+     * @var int $division
      */
     private $division = null;
 
     /**
-     * @var string
+     * @var string $glHeaderDescription
      */
     private $glHeaderDescription = null;
 
     /**
-     * @var string
+     * @var string $glVouch
      */
     private $glVouch = null;
 
     /**
-     * @var bool
+     * @var bool $isClearedBank
      */
     private $isClearedBank = null;
 
     /**
-     * @var bool
+     * @var bool $isReconciled
      */
     private $isReconciled = null;
 
     /**
-     * @var string
+     * @var string $journal
      */
     private $journal = null;
 
     /**
-     * @var string
+     * @var string $journalDescription
      */
     private $journalDescription = null;
 
     /**
-     * @var string
+     * @var string $journalType
      */
     private $journalType = null;
 
     /**
-     * @var string
+     * @var string $lineDescription
      */
     private $lineDescription = null;
 
     /**
-     * @var int
+     * @var int $lineId
      */
     private $lineId = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedStamp
      */
     private $modifiedStamp = null;
 
     /**
-     * @var string
+     * @var string $reference
      */
     private $reference = null;
 
     /**
-     * @var int
+     * @var int $unitCount
      */
     private $unitCount = null;
 
     /**
-     * @var string
+     * @var string $voidStatus
      */
     private $voidStatus = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $zeroDate
      */
     private $zeroDate = null;
 
     /**
-     * Gets as account.
+     * Gets as account
      *
      * @return string
      */
@@ -145,21 +147,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new account.
+     * Sets a new account
      *
      * @param string $account
-     *
      * @return self
      */
     public function setAccount($account)
     {
         $this->account = $account;
-
         return $this;
     }
 
     /**
-     * Gets as accountClass.
+     * Gets as accountClass
      *
      * @return string
      */
@@ -169,21 +169,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new accountClass.
+     * Sets a new accountClass
      *
      * @param string $accountClass
-     *
      * @return self
      */
     public function setAccountClass($accountClass)
     {
         $this->accountClass = $accountClass;
-
         return $this;
     }
 
     /**
-     * Gets as accountDescription.
+     * Gets as accountDescription
      *
      * @return string
      */
@@ -193,21 +191,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new accountDescription.
+     * Sets a new accountDescription
      *
      * @param string $accountDescription
-     *
      * @return self
      */
     public function setAccountDescription($accountDescription)
     {
         $this->accountDescription = $accountDescription;
-
         return $this;
     }
 
     /**
-     * Gets as accountDescriptionAbbreviated.
+     * Gets as accountDescriptionAbbreviated
      *
      * @return string
      */
@@ -217,21 +213,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new accountDescriptionAbbreviated.
+     * Sets a new accountDescriptionAbbreviated
      *
      * @param string $accountDescriptionAbbreviated
-     *
      * @return self
      */
     public function setAccountDescriptionAbbreviated($accountDescriptionAbbreviated)
     {
         $this->accountDescriptionAbbreviated = $accountDescriptionAbbreviated;
-
         return $this;
     }
 
     /**
-     * Gets as accountingDate.
+     * Gets as accountingDate
      *
      * @return \DateTime
      */
@@ -241,19 +235,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new accountingDate.
+     * Sets a new accountingDate
      *
+     * @param \DateTime $accountingDate
      * @return self
      */
     public function setAccountingDate(\DateTime $accountingDate)
     {
         $this->accountingDate = $accountingDate;
-
         return $this;
     }
 
     /**
-     * Gets as amount.
+     * Gets as amount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -263,19 +257,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new amount.
+     * Sets a new amount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      * @return self
      */
     public function setAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount)
     {
         $this->amount = $amount;
-
         return $this;
     }
 
     /**
-     * Gets as control1Code.
+     * Gets as control1Code
      *
      * @return string
      */
@@ -285,21 +279,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new control1Code.
+     * Sets a new control1Code
      *
      * @param string $control1Code
-     *
      * @return self
      */
     public function setControl1Code($control1Code)
     {
         $this->control1Code = $control1Code;
-
         return $this;
     }
 
     /**
-     * Gets as control2Code.
+     * Gets as control2Code
      *
      * @return string
      */
@@ -309,21 +301,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new control2Code.
+     * Sets a new control2Code
      *
      * @param string $control2Code
-     *
      * @return self
      */
     public function setControl2Code($control2Code)
     {
         $this->control2Code = $control2Code;
-
         return $this;
     }
 
     /**
-     * Gets as createdStamp.
+     * Gets as createdStamp
      *
      * @return \DateTime
      */
@@ -333,19 +323,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new createdStamp.
+     * Sets a new createdStamp
      *
+     * @param \DateTime $createdStamp
      * @return self
      */
     public function setCreatedStamp(\DateTime $createdStamp)
     {
         $this->createdStamp = $createdStamp;
-
         return $this;
     }
 
     /**
-     * Gets as dateReconciledOnBankRecord.
+     * Gets as dateReconciledOnBankRecord
      *
      * @return \DateTime
      */
@@ -355,19 +345,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new dateReconciledOnBankRecord.
+     * Sets a new dateReconciledOnBankRecord
      *
+     * @param \DateTime $dateReconciledOnBankRecord
      * @return self
      */
     public function setDateReconciledOnBankRecord(\DateTime $dateReconciledOnBankRecord)
     {
         $this->dateReconciledOnBankRecord = $dateReconciledOnBankRecord;
-
         return $this;
     }
 
     /**
-     * Gets as division.
+     * Gets as division
      *
      * @return int
      */
@@ -377,21 +367,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new division.
+     * Sets a new division
      *
      * @param int $division
-     *
      * @return self
      */
     public function setDivision($division)
     {
         $this->division = $division;
-
         return $this;
     }
 
     /**
-     * Gets as glHeaderDescription.
+     * Gets as glHeaderDescription
      *
      * @return string
      */
@@ -401,21 +389,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new glHeaderDescription.
+     * Sets a new glHeaderDescription
      *
      * @param string $glHeaderDescription
-     *
      * @return self
      */
     public function setGlHeaderDescription($glHeaderDescription)
     {
         $this->glHeaderDescription = $glHeaderDescription;
-
         return $this;
     }
 
     /**
-     * Gets as glVouch.
+     * Gets as glVouch
      *
      * @return string
      */
@@ -425,21 +411,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new glVouch.
+     * Sets a new glVouch
      *
      * @param string $glVouch
-     *
      * @return self
      */
     public function setGlVouch($glVouch)
     {
         $this->glVouch = $glVouch;
-
         return $this;
     }
 
     /**
-     * Gets as isClearedBank.
+     * Gets as isClearedBank
      *
      * @return bool
      */
@@ -449,21 +433,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new isClearedBank.
+     * Sets a new isClearedBank
      *
      * @param bool $isClearedBank
-     *
      * @return self
      */
     public function setIsClearedBank($isClearedBank)
     {
         $this->isClearedBank = $isClearedBank;
-
         return $this;
     }
 
     /**
-     * Gets as isReconciled.
+     * Gets as isReconciled
      *
      * @return bool
      */
@@ -473,21 +455,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new isReconciled.
+     * Sets a new isReconciled
      *
      * @param bool $isReconciled
-     *
      * @return self
      */
     public function setIsReconciled($isReconciled)
     {
         $this->isReconciled = $isReconciled;
-
         return $this;
     }
 
     /**
-     * Gets as journal.
+     * Gets as journal
      *
      * @return string
      */
@@ -497,21 +477,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new journal.
+     * Sets a new journal
      *
      * @param string $journal
-     *
      * @return self
      */
     public function setJournal($journal)
     {
         $this->journal = $journal;
-
         return $this;
     }
 
     /**
-     * Gets as journalDescription.
+     * Gets as journalDescription
      *
      * @return string
      */
@@ -521,21 +499,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new journalDescription.
+     * Sets a new journalDescription
      *
      * @param string $journalDescription
-     *
      * @return self
      */
     public function setJournalDescription($journalDescription)
     {
         $this->journalDescription = $journalDescription;
-
         return $this;
     }
 
     /**
-     * Gets as journalType.
+     * Gets as journalType
      *
      * @return string
      */
@@ -545,21 +521,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new journalType.
+     * Sets a new journalType
      *
      * @param string $journalType
-     *
      * @return self
      */
     public function setJournalType($journalType)
     {
         $this->journalType = $journalType;
-
         return $this;
     }
 
     /**
-     * Gets as lineDescription.
+     * Gets as lineDescription
      *
      * @return string
      */
@@ -569,21 +543,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new lineDescription.
+     * Sets a new lineDescription
      *
      * @param string $lineDescription
-     *
      * @return self
      */
     public function setLineDescription($lineDescription)
     {
         $this->lineDescription = $lineDescription;
-
         return $this;
     }
 
     /**
-     * Gets as lineId.
+     * Gets as lineId
      *
      * @return int
      */
@@ -593,21 +565,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new lineId.
+     * Sets a new lineId
      *
      * @param int $lineId
-     *
      * @return self
      */
     public function setLineId($lineId)
     {
         $this->lineId = $lineId;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedStamp.
+     * Gets as modifiedStamp
      *
      * @return \DateTime
      */
@@ -617,19 +587,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new modifiedStamp.
+     * Sets a new modifiedStamp
      *
+     * @param \DateTime $modifiedStamp
      * @return self
      */
     public function setModifiedStamp(\DateTime $modifiedStamp)
     {
         $this->modifiedStamp = $modifiedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as reference.
+     * Gets as reference
      *
      * @return string
      */
@@ -639,21 +609,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new reference.
+     * Sets a new reference
      *
      * @param string $reference
-     *
      * @return self
      */
     public function setReference($reference)
     {
         $this->reference = $reference;
-
         return $this;
     }
 
     /**
-     * Gets as unitCount.
+     * Gets as unitCount
      *
      * @return int
      */
@@ -663,21 +631,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new unitCount.
+     * Sets a new unitCount
      *
      * @param int $unitCount
-     *
      * @return self
      */
     public function setUnitCount($unitCount)
     {
         $this->unitCount = $unitCount;
-
         return $this;
     }
 
     /**
-     * Gets as voidStatus.
+     * Gets as voidStatus
      *
      * @return string
      */
@@ -687,21 +653,19 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new voidStatus.
+     * Sets a new voidStatus
      *
      * @param string $voidStatus
-     *
      * @return self
      */
     public function setVoidStatus($voidStatus)
     {
         $this->voidStatus = $voidStatus;
-
         return $this;
     }
 
     /**
-     * Gets as zeroDate.
+     * Gets as zeroDate
      *
      * @return \DateTime
      */
@@ -711,14 +675,17 @@ class GlLineType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new zeroDate.
+     * Sets a new zeroDate
      *
+     * @param \DateTime $zeroDate
      * @return self
      */
     public function setZeroDate(\DateTime $zeroDate)
     {
         $this->zeroDate = $zeroDate;
-
         return $this;
     }
+
+
 }
+

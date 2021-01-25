@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiLenderSearchCriteriaType.
+ * Class representing ApiLenderSearchCriteriaType
  *
+ * 
  * XSD Type: ApiLenderSearchCriteria
  */
 class ApiLenderSearchCriteriaType
 {
+
     /**
-     * @var string
+     * @var string $lenderType
      */
     private $lenderType = null;
 
     /**
-     * @var \DateInterval
+     * @var \DateInterval $maxElapsedSinceUpdate
      */
     private $maxElapsedSinceUpdate = null;
 
     /**
-     * @var int
+     * @var int $sourceId
      */
     private $sourceId = null;
 
     /**
-     * Gets as lenderType.
+     * Gets as lenderType
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class ApiLenderSearchCriteriaType
     }
 
     /**
-     * Sets a new lenderType.
+     * Sets a new lenderType
      *
      * @param string $lenderType
-     *
      * @return self
      */
     public function setLenderType($lenderType)
     {
         $this->lenderType = $lenderType;
-
         return $this;
     }
 
     /**
-     * Gets as maxElapsedSinceUpdate.
+     * Gets as maxElapsedSinceUpdate
      *
      * @return \DateInterval
      */
@@ -59,19 +59,19 @@ class ApiLenderSearchCriteriaType
     }
 
     /**
-     * Sets a new maxElapsedSinceUpdate.
+     * Sets a new maxElapsedSinceUpdate
      *
+     * @param \DateInterval $maxElapsedSinceUpdate
      * @return self
      */
     public function setMaxElapsedSinceUpdate(\DateInterval $maxElapsedSinceUpdate)
     {
         $this->maxElapsedSinceUpdate = $maxElapsedSinceUpdate;
-
         return $this;
     }
 
     /**
-     * Gets as sourceId.
+     * Gets as sourceId
      *
      * @return int
      */
@@ -81,16 +81,17 @@ class ApiLenderSearchCriteriaType
     }
 
     /**
-     * Sets a new sourceId.
+     * Sets a new sourceId
      *
      * @param int $sourceId
-     *
      * @return self
      */
     public function setSourceId($sourceId)
     {
         $this->sourceId = $sourceId;
-
         return $this;
     }
+
+
 }
+

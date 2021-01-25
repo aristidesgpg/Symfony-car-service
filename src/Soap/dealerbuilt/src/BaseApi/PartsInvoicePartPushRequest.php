@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsInvoicePartPushRequest.
+ * Class representing PartsInvoicePartPushRequest
  */
 class PartsInvoicePartPushRequest extends PartsInvoicePartPushRequestType
 {
+
+
 }
+

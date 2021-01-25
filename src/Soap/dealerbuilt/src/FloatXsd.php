@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing FloatXsd.
+ * Class representing FloatXsd
  */
 class FloatXsd
 {
+
     /**
-     * @var float
+     * @var float $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param float $value
      */
@@ -23,10 +24,9 @@ class FloatXsd
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param float $value
-     *
      * @return float
      */
     public function value()
@@ -34,12 +34,11 @@ class FloatXsd
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class FloatXsd
     {
         return strval($this->__value);
     }
+
+
 }
+

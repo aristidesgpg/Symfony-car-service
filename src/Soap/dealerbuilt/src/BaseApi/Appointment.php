@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing Appointment.
+ * Class representing Appointment
  */
 class Appointment extends AppointmentType
 {
+
+
 }
+

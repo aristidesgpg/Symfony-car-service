@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDocumentType.
+ * Class representing ArrayOfDocumentType
  *
+ * 
  * XSD Type: ArrayOfDocument
  */
 class ArrayOfDocumentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DocumentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DocumentType[] $document
      */
     private $document = [
+        
     ];
 
     /**
-     * Adds as document.
+     * Adds as document
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DocumentType $document
      */
-    public function addToDocument(DocumentType $document)
+    public function addToDocument(\App\Soap\dealerbuilt\src\BaseApi\DocumentType $document)
     {
         $this->document[] = $document;
-
         return $this;
     }
 
     /**
-     * isset document.
+     * isset document
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDocument($index)
@@ -42,10 +42,9 @@ class ArrayOfDocumentType
     }
 
     /**
-     * unset document.
+     * unset document
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDocument($index)
@@ -54,7 +53,7 @@ class ArrayOfDocumentType
     }
 
     /**
-     * Gets as document.
+     * Gets as document
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DocumentType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDocumentType
     }
 
     /**
-     * Sets a new document.
+     * Sets a new document
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DocumentType[] $document
-     *
      * @return self
      */
     public function setDocument(array $document)
     {
         $this->document = $document;
-
         return $this;
     }
+
+
 }
+

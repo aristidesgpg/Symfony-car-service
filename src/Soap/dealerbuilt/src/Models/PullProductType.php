@@ -3,109 +3,111 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing PullProductType.
+ * Class representing PullProductType
  *
+ * 
  * XSD Type: PullProduct
  */
 class PullProductType
 {
+
     /**
-     * @var string
+     * @var string $contractNumber
      */
     private $contractNumber = null;
 
     /**
-     * @var int
+     * @var int $contractStatus
      */
     private $contractStatus = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var string
+     * @var string $coverageMiles
      */
     private $coverageMiles = null;
 
     /**
-     * @var int
+     * @var int $coverageMilesUnlimited
      */
     private $coverageMilesUnlimited = null;
 
     /**
-     * @var int
+     * @var int $coverageMonth
      */
     private $coverageMonth = null;
 
     /**
-     * @var int
+     * @var int $coverageMonthsUnlimited
      */
     private $coverageMonthsUnlimited = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $deductible
      */
     private $deductible = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $expireDate
      */
     private $expireDate = null;
 
     /**
-     * @var string
+     * @var string $expireMiles
      */
     private $expireMiles = null;
 
     /**
-     * @var string
+     * @var string $factoryDesc
      */
     private $factoryDesc = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $inserviceDate
      */
     private $inserviceDate = null;
 
     /**
-     * @var string
+     * @var string $inserviceMiles
      */
     private $inserviceMiles = null;
 
     /**
-     * @var string
+     * @var string $memo
      */
     private $memo = null;
 
     /**
-     * @var string
+     * @var string $providerCode
      */
     private $providerCode = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $retail
      */
     private $retail = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $saleDate
      */
     private $saleDate = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $transferCost
      */
     private $transferCost = null;
 
     /**
-     * Gets as contractNumber.
+     * Gets as contractNumber
      *
      * @return string
      */
@@ -115,21 +117,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new contractNumber.
+     * Sets a new contractNumber
      *
      * @param string $contractNumber
-     *
      * @return self
      */
     public function setContractNumber($contractNumber)
     {
         $this->contractNumber = $contractNumber;
-
         return $this;
     }
 
     /**
-     * Gets as contractStatus.
+     * Gets as contractStatus
      *
      * @return int
      */
@@ -139,21 +139,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new contractStatus.
+     * Sets a new contractStatus
      *
      * @param int $contractStatus
-     *
      * @return self
      */
     public function setContractStatus($contractStatus)
     {
         $this->contractStatus = $contractStatus;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -163,21 +161,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
      * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
-     *
      * @return self
      */
-    public function setCost(MonetaryValueType $cost)
+    public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as coverageMiles.
+     * Gets as coverageMiles
      *
      * @return string
      */
@@ -187,21 +183,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new coverageMiles.
+     * Sets a new coverageMiles
      *
      * @param string $coverageMiles
-     *
      * @return self
      */
     public function setCoverageMiles($coverageMiles)
     {
         $this->coverageMiles = $coverageMiles;
-
         return $this;
     }
 
     /**
-     * Gets as coverageMilesUnlimited.
+     * Gets as coverageMilesUnlimited
      *
      * @return int
      */
@@ -211,21 +205,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new coverageMilesUnlimited.
+     * Sets a new coverageMilesUnlimited
      *
      * @param int $coverageMilesUnlimited
-     *
      * @return self
      */
     public function setCoverageMilesUnlimited($coverageMilesUnlimited)
     {
         $this->coverageMilesUnlimited = $coverageMilesUnlimited;
-
         return $this;
     }
 
     /**
-     * Gets as coverageMonth.
+     * Gets as coverageMonth
      *
      * @return int
      */
@@ -235,21 +227,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new coverageMonth.
+     * Sets a new coverageMonth
      *
      * @param int $coverageMonth
-     *
      * @return self
      */
     public function setCoverageMonth($coverageMonth)
     {
         $this->coverageMonth = $coverageMonth;
-
         return $this;
     }
 
     /**
-     * Gets as coverageMonthsUnlimited.
+     * Gets as coverageMonthsUnlimited
      *
      * @return int
      */
@@ -259,21 +249,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new coverageMonthsUnlimited.
+     * Sets a new coverageMonthsUnlimited
      *
      * @param int $coverageMonthsUnlimited
-     *
      * @return self
      */
     public function setCoverageMonthsUnlimited($coverageMonthsUnlimited)
     {
         $this->coverageMonthsUnlimited = $coverageMonthsUnlimited;
-
         return $this;
     }
 
     /**
-     * Gets as deductible.
+     * Gets as deductible
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -283,21 +271,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new deductible.
+     * Sets a new deductible
      *
      * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $deductible
-     *
      * @return self
      */
-    public function setDeductible(MonetaryValueType $deductible)
+    public function setDeductible(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $deductible)
     {
         $this->deductible = $deductible;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -307,21 +293,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as expireDate.
+     * Gets as expireDate
      *
      * @return \DateTime
      */
@@ -331,19 +315,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new expireDate.
+     * Sets a new expireDate
      *
+     * @param \DateTime $expireDate
      * @return self
      */
     public function setExpireDate(\DateTime $expireDate)
     {
         $this->expireDate = $expireDate;
-
         return $this;
     }
 
     /**
-     * Gets as expireMiles.
+     * Gets as expireMiles
      *
      * @return string
      */
@@ -353,21 +337,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new expireMiles.
+     * Sets a new expireMiles
      *
      * @param string $expireMiles
-     *
      * @return self
      */
     public function setExpireMiles($expireMiles)
     {
         $this->expireMiles = $expireMiles;
-
         return $this;
     }
 
     /**
-     * Gets as factoryDesc.
+     * Gets as factoryDesc
      *
      * @return string
      */
@@ -377,21 +359,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new factoryDesc.
+     * Sets a new factoryDesc
      *
      * @param string $factoryDesc
-     *
      * @return self
      */
     public function setFactoryDesc($factoryDesc)
     {
         $this->factoryDesc = $factoryDesc;
-
         return $this;
     }
 
     /**
-     * Gets as inserviceDate.
+     * Gets as inserviceDate
      *
      * @return \DateTime
      */
@@ -401,19 +381,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new inserviceDate.
+     * Sets a new inserviceDate
      *
+     * @param \DateTime $inserviceDate
      * @return self
      */
     public function setInserviceDate(\DateTime $inserviceDate)
     {
         $this->inserviceDate = $inserviceDate;
-
         return $this;
     }
 
     /**
-     * Gets as inserviceMiles.
+     * Gets as inserviceMiles
      *
      * @return string
      */
@@ -423,21 +403,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new inserviceMiles.
+     * Sets a new inserviceMiles
      *
      * @param string $inserviceMiles
-     *
      * @return self
      */
     public function setInserviceMiles($inserviceMiles)
     {
         $this->inserviceMiles = $inserviceMiles;
-
         return $this;
     }
 
     /**
-     * Gets as memo.
+     * Gets as memo
      *
      * @return string
      */
@@ -447,21 +425,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new memo.
+     * Sets a new memo
      *
      * @param string $memo
-     *
      * @return self
      */
     public function setMemo($memo)
     {
         $this->memo = $memo;
-
         return $this;
     }
 
     /**
-     * Gets as providerCode.
+     * Gets as providerCode
      *
      * @return string
      */
@@ -471,21 +447,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new providerCode.
+     * Sets a new providerCode
      *
      * @param string $providerCode
-     *
      * @return self
      */
     public function setProviderCode($providerCode)
     {
         $this->providerCode = $providerCode;
-
         return $this;
     }
 
     /**
-     * Gets as retail.
+     * Gets as retail
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -495,21 +469,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new retail.
+     * Sets a new retail
      *
      * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $retail
-     *
      * @return self
      */
-    public function setRetail(MonetaryValueType $retail)
+    public function setRetail(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $retail)
     {
         $this->retail = $retail;
-
         return $this;
     }
 
     /**
-     * Gets as saleDate.
+     * Gets as saleDate
      *
      * @return \DateTime
      */
@@ -519,19 +491,19 @@ class PullProductType
     }
 
     /**
-     * Sets a new saleDate.
+     * Sets a new saleDate
      *
+     * @param \DateTime $saleDate
      * @return self
      */
     public function setSaleDate(\DateTime $saleDate)
     {
         $this->saleDate = $saleDate;
-
         return $this;
     }
 
     /**
-     * Gets as transferCost.
+     * Gets as transferCost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -541,16 +513,17 @@ class PullProductType
     }
 
     /**
-     * Sets a new transferCost.
+     * Sets a new transferCost
      *
      * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $transferCost
-     *
      * @return self
      */
-    public function setTransferCost(MonetaryValueType $transferCost)
+    public function setTransferCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $transferCost)
     {
         $this->transferCost = $transferCost;
-
         return $this;
     }
+
+
 }
+

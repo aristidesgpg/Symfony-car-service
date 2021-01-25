@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullAppointmentsByKeyResponse.
+ * Class representing PullAppointmentsByKeyResponse
  */
 class PullAppointmentsByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[] $pullAppointmentsByKeyResult
      */
     private $pullAppointmentsByKeyResult = null;
 
     /**
-     * Adds as appointment.
+     * Adds as appointment
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentType $appointment
      */
-    public function addToPullAppointmentsByKeyResult(BaseApi\AppointmentType $appointment)
+    public function addToPullAppointmentsByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\AppointmentType $appointment)
     {
         $this->pullAppointmentsByKeyResult[] = $appointment;
-
         return $this;
     }
 
     /**
-     * isset pullAppointmentsByKeyResult.
+     * isset pullAppointmentsByKeyResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullAppointmentsByKeyResult($index)
@@ -39,10 +37,9 @@ class PullAppointmentsByKeyResponse
     }
 
     /**
-     * unset pullAppointmentsByKeyResult.
+     * unset pullAppointmentsByKeyResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullAppointmentsByKeyResult($index)
@@ -51,7 +48,7 @@ class PullAppointmentsByKeyResponse
     }
 
     /**
-     * Gets as pullAppointmentsByKeyResult.
+     * Gets as pullAppointmentsByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[]
      */
@@ -61,16 +58,17 @@ class PullAppointmentsByKeyResponse
     }
 
     /**
-     * Sets a new pullAppointmentsByKeyResult.
+     * Sets a new pullAppointmentsByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[] $pullAppointmentsByKeyResult
-     *
      * @return self
      */
     public function setPullAppointmentsByKeyResult(array $pullAppointmentsByKeyResult)
     {
         $this->pullAppointmentsByKeyResult = $pullAppointmentsByKeyResult;
-
         return $this;
     }
+
+
 }
+

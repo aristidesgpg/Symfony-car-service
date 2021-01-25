@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullGlSummaryResponse.
+ * Class representing PullGlSummaryResponse
  */
 class PullGlSummaryResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType[] $pullGlSummaryResult
      */
     private $pullGlSummaryResult = null;
 
     /**
-     * Adds as glSummaryItem.
+     * Adds as glSummaryItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType $glSummaryItem
      */
-    public function addToPullGlSummaryResult(BaseApi\GlSummaryItemType $glSummaryItem)
+    public function addToPullGlSummaryResult(\App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType $glSummaryItem)
     {
         $this->pullGlSummaryResult[] = $glSummaryItem;
-
         return $this;
     }
 
     /**
-     * isset pullGlSummaryResult.
+     * isset pullGlSummaryResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullGlSummaryResult($index)
@@ -39,10 +37,9 @@ class PullGlSummaryResponse
     }
 
     /**
-     * unset pullGlSummaryResult.
+     * unset pullGlSummaryResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullGlSummaryResult($index)
@@ -51,7 +48,7 @@ class PullGlSummaryResponse
     }
 
     /**
-     * Gets as pullGlSummaryResult.
+     * Gets as pullGlSummaryResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType[]
      */
@@ -61,16 +58,17 @@ class PullGlSummaryResponse
     }
 
     /**
-     * Sets a new pullGlSummaryResult.
+     * Sets a new pullGlSummaryResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType[] $pullGlSummaryResult
-     *
      * @return self
      */
     public function setPullGlSummaryResult(array $pullGlSummaryResult)
     {
         $this->pullGlSummaryResult = $pullGlSummaryResult;
-
         return $this;
     }
+
+
 }
+

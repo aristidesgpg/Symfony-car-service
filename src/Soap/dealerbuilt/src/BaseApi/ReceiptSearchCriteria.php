@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ReceiptSearchCriteria.
+ * Class representing ReceiptSearchCriteria
  */
 class ReceiptSearchCriteria extends ReceiptSearchCriteriaType
 {
+
+
 }
+

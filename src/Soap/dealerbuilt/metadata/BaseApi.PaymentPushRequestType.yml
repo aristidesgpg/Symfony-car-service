@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType:
             access_type: public_method
             serialized_name: EventKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEventKey
                 setter: setEventKey
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType:
             access_type: public_method
             serialized_name: EventType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEventType
                 setter: setEventType
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType:
             access_type: public_method
             serialized_name: Payments
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPayments
                 setter: setPayments
@@ -34,13 +34,13 @@ App\Soap\dealerbuilt\src\BaseApi\PaymentPushRequestType:
                 inline: false
                 entry_name: PushedPayment
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
         serviceLocationId:
             expose: true
             access_type: public_method
             serialized_name: ServiceLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationId
                 setter: setServiceLocationId

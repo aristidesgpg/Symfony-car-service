@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing AddressType.
+ * Class representing AddressType
  *
+ * 
  * XSD Type: Address
  */
 class AddressType
 {
+
     /**
-     * @var string
+     * @var string $city
      */
     private $city = null;
 
     /**
-     * @var string
+     * @var string $country
      */
     private $country = null;
 
     /**
-     * @var string
+     * @var string $county
      */
     private $county = null;
 
     /**
-     * @var string
+     * @var string $line1
      */
     private $line1 = null;
 
     /**
-     * @var string
+     * @var string $line2
      */
     private $line2 = null;
 
     /**
-     * @var string
+     * @var string $state
      */
     private $state = null;
 
     /**
-     * @var string
+     * @var string $zip
      */
     private $zip = null;
 
     /**
-     * Gets as city.
+     * Gets as city
      *
      * @return string
      */
@@ -55,21 +57,19 @@ class AddressType
     }
 
     /**
-     * Sets a new city.
+     * Sets a new city
      *
      * @param string $city
-     *
      * @return self
      */
     public function setCity($city)
     {
         $this->city = $city;
-
         return $this;
     }
 
     /**
-     * Gets as country.
+     * Gets as country
      *
      * @return string
      */
@@ -79,21 +79,19 @@ class AddressType
     }
 
     /**
-     * Sets a new country.
+     * Sets a new country
      *
      * @param string $country
-     *
      * @return self
      */
     public function setCountry($country)
     {
         $this->country = $country;
-
         return $this;
     }
 
     /**
-     * Gets as county.
+     * Gets as county
      *
      * @return string
      */
@@ -103,21 +101,19 @@ class AddressType
     }
 
     /**
-     * Sets a new county.
+     * Sets a new county
      *
      * @param string $county
-     *
      * @return self
      */
     public function setCounty($county)
     {
         $this->county = $county;
-
         return $this;
     }
 
     /**
-     * Gets as line1.
+     * Gets as line1
      *
      * @return string
      */
@@ -127,21 +123,19 @@ class AddressType
     }
 
     /**
-     * Sets a new line1.
+     * Sets a new line1
      *
      * @param string $line1
-     *
      * @return self
      */
     public function setLine1($line1)
     {
         $this->line1 = $line1;
-
         return $this;
     }
 
     /**
-     * Gets as line2.
+     * Gets as line2
      *
      * @return string
      */
@@ -151,21 +145,19 @@ class AddressType
     }
 
     /**
-     * Sets a new line2.
+     * Sets a new line2
      *
      * @param string $line2
-     *
      * @return self
      */
     public function setLine2($line2)
     {
         $this->line2 = $line2;
-
         return $this;
     }
 
     /**
-     * Gets as state.
+     * Gets as state
      *
      * @return string
      */
@@ -175,21 +167,19 @@ class AddressType
     }
 
     /**
-     * Sets a new state.
+     * Sets a new state
      *
      * @param string $state
-     *
      * @return self
      */
     public function setState($state)
     {
         $this->state = $state;
-
         return $this;
     }
 
     /**
-     * Gets as zip.
+     * Gets as zip
      *
      * @return string
      */
@@ -199,16 +189,17 @@ class AddressType
     }
 
     /**
-     * Sets a new zip.
+     * Sets a new zip
      *
      * @param string $zip
-     *
      * @return self
      */
     public function setZip($zip)
     {
         $this->zip = $zip;
-
         return $this;
     }
+
+
 }
+

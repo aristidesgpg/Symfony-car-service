@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StorePlacement.
+ * Class representing StorePlacement
  */
 class StorePlacement extends StorePlacementType
 {
+
+
 }
+

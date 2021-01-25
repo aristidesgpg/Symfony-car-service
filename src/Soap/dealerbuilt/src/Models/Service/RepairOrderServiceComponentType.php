@@ -3,84 +3,86 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing RepairOrderServiceComponentType.
+ * Class representing RepairOrderServiceComponentType
  *
+ * 
  * XSD Type: RepairOrderServiceComponent
  */
 class RepairOrderServiceComponentType
 {
+
     /**
-     * @var string
+     * @var string $causeDescription
      */
     private $causeDescription = null;
 
     /**
-     * @var float
+     * @var float $chargeAmount
      */
     private $chargeAmount = null;
 
     /**
-     * @var string
+     * @var string $complaintCode
      */
     private $complaintCode = null;
 
     /**
-     * @var string
+     * @var string $complaintDescription
      */
     private $complaintDescription = null;
 
     /**
-     * @var string
+     * @var string $controlNumber
      */
     private $controlNumber = null;
 
     /**
-     * @var bool
+     * @var bool $isDiscount
      */
     private $isDiscount = null;
 
     /**
-     * @var string
+     * @var string $jobCode
      */
     private $jobCode = null;
 
     /**
-     * @var float
+     * @var float $percent
      */
     private $percent = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      */
     private $price = null;
 
     /**
-     * @var string
+     * @var string $serviceCode
      */
     private $serviceCode = null;
 
     /**
-     * @var string
+     * @var string $serviceCodeDescription
      */
     private $serviceCodeDescription = null;
 
     /**
-     * @var string
+     * @var string $serviceDescription
      */
     private $serviceDescription = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax
      */
     private $tax = null;
 
     /**
-     * @var bool
+     * @var bool $taxable
      */
     private $taxable = null;
 
     /**
-     * Gets as causeDescription.
+     * Gets as causeDescription
      *
      * @return string
      */
@@ -90,21 +92,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new causeDescription.
+     * Sets a new causeDescription
      *
      * @param string $causeDescription
-     *
      * @return self
      */
     public function setCauseDescription($causeDescription)
     {
         $this->causeDescription = $causeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as chargeAmount.
+     * Gets as chargeAmount
      *
      * @return float
      */
@@ -114,21 +114,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new chargeAmount.
+     * Sets a new chargeAmount
      *
      * @param float $chargeAmount
-     *
      * @return self
      */
     public function setChargeAmount($chargeAmount)
     {
         $this->chargeAmount = $chargeAmount;
-
         return $this;
     }
 
     /**
-     * Gets as complaintCode.
+     * Gets as complaintCode
      *
      * @return string
      */
@@ -138,21 +136,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new complaintCode.
+     * Sets a new complaintCode
      *
      * @param string $complaintCode
-     *
      * @return self
      */
     public function setComplaintCode($complaintCode)
     {
         $this->complaintCode = $complaintCode;
-
         return $this;
     }
 
     /**
-     * Gets as complaintDescription.
+     * Gets as complaintDescription
      *
      * @return string
      */
@@ -162,21 +158,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new complaintDescription.
+     * Sets a new complaintDescription
      *
      * @param string $complaintDescription
-     *
      * @return self
      */
     public function setComplaintDescription($complaintDescription)
     {
         $this->complaintDescription = $complaintDescription;
-
         return $this;
     }
 
     /**
-     * Gets as controlNumber.
+     * Gets as controlNumber
      *
      * @return string
      */
@@ -186,21 +180,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new controlNumber.
+     * Sets a new controlNumber
      *
      * @param string $controlNumber
-     *
      * @return self
      */
     public function setControlNumber($controlNumber)
     {
         $this->controlNumber = $controlNumber;
-
         return $this;
     }
 
     /**
-     * Gets as isDiscount.
+     * Gets as isDiscount
      *
      * @return bool
      */
@@ -210,21 +202,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new isDiscount.
+     * Sets a new isDiscount
      *
      * @param bool $isDiscount
-     *
      * @return self
      */
     public function setIsDiscount($isDiscount)
     {
         $this->isDiscount = $isDiscount;
-
         return $this;
     }
 
     /**
-     * Gets as jobCode.
+     * Gets as jobCode
      *
      * @return string
      */
@@ -234,21 +224,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new jobCode.
+     * Sets a new jobCode
      *
      * @param string $jobCode
-     *
      * @return self
      */
     public function setJobCode($jobCode)
     {
         $this->jobCode = $jobCode;
-
         return $this;
     }
 
     /**
-     * Gets as percent.
+     * Gets as percent
      *
      * @return float
      */
@@ -258,21 +246,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new percent.
+     * Sets a new percent
      *
      * @param float $percent
-     *
      * @return self
      */
     public function setPercent($percent)
     {
         $this->percent = $percent;
-
         return $this;
     }
 
     /**
-     * Gets as price.
+     * Gets as price
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -282,19 +268,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new price.
+     * Sets a new price
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      * @return self
      */
     public function setPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $price)
     {
         $this->price = $price;
-
         return $this;
     }
 
     /**
-     * Gets as serviceCode.
+     * Gets as serviceCode
      *
      * @return string
      */
@@ -304,21 +290,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new serviceCode.
+     * Sets a new serviceCode
      *
      * @param string $serviceCode
-     *
      * @return self
      */
     public function setServiceCode($serviceCode)
     {
         $this->serviceCode = $serviceCode;
-
         return $this;
     }
 
     /**
-     * Gets as serviceCodeDescription.
+     * Gets as serviceCodeDescription
      *
      * @return string
      */
@@ -328,21 +312,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new serviceCodeDescription.
+     * Sets a new serviceCodeDescription
      *
      * @param string $serviceCodeDescription
-     *
      * @return self
      */
     public function setServiceCodeDescription($serviceCodeDescription)
     {
         $this->serviceCodeDescription = $serviceCodeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as serviceDescription.
+     * Gets as serviceDescription
      *
      * @return string
      */
@@ -352,21 +334,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new serviceDescription.
+     * Sets a new serviceDescription
      *
      * @param string $serviceDescription
-     *
      * @return self
      */
     public function setServiceDescription($serviceDescription)
     {
         $this->serviceDescription = $serviceDescription;
-
         return $this;
     }
 
     /**
-     * Gets as tax.
+     * Gets as tax
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -376,19 +356,19 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new tax.
+     * Sets a new tax
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax
      * @return self
      */
     public function setTax(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax)
     {
         $this->tax = $tax;
-
         return $this;
     }
 
     /**
-     * Gets as taxable.
+     * Gets as taxable
      *
      * @return bool
      */
@@ -398,16 +378,17 @@ class RepairOrderServiceComponentType
     }
 
     /**
-     * Sets a new taxable.
+     * Sets a new taxable
      *
      * @param bool $taxable
-     *
      * @return self
      */
     public function setTaxable($taxable)
     {
         $this->taxable = $taxable;
-
         return $this;
     }
+
+
 }
+

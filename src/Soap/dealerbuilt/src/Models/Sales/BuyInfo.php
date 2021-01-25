@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing BuyInfo.
+ * Class representing BuyInfo
  */
 class BuyInfo extends BuyInfoType
 {
+
+
 }
+

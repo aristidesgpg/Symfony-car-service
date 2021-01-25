@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushAppointmentsResponse.
+ * Class representing PushAppointmentsResponse
  */
 class PushAppointmentsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType[] $pushAppointmentsResult
      */
     private $pushAppointmentsResult = null;
 
     /**
-     * Adds as appointmentPushResponse.
+     * Adds as appointmentPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType $appointmentPushResponse
      */
-    public function addToPushAppointmentsResult(BaseApi\AppointmentPushResponseType $appointmentPushResponse)
+    public function addToPushAppointmentsResult(\App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType $appointmentPushResponse)
     {
         $this->pushAppointmentsResult[] = $appointmentPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushAppointmentsResult.
+     * isset pushAppointmentsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushAppointmentsResult($index)
@@ -39,10 +37,9 @@ class PushAppointmentsResponse
     }
 
     /**
-     * unset pushAppointmentsResult.
+     * unset pushAppointmentsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushAppointmentsResult($index)
@@ -51,7 +48,7 @@ class PushAppointmentsResponse
     }
 
     /**
-     * Gets as pushAppointmentsResult.
+     * Gets as pushAppointmentsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushAppointmentsResponse
     }
 
     /**
-     * Sets a new pushAppointmentsResult.
+     * Sets a new pushAppointmentsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushResponseType[] $pushAppointmentsResult
-     *
      * @return self
      */
     public function setPushAppointmentsResult(array $pushAppointmentsResult)
     {
         $this->pushAppointmentsResult = $pushAppointmentsResult;
-
         return $this;
     }
+
+
 }
+

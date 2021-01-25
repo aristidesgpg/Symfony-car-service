@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing BuyTaxCollectionType.
+ * Class representing BuyTaxCollectionType
  *
+ * 
  * XSD Type: BuyTaxCollection
  */
 class BuyTaxCollectionType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType[] $dealerTaxes
      */
     private $dealerTaxes = null;
 
     /**
-     * Adds as dealerTax.
+     * Adds as dealerTax
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType $dealerTax
      */
-    public function addToDealerTaxes(DealerTaxType $dealerTax)
+    public function addToDealerTaxes(\App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType $dealerTax)
     {
         $this->dealerTaxes[] = $dealerTax;
-
         return $this;
     }
 
     /**
-     * isset dealerTaxes.
+     * isset dealerTaxes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDealerTaxes($index)
@@ -41,10 +40,9 @@ class BuyTaxCollectionType
     }
 
     /**
-     * unset dealerTaxes.
+     * unset dealerTaxes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDealerTaxes($index)
@@ -53,7 +51,7 @@ class BuyTaxCollectionType
     }
 
     /**
-     * Gets as dealerTaxes.
+     * Gets as dealerTaxes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType[]
      */
@@ -63,16 +61,17 @@ class BuyTaxCollectionType
     }
 
     /**
-     * Sets a new dealerTaxes.
+     * Sets a new dealerTaxes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType[] $dealerTaxes
-     *
      * @return self
      */
     public function setDealerTaxes(array $dealerTaxes)
     {
         $this->dealerTaxes = $dealerTaxes;
-
         return $this;
     }
+
+
 }
+

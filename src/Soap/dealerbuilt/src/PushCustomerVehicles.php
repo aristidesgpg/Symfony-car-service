@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCustomerVehicles.
+ * Class representing PushCustomerVehicles
  */
 class PushCustomerVehicles
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType[] $vehicles
      */
     private $vehicles = null;
 
     /**
-     * Adds as customerVehiclePushRequest.
+     * Adds as customerVehiclePushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType $customerVehiclePushRequest
      */
-    public function addToVehicles(BaseApi\CustomerVehiclePushRequestType $customerVehiclePushRequest)
+    public function addToVehicles(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType $customerVehiclePushRequest)
     {
         $this->vehicles[] = $customerVehiclePushRequest;
-
         return $this;
     }
 
     /**
-     * isset vehicles.
+     * isset vehicles
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVehicles($index)
@@ -39,10 +37,9 @@ class PushCustomerVehicles
     }
 
     /**
-     * unset vehicles.
+     * unset vehicles
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVehicles($index)
@@ -51,7 +48,7 @@ class PushCustomerVehicles
     }
 
     /**
-     * Gets as vehicles.
+     * Gets as vehicles
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushCustomerVehicles
     }
 
     /**
-     * Sets a new vehicles.
+     * Sets a new vehicles
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehiclePushRequestType[] $vehicles
-     *
      * @return self
      */
     public function setVehicles(array $vehicles)
     {
         $this->vehicles = $vehicles;
-
         return $this;
     }
+
+
 }
+

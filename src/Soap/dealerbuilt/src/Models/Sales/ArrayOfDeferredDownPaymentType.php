@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing ArrayOfDeferredDownPaymentType.
+ * Class representing ArrayOfDeferredDownPaymentType
  *
+ * 
  * XSD Type: ArrayOfDeferredDownPayment
  */
 class ArrayOfDeferredDownPaymentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType[] $deferredDownPayment
      */
     private $deferredDownPayment = [
+        
     ];
 
     /**
-     * Adds as deferredDownPayment.
+     * Adds as deferredDownPayment
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType $deferredDownPayment
      */
-    public function addToDeferredDownPayment(DeferredDownPaymentType $deferredDownPayment)
+    public function addToDeferredDownPayment(\App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType $deferredDownPayment)
     {
         $this->deferredDownPayment[] = $deferredDownPayment;
-
         return $this;
     }
 
     /**
-     * isset deferredDownPayment.
+     * isset deferredDownPayment
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDeferredDownPayment($index)
@@ -42,10 +42,9 @@ class ArrayOfDeferredDownPaymentType
     }
 
     /**
-     * unset deferredDownPayment.
+     * unset deferredDownPayment
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDeferredDownPayment($index)
@@ -54,7 +53,7 @@ class ArrayOfDeferredDownPaymentType
     }
 
     /**
-     * Gets as deferredDownPayment.
+     * Gets as deferredDownPayment
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDeferredDownPaymentType
     }
 
     /**
-     * Sets a new deferredDownPayment.
+     * Sets a new deferredDownPayment
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType[] $deferredDownPayment
-     *
      * @return self
      */
     public function setDeferredDownPayment(array $deferredDownPayment)
     {
         $this->deferredDownPayment = $deferredDownPayment;
-
         return $this;
     }
+
+
 }
+

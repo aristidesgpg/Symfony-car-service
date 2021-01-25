@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerVehicleOwnerPushRequestType.
+ * Class representing CustomerVehicleOwnerPushRequestType
  *
+ * 
  * XSD Type: CustomerVehicleOwnerPushRequest
  */
 class CustomerVehicleOwnerPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var string
+     * @var string $externalVehicleId
      */
     private $externalVehicleId = null;
 
     /**
-     * @var int
+     * @var int $sourceId
      */
     private $sourceId = null;
 
     /**
-     * @var string
+     * @var string $vehicleKey
      */
     private $vehicleKey = null;
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -40,21 +42,19 @@ class CustomerVehicleOwnerPushRequestType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as externalVehicleId.
+     * Gets as externalVehicleId
      *
      * @return string
      */
@@ -64,21 +64,19 @@ class CustomerVehicleOwnerPushRequestType
     }
 
     /**
-     * Sets a new externalVehicleId.
+     * Sets a new externalVehicleId
      *
      * @param string $externalVehicleId
-     *
      * @return self
      */
     public function setExternalVehicleId($externalVehicleId)
     {
         $this->externalVehicleId = $externalVehicleId;
-
         return $this;
     }
 
     /**
-     * Gets as sourceId.
+     * Gets as sourceId
      *
      * @return int
      */
@@ -88,21 +86,19 @@ class CustomerVehicleOwnerPushRequestType
     }
 
     /**
-     * Sets a new sourceId.
+     * Sets a new sourceId
      *
      * @param int $sourceId
-     *
      * @return self
      */
     public function setSourceId($sourceId)
     {
         $this->sourceId = $sourceId;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleKey.
+     * Gets as vehicleKey
      *
      * @return string
      */
@@ -112,16 +108,17 @@ class CustomerVehicleOwnerPushRequestType
     }
 
     /**
-     * Sets a new vehicleKey.
+     * Sets a new vehicleKey
      *
      * @param string $vehicleKey
-     *
      * @return self
      */
     public function setVehicleKey($vehicleKey)
     {
         $this->vehicleKey = $vehicleKey;
-
         return $this;
     }
+
+
 }
+

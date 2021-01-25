@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PotentialJobAttributes.
+ * Class representing PotentialJobAttributes
  */
 class PotentialJobAttributes extends PotentialJobAttributesType
 {
+
+
 }
+

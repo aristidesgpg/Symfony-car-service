@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryResponse.
+ * Class representing PullInventoryResponse
  */
 class PullInventoryResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $pullInventoryResult
      */
     private $pullInventoryResult = null;
 
     /**
-     * Adds as stockItem.
+     * Adds as stockItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem
      */
-    public function addToPullInventoryResult(BaseApi\StockItemType $stockItem)
+    public function addToPullInventoryResult(\App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem)
     {
         $this->pullInventoryResult[] = $stockItem;
-
         return $this;
     }
 
     /**
-     * isset pullInventoryResult.
+     * isset pullInventoryResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullInventoryResult($index)
@@ -39,10 +37,9 @@ class PullInventoryResponse
     }
 
     /**
-     * unset pullInventoryResult.
+     * unset pullInventoryResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullInventoryResult($index)
@@ -51,7 +48,7 @@ class PullInventoryResponse
     }
 
     /**
-     * Gets as pullInventoryResult.
+     * Gets as pullInventoryResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
      */
@@ -61,16 +58,17 @@ class PullInventoryResponse
     }
 
     /**
-     * Sets a new pullInventoryResult.
+     * Sets a new pullInventoryResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $pullInventoryResult
-     *
      * @return self
      */
     public function setPullInventoryResult(array $pullInventoryResult)
     {
         $this->pullInventoryResult = $pullInventoryResult;
-
         return $this;
     }
+
+
 }
+

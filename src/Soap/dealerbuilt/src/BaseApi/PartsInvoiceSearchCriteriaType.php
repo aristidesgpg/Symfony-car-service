@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsInvoiceSearchCriteriaType.
+ * Class representing PartsInvoiceSearchCriteriaType
  *
+ * 
  * XSD Type: PartsInvoiceSearchCriteria
  */
 class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
 {
+
     /**
-     * @var string
+     * @var string $closedScope
      */
     private $closedScope = null;
 
     /**
-     * @var string
+     * @var string $deliveredScope
      */
     private $deliveredScope = null;
 
     /**
-     * @var string
+     * @var string $deliveryScope
      */
     private $deliveryScope = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumClosedStamp
      */
     private $maximumClosedStamp = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumClosedStamp
      */
     private $minimumClosedStamp = null;
 
     /**
-     * @var string[]
+     * @var string[] $partsInvoiceNumbers
      */
     private $partsInvoiceNumbers = null;
 
     /**
-     * @var string
+     * @var string $soldToCustomerKey
      */
     private $soldToCustomerKey = null;
 
     /**
-     * Gets as closedScope.
+     * Gets as closedScope
      *
      * @return string
      */
@@ -55,21 +57,19 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new closedScope.
+     * Sets a new closedScope
      *
      * @param string $closedScope
-     *
      * @return self
      */
     public function setClosedScope($closedScope)
     {
         $this->closedScope = $closedScope;
-
         return $this;
     }
 
     /**
-     * Gets as deliveredScope.
+     * Gets as deliveredScope
      *
      * @return string
      */
@@ -79,21 +79,19 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new deliveredScope.
+     * Sets a new deliveredScope
      *
      * @param string $deliveredScope
-     *
      * @return self
      */
     public function setDeliveredScope($deliveredScope)
     {
         $this->deliveredScope = $deliveredScope;
-
         return $this;
     }
 
     /**
-     * Gets as deliveryScope.
+     * Gets as deliveryScope
      *
      * @return string
      */
@@ -103,21 +101,19 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new deliveryScope.
+     * Sets a new deliveryScope
      *
      * @param string $deliveryScope
-     *
      * @return self
      */
     public function setDeliveryScope($deliveryScope)
     {
         $this->deliveryScope = $deliveryScope;
-
         return $this;
     }
 
     /**
-     * Gets as maximumClosedStamp.
+     * Gets as maximumClosedStamp
      *
      * @return \DateTime
      */
@@ -127,19 +123,19 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new maximumClosedStamp.
+     * Sets a new maximumClosedStamp
      *
+     * @param \DateTime $maximumClosedStamp
      * @return self
      */
     public function setMaximumClosedStamp(\DateTime $maximumClosedStamp)
     {
         $this->maximumClosedStamp = $maximumClosedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as minimumClosedStamp.
+     * Gets as minimumClosedStamp
      *
      * @return \DateTime
      */
@@ -149,36 +145,33 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new minimumClosedStamp.
+     * Sets a new minimumClosedStamp
      *
+     * @param \DateTime $minimumClosedStamp
      * @return self
      */
     public function setMinimumClosedStamp(\DateTime $minimumClosedStamp)
     {
         $this->minimumClosedStamp = $minimumClosedStamp;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToPartsInvoiceNumbers($string)
     {
         $this->partsInvoiceNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset partsInvoiceNumbers.
+     * isset partsInvoiceNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsInvoiceNumbers($index)
@@ -187,10 +180,9 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * unset partsInvoiceNumbers.
+     * unset partsInvoiceNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsInvoiceNumbers($index)
@@ -199,7 +191,7 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Gets as partsInvoiceNumbers.
+     * Gets as partsInvoiceNumbers
      *
      * @return string[]
      */
@@ -209,21 +201,19 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new partsInvoiceNumbers.
+     * Sets a new partsInvoiceNumbers
      *
      * @param string[] $partsInvoiceNumbers
-     *
      * @return self
      */
     public function setPartsInvoiceNumbers(array $partsInvoiceNumbers)
     {
         $this->partsInvoiceNumbers = $partsInvoiceNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as soldToCustomerKey.
+     * Gets as soldToCustomerKey
      *
      * @return string
      */
@@ -233,16 +223,17 @@ class PartsInvoiceSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new soldToCustomerKey.
+     * Sets a new soldToCustomerKey
      *
      * @param string $soldToCustomerKey
-     *
      * @return self
      */
     public function setSoldToCustomerKey($soldToCustomerKey)
     {
         $this->soldToCustomerKey = $soldToCustomerKey;
-
         return $this;
     }
+
+
 }
+

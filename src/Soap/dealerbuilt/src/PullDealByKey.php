@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDealByKey.
+ * Class representing PullDealByKey
  */
 class PullDealByKey
 {
+
     /**
-     * @var string
+     * @var string $dealKey
      */
     private $dealKey = null;
 
     /**
-     * Gets as dealKey.
+     * Gets as dealKey
      *
      * @return string
      */
@@ -23,16 +24,17 @@ class PullDealByKey
     }
 
     /**
-     * Sets a new dealKey.
+     * Sets a new dealKey
      *
      * @param string $dealKey
-     *
      * @return self
      */
     public function setDealKey($dealKey)
     {
         $this->dealKey = $dealKey;
-
         return $this;
     }
+
+
 }
+

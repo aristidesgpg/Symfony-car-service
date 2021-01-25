@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetProductsResponse.
+ * Class representing GetProductsResponse
  */
 class GetProductsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ProductListType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ProductListType[] $getProductsResult
      */
     private $getProductsResult = null;
 
     /**
-     * Adds as productList.
+     * Adds as productList
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProductListType $productList
      */
-    public function addToGetProductsResult(BaseApi\ProductListType $productList)
+    public function addToGetProductsResult(\App\Soap\dealerbuilt\src\BaseApi\ProductListType $productList)
     {
         $this->getProductsResult[] = $productList;
-
         return $this;
     }
 
     /**
-     * isset getProductsResult.
+     * isset getProductsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetProductsResult($index)
@@ -39,10 +37,9 @@ class GetProductsResponse
     }
 
     /**
-     * unset getProductsResult.
+     * unset getProductsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetProductsResult($index)
@@ -51,7 +48,7 @@ class GetProductsResponse
     }
 
     /**
-     * Gets as getProductsResult.
+     * Gets as getProductsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ProductListType[]
      */
@@ -61,16 +58,17 @@ class GetProductsResponse
     }
 
     /**
-     * Sets a new getProductsResult.
+     * Sets a new getProductsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProductListType[] $getProductsResult
-     *
      * @return self
      */
     public function setGetProductsResult(array $getProductsResult)
     {
         $this->getProductsResult = $getProductsResult;
-
         return $this;
     }
+
+
 }
+

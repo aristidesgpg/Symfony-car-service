@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfLaborOperationSubletType.
+ * Class representing ArrayOfLaborOperationSubletType
  *
+ * 
  * XSD Type: ArrayOfLaborOperationSublet
  */
 class ArrayOfLaborOperationSubletType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType[] $laborOperationSublet
      */
     private $laborOperationSublet = [
+        
     ];
 
     /**
-     * Adds as laborOperationSublet.
+     * Adds as laborOperationSublet
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType $laborOperationSublet
      */
-    public function addToLaborOperationSublet(LaborOperationSubletType $laborOperationSublet)
+    public function addToLaborOperationSublet(\App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType $laborOperationSublet)
     {
         $this->laborOperationSublet[] = $laborOperationSublet;
-
         return $this;
     }
 
     /**
-     * isset laborOperationSublet.
+     * isset laborOperationSublet
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLaborOperationSublet($index)
@@ -42,10 +42,9 @@ class ArrayOfLaborOperationSubletType
     }
 
     /**
-     * unset laborOperationSublet.
+     * unset laborOperationSublet
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLaborOperationSublet($index)
@@ -54,7 +53,7 @@ class ArrayOfLaborOperationSubletType
     }
 
     /**
-     * Gets as laborOperationSublet.
+     * Gets as laborOperationSublet
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfLaborOperationSubletType
     }
 
     /**
-     * Sets a new laborOperationSublet.
+     * Sets a new laborOperationSublet
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\LaborOperationSubletType[] $laborOperationSublet
-     *
      * @return self
      */
     public function setLaborOperationSublet(array $laborOperationSublet)
     {
         $this->laborOperationSublet = $laborOperationSublet;
-
         return $this;
     }
+
+
 }
+

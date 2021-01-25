@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStorePushResponseType.
+ * Class representing ArrayOfStorePushResponseType
  *
+ * 
  * XSD Type: ArrayOfStorePushResponse
  */
 class ArrayOfStorePushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[] $storePushResponse
      */
     private $storePushResponse = [
+        
     ];
 
     /**
-     * Adds as storePushResponse.
+     * Adds as storePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType $storePushResponse
      */
-    public function addToStorePushResponse(StorePushResponseType $storePushResponse)
+    public function addToStorePushResponse(\App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType $storePushResponse)
     {
         $this->storePushResponse[] = $storePushResponse;
-
         return $this;
     }
 
     /**
-     * isset storePushResponse.
+     * isset storePushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStorePushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfStorePushResponseType
     }
 
     /**
-     * unset storePushResponse.
+     * unset storePushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStorePushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfStorePushResponseType
     }
 
     /**
-     * Gets as storePushResponse.
+     * Gets as storePushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfStorePushResponseType
     }
 
     /**
-     * Sets a new storePushResponse.
+     * Sets a new storePushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[] $storePushResponse
-     *
      * @return self
      */
     public function setStorePushResponse(array $storePushResponse)
     {
         $this->storePushResponse = $storePushResponse;
-
         return $this;
     }
+
+
 }
+

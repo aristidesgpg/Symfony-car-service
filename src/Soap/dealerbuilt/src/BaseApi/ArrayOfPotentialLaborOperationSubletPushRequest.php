@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPotentialLaborOperationSubletPushRequest.
+ * Class representing ArrayOfPotentialLaborOperationSubletPushRequest
  */
 class ArrayOfPotentialLaborOperationSubletPushRequest extends ArrayOfPotentialLaborOperationSubletPushRequestType
 {
+
+
 }
+

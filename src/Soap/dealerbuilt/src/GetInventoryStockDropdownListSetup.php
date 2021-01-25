@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetInventoryStockDropdownListSetup.
+ * Class representing GetInventoryStockDropdownListSetup
  */
 class GetInventoryStockDropdownListSetup
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType $searchCriteria
      */
     private $searchCriteria = null;
 
     /**
-     * Gets as searchCriteria.
+     * Gets as searchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class GetInventoryStockDropdownListSetup
     }
 
     /**
-     * Sets a new searchCriteria.
+     * Sets a new searchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType $searchCriteria
-     *
      * @return self
      */
-    public function setSearchCriteria(BaseApi\DropdownListSearchCriteriaType $searchCriteria)
+    public function setSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\DropdownListSearchCriteriaType $searchCriteria)
     {
         $this->searchCriteria = $searchCriteria;
-
         return $this;
     }
+
+
 }
+

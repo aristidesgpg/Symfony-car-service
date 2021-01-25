@@ -3,54 +3,56 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing RentalVehicleType.
+ * Class representing RentalVehicleType
  *
+ * 
  * XSD Type: RentalVehicle
  */
 class RentalVehicleType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dailyRate
      */
     private $dailyRate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $inStamp
      */
     private $inStamp = null;
 
     /**
-     * @var string
+     * @var string $licensePlate
      */
     private $licensePlate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $outStamp
      */
     private $outStamp = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * @var float
+     * @var float $rentalDays
      */
     private $rentalDays = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalAmountCharged
      */
     private $totalAmountCharged = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * Gets as dailyRate.
+     * Gets as dailyRate
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -60,19 +62,19 @@ class RentalVehicleType
     }
 
     /**
-     * Sets a new dailyRate.
+     * Sets a new dailyRate
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dailyRate
      * @return self
      */
     public function setDailyRate(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $dailyRate)
     {
         $this->dailyRate = $dailyRate;
-
         return $this;
     }
 
     /**
-     * Gets as inStamp.
+     * Gets as inStamp
      *
      * @return \DateTime
      */
@@ -82,19 +84,19 @@ class RentalVehicleType
     }
 
     /**
-     * Sets a new inStamp.
+     * Sets a new inStamp
      *
+     * @param \DateTime $inStamp
      * @return self
      */
     public function setInStamp(\DateTime $inStamp)
     {
         $this->inStamp = $inStamp;
-
         return $this;
     }
 
     /**
-     * Gets as licensePlate.
+     * Gets as licensePlate
      *
      * @return string
      */
@@ -104,21 +106,19 @@ class RentalVehicleType
     }
 
     /**
-     * Sets a new licensePlate.
+     * Sets a new licensePlate
      *
      * @param string $licensePlate
-     *
      * @return self
      */
     public function setLicensePlate($licensePlate)
     {
         $this->licensePlate = $licensePlate;
-
         return $this;
     }
 
     /**
-     * Gets as outStamp.
+     * Gets as outStamp
      *
      * @return \DateTime
      */
@@ -128,19 +128,19 @@ class RentalVehicleType
     }
 
     /**
-     * Sets a new outStamp.
+     * Sets a new outStamp
      *
+     * @param \DateTime $outStamp
      * @return self
      */
     public function setOutStamp(\DateTime $outStamp)
     {
         $this->outStamp = $outStamp;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -150,21 +150,19 @@ class RentalVehicleType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
 
     /**
-     * Gets as rentalDays.
+     * Gets as rentalDays
      *
      * @return float
      */
@@ -174,21 +172,19 @@ class RentalVehicleType
     }
 
     /**
-     * Sets a new rentalDays.
+     * Sets a new rentalDays
      *
      * @param float $rentalDays
-     *
      * @return self
      */
     public function setRentalDays($rentalDays)
     {
         $this->rentalDays = $rentalDays;
-
         return $this;
     }
 
     /**
-     * Gets as totalAmountCharged.
+     * Gets as totalAmountCharged
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -198,19 +194,19 @@ class RentalVehicleType
     }
 
     /**
-     * Sets a new totalAmountCharged.
+     * Sets a new totalAmountCharged
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalAmountCharged
      * @return self
      */
     public function setTotalAmountCharged(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalAmountCharged)
     {
         $this->totalAmountCharged = $totalAmountCharged;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -220,16 +216,17 @@ class RentalVehicleType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
+
+
 }
+

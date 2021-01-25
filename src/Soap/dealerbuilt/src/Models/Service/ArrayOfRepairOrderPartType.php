@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfRepairOrderPartType.
+ * Class representing ArrayOfRepairOrderPartType
  *
+ * 
  * XSD Type: ArrayOfRepairOrderPart
  */
 class ArrayOfRepairOrderPartType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\RepairOrderPartType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\RepairOrderPartType[] $repairOrderPart
      */
     private $repairOrderPart = [
+        
     ];
 
     /**
-     * Adds as repairOrderPart.
+     * Adds as repairOrderPart
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\RepairOrderPartType $repairOrderPart
      */
-    public function addToRepairOrderPart(RepairOrderPartType $repairOrderPart)
+    public function addToRepairOrderPart(\App\Soap\dealerbuilt\src\Models\Service\RepairOrderPartType $repairOrderPart)
     {
         $this->repairOrderPart[] = $repairOrderPart;
-
         return $this;
     }
 
     /**
-     * isset repairOrderPart.
+     * isset repairOrderPart
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRepairOrderPart($index)
@@ -42,10 +42,9 @@ class ArrayOfRepairOrderPartType
     }
 
     /**
-     * unset repairOrderPart.
+     * unset repairOrderPart
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRepairOrderPart($index)
@@ -54,7 +53,7 @@ class ArrayOfRepairOrderPartType
     }
 
     /**
-     * Gets as repairOrderPart.
+     * Gets as repairOrderPart
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\RepairOrderPartType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfRepairOrderPartType
     }
 
     /**
-     * Sets a new repairOrderPart.
+     * Sets a new repairOrderPart
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\RepairOrderPartType[] $repairOrderPart
-     *
      * @return self
      */
     public function setRepairOrderPart(array $repairOrderPart)
     {
         $this->repairOrderPart = $repairOrderPart;
-
         return $this;
     }
+
+
 }
+

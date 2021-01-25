@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetServicePriceGuideJobsResponse.
+ * Class representing GetServicePriceGuideJobsResponse
  */
 class GetServicePriceGuideJobsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getServicePriceGuideJobsResult
      */
     private $getServicePriceGuideJobsResult = null;
 
     /**
-     * Gets as getServicePriceGuideJobsResult.
+     * Gets as getServicePriceGuideJobsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType
      */
@@ -23,16 +24,17 @@ class GetServicePriceGuideJobsResponse
     }
 
     /**
-     * Sets a new getServicePriceGuideJobsResult.
+     * Sets a new getServicePriceGuideJobsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getServicePriceGuideJobsResult
-     *
      * @return self
      */
-    public function setGetServicePriceGuideJobsResult(BaseApi\ServiceLocationPotentialJobCodesType $getServicePriceGuideJobsResult)
+    public function setGetServicePriceGuideJobsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPotentialJobCodesType $getServicePriceGuideJobsResult)
     {
         $this->getServicePriceGuideJobsResult = $getServicePriceGuideJobsResult;
-
         return $this;
     }
+
+
 }
+

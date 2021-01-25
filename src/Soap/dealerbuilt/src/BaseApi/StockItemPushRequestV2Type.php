@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StockItemPushRequestV2Type.
+ * Class representing StockItemPushRequestV2Type
  *
+ * 
  * XSD Type: StockItemPushRequestV2
  */
 class StockItemPushRequestV2Type
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $externalVehicleId
      */
     private $externalVehicleId = null;
 
     /**
-     * @var string
+     * @var string $inventoryKey
      */
     private $inventoryKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesV2Type
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesV2Type $stockAttributes
      */
     private $stockAttributes = null;
 
     /**
-     * @var string
+     * @var string $stockNumber
      */
     private $stockNumber = null;
 
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * @var int
+     * @var int $uniqueId
      */
     private $uniqueId = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
      */
@@ -55,19 +57,19 @@ class StockItemPushRequestV2Type
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as externalVehicleId.
+     * Gets as externalVehicleId
      *
      * @return string
      */
@@ -77,21 +79,19 @@ class StockItemPushRequestV2Type
     }
 
     /**
-     * Sets a new externalVehicleId.
+     * Sets a new externalVehicleId
      *
      * @param string $externalVehicleId
-     *
      * @return self
      */
     public function setExternalVehicleId($externalVehicleId)
     {
         $this->externalVehicleId = $externalVehicleId;
-
         return $this;
     }
 
     /**
-     * Gets as inventoryKey.
+     * Gets as inventoryKey
      *
      * @return string
      */
@@ -101,21 +101,19 @@ class StockItemPushRequestV2Type
     }
 
     /**
-     * Sets a new inventoryKey.
+     * Sets a new inventoryKey
      *
      * @param string $inventoryKey
-     *
      * @return self
      */
     public function setInventoryKey($inventoryKey)
     {
         $this->inventoryKey = $inventoryKey;
-
         return $this;
     }
 
     /**
-     * Gets as stockAttributes.
+     * Gets as stockAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesV2Type
      */
@@ -125,19 +123,19 @@ class StockItemPushRequestV2Type
     }
 
     /**
-     * Sets a new stockAttributes.
+     * Sets a new stockAttributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesV2Type $stockAttributes
      * @return self
      */
     public function setStockAttributes(\App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesV2Type $stockAttributes)
     {
         $this->stockAttributes = $stockAttributes;
-
         return $this;
     }
 
     /**
-     * Gets as stockNumber.
+     * Gets as stockNumber
      *
      * @return string
      */
@@ -147,21 +145,19 @@ class StockItemPushRequestV2Type
     }
 
     /**
-     * Sets a new stockNumber.
+     * Sets a new stockNumber
      *
      * @param string $stockNumber
-     *
      * @return self
      */
     public function setStockNumber($stockNumber)
     {
         $this->stockNumber = $stockNumber;
-
         return $this;
     }
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -171,21 +167,19 @@ class StockItemPushRequestV2Type
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
 
     /**
-     * Gets as uniqueId.
+     * Gets as uniqueId
      *
      * @return int
      */
@@ -195,16 +189,17 @@ class StockItemPushRequestV2Type
     }
 
     /**
-     * Sets a new uniqueId.
+     * Sets a new uniqueId
      *
      * @param int $uniqueId
-     *
      * @return self
      */
     public function setUniqueId($uniqueId)
     {
         $this->uniqueId = $uniqueId;
-
         return $this;
     }
+
+
 }
+

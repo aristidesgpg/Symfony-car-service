@@ -3,109 +3,111 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderPushRequestType.
+ * Class representing RepairOrderPushRequestType
  *
+ * 
  * XSD Type: RepairOrderPushRequest
  */
 class RepairOrderPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $color
      */
     private $color = null;
 
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var string
+     * @var string $externalRepairOrderId
      */
     private $externalRepairOrderId = null;
 
     /**
-     * @var bool
+     * @var bool $forceRepairOrderCreation
      */
     private $forceRepairOrderCreation = null;
 
     /**
-     * @var string
+     * @var string $hat
      */
     private $hat = null;
 
     /**
-     * @var string
+     * @var string $internalNotes
      */
     private $internalNotes = null;
 
     /**
-     * @var bool
+     * @var bool $isWaiter
      */
     private $isWaiter = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType[] $jobs
      */
     private $jobs = null;
 
     /**
-     * @var int
+     * @var int $milesIn
      */
     private $milesIn = null;
 
     /**
-     * @var int
+     * @var int $milesOut
      */
     private $milesOut = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $originalEstimate
      */
     private $originalEstimate = null;
 
     /**
-     * @var int
+     * @var int $priority
      */
     private $priority = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $promisedTime
      */
     private $promisedTime = null;
 
     /**
-     * @var string
+     * @var string $repairOrderKey
      */
     private $repairOrderKey = null;
 
     /**
-     * @var string
+     * @var string $serviceAdvisorNumber
      */
     private $serviceAdvisorNumber = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var string
+     * @var string $status
      */
     private $status = null;
 
     /**
-     * @var string
+     * @var string $vehicleKey
      */
     private $vehicleKey = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * Gets as color.
+     * Gets as color
      *
      * @return string
      */
@@ -115,21 +117,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new color.
+     * Sets a new color
      *
      * @param string $color
-     *
      * @return self
      */
     public function setColor($color)
     {
         $this->color = $color;
-
         return $this;
     }
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -139,21 +139,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as externalRepairOrderId.
+     * Gets as externalRepairOrderId
      *
      * @return string
      */
@@ -163,21 +161,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new externalRepairOrderId.
+     * Sets a new externalRepairOrderId
      *
      * @param string $externalRepairOrderId
-     *
      * @return self
      */
     public function setExternalRepairOrderId($externalRepairOrderId)
     {
         $this->externalRepairOrderId = $externalRepairOrderId;
-
         return $this;
     }
 
     /**
-     * Gets as forceRepairOrderCreation.
+     * Gets as forceRepairOrderCreation
      *
      * @return bool
      */
@@ -187,21 +183,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new forceRepairOrderCreation.
+     * Sets a new forceRepairOrderCreation
      *
      * @param bool $forceRepairOrderCreation
-     *
      * @return self
      */
     public function setForceRepairOrderCreation($forceRepairOrderCreation)
     {
         $this->forceRepairOrderCreation = $forceRepairOrderCreation;
-
         return $this;
     }
 
     /**
-     * Gets as hat.
+     * Gets as hat
      *
      * @return string
      */
@@ -211,21 +205,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new hat.
+     * Sets a new hat
      *
      * @param string $hat
-     *
      * @return self
      */
     public function setHat($hat)
     {
         $this->hat = $hat;
-
         return $this;
     }
 
     /**
-     * Gets as internalNotes.
+     * Gets as internalNotes
      *
      * @return string
      */
@@ -235,21 +227,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new internalNotes.
+     * Sets a new internalNotes
      *
      * @param string $internalNotes
-     *
      * @return self
      */
     public function setInternalNotes($internalNotes)
     {
         $this->internalNotes = $internalNotes;
-
         return $this;
     }
 
     /**
-     * Gets as isWaiter.
+     * Gets as isWaiter
      *
      * @return bool
      */
@@ -259,36 +249,33 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new isWaiter.
+     * Sets a new isWaiter
      *
      * @param bool $isWaiter
-     *
      * @return self
      */
     public function setIsWaiter($isWaiter)
     {
         $this->isWaiter = $isWaiter;
-
         return $this;
     }
 
     /**
-     * Adds as pushedRepairOrderJobAttributes.
+     * Adds as pushedRepairOrderJobAttributes
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType $pushedRepairOrderJobAttributes
      */
     public function addToJobs(\App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType $pushedRepairOrderJobAttributes)
     {
         $this->jobs[] = $pushedRepairOrderJobAttributes;
-
         return $this;
     }
 
     /**
-     * isset jobs.
+     * isset jobs
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetJobs($index)
@@ -297,10 +284,9 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * unset jobs.
+     * unset jobs
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetJobs($index)
@@ -309,7 +295,7 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Gets as jobs.
+     * Gets as jobs
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType[]
      */
@@ -319,21 +305,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new jobs.
+     * Sets a new jobs
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType[] $jobs
-     *
      * @return self
      */
     public function setJobs(array $jobs)
     {
         $this->jobs = $jobs;
-
         return $this;
     }
 
     /**
-     * Gets as milesIn.
+     * Gets as milesIn
      *
      * @return int
      */
@@ -343,21 +327,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new milesIn.
+     * Sets a new milesIn
      *
      * @param int $milesIn
-     *
      * @return self
      */
     public function setMilesIn($milesIn)
     {
         $this->milesIn = $milesIn;
-
         return $this;
     }
 
     /**
-     * Gets as milesOut.
+     * Gets as milesOut
      *
      * @return int
      */
@@ -367,21 +349,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new milesOut.
+     * Sets a new milesOut
      *
      * @param int $milesOut
-     *
      * @return self
      */
     public function setMilesOut($milesOut)
     {
         $this->milesOut = $milesOut;
-
         return $this;
     }
 
     /**
-     * Gets as originalEstimate.
+     * Gets as originalEstimate
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -391,19 +371,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new originalEstimate.
+     * Sets a new originalEstimate
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $originalEstimate
      * @return self
      */
     public function setOriginalEstimate(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $originalEstimate)
     {
         $this->originalEstimate = $originalEstimate;
-
         return $this;
     }
 
     /**
-     * Gets as priority.
+     * Gets as priority
      *
      * @return int
      */
@@ -413,21 +393,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new priority.
+     * Sets a new priority
      *
      * @param int $priority
-     *
      * @return self
      */
     public function setPriority($priority)
     {
         $this->priority = $priority;
-
         return $this;
     }
 
     /**
-     * Gets as promisedTime.
+     * Gets as promisedTime
      *
      * @return \DateTime
      */
@@ -437,19 +415,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new promisedTime.
+     * Sets a new promisedTime
      *
+     * @param \DateTime $promisedTime
      * @return self
      */
     public function setPromisedTime(\DateTime $promisedTime)
     {
         $this->promisedTime = $promisedTime;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderKey.
+     * Gets as repairOrderKey
      *
      * @return string
      */
@@ -459,21 +437,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new repairOrderKey.
+     * Sets a new repairOrderKey
      *
      * @param string $repairOrderKey
-     *
      * @return self
      */
     public function setRepairOrderKey($repairOrderKey)
     {
         $this->repairOrderKey = $repairOrderKey;
-
         return $this;
     }
 
     /**
-     * Gets as serviceAdvisorNumber.
+     * Gets as serviceAdvisorNumber
      *
      * @return string
      */
@@ -483,21 +459,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new serviceAdvisorNumber.
+     * Sets a new serviceAdvisorNumber
      *
      * @param string $serviceAdvisorNumber
-     *
      * @return self
      */
     public function setServiceAdvisorNumber($serviceAdvisorNumber)
     {
         $this->serviceAdvisorNumber = $serviceAdvisorNumber;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -507,21 +481,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Gets as status.
+     * Gets as status
      *
      * @return string
      */
@@ -531,21 +503,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new status.
+     * Sets a new status
      *
      * @param string $status
-     *
      * @return self
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleKey.
+     * Gets as vehicleKey
      *
      * @return string
      */
@@ -555,21 +525,19 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new vehicleKey.
+     * Sets a new vehicleKey
      *
      * @param string $vehicleKey
-     *
      * @return self
      */
     public function setVehicleKey($vehicleKey)
     {
         $this->vehicleKey = $vehicleKey;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -579,16 +547,17 @@ class RepairOrderPushRequestType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
+
+
 }
+

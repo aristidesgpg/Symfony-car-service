@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerKeysResponse.
+ * Class representing PullCustomerKeysResponse
  */
 class PullCustomerKeysResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType[] $pullCustomerKeysResult
      */
     private $pullCustomerKeysResult = null;
 
     /**
-     * Adds as customerSummary.
+     * Adds as customerSummary
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType $customerSummary
      */
-    public function addToPullCustomerKeysResult(BaseApi\CustomerSummaryType $customerSummary)
+    public function addToPullCustomerKeysResult(\App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType $customerSummary)
     {
         $this->pullCustomerKeysResult[] = $customerSummary;
-
         return $this;
     }
 
     /**
-     * isset pullCustomerKeysResult.
+     * isset pullCustomerKeysResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullCustomerKeysResult($index)
@@ -39,10 +37,9 @@ class PullCustomerKeysResponse
     }
 
     /**
-     * unset pullCustomerKeysResult.
+     * unset pullCustomerKeysResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullCustomerKeysResult($index)
@@ -51,7 +48,7 @@ class PullCustomerKeysResponse
     }
 
     /**
-     * Gets as pullCustomerKeysResult.
+     * Gets as pullCustomerKeysResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType[]
      */
@@ -61,16 +58,17 @@ class PullCustomerKeysResponse
     }
 
     /**
-     * Sets a new pullCustomerKeysResult.
+     * Sets a new pullCustomerKeysResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType[] $pullCustomerKeysResult
-     *
      * @return self
      */
     public function setPullCustomerKeysResult(array $pullCustomerKeysResult)
     {
         $this->pullCustomerKeysResult = $pullCustomerKeysResult;
-
         return $this;
     }
+
+
 }
+

@@ -3,39 +3,41 @@
 namespace App\Soap\automate\src;
 
 /**
- * Class representing ProcessEventResultType.
+ * Class representing ProcessEventResultType
  *
+ * 
  * XSD Type: processEventResult
  */
 class ProcessEventResultType
 {
+
     /**
-     * @var string
+     * @var string $response
      */
     private $response = null;
 
     /**
-     * @var bool
+     * @var bool $businessError
      */
     private $businessError = null;
 
     /**
-     * @var bool
+     * @var bool $systemError
      */
     private $systemError = null;
 
     /**
-     * @var bool
+     * @var bool $retryable
      */
     private $retryable = null;
 
     /**
-     * @var string
+     * @var string $statusCode
      */
     private $statusCode = null;
 
     /**
-     * Gets as response.
+     * Gets as response
      *
      * @return string
      */
@@ -45,21 +47,19 @@ class ProcessEventResultType
     }
 
     /**
-     * Sets a new response.
+     * Sets a new response
      *
      * @param string $response
-     *
      * @return self
      */
     public function setResponse($response)
     {
         $this->response = $response;
-
         return $this;
     }
 
     /**
-     * Gets as businessError.
+     * Gets as businessError
      *
      * @return bool
      */
@@ -69,21 +69,19 @@ class ProcessEventResultType
     }
 
     /**
-     * Sets a new businessError.
+     * Sets a new businessError
      *
      * @param bool $businessError
-     *
      * @return self
      */
     public function setBusinessError($businessError)
     {
         $this->businessError = $businessError;
-
         return $this;
     }
 
     /**
-     * Gets as systemError.
+     * Gets as systemError
      *
      * @return bool
      */
@@ -93,21 +91,19 @@ class ProcessEventResultType
     }
 
     /**
-     * Sets a new systemError.
+     * Sets a new systemError
      *
      * @param bool $systemError
-     *
      * @return self
      */
     public function setSystemError($systemError)
     {
         $this->systemError = $systemError;
-
         return $this;
     }
 
     /**
-     * Gets as retryable.
+     * Gets as retryable
      *
      * @return bool
      */
@@ -117,21 +113,19 @@ class ProcessEventResultType
     }
 
     /**
-     * Sets a new retryable.
+     * Sets a new retryable
      *
      * @param bool $retryable
-     *
      * @return self
      */
     public function setRetryable($retryable)
     {
         $this->retryable = $retryable;
-
         return $this;
     }
 
     /**
-     * Gets as statusCode.
+     * Gets as statusCode
      *
      * @return string
      */
@@ -141,16 +135,17 @@ class ProcessEventResultType
     }
 
     /**
-     * Sets a new statusCode.
+     * Sets a new statusCode
      *
      * @param string $statusCode
-     *
      * @return self
      */
     public function setStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
-
         return $this;
     }
+
+
 }
+

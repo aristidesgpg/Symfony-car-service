@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiLogSearchCriteriaType.
+ * Class representing ApiLogSearchCriteriaType
  *
+ * 
  * XSD Type: ApiLogSearchCriteria
  */
 class ApiLogSearchCriteriaType extends SearchCriteriaType
 {
+
     /**
-     * @var string
+     * @var string $inventoryKey
      */
     private $inventoryKey = null;
 
     /**
-     * Gets as inventoryKey.
+     * Gets as inventoryKey
      *
      * @return string
      */
@@ -25,16 +27,17 @@ class ApiLogSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new inventoryKey.
+     * Sets a new inventoryKey
      *
      * @param string $inventoryKey
-     *
      * @return self
      */
     public function setInventoryKey($inventoryKey)
     {
         $this->inventoryKey = $inventoryKey;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing ArrayOfPartsInvoiceLine.
+ * Class representing ArrayOfPartsInvoiceLine
  */
 class ArrayOfPartsInvoiceLine extends ArrayOfPartsInvoiceLineType
 {
+
+
 }
+

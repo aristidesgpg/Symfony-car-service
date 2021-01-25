@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing SalesPricePushRequestType.
+ * Class representing SalesPricePushRequestType
  *
+ * 
  * XSD Type: SalesPricePushRequest
  */
 class SalesPricePushRequestType
 {
+
     /**
-     * @var string
+     * @var string $externalVehicleId
      */
     private $externalVehicleId = null;
 
     /**
-     * @var string
+     * @var string $inventoryKey
      */
     private $inventoryKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType $salesPriceAttributes
      */
     private $salesPriceAttributes = null;
 
     /**
-     * @var string
+     * @var string $stockNumber
      */
     private $stockNumber = null;
 
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * @var int
+     * @var int $uniqueId
      */
     private $uniqueId = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * Gets as externalVehicleId.
+     * Gets as externalVehicleId
      *
      * @return string
      */
@@ -55,21 +57,19 @@ class SalesPricePushRequestType
     }
 
     /**
-     * Sets a new externalVehicleId.
+     * Sets a new externalVehicleId
      *
      * @param string $externalVehicleId
-     *
      * @return self
      */
     public function setExternalVehicleId($externalVehicleId)
     {
         $this->externalVehicleId = $externalVehicleId;
-
         return $this;
     }
 
     /**
-     * Gets as inventoryKey.
+     * Gets as inventoryKey
      *
      * @return string
      */
@@ -79,21 +79,19 @@ class SalesPricePushRequestType
     }
 
     /**
-     * Sets a new inventoryKey.
+     * Sets a new inventoryKey
      *
      * @param string $inventoryKey
-     *
      * @return self
      */
     public function setInventoryKey($inventoryKey)
     {
         $this->inventoryKey = $inventoryKey;
-
         return $this;
     }
 
     /**
-     * Gets as salesPriceAttributes.
+     * Gets as salesPriceAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType
      */
@@ -103,19 +101,19 @@ class SalesPricePushRequestType
     }
 
     /**
-     * Sets a new salesPriceAttributes.
+     * Sets a new salesPriceAttributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType $salesPriceAttributes
      * @return self
      */
     public function setSalesPriceAttributes(\App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType $salesPriceAttributes)
     {
         $this->salesPriceAttributes = $salesPriceAttributes;
-
         return $this;
     }
 
     /**
-     * Gets as stockNumber.
+     * Gets as stockNumber
      *
      * @return string
      */
@@ -125,21 +123,19 @@ class SalesPricePushRequestType
     }
 
     /**
-     * Sets a new stockNumber.
+     * Sets a new stockNumber
      *
      * @param string $stockNumber
-     *
      * @return self
      */
     public function setStockNumber($stockNumber)
     {
         $this->stockNumber = $stockNumber;
-
         return $this;
     }
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -149,21 +145,19 @@ class SalesPricePushRequestType
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
 
     /**
-     * Gets as uniqueId.
+     * Gets as uniqueId
      *
      * @return int
      */
@@ -173,21 +167,19 @@ class SalesPricePushRequestType
     }
 
     /**
-     * Sets a new uniqueId.
+     * Sets a new uniqueId
      *
      * @param int $uniqueId
-     *
      * @return self
      */
     public function setUniqueId($uniqueId)
     {
         $this->uniqueId = $uniqueId;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -197,16 +189,17 @@ class SalesPricePushRequestType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
+
+
 }
+

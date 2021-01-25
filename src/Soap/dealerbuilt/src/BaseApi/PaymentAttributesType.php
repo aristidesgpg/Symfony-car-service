@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PaymentAttributesType.
+ * Class representing PaymentAttributesType
  *
+ * 
  * XSD Type: PaymentAttributes
  */
 class PaymentAttributesType
 {
+
     /**
-     * @var string
+     * @var string $control2
      */
     private $control2 = null;
 
     /**
-     * Gets as control2.
+     * Gets as control2
      *
      * @return string
      */
@@ -25,16 +27,17 @@ class PaymentAttributesType
     }
 
     /**
-     * Sets a new control2.
+     * Sets a new control2
      *
      * @param string $control2
-     *
      * @return self
      */
     public function setControl2($control2)
     {
         $this->control2 = $control2;
-
         return $this;
     }
+
+
 }
+

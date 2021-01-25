@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType:
             access_type: public_method
             serialized_name: CustomerId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getCustomerId
                 setter: setCustomerId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType:
             access_type: public_method
             serialized_name: Owner
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getOwner
                 setter: setOwner

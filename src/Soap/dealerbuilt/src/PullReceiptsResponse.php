@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullReceiptsResponse.
+ * Class representing PullReceiptsResponse
  */
 class PullReceiptsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ReceiptType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ReceiptType[] $pullReceiptsResult
      */
     private $pullReceiptsResult = null;
 
     /**
-     * Adds as receipt.
+     * Adds as receipt
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ReceiptType $receipt
      */
-    public function addToPullReceiptsResult(BaseApi\ReceiptType $receipt)
+    public function addToPullReceiptsResult(\App\Soap\dealerbuilt\src\BaseApi\ReceiptType $receipt)
     {
         $this->pullReceiptsResult[] = $receipt;
-
         return $this;
     }
 
     /**
-     * isset pullReceiptsResult.
+     * isset pullReceiptsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullReceiptsResult($index)
@@ -39,10 +37,9 @@ class PullReceiptsResponse
     }
 
     /**
-     * unset pullReceiptsResult.
+     * unset pullReceiptsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullReceiptsResult($index)
@@ -51,7 +48,7 @@ class PullReceiptsResponse
     }
 
     /**
-     * Gets as pullReceiptsResult.
+     * Gets as pullReceiptsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ReceiptType[]
      */
@@ -61,16 +58,17 @@ class PullReceiptsResponse
     }
 
     /**
-     * Sets a new pullReceiptsResult.
+     * Sets a new pullReceiptsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ReceiptType[] $pullReceiptsResult
-     *
      * @return self
      */
     public function setPullReceiptsResult(array $pullReceiptsResult)
     {
         $this->pullReceiptsResult = $pullReceiptsResult;
-
         return $this;
     }
+
+
 }
+

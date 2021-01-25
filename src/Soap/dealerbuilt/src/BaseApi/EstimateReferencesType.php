@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing EstimateReferencesType.
+ * Class representing EstimateReferencesType
  *
+ * 
  * XSD Type: EstimateReferences
  */
 class EstimateReferencesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType $estimateCustomer
      */
     private $estimateCustomer = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $estimateVehicle
      */
     private $estimateVehicle = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType[] $jobs
      */
     private $jobs = null;
 
     /**
-     * Gets as estimateCustomer.
+     * Gets as estimateCustomer
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerType
      */
@@ -35,21 +37,19 @@ class EstimateReferencesType
     }
 
     /**
-     * Sets a new estimateCustomer.
+     * Sets a new estimateCustomer
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType $estimateCustomer
-     *
      * @return self
      */
-    public function setEstimateCustomer(CustomerType $estimateCustomer)
+    public function setEstimateCustomer(\App\Soap\dealerbuilt\src\BaseApi\CustomerType $estimateCustomer)
     {
         $this->estimateCustomer = $estimateCustomer;
-
         return $this;
     }
 
     /**
-     * Gets as estimateVehicle.
+     * Gets as estimateVehicle
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
      */
@@ -59,38 +59,33 @@ class EstimateReferencesType
     }
 
     /**
-     * Sets a new estimateVehicle.
+     * Sets a new estimateVehicle
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $estimateVehicle
-     *
      * @return self
      */
-    public function setEstimateVehicle(CustomerVehicleType $estimateVehicle)
+    public function setEstimateVehicle(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $estimateVehicle)
     {
         $this->estimateVehicle = $estimateVehicle;
-
         return $this;
     }
 
     /**
-     * Adds as estimateJob.
+     * Adds as estimateJob
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType $estimateJob
      */
-    public function addToJobs(EstimateJobType $estimateJob)
+    public function addToJobs(\App\Soap\dealerbuilt\src\BaseApi\EstimateJobType $estimateJob)
     {
         $this->jobs[] = $estimateJob;
-
         return $this;
     }
 
     /**
-     * isset jobs.
+     * isset jobs
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetJobs($index)
@@ -99,10 +94,9 @@ class EstimateReferencesType
     }
 
     /**
-     * unset jobs.
+     * unset jobs
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetJobs($index)
@@ -111,7 +105,7 @@ class EstimateReferencesType
     }
 
     /**
-     * Gets as jobs.
+     * Gets as jobs
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType[]
      */
@@ -121,16 +115,17 @@ class EstimateReferencesType
     }
 
     /**
-     * Sets a new jobs.
+     * Sets a new jobs
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateJobType[] $jobs
-     *
      * @return self
      */
     public function setJobs(array $jobs)
     {
         $this->jobs = $jobs;
-
         return $this;
     }
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedRepairOrderTechsAttributes.
+ * Class representing ArrayOfPushedRepairOrderTechsAttributes
  */
 class ArrayOfPushedRepairOrderTechsAttributes extends ArrayOfPushedRepairOrderTechsAttributesType
 {
+
+
 }
+

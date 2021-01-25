@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerVehiclesByKeyResponse.
+ * Class representing PullCustomerVehiclesByKeyResponse
  */
 class PullCustomerVehiclesByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType[] $pullCustomerVehiclesByKeyResult
      */
     private $pullCustomerVehiclesByKeyResult = null;
 
     /**
-     * Adds as customerVehicle.
+     * Adds as customerVehicle
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $customerVehicle
      */
-    public function addToPullCustomerVehiclesByKeyResult(BaseApi\CustomerVehicleType $customerVehicle)
+    public function addToPullCustomerVehiclesByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $customerVehicle)
     {
         $this->pullCustomerVehiclesByKeyResult[] = $customerVehicle;
-
         return $this;
     }
 
     /**
-     * isset pullCustomerVehiclesByKeyResult.
+     * isset pullCustomerVehiclesByKeyResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullCustomerVehiclesByKeyResult($index)
@@ -39,10 +37,9 @@ class PullCustomerVehiclesByKeyResponse
     }
 
     /**
-     * unset pullCustomerVehiclesByKeyResult.
+     * unset pullCustomerVehiclesByKeyResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullCustomerVehiclesByKeyResult($index)
@@ -51,7 +48,7 @@ class PullCustomerVehiclesByKeyResponse
     }
 
     /**
-     * Gets as pullCustomerVehiclesByKeyResult.
+     * Gets as pullCustomerVehiclesByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType[]
      */
@@ -61,16 +58,17 @@ class PullCustomerVehiclesByKeyResponse
     }
 
     /**
-     * Sets a new pullCustomerVehiclesByKeyResult.
+     * Sets a new pullCustomerVehiclesByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType[] $pullCustomerVehiclesByKeyResult
-     *
      * @return self
      */
     public function setPullCustomerVehiclesByKeyResult(array $pullCustomerVehiclesByKeyResult)
     {
         $this->pullCustomerVehiclesByKeyResult = $pullCustomerVehiclesByKeyResult;
-
         return $this;
     }
+
+
 }
+

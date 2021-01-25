@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\LaborItemPushRequestType:
             access_type: public_method
             serialized_name: JobNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getJobNumber
                 setter: setJobNumber
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\LaborItemPushRequestType:
             access_type: public_method
             serialized_name: LaborItem
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getLaborItem
                 setter: setLaborItem
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\LaborItemPushRequestType:
             access_type: public_method
             serialized_name: LaborItemKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getLaborItemKey
                 setter: setLaborItemKey
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\LaborItemPushRequestType:
             access_type: public_method
             serialized_name: RepairOrderKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getRepairOrderKey
                 setter: setRepairOrderKey
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\LaborItemPushRequestType:
             access_type: public_method
             serialized_name: ServiceLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationId
                 setter: setServiceLocationId

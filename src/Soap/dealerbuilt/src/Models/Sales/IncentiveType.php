@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing IncentiveType.
+ * Class representing IncentiveType
  *
+ * 
  * XSD Type: Incentive
  */
 class IncentiveType
 {
+
     /**
-     * @var bool
+     * @var bool $deleteFlag
      */
     private $deleteFlag = null;
 
     /**
-     * @var string
+     * @var string $department
      */
     private $department = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $incentiveAmount
      */
     private $incentiveAmount = null;
 
     /**
-     * @var int
+     * @var int $itemizationId
      */
     private $itemizationId = null;
 
     /**
-     * @var string
+     * @var string $name
      */
     private $name = null;
 
     /**
-     * @var string
+     * @var string $note
      */
     private $note = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $residual
      */
     private $residual = null;
 
     /**
-     * Gets as deleteFlag.
+     * Gets as deleteFlag
      *
      * @return bool
      */
@@ -55,21 +57,19 @@ class IncentiveType
     }
 
     /**
-     * Sets a new deleteFlag.
+     * Sets a new deleteFlag
      *
      * @param bool $deleteFlag
-     *
      * @return self
      */
     public function setDeleteFlag($deleteFlag)
     {
         $this->deleteFlag = $deleteFlag;
-
         return $this;
     }
 
     /**
-     * Gets as department.
+     * Gets as department
      *
      * @return string
      */
@@ -79,21 +79,19 @@ class IncentiveType
     }
 
     /**
-     * Sets a new department.
+     * Sets a new department
      *
      * @param string $department
-     *
      * @return self
      */
     public function setDepartment($department)
     {
         $this->department = $department;
-
         return $this;
     }
 
     /**
-     * Gets as incentiveAmount.
+     * Gets as incentiveAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -103,19 +101,19 @@ class IncentiveType
     }
 
     /**
-     * Sets a new incentiveAmount.
+     * Sets a new incentiveAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $incentiveAmount
      * @return self
      */
     public function setIncentiveAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $incentiveAmount)
     {
         $this->incentiveAmount = $incentiveAmount;
-
         return $this;
     }
 
     /**
-     * Gets as itemizationId.
+     * Gets as itemizationId
      *
      * @return int
      */
@@ -125,21 +123,19 @@ class IncentiveType
     }
 
     /**
-     * Sets a new itemizationId.
+     * Sets a new itemizationId
      *
      * @param int $itemizationId
-     *
      * @return self
      */
     public function setItemizationId($itemizationId)
     {
         $this->itemizationId = $itemizationId;
-
         return $this;
     }
 
     /**
-     * Gets as name.
+     * Gets as name
      *
      * @return string
      */
@@ -149,21 +145,19 @@ class IncentiveType
     }
 
     /**
-     * Sets a new name.
+     * Sets a new name
      *
      * @param string $name
-     *
      * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
-
         return $this;
     }
 
     /**
-     * Gets as note.
+     * Gets as note
      *
      * @return string
      */
@@ -173,21 +167,19 @@ class IncentiveType
     }
 
     /**
-     * Sets a new note.
+     * Sets a new note
      *
      * @param string $note
-     *
      * @return self
      */
     public function setNote($note)
     {
         $this->note = $note;
-
         return $this;
     }
 
     /**
-     * Gets as residual.
+     * Gets as residual
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -197,14 +189,17 @@ class IncentiveType
     }
 
     /**
-     * Sets a new residual.
+     * Sets a new residual
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $residual
      * @return self
      */
     public function setResidual(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $residual)
     {
         $this->residual = $residual;
-
         return $this;
     }
+
+
 }
+

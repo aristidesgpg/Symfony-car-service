@@ -3,144 +3,146 @@
 namespace App\Soap\dealerbuilt\src\Models\ServiceContracts;
 
 /**
- * Class representing ServiceContractType.
+ * Class representing ServiceContractType
  *
+ * 
  * XSD Type: ServiceContract
  */
 class ServiceContractType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $companyIdentity
      */
     private $companyIdentity = null;
 
     /**
-     * @var string
+     * @var string $contractId
      */
     private $contractId = null;
 
     /**
-     * @var string
+     * @var string $contractPlanCode
      */
     private $contractPlanCode = null;
 
     /**
-     * @var int
+     * @var int $contractRemaining
      */
     private $contractRemaining = null;
 
     /**
-     * @var string
+     * @var string $contractStatus
      */
     private $contractStatus = null;
 
     /**
-     * @var string
+     * @var string $contractStatusType
      */
     private $contractStatusType = null;
 
     /**
-     * @var float
+     * @var float $contractTermDistanceMeasure
      */
     private $contractTermDistanceMeasure = null;
 
     /**
-     * @var int
+     * @var int $contractTermMileage
      */
     private $contractTermMileage = null;
 
     /**
-     * @var string
+     * @var string $contractTermMileageUOM
      */
     private $contractTermMileageUOM = null;
 
     /**
-     * @var int
+     * @var int $contractTermMonths
      */
     private $contractTermMonths = null;
 
     /**
-     * @var bool
+     * @var bool $contractTransferredInd
      */
     private $contractTransferredInd = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $customerSalePrice
      */
     private $customerSalePrice = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerCost
      */
     private $dealerCost = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $deductible
      */
     private $deductible = null;
 
     /**
-     * @var string
+     * @var string $department
      */
     private $department = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $effectiveDate
      */
     private $effectiveDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $expirationDate
      */
     private $expirationDate = null;
 
     /**
-     * @var string
+     * @var string $inServiceMileageUOM
      */
     private $inServiceMileageUOM = null;
 
     /**
-     * @var int
+     * @var int $inServiceMiles
      */
     private $inServiceMiles = null;
 
     /**
-     * @var string
+     * @var string $itemType
      */
     private $itemType = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $ownerIdentity
      */
     private $ownerIdentity = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $purchaseDate
      */
     private $purchaseDate = null;
 
     /**
-     * @var int
+     * @var int $serviceContractId
      */
     private $serviceContractId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalContractAmount
      */
     private $totalContractAmount = null;
 
     /**
-     * @var string
+     * @var string $type
      */
     private $type = null;
 
     /**
-     * Gets as companyIdentity.
+     * Gets as companyIdentity
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -150,19 +152,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new companyIdentity.
+     * Sets a new companyIdentity
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $companyIdentity
      * @return self
      */
     public function setCompanyIdentity(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $companyIdentity)
     {
         $this->companyIdentity = $companyIdentity;
-
         return $this;
     }
 
     /**
-     * Gets as contractId.
+     * Gets as contractId
      *
      * @return string
      */
@@ -172,21 +174,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractId.
+     * Sets a new contractId
      *
      * @param string $contractId
-     *
      * @return self
      */
     public function setContractId($contractId)
     {
         $this->contractId = $contractId;
-
         return $this;
     }
 
     /**
-     * Gets as contractPlanCode.
+     * Gets as contractPlanCode
      *
      * @return string
      */
@@ -196,21 +196,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractPlanCode.
+     * Sets a new contractPlanCode
      *
      * @param string $contractPlanCode
-     *
      * @return self
      */
     public function setContractPlanCode($contractPlanCode)
     {
         $this->contractPlanCode = $contractPlanCode;
-
         return $this;
     }
 
     /**
-     * Gets as contractRemaining.
+     * Gets as contractRemaining
      *
      * @return int
      */
@@ -220,21 +218,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractRemaining.
+     * Sets a new contractRemaining
      *
      * @param int $contractRemaining
-     *
      * @return self
      */
     public function setContractRemaining($contractRemaining)
     {
         $this->contractRemaining = $contractRemaining;
-
         return $this;
     }
 
     /**
-     * Gets as contractStatus.
+     * Gets as contractStatus
      *
      * @return string
      */
@@ -244,21 +240,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractStatus.
+     * Sets a new contractStatus
      *
      * @param string $contractStatus
-     *
      * @return self
      */
     public function setContractStatus($contractStatus)
     {
         $this->contractStatus = $contractStatus;
-
         return $this;
     }
 
     /**
-     * Gets as contractStatusType.
+     * Gets as contractStatusType
      *
      * @return string
      */
@@ -268,21 +262,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractStatusType.
+     * Sets a new contractStatusType
      *
      * @param string $contractStatusType
-     *
      * @return self
      */
     public function setContractStatusType($contractStatusType)
     {
         $this->contractStatusType = $contractStatusType;
-
         return $this;
     }
 
     /**
-     * Gets as contractTermDistanceMeasure.
+     * Gets as contractTermDistanceMeasure
      *
      * @return float
      */
@@ -292,21 +284,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractTermDistanceMeasure.
+     * Sets a new contractTermDistanceMeasure
      *
      * @param float $contractTermDistanceMeasure
-     *
      * @return self
      */
     public function setContractTermDistanceMeasure($contractTermDistanceMeasure)
     {
         $this->contractTermDistanceMeasure = $contractTermDistanceMeasure;
-
         return $this;
     }
 
     /**
-     * Gets as contractTermMileage.
+     * Gets as contractTermMileage
      *
      * @return int
      */
@@ -316,21 +306,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractTermMileage.
+     * Sets a new contractTermMileage
      *
      * @param int $contractTermMileage
-     *
      * @return self
      */
     public function setContractTermMileage($contractTermMileage)
     {
         $this->contractTermMileage = $contractTermMileage;
-
         return $this;
     }
 
     /**
-     * Gets as contractTermMileageUOM.
+     * Gets as contractTermMileageUOM
      *
      * @return string
      */
@@ -340,21 +328,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractTermMileageUOM.
+     * Sets a new contractTermMileageUOM
      *
      * @param string $contractTermMileageUOM
-     *
      * @return self
      */
     public function setContractTermMileageUOM($contractTermMileageUOM)
     {
         $this->contractTermMileageUOM = $contractTermMileageUOM;
-
         return $this;
     }
 
     /**
-     * Gets as contractTermMonths.
+     * Gets as contractTermMonths
      *
      * @return int
      */
@@ -364,21 +350,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractTermMonths.
+     * Sets a new contractTermMonths
      *
      * @param int $contractTermMonths
-     *
      * @return self
      */
     public function setContractTermMonths($contractTermMonths)
     {
         $this->contractTermMonths = $contractTermMonths;
-
         return $this;
     }
 
     /**
-     * Gets as contractTransferredInd.
+     * Gets as contractTransferredInd
      *
      * @return bool
      */
@@ -388,21 +372,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new contractTransferredInd.
+     * Sets a new contractTransferredInd
      *
      * @param bool $contractTransferredInd
-     *
      * @return self
      */
     public function setContractTransferredInd($contractTransferredInd)
     {
         $this->contractTransferredInd = $contractTransferredInd;
-
         return $this;
     }
 
     /**
-     * Gets as customerSalePrice.
+     * Gets as customerSalePrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -412,19 +394,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new customerSalePrice.
+     * Sets a new customerSalePrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $customerSalePrice
      * @return self
      */
     public function setCustomerSalePrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $customerSalePrice)
     {
         $this->customerSalePrice = $customerSalePrice;
-
         return $this;
     }
 
     /**
-     * Gets as dealerCost.
+     * Gets as dealerCost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -434,19 +416,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new dealerCost.
+     * Sets a new dealerCost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerCost
      * @return self
      */
     public function setDealerCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerCost)
     {
         $this->dealerCost = $dealerCost;
-
         return $this;
     }
 
     /**
-     * Gets as deductible.
+     * Gets as deductible
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -456,19 +438,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new deductible.
+     * Sets a new deductible
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $deductible
      * @return self
      */
     public function setDeductible(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $deductible)
     {
         $this->deductible = $deductible;
-
         return $this;
     }
 
     /**
-     * Gets as department.
+     * Gets as department
      *
      * @return string
      */
@@ -478,21 +460,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new department.
+     * Sets a new department
      *
      * @param string $department
-     *
      * @return self
      */
     public function setDepartment($department)
     {
         $this->department = $department;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -502,21 +482,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as effectiveDate.
+     * Gets as effectiveDate
      *
      * @return \DateTime
      */
@@ -526,19 +504,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new effectiveDate.
+     * Sets a new effectiveDate
      *
+     * @param \DateTime $effectiveDate
      * @return self
      */
     public function setEffectiveDate(\DateTime $effectiveDate)
     {
         $this->effectiveDate = $effectiveDate;
-
         return $this;
     }
 
     /**
-     * Gets as expirationDate.
+     * Gets as expirationDate
      *
      * @return \DateTime
      */
@@ -548,19 +526,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new expirationDate.
+     * Sets a new expirationDate
      *
+     * @param \DateTime $expirationDate
      * @return self
      */
     public function setExpirationDate(\DateTime $expirationDate)
     {
         $this->expirationDate = $expirationDate;
-
         return $this;
     }
 
     /**
-     * Gets as inServiceMileageUOM.
+     * Gets as inServiceMileageUOM
      *
      * @return string
      */
@@ -570,21 +548,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new inServiceMileageUOM.
+     * Sets a new inServiceMileageUOM
      *
      * @param string $inServiceMileageUOM
-     *
      * @return self
      */
     public function setInServiceMileageUOM($inServiceMileageUOM)
     {
         $this->inServiceMileageUOM = $inServiceMileageUOM;
-
         return $this;
     }
 
     /**
-     * Gets as inServiceMiles.
+     * Gets as inServiceMiles
      *
      * @return int
      */
@@ -594,21 +570,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new inServiceMiles.
+     * Sets a new inServiceMiles
      *
      * @param int $inServiceMiles
-     *
      * @return self
      */
     public function setInServiceMiles($inServiceMiles)
     {
         $this->inServiceMiles = $inServiceMiles;
-
         return $this;
     }
 
     /**
-     * Gets as itemType.
+     * Gets as itemType
      *
      * @return string
      */
@@ -618,21 +592,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new itemType.
+     * Sets a new itemType
      *
      * @param string $itemType
-     *
      * @return self
      */
     public function setItemType($itemType)
     {
         $this->itemType = $itemType;
-
         return $this;
     }
 
     /**
-     * Gets as ownerIdentity.
+     * Gets as ownerIdentity
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -642,19 +614,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new ownerIdentity.
+     * Sets a new ownerIdentity
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $ownerIdentity
      * @return self
      */
     public function setOwnerIdentity(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $ownerIdentity)
     {
         $this->ownerIdentity = $ownerIdentity;
-
         return $this;
     }
 
     /**
-     * Gets as purchaseDate.
+     * Gets as purchaseDate
      *
      * @return \DateTime
      */
@@ -664,19 +636,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new purchaseDate.
+     * Sets a new purchaseDate
      *
+     * @param \DateTime $purchaseDate
      * @return self
      */
     public function setPurchaseDate(\DateTime $purchaseDate)
     {
         $this->purchaseDate = $purchaseDate;
-
         return $this;
     }
 
     /**
-     * Gets as serviceContractId.
+     * Gets as serviceContractId
      *
      * @return int
      */
@@ -686,21 +658,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new serviceContractId.
+     * Sets a new serviceContractId
      *
      * @param int $serviceContractId
-     *
      * @return self
      */
     public function setServiceContractId($serviceContractId)
     {
         $this->serviceContractId = $serviceContractId;
-
         return $this;
     }
 
     /**
-     * Gets as totalContractAmount.
+     * Gets as totalContractAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -710,19 +680,19 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new totalContractAmount.
+     * Sets a new totalContractAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalContractAmount
      * @return self
      */
     public function setTotalContractAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalContractAmount)
     {
         $this->totalContractAmount = $totalContractAmount;
-
         return $this;
     }
 
     /**
-     * Gets as type.
+     * Gets as type
      *
      * @return string
      */
@@ -732,16 +702,17 @@ class ServiceContractType
     }
 
     /**
-     * Sets a new type.
+     * Sets a new type
      *
      * @param string $type
-     *
      * @return self
      */
     public function setType($type)
     {
         $this->type = $type;
-
         return $this;
     }
+
+
 }
+

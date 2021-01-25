@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DropdownListSearchCriteriaType.
+ * Class representing DropdownListSearchCriteriaType
  *
+ * 
  * XSD Type: DropdownListSearchCriteria
  */
 class DropdownListSearchCriteriaType extends StoresSearchCriteriaType
 {
+
     /**
-     * @var string[]
+     * @var string[] $codeTypes
      */
     private $codeTypes = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToCodeTypes($string)
     {
         $this->codeTypes[] = $string;
-
         return $this;
     }
 
     /**
-     * isset codeTypes.
+     * isset codeTypes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCodeTypes($index)
@@ -41,10 +40,9 @@ class DropdownListSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * unset codeTypes.
+     * unset codeTypes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCodeTypes($index)
@@ -53,7 +51,7 @@ class DropdownListSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Gets as codeTypes.
+     * Gets as codeTypes
      *
      * @return string[]
      */
@@ -63,16 +61,17 @@ class DropdownListSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new codeTypes.
+     * Sets a new codeTypes
      *
      * @param string[] $codeTypes
-     *
      * @return self
      */
     public function setCodeTypes(array $codeTypes)
     {
         $this->codeTypes = $codeTypes;
-
         return $this;
     }
+
+
 }
+

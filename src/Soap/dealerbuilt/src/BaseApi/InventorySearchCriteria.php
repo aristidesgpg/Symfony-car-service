@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing InventorySearchCriteria.
+ * Class representing InventorySearchCriteria
  */
 class InventorySearchCriteria extends InventorySearchCriteriaType
 {
+
+
 }
+

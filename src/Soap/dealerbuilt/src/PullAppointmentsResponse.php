@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullAppointmentsResponse.
+ * Class representing PullAppointmentsResponse
  */
 class PullAppointmentsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[] $pullAppointmentsResult
      */
     private $pullAppointmentsResult = null;
 
     /**
-     * Adds as appointment.
+     * Adds as appointment
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentType $appointment
      */
-    public function addToPullAppointmentsResult(BaseApi\AppointmentType $appointment)
+    public function addToPullAppointmentsResult(\App\Soap\dealerbuilt\src\BaseApi\AppointmentType $appointment)
     {
         $this->pullAppointmentsResult[] = $appointment;
-
         return $this;
     }
 
     /**
-     * isset pullAppointmentsResult.
+     * isset pullAppointmentsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullAppointmentsResult($index)
@@ -39,10 +37,9 @@ class PullAppointmentsResponse
     }
 
     /**
-     * unset pullAppointmentsResult.
+     * unset pullAppointmentsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullAppointmentsResult($index)
@@ -51,7 +48,7 @@ class PullAppointmentsResponse
     }
 
     /**
-     * Gets as pullAppointmentsResult.
+     * Gets as pullAppointmentsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[]
      */
@@ -61,16 +58,17 @@ class PullAppointmentsResponse
     }
 
     /**
-     * Sets a new pullAppointmentsResult.
+     * Sets a new pullAppointmentsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentType[] $pullAppointmentsResult
-     *
      * @return self
      */
     public function setPullAppointmentsResult(array $pullAppointmentsResult)
     {
         $this->pullAppointmentsResult = $pullAppointmentsResult;
-
         return $this;
     }
+
+
 }
+

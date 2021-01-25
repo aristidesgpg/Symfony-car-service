@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPartsInvoicePartPushRequestType.
+ * Class representing ArrayOfPartsInvoicePartPushRequestType
  *
+ * 
  * XSD Type: ArrayOfPartsInvoicePartPushRequest
  */
 class ArrayOfPartsInvoicePartPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType[] $partsInvoicePartPushRequest
      */
     private $partsInvoicePartPushRequest = [
+        
     ];
 
     /**
-     * Adds as partsInvoicePartPushRequest.
+     * Adds as partsInvoicePartPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType $partsInvoicePartPushRequest
      */
-    public function addToPartsInvoicePartPushRequest(PartsInvoicePartPushRequestType $partsInvoicePartPushRequest)
+    public function addToPartsInvoicePartPushRequest(\App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType $partsInvoicePartPushRequest)
     {
         $this->partsInvoicePartPushRequest[] = $partsInvoicePartPushRequest;
-
         return $this;
     }
 
     /**
-     * isset partsInvoicePartPushRequest.
+     * isset partsInvoicePartPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsInvoicePartPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfPartsInvoicePartPushRequestType
     }
 
     /**
-     * unset partsInvoicePartPushRequest.
+     * unset partsInvoicePartPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsInvoicePartPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfPartsInvoicePartPushRequestType
     }
 
     /**
-     * Gets as partsInvoicePartPushRequest.
+     * Gets as partsInvoicePartPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPartsInvoicePartPushRequestType
     }
 
     /**
-     * Sets a new partsInvoicePartPushRequest.
+     * Sets a new partsInvoicePartPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoicePartPushRequestType[] $partsInvoicePartPushRequest
-     *
      * @return self
      */
     public function setPartsInvoicePartPushRequest(array $partsInvoicePartPushRequest)
     {
         $this->partsInvoicePartPushRequest = $partsInvoicePartPushRequest;
-
         return $this;
     }
+
+
 }
+

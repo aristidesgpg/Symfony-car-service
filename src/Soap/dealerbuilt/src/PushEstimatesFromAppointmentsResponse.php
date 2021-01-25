@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushEstimatesFromAppointmentsResponse.
+ * Class representing PushEstimatesFromAppointmentsResponse
  */
 class PushEstimatesFromAppointmentsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushEstimatesFromAppointmentsResult
      */
     private $pushEstimatesFromAppointmentsResult = null;
 
     /**
-     * Adds as serviceLocationPushResponse.
+     * Adds as serviceLocationPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse
      */
-    public function addToPushEstimatesFromAppointmentsResult(BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
+    public function addToPushEstimatesFromAppointmentsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
     {
         $this->pushEstimatesFromAppointmentsResult[] = $serviceLocationPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushEstimatesFromAppointmentsResult.
+     * isset pushEstimatesFromAppointmentsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushEstimatesFromAppointmentsResult($index)
@@ -39,10 +37,9 @@ class PushEstimatesFromAppointmentsResponse
     }
 
     /**
-     * unset pushEstimatesFromAppointmentsResult.
+     * unset pushEstimatesFromAppointmentsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushEstimatesFromAppointmentsResult($index)
@@ -51,7 +48,7 @@ class PushEstimatesFromAppointmentsResponse
     }
 
     /**
-     * Gets as pushEstimatesFromAppointmentsResult.
+     * Gets as pushEstimatesFromAppointmentsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushEstimatesFromAppointmentsResponse
     }
 
     /**
-     * Sets a new pushEstimatesFromAppointmentsResult.
+     * Sets a new pushEstimatesFromAppointmentsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushEstimatesFromAppointmentsResult
-     *
      * @return self
      */
     public function setPushEstimatesFromAppointmentsResult(array $pushEstimatesFromAppointmentsResult)
     {
         $this->pushEstimatesFromAppointmentsResult = $pushEstimatesFromAppointmentsResult;
-
         return $this;
     }
+
+
 }
+

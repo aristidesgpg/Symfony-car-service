@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfProductListType.
+ * Class representing ArrayOfProductListType
  *
+ * 
  * XSD Type: ArrayOfProductList
  */
 class ArrayOfProductListType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ProductListType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ProductListType[] $productList
      */
     private $productList = [
+        
     ];
 
     /**
-     * Adds as productList.
+     * Adds as productList
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProductListType $productList
      */
-    public function addToProductList(ProductListType $productList)
+    public function addToProductList(\App\Soap\dealerbuilt\src\BaseApi\ProductListType $productList)
     {
         $this->productList[] = $productList;
-
         return $this;
     }
 
     /**
-     * isset productList.
+     * isset productList
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetProductList($index)
@@ -42,10 +42,9 @@ class ArrayOfProductListType
     }
 
     /**
-     * unset productList.
+     * unset productList
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetProductList($index)
@@ -54,7 +53,7 @@ class ArrayOfProductListType
     }
 
     /**
-     * Gets as productList.
+     * Gets as productList
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ProductListType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfProductListType
     }
 
     /**
-     * Sets a new productList.
+     * Sets a new productList
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProductListType[] $productList
-     *
      * @return self
      */
     public function setProductList(array $productList)
     {
         $this->productList = $productList;
-
         return $this;
     }
+
+
 }
+

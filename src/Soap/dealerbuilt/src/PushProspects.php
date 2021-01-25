@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushProspects.
+ * Class representing PushProspects
  */
 class PushProspects
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType[] $prospects
      */
     private $prospects = null;
 
     /**
-     * Adds as prospectPushRequest.
+     * Adds as prospectPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType $prospectPushRequest
      */
-    public function addToProspects(BaseApi\ProspectPushRequestType $prospectPushRequest)
+    public function addToProspects(\App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType $prospectPushRequest)
     {
         $this->prospects[] = $prospectPushRequest;
-
         return $this;
     }
 
     /**
-     * isset prospects.
+     * isset prospects
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetProspects($index)
@@ -39,10 +37,9 @@ class PushProspects
     }
 
     /**
-     * unset prospects.
+     * unset prospects
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetProspects($index)
@@ -51,7 +48,7 @@ class PushProspects
     }
 
     /**
-     * Gets as prospects.
+     * Gets as prospects
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushProspects
     }
 
     /**
-     * Sets a new prospects.
+     * Sets a new prospects
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProspectPushRequestType[] $prospects
-     *
      * @return self
      */
     public function setProspects(array $prospects)
     {
         $this->prospects = $prospects;
-
         return $this;
     }
+
+
 }
+

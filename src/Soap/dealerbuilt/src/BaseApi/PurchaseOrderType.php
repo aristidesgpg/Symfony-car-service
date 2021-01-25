@@ -3,44 +3,46 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PurchaseOrderType.
+ * Class representing PurchaseOrderType
  *
+ * 
  * XSD Type: PurchaseOrder
  */
 class PurchaseOrderType extends ApiCompanyItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      */
     private $amount = null;
 
     /**
-     * @var string[]
+     * @var string[] $invoiceNumbers
      */
     private $invoiceNumbers = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $purchaseOrderDate
      */
     private $purchaseOrderDate = null;
 
     /**
-     * @var string
+     * @var string $purchaseOrderNumber
      */
     private $purchaseOrderNumber = null;
 
     /**
-     * @var string
+     * @var string $vendorId
      */
     private $vendorId = null;
 
     /**
-     * @var string
+     * @var string $vendorName
      */
     private $vendorName = null;
 
     /**
-     * Gets as amount.
+     * Gets as amount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -50,36 +52,33 @@ class PurchaseOrderType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new amount.
+     * Sets a new amount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      * @return self
      */
     public function setAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount)
     {
         $this->amount = $amount;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToInvoiceNumbers($string)
     {
         $this->invoiceNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset invoiceNumbers.
+     * isset invoiceNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetInvoiceNumbers($index)
@@ -88,10 +87,9 @@ class PurchaseOrderType extends ApiCompanyItemType
     }
 
     /**
-     * unset invoiceNumbers.
+     * unset invoiceNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetInvoiceNumbers($index)
@@ -100,7 +98,7 @@ class PurchaseOrderType extends ApiCompanyItemType
     }
 
     /**
-     * Gets as invoiceNumbers.
+     * Gets as invoiceNumbers
      *
      * @return string[]
      */
@@ -110,21 +108,19 @@ class PurchaseOrderType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new invoiceNumbers.
+     * Sets a new invoiceNumbers
      *
      * @param string[] $invoiceNumbers
-     *
      * @return self
      */
     public function setInvoiceNumbers(array $invoiceNumbers)
     {
         $this->invoiceNumbers = $invoiceNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as purchaseOrderDate.
+     * Gets as purchaseOrderDate
      *
      * @return \DateTime
      */
@@ -134,19 +130,19 @@ class PurchaseOrderType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new purchaseOrderDate.
+     * Sets a new purchaseOrderDate
      *
+     * @param \DateTime $purchaseOrderDate
      * @return self
      */
     public function setPurchaseOrderDate(\DateTime $purchaseOrderDate)
     {
         $this->purchaseOrderDate = $purchaseOrderDate;
-
         return $this;
     }
 
     /**
-     * Gets as purchaseOrderNumber.
+     * Gets as purchaseOrderNumber
      *
      * @return string
      */
@@ -156,21 +152,19 @@ class PurchaseOrderType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new purchaseOrderNumber.
+     * Sets a new purchaseOrderNumber
      *
      * @param string $purchaseOrderNumber
-     *
      * @return self
      */
     public function setPurchaseOrderNumber($purchaseOrderNumber)
     {
         $this->purchaseOrderNumber = $purchaseOrderNumber;
-
         return $this;
     }
 
     /**
-     * Gets as vendorId.
+     * Gets as vendorId
      *
      * @return string
      */
@@ -180,21 +174,19 @@ class PurchaseOrderType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new vendorId.
+     * Sets a new vendorId
      *
      * @param string $vendorId
-     *
      * @return self
      */
     public function setVendorId($vendorId)
     {
         $this->vendorId = $vendorId;
-
         return $this;
     }
 
     /**
-     * Gets as vendorName.
+     * Gets as vendorName
      *
      * @return string
      */
@@ -204,16 +196,17 @@ class PurchaseOrderType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new vendorName.
+     * Sets a new vendorName
      *
      * @param string $vendorName
-     *
      * @return self
      */
     public function setVendorName($vendorName)
     {
         $this->vendorName = $vendorName;
-
         return $this;
     }
+
+
 }
+

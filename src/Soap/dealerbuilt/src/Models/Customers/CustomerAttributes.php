@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Customers;
 
 /**
- * Class representing CustomerAttributes.
+ * Class representing CustomerAttributes
  */
 class CustomerAttributes extends CustomerAttributesType
 {
+
+
 }
+

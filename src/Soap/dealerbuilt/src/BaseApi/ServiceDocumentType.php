@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceDocumentType.
+ * Class representing ServiceDocumentType
  */
 class ServiceDocumentType
 {
+
     /**
-     * @var string
+     * @var string $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param string $value
      */
@@ -23,10 +24,9 @@ class ServiceDocumentType
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param string $value
-     *
      * @return string
      */
     public function value()
@@ -34,12 +34,11 @@ class ServiceDocumentType
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class ServiceDocumentType
     {
         return strval($this->__value);
     }
+
+
 }
+

@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\Parts\ArrayOfPartsOrderLinePushRequestType:
             access_type: public_method
             serialized_name: PartsOrderLinePushRequest
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPartsOrderLinePushRequest
                 setter: setPartsOrderLinePushRequest
             xml_list:
                 inline: true
                 entry_name: PartsOrderLinePushRequest
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             type: array<App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType>

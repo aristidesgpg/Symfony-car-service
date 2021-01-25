@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiStoreItemType.
+ * Class representing ApiStoreItemType
  *
+ * 
  * XSD Type: ApiStoreItem
  */
 class ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePlacementType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePlacementType $placement
      */
     private $placement = null;
 
     /**
-     * Gets as placement.
+     * Gets as placement
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StorePlacementType
      */
@@ -25,16 +27,17 @@ class ApiStoreItemType
     }
 
     /**
-     * Sets a new placement.
+     * Sets a new placement
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePlacementType $placement
-     *
      * @return self
      */
-    public function setPlacement(StorePlacementType $placement)
+    public function setPlacement(\App\Soap\dealerbuilt\src\BaseApi\StorePlacementType $placement)
     {
         $this->placement = $placement;
-
         return $this;
     }
+
+
 }
+

@@ -3,69 +3,71 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedRepairOrderPartAttributesType.
+ * Class representing PushedRepairOrderPartAttributesType
  *
+ * 
  * XSD Type: PushedRepairOrderPartAttributes
  */
 class PushedRepairOrderPartAttributesType
 {
+
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var string
+     * @var string $externalRepairOrderPartId
      */
     private $externalRepairOrderPartId = null;
 
     /**
-     * @var bool
+     * @var bool $isFailed
      */
     private $isFailed = null;
 
     /**
-     * @var int
+     * @var int $lop
      */
     private $lop = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var string
+     * @var string $partNumber
      */
     private $partNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      */
     private $price = null;
 
     /**
-     * @var float
+     * @var float $quantity
      */
     private $quantity = null;
 
     /**
-     * @var string[]
+     * @var string[] $serialNumbers
      */
     private $serialNumbers = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount
      */
     private $taxAmount = null;
 
     /**
-     * @var string
+     * @var string $vendor
      */
     private $vendor = null;
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -75,21 +77,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as externalRepairOrderPartId.
+     * Gets as externalRepairOrderPartId
      *
      * @return string
      */
@@ -99,21 +99,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new externalRepairOrderPartId.
+     * Sets a new externalRepairOrderPartId
      *
      * @param string $externalRepairOrderPartId
-     *
      * @return self
      */
     public function setExternalRepairOrderPartId($externalRepairOrderPartId)
     {
         $this->externalRepairOrderPartId = $externalRepairOrderPartId;
-
         return $this;
     }
 
     /**
-     * Gets as isFailed.
+     * Gets as isFailed
      *
      * @return bool
      */
@@ -123,21 +121,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new isFailed.
+     * Sets a new isFailed
      *
      * @param bool $isFailed
-     *
      * @return self
      */
     public function setIsFailed($isFailed)
     {
         $this->isFailed = $isFailed;
-
         return $this;
     }
 
     /**
-     * Gets as lop.
+     * Gets as lop
      *
      * @return int
      */
@@ -147,21 +143,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new lop.
+     * Sets a new lop
      *
      * @param int $lop
-     *
      * @return self
      */
     public function setLop($lop)
     {
         $this->lop = $lop;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -171,21 +165,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as partNumber.
+     * Gets as partNumber
      *
      * @return string
      */
@@ -195,21 +187,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new partNumber.
+     * Sets a new partNumber
      *
      * @param string $partNumber
-     *
      * @return self
      */
     public function setPartNumber($partNumber)
     {
         $this->partNumber = $partNumber;
-
         return $this;
     }
 
     /**
-     * Gets as price.
+     * Gets as price
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -219,19 +209,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new price.
+     * Sets a new price
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      * @return self
      */
     public function setPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $price)
     {
         $this->price = $price;
-
         return $this;
     }
 
     /**
-     * Gets as quantity.
+     * Gets as quantity
      *
      * @return float
      */
@@ -241,38 +231,33 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new quantity.
+     * Sets a new quantity
      *
      * @param float $quantity
-     *
      * @return self
      */
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToSerialNumbers($string)
     {
         $this->serialNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset serialNumbers.
+     * isset serialNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSerialNumbers($index)
@@ -281,10 +266,9 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * unset serialNumbers.
+     * unset serialNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSerialNumbers($index)
@@ -293,7 +277,7 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Gets as serialNumbers.
+     * Gets as serialNumbers
      *
      * @return string[]
      */
@@ -303,21 +287,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new serialNumbers.
+     * Sets a new serialNumbers
      *
      * @param string[] $serialNumbers
-     *
      * @return self
      */
     public function setSerialNumbers(array $serialNumbers)
     {
         $this->serialNumbers = $serialNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as taxAmount.
+     * Gets as taxAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -327,19 +309,19 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new taxAmount.
+     * Sets a new taxAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount
      * @return self
      */
     public function setTaxAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount)
     {
         $this->taxAmount = $taxAmount;
-
         return $this;
     }
 
     /**
-     * Gets as vendor.
+     * Gets as vendor
      *
      * @return string
      */
@@ -349,16 +331,17 @@ class PushedRepairOrderPartAttributesType
     }
 
     /**
-     * Sets a new vendor.
+     * Sets a new vendor
      *
      * @param string $vendor
-     *
      * @return self
      */
     public function setVendor($vendor)
     {
         $this->vendor = $vendor;
-
         return $this;
     }
+
+
 }
+

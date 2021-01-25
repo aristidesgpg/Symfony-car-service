@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DropdownListSearchCriteria.
+ * Class representing DropdownListSearchCriteria
  */
 class DropdownListSearchCriteria extends DropdownListSearchCriteriaType
 {
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
             access_type: public_method
             serialized_name: ClosedDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getClosedDate
                 setter: setClosedDate
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
             access_type: public_method
             serialized_name: Freight
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getFreight
                 setter: setFreight
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
             access_type: public_method
             serialized_name: Hazmat
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getHazmat
                 setter: setHazmat
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
             access_type: public_method
             serialized_name: Labor
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getLabor
                 setter: setLabor
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
             access_type: public_method
             serialized_name: Misc
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getMisc
                 setter: setMisc
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
             access_type: public_method
             serialized_name: Parts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getParts
                 setter: setParts
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
             access_type: public_method
             serialized_name: Sublet
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getSublet
                 setter: setSublet
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
             access_type: public_method
             serialized_name: TaxesFees
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTaxesFees
                 setter: setTaxesFees

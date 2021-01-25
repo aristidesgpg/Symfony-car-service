@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing Document.
+ * Class representing Document
  */
 class Document extends DocumentType
 {
+
+
 }
+

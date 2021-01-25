@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing EstimateSearchCriteriaType.
+ * Class representing EstimateSearchCriteriaType
  *
+ * 
  * XSD Type: EstimateSearchCriteria
  */
 class EstimateSearchCriteriaType extends ServiceLocationsSearchCriteriaType
 {
+
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumUpdateStamp
      */
     private $maximumUpdateStamp = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumUpdateStamp
      */
     private $minimumUpdateStamp = null;
 
     /**
-     * @var string
+     * @var string $vin
      */
     private $vin = null;
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -40,21 +42,19 @@ class EstimateSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as maximumUpdateStamp.
+     * Gets as maximumUpdateStamp
      *
      * @return \DateTime
      */
@@ -64,19 +64,19 @@ class EstimateSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new maximumUpdateStamp.
+     * Sets a new maximumUpdateStamp
      *
+     * @param \DateTime $maximumUpdateStamp
      * @return self
      */
     public function setMaximumUpdateStamp(\DateTime $maximumUpdateStamp)
     {
         $this->maximumUpdateStamp = $maximumUpdateStamp;
-
         return $this;
     }
 
     /**
-     * Gets as minimumUpdateStamp.
+     * Gets as minimumUpdateStamp
      *
      * @return \DateTime
      */
@@ -86,19 +86,19 @@ class EstimateSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new minimumUpdateStamp.
+     * Sets a new minimumUpdateStamp
      *
+     * @param \DateTime $minimumUpdateStamp
      * @return self
      */
     public function setMinimumUpdateStamp(\DateTime $minimumUpdateStamp)
     {
         $this->minimumUpdateStamp = $minimumUpdateStamp;
-
         return $this;
     }
 
     /**
-     * Gets as vin.
+     * Gets as vin
      *
      * @return string
      */
@@ -108,16 +108,17 @@ class EstimateSearchCriteriaType extends ServiceLocationsSearchCriteriaType
     }
 
     /**
-     * Sets a new vin.
+     * Sets a new vin
      *
      * @param string $vin
-     *
      * @return self
      */
     public function setVin($vin)
     {
         $this->vin = $vin;
-
         return $this;
     }
+
+
 }
+

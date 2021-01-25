@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetSalesPersonsResponse.
+ * Class representing GetSalesPersonsResponse
  */
 class GetSalesPersonsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType[] $getSalesPersonsResult
      */
     private $getSalesPersonsResult = null;
 
     /**
-     * Adds as storePersons.
+     * Adds as storePersons
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType $storePersons
      */
-    public function addToGetSalesPersonsResult(BaseApi\StorePersonsType $storePersons)
+    public function addToGetSalesPersonsResult(\App\Soap\dealerbuilt\src\BaseApi\StorePersonsType $storePersons)
     {
         $this->getSalesPersonsResult[] = $storePersons;
-
         return $this;
     }
 
     /**
-     * isset getSalesPersonsResult.
+     * isset getSalesPersonsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetSalesPersonsResult($index)
@@ -39,10 +37,9 @@ class GetSalesPersonsResponse
     }
 
     /**
-     * unset getSalesPersonsResult.
+     * unset getSalesPersonsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetSalesPersonsResult($index)
@@ -51,7 +48,7 @@ class GetSalesPersonsResponse
     }
 
     /**
-     * Gets as getSalesPersonsResult.
+     * Gets as getSalesPersonsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType[]
      */
@@ -61,16 +58,17 @@ class GetSalesPersonsResponse
     }
 
     /**
-     * Sets a new getSalesPersonsResult.
+     * Sets a new getSalesPersonsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType[] $getSalesPersonsResult
-     *
      * @return self
      */
     public function setGetSalesPersonsResult(array $getSalesPersonsResult)
     {
         $this->getSalesPersonsResult = $getSalesPersonsResult;
-
         return $this;
     }
+
+
 }
+

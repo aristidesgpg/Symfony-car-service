@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing Estimate.
+ * Class representing Estimate
  */
 class Estimate extends EstimateType
 {
+
+
 }
+

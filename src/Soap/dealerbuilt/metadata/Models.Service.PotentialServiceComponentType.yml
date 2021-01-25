@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
             access_type: public_method
             serialized_name: ControlNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getControlNumber
                 setter: setControlNumber
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
             access_type: public_method
             serialized_name: IsDiscount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getIsDiscount
                 setter: setIsDiscount
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
             access_type: public_method
             serialized_name: Percent
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPercent
                 setter: setPercent
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
             access_type: public_method
             serialized_name: Price
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPrice
                 setter: setPrice
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
             access_type: public_method
             serialized_name: ServiceCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceCode
                 setter: setServiceCode
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
             access_type: public_method
             serialized_name: ServiceCodeDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceCodeDescription
                 setter: setServiceCodeDescription
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
             access_type: public_method
             serialized_name: Tax
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTax
                 setter: setTax
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
             access_type: public_method
             serialized_name: Taxable
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTaxable
                 setter: setTaxable

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPartsOrderPushResponseType.
+ * Class representing ArrayOfPartsOrderPushResponseType
  *
+ * 
  * XSD Type: ArrayOfPartsOrderPushResponse
  */
 class ArrayOfPartsOrderPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushResponseType[] $partsOrderPushResponse
      */
     private $partsOrderPushResponse = [
+        
     ];
 
     /**
-     * Adds as partsOrderPushResponse.
+     * Adds as partsOrderPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushResponseType $partsOrderPushResponse
      */
-    public function addToPartsOrderPushResponse(PartsOrderPushResponseType $partsOrderPushResponse)
+    public function addToPartsOrderPushResponse(\App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushResponseType $partsOrderPushResponse)
     {
         $this->partsOrderPushResponse[] = $partsOrderPushResponse;
-
         return $this;
     }
 
     /**
-     * isset partsOrderPushResponse.
+     * isset partsOrderPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsOrderPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfPartsOrderPushResponseType
     }
 
     /**
-     * unset partsOrderPushResponse.
+     * unset partsOrderPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsOrderPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfPartsOrderPushResponseType
     }
 
     /**
-     * Gets as partsOrderPushResponse.
+     * Gets as partsOrderPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPartsOrderPushResponseType
     }
 
     /**
-     * Sets a new partsOrderPushResponse.
+     * Sets a new partsOrderPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushResponseType[] $partsOrderPushResponse
-     *
      * @return self
      */
     public function setPartsOrderPushResponse(array $partsOrderPushResponse)
     {
         $this->partsOrderPushResponse = $partsOrderPushResponse;
-
         return $this;
     }
+
+
 }
+

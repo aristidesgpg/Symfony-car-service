@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedRepairOrderJobAttributes.
+ * Class representing PushedRepairOrderJobAttributes
  */
 class PushedRepairOrderJobAttributes extends PushedRepairOrderJobAttributesType
 {
+
+
 }
+

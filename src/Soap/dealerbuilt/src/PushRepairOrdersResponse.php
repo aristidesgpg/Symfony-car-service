@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushRepairOrdersResponse.
+ * Class representing PushRepairOrdersResponse
  */
 class PushRepairOrdersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[] $pushRepairOrdersResult
      */
     private $pushRepairOrdersResult = null;
 
     /**
-     * Adds as repairOrderPushResponse.
+     * Adds as repairOrderPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType $repairOrderPushResponse
      */
-    public function addToPushRepairOrdersResult(BaseApi\RepairOrderPushResponseType $repairOrderPushResponse)
+    public function addToPushRepairOrdersResult(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType $repairOrderPushResponse)
     {
         $this->pushRepairOrdersResult[] = $repairOrderPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushRepairOrdersResult.
+     * isset pushRepairOrdersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushRepairOrdersResult($index)
@@ -39,10 +37,9 @@ class PushRepairOrdersResponse
     }
 
     /**
-     * unset pushRepairOrdersResult.
+     * unset pushRepairOrdersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushRepairOrdersResult($index)
@@ -51,7 +48,7 @@ class PushRepairOrdersResponse
     }
 
     /**
-     * Gets as pushRepairOrdersResult.
+     * Gets as pushRepairOrdersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushRepairOrdersResponse
     }
 
     /**
-     * Sets a new pushRepairOrdersResult.
+     * Sets a new pushRepairOrdersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushResponseType[] $pushRepairOrdersResult
-     *
      * @return self
      */
     public function setPushRepairOrdersResult(array $pushRepairOrdersResult)
     {
         $this->pushRepairOrdersResult = $pushRepairOrdersResult;
-
         return $this;
     }
+
+
 }
+

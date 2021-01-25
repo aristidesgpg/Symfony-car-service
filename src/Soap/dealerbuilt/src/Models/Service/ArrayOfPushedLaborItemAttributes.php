@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedLaborItemAttributes.
+ * Class representing ArrayOfPushedLaborItemAttributes
  */
 class ArrayOfPushedLaborItemAttributes extends ArrayOfPushedLaborItemAttributesType
 {
+
+
 }
+

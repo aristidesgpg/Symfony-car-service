@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing PushCounterTicketResponse.
+ * Class representing PushCounterTicketResponse
  */
 class PushCounterTicketResponse extends PushCounterTicketResponseType
 {
+
+
 }
+

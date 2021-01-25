@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStockItemPushResponse.
+ * Class representing ArrayOfStockItemPushResponse
  */
 class ArrayOfStockItemPushResponse extends ArrayOfStockItemPushResponseType
 {
+
+
 }
+

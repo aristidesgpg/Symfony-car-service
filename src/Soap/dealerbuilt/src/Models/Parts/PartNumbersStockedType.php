@@ -3,79 +3,81 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing PartNumbersStockedType.
+ * Class representing PartNumbersStockedType
  *
+ * 
  * XSD Type: PartNumbersStocked
  */
 class PartNumbersStockedType
 {
+
     /**
-     * @var float
+     * @var float $apr
      */
     private $apr = null;
 
     /**
-     * @var float
+     * @var float $aug
      */
     private $aug = null;
 
     /**
-     * @var float
+     * @var float $dec
      */
     private $dec = null;
 
     /**
-     * @var float
+     * @var float $feb
      */
     private $feb = null;
 
     /**
-     * @var float
+     * @var float $jan
      */
     private $jan = null;
 
     /**
-     * @var float
+     * @var float $jul
      */
     private $jul = null;
 
     /**
-     * @var float
+     * @var float $jun
      */
     private $jun = null;
 
     /**
-     * @var float
+     * @var float $mar
      */
     private $mar = null;
 
     /**
-     * @var float
+     * @var float $may
      */
     private $may = null;
 
     /**
-     * @var float
+     * @var float $nov
      */
     private $nov = null;
 
     /**
-     * @var float
+     * @var float $oct
      */
     private $oct = null;
 
     /**
-     * @var float
+     * @var float $sep
      */
     private $sep = null;
 
     /**
-     * @var float
+     * @var float $yearAverage
      */
     private $yearAverage = null;
 
     /**
-     * Gets as apr.
+     * Gets as apr
      *
      * @return float
      */
@@ -85,21 +87,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new apr.
+     * Sets a new apr
      *
      * @param float $apr
-     *
      * @return self
      */
     public function setApr($apr)
     {
         $this->apr = $apr;
-
         return $this;
     }
 
     /**
-     * Gets as aug.
+     * Gets as aug
      *
      * @return float
      */
@@ -109,21 +109,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new aug.
+     * Sets a new aug
      *
      * @param float $aug
-     *
      * @return self
      */
     public function setAug($aug)
     {
         $this->aug = $aug;
-
         return $this;
     }
 
     /**
-     * Gets as dec.
+     * Gets as dec
      *
      * @return float
      */
@@ -133,21 +131,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new dec.
+     * Sets a new dec
      *
      * @param float $dec
-     *
      * @return self
      */
     public function setDec($dec)
     {
         $this->dec = $dec;
-
         return $this;
     }
 
     /**
-     * Gets as feb.
+     * Gets as feb
      *
      * @return float
      */
@@ -157,21 +153,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new feb.
+     * Sets a new feb
      *
      * @param float $feb
-     *
      * @return self
      */
     public function setFeb($feb)
     {
         $this->feb = $feb;
-
         return $this;
     }
 
     /**
-     * Gets as jan.
+     * Gets as jan
      *
      * @return float
      */
@@ -181,21 +175,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new jan.
+     * Sets a new jan
      *
      * @param float $jan
-     *
      * @return self
      */
     public function setJan($jan)
     {
         $this->jan = $jan;
-
         return $this;
     }
 
     /**
-     * Gets as jul.
+     * Gets as jul
      *
      * @return float
      */
@@ -205,21 +197,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new jul.
+     * Sets a new jul
      *
      * @param float $jul
-     *
      * @return self
      */
     public function setJul($jul)
     {
         $this->jul = $jul;
-
         return $this;
     }
 
     /**
-     * Gets as jun.
+     * Gets as jun
      *
      * @return float
      */
@@ -229,21 +219,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new jun.
+     * Sets a new jun
      *
      * @param float $jun
-     *
      * @return self
      */
     public function setJun($jun)
     {
         $this->jun = $jun;
-
         return $this;
     }
 
     /**
-     * Gets as mar.
+     * Gets as mar
      *
      * @return float
      */
@@ -253,21 +241,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new mar.
+     * Sets a new mar
      *
      * @param float $mar
-     *
      * @return self
      */
     public function setMar($mar)
     {
         $this->mar = $mar;
-
         return $this;
     }
 
     /**
-     * Gets as may.
+     * Gets as may
      *
      * @return float
      */
@@ -277,21 +263,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new may.
+     * Sets a new may
      *
      * @param float $may
-     *
      * @return self
      */
     public function setMay($may)
     {
         $this->may = $may;
-
         return $this;
     }
 
     /**
-     * Gets as nov.
+     * Gets as nov
      *
      * @return float
      */
@@ -301,21 +285,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new nov.
+     * Sets a new nov
      *
      * @param float $nov
-     *
      * @return self
      */
     public function setNov($nov)
     {
         $this->nov = $nov;
-
         return $this;
     }
 
     /**
-     * Gets as oct.
+     * Gets as oct
      *
      * @return float
      */
@@ -325,21 +307,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new oct.
+     * Sets a new oct
      *
      * @param float $oct
-     *
      * @return self
      */
     public function setOct($oct)
     {
         $this->oct = $oct;
-
         return $this;
     }
 
     /**
-     * Gets as sep.
+     * Gets as sep
      *
      * @return float
      */
@@ -349,21 +329,19 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new sep.
+     * Sets a new sep
      *
      * @param float $sep
-     *
      * @return self
      */
     public function setSep($sep)
     {
         $this->sep = $sep;
-
         return $this;
     }
 
     /**
-     * Gets as yearAverage.
+     * Gets as yearAverage
      *
      * @return float
      */
@@ -373,16 +351,17 @@ class PartNumbersStockedType
     }
 
     /**
-     * Sets a new yearAverage.
+     * Sets a new yearAverage
      *
      * @param float $yearAverage
-     *
      * @return self
      */
     public function setYearAverage($yearAverage)
     {
         $this->yearAverage = $yearAverage;
-
         return $this;
     }
+
+
 }
+

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStockItemPushRequestV2Type.
+ * Class representing ArrayOfStockItemPushRequestV2Type
  *
+ * 
  * XSD Type: ArrayOfStockItemPushRequestV2
  */
 class ArrayOfStockItemPushRequestV2Type
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type[] $stockItemPushRequestV2
      */
     private $stockItemPushRequestV2 = [
+        
     ];
 
     /**
-     * Adds as stockItemPushRequestV2.
+     * Adds as stockItemPushRequestV2
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type $stockItemPushRequestV2
      */
-    public function addToStockItemPushRequestV2(StockItemPushRequestV2Type $stockItemPushRequestV2)
+    public function addToStockItemPushRequestV2(\App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type $stockItemPushRequestV2)
     {
         $this->stockItemPushRequestV2[] = $stockItemPushRequestV2;
-
         return $this;
     }
 
     /**
-     * isset stockItemPushRequestV2.
+     * isset stockItemPushRequestV2
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStockItemPushRequestV2($index)
@@ -42,10 +42,9 @@ class ArrayOfStockItemPushRequestV2Type
     }
 
     /**
-     * unset stockItemPushRequestV2.
+     * unset stockItemPushRequestV2
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStockItemPushRequestV2($index)
@@ -54,7 +53,7 @@ class ArrayOfStockItemPushRequestV2Type
     }
 
     /**
-     * Gets as stockItemPushRequestV2.
+     * Gets as stockItemPushRequestV2
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type[]
      */
@@ -64,16 +63,17 @@ class ArrayOfStockItemPushRequestV2Type
     }
 
     /**
-     * Sets a new stockItemPushRequestV2.
+     * Sets a new stockItemPushRequestV2
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type[] $stockItemPushRequestV2
-     *
      * @return self
      */
     public function setStockItemPushRequestV2(array $stockItemPushRequestV2)
     {
         $this->stockItemPushRequestV2 = $stockItemPushRequestV2;
-
         return $this;
     }
+
+
 }
+

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedPotentialTechsAttributesType.
+ * Class representing ArrayOfPushedPotentialTechsAttributesType
  *
+ * 
  * XSD Type: ArrayOfPushedPotentialTechsAttributes
  */
 class ArrayOfPushedPotentialTechsAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[] $pushedPotentialTechsAttributes
      */
     private $pushedPotentialTechsAttributes = [
+        
     ];
 
     /**
-     * Adds as pushedPotentialTechsAttributes.
+     * Adds as pushedPotentialTechsAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType $pushedPotentialTechsAttributes
      */
-    public function addToPushedPotentialTechsAttributes(PushedPotentialTechsAttributesType $pushedPotentialTechsAttributes)
+    public function addToPushedPotentialTechsAttributes(\App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType $pushedPotentialTechsAttributes)
     {
         $this->pushedPotentialTechsAttributes[] = $pushedPotentialTechsAttributes;
-
         return $this;
     }
 
     /**
-     * isset pushedPotentialTechsAttributes.
+     * isset pushedPotentialTechsAttributes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushedPotentialTechsAttributes($index)
@@ -42,10 +42,9 @@ class ArrayOfPushedPotentialTechsAttributesType
     }
 
     /**
-     * unset pushedPotentialTechsAttributes.
+     * unset pushedPotentialTechsAttributes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushedPotentialTechsAttributes($index)
@@ -54,7 +53,7 @@ class ArrayOfPushedPotentialTechsAttributesType
     }
 
     /**
-     * Gets as pushedPotentialTechsAttributes.
+     * Gets as pushedPotentialTechsAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPushedPotentialTechsAttributesType
     }
 
     /**
-     * Sets a new pushedPotentialTechsAttributes.
+     * Sets a new pushedPotentialTechsAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[] $pushedPotentialTechsAttributes
-     *
      * @return self
      */
     public function setPushedPotentialTechsAttributes(array $pushedPotentialTechsAttributes)
     {
         $this->pushedPotentialTechsAttributes = $pushedPotentialTechsAttributes;
-
         return $this;
     }
+
+
 }
+

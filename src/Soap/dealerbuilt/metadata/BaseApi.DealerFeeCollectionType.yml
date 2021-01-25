@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\DealerFeeCollectionType:
             access_type: public_method
             serialized_name: DealerFees
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDealerFees
                 setter: setDealerFees
@@ -14,4 +14,4 @@ App\Soap\dealerbuilt\src\BaseApi\DealerFeeCollectionType:
                 inline: false
                 entry_name: DealerFee
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'

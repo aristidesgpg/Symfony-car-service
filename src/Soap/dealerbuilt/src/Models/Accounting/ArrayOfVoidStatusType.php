@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing ArrayOfVoidStatusType.
+ * Class representing ArrayOfVoidStatusType
  *
+ * 
  * XSD Type: ArrayOfVoidStatusType
  */
 class ArrayOfVoidStatusType
 {
+
     /**
-     * @var string[]
+     * @var string[] $voidStatusType
      */
     private $voidStatusType = [
+        
     ];
 
     /**
-     * Adds as voidStatusType.
+     * Adds as voidStatusType
      *
      * @return self
-     *
      * @param string $voidStatusType
      */
     public function addToVoidStatusType($voidStatusType)
     {
         $this->voidStatusType[] = $voidStatusType;
-
         return $this;
     }
 
     /**
-     * isset voidStatusType.
+     * isset voidStatusType
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVoidStatusType($index)
@@ -42,10 +42,9 @@ class ArrayOfVoidStatusType
     }
 
     /**
-     * unset voidStatusType.
+     * unset voidStatusType
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVoidStatusType($index)
@@ -54,7 +53,7 @@ class ArrayOfVoidStatusType
     }
 
     /**
-     * Gets as voidStatusType.
+     * Gets as voidStatusType
      *
      * @return string[]
      */
@@ -64,16 +63,17 @@ class ArrayOfVoidStatusType
     }
 
     /**
-     * Sets a new voidStatusType.
+     * Sets a new voidStatusType
      *
      * @param string $voidStatusType
-     *
      * @return self
      */
     public function setVoidStatusType(array $voidStatusType)
     {
         $this->voidStatusType = $voidStatusType;
-
         return $this;
     }
+
+
 }
+

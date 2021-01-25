@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerType.
+ * Class representing CustomerType
  *
+ * 
  * XSD Type: Customer
  */
 class CustomerType extends ApiSourceItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $customerId
      */
     private $customerId = null;
 
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType
      */
@@ -35,19 +37,19 @@ class CustomerType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as customerId.
+     * Gets as customerId
      *
      * @return string
      */
@@ -57,21 +59,19 @@ class CustomerType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new customerId.
+     * Sets a new customerId
      *
      * @param string $customerId
-     *
      * @return self
      */
     public function setCustomerId($customerId)
     {
         $this->customerId = $customerId;
-
         return $this;
     }
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -81,16 +81,17 @@ class CustomerType extends ApiSourceItemType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
+
+
 }
+

@@ -3,39 +3,41 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PaymentStatusType.
+ * Class representing PaymentStatusType
  *
+ * 
  * XSD Type: PaymentStatus
  */
 class PaymentStatusType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $balanceDue
      */
     private $balanceDue = null;
 
     /**
-     * @var string
+     * @var string $eventKey
      */
     private $eventKey = null;
 
     /**
-     * @var string
+     * @var string $eventType
      */
     private $eventType = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[] $payTypeStatuses
      */
     private $payTypeStatuses = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentType[] $payments
      */
     private $payments = null;
 
     /**
-     * Gets as balanceDue.
+     * Gets as balanceDue
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -45,19 +47,19 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new balanceDue.
+     * Sets a new balanceDue
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $balanceDue
      * @return self
      */
     public function setBalanceDue(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $balanceDue)
     {
         $this->balanceDue = $balanceDue;
-
         return $this;
     }
 
     /**
-     * Gets as eventKey.
+     * Gets as eventKey
      *
      * @return string
      */
@@ -67,21 +69,19 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new eventKey.
+     * Sets a new eventKey
      *
      * @param string $eventKey
-     *
      * @return self
      */
     public function setEventKey($eventKey)
     {
         $this->eventKey = $eventKey;
-
         return $this;
     }
 
     /**
-     * Gets as eventType.
+     * Gets as eventType
      *
      * @return string
      */
@@ -91,36 +91,33 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new eventType.
+     * Sets a new eventType
      *
      * @param string $eventType
-     *
      * @return self
      */
     public function setEventType($eventType)
     {
         $this->eventType = $eventType;
-
         return $this;
     }
 
     /**
-     * Adds as payTypeStatus.
+     * Adds as payTypeStatus
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType $payTypeStatus
      */
     public function addToPayTypeStatuses(\App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType $payTypeStatus)
     {
         $this->payTypeStatuses[] = $payTypeStatus;
-
         return $this;
     }
 
     /**
-     * isset payTypeStatuses.
+     * isset payTypeStatuses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPayTypeStatuses($index)
@@ -129,10 +126,9 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * unset payTypeStatuses.
+     * unset payTypeStatuses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPayTypeStatuses($index)
@@ -141,7 +137,7 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * Gets as payTypeStatuses.
+     * Gets as payTypeStatuses
      *
      * @return \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[]
      */
@@ -151,38 +147,33 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new payTypeStatuses.
+     * Sets a new payTypeStatuses
      *
      * @param \App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType[] $payTypeStatuses
-     *
      * @return self
      */
     public function setPayTypeStatuses(array $payTypeStatuses)
     {
         $this->payTypeStatuses = $payTypeStatuses;
-
         return $this;
     }
 
     /**
-     * Adds as payment.
+     * Adds as payment
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentType $payment
      */
-    public function addToPayments(PaymentType $payment)
+    public function addToPayments(\App\Soap\dealerbuilt\src\BaseApi\PaymentType $payment)
     {
         $this->payments[] = $payment;
-
         return $this;
     }
 
     /**
-     * isset payments.
+     * isset payments
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPayments($index)
@@ -191,10 +182,9 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * unset payments.
+     * unset payments
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPayments($index)
@@ -203,7 +193,7 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * Gets as payments.
+     * Gets as payments
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentType[]
      */
@@ -213,16 +203,17 @@ class PaymentStatusType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new payments.
+     * Sets a new payments
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentType[] $payments
-     *
      * @return self
      */
     public function setPayments(array $payments)
     {
         $this->payments = $payments;
-
         return $this;
     }
+
+
 }
+

@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing InventoryPartType.
+ * Class representing InventoryPartType
  *
+ * 
  * XSD Type: InventoryPart
  */
 class InventoryPartType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $partKey
      */
     private $partKey = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType
      */
@@ -30,19 +32,19 @@ class InventoryPartType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as partKey.
+     * Gets as partKey
      *
      * @return string
      */
@@ -52,16 +54,17 @@ class InventoryPartType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new partKey.
+     * Sets a new partKey
      *
      * @param string $partKey
-     *
      * @return self
      */
     public function setPartKey($partKey)
     {
         $this->partKey = $partKey;
-
         return $this;
     }
+
+
 }
+

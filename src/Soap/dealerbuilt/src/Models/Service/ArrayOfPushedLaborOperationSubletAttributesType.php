@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedLaborOperationSubletAttributesType.
+ * Class representing ArrayOfPushedLaborOperationSubletAttributesType
  *
+ * 
  * XSD Type: ArrayOfPushedLaborOperationSubletAttributes
  */
 class ArrayOfPushedLaborOperationSubletAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType[] $pushedLaborOperationSubletAttributes
      */
     private $pushedLaborOperationSubletAttributes = [
+        
     ];
 
     /**
-     * Adds as pushedLaborOperationSubletAttributes.
+     * Adds as pushedLaborOperationSubletAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType $pushedLaborOperationSubletAttributes
      */
-    public function addToPushedLaborOperationSubletAttributes(PushedLaborOperationSubletAttributesType $pushedLaborOperationSubletAttributes)
+    public function addToPushedLaborOperationSubletAttributes(\App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType $pushedLaborOperationSubletAttributes)
     {
         $this->pushedLaborOperationSubletAttributes[] = $pushedLaborOperationSubletAttributes;
-
         return $this;
     }
 
     /**
-     * isset pushedLaborOperationSubletAttributes.
+     * isset pushedLaborOperationSubletAttributes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushedLaborOperationSubletAttributes($index)
@@ -42,10 +42,9 @@ class ArrayOfPushedLaborOperationSubletAttributesType
     }
 
     /**
-     * unset pushedLaborOperationSubletAttributes.
+     * unset pushedLaborOperationSubletAttributes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushedLaborOperationSubletAttributes($index)
@@ -54,7 +53,7 @@ class ArrayOfPushedLaborOperationSubletAttributesType
     }
 
     /**
-     * Gets as pushedLaborOperationSubletAttributes.
+     * Gets as pushedLaborOperationSubletAttributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPushedLaborOperationSubletAttributesType
     }
 
     /**
-     * Sets a new pushedLaborOperationSubletAttributes.
+     * Sets a new pushedLaborOperationSubletAttributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType[] $pushedLaborOperationSubletAttributes
-     *
      * @return self
      */
     public function setPushedLaborOperationSubletAttributes(array $pushedLaborOperationSubletAttributes)
     {
         $this->pushedLaborOperationSubletAttributes = $pushedLaborOperationSubletAttributes;
-
         return $this;
     }
+
+
 }
+

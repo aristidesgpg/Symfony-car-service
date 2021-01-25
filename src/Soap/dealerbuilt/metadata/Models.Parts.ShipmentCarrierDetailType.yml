@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType:
             access_type: public_method
             serialized_name: OriginatingWarehouse
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getOriginatingWarehouse
                 setter: setOriginatingWarehouse
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType:
             access_type: public_method
             serialized_name: ShipmentCarrierCompanyCodeDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShipmentCarrierCompanyCodeDescription
                 setter: setShipmentCarrierCompanyCodeDescription
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Parts\ShipmentCarrierDetailType:
             access_type: public_method
             serialized_name: ShipmentCarrierPurposeComment
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getShipmentCarrierPurposeComment
                 setter: setShipmentCarrierPurposeComment

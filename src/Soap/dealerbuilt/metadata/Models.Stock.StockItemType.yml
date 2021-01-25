@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: Attributes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getAttributes
                 setter: setAttributes
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: EventDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getEventDescription
                 setter: setEventDescription
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: EventID
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getEventID
                 setter: setEventID
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: LocationID
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getLocationID
                 setter: setLocationID
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: LocationName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getLocationName
                 setter: setLocationName
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: OptionCD
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getOptionCD
                 setter: setOptionCD
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: OptionDesc
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getOptionDesc
                 setter: setOptionDesc
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: UnitAttributes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getUnitAttributes
                 setter: setUnitAttributes
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Stock\StockItemType:
             access_type: public_method
             serialized_name: VehicleDealerOptionsDesc
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getVehicleDealerOptionsDesc
                 setter: setVehicleDealerOptionsDesc

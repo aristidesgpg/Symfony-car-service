@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing ArrayOfOption.
+ * Class representing ArrayOfOption
  */
 class ArrayOfOption extends ArrayOfOptionType
 {
+
+
 }
+

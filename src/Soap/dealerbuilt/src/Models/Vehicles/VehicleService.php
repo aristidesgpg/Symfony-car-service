@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Vehicles;
 
 /**
- * Class representing VehicleService.
+ * Class representing VehicleService
  */
 class VehicleService extends VehicleServiceType
 {
+
+
 }
+

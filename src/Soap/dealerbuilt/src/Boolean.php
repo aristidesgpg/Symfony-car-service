@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing Boolean.
+ * Class representing Boolean
  */
 class Boolean
 {
+
     /**
-     * @var bool
+     * @var bool $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param bool $value
      */
@@ -23,10 +24,9 @@ class Boolean
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param bool $value
-     *
      * @return bool
      */
     public function value()
@@ -34,12 +34,11 @@ class Boolean
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class Boolean
     {
         return strval($this->__value);
     }
+
+
 }
+

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDepartmentType.
+ * Class representing ArrayOfDepartmentType
  *
+ * 
  * XSD Type: ArrayOfDepartment
  */
 class ArrayOfDepartmentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DepartmentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DepartmentType[] $department
      */
     private $department = [
+        
     ];
 
     /**
-     * Adds as department.
+     * Adds as department
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DepartmentType $department
      */
-    public function addToDepartment(DepartmentType $department)
+    public function addToDepartment(\App\Soap\dealerbuilt\src\BaseApi\DepartmentType $department)
     {
         $this->department[] = $department;
-
         return $this;
     }
 
     /**
-     * isset department.
+     * isset department
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDepartment($index)
@@ -42,10 +42,9 @@ class ArrayOfDepartmentType
     }
 
     /**
-     * unset department.
+     * unset department
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDepartment($index)
@@ -54,7 +53,7 @@ class ArrayOfDepartmentType
     }
 
     /**
-     * Gets as department.
+     * Gets as department
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DepartmentType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDepartmentType
     }
 
     /**
-     * Sets a new department.
+     * Sets a new department
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DepartmentType[] $department
-     *
      * @return self
      */
     public function setDepartment(array $department)
     {
         $this->department = $department;
-
         return $this;
     }
+
+
 }
+

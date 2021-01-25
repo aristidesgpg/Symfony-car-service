@@ -1,3 +1,5 @@
+You can't run cs-fixer against these because the doc blocks are used.
+
 Automate:
 wsdl: https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?wsdl
 xsd: https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?xsd=1

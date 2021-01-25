@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType:
             access_type: public_method
             serialized_name: Amount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAmount
                 setter: setAmount
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType:
             access_type: public_method
             serialized_name: InvoiceNumbers
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getInvoiceNumbers
                 setter: setInvoiceNumbers
@@ -30,7 +30,7 @@ App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType:
             access_type: public_method
             serialized_name: PurchaseOrderDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPurchaseOrderDate
                 setter: setPurchaseOrderDate
@@ -40,7 +40,7 @@ App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType:
             access_type: public_method
             serialized_name: PurchaseOrderNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getPurchaseOrderNumber
                 setter: setPurchaseOrderNumber
@@ -50,7 +50,7 @@ App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType:
             access_type: public_method
             serialized_name: VendorId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVendorId
                 setter: setVendorId
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType:
             access_type: public_method
             serialized_name: VendorName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVendorName
                 setter: setVendorName

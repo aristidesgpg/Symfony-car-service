@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ClearAppointmentConcerns.
+ * Class representing ClearAppointmentConcerns
  */
 class ClearAppointmentConcerns
 {
+
     /**
-     * @var string[]
+     * @var string[] $appointmentKeys
      */
     private $appointmentKeys = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToAppointmentKeys($string)
     {
         $this->appointmentKeys[] = $string;
-
         return $this;
     }
 
     /**
-     * isset appointmentKeys.
+     * isset appointmentKeys
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAppointmentKeys($index)
@@ -39,10 +37,9 @@ class ClearAppointmentConcerns
     }
 
     /**
-     * unset appointmentKeys.
+     * unset appointmentKeys
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAppointmentKeys($index)
@@ -51,7 +48,7 @@ class ClearAppointmentConcerns
     }
 
     /**
-     * Gets as appointmentKeys.
+     * Gets as appointmentKeys
      *
      * @return string[]
      */
@@ -61,16 +58,17 @@ class ClearAppointmentConcerns
     }
 
     /**
-     * Sets a new appointmentKeys.
+     * Sets a new appointmentKeys
      *
      * @param string[] $appointmentKeys
-     *
      * @return self
      */
     public function setAppointmentKeys(array $appointmentKeys)
     {
         $this->appointmentKeys = $appointmentKeys;
-
         return $this;
     }
+
+
 }
+

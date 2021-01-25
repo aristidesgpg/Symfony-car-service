@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfAppointmentPushRequest.
+ * Class representing ArrayOfAppointmentPushRequest
  */
 class ArrayOfAppointmentPushRequest extends ArrayOfAppointmentPushRequestType
 {
+
+
 }
+

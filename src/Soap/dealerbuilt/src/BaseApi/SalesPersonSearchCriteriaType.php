@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing SalesPersonSearchCriteriaType.
+ * Class representing SalesPersonSearchCriteriaType
  *
+ * 
  * XSD Type: SalesPersonSearchCriteria
  */
 class SalesPersonSearchCriteriaType extends StoresSearchCriteriaType
 {
+
     /**
-     * @var string
+     * @var string $status
      */
     private $status = null;
 
     /**
-     * @var string[]
+     * @var string[] $types
      */
     private $types = null;
 
     /**
-     * Gets as status.
+     * Gets as status
      *
      * @return string
      */
@@ -30,38 +32,33 @@ class SalesPersonSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new status.
+     * Sets a new status
      *
      * @param string $status
-     *
      * @return self
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
     /**
-     * Adds as salesPersonType.
+     * Adds as salesPersonType
      *
      * @return self
-     *
      * @param string $salesPersonType
      */
     public function addToTypes($salesPersonType)
     {
         $this->types[] = $salesPersonType;
-
         return $this;
     }
 
     /**
-     * isset types.
+     * isset types
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetTypes($index)
@@ -70,10 +67,9 @@ class SalesPersonSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * unset types.
+     * unset types
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetTypes($index)
@@ -82,7 +78,7 @@ class SalesPersonSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Gets as types.
+     * Gets as types
      *
      * @return string[]
      */
@@ -92,16 +88,17 @@ class SalesPersonSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new types.
+     * Sets a new types
      *
      * @param string $types
-     *
      * @return self
      */
     public function setTypes(array $types)
     {
         $this->types = $types;
-
         return $this;
     }
+
+
 }
+

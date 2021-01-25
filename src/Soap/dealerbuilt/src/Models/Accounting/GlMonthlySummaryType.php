@@ -3,59 +3,61 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing GlMonthlySummaryType.
+ * Class representing GlMonthlySummaryType
  *
+ * 
  * XSD Type: GlMonthlySummary
  */
 class GlMonthlySummaryType
 {
+
     /**
-     * @var \DateTime
+     * @var \DateTime $fromDate
      */
     private $fromDate = null;
 
     /**
-     * @var bool
+     * @var bool $isFullMonth
      */
     private $isFullMonth = null;
 
     /**
-     * @var int
+     * @var int $month
      */
     private $month = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthToDate
      */
     private $monthToDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $toDate
      */
     private $toDate = null;
 
     /**
-     * @var int
+     * @var int $unitsMonthToDate
      */
     private $unitsMonthToDate = null;
 
     /**
-     * @var int
+     * @var int $unitsYearToDate
      */
     private $unitsYearToDate = null;
 
     /**
-     * @var int
+     * @var int $year
      */
     private $year = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yearToDate
      */
     private $yearToDate = null;
 
     /**
-     * Gets as fromDate.
+     * Gets as fromDate
      *
      * @return \DateTime
      */
@@ -65,19 +67,19 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new fromDate.
+     * Sets a new fromDate
      *
+     * @param \DateTime $fromDate
      * @return self
      */
     public function setFromDate(\DateTime $fromDate)
     {
         $this->fromDate = $fromDate;
-
         return $this;
     }
 
     /**
-     * Gets as isFullMonth.
+     * Gets as isFullMonth
      *
      * @return bool
      */
@@ -87,21 +89,19 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new isFullMonth.
+     * Sets a new isFullMonth
      *
      * @param bool $isFullMonth
-     *
      * @return self
      */
     public function setIsFullMonth($isFullMonth)
     {
         $this->isFullMonth = $isFullMonth;
-
         return $this;
     }
 
     /**
-     * Gets as month.
+     * Gets as month
      *
      * @return int
      */
@@ -111,21 +111,19 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new month.
+     * Sets a new month
      *
      * @param int $month
-     *
      * @return self
      */
     public function setMonth($month)
     {
         $this->month = $month;
-
         return $this;
     }
 
     /**
-     * Gets as monthToDate.
+     * Gets as monthToDate
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -135,19 +133,19 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new monthToDate.
+     * Sets a new monthToDate
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthToDate
      * @return self
      */
     public function setMonthToDate(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $monthToDate)
     {
         $this->monthToDate = $monthToDate;
-
         return $this;
     }
 
     /**
-     * Gets as toDate.
+     * Gets as toDate
      *
      * @return \DateTime
      */
@@ -157,19 +155,19 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new toDate.
+     * Sets a new toDate
      *
+     * @param \DateTime $toDate
      * @return self
      */
     public function setToDate(\DateTime $toDate)
     {
         $this->toDate = $toDate;
-
         return $this;
     }
 
     /**
-     * Gets as unitsMonthToDate.
+     * Gets as unitsMonthToDate
      *
      * @return int
      */
@@ -179,21 +177,19 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new unitsMonthToDate.
+     * Sets a new unitsMonthToDate
      *
      * @param int $unitsMonthToDate
-     *
      * @return self
      */
     public function setUnitsMonthToDate($unitsMonthToDate)
     {
         $this->unitsMonthToDate = $unitsMonthToDate;
-
         return $this;
     }
 
     /**
-     * Gets as unitsYearToDate.
+     * Gets as unitsYearToDate
      *
      * @return int
      */
@@ -203,21 +199,19 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new unitsYearToDate.
+     * Sets a new unitsYearToDate
      *
      * @param int $unitsYearToDate
-     *
      * @return self
      */
     public function setUnitsYearToDate($unitsYearToDate)
     {
         $this->unitsYearToDate = $unitsYearToDate;
-
         return $this;
     }
 
     /**
-     * Gets as year.
+     * Gets as year
      *
      * @return int
      */
@@ -227,21 +221,19 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new year.
+     * Sets a new year
      *
      * @param int $year
-     *
      * @return self
      */
     public function setYear($year)
     {
         $this->year = $year;
-
         return $this;
     }
 
     /**
-     * Gets as yearToDate.
+     * Gets as yearToDate
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -251,14 +243,17 @@ class GlMonthlySummaryType
     }
 
     /**
-     * Sets a new yearToDate.
+     * Sets a new yearToDate
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $yearToDate
      * @return self
      */
     public function setYearToDate(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $yearToDate)
     {
         $this->yearToDate = $yearToDate;
-
         return $this;
     }
+
+
 }
+

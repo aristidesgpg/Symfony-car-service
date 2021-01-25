@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: FromDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getFromDate
                 setter: setFromDate
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: IsFullMonth
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getIsFullMonth
                 setter: setIsFullMonth
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: Month
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getMonth
                 setter: setMonth
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: MonthToDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getMonthToDate
                 setter: setMonthToDate
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: ToDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getToDate
                 setter: setToDate
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: UnitsMonthToDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getUnitsMonthToDate
                 setter: setUnitsMonthToDate
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: UnitsYearToDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getUnitsYearToDate
                 setter: setUnitsYearToDate
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: Year
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getYear
                 setter: setYear
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Accounting\GlMonthlySummaryType:
             access_type: public_method
             serialized_name: YearToDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
             accessor:
                 getter: getYearToDate
                 setter: setYearToDate

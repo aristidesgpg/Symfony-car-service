@@ -3,41 +3,40 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServicePersonSearchCriteriaType.
+ * Class representing ServicePersonSearchCriteriaType
  *
+ * 
  * XSD Type: ServicePersonSearchCriteria
  */
 class ServicePersonSearchCriteriaType extends ServiceLocationSearchCriteriaType
 {
+
     /**
-     * @var string[]
+     * @var string[] $employeeTypes
      */
     private $employeeTypes = null;
 
     /**
-     * @var string
+     * @var string $status
      */
     private $status = null;
 
     /**
-     * Adds as servicePersonType.
+     * Adds as servicePersonType
      *
      * @return self
-     *
      * @param string $servicePersonType
      */
     public function addToEmployeeTypes($servicePersonType)
     {
         $this->employeeTypes[] = $servicePersonType;
-
         return $this;
     }
 
     /**
-     * isset employeeTypes.
+     * isset employeeTypes
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetEmployeeTypes($index)
@@ -46,10 +45,9 @@ class ServicePersonSearchCriteriaType extends ServiceLocationSearchCriteriaType
     }
 
     /**
-     * unset employeeTypes.
+     * unset employeeTypes
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetEmployeeTypes($index)
@@ -58,7 +56,7 @@ class ServicePersonSearchCriteriaType extends ServiceLocationSearchCriteriaType
     }
 
     /**
-     * Gets as employeeTypes.
+     * Gets as employeeTypes
      *
      * @return string[]
      */
@@ -68,21 +66,19 @@ class ServicePersonSearchCriteriaType extends ServiceLocationSearchCriteriaType
     }
 
     /**
-     * Sets a new employeeTypes.
+     * Sets a new employeeTypes
      *
      * @param string $employeeTypes
-     *
      * @return self
      */
     public function setEmployeeTypes(array $employeeTypes)
     {
         $this->employeeTypes = $employeeTypes;
-
         return $this;
     }
 
     /**
-     * Gets as status.
+     * Gets as status
      *
      * @return string
      */
@@ -92,16 +88,17 @@ class ServicePersonSearchCriteriaType extends ServiceLocationSearchCriteriaType
     }
 
     /**
-     * Sets a new status.
+     * Sets a new status
      *
      * @param string $status
-     *
      * @return self
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
+
+
 }
+

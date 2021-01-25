@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullArchivedCustomersResponse.
+ * Class representing PullArchivedCustomersResponse
  */
 class PullArchivedCustomersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType[] $pullArchivedCustomersResult
      */
     private $pullArchivedCustomersResult = null;
 
     /**
-     * Adds as customer.
+     * Adds as customer
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType $customer
      */
-    public function addToPullArchivedCustomersResult(BaseApi\CustomerType $customer)
+    public function addToPullArchivedCustomersResult(\App\Soap\dealerbuilt\src\BaseApi\CustomerType $customer)
     {
         $this->pullArchivedCustomersResult[] = $customer;
-
         return $this;
     }
 
     /**
-     * isset pullArchivedCustomersResult.
+     * isset pullArchivedCustomersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullArchivedCustomersResult($index)
@@ -39,10 +37,9 @@ class PullArchivedCustomersResponse
     }
 
     /**
-     * unset pullArchivedCustomersResult.
+     * unset pullArchivedCustomersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullArchivedCustomersResult($index)
@@ -51,7 +48,7 @@ class PullArchivedCustomersResponse
     }
 
     /**
-     * Gets as pullArchivedCustomersResult.
+     * Gets as pullArchivedCustomersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerType[]
      */
@@ -61,16 +58,17 @@ class PullArchivedCustomersResponse
     }
 
     /**
-     * Sets a new pullArchivedCustomersResult.
+     * Sets a new pullArchivedCustomersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType[] $pullArchivedCustomersResult
-     *
      * @return self
      */
     public function setPullArchivedCustomersResult(array $pullArchivedCustomersResult)
     {
         $this->pullArchivedCustomersResult = $pullArchivedCustomersResult;
-
         return $this;
     }
+
+
 }
+

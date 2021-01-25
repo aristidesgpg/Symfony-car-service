@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DropdownListDetailsType.
+ * Class representing DropdownListDetailsType
  *
+ * 
  * XSD Type: DropdownListDetails
  */
 class DropdownListDetailsType extends ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\DropdownListDetailsResponseType
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\DropdownListDetailsResponseType $dropdownListDetailsResponse
      */
     private $dropdownListDetailsResponse = null;
 
     /**
-     * Gets as dropdownListDetailsResponse.
+     * Gets as dropdownListDetailsResponse
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\DropdownListDetailsResponseType
      */
@@ -25,14 +27,17 @@ class DropdownListDetailsType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new dropdownListDetailsResponse.
+     * Sets a new dropdownListDetailsResponse
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Stock\DropdownListDetailsResponseType $dropdownListDetailsResponse
      * @return self
      */
     public function setDropdownListDetailsResponse(\App\Soap\dealerbuilt\src\Models\Stock\DropdownListDetailsResponseType $dropdownListDetailsResponse)
     {
         $this->dropdownListDetailsResponse = $dropdownListDetailsResponse;
-
         return $this;
     }
+
+
 }
+

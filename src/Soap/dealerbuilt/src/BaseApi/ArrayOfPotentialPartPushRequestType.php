@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPotentialPartPushRequestType.
+ * Class representing ArrayOfPotentialPartPushRequestType
  *
+ * 
  * XSD Type: ArrayOfPotentialPartPushRequest
  */
 class ArrayOfPotentialPartPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType[] $potentialPartPushRequest
      */
     private $potentialPartPushRequest = [
+        
     ];
 
     /**
-     * Adds as potentialPartPushRequest.
+     * Adds as potentialPartPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType $potentialPartPushRequest
      */
-    public function addToPotentialPartPushRequest(PotentialPartPushRequestType $potentialPartPushRequest)
+    public function addToPotentialPartPushRequest(\App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType $potentialPartPushRequest)
     {
         $this->potentialPartPushRequest[] = $potentialPartPushRequest;
-
         return $this;
     }
 
     /**
-     * isset potentialPartPushRequest.
+     * isset potentialPartPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPotentialPartPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfPotentialPartPushRequestType
     }
 
     /**
-     * unset potentialPartPushRequest.
+     * unset potentialPartPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPotentialPartPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfPotentialPartPushRequestType
     }
 
     /**
-     * Gets as potentialPartPushRequest.
+     * Gets as potentialPartPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPotentialPartPushRequestType
     }
 
     /**
-     * Sets a new potentialPartPushRequest.
+     * Sets a new potentialPartPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialPartPushRequestType[] $potentialPartPushRequest
-     *
      * @return self
      */
     public function setPotentialPartPushRequest(array $potentialPartPushRequest)
     {
         $this->potentialPartPushRequest = $potentialPartPushRequest;
-
         return $this;
     }
+
+
 }
+

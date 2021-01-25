@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDepartment.
+ * Class representing ArrayOfDepartment
  */
 class ArrayOfDepartment extends ArrayOfDepartmentType
 {
+
+
 }
+

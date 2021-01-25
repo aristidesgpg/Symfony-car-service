@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing TradeInPushRequest.
+ * Class representing TradeInPushRequest
  */
 class TradeInPushRequest extends TradeInPushRequestType
 {
+
+
 }
+

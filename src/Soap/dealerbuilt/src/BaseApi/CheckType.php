@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CheckType.
+ * Class representing CheckType
  *
+ * 
  * XSD Type: Check
  */
 class CheckType extends ApiCompanyItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      */
     private $amount = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $checkDate
      */
     private $checkDate = null;
 
     /**
-     * @var string
+     * @var string $checkNumber
      */
     private $checkNumber = null;
 
     /**
-     * @var string
+     * @var string $customerId
      */
     private $customerId = null;
 
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NameType
+     * @var \App\Soap\dealerbuilt\src\Models\NameType $customerName
      */
     private $customerName = null;
 
     /**
-     * @var string
+     * @var string $payee
      */
     private $payee = null;
 
     /**
-     * Gets as amount.
+     * Gets as amount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -55,19 +57,19 @@ class CheckType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new amount.
+     * Sets a new amount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount
      * @return self
      */
     public function setAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $amount)
     {
         $this->amount = $amount;
-
         return $this;
     }
 
     /**
-     * Gets as checkDate.
+     * Gets as checkDate
      *
      * @return \DateTime
      */
@@ -77,19 +79,19 @@ class CheckType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new checkDate.
+     * Sets a new checkDate
      *
+     * @param \DateTime $checkDate
      * @return self
      */
     public function setCheckDate(\DateTime $checkDate)
     {
         $this->checkDate = $checkDate;
-
         return $this;
     }
 
     /**
-     * Gets as checkNumber.
+     * Gets as checkNumber
      *
      * @return string
      */
@@ -99,21 +101,19 @@ class CheckType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new checkNumber.
+     * Sets a new checkNumber
      *
      * @param string $checkNumber
-     *
      * @return self
      */
     public function setCheckNumber($checkNumber)
     {
         $this->checkNumber = $checkNumber;
-
         return $this;
     }
 
     /**
-     * Gets as customerId.
+     * Gets as customerId
      *
      * @return string
      */
@@ -123,21 +123,19 @@ class CheckType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new customerId.
+     * Sets a new customerId
      *
      * @param string $customerId
-     *
      * @return self
      */
     public function setCustomerId($customerId)
     {
         $this->customerId = $customerId;
-
         return $this;
     }
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -147,21 +145,19 @@ class CheckType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as customerName.
+     * Gets as customerName
      *
      * @return \App\Soap\dealerbuilt\src\Models\NameType
      */
@@ -171,19 +167,19 @@ class CheckType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new customerName.
+     * Sets a new customerName
      *
+     * @param \App\Soap\dealerbuilt\src\Models\NameType $customerName
      * @return self
      */
     public function setCustomerName(\App\Soap\dealerbuilt\src\Models\NameType $customerName)
     {
         $this->customerName = $customerName;
-
         return $this;
     }
 
     /**
-     * Gets as payee.
+     * Gets as payee
      *
      * @return string
      */
@@ -193,16 +189,17 @@ class CheckType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new payee.
+     * Sets a new payee
      *
      * @param string $payee
-     *
      * @return self
      */
     public function setPayee($payee)
     {
         $this->payee = $payee;
-
         return $this;
     }
+
+
 }
+

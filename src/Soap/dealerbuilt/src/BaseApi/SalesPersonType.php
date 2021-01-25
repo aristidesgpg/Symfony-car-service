@@ -5,19 +5,21 @@ namespace App\Soap\dealerbuilt\src\BaseApi;
 use App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType;
 
 /**
- * Class representing SalesPersonType.
+ * Class representing SalesPersonType
  *
+ * 
  * XSD Type: SalesPerson
  */
 class SalesPersonType extends NumberedPersonInfoType
 {
+
     /**
-     * @var string
+     * @var string $type
      */
     private $type = null;
 
     /**
-     * Gets as type.
+     * Gets as type
      *
      * @return string
      */
@@ -27,16 +29,17 @@ class SalesPersonType extends NumberedPersonInfoType
     }
 
     /**
-     * Sets a new type.
+     * Sets a new type
      *
      * @param string $type
-     *
      * @return self
      */
     public function setType($type)
     {
         $this->type = $type;
-
         return $this;
     }
+
+
 }
+

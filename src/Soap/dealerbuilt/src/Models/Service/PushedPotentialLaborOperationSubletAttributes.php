@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedPotentialLaborOperationSubletAttributes.
+ * Class representing PushedPotentialLaborOperationSubletAttributes
  */
 class PushedPotentialLaborOperationSubletAttributes extends PushedPotentialLaborOperationSubletAttributesType
 {
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType:
             access_type: public_method
             serialized_name: CustomerKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerKey
                 setter: setCustomerKey
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType:
             access_type: public_method
             serialized_name: EstimateKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEstimateKey
                 setter: setEstimateKey
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType:
             access_type: public_method
             serialized_name: ExternalEstimateId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExternalEstimateId
                 setter: setExternalEstimateId
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType:
             access_type: public_method
             serialized_name: Jobs
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getJobs
                 setter: setJobs
@@ -44,13 +44,13 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType:
                 inline: false
                 entry_name: PushedPotentialJobAttributes
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         repairOrderNumber:
             expose: true
             access_type: public_method
             serialized_name: RepairOrderNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getRepairOrderNumber
                 setter: setRepairOrderNumber
@@ -60,7 +60,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType:
             access_type: public_method
             serialized_name: ServiceLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getServiceLocationId
                 setter: setServiceLocationId
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType:
             access_type: public_method
             serialized_name: VehicleKey
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVehicleKey
                 setter: setVehicleKey
@@ -80,7 +80,7 @@ App\Soap\dealerbuilt\src\BaseApi\EstimatePushRequestType:
             access_type: public_method
             serialized_name: Vin
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVin
                 setter: setVin

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushInventoryResponse.
+ * Class representing PushInventoryResponse
  */
 class PushInventoryResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[] $pushInventoryResult
      */
     private $pushInventoryResult = null;
 
     /**
-     * Adds as stockItemPushResponse.
+     * Adds as stockItemPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType $stockItemPushResponse
      */
-    public function addToPushInventoryResult(BaseApi\StockItemPushResponseType $stockItemPushResponse)
+    public function addToPushInventoryResult(\App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType $stockItemPushResponse)
     {
         $this->pushInventoryResult[] = $stockItemPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushInventoryResult.
+     * isset pushInventoryResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushInventoryResult($index)
@@ -39,10 +37,9 @@ class PushInventoryResponse
     }
 
     /**
-     * unset pushInventoryResult.
+     * unset pushInventoryResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushInventoryResult($index)
@@ -51,7 +48,7 @@ class PushInventoryResponse
     }
 
     /**
-     * Gets as pushInventoryResult.
+     * Gets as pushInventoryResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushInventoryResponse
     }
 
     /**
-     * Sets a new pushInventoryResult.
+     * Sets a new pushInventoryResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[] $pushInventoryResult
-     *
      * @return self
      */
     public function setPushInventoryResult(array $pushInventoryResult)
     {
         $this->pushInventoryResult = $pushInventoryResult;
-
         return $this;
     }
+
+
 }
+

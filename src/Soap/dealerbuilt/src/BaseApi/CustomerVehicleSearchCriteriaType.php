@@ -3,51 +3,50 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerVehicleSearchCriteriaType.
+ * Class representing CustomerVehicleSearchCriteriaType
  *
+ * 
  * XSD Type: CustomerVehicleSearchCriteria
  */
 class CustomerVehicleSearchCriteriaType extends SourcesSearchCriteriaType
 {
+
     /**
-     * @var int[]
+     * @var int[] $activityStoreIds
      */
     private $activityStoreIds = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumUpdateStamp
      */
     private $maximumUpdateStamp = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumUpdateStamp
      */
     private $minimumUpdateStamp = null;
 
     /**
-     * @var string
+     * @var string $partialVin
      */
     private $partialVin = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToActivityStoreIds($long)
     {
         $this->activityStoreIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset activityStoreIds.
+     * isset activityStoreIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetActivityStoreIds($index)
@@ -56,10 +55,9 @@ class CustomerVehicleSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * unset activityStoreIds.
+     * unset activityStoreIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetActivityStoreIds($index)
@@ -68,7 +66,7 @@ class CustomerVehicleSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Gets as activityStoreIds.
+     * Gets as activityStoreIds
      *
      * @return int[]
      */
@@ -78,21 +76,19 @@ class CustomerVehicleSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new activityStoreIds.
+     * Sets a new activityStoreIds
      *
      * @param int[] $activityStoreIds
-     *
      * @return self
      */
     public function setActivityStoreIds(array $activityStoreIds)
     {
         $this->activityStoreIds = $activityStoreIds;
-
         return $this;
     }
 
     /**
-     * Gets as maximumUpdateStamp.
+     * Gets as maximumUpdateStamp
      *
      * @return \DateTime
      */
@@ -102,19 +98,19 @@ class CustomerVehicleSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new maximumUpdateStamp.
+     * Sets a new maximumUpdateStamp
      *
+     * @param \DateTime $maximumUpdateStamp
      * @return self
      */
     public function setMaximumUpdateStamp(\DateTime $maximumUpdateStamp)
     {
         $this->maximumUpdateStamp = $maximumUpdateStamp;
-
         return $this;
     }
 
     /**
-     * Gets as minimumUpdateStamp.
+     * Gets as minimumUpdateStamp
      *
      * @return \DateTime
      */
@@ -124,19 +120,19 @@ class CustomerVehicleSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new minimumUpdateStamp.
+     * Sets a new minimumUpdateStamp
      *
+     * @param \DateTime $minimumUpdateStamp
      * @return self
      */
     public function setMinimumUpdateStamp(\DateTime $minimumUpdateStamp)
     {
         $this->minimumUpdateStamp = $minimumUpdateStamp;
-
         return $this;
     }
 
     /**
-     * Gets as partialVin.
+     * Gets as partialVin
      *
      * @return string
      */
@@ -146,16 +142,17 @@ class CustomerVehicleSearchCriteriaType extends SourcesSearchCriteriaType
     }
 
     /**
-     * Sets a new partialVin.
+     * Sets a new partialVin
      *
      * @param string $partialVin
-     *
      * @return self
      */
     public function setPartialVin($partialVin)
     {
         $this->partialVin = $partialVin;
-
         return $this;
     }
+
+
 }
+

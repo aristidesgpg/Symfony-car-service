@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationSearchCriteriaType.
+ * Class representing ServiceLocationSearchCriteriaType
  *
+ * 
  * XSD Type: ServiceLocationSearchCriteria
  */
 class ServiceLocationSearchCriteriaType extends SearchCriteriaType
 {
+
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -25,16 +27,17 @@ class ServiceLocationSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PotentialLaborOperationSubletPushRequestType.
+ * Class representing PotentialLaborOperationSubletPushRequestType
  *
+ * 
  * XSD Type: PotentialLaborOperationSubletPushRequest
  */
 class PotentialLaborOperationSubletPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $laborItemKey
      */
     private $laborItemKey = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PushedPotentialLaborOperationSubletType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PushedPotentialLaborOperationSubletType $sublet
      */
     private $sublet = null;
 
     /**
-     * @var string
+     * @var string $subletKey
      */
     private $subletKey = null;
 
     /**
-     * Gets as laborItemKey.
+     * Gets as laborItemKey
      *
      * @return string
      */
@@ -40,21 +42,19 @@ class PotentialLaborOperationSubletPushRequestType
     }
 
     /**
-     * Sets a new laborItemKey.
+     * Sets a new laborItemKey
      *
      * @param string $laborItemKey
-     *
      * @return self
      */
     public function setLaborItemKey($laborItemKey)
     {
         $this->laborItemKey = $laborItemKey;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -64,21 +64,19 @@ class PotentialLaborOperationSubletPushRequestType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Gets as sublet.
+     * Gets as sublet
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PushedPotentialLaborOperationSubletType
      */
@@ -88,21 +86,19 @@ class PotentialLaborOperationSubletPushRequestType
     }
 
     /**
-     * Sets a new sublet.
+     * Sets a new sublet
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushedPotentialLaborOperationSubletType $sublet
-     *
      * @return self
      */
-    public function setSublet(PushedPotentialLaborOperationSubletType $sublet)
+    public function setSublet(\App\Soap\dealerbuilt\src\BaseApi\PushedPotentialLaborOperationSubletType $sublet)
     {
         $this->sublet = $sublet;
-
         return $this;
     }
 
     /**
-     * Gets as subletKey.
+     * Gets as subletKey
      *
      * @return string
      */
@@ -112,16 +108,17 @@ class PotentialLaborOperationSubletPushRequestType
     }
 
     /**
-     * Sets a new subletKey.
+     * Sets a new subletKey
      *
      * @param string $subletKey
-     *
      * @return self
      */
     public function setSubletKey($subletKey)
     {
         $this->subletKey = $subletKey;
-
         return $this;
     }
+
+
 }
+

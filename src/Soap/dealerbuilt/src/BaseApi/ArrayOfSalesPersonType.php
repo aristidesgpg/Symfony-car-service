@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfSalesPersonType.
+ * Class representing ArrayOfSalesPersonType
  *
+ * 
  * XSD Type: ArrayOfSalesPerson
  */
 class ArrayOfSalesPersonType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType[] $salesPerson
      */
     private $salesPerson = [
+        
     ];
 
     /**
-     * Adds as salesPerson.
+     * Adds as salesPerson
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType $salesPerson
      */
-    public function addToSalesPerson(SalesPersonType $salesPerson)
+    public function addToSalesPerson(\App\Soap\dealerbuilt\src\BaseApi\SalesPersonType $salesPerson)
     {
         $this->salesPerson[] = $salesPerson;
-
         return $this;
     }
 
     /**
-     * isset salesPerson.
+     * isset salesPerson
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSalesPerson($index)
@@ -42,10 +42,9 @@ class ArrayOfSalesPersonType
     }
 
     /**
-     * unset salesPerson.
+     * unset salesPerson
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSalesPerson($index)
@@ -54,7 +53,7 @@ class ArrayOfSalesPersonType
     }
 
     /**
-     * Gets as salesPerson.
+     * Gets as salesPerson
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfSalesPersonType
     }
 
     /**
-     * Sets a new salesPerson.
+     * Sets a new salesPerson
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SalesPersonType[] $salesPerson
-     *
      * @return self
      */
     public function setSalesPerson(array $salesPerson)
     {
         $this->salesPerson = $salesPerson;
-
         return $this;
     }
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: AfterSaleFinancemGrid
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAfterSaleFinancemGrid
                 setter: setAfterSaleFinancemGrid
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: AfterSaleLocationid
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAfterSaleLocationid
                 setter: setAfterSaleLocationid
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Color
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getColor
                 setter: setColor
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: ContractNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getContractNumber
                 setter: setContractNumber
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Cost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCost
                 setter: setCost
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: CoverageMiles
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCoverageMiles
                 setter: setCoverageMiles
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: CoverageMonths
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCoverageMonths
                 setter: setCoverageMonths
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Customerid
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerid
                 setter: setCustomerid
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Deductible
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDeductible
                 setter: setDeductible
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Description
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDescription
                 setter: setDescription
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: ExpireDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExpireDate
                 setter: setExpireDate
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: ExpireMiles
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getExpireMiles
                 setter: setExpireMiles
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: InserviceDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getInserviceDate
                 setter: setInserviceDate
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: InserviceMiles
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getInserviceMiles
                 setter: setInserviceMiles
@@ -145,7 +145,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: LyvehicleSeq
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getLyvehicleSeq
                 setter: setLyvehicleSeq
@@ -155,7 +155,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Make
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMake
                 setter: setMake
@@ -165,7 +165,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Memo
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMemo
                 setter: setMemo
@@ -175,7 +175,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Message
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getMessage
                 setter: setMessage
@@ -185,7 +185,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Model
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getModel
                 setter: setModel
@@ -195,7 +195,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Provider
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getProvider
                 setter: setProvider
@@ -205,7 +205,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Retail
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getRetail
                 setter: setRetail
@@ -215,7 +215,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: SaleDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getSaleDate
                 setter: setSaleDate
@@ -225,7 +225,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: TransferCost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getTransferCost
                 setter: setTransferCost
@@ -235,7 +235,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: VehFn
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVehFn
                 setter: setVehFn
@@ -245,7 +245,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: VehIn
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVehIn
                 setter: setVehIn
@@ -255,7 +255,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: VehYear
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVehYear
                 setter: setVehYear
@@ -265,7 +265,7 @@ App\Soap\dealerbuilt\src\BaseApi\AfterMarketServiceProdutPullResponseType:
             access_type: public_method
             serialized_name: Vin2
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getVin2
                 setter: setVin2

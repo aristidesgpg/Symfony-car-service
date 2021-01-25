@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing Prospect.
+ * Class representing Prospect
  */
 class Prospect extends ProspectType
 {
+
+
 }
+

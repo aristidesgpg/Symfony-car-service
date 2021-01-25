@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiLenderSearchCriteria.
+ * Class representing ApiLenderSearchCriteria
  */
 class ApiLenderSearchCriteria extends ApiLenderSearchCriteriaType
 {
+
+
 }
+

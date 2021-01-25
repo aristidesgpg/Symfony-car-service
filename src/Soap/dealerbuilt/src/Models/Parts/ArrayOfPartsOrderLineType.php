@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing ArrayOfPartsOrderLineType.
+ * Class representing ArrayOfPartsOrderLineType
  *
+ * 
  * XSD Type: ArrayOfPartsOrderLine
  */
 class ArrayOfPartsOrderLineType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType[] $partsOrderLine
      */
     private $partsOrderLine = [
+        
     ];
 
     /**
-     * Adds as partsOrderLine.
+     * Adds as partsOrderLine
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType $partsOrderLine
      */
-    public function addToPartsOrderLine(PartsOrderLineType $partsOrderLine)
+    public function addToPartsOrderLine(\App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType $partsOrderLine)
     {
         $this->partsOrderLine[] = $partsOrderLine;
-
         return $this;
     }
 
     /**
-     * isset partsOrderLine.
+     * isset partsOrderLine
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartsOrderLine($index)
@@ -42,10 +42,9 @@ class ArrayOfPartsOrderLineType
     }
 
     /**
-     * unset partsOrderLine.
+     * unset partsOrderLine
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartsOrderLine($index)
@@ -54,7 +53,7 @@ class ArrayOfPartsOrderLineType
     }
 
     /**
-     * Gets as partsOrderLine.
+     * Gets as partsOrderLine
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPartsOrderLineType
     }
 
     /**
-     * Sets a new partsOrderLine.
+     * Sets a new partsOrderLine
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType[] $partsOrderLine
-     *
      * @return self
      */
     public function setPartsOrderLine(array $partsOrderLine)
     {
         $this->partsOrderLine = $partsOrderLine;
-
         return $this;
     }
+
+
 }
+

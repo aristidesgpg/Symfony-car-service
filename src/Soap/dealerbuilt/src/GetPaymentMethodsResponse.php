@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetPaymentMethodsResponse.
+ * Class representing GetPaymentMethodsResponse
  */
 class GetPaymentMethodsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType[] $getPaymentMethodsResult
      */
     private $getPaymentMethodsResult = null;
 
     /**
-     * Adds as paymentMethod.
+     * Adds as paymentMethod
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType $paymentMethod
      */
-    public function addToGetPaymentMethodsResult(BaseApi\PaymentMethodType $paymentMethod)
+    public function addToGetPaymentMethodsResult(\App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType $paymentMethod)
     {
         $this->getPaymentMethodsResult[] = $paymentMethod;
-
         return $this;
     }
 
     /**
-     * isset getPaymentMethodsResult.
+     * isset getPaymentMethodsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetPaymentMethodsResult($index)
@@ -39,10 +37,9 @@ class GetPaymentMethodsResponse
     }
 
     /**
-     * unset getPaymentMethodsResult.
+     * unset getPaymentMethodsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetPaymentMethodsResult($index)
@@ -51,7 +48,7 @@ class GetPaymentMethodsResponse
     }
 
     /**
-     * Gets as getPaymentMethodsResult.
+     * Gets as getPaymentMethodsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType[]
      */
@@ -61,16 +58,17 @@ class GetPaymentMethodsResponse
     }
 
     /**
-     * Sets a new getPaymentMethodsResult.
+     * Sets a new getPaymentMethodsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentMethodType[] $getPaymentMethodsResult
-     *
      * @return self
      */
     public function setGetPaymentMethodsResult(array $getPaymentMethodsResult)
     {
         $this->getPaymentMethodsResult = $getPaymentMethodsResult;
-
         return $this;
     }
+
+
 }
+

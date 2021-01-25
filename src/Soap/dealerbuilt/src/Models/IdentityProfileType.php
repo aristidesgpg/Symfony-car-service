@@ -3,139 +3,141 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing IdentityProfileType.
+ * Class representing IdentityProfileType
  *
+ * 
  * XSD Type: IdentityProfile
  */
 class IdentityProfileType
 {
+
     /**
-     * @var string
+     * @var string $address1
      */
     private $address1 = null;
 
     /**
-     * @var string
+     * @var string $address2
      */
     private $address2 = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $birthDate
      */
     private $birthDate = null;
 
     /**
-     * @var string
+     * @var string $city
      */
     private $city = null;
 
     /**
-     * @var string
+     * @var string $citySubDivisionName
      */
     private $citySubDivisionName = null;
 
     /**
-     * @var string
+     * @var string $country
      */
     private $country = null;
 
     /**
-     * @var string
+     * @var string $county
      */
     private $county = null;
 
     /**
-     * @var string
+     * @var string $emailAddress
      */
     private $emailAddress = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NameType
+     * @var \App\Soap\dealerbuilt\src\Models\NameType $personalName
      */
     private $personalName = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\PhoneNumberType[]
+     * @var \App\Soap\dealerbuilt\src\Models\PhoneNumberType[] $phoneNumbers
      */
     private $phoneNumbers = null;
 
     /**
-     * @var string
+     * @var string $sex
      */
     private $sex = null;
 
     /**
-     * @var string
+     * @var string $spouseAddress1
      */
     private $spouseAddress1 = null;
 
     /**
-     * @var string
+     * @var string $spouseAddress2
      */
     private $spouseAddress2 = null;
 
     /**
-     * @var string
+     * @var string $spouseCity
      */
     private $spouseCity = null;
 
     /**
-     * @var string
+     * @var string $spouseCountry
      */
     private $spouseCountry = null;
 
     /**
-     * @var string
+     * @var string $spouseCounty
      */
     private $spouseCounty = null;
 
     /**
-     * @var string
+     * @var string $spouseEmailAddress
      */
     private $spouseEmailAddress = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NameType
+     * @var \App\Soap\dealerbuilt\src\Models\NameType $spouseName
      */
     private $spouseName = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\PhoneNumberType[]
+     * @var \App\Soap\dealerbuilt\src\Models\PhoneNumberType[] $spousePhoneNumbers
      */
     private $spousePhoneNumbers = null;
 
     /**
-     * @var string
+     * @var string $spouseSsn
      */
     private $spouseSsn = null;
 
     /**
-     * @var string
+     * @var string $spouseState
      */
     private $spouseState = null;
 
     /**
-     * @var string
+     * @var string $spouseZip
      */
     private $spouseZip = null;
 
     /**
-     * @var string
+     * @var string $ssn
      */
     private $ssn = null;
 
     /**
-     * @var string
+     * @var string $state
      */
     private $state = null;
 
     /**
-     * @var string
+     * @var string $zip
      */
     private $zip = null;
 
     /**
-     * Gets as address1.
+     * Gets as address1
      *
      * @return string
      */
@@ -145,21 +147,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new address1.
+     * Sets a new address1
      *
      * @param string $address1
-     *
      * @return self
      */
     public function setAddress1($address1)
     {
         $this->address1 = $address1;
-
         return $this;
     }
 
     /**
-     * Gets as address2.
+     * Gets as address2
      *
      * @return string
      */
@@ -169,21 +169,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new address2.
+     * Sets a new address2
      *
      * @param string $address2
-     *
      * @return self
      */
     public function setAddress2($address2)
     {
         $this->address2 = $address2;
-
         return $this;
     }
 
     /**
-     * Gets as birthDate.
+     * Gets as birthDate
      *
      * @return \DateTime
      */
@@ -193,21 +191,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new birthDate.
+     * Sets a new birthDate
      *
      * @param \DateTime $birthDate
-     *
      * @return self
      */
     public function setBirthDate(\DateTime $birthDate = null)
     {
         $this->birthDate = $birthDate;
-
         return $this;
     }
 
     /**
-     * Gets as city.
+     * Gets as city
      *
      * @return string
      */
@@ -217,21 +213,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new city.
+     * Sets a new city
      *
      * @param string $city
-     *
      * @return self
      */
     public function setCity($city)
     {
         $this->city = $city;
-
         return $this;
     }
 
     /**
-     * Gets as citySubDivisionName.
+     * Gets as citySubDivisionName
      *
      * @return string
      */
@@ -241,21 +235,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new citySubDivisionName.
+     * Sets a new citySubDivisionName
      *
      * @param string $citySubDivisionName
-     *
      * @return self
      */
     public function setCitySubDivisionName($citySubDivisionName)
     {
         $this->citySubDivisionName = $citySubDivisionName;
-
         return $this;
     }
 
     /**
-     * Gets as country.
+     * Gets as country
      *
      * @return string
      */
@@ -265,21 +257,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new country.
+     * Sets a new country
      *
      * @param string $country
-     *
      * @return self
      */
     public function setCountry($country)
     {
         $this->country = $country;
-
         return $this;
     }
 
     /**
-     * Gets as county.
+     * Gets as county
      *
      * @return string
      */
@@ -289,21 +279,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new county.
+     * Sets a new county
      *
      * @param string $county
-     *
      * @return self
      */
     public function setCounty($county)
     {
         $this->county = $county;
-
         return $this;
     }
 
     /**
-     * Gets as emailAddress.
+     * Gets as emailAddress
      *
      * @return string
      */
@@ -313,21 +301,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new emailAddress.
+     * Sets a new emailAddress
      *
      * @param string $emailAddress
-     *
      * @return self
      */
     public function setEmailAddress($emailAddress)
     {
         $this->emailAddress = $emailAddress;
-
         return $this;
     }
 
     /**
-     * Gets as personalName.
+     * Gets as personalName
      *
      * @return \App\Soap\dealerbuilt\src\Models\NameType
      */
@@ -337,38 +323,33 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new personalName.
+     * Sets a new personalName
      *
      * @param \App\Soap\dealerbuilt\src\Models\NameType $personalName
-     *
      * @return self
      */
-    public function setPersonalName(NameType $personalName)
+    public function setPersonalName(\App\Soap\dealerbuilt\src\Models\NameType $personalName)
     {
         $this->personalName = $personalName;
-
         return $this;
     }
 
     /**
-     * Adds as phoneNumber.
+     * Adds as phoneNumber
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\PhoneNumberType $phoneNumber
      */
-    public function addToPhoneNumbers(PhoneNumberType $phoneNumber)
+    public function addToPhoneNumbers(\App\Soap\dealerbuilt\src\Models\PhoneNumberType $phoneNumber)
     {
         $this->phoneNumbers[] = $phoneNumber;
-
         return $this;
     }
 
     /**
-     * isset phoneNumbers.
+     * isset phoneNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPhoneNumbers($index)
@@ -377,10 +358,9 @@ class IdentityProfileType
     }
 
     /**
-     * unset phoneNumbers.
+     * unset phoneNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPhoneNumbers($index)
@@ -389,7 +369,7 @@ class IdentityProfileType
     }
 
     /**
-     * Gets as phoneNumbers.
+     * Gets as phoneNumbers
      *
      * @return \App\Soap\dealerbuilt\src\Models\PhoneNumberType[]
      */
@@ -399,21 +379,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new phoneNumbers.
+     * Sets a new phoneNumbers
      *
      * @param \App\Soap\dealerbuilt\src\Models\PhoneNumberType[] $phoneNumbers
-     *
      * @return self
      */
     public function setPhoneNumbers(array $phoneNumbers)
     {
         $this->phoneNumbers = $phoneNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as sex.
+     * Gets as sex
      *
      * @return string
      */
@@ -423,21 +401,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new sex.
+     * Sets a new sex
      *
      * @param string $sex
-     *
      * @return self
      */
     public function setSex($sex)
     {
         $this->sex = $sex;
-
         return $this;
     }
 
     /**
-     * Gets as spouseAddress1.
+     * Gets as spouseAddress1
      *
      * @return string
      */
@@ -447,21 +423,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseAddress1.
+     * Sets a new spouseAddress1
      *
      * @param string $spouseAddress1
-     *
      * @return self
      */
     public function setSpouseAddress1($spouseAddress1)
     {
         $this->spouseAddress1 = $spouseAddress1;
-
         return $this;
     }
 
     /**
-     * Gets as spouseAddress2.
+     * Gets as spouseAddress2
      *
      * @return string
      */
@@ -471,21 +445,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseAddress2.
+     * Sets a new spouseAddress2
      *
      * @param string $spouseAddress2
-     *
      * @return self
      */
     public function setSpouseAddress2($spouseAddress2)
     {
         $this->spouseAddress2 = $spouseAddress2;
-
         return $this;
     }
 
     /**
-     * Gets as spouseCity.
+     * Gets as spouseCity
      *
      * @return string
      */
@@ -495,21 +467,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseCity.
+     * Sets a new spouseCity
      *
      * @param string $spouseCity
-     *
      * @return self
      */
     public function setSpouseCity($spouseCity)
     {
         $this->spouseCity = $spouseCity;
-
         return $this;
     }
 
     /**
-     * Gets as spouseCountry.
+     * Gets as spouseCountry
      *
      * @return string
      */
@@ -519,21 +489,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseCountry.
+     * Sets a new spouseCountry
      *
      * @param string $spouseCountry
-     *
      * @return self
      */
     public function setSpouseCountry($spouseCountry)
     {
         $this->spouseCountry = $spouseCountry;
-
         return $this;
     }
 
     /**
-     * Gets as spouseCounty.
+     * Gets as spouseCounty
      *
      * @return string
      */
@@ -543,21 +511,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseCounty.
+     * Sets a new spouseCounty
      *
      * @param string $spouseCounty
-     *
      * @return self
      */
     public function setSpouseCounty($spouseCounty)
     {
         $this->spouseCounty = $spouseCounty;
-
         return $this;
     }
 
     /**
-     * Gets as spouseEmailAddress.
+     * Gets as spouseEmailAddress
      *
      * @return string
      */
@@ -567,21 +533,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseEmailAddress.
+     * Sets a new spouseEmailAddress
      *
      * @param string $spouseEmailAddress
-     *
      * @return self
      */
     public function setSpouseEmailAddress($spouseEmailAddress)
     {
         $this->spouseEmailAddress = $spouseEmailAddress;
-
         return $this;
     }
 
     /**
-     * Gets as spouseName.
+     * Gets as spouseName
      *
      * @return \App\Soap\dealerbuilt\src\Models\NameType
      */
@@ -591,38 +555,33 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseName.
+     * Sets a new spouseName
      *
      * @param \App\Soap\dealerbuilt\src\Models\NameType $spouseName
-     *
      * @return self
      */
-    public function setSpouseName(NameType $spouseName)
+    public function setSpouseName(\App\Soap\dealerbuilt\src\Models\NameType $spouseName)
     {
         $this->spouseName = $spouseName;
-
         return $this;
     }
 
     /**
-     * Adds as phoneNumber.
+     * Adds as phoneNumber
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\PhoneNumberType $phoneNumber
      */
-    public function addToSpousePhoneNumbers(PhoneNumberType $phoneNumber)
+    public function addToSpousePhoneNumbers(\App\Soap\dealerbuilt\src\Models\PhoneNumberType $phoneNumber)
     {
         $this->spousePhoneNumbers[] = $phoneNumber;
-
         return $this;
     }
 
     /**
-     * isset spousePhoneNumbers.
+     * isset spousePhoneNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSpousePhoneNumbers($index)
@@ -631,10 +590,9 @@ class IdentityProfileType
     }
 
     /**
-     * unset spousePhoneNumbers.
+     * unset spousePhoneNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSpousePhoneNumbers($index)
@@ -643,7 +601,7 @@ class IdentityProfileType
     }
 
     /**
-     * Gets as spousePhoneNumbers.
+     * Gets as spousePhoneNumbers
      *
      * @return \App\Soap\dealerbuilt\src\Models\PhoneNumberType[]
      */
@@ -653,21 +611,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spousePhoneNumbers.
+     * Sets a new spousePhoneNumbers
      *
      * @param \App\Soap\dealerbuilt\src\Models\PhoneNumberType[] $spousePhoneNumbers
-     *
      * @return self
      */
     public function setSpousePhoneNumbers(array $spousePhoneNumbers)
     {
         $this->spousePhoneNumbers = $spousePhoneNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as spouseSsn.
+     * Gets as spouseSsn
      *
      * @return string
      */
@@ -677,21 +633,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseSsn.
+     * Sets a new spouseSsn
      *
      * @param string $spouseSsn
-     *
      * @return self
      */
     public function setSpouseSsn($spouseSsn)
     {
         $this->spouseSsn = $spouseSsn;
-
         return $this;
     }
 
     /**
-     * Gets as spouseState.
+     * Gets as spouseState
      *
      * @return string
      */
@@ -701,21 +655,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseState.
+     * Sets a new spouseState
      *
      * @param string $spouseState
-     *
      * @return self
      */
     public function setSpouseState($spouseState)
     {
         $this->spouseState = $spouseState;
-
         return $this;
     }
 
     /**
-     * Gets as spouseZip.
+     * Gets as spouseZip
      *
      * @return string
      */
@@ -725,21 +677,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new spouseZip.
+     * Sets a new spouseZip
      *
      * @param string $spouseZip
-     *
      * @return self
      */
     public function setSpouseZip($spouseZip)
     {
         $this->spouseZip = $spouseZip;
-
         return $this;
     }
 
     /**
-     * Gets as ssn.
+     * Gets as ssn
      *
      * @return string
      */
@@ -749,21 +699,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new ssn.
+     * Sets a new ssn
      *
      * @param string $ssn
-     *
      * @return self
      */
     public function setSsn($ssn)
     {
         $this->ssn = $ssn;
-
         return $this;
     }
 
     /**
-     * Gets as state.
+     * Gets as state
      *
      * @return string
      */
@@ -773,21 +721,19 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new state.
+     * Sets a new state
      *
      * @param string $state
-     *
      * @return self
      */
     public function setState($state)
     {
         $this->state = $state;
-
         return $this;
     }
 
     /**
-     * Gets as zip.
+     * Gets as zip
      *
      * @return string
      */
@@ -797,16 +743,17 @@ class IdentityProfileType
     }
 
     /**
-     * Sets a new zip.
+     * Sets a new zip
      *
      * @param string $zip
-     *
      * @return self
      */
     public function setZip($zip)
     {
         $this->zip = $zip;
-
         return $this;
     }
+
+
 }
+

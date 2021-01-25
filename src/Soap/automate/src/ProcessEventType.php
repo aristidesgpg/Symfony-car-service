@@ -3,44 +3,46 @@
 namespace App\Soap\automate\src;
 
 /**
- * Class representing ProcessEventType.
+ * Class representing ProcessEventType
  *
+ * 
  * XSD Type: processEvent
  */
 class ProcessEventType
 {
+
     /**
-     * @var \App\Soap\automate\src\AuthenticationTokenType
+     * @var \App\Soap\automate\src\AuthenticationTokenType $authenticationToken
      */
     private $authenticationToken = null;
 
     /**
-     * @var int
+     * @var int $sourceThirdPartyId
      */
     private $sourceThirdPartyId = null;
 
     /**
-     * @var int
+     * @var int $dealerEndpointId
      */
     private $dealerEndpointId = null;
 
     /**
-     * @var string
+     * @var string $eventType
      */
     private $eventType = null;
 
     /**
-     * @var string
+     * @var string $payload
      */
     private $payload = null;
 
     /**
-     * @var string
+     * @var string $payloadVersion
      */
     private $payloadVersion = null;
 
     /**
-     * Gets as authenticationToken.
+     * Gets as authenticationToken
      *
      * @return \App\Soap\automate\src\AuthenticationTokenType
      */
@@ -50,21 +52,19 @@ class ProcessEventType
     }
 
     /**
-     * Sets a new authenticationToken.
+     * Sets a new authenticationToken
      *
      * @param \App\Soap\automate\src\AuthenticationTokenType $authenticationToken
-     *
      * @return self
      */
-    public function setAuthenticationToken(AuthenticationTokenType $authenticationToken)
+    public function setAuthenticationToken(\App\Soap\automate\src\AuthenticationTokenType $authenticationToken)
     {
         $this->authenticationToken = $authenticationToken;
-
         return $this;
     }
 
     /**
-     * Gets as sourceThirdPartyId.
+     * Gets as sourceThirdPartyId
      *
      * @return int
      */
@@ -74,21 +74,19 @@ class ProcessEventType
     }
 
     /**
-     * Sets a new sourceThirdPartyId.
+     * Sets a new sourceThirdPartyId
      *
      * @param int $sourceThirdPartyId
-     *
      * @return self
      */
     public function setSourceThirdPartyId($sourceThirdPartyId)
     {
         $this->sourceThirdPartyId = $sourceThirdPartyId;
-
         return $this;
     }
 
     /**
-     * Gets as dealerEndpointId.
+     * Gets as dealerEndpointId
      *
      * @return int
      */
@@ -98,21 +96,19 @@ class ProcessEventType
     }
 
     /**
-     * Sets a new dealerEndpointId.
+     * Sets a new dealerEndpointId
      *
      * @param int $dealerEndpointId
-     *
      * @return self
      */
     public function setDealerEndpointId($dealerEndpointId)
     {
         $this->dealerEndpointId = $dealerEndpointId;
-
         return $this;
     }
 
     /**
-     * Gets as eventType.
+     * Gets as eventType
      *
      * @return string
      */
@@ -122,21 +118,19 @@ class ProcessEventType
     }
 
     /**
-     * Sets a new eventType.
+     * Sets a new eventType
      *
      * @param string $eventType
-     *
      * @return self
      */
     public function setEventType($eventType)
     {
         $this->eventType = $eventType;
-
         return $this;
     }
 
     /**
-     * Gets as payload.
+     * Gets as payload
      *
      * @return string
      */
@@ -146,21 +140,19 @@ class ProcessEventType
     }
 
     /**
-     * Sets a new payload.
+     * Sets a new payload
      *
      * @param string $payload
-     *
      * @return self
      */
     public function setPayload($payload)
     {
         $this->payload = $payload;
-
         return $this;
     }
 
     /**
-     * Gets as payloadVersion.
+     * Gets as payloadVersion
      *
      * @return string
      */
@@ -170,16 +162,17 @@ class ProcessEventType
     }
 
     /**
-     * Sets a new payloadVersion.
+     * Sets a new payloadVersion
      *
      * @param string $payloadVersion
-     *
      * @return self
      */
     public function setPayloadVersion($payloadVersion)
     {
         $this->payloadVersion = $payloadVersion;
-
         return $this;
     }
+
+
 }
+

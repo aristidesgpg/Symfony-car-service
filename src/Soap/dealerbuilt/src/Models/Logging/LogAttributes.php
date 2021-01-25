@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Logging;
 
 /**
- * Class representing LogAttributes.
+ * Class representing LogAttributes
  */
 class LogAttributes extends LogAttributesType
 {
+
+
 }
+

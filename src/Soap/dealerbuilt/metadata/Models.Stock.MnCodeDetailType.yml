@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Stock\MnCodeDetailType:
             access_type: public_method
             serialized_name: Code
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getCode
                 setter: setCode
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Stock\MnCodeDetailType:
             access_type: public_method
             serialized_name: Description
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Stock'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
             accessor:
                 getter: getDescription
                 setter: setDescription

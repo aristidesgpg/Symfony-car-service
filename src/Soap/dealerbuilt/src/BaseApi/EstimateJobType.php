@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing EstimateJobType.
+ * Class representing EstimateJobType
  *
+ * 
  * XSD Type: EstimateJob
  */
 class EstimateJobType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $estimateJobKey
      */
     private $estimateJobKey = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType
      */
@@ -30,19 +32,19 @@ class EstimateJobType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as estimateJobKey.
+     * Gets as estimateJobKey
      *
      * @return string
      */
@@ -52,16 +54,17 @@ class EstimateJobType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new estimateJobKey.
+     * Sets a new estimateJobKey
      *
      * @param string $estimateJobKey
-     *
      * @return self
      */
     public function setEstimateJobKey($estimateJobKey)
     {
         $this->estimateJobKey = $estimateJobKey;
-
         return $this;
     }
+
+
 }
+

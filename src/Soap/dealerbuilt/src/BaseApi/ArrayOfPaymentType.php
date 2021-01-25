@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPaymentType.
+ * Class representing ArrayOfPaymentType
  *
+ * 
  * XSD Type: ArrayOfPayment
  */
 class ArrayOfPaymentType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentType[] $payment
      */
     private $payment = [
+        
     ];
 
     /**
-     * Adds as payment.
+     * Adds as payment
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentType $payment
      */
-    public function addToPayment(PaymentType $payment)
+    public function addToPayment(\App\Soap\dealerbuilt\src\BaseApi\PaymentType $payment)
     {
         $this->payment[] = $payment;
-
         return $this;
     }
 
     /**
-     * isset payment.
+     * isset payment
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPayment($index)
@@ -42,10 +42,9 @@ class ArrayOfPaymentType
     }
 
     /**
-     * unset payment.
+     * unset payment
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPayment($index)
@@ -54,7 +53,7 @@ class ArrayOfPaymentType
     }
 
     /**
-     * Gets as payment.
+     * Gets as payment
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPaymentType
     }
 
     /**
-     * Sets a new payment.
+     * Sets a new payment
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentType[] $payment
-     *
      * @return self
      */
     public function setPayment(array $payment)
     {
         $this->payment = $payment;
-
         return $this;
     }
+
+
 }
+

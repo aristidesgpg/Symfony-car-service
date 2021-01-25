@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\EnvironmentPlacementType:
             access_type: public_method
             serialized_name: EnvironmentId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEnvironmentId
                 setter: setEnvironmentId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\EnvironmentPlacementType:
             access_type: public_method
             serialized_name: EnvironmentType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEnvironmentType
                 setter: setEnvironmentType

@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PotentialPartPushRequestType.
+ * Class representing PotentialPartPushRequestType
  *
+ * 
  * XSD Type: PotentialPartPushRequest
  */
 class PotentialPartPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $jobKey
      */
     private $jobKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType $part
      */
     private $part = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as jobKey.
+     * Gets as jobKey
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class PotentialPartPushRequestType
     }
 
     /**
-     * Sets a new jobKey.
+     * Sets a new jobKey
      *
      * @param string $jobKey
-     *
      * @return self
      */
     public function setJobKey($jobKey)
     {
         $this->jobKey = $jobKey;
-
         return $this;
     }
 
     /**
-     * Gets as part.
+     * Gets as part
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType
      */
@@ -59,19 +59,19 @@ class PotentialPartPushRequestType
     }
 
     /**
-     * Sets a new part.
+     * Sets a new part
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType $part
      * @return self
      */
     public function setPart(\App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType $part)
     {
         $this->part = $part;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -81,16 +81,17 @@ class PotentialPartPushRequestType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

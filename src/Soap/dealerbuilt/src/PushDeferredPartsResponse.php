@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushDeferredPartsResponse.
+ * Class representing PushDeferredPartsResponse
  */
 class PushDeferredPartsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushDeferredPartsResult
      */
     private $pushDeferredPartsResult = null;
 
     /**
-     * Adds as serviceLocationPushResponse.
+     * Adds as serviceLocationPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse
      */
-    public function addToPushDeferredPartsResult(BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
+    public function addToPushDeferredPartsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
     {
         $this->pushDeferredPartsResult[] = $serviceLocationPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushDeferredPartsResult.
+     * isset pushDeferredPartsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushDeferredPartsResult($index)
@@ -39,10 +37,9 @@ class PushDeferredPartsResponse
     }
 
     /**
-     * unset pushDeferredPartsResult.
+     * unset pushDeferredPartsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushDeferredPartsResult($index)
@@ -51,7 +48,7 @@ class PushDeferredPartsResponse
     }
 
     /**
-     * Gets as pushDeferredPartsResult.
+     * Gets as pushDeferredPartsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushDeferredPartsResponse
     }
 
     /**
-     * Sets a new pushDeferredPartsResult.
+     * Sets a new pushDeferredPartsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushDeferredPartsResult
-     *
      * @return self
      */
     public function setPushDeferredPartsResult(array $pushDeferredPartsResult)
     {
         $this->pushDeferredPartsResult = $pushDeferredPartsResult;
-
         return $this;
     }
+
+
 }
+

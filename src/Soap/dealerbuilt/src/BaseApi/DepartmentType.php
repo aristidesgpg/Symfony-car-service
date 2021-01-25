@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DepartmentType.
+ * Class representing DepartmentType
  *
+ * 
  * XSD Type: Department
  */
 class DepartmentType extends ApiCompanyItemType
 {
+
     /**
-     * @var string
+     * @var string $departmentCode
      */
     private $departmentCode = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * Gets as departmentCode.
+     * Gets as departmentCode
      *
      * @return string
      */
@@ -30,21 +32,19 @@ class DepartmentType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new departmentCode.
+     * Sets a new departmentCode
      *
      * @param string $departmentCode
-     *
      * @return self
      */
     public function setDepartmentCode($departmentCode)
     {
         $this->departmentCode = $departmentCode;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class DepartmentType extends ApiCompanyItemType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
+
+
 }
+

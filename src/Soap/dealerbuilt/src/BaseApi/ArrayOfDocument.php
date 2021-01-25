@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDocument.
+ * Class representing ArrayOfDocument
  */
 class ArrayOfDocument extends ArrayOfDocumentType
 {
+
+
 }
+

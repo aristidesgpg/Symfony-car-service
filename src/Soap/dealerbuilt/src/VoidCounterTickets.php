@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing VoidCounterTickets.
+ * Class representing VoidCounterTickets
  */
 class VoidCounterTickets
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType[] $voidCounterTicketRequests
      */
     private $voidCounterTicketRequests = null;
 
     /**
-     * Adds as voidCounterTicketApiRequest.
+     * Adds as voidCounterTicketApiRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType $voidCounterTicketApiRequest
      */
-    public function addToVoidCounterTicketRequests(BaseApi\VoidCounterTicketApiRequestType $voidCounterTicketApiRequest)
+    public function addToVoidCounterTicketRequests(\App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType $voidCounterTicketApiRequest)
     {
         $this->voidCounterTicketRequests[] = $voidCounterTicketApiRequest;
-
         return $this;
     }
 
     /**
-     * isset voidCounterTicketRequests.
+     * isset voidCounterTicketRequests
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetVoidCounterTicketRequests($index)
@@ -39,10 +37,9 @@ class VoidCounterTickets
     }
 
     /**
-     * unset voidCounterTicketRequests.
+     * unset voidCounterTicketRequests
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetVoidCounterTicketRequests($index)
@@ -51,7 +48,7 @@ class VoidCounterTickets
     }
 
     /**
-     * Gets as voidCounterTicketRequests.
+     * Gets as voidCounterTicketRequests
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType[]
      */
@@ -61,16 +58,17 @@ class VoidCounterTickets
     }
 
     /**
-     * Sets a new voidCounterTicketRequests.
+     * Sets a new voidCounterTicketRequests
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType[] $voidCounterTicketRequests
-     *
      * @return self
      */
     public function setVoidCounterTicketRequests(array $voidCounterTicketRequests)
     {
         $this->voidCounterTicketRequests = $voidCounterTicketRequests;
-
         return $this;
     }
+
+
 }
+

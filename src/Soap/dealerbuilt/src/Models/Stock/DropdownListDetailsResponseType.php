@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing DropdownListDetailsResponseType.
+ * Class representing DropdownListDetailsResponseType
  *
+ * 
  * XSD Type: DropdownListDetailsResponse
  */
 class DropdownListDetailsResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType[] $codeTypeDetails
      */
     private $codeTypeDetails = null;
 
     /**
-     * Adds as mnCodeTypeDetail.
+     * Adds as mnCodeTypeDetail
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType $mnCodeTypeDetail
      */
-    public function addToCodeTypeDetails(MnCodeTypeDetailType $mnCodeTypeDetail)
+    public function addToCodeTypeDetails(\App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType $mnCodeTypeDetail)
     {
         $this->codeTypeDetails[] = $mnCodeTypeDetail;
-
         return $this;
     }
 
     /**
-     * isset codeTypeDetails.
+     * isset codeTypeDetails
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCodeTypeDetails($index)
@@ -41,10 +40,9 @@ class DropdownListDetailsResponseType
     }
 
     /**
-     * unset codeTypeDetails.
+     * unset codeTypeDetails
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCodeTypeDetails($index)
@@ -53,7 +51,7 @@ class DropdownListDetailsResponseType
     }
 
     /**
-     * Gets as codeTypeDetails.
+     * Gets as codeTypeDetails
      *
      * @return \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType[]
      */
@@ -63,16 +61,17 @@ class DropdownListDetailsResponseType
     }
 
     /**
-     * Sets a new codeTypeDetails.
+     * Sets a new codeTypeDetails
      *
      * @param \App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType[] $codeTypeDetails
-     *
      * @return self
      */
     public function setCodeTypeDetails(array $codeTypeDetails)
     {
         $this->codeTypeDetails = $codeTypeDetails;
-
         return $this;
     }
+
+
 }
+

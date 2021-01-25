@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing AppointmentReferencesType.
+ * Class representing AppointmentReferencesType
  *
+ * 
  * XSD Type: AppointmentReferences
  */
 class AppointmentReferencesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType $appointmentCustomer
      */
     private $appointmentCustomer = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $appointmentVehicle
      */
     private $appointmentVehicle = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $rO
      */
     private $rO = null;
 
     /**
-     * Gets as appointmentCustomer.
+     * Gets as appointmentCustomer
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerType
      */
@@ -35,21 +37,19 @@ class AppointmentReferencesType
     }
 
     /**
-     * Sets a new appointmentCustomer.
+     * Sets a new appointmentCustomer
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType $appointmentCustomer
-     *
      * @return self
      */
-    public function setAppointmentCustomer(CustomerType $appointmentCustomer)
+    public function setAppointmentCustomer(\App\Soap\dealerbuilt\src\BaseApi\CustomerType $appointmentCustomer)
     {
         $this->appointmentCustomer = $appointmentCustomer;
-
         return $this;
     }
 
     /**
-     * Gets as appointmentVehicle.
+     * Gets as appointmentVehicle
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
      */
@@ -59,21 +59,19 @@ class AppointmentReferencesType
     }
 
     /**
-     * Sets a new appointmentVehicle.
+     * Sets a new appointmentVehicle
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $appointmentVehicle
-     *
      * @return self
      */
-    public function setAppointmentVehicle(CustomerVehicleType $appointmentVehicle)
+    public function setAppointmentVehicle(\App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType $appointmentVehicle)
     {
         $this->appointmentVehicle = $appointmentVehicle;
-
         return $this;
     }
 
     /**
-     * Gets as rO.
+     * Gets as rO
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType
      */
@@ -83,16 +81,17 @@ class AppointmentReferencesType
     }
 
     /**
-     * Sets a new rO.
+     * Sets a new rO
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $rO
-     *
      * @return self
      */
-    public function setRO(RepairOrderType $rO)
+    public function setRO(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $rO)
     {
         $this->rO = $rO;
-
         return $this;
     }
+
+
 }
+

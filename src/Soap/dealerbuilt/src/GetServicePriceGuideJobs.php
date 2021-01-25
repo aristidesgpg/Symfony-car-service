@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetServicePriceGuideJobs.
+ * Class representing GetServicePriceGuideJobs
  */
 class GetServicePriceGuideJobs
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceVehicleSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceVehicleSearchCriteriaType $searchCriteria
      */
     private $searchCriteria = null;
 
     /**
-     * Gets as searchCriteria.
+     * Gets as searchCriteria
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceVehicleSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class GetServicePriceGuideJobs
     }
 
     /**
-     * Sets a new searchCriteria.
+     * Sets a new searchCriteria
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceVehicleSearchCriteriaType $searchCriteria
-     *
      * @return self
      */
-    public function setSearchCriteria(BaseApi\ServiceVehicleSearchCriteriaType $searchCriteria)
+    public function setSearchCriteria(\App\Soap\dealerbuilt\src\BaseApi\ServiceVehicleSearchCriteriaType $searchCriteria)
     {
         $this->searchCriteria = $searchCriteria;
-
         return $this;
     }
+
+
 }
+

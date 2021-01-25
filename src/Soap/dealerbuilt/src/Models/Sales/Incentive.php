@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing Incentive.
+ * Class representing Incentive
  */
 class Incentive extends IncentiveType
 {
+
+
 }
+

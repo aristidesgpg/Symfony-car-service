@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing TradeInPushRequestType.
+ * Class representing TradeInPushRequestType
  *
+ * 
  * XSD Type: TradeInPushRequest
  */
 class TradeInPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType
      */
@@ -25,14 +27,17 @@ class TradeInPushRequestType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Sales\TradeInAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
+
+
 }
+

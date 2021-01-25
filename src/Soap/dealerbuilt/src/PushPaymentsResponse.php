@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushPaymentsResponse.
+ * Class representing PushPaymentsResponse
  */
 class PushPaymentsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType[] $pushPaymentsResult
      */
     private $pushPaymentsResult = null;
 
     /**
-     * Adds as paymentPushResponse.
+     * Adds as paymentPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType $paymentPushResponse
      */
-    public function addToPushPaymentsResult(BaseApi\PaymentPushResponseType $paymentPushResponse)
+    public function addToPushPaymentsResult(\App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType $paymentPushResponse)
     {
         $this->pushPaymentsResult[] = $paymentPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushPaymentsResult.
+     * isset pushPaymentsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushPaymentsResult($index)
@@ -39,10 +37,9 @@ class PushPaymentsResponse
     }
 
     /**
-     * unset pushPaymentsResult.
+     * unset pushPaymentsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushPaymentsResult($index)
@@ -51,7 +48,7 @@ class PushPaymentsResponse
     }
 
     /**
-     * Gets as pushPaymentsResult.
+     * Gets as pushPaymentsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushPaymentsResponse
     }
 
     /**
-     * Sets a new pushPaymentsResult.
+     * Sets a new pushPaymentsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType[] $pushPaymentsResult
-     *
      * @return self
      */
     public function setPushPaymentsResult(array $pushPaymentsResult)
     {
         $this->pushPaymentsResult = $pushPaymentsResult;
-
         return $this;
     }
+
+
 }
+

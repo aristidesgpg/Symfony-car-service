@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomersResponse.
+ * Class representing PullCustomersResponse
  */
 class PullCustomersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType[] $pullCustomersResult
      */
     private $pullCustomersResult = null;
 
     /**
-     * Adds as customer.
+     * Adds as customer
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType $customer
      */
-    public function addToPullCustomersResult(BaseApi\CustomerType $customer)
+    public function addToPullCustomersResult(\App\Soap\dealerbuilt\src\BaseApi\CustomerType $customer)
     {
         $this->pullCustomersResult[] = $customer;
-
         return $this;
     }
 
     /**
-     * isset pullCustomersResult.
+     * isset pullCustomersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullCustomersResult($index)
@@ -39,10 +37,9 @@ class PullCustomersResponse
     }
 
     /**
-     * unset pullCustomersResult.
+     * unset pullCustomersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullCustomersResult($index)
@@ -51,7 +48,7 @@ class PullCustomersResponse
     }
 
     /**
-     * Gets as pullCustomersResult.
+     * Gets as pullCustomersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerType[]
      */
@@ -61,16 +58,17 @@ class PullCustomersResponse
     }
 
     /**
-     * Sets a new pullCustomersResult.
+     * Sets a new pullCustomersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType[] $pullCustomersResult
-     *
      * @return self
      */
     public function setPullCustomersResult(array $pullCustomersResult)
     {
         $this->pullCustomersResult = $pullCustomersResult;
-
         return $this;
     }
+
+
 }
+

@@ -3,49 +3,51 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing JobTechnicianType.
+ * Class representing JobTechnicianType
  *
+ * 
  * XSD Type: JobTechnician
  */
 class JobTechnicianType
 {
+
     /**
-     * @var float
+     * @var float $actualHours
      */
     private $actualHours = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var float
+     * @var float $estimatedHours
      */
     private $estimatedHours = null;
 
     /**
-     * @var float
+     * @var float $flatRateHours
      */
     private $flatRateHours = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount
      */
     private $laborAmount = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
+     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $tech
      */
     private $tech = null;
 
     /**
-     * Gets as actualHours.
+     * Gets as actualHours
      *
      * @return float
      */
@@ -55,21 +57,19 @@ class JobTechnicianType
     }
 
     /**
-     * Sets a new actualHours.
+     * Sets a new actualHours
      *
      * @param float $actualHours
-     *
      * @return self
      */
     public function setActualHours($actualHours)
     {
         $this->actualHours = $actualHours;
-
         return $this;
     }
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -79,19 +79,19 @@ class JobTechnicianType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as estimatedHours.
+     * Gets as estimatedHours
      *
      * @return float
      */
@@ -101,21 +101,19 @@ class JobTechnicianType
     }
 
     /**
-     * Sets a new estimatedHours.
+     * Sets a new estimatedHours
      *
      * @param float $estimatedHours
-     *
      * @return self
      */
     public function setEstimatedHours($estimatedHours)
     {
         $this->estimatedHours = $estimatedHours;
-
         return $this;
     }
 
     /**
-     * Gets as flatRateHours.
+     * Gets as flatRateHours
      *
      * @return float
      */
@@ -125,21 +123,19 @@ class JobTechnicianType
     }
 
     /**
-     * Sets a new flatRateHours.
+     * Sets a new flatRateHours
      *
      * @param float $flatRateHours
-     *
      * @return self
      */
     public function setFlatRateHours($flatRateHours)
     {
         $this->flatRateHours = $flatRateHours;
-
         return $this;
     }
 
     /**
-     * Gets as laborAmount.
+     * Gets as laborAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -149,19 +145,19 @@ class JobTechnicianType
     }
 
     /**
-     * Sets a new laborAmount.
+     * Sets a new laborAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount
      * @return self
      */
     public function setLaborAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $laborAmount)
     {
         $this->laborAmount = $laborAmount;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -171,21 +167,19 @@ class JobTechnicianType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
 
     /**
-     * Gets as tech.
+     * Gets as tech
      *
      * @return \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
      */
@@ -195,14 +189,17 @@ class JobTechnicianType
     }
 
     /**
-     * Sets a new tech.
+     * Sets a new tech
      *
+     * @param \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $tech
      * @return self
      */
     public function setTech(\App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $tech)
     {
         $this->tech = $tech;
-
         return $this;
     }
+
+
 }
+

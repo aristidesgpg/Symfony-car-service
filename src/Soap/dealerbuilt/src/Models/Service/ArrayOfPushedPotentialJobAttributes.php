@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfPushedPotentialJobAttributes.
+ * Class representing ArrayOfPushedPotentialJobAttributes
  */
 class ArrayOfPushedPotentialJobAttributes extends ArrayOfPushedPotentialJobAttributesType
 {
+
+
 }
+

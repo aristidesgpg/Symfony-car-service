@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing UnsignedLong.
+ * Class representing UnsignedLong
  */
 class UnsignedLong
 {
+
     /**
-     * @var int
+     * @var int $__value
      */
     private $__value = null;
 
     /**
-     * Construct.
+     * Construct
      *
      * @param int $value
      */
@@ -23,10 +24,9 @@ class UnsignedLong
     }
 
     /**
-     * Gets or sets the inner value.
+     * Gets or sets the inner value
      *
      * @param int $value
-     *
      * @return int
      */
     public function value()
@@ -34,12 +34,11 @@ class UnsignedLong
         if ($args = func_get_args()) {
             $this->__value = $args[0];
         }
-
         return $this->__value;
     }
 
     /**
-     * Gets a string value.
+     * Gets a string value
      *
      * @return string
      */
@@ -47,4 +46,7 @@ class UnsignedLong
     {
         return strval($this->__value);
     }
+
+
 }
+

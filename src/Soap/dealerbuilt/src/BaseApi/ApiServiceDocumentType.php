@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ApiServiceDocumentType.
+ * Class representing ApiServiceDocumentType
  *
+ * 
  * XSD Type: ApiServiceDocument
  */
 class ApiServiceDocumentType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var string
+     * @var string $document
      */
     private $document = null;
 
     /**
-     * @var string
+     * @var string $documentKey
      */
     private $documentKey = null;
 
     /**
-     * @var string
+     * @var string $documentType
      */
     private $documentType = null;
 
     /**
-     * @var string
+     * @var string $format
      */
     private $format = null;
 
     /**
-     * Gets as document.
+     * Gets as document
      *
      * @return string
      */
@@ -40,21 +42,19 @@ class ApiServiceDocumentType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new document.
+     * Sets a new document
      *
      * @param string $document
-     *
      * @return self
      */
     public function setDocument($document)
     {
         $this->document = $document;
-
         return $this;
     }
 
     /**
-     * Gets as documentKey.
+     * Gets as documentKey
      *
      * @return string
      */
@@ -64,21 +64,19 @@ class ApiServiceDocumentType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new documentKey.
+     * Sets a new documentKey
      *
      * @param string $documentKey
-     *
      * @return self
      */
     public function setDocumentKey($documentKey)
     {
         $this->documentKey = $documentKey;
-
         return $this;
     }
 
     /**
-     * Gets as documentType.
+     * Gets as documentType
      *
      * @return string
      */
@@ -88,21 +86,19 @@ class ApiServiceDocumentType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new documentType.
+     * Sets a new documentType
      *
      * @param string $documentType
-     *
      * @return self
      */
     public function setDocumentType($documentType)
     {
         $this->documentType = $documentType;
-
         return $this;
     }
 
     /**
-     * Gets as format.
+     * Gets as format
      *
      * @return string
      */
@@ -112,16 +108,17 @@ class ApiServiceDocumentType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new format.
+     * Sets a new format
      *
      * @param string $format
-     *
      * @return self
      */
     public function setFormat($format)
     {
         $this->format = $format;
-
         return $this;
     }
+
+
 }
+

@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing DealReferencesType.
+ * Class representing DealReferencesType
  *
+ * 
  * XSD Type: DealReferences
  */
 class DealReferencesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\TradeInType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\TradeInType[] $tradeIns
      */
     private $tradeIns = null;
 
     /**
-     * Adds as tradeIn.
+     * Adds as tradeIn
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\TradeInType $tradeIn
      */
-    public function addToTradeIns(TradeInType $tradeIn)
+    public function addToTradeIns(\App\Soap\dealerbuilt\src\Models\Sales\TradeInType $tradeIn)
     {
         $this->tradeIns[] = $tradeIn;
-
         return $this;
     }
 
     /**
-     * isset tradeIns.
+     * isset tradeIns
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetTradeIns($index)
@@ -41,10 +40,9 @@ class DealReferencesType
     }
 
     /**
-     * unset tradeIns.
+     * unset tradeIns
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetTradeIns($index)
@@ -53,7 +51,7 @@ class DealReferencesType
     }
 
     /**
-     * Gets as tradeIns.
+     * Gets as tradeIns
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\TradeInType[]
      */
@@ -63,16 +61,17 @@ class DealReferencesType
     }
 
     /**
-     * Sets a new tradeIns.
+     * Sets a new tradeIns
      *
      * @param \App\Soap\dealerbuilt\src\Models\Sales\TradeInType[] $tradeIns
-     *
      * @return self
      */
     public function setTradeIns(array $tradeIns)
     {
         $this->tradeIns = $tradeIns;
-
         return $this;
     }
+
+
 }
+

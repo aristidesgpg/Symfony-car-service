@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DealType.
+ * Class representing DealType
  *
+ * 
  * XSD Type: Deal
  */
 class DealType extends ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\DealAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\DealAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $dealKey
      */
     private $dealKey = null;
 
     /**
-     * @var int
+     * @var int $dealNumber
      */
     private $dealNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType $references
      */
     private $references = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\DealAttributesType
      */
@@ -40,19 +42,19 @@ class DealType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\DealAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Sales\DealAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as dealKey.
+     * Gets as dealKey
      *
      * @return string
      */
@@ -62,21 +64,19 @@ class DealType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new dealKey.
+     * Sets a new dealKey
      *
      * @param string $dealKey
-     *
      * @return self
      */
     public function setDealKey($dealKey)
     {
         $this->dealKey = $dealKey;
-
         return $this;
     }
 
     /**
-     * Gets as dealNumber.
+     * Gets as dealNumber
      *
      * @return int
      */
@@ -86,21 +86,19 @@ class DealType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new dealNumber.
+     * Sets a new dealNumber
      *
      * @param int $dealNumber
-     *
      * @return self
      */
     public function setDealNumber($dealNumber)
     {
         $this->dealNumber = $dealNumber;
-
         return $this;
     }
 
     /**
-     * Gets as references.
+     * Gets as references
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType
      */
@@ -110,16 +108,17 @@ class DealType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new references.
+     * Sets a new references
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType $references
-     *
      * @return self
      */
-    public function setReferences(ApiDealReferencesType $references)
+    public function setReferences(\App\Soap\dealerbuilt\src\BaseApi\ApiDealReferencesType $references)
     {
         $this->references = $references;
-
         return $this;
     }
+
+
 }
+

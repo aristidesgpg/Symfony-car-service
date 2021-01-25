@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing Department.
+ * Class representing Department
  */
 class Department extends DepartmentType
 {
+
+
 }
+

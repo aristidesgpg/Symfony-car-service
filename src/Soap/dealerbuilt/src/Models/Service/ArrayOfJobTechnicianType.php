@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfJobTechnicianType.
+ * Class representing ArrayOfJobTechnicianType
  *
+ * 
  * XSD Type: ArrayOfJobTechnician
  */
 class ArrayOfJobTechnicianType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType[] $jobTechnician
      */
     private $jobTechnician = [
+        
     ];
 
     /**
-     * Adds as jobTechnician.
+     * Adds as jobTechnician
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType $jobTechnician
      */
-    public function addToJobTechnician(JobTechnicianType $jobTechnician)
+    public function addToJobTechnician(\App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType $jobTechnician)
     {
         $this->jobTechnician[] = $jobTechnician;
-
         return $this;
     }
 
     /**
-     * isset jobTechnician.
+     * isset jobTechnician
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetJobTechnician($index)
@@ -42,10 +42,9 @@ class ArrayOfJobTechnicianType
     }
 
     /**
-     * unset jobTechnician.
+     * unset jobTechnician
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetJobTechnician($index)
@@ -54,7 +53,7 @@ class ArrayOfJobTechnicianType
     }
 
     /**
-     * Gets as jobTechnician.
+     * Gets as jobTechnician
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfJobTechnicianType
     }
 
     /**
-     * Sets a new jobTechnician.
+     * Sets a new jobTechnician
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType[] $jobTechnician
-     *
      * @return self
      */
     public function setJobTechnician(array $jobTechnician)
     {
         $this->jobTechnician = $jobTechnician;
-
         return $this;
     }
+
+
 }
+

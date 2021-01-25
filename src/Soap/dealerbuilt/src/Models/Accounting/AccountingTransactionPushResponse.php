@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing AccountingTransactionPushResponse.
+ * Class representing AccountingTransactionPushResponse
  */
 class AccountingTransactionPushResponse extends AccountingTransactionPushResponseType
 {
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing ArrayOfPayment.
+ * Class representing ArrayOfPayment
  */
 class ArrayOfPayment extends ArrayOfPaymentType
 {
+
+
 }
+

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDivision.
+ * Class representing ArrayOfDivision
  */
 class ArrayOfDivision extends ArrayOfDivisionType
 {
+
+
 }
+

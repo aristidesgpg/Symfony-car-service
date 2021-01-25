@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDealerLocations.
+ * Class representing PullDealerLocations
  */
 class PullDealerLocations
 {
+
     /**
-     * @var int
+     * @var int $dealerNumber
      */
     private $dealerNumber = null;
 
     /**
-     * Gets as dealerNumber.
+     * Gets as dealerNumber
      *
      * @return int
      */
@@ -23,16 +24,17 @@ class PullDealerLocations
     }
 
     /**
-     * Sets a new dealerNumber.
+     * Sets a new dealerNumber
      *
      * @param int $dealerNumber
-     *
      * @return self
      */
     public function setDealerNumber($dealerNumber)
     {
         $this->dealerNumber = $dealerNumber;
-
         return $this;
     }
+
+
 }
+

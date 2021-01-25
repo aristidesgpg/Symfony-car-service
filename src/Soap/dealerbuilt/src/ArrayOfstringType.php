@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ArrayOfstringType.
+ * Class representing ArrayOfstringType
  *
+ * 
  * XSD Type: ArrayOfstring
  */
 class ArrayOfstringType
 {
+
     /**
-     * @var string[]
+     * @var string[] $string
      */
     private $string = [
+        
     ];
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToString($string)
     {
         $this->string[] = $string;
-
         return $this;
     }
 
     /**
-     * isset string.
+     * isset string
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetString($index)
@@ -42,10 +42,9 @@ class ArrayOfstringType
     }
 
     /**
-     * unset string.
+     * unset string
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetString($index)
@@ -54,7 +53,7 @@ class ArrayOfstringType
     }
 
     /**
-     * Gets as string.
+     * Gets as string
      *
      * @return string[]
      */
@@ -64,16 +63,17 @@ class ArrayOfstringType
     }
 
     /**
-     * Sets a new string.
+     * Sets a new string
      *
      * @param string[] $string
-     *
      * @return self
      */
     public function setString(array $string)
     {
         $this->string = $string;
-
         return $this;
     }
+
+
 }
+

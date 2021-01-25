@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetLenders.
+ * Class representing GetLenders
  */
 class GetLenders
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ApiLenderSearchCriteriaType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ApiLenderSearchCriteriaType $type
      */
     private $type = null;
 
     /**
-     * Gets as type.
+     * Gets as type
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ApiLenderSearchCriteriaType
      */
@@ -23,16 +24,17 @@ class GetLenders
     }
 
     /**
-     * Sets a new type.
+     * Sets a new type
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ApiLenderSearchCriteriaType $type
-     *
      * @return self
      */
-    public function setType(BaseApi\ApiLenderSearchCriteriaType $type)
+    public function setType(\App\Soap\dealerbuilt\src\BaseApi\ApiLenderSearchCriteriaType $type)
     {
         $this->type = $type;
-
         return $this;
     }
+
+
 }
+

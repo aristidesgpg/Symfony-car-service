@@ -3,54 +3,56 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PotentialServiceComponentType.
+ * Class representing PotentialServiceComponentType
  *
+ * 
  * XSD Type: PotentialServiceComponent
  */
 class PotentialServiceComponentType
 {
+
     /**
-     * @var string
+     * @var string $controlNumber
      */
     private $controlNumber = null;
 
     /**
-     * @var bool
+     * @var bool $isDiscount
      */
     private $isDiscount = null;
 
     /**
-     * @var float
+     * @var float $percent
      */
     private $percent = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      */
     private $price = null;
 
     /**
-     * @var string
+     * @var string $serviceCode
      */
     private $serviceCode = null;
 
     /**
-     * @var string
+     * @var string $serviceCodeDescription
      */
     private $serviceCodeDescription = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax
      */
     private $tax = null;
 
     /**
-     * @var bool
+     * @var bool $taxable
      */
     private $taxable = null;
 
     /**
-     * Gets as controlNumber.
+     * Gets as controlNumber
      *
      * @return string
      */
@@ -60,21 +62,19 @@ class PotentialServiceComponentType
     }
 
     /**
-     * Sets a new controlNumber.
+     * Sets a new controlNumber
      *
      * @param string $controlNumber
-     *
      * @return self
      */
     public function setControlNumber($controlNumber)
     {
         $this->controlNumber = $controlNumber;
-
         return $this;
     }
 
     /**
-     * Gets as isDiscount.
+     * Gets as isDiscount
      *
      * @return bool
      */
@@ -84,21 +84,19 @@ class PotentialServiceComponentType
     }
 
     /**
-     * Sets a new isDiscount.
+     * Sets a new isDiscount
      *
      * @param bool $isDiscount
-     *
      * @return self
      */
     public function setIsDiscount($isDiscount)
     {
         $this->isDiscount = $isDiscount;
-
         return $this;
     }
 
     /**
-     * Gets as percent.
+     * Gets as percent
      *
      * @return float
      */
@@ -108,21 +106,19 @@ class PotentialServiceComponentType
     }
 
     /**
-     * Sets a new percent.
+     * Sets a new percent
      *
      * @param float $percent
-     *
      * @return self
      */
     public function setPercent($percent)
     {
         $this->percent = $percent;
-
         return $this;
     }
 
     /**
-     * Gets as price.
+     * Gets as price
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -132,19 +128,19 @@ class PotentialServiceComponentType
     }
 
     /**
-     * Sets a new price.
+     * Sets a new price
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      * @return self
      */
     public function setPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $price)
     {
         $this->price = $price;
-
         return $this;
     }
 
     /**
-     * Gets as serviceCode.
+     * Gets as serviceCode
      *
      * @return string
      */
@@ -154,21 +150,19 @@ class PotentialServiceComponentType
     }
 
     /**
-     * Sets a new serviceCode.
+     * Sets a new serviceCode
      *
      * @param string $serviceCode
-     *
      * @return self
      */
     public function setServiceCode($serviceCode)
     {
         $this->serviceCode = $serviceCode;
-
         return $this;
     }
 
     /**
-     * Gets as serviceCodeDescription.
+     * Gets as serviceCodeDescription
      *
      * @return string
      */
@@ -178,21 +172,19 @@ class PotentialServiceComponentType
     }
 
     /**
-     * Sets a new serviceCodeDescription.
+     * Sets a new serviceCodeDescription
      *
      * @param string $serviceCodeDescription
-     *
      * @return self
      */
     public function setServiceCodeDescription($serviceCodeDescription)
     {
         $this->serviceCodeDescription = $serviceCodeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as tax.
+     * Gets as tax
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -202,19 +194,19 @@ class PotentialServiceComponentType
     }
 
     /**
-     * Sets a new tax.
+     * Sets a new tax
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax
      * @return self
      */
     public function setTax(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax)
     {
         $this->tax = $tax;
-
         return $this;
     }
 
     /**
-     * Gets as taxable.
+     * Gets as taxable
      *
      * @return bool
      */
@@ -224,16 +216,17 @@ class PotentialServiceComponentType
     }
 
     /**
-     * Sets a new taxable.
+     * Sets a new taxable
      *
      * @param bool $taxable
-     *
      * @return self
      */
     public function setTaxable($taxable)
     {
         $this->taxable = $taxable;
-
         return $this;
     }
+
+
 }
+

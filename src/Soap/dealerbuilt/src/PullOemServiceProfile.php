@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullOemServiceProfile.
+ * Class representing PullOemServiceProfile
  */
 class PullOemServiceProfile
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\VehicleInquiryType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\VehicleInquiryType $inquiry
      */
     private $inquiry = null;
 
     /**
-     * Gets as inquiry.
+     * Gets as inquiry
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\VehicleInquiryType
      */
@@ -23,16 +24,17 @@ class PullOemServiceProfile
     }
 
     /**
-     * Sets a new inquiry.
+     * Sets a new inquiry
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\VehicleInquiryType $inquiry
-     *
      * @return self
      */
-    public function setInquiry(BaseApi\VehicleInquiryType $inquiry)
+    public function setInquiry(\App\Soap\dealerbuilt\src\BaseApi\VehicleInquiryType $inquiry)
     {
         $this->inquiry = $inquiry;
-
         return $this;
     }
+
+
 }
+

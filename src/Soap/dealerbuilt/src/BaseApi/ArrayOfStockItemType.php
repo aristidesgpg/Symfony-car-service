@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStockItemType.
+ * Class representing ArrayOfStockItemType
  *
+ * 
  * XSD Type: ArrayOfStockItem
  */
 class ArrayOfStockItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $stockItem
      */
     private $stockItem = [
+        
     ];
 
     /**
-     * Adds as stockItem.
+     * Adds as stockItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem
      */
-    public function addToStockItem(StockItemType $stockItem)
+    public function addToStockItem(\App\Soap\dealerbuilt\src\BaseApi\StockItemType $stockItem)
     {
         $this->stockItem[] = $stockItem;
-
         return $this;
     }
 
     /**
-     * isset stockItem.
+     * isset stockItem
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStockItem($index)
@@ -42,10 +42,9 @@ class ArrayOfStockItemType
     }
 
     /**
-     * unset stockItem.
+     * unset stockItem
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStockItem($index)
@@ -54,7 +53,7 @@ class ArrayOfStockItemType
     }
 
     /**
-     * Gets as stockItem.
+     * Gets as stockItem
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfStockItemType
     }
 
     /**
-     * Sets a new stockItem.
+     * Sets a new stockItem
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemType[] $stockItem
-     *
      * @return self
      */
     public function setStockItem(array $stockItem)
     {
         $this->stockItem = $stockItem;
-
         return $this;
     }
+
+
 }
+

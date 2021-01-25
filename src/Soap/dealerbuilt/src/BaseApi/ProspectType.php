@@ -3,44 +3,46 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ProspectType.
+ * Class representing ProspectType
  *
+ * 
  * XSD Type: Prospect
  */
 class ProspectType extends ApiStoreItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $dealKey
      */
     private $dealKey = null;
 
     /**
-     * @var string
+     * @var string $driverLicenseNumber
      */
     private $driverLicenseNumber = null;
 
     /**
-     * @var string
+     * @var string $errorMessage
      */
     private $errorMessage = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ProspectReferencesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ProspectReferencesType $references
      */
     private $references = null;
 
     /**
-     * @var string
+     * @var string $upsource
      */
     private $upsource = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -50,19 +52,19 @@ class ProspectType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as dealKey.
+     * Gets as dealKey
      *
      * @return string
      */
@@ -72,21 +74,19 @@ class ProspectType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new dealKey.
+     * Sets a new dealKey
      *
      * @param string $dealKey
-     *
      * @return self
      */
     public function setDealKey($dealKey)
     {
         $this->dealKey = $dealKey;
-
         return $this;
     }
 
     /**
-     * Gets as driverLicenseNumber.
+     * Gets as driverLicenseNumber
      *
      * @return string
      */
@@ -96,21 +96,19 @@ class ProspectType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new driverLicenseNumber.
+     * Sets a new driverLicenseNumber
      *
      * @param string $driverLicenseNumber
-     *
      * @return self
      */
     public function setDriverLicenseNumber($driverLicenseNumber)
     {
         $this->driverLicenseNumber = $driverLicenseNumber;
-
         return $this;
     }
 
     /**
-     * Gets as errorMessage.
+     * Gets as errorMessage
      *
      * @return string
      */
@@ -120,21 +118,19 @@ class ProspectType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new errorMessage.
+     * Sets a new errorMessage
      *
      * @param string $errorMessage
-     *
      * @return self
      */
     public function setErrorMessage($errorMessage)
     {
         $this->errorMessage = $errorMessage;
-
         return $this;
     }
 
     /**
-     * Gets as references.
+     * Gets as references
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ProspectReferencesType
      */
@@ -144,21 +140,19 @@ class ProspectType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new references.
+     * Sets a new references
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ProspectReferencesType $references
-     *
      * @return self
      */
-    public function setReferences(ProspectReferencesType $references)
+    public function setReferences(\App\Soap\dealerbuilt\src\BaseApi\ProspectReferencesType $references)
     {
         $this->references = $references;
-
         return $this;
     }
 
     /**
-     * Gets as upsource.
+     * Gets as upsource
      *
      * @return string
      */
@@ -168,16 +162,17 @@ class ProspectType extends ApiStoreItemType
     }
 
     /**
-     * Sets a new upsource.
+     * Sets a new upsource
      *
      * @param string $upsource
-     *
      * @return self
      */
     public function setUpsource($upsource)
     {
         $this->upsource = $upsource;
-
         return $this;
     }
+
+
 }
+

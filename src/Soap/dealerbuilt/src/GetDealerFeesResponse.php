@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetDealerFeesResponse.
+ * Class representing GetDealerFeesResponse
  */
 class GetDealerFeesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealerFeeCollectionType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealerFeeCollectionType $getDealerFeesResult
      */
     private $getDealerFeesResult = null;
 
     /**
-     * Gets as getDealerFeesResult.
+     * Gets as getDealerFeesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealerFeeCollectionType
      */
@@ -23,16 +24,17 @@ class GetDealerFeesResponse
     }
 
     /**
-     * Sets a new getDealerFeesResult.
+     * Sets a new getDealerFeesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealerFeeCollectionType $getDealerFeesResult
-     *
      * @return self
      */
-    public function setGetDealerFeesResult(BaseApi\DealerFeeCollectionType $getDealerFeesResult)
+    public function setGetDealerFeesResult(\App\Soap\dealerbuilt\src\BaseApi\DealerFeeCollectionType $getDealerFeesResult)
     {
         $this->getDealerFeesResult = $getDealerFeesResult;
-
         return $this;
     }
+
+
 }
+

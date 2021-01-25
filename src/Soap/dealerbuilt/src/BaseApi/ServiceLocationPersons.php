@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationPersons.
+ * Class representing ServiceLocationPersons
  */
 class ServiceLocationPersons extends ServiceLocationPersonsType
 {
+
+
 }
+

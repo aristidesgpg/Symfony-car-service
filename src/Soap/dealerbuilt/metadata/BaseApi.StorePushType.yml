@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\StorePushType:
             access_type: public_method
             serialized_name: StoreId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStoreId
                 setter: setStoreId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\StorePushType:
             access_type: public_method
             serialized_name: OperationCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getOperationCode
                 setter: setOperationCode
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\StorePushType:
             access_type: public_method
             serialized_name: IsWarrantyPayment
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getIsWarrantyPayment
                 setter: setIsWarrantyPayment
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\StorePushType:
             access_type: public_method
             serialized_name: Element
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getElement
                 setter: setElement

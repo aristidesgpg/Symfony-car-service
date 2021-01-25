@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\NameType:
             access_type: public_method
             serialized_name: FirstName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getFirstName
                 setter: setFirstName
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\NameType:
             access_type: public_method
             serialized_name: LastName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getLastName
                 setter: setLastName
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\NameType:
             access_type: public_method
             serialized_name: MiddleName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getMiddleName
                 setter: setMiddleName
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\NameType:
             access_type: public_method
             serialized_name: SingularName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSingularName
                 setter: setSingularName
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\NameType:
             access_type: public_method
             serialized_name: Suffix
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSuffix
                 setter: setSuffix
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\NameType:
             access_type: public_method
             serialized_name: Title
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getTitle
                 setter: setTitle

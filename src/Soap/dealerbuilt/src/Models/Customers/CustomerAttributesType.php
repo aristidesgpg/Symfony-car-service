@@ -3,94 +3,96 @@
 namespace App\Soap\dealerbuilt\src\Models\Customers;
 
 /**
- * Class representing CustomerAttributesType.
+ * Class representing CustomerAttributesType
  *
+ * 
  * XSD Type: CustomerAttributes
  */
 class CustomerAttributesType
 {
+
     /**
-     * @var bool
+     * @var bool $allowsEmailContact
      */
     private $allowsEmailContact = null;
 
     /**
-     * @var bool
+     * @var bool $allowsMailContact
      */
     private $allowsMailContact = null;
 
     /**
-     * @var bool
+     * @var bool $allowsPhoneContact
      */
     private $allowsPhoneContact = null;
 
     /**
-     * @var bool
+     * @var bool $allowsSmsContact
      */
     private $allowsSmsContact = null;
 
     /**
-     * @var string
+     * @var string $comments
      */
     private $comments = null;
 
     /**
-     * @var string
+     * @var string $customerNumber
      */
     private $customerNumber = null;
 
     /**
-     * @var string
+     * @var string $customerType
      */
     private $customerType = null;
 
     /**
-     * @var string
+     * @var string $driverLicenseNumber
      */
     private $driverLicenseNumber = null;
 
     /**
-     * @var string
+     * @var string $driverLicenseState
      */
     private $driverLicenseState = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity
      */
     private $identity = null;
 
     /**
-     * @var bool
+     * @var bool $isDealerToDealer
      */
     private $isDealerToDealer = null;
 
     /**
-     * @var bool
+     * @var bool $isMarried
      */
     private $isMarried = null;
 
     /**
-     * @var bool
+     * @var bool $isWholesale
      */
     private $isWholesale = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $lastContactDate
      */
     private $lastContactDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $modifiedStamp
      */
     private $modifiedStamp = null;
 
     /**
-     * @var string
+     * @var string $spouseName
      */
     private $spouseName = null;
 
     /**
-     * Gets as allowsEmailContact.
+     * Gets as allowsEmailContact
      *
      * @return bool
      */
@@ -100,21 +102,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new allowsEmailContact.
+     * Sets a new allowsEmailContact
      *
      * @param bool $allowsEmailContact
-     *
      * @return self
      */
     public function setAllowsEmailContact($allowsEmailContact)
     {
         $this->allowsEmailContact = $allowsEmailContact;
-
         return $this;
     }
 
     /**
-     * Gets as allowsMailContact.
+     * Gets as allowsMailContact
      *
      * @return bool
      */
@@ -124,21 +124,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new allowsMailContact.
+     * Sets a new allowsMailContact
      *
      * @param bool $allowsMailContact
-     *
      * @return self
      */
     public function setAllowsMailContact($allowsMailContact)
     {
         $this->allowsMailContact = $allowsMailContact;
-
         return $this;
     }
 
     /**
-     * Gets as allowsPhoneContact.
+     * Gets as allowsPhoneContact
      *
      * @return bool
      */
@@ -148,21 +146,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new allowsPhoneContact.
+     * Sets a new allowsPhoneContact
      *
      * @param bool $allowsPhoneContact
-     *
      * @return self
      */
     public function setAllowsPhoneContact($allowsPhoneContact)
     {
         $this->allowsPhoneContact = $allowsPhoneContact;
-
         return $this;
     }
 
     /**
-     * Gets as allowsSmsContact.
+     * Gets as allowsSmsContact
      *
      * @return bool
      */
@@ -172,21 +168,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new allowsSmsContact.
+     * Sets a new allowsSmsContact
      *
      * @param bool $allowsSmsContact
-     *
      * @return self
      */
     public function setAllowsSmsContact($allowsSmsContact)
     {
         $this->allowsSmsContact = $allowsSmsContact;
-
         return $this;
     }
 
     /**
-     * Gets as comments.
+     * Gets as comments
      *
      * @return string
      */
@@ -196,21 +190,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new comments.
+     * Sets a new comments
      *
      * @param string $comments
-     *
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
-
         return $this;
     }
 
     /**
-     * Gets as customerNumber.
+     * Gets as customerNumber
      *
      * @return string
      */
@@ -220,21 +212,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new customerNumber.
+     * Sets a new customerNumber
      *
      * @param string $customerNumber
-     *
      * @return self
      */
     public function setCustomerNumber($customerNumber)
     {
         $this->customerNumber = $customerNumber;
-
         return $this;
     }
 
     /**
-     * Gets as customerType.
+     * Gets as customerType
      *
      * @return string
      */
@@ -244,21 +234,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new customerType.
+     * Sets a new customerType
      *
      * @param string $customerType
-     *
      * @return self
      */
     public function setCustomerType($customerType)
     {
         $this->customerType = $customerType;
-
         return $this;
     }
 
     /**
-     * Gets as driverLicenseNumber.
+     * Gets as driverLicenseNumber
      *
      * @return string
      */
@@ -268,21 +256,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new driverLicenseNumber.
+     * Sets a new driverLicenseNumber
      *
      * @param string $driverLicenseNumber
-     *
      * @return self
      */
     public function setDriverLicenseNumber($driverLicenseNumber)
     {
         $this->driverLicenseNumber = $driverLicenseNumber;
-
         return $this;
     }
 
     /**
-     * Gets as driverLicenseState.
+     * Gets as driverLicenseState
      *
      * @return string
      */
@@ -292,21 +278,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new driverLicenseState.
+     * Sets a new driverLicenseState
      *
      * @param string $driverLicenseState
-     *
      * @return self
      */
     public function setDriverLicenseState($driverLicenseState)
     {
         $this->driverLicenseState = $driverLicenseState;
-
         return $this;
     }
 
     /**
-     * Gets as identity.
+     * Gets as identity
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -316,19 +300,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new identity.
+     * Sets a new identity
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity
      * @return self
      */
     public function setIdentity(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity)
     {
         $this->identity = $identity;
-
         return $this;
     }
 
     /**
-     * Gets as isDealerToDealer.
+     * Gets as isDealerToDealer
      *
      * @return bool
      */
@@ -338,21 +322,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new isDealerToDealer.
+     * Sets a new isDealerToDealer
      *
      * @param bool $isDealerToDealer
-     *
      * @return self
      */
     public function setIsDealerToDealer($isDealerToDealer)
     {
         $this->isDealerToDealer = $isDealerToDealer;
-
         return $this;
     }
 
     /**
-     * Gets as isMarried.
+     * Gets as isMarried
      *
      * @return bool
      */
@@ -362,21 +344,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new isMarried.
+     * Sets a new isMarried
      *
      * @param bool $isMarried
-     *
      * @return self
      */
     public function setIsMarried($isMarried)
     {
         $this->isMarried = $isMarried;
-
         return $this;
     }
 
     /**
-     * Gets as isWholesale.
+     * Gets as isWholesale
      *
      * @return bool
      */
@@ -386,21 +366,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new isWholesale.
+     * Sets a new isWholesale
      *
      * @param bool $isWholesale
-     *
      * @return self
      */
     public function setIsWholesale($isWholesale)
     {
         $this->isWholesale = $isWholesale;
-
         return $this;
     }
 
     /**
-     * Gets as lastContactDate.
+     * Gets as lastContactDate
      *
      * @return \DateTime
      */
@@ -410,21 +388,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new lastContactDate.
+     * Sets a new lastContactDate
      *
      * @param \DateTime $lastContactDate
-     *
      * @return self
      */
     public function setLastContactDate(\DateTime $lastContactDate = null)
     {
         $this->lastContactDate = $lastContactDate;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedStamp.
+     * Gets as modifiedStamp
      *
      * @return \DateTime
      */
@@ -434,21 +410,19 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new modifiedStamp.
+     * Sets a new modifiedStamp
      *
      * @param \DateTime $modifiedStamp
-     *
      * @return self
      */
     public function setModifiedStamp(\DateTime $modifiedStamp = null)
     {
         $this->modifiedStamp = $modifiedStamp;
-
         return $this;
     }
 
     /**
-     * Gets as spouseName.
+     * Gets as spouseName
      *
      * @return string
      */
@@ -458,16 +432,17 @@ class CustomerAttributesType
     }
 
     /**
-     * Sets a new spouseName.
+     * Sets a new spouseName
      *
      * @param string $spouseName
-     *
      * @return self
      */
     public function setSpouseName($spouseName)
     {
         $this->spouseName = $spouseName;
-
         return $this;
     }
+
+
 }
+

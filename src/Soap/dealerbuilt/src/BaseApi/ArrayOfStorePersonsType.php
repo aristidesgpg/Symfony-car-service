@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfStorePersonsType.
+ * Class representing ArrayOfStorePersonsType
  *
+ * 
  * XSD Type: ArrayOfStorePersons
  */
 class ArrayOfStorePersonsType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType[] $storePersons
      */
     private $storePersons = [
+        
     ];
 
     /**
-     * Adds as storePersons.
+     * Adds as storePersons
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType $storePersons
      */
-    public function addToStorePersons(StorePersonsType $storePersons)
+    public function addToStorePersons(\App\Soap\dealerbuilt\src\BaseApi\StorePersonsType $storePersons)
     {
         $this->storePersons[] = $storePersons;
-
         return $this;
     }
 
     /**
-     * isset storePersons.
+     * isset storePersons
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStorePersons($index)
@@ -42,10 +42,9 @@ class ArrayOfStorePersonsType
     }
 
     /**
-     * unset storePersons.
+     * unset storePersons
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStorePersons($index)
@@ -54,7 +53,7 @@ class ArrayOfStorePersonsType
     }
 
     /**
-     * Gets as storePersons.
+     * Gets as storePersons
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfStorePersonsType
     }
 
     /**
-     * Sets a new storePersons.
+     * Sets a new storePersons
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePersonsType[] $storePersons
-     *
      * @return self
      */
     public function setStorePersons(array $storePersons)
     {
         $this->storePersons = $storePersons;
-
         return $this;
     }
+
+
 }
+

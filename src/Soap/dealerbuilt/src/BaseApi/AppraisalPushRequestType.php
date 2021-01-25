@@ -3,99 +3,101 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing AppraisalPushRequestType.
+ * Class representing AppraisalPushRequestType
  *
+ * 
  * XSD Type: AppraisalPushRequest
  */
 class AppraisalPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $acv
      */
     private $acv = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $allowance
      */
     private $allowance = null;
 
     /**
-     * @var string
+     * @var string $appraisalKey
      */
     private $appraisalKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $dealKey
      */
     private $dealKey = null;
 
     /**
-     * @var string
+     * @var string $externalAppraisalId
      */
     private $externalAppraisalId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoff
      */
     private $payoff = null;
 
     /**
-     * @var string
+     * @var string $payoffAccount
      */
     private $payoffAccount = null;
 
     /**
-     * @var string
+     * @var string $payoffAddress
      */
     private $payoffAddress = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoffAmount
      */
     private $payoffAmount = null;
 
     /**
-     * @var string
+     * @var string $payoffCityStateZip
      */
     private $payoffCityStateZip = null;
 
     /**
-     * @var string
+     * @var string $payoffComments
      */
     private $payoffComments = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $payoffDate
      */
     private $payoffDate = null;
 
     /**
-     * @var string
+     * @var string $payoffLenderCode
      */
     private $payoffLenderCode = null;
 
     /**
-     * @var string
+     * @var string $payoffLenderName
      */
     private $payoffLenderName = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoffPerDiem
      */
     private $payoffPerDiem = null;
 
     /**
-     * @var string
+     * @var string $payoffPhone
      */
     private $payoffPhone = null;
 
     /**
-     * Gets as acv.
+     * Gets as acv
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -105,19 +107,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new acv.
+     * Sets a new acv
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $acv
      * @return self
      */
     public function setAcv(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $acv)
     {
         $this->acv = $acv;
-
         return $this;
     }
 
     /**
-     * Gets as allowance.
+     * Gets as allowance
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -127,19 +129,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new allowance.
+     * Sets a new allowance
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $allowance
      * @return self
      */
     public function setAllowance(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $allowance)
     {
         $this->allowance = $allowance;
-
         return $this;
     }
 
     /**
-     * Gets as appraisalKey.
+     * Gets as appraisalKey
      *
      * @return string
      */
@@ -149,21 +151,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new appraisalKey.
+     * Sets a new appraisalKey
      *
      * @param string $appraisalKey
-     *
      * @return self
      */
     public function setAppraisalKey($appraisalKey)
     {
         $this->appraisalKey = $appraisalKey;
-
         return $this;
     }
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
      */
@@ -173,19 +173,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as dealKey.
+     * Gets as dealKey
      *
      * @return string
      */
@@ -195,21 +195,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new dealKey.
+     * Sets a new dealKey
      *
      * @param string $dealKey
-     *
      * @return self
      */
     public function setDealKey($dealKey)
     {
         $this->dealKey = $dealKey;
-
         return $this;
     }
 
     /**
-     * Gets as externalAppraisalId.
+     * Gets as externalAppraisalId
      *
      * @return string
      */
@@ -219,21 +217,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new externalAppraisalId.
+     * Sets a new externalAppraisalId
      *
      * @param string $externalAppraisalId
-     *
      * @return self
      */
     public function setExternalAppraisalId($externalAppraisalId)
     {
         $this->externalAppraisalId = $externalAppraisalId;
-
         return $this;
     }
 
     /**
-     * Gets as payoff.
+     * Gets as payoff
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -243,19 +239,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoff.
+     * Sets a new payoff
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoff
      * @return self
      */
     public function setPayoff(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoff)
     {
         $this->payoff = $payoff;
-
         return $this;
     }
 
     /**
-     * Gets as payoffAccount.
+     * Gets as payoffAccount
      *
      * @return string
      */
@@ -265,21 +261,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffAccount.
+     * Sets a new payoffAccount
      *
      * @param string $payoffAccount
-     *
      * @return self
      */
     public function setPayoffAccount($payoffAccount)
     {
         $this->payoffAccount = $payoffAccount;
-
         return $this;
     }
 
     /**
-     * Gets as payoffAddress.
+     * Gets as payoffAddress
      *
      * @return string
      */
@@ -289,21 +283,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffAddress.
+     * Sets a new payoffAddress
      *
      * @param string $payoffAddress
-     *
      * @return self
      */
     public function setPayoffAddress($payoffAddress)
     {
         $this->payoffAddress = $payoffAddress;
-
         return $this;
     }
 
     /**
-     * Gets as payoffAmount.
+     * Gets as payoffAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -313,19 +305,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffAmount.
+     * Sets a new payoffAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoffAmount
      * @return self
      */
     public function setPayoffAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoffAmount)
     {
         $this->payoffAmount = $payoffAmount;
-
         return $this;
     }
 
     /**
-     * Gets as payoffCityStateZip.
+     * Gets as payoffCityStateZip
      *
      * @return string
      */
@@ -335,21 +327,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffCityStateZip.
+     * Sets a new payoffCityStateZip
      *
      * @param string $payoffCityStateZip
-     *
      * @return self
      */
     public function setPayoffCityStateZip($payoffCityStateZip)
     {
         $this->payoffCityStateZip = $payoffCityStateZip;
-
         return $this;
     }
 
     /**
-     * Gets as payoffComments.
+     * Gets as payoffComments
      *
      * @return string
      */
@@ -359,21 +349,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffComments.
+     * Sets a new payoffComments
      *
      * @param string $payoffComments
-     *
      * @return self
      */
     public function setPayoffComments($payoffComments)
     {
         $this->payoffComments = $payoffComments;
-
         return $this;
     }
 
     /**
-     * Gets as payoffDate.
+     * Gets as payoffDate
      *
      * @return \DateTime
      */
@@ -383,19 +371,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffDate.
+     * Sets a new payoffDate
      *
+     * @param \DateTime $payoffDate
      * @return self
      */
     public function setPayoffDate(\DateTime $payoffDate)
     {
         $this->payoffDate = $payoffDate;
-
         return $this;
     }
 
     /**
-     * Gets as payoffLenderCode.
+     * Gets as payoffLenderCode
      *
      * @return string
      */
@@ -405,21 +393,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffLenderCode.
+     * Sets a new payoffLenderCode
      *
      * @param string $payoffLenderCode
-     *
      * @return self
      */
     public function setPayoffLenderCode($payoffLenderCode)
     {
         $this->payoffLenderCode = $payoffLenderCode;
-
         return $this;
     }
 
     /**
-     * Gets as payoffLenderName.
+     * Gets as payoffLenderName
      *
      * @return string
      */
@@ -429,21 +415,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffLenderName.
+     * Sets a new payoffLenderName
      *
      * @param string $payoffLenderName
-     *
      * @return self
      */
     public function setPayoffLenderName($payoffLenderName)
     {
         $this->payoffLenderName = $payoffLenderName;
-
         return $this;
     }
 
     /**
-     * Gets as payoffPerDiem.
+     * Gets as payoffPerDiem
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -453,19 +437,19 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffPerDiem.
+     * Sets a new payoffPerDiem
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoffPerDiem
      * @return self
      */
     public function setPayoffPerDiem(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $payoffPerDiem)
     {
         $this->payoffPerDiem = $payoffPerDiem;
-
         return $this;
     }
 
     /**
-     * Gets as payoffPhone.
+     * Gets as payoffPhone
      *
      * @return string
      */
@@ -475,16 +459,17 @@ class AppraisalPushRequestType
     }
 
     /**
-     * Sets a new payoffPhone.
+     * Sets a new payoffPhone
      *
      * @param string $payoffPhone
-     *
      * @return self
      */
     public function setPayoffPhone($payoffPhone)
     {
         $this->payoffPhone = $payoffPhone;
-
         return $this;
     }
+
+
 }
+

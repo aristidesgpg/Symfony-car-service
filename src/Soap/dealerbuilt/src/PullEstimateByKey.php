@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullEstimateByKey.
+ * Class representing PullEstimateByKey
  */
 class PullEstimateByKey
 {
+
     /**
-     * @var string
+     * @var string $estimateKey
      */
     private $estimateKey = null;
 
     /**
-     * Gets as estimateKey.
+     * Gets as estimateKey
      *
      * @return string
      */
@@ -23,16 +24,17 @@ class PullEstimateByKey
     }
 
     /**
-     * Sets a new estimateKey.
+     * Sets a new estimateKey
      *
      * @param string $estimateKey
-     *
      * @return self
      */
     public function setEstimateKey($estimateKey)
     {
         $this->estimateKey = $estimateKey;
-
         return $this;
     }
+
+
 }
+

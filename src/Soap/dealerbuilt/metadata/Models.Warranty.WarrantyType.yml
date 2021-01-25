@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: FactoryExtWarrantyCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getFactoryExtWarrantyCode
                 setter: setFactoryExtWarrantyCode
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: FactoryExtWarrantyDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getFactoryExtWarrantyDate
                 setter: setFactoryExtWarrantyDate
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: FactoryExtWarrantyMileage
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getFactoryExtWarrantyMileage
                 setter: setFactoryExtWarrantyMileage
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: FactoryExtWarrantyMileageUOM
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getFactoryExtWarrantyMileageUOM
                 setter: setFactoryExtWarrantyMileageUOM
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: FactoryExtWarrantyRemaining
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getFactoryExtWarrantyRemaining
                 setter: setFactoryExtWarrantyRemaining
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: TermMeasure
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getTermMeasure
                 setter: setTermMeasure
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: WarrantyCancelCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getWarrantyCancelCode
                 setter: setWarrantyCancelCode
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: WarrantyCancelDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getWarrantyCancelDate
                 setter: setWarrantyCancelDate
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: WarrantyEndDistanceMeasure
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getWarrantyEndDistanceMeasure
                 setter: setWarrantyEndDistanceMeasure
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: WarrantyExpirationDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getWarrantyExpirationDate
                 setter: setWarrantyExpirationDate
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: WarrantyStartDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getWarrantyStartDate
                 setter: setWarrantyStartDate
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: WarrantyStatus
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getWarrantyStatus
                 setter: setWarrantyStatus
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: WarrantyStatusType
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getWarrantyStatusType
                 setter: setWarrantyStatusType
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
             access_type: public_method
             serialized_name: WarrantyTypeDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
             accessor:
                 getter: getWarrantyTypeDescription
                 setter: setWarrantyTypeDescription

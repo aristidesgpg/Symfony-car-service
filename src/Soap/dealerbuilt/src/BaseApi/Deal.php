@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing Deal.
+ * Class representing Deal
  */
 class Deal extends DealType
 {
+
+
 }
+

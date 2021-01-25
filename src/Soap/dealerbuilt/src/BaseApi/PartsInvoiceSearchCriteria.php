@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsInvoiceSearchCriteria.
+ * Class representing PartsInvoiceSearchCriteria
  */
 class PartsInvoiceSearchCriteria extends PartsInvoiceSearchCriteriaType
 {
+
+
 }
+

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfGlSummaryItemType.
+ * Class representing ArrayOfGlSummaryItemType
  *
+ * 
  * XSD Type: ArrayOfGlSummaryItem
  */
 class ArrayOfGlSummaryItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType[] $glSummaryItem
      */
     private $glSummaryItem = [
+        
     ];
 
     /**
-     * Adds as glSummaryItem.
+     * Adds as glSummaryItem
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType $glSummaryItem
      */
-    public function addToGlSummaryItem(GlSummaryItemType $glSummaryItem)
+    public function addToGlSummaryItem(\App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType $glSummaryItem)
     {
         $this->glSummaryItem[] = $glSummaryItem;
-
         return $this;
     }
 
     /**
-     * isset glSummaryItem.
+     * isset glSummaryItem
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGlSummaryItem($index)
@@ -42,10 +42,9 @@ class ArrayOfGlSummaryItemType
     }
 
     /**
-     * unset glSummaryItem.
+     * unset glSummaryItem
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGlSummaryItem($index)
@@ -54,7 +53,7 @@ class ArrayOfGlSummaryItemType
     }
 
     /**
-     * Gets as glSummaryItem.
+     * Gets as glSummaryItem
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfGlSummaryItemType
     }
 
     /**
-     * Sets a new glSummaryItem.
+     * Sets a new glSummaryItem
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\GlSummaryItemType[] $glSummaryItem
-     *
      * @return self
      */
     public function setGlSummaryItem(array $glSummaryItem)
     {
         $this->glSummaryItem = $glSummaryItem;
-
         return $this;
     }
+
+
 }
+

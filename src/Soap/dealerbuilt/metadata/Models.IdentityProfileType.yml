@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: Address1
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getAddress1
                 setter: setAddress1
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: Address2
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getAddress2
                 setter: setAddress2
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: BirthDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getBirthDate
                 setter: setBirthDate
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: City
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getCity
                 setter: setCity
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: CitySubDivisionName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getCitySubDivisionName
                 setter: setCitySubDivisionName
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: Country
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getCountry
                 setter: setCountry
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: County
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getCounty
                 setter: setCounty
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: EmailAddress
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getEmailAddress
                 setter: setEmailAddress
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: PersonalName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getPersonalName
                 setter: setPersonalName
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: PhoneNumbers
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getPhoneNumbers
                 setter: setPhoneNumbers
@@ -104,13 +104,13 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
                 inline: false
                 entry_name: PhoneNumber
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
         sex:
             expose: true
             access_type: public_method
             serialized_name: Sex
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSex
                 setter: setSex
@@ -120,7 +120,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseAddress1
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseAddress1
                 setter: setSpouseAddress1
@@ -130,7 +130,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseAddress2
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseAddress2
                 setter: setSpouseAddress2
@@ -140,7 +140,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseCity
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseCity
                 setter: setSpouseCity
@@ -150,7 +150,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseCountry
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseCountry
                 setter: setSpouseCountry
@@ -160,7 +160,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseCounty
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseCounty
                 setter: setSpouseCounty
@@ -170,7 +170,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseEmailAddress
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseEmailAddress
                 setter: setSpouseEmailAddress
@@ -180,7 +180,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseName
                 setter: setSpouseName
@@ -190,7 +190,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpousePhoneNumbers
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpousePhoneNumbers
                 setter: setSpousePhoneNumbers
@@ -199,13 +199,13 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
                 inline: false
                 entry_name: PhoneNumber
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
         spouseSsn:
             expose: true
             access_type: public_method
             serialized_name: SpouseSsn
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseSsn
                 setter: setSpouseSsn
@@ -215,7 +215,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseState
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseState
                 setter: setSpouseState
@@ -225,7 +225,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: SpouseZip
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpouseZip
                 setter: setSpouseZip
@@ -235,7 +235,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: Ssn
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSsn
                 setter: setSsn
@@ -245,7 +245,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: State
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getState
                 setter: setState
@@ -255,7 +255,7 @@ App\Soap\dealerbuilt\src\Models\IdentityProfileType:
             access_type: public_method
             serialized_name: Zip
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getZip
                 setter: setZip

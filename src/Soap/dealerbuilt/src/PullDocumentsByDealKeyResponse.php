@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDocumentsByDealKeyResponse.
+ * Class representing PullDocumentsByDealKeyResponse
  */
 class PullDocumentsByDealKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DocumentType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DocumentType[] $pullDocumentsByDealKeyResult
      */
     private $pullDocumentsByDealKeyResult = null;
 
     /**
-     * Adds as document.
+     * Adds as document
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DocumentType $document
      */
-    public function addToPullDocumentsByDealKeyResult(BaseApi\DocumentType $document)
+    public function addToPullDocumentsByDealKeyResult(\App\Soap\dealerbuilt\src\BaseApi\DocumentType $document)
     {
         $this->pullDocumentsByDealKeyResult[] = $document;
-
         return $this;
     }
 
     /**
-     * isset pullDocumentsByDealKeyResult.
+     * isset pullDocumentsByDealKeyResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullDocumentsByDealKeyResult($index)
@@ -39,10 +37,9 @@ class PullDocumentsByDealKeyResponse
     }
 
     /**
-     * unset pullDocumentsByDealKeyResult.
+     * unset pullDocumentsByDealKeyResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullDocumentsByDealKeyResult($index)
@@ -51,7 +48,7 @@ class PullDocumentsByDealKeyResponse
     }
 
     /**
-     * Gets as pullDocumentsByDealKeyResult.
+     * Gets as pullDocumentsByDealKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DocumentType[]
      */
@@ -61,16 +58,17 @@ class PullDocumentsByDealKeyResponse
     }
 
     /**
-     * Sets a new pullDocumentsByDealKeyResult.
+     * Sets a new pullDocumentsByDealKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DocumentType[] $pullDocumentsByDealKeyResult
-     *
      * @return self
      */
     public function setPullDocumentsByDealKeyResult(array $pullDocumentsByDealKeyResult)
     {
         $this->pullDocumentsByDealKeyResult = $pullDocumentsByDealKeyResult;
-
         return $this;
     }
+
+
 }
+

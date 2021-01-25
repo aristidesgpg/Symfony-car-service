@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
             access_type: public_method
             serialized_name: CustomerCost
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerCost
                 setter: setCustomerCost
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
             access_type: public_method
             serialized_name: CustomerListPrice
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerListPrice
                 setter: setCustomerListPrice
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
             access_type: public_method
             serialized_name: CustomerNetPrice
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerNetPrice
                 setter: setCustomerNetPrice
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
             access_type: public_method
             serialized_name: CustomerSalePrice
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerSalePrice
                 setter: setCustomerSalePrice
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
             access_type: public_method
             serialized_name: CustomerSell
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getCustomerSell
                 setter: setCustomerSell
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
             access_type: public_method
             serialized_name: DiscountLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getDiscountLocationId
                 setter: setDiscountLocationId
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
             access_type: public_method
             serialized_name: ErrorMessage
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getErrorMessage
                 setter: setErrorMessage

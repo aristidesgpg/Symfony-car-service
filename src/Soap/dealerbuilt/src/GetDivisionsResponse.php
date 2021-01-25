@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetDivisionsResponse.
+ * Class representing GetDivisionsResponse
  */
 class GetDivisionsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DivisionType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DivisionType[] $getDivisionsResult
      */
     private $getDivisionsResult = null;
 
     /**
-     * Adds as division.
+     * Adds as division
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DivisionType $division
      */
-    public function addToGetDivisionsResult(BaseApi\DivisionType $division)
+    public function addToGetDivisionsResult(\App\Soap\dealerbuilt\src\BaseApi\DivisionType $division)
     {
         $this->getDivisionsResult[] = $division;
-
         return $this;
     }
 
     /**
-     * isset getDivisionsResult.
+     * isset getDivisionsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetDivisionsResult($index)
@@ -39,10 +37,9 @@ class GetDivisionsResponse
     }
 
     /**
-     * unset getDivisionsResult.
+     * unset getDivisionsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetDivisionsResult($index)
@@ -51,7 +48,7 @@ class GetDivisionsResponse
     }
 
     /**
-     * Gets as getDivisionsResult.
+     * Gets as getDivisionsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DivisionType[]
      */
@@ -61,16 +58,17 @@ class GetDivisionsResponse
     }
 
     /**
-     * Sets a new getDivisionsResult.
+     * Sets a new getDivisionsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DivisionType[] $getDivisionsResult
-     *
      * @return self
      */
     public function setGetDivisionsResult(array $getDivisionsResult)
     {
         $this->getDivisionsResult = $getDivisionsResult;
-
         return $this;
     }
+
+
 }
+

@@ -3,22 +3,23 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullEstimateByNumber.
+ * Class representing PullEstimateByNumber
  */
 class PullEstimateByNumber
 {
+
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var string
+     * @var string $estimateNumber
      */
     private $estimateNumber = null;
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -28,21 +29,19 @@ class PullEstimateByNumber
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Gets as estimateNumber.
+     * Gets as estimateNumber
      *
      * @return string
      */
@@ -52,16 +51,17 @@ class PullEstimateByNumber
     }
 
     /**
-     * Sets a new estimateNumber.
+     * Sets a new estimateNumber
      *
      * @param string $estimateNumber
-     *
      * @return self
      */
     public function setEstimateNumber($estimateNumber)
     {
         $this->estimateNumber = $estimateNumber;
-
         return $this;
     }
+
+
 }
+

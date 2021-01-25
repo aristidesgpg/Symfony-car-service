@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing RepairOrderSummary.
+ * Class representing RepairOrderSummary
  */
 class RepairOrderSummary extends RepairOrderSummaryType
 {
+
+
 }
+

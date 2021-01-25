@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ProductList.
+ * Class representing ProductList
  */
 class ProductList extends ProductListType
 {
+
+
 }
+

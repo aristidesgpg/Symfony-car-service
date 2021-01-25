@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDealsFullResponse.
+ * Class representing PullDealsFullResponse
  */
 class PullDealsFullResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealType[] $pullDealsFullResult
      */
     private $pullDealsFullResult = null;
 
     /**
-     * Adds as deal.
+     * Adds as deal
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealType $deal
      */
-    public function addToPullDealsFullResult(BaseApi\DealType $deal)
+    public function addToPullDealsFullResult(\App\Soap\dealerbuilt\src\BaseApi\DealType $deal)
     {
         $this->pullDealsFullResult[] = $deal;
-
         return $this;
     }
 
     /**
-     * isset pullDealsFullResult.
+     * isset pullDealsFullResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullDealsFullResult($index)
@@ -39,10 +37,9 @@ class PullDealsFullResponse
     }
 
     /**
-     * unset pullDealsFullResult.
+     * unset pullDealsFullResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullDealsFullResult($index)
@@ -51,7 +48,7 @@ class PullDealsFullResponse
     }
 
     /**
-     * Gets as pullDealsFullResult.
+     * Gets as pullDealsFullResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealType[]
      */
@@ -61,16 +58,17 @@ class PullDealsFullResponse
     }
 
     /**
-     * Sets a new pullDealsFullResult.
+     * Sets a new pullDealsFullResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealType[] $pullDealsFullResult
-     *
      * @return self
      */
     public function setPullDealsFullResult(array $pullDealsFullResult)
     {
         $this->pullDealsFullResult = $pullDealsFullResult;
-
         return $this;
     }
+
+
 }
+

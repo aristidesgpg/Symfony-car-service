@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ProspectSearchCriteriaType.
+ * Class representing ProspectSearchCriteriaType
  *
+ * 
  * XSD Type: ProspectSearchCriteria
  */
 class ProspectSearchCriteriaType extends StoresSearchCriteriaType
 {
+
     /**
-     * @var string
+     * @var string $driverLicenseNumber
      */
     private $driverLicenseNumber = null;
 
     /**
-     * @var string
+     * @var string $partialName
      */
     private $partialName = null;
 
     /**
-     * @var string
+     * @var string $phone
      */
     private $phone = null;
 
     /**
-     * Gets as driverLicenseNumber.
+     * Gets as driverLicenseNumber
      *
      * @return string
      */
@@ -35,21 +37,19 @@ class ProspectSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new driverLicenseNumber.
+     * Sets a new driverLicenseNumber
      *
      * @param string $driverLicenseNumber
-     *
      * @return self
      */
     public function setDriverLicenseNumber($driverLicenseNumber)
     {
         $this->driverLicenseNumber = $driverLicenseNumber;
-
         return $this;
     }
 
     /**
-     * Gets as partialName.
+     * Gets as partialName
      *
      * @return string
      */
@@ -59,21 +59,19 @@ class ProspectSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new partialName.
+     * Sets a new partialName
      *
      * @param string $partialName
-     *
      * @return self
      */
     public function setPartialName($partialName)
     {
         $this->partialName = $partialName;
-
         return $this;
     }
 
     /**
-     * Gets as phone.
+     * Gets as phone
      *
      * @return string
      */
@@ -83,16 +81,17 @@ class ProspectSearchCriteriaType extends StoresSearchCriteriaType
     }
 
     /**
-     * Sets a new phone.
+     * Sets a new phone
      *
      * @param string $phone
-     *
      * @return self
      */
     public function setPhone($phone)
     {
         $this->phone = $phone;
-
         return $this;
     }
+
+
 }
+

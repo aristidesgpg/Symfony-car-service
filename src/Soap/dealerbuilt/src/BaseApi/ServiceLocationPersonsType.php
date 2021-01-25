@@ -3,34 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationPersonsType.
+ * Class representing ServiceLocationPersonsType
  *
+ * 
  * XSD Type: ServiceLocationPersons
  */
 class ServiceLocationPersonsType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType[]
+     * @var \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType[] $persons
      */
     private $persons = null;
 
     /**
-     * Adds as numberedPersonInfo.
+     * Adds as numberedPersonInfo
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $numberedPersonInfo
      */
     public function addToPersons(\App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType $numberedPersonInfo)
     {
         $this->persons[] = $numberedPersonInfo;
-
         return $this;
     }
 
     /**
-     * isset persons.
+     * isset persons
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPersons($index)
@@ -39,10 +40,9 @@ class ServiceLocationPersonsType extends ApiServiceLocationItemType
     }
 
     /**
-     * unset persons.
+     * unset persons
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPersons($index)
@@ -51,7 +51,7 @@ class ServiceLocationPersonsType extends ApiServiceLocationItemType
     }
 
     /**
-     * Gets as persons.
+     * Gets as persons
      *
      * @return \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType[]
      */
@@ -61,16 +61,17 @@ class ServiceLocationPersonsType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new persons.
+     * Sets a new persons
      *
      * @param \App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType[] $persons
-     *
      * @return self
      */
     public function setPersons(array $persons)
     {
         $this->persons = $persons;
-
         return $this;
     }
+
+
 }
+

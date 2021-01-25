@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationItemSearchCriteria.
+ * Class representing ServiceLocationItemSearchCriteria
  */
 class ServiceLocationItemSearchCriteria extends ServiceLocationItemSearchCriteriaType
 {
+
+
 }
+

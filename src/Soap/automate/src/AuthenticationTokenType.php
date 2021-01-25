@@ -3,24 +3,26 @@
 namespace App\Soap\automate\src;
 
 /**
- * Class representing AuthenticationTokenType.
+ * Class representing AuthenticationTokenType
  *
+ * 
  * XSD Type: authenticationToken
  */
 class AuthenticationTokenType
 {
+
     /**
-     * @var string
+     * @var string $userName
      */
     private $userName = null;
 
     /**
-     * @var string
+     * @var string $password
      */
     private $password = null;
 
     /**
-     * Gets as userName.
+     * Gets as userName
      *
      * @return string
      */
@@ -30,21 +32,19 @@ class AuthenticationTokenType
     }
 
     /**
-     * Sets a new userName.
+     * Sets a new userName
      *
      * @param string $userName
-     *
      * @return self
      */
     public function setUserName($userName)
     {
         $this->userName = $userName;
-
         return $this;
     }
 
     /**
-     * Gets as password.
+     * Gets as password
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class AuthenticationTokenType
     }
 
     /**
-     * Sets a new password.
+     * Sets a new password
      *
      * @param string $password
-     *
      * @return self
      */
     public function setPassword($password)
     {
         $this->password = $password;
-
         return $this;
     }
+
+
 }
+

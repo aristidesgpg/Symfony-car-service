@@ -3,19 +3,21 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing SourcePushResponseType.
+ * Class representing SourcePushResponseType
  *
+ * 
  * XSD Type: SourcePushResponse
  */
 class SourcePushResponseType extends PushResponseType
 {
+
     /**
-     * @var int
+     * @var int $sourceId
      */
     private $sourceId = null;
 
     /**
-     * Gets as sourceId.
+     * Gets as sourceId
      *
      * @return int
      */
@@ -25,16 +27,17 @@ class SourcePushResponseType extends PushResponseType
     }
 
     /**
-     * Sets a new sourceId.
+     * Sets a new sourceId
      *
      * @param int $sourceId
-     *
      * @return self
      */
     public function setSourceId($sourceId)
     {
         $this->sourceId = $sourceId;
-
         return $this;
     }
+
+
 }
+

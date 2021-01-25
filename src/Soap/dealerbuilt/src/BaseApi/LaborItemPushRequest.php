@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing LaborItemPushRequest.
+ * Class representing LaborItemPushRequest
  */
 class LaborItemPushRequest extends LaborItemPushRequestType
 {
+
+
 }
+

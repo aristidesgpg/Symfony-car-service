@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing DealerFee.
+ * Class representing DealerFee
  */
 class DealerFee extends DealerFeeType
 {
+
+
 }
+

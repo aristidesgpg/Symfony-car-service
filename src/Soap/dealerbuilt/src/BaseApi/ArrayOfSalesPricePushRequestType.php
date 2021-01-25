@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfSalesPricePushRequestType.
+ * Class representing ArrayOfSalesPricePushRequestType
  *
+ * 
  * XSD Type: ArrayOfSalesPricePushRequest
  */
 class ArrayOfSalesPricePushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\SalesPricePushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\SalesPricePushRequestType[] $salesPricePushRequest
      */
     private $salesPricePushRequest = [
+        
     ];
 
     /**
-     * Adds as salesPricePushRequest.
+     * Adds as salesPricePushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SalesPricePushRequestType $salesPricePushRequest
      */
-    public function addToSalesPricePushRequest(SalesPricePushRequestType $salesPricePushRequest)
+    public function addToSalesPricePushRequest(\App\Soap\dealerbuilt\src\BaseApi\SalesPricePushRequestType $salesPricePushRequest)
     {
         $this->salesPricePushRequest[] = $salesPricePushRequest;
-
         return $this;
     }
 
     /**
-     * isset salesPricePushRequest.
+     * isset salesPricePushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSalesPricePushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfSalesPricePushRequestType
     }
 
     /**
-     * unset salesPricePushRequest.
+     * unset salesPricePushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSalesPricePushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfSalesPricePushRequestType
     }
 
     /**
-     * Gets as salesPricePushRequest.
+     * Gets as salesPricePushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\SalesPricePushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfSalesPricePushRequestType
     }
 
     /**
-     * Sets a new salesPricePushRequest.
+     * Sets a new salesPricePushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\SalesPricePushRequestType[] $salesPricePushRequest
-     *
      * @return self
      */
     public function setSalesPricePushRequest(array $salesPricePushRequest)
     {
         $this->salesPricePushRequest = $salesPricePushRequest;
-
         return $this;
     }
+
+
 }
+

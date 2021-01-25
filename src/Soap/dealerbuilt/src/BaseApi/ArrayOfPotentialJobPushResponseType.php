@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPotentialJobPushResponseType.
+ * Class representing ArrayOfPotentialJobPushResponseType
  *
+ * 
  * XSD Type: ArrayOfPotentialJobPushResponse
  */
 class ArrayOfPotentialJobPushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType[] $potentialJobPushResponse
      */
     private $potentialJobPushResponse = [
+        
     ];
 
     /**
-     * Adds as potentialJobPushResponse.
+     * Adds as potentialJobPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType $potentialJobPushResponse
      */
-    public function addToPotentialJobPushResponse(PotentialJobPushResponseType $potentialJobPushResponse)
+    public function addToPotentialJobPushResponse(\App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType $potentialJobPushResponse)
     {
         $this->potentialJobPushResponse[] = $potentialJobPushResponse;
-
         return $this;
     }
 
     /**
-     * isset potentialJobPushResponse.
+     * isset potentialJobPushResponse
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPotentialJobPushResponse($index)
@@ -42,10 +42,9 @@ class ArrayOfPotentialJobPushResponseType
     }
 
     /**
-     * unset potentialJobPushResponse.
+     * unset potentialJobPushResponse
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPotentialJobPushResponse($index)
@@ -54,7 +53,7 @@ class ArrayOfPotentialJobPushResponseType
     }
 
     /**
-     * Gets as potentialJobPushResponse.
+     * Gets as potentialJobPushResponse
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfPotentialJobPushResponseType
     }
 
     /**
-     * Sets a new potentialJobPushResponse.
+     * Sets a new potentialJobPushResponse
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType[] $potentialJobPushResponse
-     *
      * @return self
      */
     public function setPotentialJobPushResponse(array $potentialJobPushResponse)
     {
         $this->potentialJobPushResponse = $potentialJobPushResponse;
-
         return $this;
     }
+
+
 }
+

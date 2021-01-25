@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: CauseDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getCauseDescription
                 setter: setCauseDescription
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: ChargeAmount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getChargeAmount
                 setter: setChargeAmount
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: ComplaintCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getComplaintCode
                 setter: setComplaintCode
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: ComplaintDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getComplaintDescription
                 setter: setComplaintDescription
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: ControlNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getControlNumber
                 setter: setControlNumber
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: IsDiscount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getIsDiscount
                 setter: setIsDiscount
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: JobCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getJobCode
                 setter: setJobCode
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: Percent
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPercent
                 setter: setPercent
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: Price
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getPrice
                 setter: setPrice
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: ServiceCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceCode
                 setter: setServiceCode
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: ServiceCodeDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceCodeDescription
                 setter: setServiceCodeDescription
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: ServiceDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getServiceDescription
                 setter: setServiceDescription
@@ -125,7 +125,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: Tax
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTax
                 setter: setTax
@@ -135,7 +135,7 @@ App\Soap\dealerbuilt\src\Models\Service\RepairOrderServiceComponentType:
             access_type: public_method
             serialized_name: Taxable
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
             accessor:
                 getter: getTaxable
                 setter: setTaxable

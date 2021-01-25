@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\Sales\ArrayOfDealerTaxType:
             access_type: public_method
             serialized_name: DealerTax
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getDealerTax
                 setter: setDealerTax
             xml_list:
                 inline: true
                 entry_name: DealerTax
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             type: array<App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType>

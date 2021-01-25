@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfReceiptType.
+ * Class representing ArrayOfReceiptType
  *
+ * 
  * XSD Type: ArrayOfReceipt
  */
 class ArrayOfReceiptType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ReceiptType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ReceiptType[] $receipt
      */
     private $receipt = [
+        
     ];
 
     /**
-     * Adds as receipt.
+     * Adds as receipt
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ReceiptType $receipt
      */
-    public function addToReceipt(ReceiptType $receipt)
+    public function addToReceipt(\App\Soap\dealerbuilt\src\BaseApi\ReceiptType $receipt)
     {
         $this->receipt[] = $receipt;
-
         return $this;
     }
 
     /**
-     * isset receipt.
+     * isset receipt
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetReceipt($index)
@@ -42,10 +42,9 @@ class ArrayOfReceiptType
     }
 
     /**
-     * unset receipt.
+     * unset receipt
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetReceipt($index)
@@ -54,7 +53,7 @@ class ArrayOfReceiptType
     }
 
     /**
-     * Gets as receipt.
+     * Gets as receipt
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ReceiptType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfReceiptType
     }
 
     /**
-     * Sets a new receipt.
+     * Sets a new receipt
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ReceiptType[] $receipt
-     *
      * @return self
      */
     public function setReceipt(array $receipt)
     {
         $this->receipt = $receipt;
-
         return $this;
     }
+
+
 }
+

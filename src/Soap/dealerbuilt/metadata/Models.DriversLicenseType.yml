@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\DriversLicenseType:
             access_type: public_method
             serialized_name: Number
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getNumber
                 setter: setNumber
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\DriversLicenseType:
             access_type: public_method
             serialized_name: State
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getState
                 setter: setState

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfSalesPerson.
+ * Class representing ArrayOfSalesPerson
  */
 class ArrayOfSalesPerson extends ArrayOfSalesPersonType
 {
+
+
 }
+

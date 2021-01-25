@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing AccountingTransactionAttributes.
+ * Class representing AccountingTransactionAttributes
  */
 class AccountingTransactionAttributes extends AccountingTransactionAttributesType
 {
+
+
 }
+

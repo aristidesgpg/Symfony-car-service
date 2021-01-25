@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing GlLineSearchCriteria.
+ * Class representing GlLineSearchCriteria
  */
 class GlLineSearchCriteria extends GlLineSearchCriteriaType
 {
+
+
 }
+

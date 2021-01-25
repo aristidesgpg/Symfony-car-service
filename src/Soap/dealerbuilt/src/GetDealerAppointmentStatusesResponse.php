@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetDealerAppointmentStatusesResponse.
+ * Class representing GetDealerAppointmentStatusesResponse
  */
 class GetDealerAppointmentStatusesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType[] $getDealerAppointmentStatusesResult
      */
     private $getDealerAppointmentStatusesResult = null;
 
     /**
-     * Adds as dealerAppointmentStatusList.
+     * Adds as dealerAppointmentStatusList
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType $dealerAppointmentStatusList
      */
-    public function addToGetDealerAppointmentStatusesResult(BaseApi\DealerAppointmentStatusListType $dealerAppointmentStatusList)
+    public function addToGetDealerAppointmentStatusesResult(\App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType $dealerAppointmentStatusList)
     {
         $this->getDealerAppointmentStatusesResult[] = $dealerAppointmentStatusList;
-
         return $this;
     }
 
     /**
-     * isset getDealerAppointmentStatusesResult.
+     * isset getDealerAppointmentStatusesResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetGetDealerAppointmentStatusesResult($index)
@@ -39,10 +37,9 @@ class GetDealerAppointmentStatusesResponse
     }
 
     /**
-     * unset getDealerAppointmentStatusesResult.
+     * unset getDealerAppointmentStatusesResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetGetDealerAppointmentStatusesResult($index)
@@ -51,7 +48,7 @@ class GetDealerAppointmentStatusesResponse
     }
 
     /**
-     * Gets as getDealerAppointmentStatusesResult.
+     * Gets as getDealerAppointmentStatusesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType[]
      */
@@ -61,16 +58,17 @@ class GetDealerAppointmentStatusesResponse
     }
 
     /**
-     * Sets a new getDealerAppointmentStatusesResult.
+     * Sets a new getDealerAppointmentStatusesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType[] $getDealerAppointmentStatusesResult
-     *
      * @return self
      */
     public function setGetDealerAppointmentStatusesResult(array $getDealerAppointmentStatusesResult)
     {
         $this->getDealerAppointmentStatusesResult = $getDealerAppointmentStatusesResult;
-
         return $this;
     }
+
+
 }
+

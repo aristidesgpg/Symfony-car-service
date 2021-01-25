@@ -3,124 +3,126 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedPotentialJobAttributesType.
+ * Class representing PushedPotentialJobAttributesType
  *
+ * 
  * XSD Type: PushedPotentialJobAttributes
  */
 class PushedPotentialJobAttributesType
 {
+
     /**
-     * @var string
+     * @var string $campaignDispositionCode
      */
     private $campaignDispositionCode = null;
 
     /**
-     * @var string
+     * @var string $campaignNumber
      */
     private $campaignNumber = null;
 
     /**
-     * @var string
+     * @var string $causeDescription
      */
     private $causeDescription = null;
 
     /**
-     * @var string
+     * @var string $complaint
      */
     private $complaint = null;
 
     /**
-     * @var string
+     * @var string $correction
      */
     private $correction = null;
 
     /**
-     * @var float
+     * @var float $estimatedHours
      */
     private $estimatedHours = null;
 
     /**
-     * @var string
+     * @var string $externalJobId
      */
     private $externalJobId = null;
 
     /**
-     * @var int
+     * @var int $jobId
      */
     private $jobId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[] $laborItems
      */
     private $laborItems = null;
 
     /**
-     * @var string
+     * @var string $laborPriceCode
      */
     private $laborPriceCode = null;
 
     /**
-     * @var float
+     * @var float $laborRate
      */
     private $laborRate = null;
 
     /**
-     * @var float
+     * @var float $laborTax
      */
     private $laborTax = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $menuPartsPrice
      */
     private $menuPartsPrice = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var string
+     * @var string $mpiCode
      */
     private $mpiCode = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[] $parts
      */
     private $parts = null;
 
     /**
-     * @var string
+     * @var string $payType
      */
     private $payType = null;
 
     /**
-     * @var string
+     * @var string $quickCode
      */
     private $quickCode = null;
 
     /**
-     * @var string
+     * @var string $serviceAdvisorNumber
      */
     private $serviceAdvisorNumber = null;
 
     /**
-     * @var string
+     * @var string $status
      */
     private $status = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[] $techs
      */
     private $techs = null;
 
     /**
-     * @var string
+     * @var string $vciCode
      */
     private $vciCode = null;
 
     /**
-     * Gets as campaignDispositionCode.
+     * Gets as campaignDispositionCode
      *
      * @return string
      */
@@ -130,21 +132,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new campaignDispositionCode.
+     * Sets a new campaignDispositionCode
      *
      * @param string $campaignDispositionCode
-     *
      * @return self
      */
     public function setCampaignDispositionCode($campaignDispositionCode)
     {
         $this->campaignDispositionCode = $campaignDispositionCode;
-
         return $this;
     }
 
     /**
-     * Gets as campaignNumber.
+     * Gets as campaignNumber
      *
      * @return string
      */
@@ -154,21 +154,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new campaignNumber.
+     * Sets a new campaignNumber
      *
      * @param string $campaignNumber
-     *
      * @return self
      */
     public function setCampaignNumber($campaignNumber)
     {
         $this->campaignNumber = $campaignNumber;
-
         return $this;
     }
 
     /**
-     * Gets as causeDescription.
+     * Gets as causeDescription
      *
      * @return string
      */
@@ -178,21 +176,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new causeDescription.
+     * Sets a new causeDescription
      *
      * @param string $causeDescription
-     *
      * @return self
      */
     public function setCauseDescription($causeDescription)
     {
         $this->causeDescription = $causeDescription;
-
         return $this;
     }
 
     /**
-     * Gets as complaint.
+     * Gets as complaint
      *
      * @return string
      */
@@ -202,21 +198,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new complaint.
+     * Sets a new complaint
      *
      * @param string $complaint
-     *
      * @return self
      */
     public function setComplaint($complaint)
     {
         $this->complaint = $complaint;
-
         return $this;
     }
 
     /**
-     * Gets as correction.
+     * Gets as correction
      *
      * @return string
      */
@@ -226,21 +220,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new correction.
+     * Sets a new correction
      *
      * @param string $correction
-     *
      * @return self
      */
     public function setCorrection($correction)
     {
         $this->correction = $correction;
-
         return $this;
     }
 
     /**
-     * Gets as estimatedHours.
+     * Gets as estimatedHours
      *
      * @return float
      */
@@ -250,21 +242,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new estimatedHours.
+     * Sets a new estimatedHours
      *
      * @param float $estimatedHours
-     *
      * @return self
      */
     public function setEstimatedHours($estimatedHours)
     {
         $this->estimatedHours = $estimatedHours;
-
         return $this;
     }
 
     /**
-     * Gets as externalJobId.
+     * Gets as externalJobId
      *
      * @return string
      */
@@ -274,21 +264,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new externalJobId.
+     * Sets a new externalJobId
      *
      * @param string $externalJobId
-     *
      * @return self
      */
     public function setExternalJobId($externalJobId)
     {
         $this->externalJobId = $externalJobId;
-
         return $this;
     }
 
     /**
-     * Gets as jobId.
+     * Gets as jobId
      *
      * @return int
      */
@@ -298,38 +286,33 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new jobId.
+     * Sets a new jobId
      *
      * @param int $jobId
-     *
      * @return self
      */
     public function setJobId($jobId)
     {
         $this->jobId = $jobId;
-
         return $this;
     }
 
     /**
-     * Adds as pushedPotentialLaborItemAttributes.
+     * Adds as pushedPotentialLaborItemAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType $pushedPotentialLaborItemAttributes
      */
-    public function addToLaborItems(PushedPotentialLaborItemAttributesType $pushedPotentialLaborItemAttributes)
+    public function addToLaborItems(\App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType $pushedPotentialLaborItemAttributes)
     {
         $this->laborItems[] = $pushedPotentialLaborItemAttributes;
-
         return $this;
     }
 
     /**
-     * isset laborItems.
+     * isset laborItems
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLaborItems($index)
@@ -338,10 +321,9 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * unset laborItems.
+     * unset laborItems
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLaborItems($index)
@@ -350,7 +332,7 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Gets as laborItems.
+     * Gets as laborItems
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[]
      */
@@ -360,21 +342,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new laborItems.
+     * Sets a new laborItems
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[] $laborItems
-     *
      * @return self
      */
     public function setLaborItems(array $laborItems)
     {
         $this->laborItems = $laborItems;
-
         return $this;
     }
 
     /**
-     * Gets as laborPriceCode.
+     * Gets as laborPriceCode
      *
      * @return string
      */
@@ -384,21 +364,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new laborPriceCode.
+     * Sets a new laborPriceCode
      *
      * @param string $laborPriceCode
-     *
      * @return self
      */
     public function setLaborPriceCode($laborPriceCode)
     {
         $this->laborPriceCode = $laborPriceCode;
-
         return $this;
     }
 
     /**
-     * Gets as laborRate.
+     * Gets as laborRate
      *
      * @return float
      */
@@ -408,21 +386,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new laborRate.
+     * Sets a new laborRate
      *
      * @param float $laborRate
-     *
      * @return self
      */
     public function setLaborRate($laborRate)
     {
         $this->laborRate = $laborRate;
-
         return $this;
     }
 
     /**
-     * Gets as laborTax.
+     * Gets as laborTax
      *
      * @return float
      */
@@ -432,21 +408,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new laborTax.
+     * Sets a new laborTax
      *
      * @param float $laborTax
-     *
      * @return self
      */
     public function setLaborTax($laborTax)
     {
         $this->laborTax = $laborTax;
-
         return $this;
     }
 
     /**
-     * Gets as menuPartsPrice.
+     * Gets as menuPartsPrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -456,19 +430,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new menuPartsPrice.
+     * Sets a new menuPartsPrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $menuPartsPrice
      * @return self
      */
     public function setMenuPartsPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $menuPartsPrice)
     {
         $this->menuPartsPrice = $menuPartsPrice;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -478,21 +452,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as mpiCode.
+     * Gets as mpiCode
      *
      * @return string
      */
@@ -502,38 +474,33 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new mpiCode.
+     * Sets a new mpiCode
      *
      * @param string $mpiCode
-     *
      * @return self
      */
     public function setMpiCode($mpiCode)
     {
         $this->mpiCode = $mpiCode;
-
         return $this;
     }
 
     /**
-     * Adds as pushedPotentialPartAttributes.
+     * Adds as pushedPotentialPartAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType $pushedPotentialPartAttributes
      */
-    public function addToParts(PushedPotentialPartAttributesType $pushedPotentialPartAttributes)
+    public function addToParts(\App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType $pushedPotentialPartAttributes)
     {
         $this->parts[] = $pushedPotentialPartAttributes;
-
         return $this;
     }
 
     /**
-     * isset parts.
+     * isset parts
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetParts($index)
@@ -542,10 +509,9 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * unset parts.
+     * unset parts
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetParts($index)
@@ -554,7 +520,7 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Gets as parts.
+     * Gets as parts
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[]
      */
@@ -564,21 +530,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new parts.
+     * Sets a new parts
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[] $parts
-     *
      * @return self
      */
     public function setParts(array $parts)
     {
         $this->parts = $parts;
-
         return $this;
     }
 
     /**
-     * Gets as payType.
+     * Gets as payType
      *
      * @return string
      */
@@ -588,21 +552,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new payType.
+     * Sets a new payType
      *
      * @param string $payType
-     *
      * @return self
      */
     public function setPayType($payType)
     {
         $this->payType = $payType;
-
         return $this;
     }
 
     /**
-     * Gets as quickCode.
+     * Gets as quickCode
      *
      * @return string
      */
@@ -612,21 +574,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new quickCode.
+     * Sets a new quickCode
      *
      * @param string $quickCode
-     *
      * @return self
      */
     public function setQuickCode($quickCode)
     {
         $this->quickCode = $quickCode;
-
         return $this;
     }
 
     /**
-     * Gets as serviceAdvisorNumber.
+     * Gets as serviceAdvisorNumber
      *
      * @return string
      */
@@ -636,21 +596,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new serviceAdvisorNumber.
+     * Sets a new serviceAdvisorNumber
      *
      * @param string $serviceAdvisorNumber
-     *
      * @return self
      */
     public function setServiceAdvisorNumber($serviceAdvisorNumber)
     {
         $this->serviceAdvisorNumber = $serviceAdvisorNumber;
-
         return $this;
     }
 
     /**
-     * Gets as status.
+     * Gets as status
      *
      * @return string
      */
@@ -660,38 +618,33 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new status.
+     * Sets a new status
      *
      * @param string $status
-     *
      * @return self
      */
     public function setStatus($status)
     {
         $this->status = $status;
-
         return $this;
     }
 
     /**
-     * Adds as pushedPotentialTechsAttributes.
+     * Adds as pushedPotentialTechsAttributes
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType $pushedPotentialTechsAttributes
      */
-    public function addToTechs(PushedPotentialTechsAttributesType $pushedPotentialTechsAttributes)
+    public function addToTechs(\App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType $pushedPotentialTechsAttributes)
     {
         $this->techs[] = $pushedPotentialTechsAttributes;
-
         return $this;
     }
 
     /**
-     * isset techs.
+     * isset techs
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetTechs($index)
@@ -700,10 +653,9 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * unset techs.
+     * unset techs
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetTechs($index)
@@ -712,7 +664,7 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Gets as techs.
+     * Gets as techs
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[]
      */
@@ -722,21 +674,19 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new techs.
+     * Sets a new techs
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[] $techs
-     *
      * @return self
      */
     public function setTechs(array $techs)
     {
         $this->techs = $techs;
-
         return $this;
     }
 
     /**
-     * Gets as vciCode.
+     * Gets as vciCode
      *
      * @return string
      */
@@ -746,16 +696,17 @@ class PushedPotentialJobAttributesType
     }
 
     /**
-     * Sets a new vciCode.
+     * Sets a new vciCode
      *
      * @param string $vciCode
-     *
      * @return self
      */
     public function setVciCode($vciCode)
     {
         $this->vciCode = $vciCode;
-
         return $this;
     }
+
+
 }
+

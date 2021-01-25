@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: Account
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccount
                 setter: setAccount
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: AccountClass
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountClass
                 setter: setAccountClass
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: AccountDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountDescription
                 setter: setAccountDescription
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: AccountDescriptionAbbreviated
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getAccountDescriptionAbbreviated
                 setter: setAccountDescriptionAbbreviated
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: BalanceForward
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getBalanceForward
                 setter: setBalanceForward
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: Lines
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getLines
                 setter: setLines
@@ -64,13 +64,13 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
                 inline: false
                 entry_name: GlDetailLine
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Accounting'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
         totalCredits:
             expose: true
             access_type: public_method
             serialized_name: TotalCredits
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getTotalCredits
                 setter: setTotalCredits
@@ -80,7 +80,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: TotalDebits
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getTotalDebits
                 setter: setTotalDebits
@@ -90,7 +90,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: TotalMonthToDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getTotalMonthToDate
                 setter: setTotalMonthToDate
@@ -100,7 +100,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: TotalUnitCount
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getTotalUnitCount
                 setter: setTotalUnitCount
@@ -110,7 +110,7 @@ App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType:
             access_type: public_method
             serialized_name: TotalYearToDate
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getTotalYearToDate
                 setter: setTotalYearToDate

@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing PartsInvoiceAttributes.
+ * Class representing PartsInvoiceAttributes
  */
 class PartsInvoiceAttributes extends PartsInvoiceAttributesType
 {
+
+
 }
+

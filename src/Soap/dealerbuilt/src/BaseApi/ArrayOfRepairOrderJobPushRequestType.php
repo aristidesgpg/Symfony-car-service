@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfRepairOrderJobPushRequestType.
+ * Class representing ArrayOfRepairOrderJobPushRequestType
  *
+ * 
  * XSD Type: ArrayOfRepairOrderJobPushRequest
  */
 class ArrayOfRepairOrderJobPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderJobPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderJobPushRequestType[] $repairOrderJobPushRequest
      */
     private $repairOrderJobPushRequest = [
+        
     ];
 
     /**
-     * Adds as repairOrderJobPushRequest.
+     * Adds as repairOrderJobPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderJobPushRequestType $repairOrderJobPushRequest
      */
-    public function addToRepairOrderJobPushRequest(RepairOrderJobPushRequestType $repairOrderJobPushRequest)
+    public function addToRepairOrderJobPushRequest(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderJobPushRequestType $repairOrderJobPushRequest)
     {
         $this->repairOrderJobPushRequest[] = $repairOrderJobPushRequest;
-
         return $this;
     }
 
     /**
-     * isset repairOrderJobPushRequest.
+     * isset repairOrderJobPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRepairOrderJobPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfRepairOrderJobPushRequestType
     }
 
     /**
-     * unset repairOrderJobPushRequest.
+     * unset repairOrderJobPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRepairOrderJobPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfRepairOrderJobPushRequestType
     }
 
     /**
-     * Gets as repairOrderJobPushRequest.
+     * Gets as repairOrderJobPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderJobPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfRepairOrderJobPushRequestType
     }
 
     /**
-     * Sets a new repairOrderJobPushRequest.
+     * Sets a new repairOrderJobPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderJobPushRequestType[] $repairOrderJobPushRequest
-     *
      * @return self
      */
     public function setRepairOrderJobPushRequest(array $repairOrderJobPushRequest)
     {
         $this->repairOrderJobPushRequest = $repairOrderJobPushRequest;
-
         return $this;
     }
+
+
 }
+

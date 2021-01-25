@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationJobCodes.
+ * Class representing ServiceLocationJobCodes
  */
 class ServiceLocationJobCodes extends ServiceLocationJobCodesType
 {
+
+
 }
+

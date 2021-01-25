@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationPlacementType.
+ * Class representing ServiceLocationPlacementType
  *
+ * 
  * XSD Type: ServiceLocationPlacement
  */
 class ServiceLocationPlacementType extends StorePlacementType
 {
+
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var string
+     * @var string $serviceLocationName
      */
     private $serviceLocationName = null;
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -30,21 +32,19 @@ class ServiceLocationPlacementType extends StorePlacementType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationName.
+     * Gets as serviceLocationName
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class ServiceLocationPlacementType extends StorePlacementType
     }
 
     /**
-     * Sets a new serviceLocationName.
+     * Sets a new serviceLocationName
      *
      * @param string $serviceLocationName
-     *
      * @return self
      */
     public function setServiceLocationName($serviceLocationName)
     {
         $this->serviceLocationName = $serviceLocationName;
-
         return $this;
     }
+
+
 }
+

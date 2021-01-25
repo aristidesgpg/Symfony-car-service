@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Appointments;
 
 /**
- * Class representing ArrayOfConcernType.
+ * Class representing ArrayOfConcernType
  *
+ * 
  * XSD Type: ArrayOfConcern
  */
 class ArrayOfConcernType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[] $concern
      */
     private $concern = [
+        
     ];
 
     /**
-     * Adds as concern.
+     * Adds as concern
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType $concern
      */
-    public function addToConcern(ConcernType $concern)
+    public function addToConcern(\App\Soap\dealerbuilt\src\Models\Appointments\ConcernType $concern)
     {
         $this->concern[] = $concern;
-
         return $this;
     }
 
     /**
-     * isset concern.
+     * isset concern
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetConcern($index)
@@ -42,10 +42,9 @@ class ArrayOfConcernType
     }
 
     /**
-     * unset concern.
+     * unset concern
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetConcern($index)
@@ -54,7 +53,7 @@ class ArrayOfConcernType
     }
 
     /**
-     * Gets as concern.
+     * Gets as concern
      *
      * @return \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfConcernType
     }
 
     /**
-     * Sets a new concern.
+     * Sets a new concern
      *
      * @param \App\Soap\dealerbuilt\src\Models\Appointments\ConcernType[] $concern
-     *
      * @return self
      */
     public function setConcern(array $concern)
     {
         $this->concern = $concern;
-
         return $this;
     }
+
+
 }
+

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\StandardFeeType:
             access_type: public_method
             serialized_name: Fee
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getFee
                 setter: setFee

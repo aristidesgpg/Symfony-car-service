@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullRepairOrderByKeyResponse.
+ * Class representing PullRepairOrderByKeyResponse
  */
 class PullRepairOrderByKeyResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $pullRepairOrderByKeyResult
      */
     private $pullRepairOrderByKeyResult = null;
 
     /**
-     * Gets as pullRepairOrderByKeyResult.
+     * Gets as pullRepairOrderByKeyResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType
      */
@@ -23,16 +24,17 @@ class PullRepairOrderByKeyResponse
     }
 
     /**
-     * Sets a new pullRepairOrderByKeyResult.
+     * Sets a new pullRepairOrderByKeyResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $pullRepairOrderByKeyResult
-     *
      * @return self
      */
-    public function setPullRepairOrderByKeyResult(BaseApi\RepairOrderType $pullRepairOrderByKeyResult)
+    public function setPullRepairOrderByKeyResult(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $pullRepairOrderByKeyResult)
     {
         $this->pullRepairOrderByKeyResult = $pullRepairOrderByKeyResult;
-
         return $this;
     }
+
+
 }
+

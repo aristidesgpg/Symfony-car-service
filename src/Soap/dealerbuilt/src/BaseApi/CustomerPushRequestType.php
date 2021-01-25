@@ -3,74 +3,76 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerPushRequestType.
+ * Class representing CustomerPushRequestType
  *
+ * 
  * XSD Type: CustomerPushRequest
  */
 class CustomerPushRequestType
 {
+
     /**
-     * @var bool
+     * @var bool $allowsEmailContact
      */
     private $allowsEmailContact = null;
 
     /**
-     * @var bool
+     * @var bool $allowsMailContact
      */
     private $allowsMailContact = null;
 
     /**
-     * @var bool
+     * @var bool $allowsPhoneContact
      */
     private $allowsPhoneContact = null;
 
     /**
-     * @var bool
+     * @var bool $allowsSmsContact
      */
     private $allowsSmsContact = null;
 
     /**
-     * @var string
+     * @var string $comments
      */
     private $comments = null;
 
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var string
+     * @var string $externalCustomerId
      */
     private $externalCustomerId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType
+     * @var \App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity
      */
     private $identity = null;
 
     /**
-     * @var bool
+     * @var bool $isWholesale
      */
     private $isWholesale = null;
 
     /**
-     * @var int
+     * @var int $sourceId
      */
     private $sourceId = null;
 
     /**
-     * @var string
+     * @var string $spouseName
      */
     private $spouseName = null;
 
     /**
-     * @var int
+     * @var int $userStoreId
      */
     private $userStoreId = null;
 
     /**
-     * Gets as allowsEmailContact.
+     * Gets as allowsEmailContact
      *
      * @return bool
      */
@@ -80,21 +82,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new allowsEmailContact.
+     * Sets a new allowsEmailContact
      *
      * @param bool $allowsEmailContact
-     *
      * @return self
      */
     public function setAllowsEmailContact($allowsEmailContact)
     {
         $this->allowsEmailContact = $allowsEmailContact;
-
         return $this;
     }
 
     /**
-     * Gets as allowsMailContact.
+     * Gets as allowsMailContact
      *
      * @return bool
      */
@@ -104,21 +104,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new allowsMailContact.
+     * Sets a new allowsMailContact
      *
      * @param bool $allowsMailContact
-     *
      * @return self
      */
     public function setAllowsMailContact($allowsMailContact)
     {
         $this->allowsMailContact = $allowsMailContact;
-
         return $this;
     }
 
     /**
-     * Gets as allowsPhoneContact.
+     * Gets as allowsPhoneContact
      *
      * @return bool
      */
@@ -128,21 +126,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new allowsPhoneContact.
+     * Sets a new allowsPhoneContact
      *
      * @param bool $allowsPhoneContact
-     *
      * @return self
      */
     public function setAllowsPhoneContact($allowsPhoneContact)
     {
         $this->allowsPhoneContact = $allowsPhoneContact;
-
         return $this;
     }
 
     /**
-     * Gets as allowsSmsContact.
+     * Gets as allowsSmsContact
      *
      * @return bool
      */
@@ -152,21 +148,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new allowsSmsContact.
+     * Sets a new allowsSmsContact
      *
      * @param bool $allowsSmsContact
-     *
      * @return self
      */
     public function setAllowsSmsContact($allowsSmsContact)
     {
         $this->allowsSmsContact = $allowsSmsContact;
-
         return $this;
     }
 
     /**
-     * Gets as comments.
+     * Gets as comments
      *
      * @return string
      */
@@ -176,21 +170,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new comments.
+     * Sets a new comments
      *
      * @param string $comments
-     *
      * @return self
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
-
         return $this;
     }
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -200,21 +192,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as externalCustomerId.
+     * Gets as externalCustomerId
      *
      * @return string
      */
@@ -224,21 +214,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new externalCustomerId.
+     * Sets a new externalCustomerId
      *
      * @param string $externalCustomerId
-     *
      * @return self
      */
     public function setExternalCustomerId($externalCustomerId)
     {
         $this->externalCustomerId = $externalCustomerId;
-
         return $this;
     }
 
     /**
-     * Gets as identity.
+     * Gets as identity
      *
      * @return \App\Soap\dealerbuilt\src\Models\IdentityProfileType
      */
@@ -248,19 +236,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new identity.
+     * Sets a new identity
      *
+     * @param \App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity
      * @return self
      */
     public function setIdentity(\App\Soap\dealerbuilt\src\Models\IdentityProfileType $identity)
     {
         $this->identity = $identity;
-
         return $this;
     }
 
     /**
-     * Gets as isWholesale.
+     * Gets as isWholesale
      *
      * @return bool
      */
@@ -270,21 +258,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new isWholesale.
+     * Sets a new isWholesale
      *
      * @param bool $isWholesale
-     *
      * @return self
      */
     public function setIsWholesale($isWholesale)
     {
         $this->isWholesale = $isWholesale;
-
         return $this;
     }
 
     /**
-     * Gets as sourceId.
+     * Gets as sourceId
      *
      * @return int
      */
@@ -294,21 +280,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new sourceId.
+     * Sets a new sourceId
      *
      * @param int $sourceId
-     *
      * @return self
      */
     public function setSourceId($sourceId)
     {
         $this->sourceId = $sourceId;
-
         return $this;
     }
 
     /**
-     * Gets as spouseName.
+     * Gets as spouseName
      *
      * @return string
      */
@@ -318,21 +302,19 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new spouseName.
+     * Sets a new spouseName
      *
      * @param string $spouseName
-     *
      * @return self
      */
     public function setSpouseName($spouseName)
     {
         $this->spouseName = $spouseName;
-
         return $this;
     }
 
     /**
-     * Gets as userStoreId.
+     * Gets as userStoreId
      *
      * @return int
      */
@@ -342,16 +324,17 @@ class CustomerPushRequestType
     }
 
     /**
-     * Sets a new userStoreId.
+     * Sets a new userStoreId
      *
      * @param int $userStoreId
-     *
      * @return self
      */
     public function setUserStoreId($userStoreId)
     {
         $this->userStoreId = $userStoreId;
-
         return $this;
     }
+
+
 }
+

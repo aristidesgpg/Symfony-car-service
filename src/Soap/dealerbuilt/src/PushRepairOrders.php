@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushRepairOrders.
+ * Class representing PushRepairOrders
  */
 class PushRepairOrders
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType[] $repairOrders
      */
     private $repairOrders = null;
 
     /**
-     * Adds as repairOrderPushRequest.
+     * Adds as repairOrderPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType $repairOrderPushRequest
      */
-    public function addToRepairOrders(BaseApi\RepairOrderPushRequestType $repairOrderPushRequest)
+    public function addToRepairOrders(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType $repairOrderPushRequest)
     {
         $this->repairOrders[] = $repairOrderPushRequest;
-
         return $this;
     }
 
     /**
-     * isset repairOrders.
+     * isset repairOrders
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRepairOrders($index)
@@ -39,10 +37,9 @@ class PushRepairOrders
     }
 
     /**
-     * unset repairOrders.
+     * unset repairOrders
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRepairOrders($index)
@@ -51,7 +48,7 @@ class PushRepairOrders
     }
 
     /**
-     * Gets as repairOrders.
+     * Gets as repairOrders
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushRepairOrders
     }
 
     /**
-     * Sets a new repairOrders.
+     * Sets a new repairOrders
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType[] $repairOrders
-     *
      * @return self
      */
     public function setRepairOrders(array $repairOrders)
     {
         $this->repairOrders = $repairOrders;
-
         return $this;
     }
+
+
 }
+

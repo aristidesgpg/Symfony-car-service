@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushPartsInvoiceDeliveredResponse.
+ * Class representing PushPartsInvoiceDeliveredResponse
  */
 class PushPartsInvoiceDeliveredResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[] $pushPartsInvoiceDeliveredResult
      */
     private $pushPartsInvoiceDeliveredResult = null;
 
     /**
-     * Adds as serviceLocationTransactionResponse.
+     * Adds as serviceLocationTransactionResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse
      */
-    public function addToPushPartsInvoiceDeliveredResult(BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse)
+    public function addToPushPartsInvoiceDeliveredResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse)
     {
         $this->pushPartsInvoiceDeliveredResult[] = $serviceLocationTransactionResponse;
-
         return $this;
     }
 
     /**
-     * isset pushPartsInvoiceDeliveredResult.
+     * isset pushPartsInvoiceDeliveredResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushPartsInvoiceDeliveredResult($index)
@@ -39,10 +37,9 @@ class PushPartsInvoiceDeliveredResponse
     }
 
     /**
-     * unset pushPartsInvoiceDeliveredResult.
+     * unset pushPartsInvoiceDeliveredResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushPartsInvoiceDeliveredResult($index)
@@ -51,7 +48,7 @@ class PushPartsInvoiceDeliveredResponse
     }
 
     /**
-     * Gets as pushPartsInvoiceDeliveredResult.
+     * Gets as pushPartsInvoiceDeliveredResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[]
      */
@@ -61,16 +58,17 @@ class PushPartsInvoiceDeliveredResponse
     }
 
     /**
-     * Sets a new pushPartsInvoiceDeliveredResult.
+     * Sets a new pushPartsInvoiceDeliveredResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[] $pushPartsInvoiceDeliveredResult
-     *
      * @return self
      */
     public function setPushPartsInvoiceDeliveredResult(array $pushPartsInvoiceDeliveredResult)
     {
         $this->pushPartsInvoiceDeliveredResult = $pushPartsInvoiceDeliveredResult;
-
         return $this;
     }
+
+
 }
+

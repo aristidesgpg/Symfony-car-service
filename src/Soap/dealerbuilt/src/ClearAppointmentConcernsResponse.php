@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ClearAppointmentConcernsResponse.
+ * Class representing ClearAppointmentConcernsResponse
  */
 class ClearAppointmentConcernsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[] $clearAppointmentConcernsResult
      */
     private $clearAppointmentConcernsResult = null;
 
     /**
-     * Adds as serviceLocationTransactionResponse.
+     * Adds as serviceLocationTransactionResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse
      */
-    public function addToClearAppointmentConcernsResult(BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse)
+    public function addToClearAppointmentConcernsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType $serviceLocationTransactionResponse)
     {
         $this->clearAppointmentConcernsResult[] = $serviceLocationTransactionResponse;
-
         return $this;
     }
 
     /**
-     * isset clearAppointmentConcernsResult.
+     * isset clearAppointmentConcernsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetClearAppointmentConcernsResult($index)
@@ -39,10 +37,9 @@ class ClearAppointmentConcernsResponse
     }
 
     /**
-     * unset clearAppointmentConcernsResult.
+     * unset clearAppointmentConcernsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetClearAppointmentConcernsResult($index)
@@ -51,7 +48,7 @@ class ClearAppointmentConcernsResponse
     }
 
     /**
-     * Gets as clearAppointmentConcernsResult.
+     * Gets as clearAppointmentConcernsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[]
      */
@@ -61,16 +58,17 @@ class ClearAppointmentConcernsResponse
     }
 
     /**
-     * Sets a new clearAppointmentConcernsResult.
+     * Sets a new clearAppointmentConcernsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationTransactionResponseType[] $clearAppointmentConcernsResult
-     *
      * @return self
      */
     public function setClearAppointmentConcernsResult(array $clearAppointmentConcernsResult)
     {
         $this->clearAppointmentConcernsResult = $clearAppointmentConcernsResult;
-
         return $this;
     }
+
+
 }
+

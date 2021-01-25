@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushEstimateJobs.
+ * Class representing PushEstimateJobs
  */
 class PushEstimateJobs
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType[] $requests
      */
     private $requests = null;
 
     /**
-     * Adds as estimateJobPushRequest.
+     * Adds as estimateJobPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType $estimateJobPushRequest
      */
-    public function addToRequests(BaseApi\EstimateJobPushRequestType $estimateJobPushRequest)
+    public function addToRequests(\App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType $estimateJobPushRequest)
     {
         $this->requests[] = $estimateJobPushRequest;
-
         return $this;
     }
 
     /**
-     * isset requests.
+     * isset requests
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRequests($index)
@@ -39,10 +37,9 @@ class PushEstimateJobs
     }
 
     /**
-     * unset requests.
+     * unset requests
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRequests($index)
@@ -51,7 +48,7 @@ class PushEstimateJobs
     }
 
     /**
-     * Gets as requests.
+     * Gets as requests
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushEstimateJobs
     }
 
     /**
-     * Sets a new requests.
+     * Sets a new requests
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateJobPushRequestType[] $requests
-     *
      * @return self
      */
     public function setRequests(array $requests)
     {
         $this->requests = $requests;
-
         return $this;
     }
+
+
 }
+

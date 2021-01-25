@@ -3,79 +3,81 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerPartSearchCriteriaType.
+ * Class representing CustomerPartSearchCriteriaType
  *
+ * 
  * XSD Type: CustomerPartSearchCriteria
  */
 class CustomerPartSearchCriteriaType extends SearchCriteriaType
 {
+
     /**
-     * @var int
+     * @var int $customerId
      */
     private $customerId = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumAddedDate
      */
     private $maximumAddedDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumFirstSoldDate
      */
     private $maximumFirstSoldDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $maximumLastReceiptDate
      */
     private $maximumLastReceiptDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumAddedDate
      */
     private $minimumAddedDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumFirstSoldDate
      */
     private $minimumFirstSoldDate = null;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $minimumLastReceiptDate
      */
     private $minimumLastReceiptDate = null;
 
     /**
-     * @var string
+     * @var string $onHandScope
      */
     private $onHandScope = null;
 
     /**
-     * @var string
+     * @var string $partialPartNumber
      */
     private $partialPartNumber = null;
 
     /**
-     * @var string[]
+     * @var string[] $partialPartNumbers
      */
     private $partialPartNumbers = null;
 
     /**
-     * @var int[]
+     * @var int[] $serviceLocationIds
      */
     private $serviceLocationIds = null;
 
     /**
-     * @var int[]
+     * @var int[] $sourceIds
      */
     private $sourceIds = null;
 
     /**
-     * @var string
+     * @var string $vendor
      */
     private $vendor = null;
 
     /**
-     * Gets as customerId.
+     * Gets as customerId
      *
      * @return int
      */
@@ -85,21 +87,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new customerId.
+     * Sets a new customerId
      *
      * @param int $customerId
-     *
      * @return self
      */
     public function setCustomerId($customerId)
     {
         $this->customerId = $customerId;
-
         return $this;
     }
 
     /**
-     * Gets as maximumAddedDate.
+     * Gets as maximumAddedDate
      *
      * @return \DateTime
      */
@@ -109,19 +109,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new maximumAddedDate.
+     * Sets a new maximumAddedDate
      *
+     * @param \DateTime $maximumAddedDate
      * @return self
      */
     public function setMaximumAddedDate(\DateTime $maximumAddedDate)
     {
         $this->maximumAddedDate = $maximumAddedDate;
-
         return $this;
     }
 
     /**
-     * Gets as maximumFirstSoldDate.
+     * Gets as maximumFirstSoldDate
      *
      * @return \DateTime
      */
@@ -131,19 +131,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new maximumFirstSoldDate.
+     * Sets a new maximumFirstSoldDate
      *
+     * @param \DateTime $maximumFirstSoldDate
      * @return self
      */
     public function setMaximumFirstSoldDate(\DateTime $maximumFirstSoldDate)
     {
         $this->maximumFirstSoldDate = $maximumFirstSoldDate;
-
         return $this;
     }
 
     /**
-     * Gets as maximumLastReceiptDate.
+     * Gets as maximumLastReceiptDate
      *
      * @return \DateTime
      */
@@ -153,19 +153,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new maximumLastReceiptDate.
+     * Sets a new maximumLastReceiptDate
      *
+     * @param \DateTime $maximumLastReceiptDate
      * @return self
      */
     public function setMaximumLastReceiptDate(\DateTime $maximumLastReceiptDate)
     {
         $this->maximumLastReceiptDate = $maximumLastReceiptDate;
-
         return $this;
     }
 
     /**
-     * Gets as minimumAddedDate.
+     * Gets as minimumAddedDate
      *
      * @return \DateTime
      */
@@ -175,19 +175,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new minimumAddedDate.
+     * Sets a new minimumAddedDate
      *
+     * @param \DateTime $minimumAddedDate
      * @return self
      */
     public function setMinimumAddedDate(\DateTime $minimumAddedDate)
     {
         $this->minimumAddedDate = $minimumAddedDate;
-
         return $this;
     }
 
     /**
-     * Gets as minimumFirstSoldDate.
+     * Gets as minimumFirstSoldDate
      *
      * @return \DateTime
      */
@@ -197,19 +197,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new minimumFirstSoldDate.
+     * Sets a new minimumFirstSoldDate
      *
+     * @param \DateTime $minimumFirstSoldDate
      * @return self
      */
     public function setMinimumFirstSoldDate(\DateTime $minimumFirstSoldDate)
     {
         $this->minimumFirstSoldDate = $minimumFirstSoldDate;
-
         return $this;
     }
 
     /**
-     * Gets as minimumLastReceiptDate.
+     * Gets as minimumLastReceiptDate
      *
      * @return \DateTime
      */
@@ -219,19 +219,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new minimumLastReceiptDate.
+     * Sets a new minimumLastReceiptDate
      *
+     * @param \DateTime $minimumLastReceiptDate
      * @return self
      */
     public function setMinimumLastReceiptDate(\DateTime $minimumLastReceiptDate)
     {
         $this->minimumLastReceiptDate = $minimumLastReceiptDate;
-
         return $this;
     }
 
     /**
-     * Gets as onHandScope.
+     * Gets as onHandScope
      *
      * @return string
      */
@@ -241,21 +241,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new onHandScope.
+     * Sets a new onHandScope
      *
      * @param string $onHandScope
-     *
      * @return self
      */
     public function setOnHandScope($onHandScope)
     {
         $this->onHandScope = $onHandScope;
-
         return $this;
     }
 
     /**
-     * Gets as partialPartNumber.
+     * Gets as partialPartNumber
      *
      * @return string
      */
@@ -265,38 +263,33 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new partialPartNumber.
+     * Sets a new partialPartNumber
      *
      * @param string $partialPartNumber
-     *
      * @return self
      */
     public function setPartialPartNumber($partialPartNumber)
     {
         $this->partialPartNumber = $partialPartNumber;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToPartialPartNumbers($string)
     {
         $this->partialPartNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset partialPartNumbers.
+     * isset partialPartNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPartialPartNumbers($index)
@@ -305,10 +298,9 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * unset partialPartNumbers.
+     * unset partialPartNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPartialPartNumbers($index)
@@ -317,7 +309,7 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Gets as partialPartNumbers.
+     * Gets as partialPartNumbers
      *
      * @return string[]
      */
@@ -327,38 +319,33 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new partialPartNumbers.
+     * Sets a new partialPartNumbers
      *
      * @param string[] $partialPartNumbers
-     *
      * @return self
      */
     public function setPartialPartNumbers(array $partialPartNumbers)
     {
         $this->partialPartNumbers = $partialPartNumbers;
-
         return $this;
     }
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToServiceLocationIds($long)
     {
         $this->serviceLocationIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset serviceLocationIds.
+     * isset serviceLocationIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetServiceLocationIds($index)
@@ -367,10 +354,9 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * unset serviceLocationIds.
+     * unset serviceLocationIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetServiceLocationIds($index)
@@ -379,7 +365,7 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Gets as serviceLocationIds.
+     * Gets as serviceLocationIds
      *
      * @return int[]
      */
@@ -389,38 +375,33 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new serviceLocationIds.
+     * Sets a new serviceLocationIds
      *
      * @param int[] $serviceLocationIds
-     *
      * @return self
      */
     public function setServiceLocationIds(array $serviceLocationIds)
     {
         $this->serviceLocationIds = $serviceLocationIds;
-
         return $this;
     }
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToSourceIds($long)
     {
         $this->sourceIds[] = $long;
-
         return $this;
     }
 
     /**
-     * isset sourceIds.
+     * isset sourceIds
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSourceIds($index)
@@ -429,10 +410,9 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * unset sourceIds.
+     * unset sourceIds
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSourceIds($index)
@@ -441,7 +421,7 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Gets as sourceIds.
+     * Gets as sourceIds
      *
      * @return int[]
      */
@@ -451,21 +431,19 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new sourceIds.
+     * Sets a new sourceIds
      *
      * @param int[] $sourceIds
-     *
      * @return self
      */
     public function setSourceIds(array $sourceIds)
     {
         $this->sourceIds = $sourceIds;
-
         return $this;
     }
 
     /**
-     * Gets as vendor.
+     * Gets as vendor
      *
      * @return string
      */
@@ -475,16 +453,17 @@ class CustomerPartSearchCriteriaType extends SearchCriteriaType
     }
 
     /**
-     * Sets a new vendor.
+     * Sets a new vendor
      *
      * @param string $vendor
-     *
      * @return self
      */
     public function setVendor($vendor)
     {
         $this->vendor = $vendor;
-
         return $this;
     }
+
+
 }
+

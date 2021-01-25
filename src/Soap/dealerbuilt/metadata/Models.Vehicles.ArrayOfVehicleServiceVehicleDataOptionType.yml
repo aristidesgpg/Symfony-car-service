@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\Vehicles\ArrayOfVehicleServiceVehicleDataOptionT
             access_type: public_method
             serialized_name: VehicleService.VehicleData.Option
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getVehicleServiceVehicleDataOption
                 setter: setVehicleServiceVehicleDataOption
             xml_list:
                 inline: true
                 entry_name: VehicleService.VehicleData.Option
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             type: array<App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataOptionType>

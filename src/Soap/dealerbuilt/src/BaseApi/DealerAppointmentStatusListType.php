@@ -3,36 +3,35 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DealerAppointmentStatusListType.
+ * Class representing DealerAppointmentStatusListType
  *
+ * 
  * XSD Type: DealerAppointmentStatusList
  */
 class DealerAppointmentStatusListType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var string[]
+     * @var string[] $statuses
      */
     private $statuses = null;
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToStatuses($string)
     {
         $this->statuses[] = $string;
-
         return $this;
     }
 
     /**
-     * isset statuses.
+     * isset statuses
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetStatuses($index)
@@ -41,10 +40,9 @@ class DealerAppointmentStatusListType extends ApiServiceLocationItemType
     }
 
     /**
-     * unset statuses.
+     * unset statuses
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetStatuses($index)
@@ -53,7 +51,7 @@ class DealerAppointmentStatusListType extends ApiServiceLocationItemType
     }
 
     /**
-     * Gets as statuses.
+     * Gets as statuses
      *
      * @return string[]
      */
@@ -63,16 +61,17 @@ class DealerAppointmentStatusListType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new statuses.
+     * Sets a new statuses
      *
      * @param string[] $statuses
-     *
      * @return self
      */
     public function setStatuses(array $statuses)
     {
         $this->statuses = $statuses;
-
         return $this;
     }
+
+
 }
+

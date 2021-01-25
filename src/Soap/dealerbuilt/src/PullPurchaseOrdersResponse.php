@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullPurchaseOrdersResponse.
+ * Class representing PullPurchaseOrdersResponse
  */
 class PullPurchaseOrdersResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType[] $pullPurchaseOrdersResult
      */
     private $pullPurchaseOrdersResult = null;
 
     /**
-     * Adds as purchaseOrder.
+     * Adds as purchaseOrder
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType $purchaseOrder
      */
-    public function addToPullPurchaseOrdersResult(BaseApi\PurchaseOrderType $purchaseOrder)
+    public function addToPullPurchaseOrdersResult(\App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType $purchaseOrder)
     {
         $this->pullPurchaseOrdersResult[] = $purchaseOrder;
-
         return $this;
     }
 
     /**
-     * isset pullPurchaseOrdersResult.
+     * isset pullPurchaseOrdersResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullPurchaseOrdersResult($index)
@@ -39,10 +37,9 @@ class PullPurchaseOrdersResponse
     }
 
     /**
-     * unset pullPurchaseOrdersResult.
+     * unset pullPurchaseOrdersResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullPurchaseOrdersResult($index)
@@ -51,7 +48,7 @@ class PullPurchaseOrdersResponse
     }
 
     /**
-     * Gets as pullPurchaseOrdersResult.
+     * Gets as pullPurchaseOrdersResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType[]
      */
@@ -61,16 +58,17 @@ class PullPurchaseOrdersResponse
     }
 
     /**
-     * Sets a new pullPurchaseOrdersResult.
+     * Sets a new pullPurchaseOrdersResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType[] $pullPurchaseOrdersResult
-     *
      * @return self
      */
     public function setPullPurchaseOrdersResult(array $pullPurchaseOrdersResult)
     {
         $this->pullPurchaseOrdersResult = $pullPurchaseOrdersResult;
-
         return $this;
     }
+
+
 }
+

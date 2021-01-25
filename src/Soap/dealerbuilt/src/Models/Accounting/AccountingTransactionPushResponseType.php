@@ -5,19 +5,21 @@ namespace App\Soap\dealerbuilt\src\Models\Accounting;
 use App\Soap\dealerbuilt\src\Models\PushResponseType;
 
 /**
- * Class representing AccountingTransactionPushResponseType.
+ * Class representing AccountingTransactionPushResponseType
  *
+ * 
  * XSD Type: AccountingTransactionPushResponse
  */
 class AccountingTransactionPushResponseType extends PushResponseType
 {
+
     /**
-     * @var string
+     * @var string $transactionNumber
      */
     private $transactionNumber = null;
 
     /**
-     * Gets as transactionNumber.
+     * Gets as transactionNumber
      *
      * @return string
      */
@@ -27,16 +29,17 @@ class AccountingTransactionPushResponseType extends PushResponseType
     }
 
     /**
-     * Sets a new transactionNumber.
+     * Sets a new transactionNumber
      *
      * @param string $transactionNumber
-     *
      * @return self
      */
     public function setTransactionNumber($transactionNumber)
     {
         $this->transactionNumber = $transactionNumber;
-
         return $this;
     }
+
+
 }
+

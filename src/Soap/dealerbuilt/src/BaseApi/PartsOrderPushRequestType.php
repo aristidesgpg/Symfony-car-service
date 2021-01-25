@@ -3,39 +3,41 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsOrderPushRequestType.
+ * Class representing PartsOrderPushRequestType
  *
+ * 
  * XSD Type: PartsOrderPushRequest
  */
 class PartsOrderPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $externalPartsOrderId
      */
     private $externalPartsOrderId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType[] $lines
      */
     private $lines = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType $orderInfo
      */
     private $orderInfo = null;
 
     /**
-     * @var string
+     * @var string $partsOrderKey
      */
     private $partsOrderKey = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * Gets as externalPartsOrderId.
+     * Gets as externalPartsOrderId
      *
      * @return string
      */
@@ -45,36 +47,33 @@ class PartsOrderPushRequestType
     }
 
     /**
-     * Sets a new externalPartsOrderId.
+     * Sets a new externalPartsOrderId
      *
      * @param string $externalPartsOrderId
-     *
      * @return self
      */
     public function setExternalPartsOrderId($externalPartsOrderId)
     {
         $this->externalPartsOrderId = $externalPartsOrderId;
-
         return $this;
     }
 
     /**
-     * Adds as partsOrderLinePushRequest.
+     * Adds as partsOrderLinePushRequest
      *
      * @return self
+     * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType $partsOrderLinePushRequest
      */
     public function addToLines(\App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType $partsOrderLinePushRequest)
     {
         $this->lines[] = $partsOrderLinePushRequest;
-
         return $this;
     }
 
     /**
-     * isset lines.
+     * isset lines
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetLines($index)
@@ -83,10 +82,9 @@ class PartsOrderPushRequestType
     }
 
     /**
-     * unset lines.
+     * unset lines
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetLines($index)
@@ -95,7 +93,7 @@ class PartsOrderPushRequestType
     }
 
     /**
-     * Gets as lines.
+     * Gets as lines
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType[]
      */
@@ -105,21 +103,19 @@ class PartsOrderPushRequestType
     }
 
     /**
-     * Sets a new lines.
+     * Sets a new lines
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType[] $lines
-     *
      * @return self
      */
     public function setLines(array $lines)
     {
         $this->lines = $lines;
-
         return $this;
     }
 
     /**
-     * Gets as orderInfo.
+     * Gets as orderInfo
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType
      */
@@ -129,19 +125,19 @@ class PartsOrderPushRequestType
     }
 
     /**
-     * Sets a new orderInfo.
+     * Sets a new orderInfo
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType $orderInfo
      * @return self
      */
     public function setOrderInfo(\App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType $orderInfo)
     {
         $this->orderInfo = $orderInfo;
-
         return $this;
     }
 
     /**
-     * Gets as partsOrderKey.
+     * Gets as partsOrderKey
      *
      * @return string
      */
@@ -151,21 +147,19 @@ class PartsOrderPushRequestType
     }
 
     /**
-     * Sets a new partsOrderKey.
+     * Sets a new partsOrderKey
      *
      * @param string $partsOrderKey
-     *
      * @return self
      */
     public function setPartsOrderKey($partsOrderKey)
     {
         $this->partsOrderKey = $partsOrderKey;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -175,16 +169,17 @@ class PartsOrderPushRequestType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
+
+
 }
+

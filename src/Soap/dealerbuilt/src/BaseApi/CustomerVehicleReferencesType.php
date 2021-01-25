@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing CustomerVehicleReferencesType.
+ * Class representing CustomerVehicleReferencesType
  *
+ * 
  * XSD Type: CustomerVehicleReferences
  */
 class CustomerVehicleReferencesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerType $owner
      */
     private $owner = null;
 
     /**
-     * @var string
+     * @var string $stockNumber
      */
     private $stockNumber = null;
 
     /**
-     * Gets as owner.
+     * Gets as owner
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerType
      */
@@ -30,21 +32,19 @@ class CustomerVehicleReferencesType
     }
 
     /**
-     * Sets a new owner.
+     * Sets a new owner
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerType $owner
-     *
      * @return self
      */
-    public function setOwner(CustomerType $owner)
+    public function setOwner(\App\Soap\dealerbuilt\src\BaseApi\CustomerType $owner)
     {
         $this->owner = $owner;
-
         return $this;
     }
 
     /**
-     * Gets as stockNumber.
+     * Gets as stockNumber
      *
      * @return string
      */
@@ -54,16 +54,17 @@ class CustomerVehicleReferencesType
     }
 
     /**
-     * Sets a new stockNumber.
+     * Sets a new stockNumber
      *
      * @param string $stockNumber
-     *
      * @return self
      */
     public function setStockNumber($stockNumber)
     {
         $this->stockNumber = $stockNumber;
-
         return $this;
     }
+
+
 }
+

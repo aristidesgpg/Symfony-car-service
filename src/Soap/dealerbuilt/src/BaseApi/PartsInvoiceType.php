@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing PartsInvoiceType.
+ * Class representing PartsInvoiceType
  *
+ * 
  * XSD Type: PartsInvoice
  */
 class PartsInvoiceType extends ApiServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * @var string
+     * @var string $partsInvoiceKey
      */
     private $partsInvoiceKey = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceReferencesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceReferencesType $references
      */
     private $references = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType
      */
@@ -35,19 +37,19 @@ class PartsInvoiceType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType $attributes
      * @return self
      */
     public function setAttributes(\App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
 
     /**
-     * Gets as partsInvoiceKey.
+     * Gets as partsInvoiceKey
      *
      * @return string
      */
@@ -57,21 +59,19 @@ class PartsInvoiceType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new partsInvoiceKey.
+     * Sets a new partsInvoiceKey
      *
      * @param string $partsInvoiceKey
-     *
      * @return self
      */
     public function setPartsInvoiceKey($partsInvoiceKey)
     {
         $this->partsInvoiceKey = $partsInvoiceKey;
-
         return $this;
     }
 
     /**
-     * Gets as references.
+     * Gets as references
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceReferencesType
      */
@@ -81,16 +81,17 @@ class PartsInvoiceType extends ApiServiceLocationItemType
     }
 
     /**
-     * Sets a new references.
+     * Sets a new references
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceReferencesType $references
-     *
      * @return self
      */
-    public function setReferences(PartsInvoiceReferencesType $references)
+    public function setReferences(\App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceReferencesType $references)
     {
         $this->references = $references;
-
         return $this;
     }
+
+
 }
+

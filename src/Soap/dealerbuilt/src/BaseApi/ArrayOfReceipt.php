@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfReceipt.
+ * Class representing ArrayOfReceipt
  */
 class ArrayOfReceipt extends ArrayOfReceiptType
 {
+
+
 }
+

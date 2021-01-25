@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing RentalVehicle.
+ * Class representing RentalVehicle
  */
 class RentalVehicle extends RentalVehicleType
 {
+
+
 }
+

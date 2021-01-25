@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushRepairOrderLaborOperationSublets.
+ * Class representing PushRepairOrderLaborOperationSublets
  */
 class PushRepairOrderLaborOperationSublets
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType[] $requests
      */
     private $requests = null;
 
     /**
-     * Adds as laborOperationSubletPushRequest.
+     * Adds as laborOperationSubletPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType $laborOperationSubletPushRequest
      */
-    public function addToRequests(BaseApi\LaborOperationSubletPushRequestType $laborOperationSubletPushRequest)
+    public function addToRequests(\App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType $laborOperationSubletPushRequest)
     {
         $this->requests[] = $laborOperationSubletPushRequest;
-
         return $this;
     }
 
     /**
-     * isset requests.
+     * isset requests
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRequests($index)
@@ -39,10 +37,9 @@ class PushRepairOrderLaborOperationSublets
     }
 
     /**
-     * unset requests.
+     * unset requests
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRequests($index)
@@ -51,7 +48,7 @@ class PushRepairOrderLaborOperationSublets
     }
 
     /**
-     * Gets as requests.
+     * Gets as requests
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushRepairOrderLaborOperationSublets
     }
 
     /**
-     * Sets a new requests.
+     * Sets a new requests
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LaborOperationSubletPushRequestType[] $requests
-     *
      * @return self
      */
     public function setRequests(array $requests)
     {
         $this->requests = $requests;
-
         return $this;
     }
+
+
 }
+

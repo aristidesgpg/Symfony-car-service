@@ -3,24 +3,26 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing StorePushResponseType.
+ * Class representing StorePushResponseType
  *
+ * 
  * XSD Type: StorePushResponse
  */
 class StorePushResponseType extends PushResponseType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Sales\DealType
+     * @var \App\Soap\dealerbuilt\src\Models\Sales\DealType $pushedDeal
      */
     private $pushedDeal = null;
 
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * Gets as pushedDeal.
+     * Gets as pushedDeal
      *
      * @return \App\Soap\dealerbuilt\src\Models\Sales\DealType
      */
@@ -30,19 +32,19 @@ class StorePushResponseType extends PushResponseType
     }
 
     /**
-     * Sets a new pushedDeal.
+     * Sets a new pushedDeal
      *
+     * @param \App\Soap\dealerbuilt\src\Models\Sales\DealType $pushedDeal
      * @return self
      */
     public function setPushedDeal(\App\Soap\dealerbuilt\src\Models\Sales\DealType $pushedDeal)
     {
         $this->pushedDeal = $pushedDeal;
-
         return $this;
     }
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -52,16 +54,17 @@ class StorePushResponseType extends PushResponseType
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
+
+
 }
+

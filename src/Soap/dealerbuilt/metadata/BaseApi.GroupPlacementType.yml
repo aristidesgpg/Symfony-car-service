@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\GroupPlacementType:
             access_type: public_method
             serialized_name: GroupId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getGroupId
                 setter: setGroupId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\BaseApi\GroupPlacementType:
             access_type: public_method
             serialized_name: GroupName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getGroupName
                 setter: setGroupName

@@ -3,29 +3,31 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing DealWorkingDataType.
+ * Class representing DealWorkingDataType
  *
+ * 
  * XSD Type: DealWorkingData
  */
 class DealWorkingDataType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $gapPremium
      */
     private $gapPremium = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTradeAcv
      */
     private $totalTradeAcv = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTradePayoff
      */
     private $totalTradePayoff = null;
 
     /**
-     * Gets as gapPremium.
+     * Gets as gapPremium
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -35,19 +37,19 @@ class DealWorkingDataType
     }
 
     /**
-     * Sets a new gapPremium.
+     * Sets a new gapPremium
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $gapPremium
      * @return self
      */
     public function setGapPremium(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $gapPremium)
     {
         $this->gapPremium = $gapPremium;
-
         return $this;
     }
 
     /**
-     * Gets as totalTradeAcv.
+     * Gets as totalTradeAcv
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -57,19 +59,19 @@ class DealWorkingDataType
     }
 
     /**
-     * Sets a new totalTradeAcv.
+     * Sets a new totalTradeAcv
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTradeAcv
      * @return self
      */
     public function setTotalTradeAcv(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTradeAcv)
     {
         $this->totalTradeAcv = $totalTradeAcv;
-
         return $this;
     }
 
     /**
-     * Gets as totalTradePayoff.
+     * Gets as totalTradePayoff
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -79,14 +81,17 @@ class DealWorkingDataType
     }
 
     /**
-     * Sets a new totalTradePayoff.
+     * Sets a new totalTradePayoff
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTradePayoff
      * @return self
      */
     public function setTotalTradePayoff(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $totalTradePayoff)
     {
         $this->totalTradePayoff = $totalTradePayoff;
-
         return $this;
     }
+
+
 }
+

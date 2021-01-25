@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfCheckType.
+ * Class representing ArrayOfCheckType
  *
+ * 
  * XSD Type: ArrayOfCheck
  */
 class ArrayOfCheckType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CheckType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CheckType[] $check
      */
     private $check = [
+        
     ];
 
     /**
-     * Adds as check.
+     * Adds as check
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CheckType $check
      */
-    public function addToCheck(CheckType $check)
+    public function addToCheck(\App\Soap\dealerbuilt\src\BaseApi\CheckType $check)
     {
         $this->check[] = $check;
-
         return $this;
     }
 
     /**
-     * isset check.
+     * isset check
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetCheck($index)
@@ -42,10 +42,9 @@ class ArrayOfCheckType
     }
 
     /**
-     * unset check.
+     * unset check
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetCheck($index)
@@ -54,7 +53,7 @@ class ArrayOfCheckType
     }
 
     /**
-     * Gets as check.
+     * Gets as check
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CheckType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfCheckType
     }
 
     /**
-     * Sets a new check.
+     * Sets a new check
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CheckType[] $check
-     *
      * @return self
      */
     public function setCheck(array $check)
     {
         $this->check = $check;
-
         return $this;
     }
+
+
 }
+

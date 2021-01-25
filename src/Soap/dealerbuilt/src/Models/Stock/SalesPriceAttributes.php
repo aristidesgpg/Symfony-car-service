@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Stock;
 
 /**
- * Class representing SalesPriceAttributes.
+ * Class representing SalesPriceAttributes
  */
 class SalesPriceAttributes extends SalesPriceAttributesType
 {
+
+
 }
+

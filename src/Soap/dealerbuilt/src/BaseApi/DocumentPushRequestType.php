@@ -3,44 +3,46 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing DocumentPushRequestType.
+ * Class representing DocumentPushRequestType
  *
+ * 
  * XSD Type: DocumentPushRequest
  */
 class DocumentPushRequestType
 {
+
     /**
-     * @var string
+     * @var string $dealKey
      */
     private $dealKey = null;
 
     /**
-     * @var string
+     * @var string $document
      */
     private $document = null;
 
     /**
-     * @var string
+     * @var string $documentKey
      */
     private $documentKey = null;
 
     /**
-     * @var string
+     * @var string $documentName
      */
     private $documentName = null;
 
     /**
-     * @var string
+     * @var string $externalDocumentKey
      */
     private $externalDocumentKey = null;
 
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * Gets as dealKey.
+     * Gets as dealKey
      *
      * @return string
      */
@@ -50,21 +52,19 @@ class DocumentPushRequestType
     }
 
     /**
-     * Sets a new dealKey.
+     * Sets a new dealKey
      *
      * @param string $dealKey
-     *
      * @return self
      */
     public function setDealKey($dealKey)
     {
         $this->dealKey = $dealKey;
-
         return $this;
     }
 
     /**
-     * Gets as document.
+     * Gets as document
      *
      * @return string
      */
@@ -74,21 +74,19 @@ class DocumentPushRequestType
     }
 
     /**
-     * Sets a new document.
+     * Sets a new document
      *
      * @param string $document
-     *
      * @return self
      */
     public function setDocument($document)
     {
         $this->document = $document;
-
         return $this;
     }
 
     /**
-     * Gets as documentKey.
+     * Gets as documentKey
      *
      * @return string
      */
@@ -98,21 +96,19 @@ class DocumentPushRequestType
     }
 
     /**
-     * Sets a new documentKey.
+     * Sets a new documentKey
      *
      * @param string $documentKey
-     *
      * @return self
      */
     public function setDocumentKey($documentKey)
     {
         $this->documentKey = $documentKey;
-
         return $this;
     }
 
     /**
-     * Gets as documentName.
+     * Gets as documentName
      *
      * @return string
      */
@@ -122,21 +118,19 @@ class DocumentPushRequestType
     }
 
     /**
-     * Sets a new documentName.
+     * Sets a new documentName
      *
      * @param string $documentName
-     *
      * @return self
      */
     public function setDocumentName($documentName)
     {
         $this->documentName = $documentName;
-
         return $this;
     }
 
     /**
-     * Gets as externalDocumentKey.
+     * Gets as externalDocumentKey
      *
      * @return string
      */
@@ -146,21 +140,19 @@ class DocumentPushRequestType
     }
 
     /**
-     * Sets a new externalDocumentKey.
+     * Sets a new externalDocumentKey
      *
      * @param string $externalDocumentKey
-     *
      * @return self
      */
     public function setExternalDocumentKey($externalDocumentKey)
     {
         $this->externalDocumentKey = $externalDocumentKey;
-
         return $this;
     }
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -170,16 +162,17 @@ class DocumentPushRequestType
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
+
+
 }
+

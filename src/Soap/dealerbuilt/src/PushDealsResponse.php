@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushDealsResponse.
+ * Class representing PushDealsResponse
  */
 class PushDealsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[] $pushDealsResult
      */
     private $pushDealsResult = null;
 
     /**
-     * Adds as storePushResponse.
+     * Adds as storePushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType $storePushResponse
      */
-    public function addToPushDealsResult(BaseApi\StorePushResponseType $storePushResponse)
+    public function addToPushDealsResult(\App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType $storePushResponse)
     {
         $this->pushDealsResult[] = $storePushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushDealsResult.
+     * isset pushDealsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushDealsResult($index)
@@ -39,10 +37,9 @@ class PushDealsResponse
     }
 
     /**
-     * unset pushDealsResult.
+     * unset pushDealsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushDealsResult($index)
@@ -51,7 +48,7 @@ class PushDealsResponse
     }
 
     /**
-     * Gets as pushDealsResult.
+     * Gets as pushDealsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushDealsResponse
     }
 
     /**
-     * Sets a new pushDealsResult.
+     * Sets a new pushDealsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StorePushResponseType[] $pushDealsResult
-     *
      * @return self
      */
     public function setPushDealsResult(array $pushDealsResult)
     {
         $this->pushDealsResult = $pushDealsResult;
-
         return $this;
     }
+
+
 }
+

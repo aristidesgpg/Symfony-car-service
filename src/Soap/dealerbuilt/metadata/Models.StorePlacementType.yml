@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\StorePlacementType:
             access_type: public_method
             serialized_name: FactoryDealerCode
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getFactoryDealerCode
                 setter: setFactoryDealerCode
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\StorePlacementType:
             access_type: public_method
             serialized_name: LySetupLocationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getLySetupLocationId
                 setter: setLySetupLocationId

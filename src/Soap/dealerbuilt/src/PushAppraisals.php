@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushAppraisals.
+ * Class representing PushAppraisals
  */
 class PushAppraisals
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType[] $appraisals
      */
     private $appraisals = null;
 
     /**
-     * Adds as appraisalPushRequest.
+     * Adds as appraisalPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType $appraisalPushRequest
      */
-    public function addToAppraisals(BaseApi\AppraisalPushRequestType $appraisalPushRequest)
+    public function addToAppraisals(\App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType $appraisalPushRequest)
     {
         $this->appraisals[] = $appraisalPushRequest;
-
         return $this;
     }
 
     /**
-     * isset appraisals.
+     * isset appraisals
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAppraisals($index)
@@ -39,10 +37,9 @@ class PushAppraisals
     }
 
     /**
-     * unset appraisals.
+     * unset appraisals
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAppraisals($index)
@@ -51,7 +48,7 @@ class PushAppraisals
     }
 
     /**
-     * Gets as appraisals.
+     * Gets as appraisals
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushAppraisals
     }
 
     /**
-     * Sets a new appraisals.
+     * Sets a new appraisals
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType[] $appraisals
-     *
      * @return self
      */
     public function setAppraisals(array $appraisals)
     {
         $this->appraisals = $appraisals;
-
         return $this;
     }
+
+
 }
+

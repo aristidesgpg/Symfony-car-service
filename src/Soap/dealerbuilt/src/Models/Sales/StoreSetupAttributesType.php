@@ -3,54 +3,56 @@
 namespace App\Soap\dealerbuilt\src\Models\Sales;
 
 /**
- * Class representing StoreSetupAttributesType.
+ * Class representing StoreSetupAttributesType
  *
+ * 
  * XSD Type: StoreSetupAttributes
  */
 class StoreSetupAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\AddressType
+     * @var \App\Soap\dealerbuilt\src\Models\AddressType $address
      */
     private $address = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\PhoneNumberType
+     * @var \App\Soap\dealerbuilt\src\Models\PhoneNumberType $faxNumber
      */
     private $faxNumber = null;
 
     /**
-     * @var string
+     * @var string $legalName
      */
     private $legalName = null;
 
     /**
-     * @var string
+     * @var string $operatingName
      */
     private $operatingName = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\PhoneNumberType
+     * @var \App\Soap\dealerbuilt\src\Models\PhoneNumberType $phoneNumber
      */
     private $phoneNumber = null;
 
     /**
-     * @var string[]
+     * @var string[] $prospectAdvertisingSources
      */
     private $prospectAdvertisingSources = null;
 
     /**
-     * @var string[]
+     * @var string[] $prospectSources
      */
     private $prospectSources = null;
 
     /**
-     * @var float
+     * @var float $timeZoneOffset
      */
     private $timeZoneOffset = null;
 
     /**
-     * Gets as address.
+     * Gets as address
      *
      * @return \App\Soap\dealerbuilt\src\Models\AddressType
      */
@@ -60,19 +62,19 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Sets a new address.
+     * Sets a new address
      *
+     * @param \App\Soap\dealerbuilt\src\Models\AddressType $address
      * @return self
      */
     public function setAddress(\App\Soap\dealerbuilt\src\Models\AddressType $address)
     {
         $this->address = $address;
-
         return $this;
     }
 
     /**
-     * Gets as faxNumber.
+     * Gets as faxNumber
      *
      * @return \App\Soap\dealerbuilt\src\Models\PhoneNumberType
      */
@@ -82,19 +84,19 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Sets a new faxNumber.
+     * Sets a new faxNumber
      *
+     * @param \App\Soap\dealerbuilt\src\Models\PhoneNumberType $faxNumber
      * @return self
      */
     public function setFaxNumber(\App\Soap\dealerbuilt\src\Models\PhoneNumberType $faxNumber)
     {
         $this->faxNumber = $faxNumber;
-
         return $this;
     }
 
     /**
-     * Gets as legalName.
+     * Gets as legalName
      *
      * @return string
      */
@@ -104,21 +106,19 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Sets a new legalName.
+     * Sets a new legalName
      *
      * @param string $legalName
-     *
      * @return self
      */
     public function setLegalName($legalName)
     {
         $this->legalName = $legalName;
-
         return $this;
     }
 
     /**
-     * Gets as operatingName.
+     * Gets as operatingName
      *
      * @return string
      */
@@ -128,21 +128,19 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Sets a new operatingName.
+     * Sets a new operatingName
      *
      * @param string $operatingName
-     *
      * @return self
      */
     public function setOperatingName($operatingName)
     {
         $this->operatingName = $operatingName;
-
         return $this;
     }
 
     /**
-     * Gets as phoneNumber.
+     * Gets as phoneNumber
      *
      * @return \App\Soap\dealerbuilt\src\Models\PhoneNumberType
      */
@@ -152,36 +150,33 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Sets a new phoneNumber.
+     * Sets a new phoneNumber
      *
+     * @param \App\Soap\dealerbuilt\src\Models\PhoneNumberType $phoneNumber
      * @return self
      */
     public function setPhoneNumber(\App\Soap\dealerbuilt\src\Models\PhoneNumberType $phoneNumber)
     {
         $this->phoneNumber = $phoneNumber;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToProspectAdvertisingSources($string)
     {
         $this->prospectAdvertisingSources[] = $string;
-
         return $this;
     }
 
     /**
-     * isset prospectAdvertisingSources.
+     * isset prospectAdvertisingSources
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetProspectAdvertisingSources($index)
@@ -190,10 +185,9 @@ class StoreSetupAttributesType
     }
 
     /**
-     * unset prospectAdvertisingSources.
+     * unset prospectAdvertisingSources
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetProspectAdvertisingSources($index)
@@ -202,7 +196,7 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Gets as prospectAdvertisingSources.
+     * Gets as prospectAdvertisingSources
      *
      * @return string[]
      */
@@ -212,38 +206,33 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Sets a new prospectAdvertisingSources.
+     * Sets a new prospectAdvertisingSources
      *
      * @param string[] $prospectAdvertisingSources
-     *
      * @return self
      */
     public function setProspectAdvertisingSources(array $prospectAdvertisingSources)
     {
         $this->prospectAdvertisingSources = $prospectAdvertisingSources;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToProspectSources($string)
     {
         $this->prospectSources[] = $string;
-
         return $this;
     }
 
     /**
-     * isset prospectSources.
+     * isset prospectSources
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetProspectSources($index)
@@ -252,10 +241,9 @@ class StoreSetupAttributesType
     }
 
     /**
-     * unset prospectSources.
+     * unset prospectSources
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetProspectSources($index)
@@ -264,7 +252,7 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Gets as prospectSources.
+     * Gets as prospectSources
      *
      * @return string[]
      */
@@ -274,21 +262,19 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Sets a new prospectSources.
+     * Sets a new prospectSources
      *
      * @param string[] $prospectSources
-     *
      * @return self
      */
     public function setProspectSources(array $prospectSources)
     {
         $this->prospectSources = $prospectSources;
-
         return $this;
     }
 
     /**
-     * Gets as timeZoneOffset.
+     * Gets as timeZoneOffset
      *
      * @return float
      */
@@ -298,16 +284,17 @@ class StoreSetupAttributesType
     }
 
     /**
-     * Sets a new timeZoneOffset.
+     * Sets a new timeZoneOffset
      *
      * @param float $timeZoneOffset
-     *
      * @return self
      */
     public function setTimeZoneOffset($timeZoneOffset)
     {
         $this->timeZoneOffset = $timeZoneOffset;
-
         return $this;
     }
+
+
 }
+

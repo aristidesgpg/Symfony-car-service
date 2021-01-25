@@ -5,19 +5,21 @@ namespace App\Soap\dealerbuilt\src\Models\Parts;
 use App\Soap\dealerbuilt\src\Models\ServiceLocationItemType;
 
 /**
- * Class representing InventoryPartType.
+ * Class representing InventoryPartType
  *
+ * 
  * XSD Type: InventoryPart
  */
 class InventoryPartType extends ServiceLocationItemType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType
+     * @var \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes
      */
     private $attributes = null;
 
     /**
-     * Gets as attributes.
+     * Gets as attributes
      *
      * @return \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType
      */
@@ -27,16 +29,17 @@ class InventoryPartType extends ServiceLocationItemType
     }
 
     /**
-     * Sets a new attributes.
+     * Sets a new attributes
      *
      * @param \App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes
-     *
      * @return self
      */
-    public function setAttributes(InventoryPartAttributesType $attributes)
+    public function setAttributes(\App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType $attributes)
     {
         $this->attributes = $attributes;
-
         return $this;
     }
+
+
 }
+

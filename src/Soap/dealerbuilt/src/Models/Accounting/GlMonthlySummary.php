@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models\Accounting;
 
 /**
- * Class representing GlMonthlySummary.
+ * Class representing GlMonthlySummary
  */
 class GlMonthlySummary extends GlMonthlySummaryType
 {
+
+
 }
+

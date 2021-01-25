@@ -3,22 +3,23 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullDealsByDealNumber.
+ * Class representing PullDealsByDealNumber
  */
 class PullDealsByDealNumber
 {
+
     /**
-     * @var int
+     * @var int $storeId
      */
     private $storeId = null;
 
     /**
-     * @var int[]
+     * @var int[] $dealNumbers
      */
     private $dealNumbers = null;
 
     /**
-     * Gets as storeId.
+     * Gets as storeId
      *
      * @return int
      */
@@ -28,38 +29,33 @@ class PullDealsByDealNumber
     }
 
     /**
-     * Sets a new storeId.
+     * Sets a new storeId
      *
      * @param int $storeId
-     *
      * @return self
      */
     public function setStoreId($storeId)
     {
         $this->storeId = $storeId;
-
         return $this;
     }
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToDealNumbers($long)
     {
         $this->dealNumbers[] = $long;
-
         return $this;
     }
 
     /**
-     * isset dealNumbers.
+     * isset dealNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDealNumbers($index)
@@ -68,10 +64,9 @@ class PullDealsByDealNumber
     }
 
     /**
-     * unset dealNumbers.
+     * unset dealNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDealNumbers($index)
@@ -80,7 +75,7 @@ class PullDealsByDealNumber
     }
 
     /**
-     * Gets as dealNumbers.
+     * Gets as dealNumbers
      *
      * @return int[]
      */
@@ -90,16 +85,17 @@ class PullDealsByDealNumber
     }
 
     /**
-     * Sets a new dealNumbers.
+     * Sets a new dealNumbers
      *
      * @param int[] $dealNumbers
-     *
      * @return self
      */
     public function setDealNumbers(array $dealNumbers)
     {
         $this->dealNumbers = $dealNumbers;
-
         return $this;
     }
+
+
 }
+

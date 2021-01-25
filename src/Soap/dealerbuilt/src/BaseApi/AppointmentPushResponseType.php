@@ -3,34 +3,36 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing AppointmentPushResponseType.
+ * Class representing AppointmentPushResponseType
  *
+ * 
  * XSD Type: AppointmentPushResponse
  */
 class AppointmentPushResponseType extends PushResponseType
 {
+
     /**
-     * @var string
+     * @var string $customerKey
      */
     private $customerKey = null;
 
     /**
-     * @var string
+     * @var string $keyNumber
      */
     private $keyNumber = null;
 
     /**
-     * @var int
+     * @var int $serviceLocationId
      */
     private $serviceLocationId = null;
 
     /**
-     * @var string
+     * @var string $vehicleKey
      */
     private $vehicleKey = null;
 
     /**
-     * Gets as customerKey.
+     * Gets as customerKey
      *
      * @return string
      */
@@ -40,21 +42,19 @@ class AppointmentPushResponseType extends PushResponseType
     }
 
     /**
-     * Sets a new customerKey.
+     * Sets a new customerKey
      *
      * @param string $customerKey
-     *
      * @return self
      */
     public function setCustomerKey($customerKey)
     {
         $this->customerKey = $customerKey;
-
         return $this;
     }
 
     /**
-     * Gets as keyNumber.
+     * Gets as keyNumber
      *
      * @return string
      */
@@ -64,21 +64,19 @@ class AppointmentPushResponseType extends PushResponseType
     }
 
     /**
-     * Sets a new keyNumber.
+     * Sets a new keyNumber
      *
      * @param string $keyNumber
-     *
      * @return self
      */
     public function setKeyNumber($keyNumber)
     {
         $this->keyNumber = $keyNumber;
-
         return $this;
     }
 
     /**
-     * Gets as serviceLocationId.
+     * Gets as serviceLocationId
      *
      * @return int
      */
@@ -88,21 +86,19 @@ class AppointmentPushResponseType extends PushResponseType
     }
 
     /**
-     * Sets a new serviceLocationId.
+     * Sets a new serviceLocationId
      *
      * @param int $serviceLocationId
-     *
      * @return self
      */
     public function setServiceLocationId($serviceLocationId)
     {
         $this->serviceLocationId = $serviceLocationId;
-
         return $this;
     }
 
     /**
-     * Gets as vehicleKey.
+     * Gets as vehicleKey
      *
      * @return string
      */
@@ -112,16 +108,17 @@ class AppointmentPushResponseType extends PushResponseType
     }
 
     /**
-     * Sets a new vehicleKey.
+     * Sets a new vehicleKey
      *
      * @param string $vehicleKey
-     *
      * @return self
      */
     public function setVehicleKey($vehicleKey)
     {
         $this->vehicleKey = $vehicleKey;
-
         return $this;
     }
+
+
 }
+

@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Warranty;
 
 /**
- * Class representing ArrayOfWarrantyType.
+ * Class representing ArrayOfWarrantyType
  *
+ * 
  * XSD Type: ArrayOfWarranty
  */
 class ArrayOfWarrantyType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType[] $warranty
      */
     private $warranty = [
+        
     ];
 
     /**
-     * Adds as warranty.
+     * Adds as warranty
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType $warranty
      */
-    public function addToWarranty(WarrantyType $warranty)
+    public function addToWarranty(\App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType $warranty)
     {
         $this->warranty[] = $warranty;
-
         return $this;
     }
 
     /**
-     * isset warranty.
+     * isset warranty
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetWarranty($index)
@@ -42,10 +42,9 @@ class ArrayOfWarrantyType
     }
 
     /**
-     * unset warranty.
+     * unset warranty
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetWarranty($index)
@@ -54,7 +53,7 @@ class ArrayOfWarrantyType
     }
 
     /**
-     * Gets as warranty.
+     * Gets as warranty
      *
      * @return \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfWarrantyType
     }
 
     /**
-     * Sets a new warranty.
+     * Sets a new warranty
      *
      * @param \App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType[] $warranty
-     *
      * @return self
      */
     public function setWarranty(array $warranty)
     {
         $this->warranty = $warranty;
-
         return $this;
     }
+
+
 }
+

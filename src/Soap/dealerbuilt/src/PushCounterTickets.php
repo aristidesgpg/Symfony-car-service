@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushCounterTickets.
+ * Class representing PushCounterTickets
  */
 class PushCounterTickets
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\PushCounterTicketRequestType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\PushCounterTicketRequestType $request
      */
     private $request = null;
 
     /**
-     * Gets as request.
+     * Gets as request
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\PushCounterTicketRequestType
      */
@@ -23,16 +24,17 @@ class PushCounterTickets
     }
 
     /**
-     * Sets a new request.
+     * Sets a new request
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\PushCounterTicketRequestType $request
-     *
      * @return self
      */
-    public function setRequest(BaseApi\PushCounterTicketRequestType $request)
+    public function setRequest(\App\Soap\dealerbuilt\src\BaseApi\PushCounterTicketRequestType $request)
     {
         $this->request = $request;
-
         return $this;
     }
+
+
 }
+

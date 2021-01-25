@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushAppointments.
+ * Class representing PushAppointments
  */
 class PushAppointments
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushRequestType[] $appointment
      */
     private $appointment = null;
 
     /**
-     * Adds as appointmentPushRequest.
+     * Adds as appointmentPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushRequestType $appointmentPushRequest
      */
-    public function addToAppointment(BaseApi\AppointmentPushRequestType $appointmentPushRequest)
+    public function addToAppointment(\App\Soap\dealerbuilt\src\BaseApi\AppointmentPushRequestType $appointmentPushRequest)
     {
         $this->appointment[] = $appointmentPushRequest;
-
         return $this;
     }
 
     /**
-     * isset appointment.
+     * isset appointment
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetAppointment($index)
@@ -39,10 +37,9 @@ class PushAppointments
     }
 
     /**
-     * unset appointment.
+     * unset appointment
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetAppointment($index)
@@ -51,7 +48,7 @@ class PushAppointments
     }
 
     /**
-     * Gets as appointment.
+     * Gets as appointment
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushRequestType[]
      */
@@ -61,16 +58,17 @@ class PushAppointments
     }
 
     /**
-     * Sets a new appointment.
+     * Sets a new appointment
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\AppointmentPushRequestType[] $appointment
-     *
      * @return self
      */
     public function setAppointment(array $appointment)
     {
         $this->appointment = $appointment;
-
         return $this;
     }
+
+
 }
+

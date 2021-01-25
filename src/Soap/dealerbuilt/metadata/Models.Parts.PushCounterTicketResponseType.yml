@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PushCounterTicketResponseType:
             access_type: public_method
             serialized_name: CorrelationId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCorrelationId
                 setter: setCorrelationId
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PushCounterTicketResponseType:
             access_type: public_method
             serialized_name: CounterTicketNumber
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getCounterTicketNumber
                 setter: setCounterTicketNumber
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PushCounterTicketResponseType:
             access_type: public_method
             serialized_name: Key
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getKey
                 setter: setKey
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\Parts\PushCounterTicketResponseType:
             access_type: public_method
             serialized_name: PartsResponses
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getPartsResponses
                 setter: setPartsResponses
@@ -44,13 +44,13 @@ App\Soap\dealerbuilt\src\Models\Parts\PushCounterTicketResponseType:
                 inline: false
                 entry_name: CounterTicketPartPushResponse
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
         response:
             expose: true
             access_type: public_method
             serialized_name: Response
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Parts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
             accessor:
                 getter: getResponse
                 setter: setResponse

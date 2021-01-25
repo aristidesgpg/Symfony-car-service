@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: EventDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getEventDescription
                 setter: setEventDescription
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: EventID
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getEventID
                 setter: setEventID
@@ -25,7 +25,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: EventOccurrenceDateTime
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getEventOccurrenceDateTime
                 setter: setEventOccurrenceDateTime
@@ -35,7 +35,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: FactoryID
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getFactoryID
                 setter: setFactoryID
@@ -45,7 +45,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: IsActive
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getIsActive
                 setter: setIsActive
@@ -55,7 +55,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: Number
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getNumber
                 setter: setNumber
@@ -65,7 +65,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: OtherId
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getOtherId
                 setter: setOtherId
@@ -75,7 +75,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: PersonalName
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getPersonalName
                 setter: setPersonalName
@@ -85,7 +85,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: SpecialRemarksDescription
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSpecialRemarksDescription
                 setter: setSpecialRemarksDescription
@@ -95,7 +95,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: Ssn
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getSsn
                 setter: setSsn
@@ -105,7 +105,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: StreetAddress
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getStreetAddress
                 setter: setStreetAddress
@@ -115,7 +115,7 @@ App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType:
             access_type: public_method
             serialized_name: Username
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
             accessor:
                 getter: getUsername
                 setter: setUsername

@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Sales\DealReferencesType:
             access_type: public_method
             serialized_name: TradeIns
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
             accessor:
                 getter: getTradeIns
                 setter: setTradeIns
@@ -14,4 +14,4 @@ App\Soap\dealerbuilt\src\Models\Sales\DealReferencesType:
                 inline: false
                 entry_name: TradeIn
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Sales'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'

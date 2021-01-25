@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfPotentialJobPushResponse.
+ * Class representing ArrayOfPotentialJobPushResponse
  */
 class ArrayOfPotentialJobPushResponse extends ArrayOfPotentialJobPushResponseType
 {
+
+
 }
+

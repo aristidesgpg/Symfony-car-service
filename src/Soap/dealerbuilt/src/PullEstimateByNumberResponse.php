@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullEstimateByNumberResponse.
+ * Class representing PullEstimateByNumberResponse
  */
 class PullEstimateByNumberResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\EstimateType $pullEstimateByNumberResult
      */
     private $pullEstimateByNumberResult = null;
 
     /**
-     * Gets as pullEstimateByNumberResult.
+     * Gets as pullEstimateByNumberResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\EstimateType
      */
@@ -23,16 +24,17 @@ class PullEstimateByNumberResponse
     }
 
     /**
-     * Sets a new pullEstimateByNumberResult.
+     * Sets a new pullEstimateByNumberResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\EstimateType $pullEstimateByNumberResult
-     *
      * @return self
      */
-    public function setPullEstimateByNumberResult(BaseApi\EstimateType $pullEstimateByNumberResult)
+    public function setPullEstimateByNumberResult(\App\Soap\dealerbuilt\src\BaseApi\EstimateType $pullEstimateByNumberResult)
     {
         $this->pullEstimateByNumberResult = $pullEstimateByNumberResult;
-
         return $this;
     }
+
+
 }
+

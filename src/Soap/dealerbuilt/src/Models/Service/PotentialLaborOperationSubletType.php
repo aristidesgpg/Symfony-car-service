@@ -3,39 +3,41 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PotentialLaborOperationSubletType.
+ * Class representing PotentialLaborOperationSubletType
  *
+ * 
  * XSD Type: PotentialLaborOperationSublet
  */
 class PotentialLaborOperationSubletType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var string
+     * @var string $invoiceNumber
      */
     private $invoiceNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $salePrice
      */
     private $salePrice = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax
      */
     private $tax = null;
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -45,19 +47,19 @@ class PotentialLaborOperationSubletType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -67,21 +69,19 @@ class PotentialLaborOperationSubletType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as invoiceNumber.
+     * Gets as invoiceNumber
      *
      * @return string
      */
@@ -91,21 +91,19 @@ class PotentialLaborOperationSubletType
     }
 
     /**
-     * Sets a new invoiceNumber.
+     * Sets a new invoiceNumber
      *
      * @param string $invoiceNumber
-     *
      * @return self
      */
     public function setInvoiceNumber($invoiceNumber)
     {
         $this->invoiceNumber = $invoiceNumber;
-
         return $this;
     }
 
     /**
-     * Gets as salePrice.
+     * Gets as salePrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -115,19 +113,19 @@ class PotentialLaborOperationSubletType
     }
 
     /**
-     * Sets a new salePrice.
+     * Sets a new salePrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $salePrice
      * @return self
      */
     public function setSalePrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $salePrice)
     {
         $this->salePrice = $salePrice;
-
         return $this;
     }
 
     /**
-     * Gets as tax.
+     * Gets as tax
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -137,14 +135,17 @@ class PotentialLaborOperationSubletType
     }
 
     /**
-     * Sets a new tax.
+     * Sets a new tax
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax
      * @return self
      */
     public function setTax(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $tax)
     {
         $this->tax = $tax;
-
         return $this;
     }
+
+
 }
+

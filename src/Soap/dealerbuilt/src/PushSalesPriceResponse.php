@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushSalesPriceResponse.
+ * Class representing PushSalesPriceResponse
  */
 class PushSalesPriceResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[] $pushSalesPriceResult
      */
     private $pushSalesPriceResult = null;
 
     /**
-     * Adds as stockItemPushResponse.
+     * Adds as stockItemPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType $stockItemPushResponse
      */
-    public function addToPushSalesPriceResult(BaseApi\StockItemPushResponseType $stockItemPushResponse)
+    public function addToPushSalesPriceResult(\App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType $stockItemPushResponse)
     {
         $this->pushSalesPriceResult[] = $stockItemPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushSalesPriceResult.
+     * isset pushSalesPriceResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushSalesPriceResult($index)
@@ -39,10 +37,9 @@ class PushSalesPriceResponse
     }
 
     /**
-     * unset pushSalesPriceResult.
+     * unset pushSalesPriceResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushSalesPriceResult($index)
@@ -51,7 +48,7 @@ class PushSalesPriceResponse
     }
 
     /**
-     * Gets as pushSalesPriceResult.
+     * Gets as pushSalesPriceResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushSalesPriceResponse
     }
 
     /**
-     * Sets a new pushSalesPriceResult.
+     * Sets a new pushSalesPriceResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType[] $pushSalesPriceResult
-     *
      * @return self
      */
     public function setPushSalesPriceResult(array $pushSalesPriceResult)
     {
         $this->pushSalesPriceResult = $pushSalesPriceResult;
-
         return $this;
     }
+
+
 }
+

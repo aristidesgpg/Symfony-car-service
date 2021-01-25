@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing ArrayOfRepairOrderJobType.
+ * Class representing ArrayOfRepairOrderJobType
  *
+ * 
  * XSD Type: ArrayOfRepairOrderJob
  */
 class ArrayOfRepairOrderJobType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType[]
+     * @var \App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType[] $repairOrderJob
      */
     private $repairOrderJob = [
+        
     ];
 
     /**
-     * Adds as repairOrderJob.
+     * Adds as repairOrderJob
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType $repairOrderJob
      */
-    public function addToRepairOrderJob(RepairOrderJobType $repairOrderJob)
+    public function addToRepairOrderJob(\App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType $repairOrderJob)
     {
         $this->repairOrderJob[] = $repairOrderJob;
-
         return $this;
     }
 
     /**
-     * isset repairOrderJob.
+     * isset repairOrderJob
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetRepairOrderJob($index)
@@ -42,10 +42,9 @@ class ArrayOfRepairOrderJobType
     }
 
     /**
-     * unset repairOrderJob.
+     * unset repairOrderJob
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetRepairOrderJob($index)
@@ -54,7 +53,7 @@ class ArrayOfRepairOrderJobType
     }
 
     /**
-     * Gets as repairOrderJob.
+     * Gets as repairOrderJob
      *
      * @return \App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfRepairOrderJobType
     }
 
     /**
-     * Sets a new repairOrderJob.
+     * Sets a new repairOrderJob
      *
      * @param \App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType[] $repairOrderJob
-     *
      * @return self
      */
     public function setRepairOrderJob(array $repairOrderJob)
     {
         $this->repairOrderJob = $repairOrderJob;
-
         return $this;
     }
+
+
 }
+

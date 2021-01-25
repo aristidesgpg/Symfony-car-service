@@ -1,6 +1,6 @@
 App\Soap\dealerbuilt\src\Models\Appointments\ConcernPushMethodType:
     xml_root_name: ConcernPushMethodType
-    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Appointments'
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
     properties:
         __value:
             expose: true

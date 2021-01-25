@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
             access_type: public_method
             serialized_name: OwnerInformation
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getOwnerInformation
                 setter: setOwnerInformation
@@ -15,7 +15,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
             access_type: public_method
             serialized_name: RepairOrderHistory
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getRepairOrderHistory
                 setter: setRepairOrderHistory
@@ -24,13 +24,13 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
                 inline: false
                 entry_name: RepairOrder
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
         serviceCampaigns:
             expose: true
             access_type: public_method
             serialized_name: ServiceCampaigns
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getServiceCampaigns
                 setter: setServiceCampaigns
@@ -39,13 +39,13 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
                 inline: false
                 entry_name: ServiceCampaign
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceCampaigns'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
         serviceContracts:
             expose: true
             access_type: public_method
             serialized_name: ServiceContracts
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getServiceContracts
                 setter: setServiceContracts
@@ -54,13 +54,13 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
                 inline: false
                 entry_name: ServiceContract
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceContracts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceContracts'
         vehicleInformation:
             expose: true
             access_type: public_method
             serialized_name: VehicleInformation
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getVehicleInformation
                 setter: setVehicleInformation
@@ -70,7 +70,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
             access_type: public_method
             serialized_name: VehicleSeller
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getVehicleSeller
                 setter: setVehicleSeller
@@ -80,7 +80,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
             access_type: public_method
             serialized_name: Vin
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getVin
                 setter: setVin
@@ -90,7 +90,7 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
             access_type: public_method
             serialized_name: Warranties
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Vehicles'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
             accessor:
                 getter: getWarranties
                 setter: setWarranties
@@ -99,4 +99,4 @@ App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
                 inline: false
                 entry_name: Warranty
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Warranty'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'

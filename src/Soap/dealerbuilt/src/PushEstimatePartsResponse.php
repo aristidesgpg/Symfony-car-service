@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PushEstimatePartsResponse.
+ * Class representing PushEstimatePartsResponse
  */
 class PushEstimatePartsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushEstimatePartsResult
      */
     private $pushEstimatePartsResult = null;
 
     /**
-     * Adds as serviceLocationPushResponse.
+     * Adds as serviceLocationPushResponse
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse
      */
-    public function addToPushEstimatePartsResult(BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
+    public function addToPushEstimatePartsResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType $serviceLocationPushResponse)
     {
         $this->pushEstimatePartsResult[] = $serviceLocationPushResponse;
-
         return $this;
     }
 
     /**
-     * isset pushEstimatePartsResult.
+     * isset pushEstimatePartsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPushEstimatePartsResult($index)
@@ -39,10 +37,9 @@ class PushEstimatePartsResponse
     }
 
     /**
-     * unset pushEstimatePartsResult.
+     * unset pushEstimatePartsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPushEstimatePartsResult($index)
@@ -51,7 +48,7 @@ class PushEstimatePartsResponse
     }
 
     /**
-     * Gets as pushEstimatePartsResult.
+     * Gets as pushEstimatePartsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[]
      */
@@ -61,16 +58,17 @@ class PushEstimatePartsResponse
     }
 
     /**
-     * Sets a new pushEstimatePartsResult.
+     * Sets a new pushEstimatePartsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPushResponseType[] $pushEstimatePartsResult
-     *
      * @return self
      */
     public function setPushEstimatePartsResult(array $pushEstimatePartsResult)
     {
         $this->pushEstimatePartsResult = $pushEstimatePartsResult;
-
         return $this;
     }
+
+
 }
+

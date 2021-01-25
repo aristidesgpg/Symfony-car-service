@@ -5,12 +5,12 @@ App\Soap\dealerbuilt\src\Models\ServiceContracts\ArrayOfServiceContractType:
             access_type: public_method
             serialized_name: ServiceContract
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceContracts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceContracts'
             accessor:
                 getter: getServiceContract
                 setter: setServiceContract
             xml_list:
                 inline: true
                 entry_name: ServiceContract
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.ServiceContracts'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceContracts'
             type: array<App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType>

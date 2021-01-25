@@ -3,66 +3,65 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing GlSummarySearchCriteriaType.
+ * Class representing GlSummarySearchCriteriaType
  *
+ * 
  * XSD Type: GlSummarySearchCriteria
  */
 class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
 {
+
     /**
-     * @var int[]
+     * @var int[] $divisions
      */
     private $divisions = null;
 
     /**
-     * @var int
+     * @var int $endMonth
      */
     private $endMonth = null;
 
     /**
-     * @var int
+     * @var int $endYear
      */
     private $endYear = null;
 
     /**
-     * @var bool
+     * @var bool $includeFuturePostedActivity
      */
     private $includeFuturePostedActivity = null;
 
     /**
-     * @var bool
+     * @var bool $rollUpSpreadAccounts
      */
     private $rollUpSpreadAccounts = null;
 
     /**
-     * @var int
+     * @var int $startMonth
      */
     private $startMonth = null;
 
     /**
-     * @var int
+     * @var int $startYear
      */
     private $startYear = null;
 
     /**
-     * Adds as long.
+     * Adds as long
      *
      * @return self
-     *
      * @param int $long
      */
     public function addToDivisions($long)
     {
         $this->divisions[] = $long;
-
         return $this;
     }
 
     /**
-     * isset divisions.
+     * isset divisions
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDivisions($index)
@@ -71,10 +70,9 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * unset divisions.
+     * unset divisions
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDivisions($index)
@@ -83,7 +81,7 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Gets as divisions.
+     * Gets as divisions
      *
      * @return int[]
      */
@@ -93,21 +91,19 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new divisions.
+     * Sets a new divisions
      *
      * @param int[] $divisions
-     *
      * @return self
      */
     public function setDivisions(array $divisions)
     {
         $this->divisions = $divisions;
-
         return $this;
     }
 
     /**
-     * Gets as endMonth.
+     * Gets as endMonth
      *
      * @return int
      */
@@ -117,21 +113,19 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new endMonth.
+     * Sets a new endMonth
      *
      * @param int $endMonth
-     *
      * @return self
      */
     public function setEndMonth($endMonth)
     {
         $this->endMonth = $endMonth;
-
         return $this;
     }
 
     /**
-     * Gets as endYear.
+     * Gets as endYear
      *
      * @return int
      */
@@ -141,21 +135,19 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new endYear.
+     * Sets a new endYear
      *
      * @param int $endYear
-     *
      * @return self
      */
     public function setEndYear($endYear)
     {
         $this->endYear = $endYear;
-
         return $this;
     }
 
     /**
-     * Gets as includeFuturePostedActivity.
+     * Gets as includeFuturePostedActivity
      *
      * @return bool
      */
@@ -165,21 +157,19 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new includeFuturePostedActivity.
+     * Sets a new includeFuturePostedActivity
      *
      * @param bool $includeFuturePostedActivity
-     *
      * @return self
      */
     public function setIncludeFuturePostedActivity($includeFuturePostedActivity)
     {
         $this->includeFuturePostedActivity = $includeFuturePostedActivity;
-
         return $this;
     }
 
     /**
-     * Gets as rollUpSpreadAccounts.
+     * Gets as rollUpSpreadAccounts
      *
      * @return bool
      */
@@ -189,21 +179,19 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new rollUpSpreadAccounts.
+     * Sets a new rollUpSpreadAccounts
      *
      * @param bool $rollUpSpreadAccounts
-     *
      * @return self
      */
     public function setRollUpSpreadAccounts($rollUpSpreadAccounts)
     {
         $this->rollUpSpreadAccounts = $rollUpSpreadAccounts;
-
         return $this;
     }
 
     /**
-     * Gets as startMonth.
+     * Gets as startMonth
      *
      * @return int
      */
@@ -213,21 +201,19 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new startMonth.
+     * Sets a new startMonth
      *
      * @param int $startMonth
-     *
      * @return self
      */
     public function setStartMonth($startMonth)
     {
         $this->startMonth = $startMonth;
-
         return $this;
     }
 
     /**
-     * Gets as startYear.
+     * Gets as startYear
      *
      * @return int
      */
@@ -237,16 +223,17 @@ class GlSummarySearchCriteriaType extends AccountsSearchCriteriaType
     }
 
     /**
-     * Sets a new startYear.
+     * Sets a new startYear
      *
      * @param int $startYear
-     *
      * @return self
      */
     public function setStartYear($startYear)
     {
         $this->startYear = $startYear;
-
         return $this;
     }
+
+
 }
+

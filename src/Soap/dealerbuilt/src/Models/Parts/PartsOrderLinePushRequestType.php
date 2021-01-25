@@ -3,109 +3,111 @@
 namespace App\Soap\dealerbuilt\src\Models\Parts;
 
 /**
- * Class representing PartsOrderLinePushRequestType.
+ * Class representing PartsOrderLinePushRequestType
  *
+ * 
  * XSD Type: PartsOrderLinePushRequest
  */
 class PartsOrderLinePushRequestType
 {
+
     /**
-     * @var string
+     * @var string $bin
      */
     private $bin = null;
 
     /**
-     * @var int
+     * @var int $counterTicketId
      */
     private $counterTicketId = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerPrice
      */
     private $dealerPrice = null;
 
     /**
-     * @var string
+     * @var string $externalManufacturerPartsOrderId
      */
     private $externalManufacturerPartsOrderId = null;
 
     /**
-     * @var string
+     * @var string $externalPartsOrderId
      */
     private $externalPartsOrderId = null;
 
     /**
-     * @var string
+     * @var string $externalPartsOrderLineId
      */
     private $externalPartsOrderLineId = null;
 
     /**
-     * @var string
+     * @var string $kitPartNumber
      */
     private $kitPartNumber = null;
 
     /**
-     * @var int
+     * @var int $lineSequence
      */
     private $lineSequence = null;
 
     /**
-     * @var string
+     * @var string $partDescription
      */
     private $partDescription = null;
 
     /**
-     * @var string
+     * @var string $partNumber
      */
     private $partNumber = null;
 
     /**
-     * @var float
+     * @var float $quantityBackordered
      */
     private $quantityBackordered = null;
 
     /**
-     * @var float
+     * @var float $quantityOrdered
      */
     private $quantityOrdered = null;
 
     /**
-     * @var float
+     * @var float $quantityShipped
      */
     private $quantityShipped = null;
 
     /**
-     * @var int
+     * @var int $repairOrderId
      */
     private $repairOrderId = null;
 
     /**
-     * @var int
+     * @var int $repairOrderJobNumber
      */
     private $repairOrderJobNumber = null;
 
     /**
-     * @var string
+     * @var string $shippedPartNumber
      */
     private $shippedPartNumber = null;
 
     /**
-     * @var string
+     * @var string $shipperNumber
      */
     private $shipperNumber = null;
 
     /**
-     * @var string
+     * @var string $source
      */
     private $source = null;
 
     /**
-     * @var string
+     * @var string $vendor
      */
     private $vendor = null;
 
     /**
-     * Gets as bin.
+     * Gets as bin
      *
      * @return string
      */
@@ -115,21 +117,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new bin.
+     * Sets a new bin
      *
      * @param string $bin
-     *
      * @return self
      */
     public function setBin($bin)
     {
         $this->bin = $bin;
-
         return $this;
     }
 
     /**
-     * Gets as counterTicketId.
+     * Gets as counterTicketId
      *
      * @return int
      */
@@ -139,21 +139,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new counterTicketId.
+     * Sets a new counterTicketId
      *
      * @param int $counterTicketId
-     *
      * @return self
      */
     public function setCounterTicketId($counterTicketId)
     {
         $this->counterTicketId = $counterTicketId;
-
         return $this;
     }
 
     /**
-     * Gets as dealerPrice.
+     * Gets as dealerPrice
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -163,19 +161,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new dealerPrice.
+     * Sets a new dealerPrice
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerPrice
      * @return self
      */
     public function setDealerPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $dealerPrice)
     {
         $this->dealerPrice = $dealerPrice;
-
         return $this;
     }
 
     /**
-     * Gets as externalManufacturerPartsOrderId.
+     * Gets as externalManufacturerPartsOrderId
      *
      * @return string
      */
@@ -185,21 +183,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new externalManufacturerPartsOrderId.
+     * Sets a new externalManufacturerPartsOrderId
      *
      * @param string $externalManufacturerPartsOrderId
-     *
      * @return self
      */
     public function setExternalManufacturerPartsOrderId($externalManufacturerPartsOrderId)
     {
         $this->externalManufacturerPartsOrderId = $externalManufacturerPartsOrderId;
-
         return $this;
     }
 
     /**
-     * Gets as externalPartsOrderId.
+     * Gets as externalPartsOrderId
      *
      * @return string
      */
@@ -209,21 +205,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new externalPartsOrderId.
+     * Sets a new externalPartsOrderId
      *
      * @param string $externalPartsOrderId
-     *
      * @return self
      */
     public function setExternalPartsOrderId($externalPartsOrderId)
     {
         $this->externalPartsOrderId = $externalPartsOrderId;
-
         return $this;
     }
 
     /**
-     * Gets as externalPartsOrderLineId.
+     * Gets as externalPartsOrderLineId
      *
      * @return string
      */
@@ -233,21 +227,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new externalPartsOrderLineId.
+     * Sets a new externalPartsOrderLineId
      *
      * @param string $externalPartsOrderLineId
-     *
      * @return self
      */
     public function setExternalPartsOrderLineId($externalPartsOrderLineId)
     {
         $this->externalPartsOrderLineId = $externalPartsOrderLineId;
-
         return $this;
     }
 
     /**
-     * Gets as kitPartNumber.
+     * Gets as kitPartNumber
      *
      * @return string
      */
@@ -257,21 +249,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new kitPartNumber.
+     * Sets a new kitPartNumber
      *
      * @param string $kitPartNumber
-     *
      * @return self
      */
     public function setKitPartNumber($kitPartNumber)
     {
         $this->kitPartNumber = $kitPartNumber;
-
         return $this;
     }
 
     /**
-     * Gets as lineSequence.
+     * Gets as lineSequence
      *
      * @return int
      */
@@ -281,21 +271,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new lineSequence.
+     * Sets a new lineSequence
      *
      * @param int $lineSequence
-     *
      * @return self
      */
     public function setLineSequence($lineSequence)
     {
         $this->lineSequence = $lineSequence;
-
         return $this;
     }
 
     /**
-     * Gets as partDescription.
+     * Gets as partDescription
      *
      * @return string
      */
@@ -305,21 +293,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new partDescription.
+     * Sets a new partDescription
      *
      * @param string $partDescription
-     *
      * @return self
      */
     public function setPartDescription($partDescription)
     {
         $this->partDescription = $partDescription;
-
         return $this;
     }
 
     /**
-     * Gets as partNumber.
+     * Gets as partNumber
      *
      * @return string
      */
@@ -329,21 +315,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new partNumber.
+     * Sets a new partNumber
      *
      * @param string $partNumber
-     *
      * @return self
      */
     public function setPartNumber($partNumber)
     {
         $this->partNumber = $partNumber;
-
         return $this;
     }
 
     /**
-     * Gets as quantityBackordered.
+     * Gets as quantityBackordered
      *
      * @return float
      */
@@ -353,21 +337,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new quantityBackordered.
+     * Sets a new quantityBackordered
      *
      * @param float $quantityBackordered
-     *
      * @return self
      */
     public function setQuantityBackordered($quantityBackordered)
     {
         $this->quantityBackordered = $quantityBackordered;
-
         return $this;
     }
 
     /**
-     * Gets as quantityOrdered.
+     * Gets as quantityOrdered
      *
      * @return float
      */
@@ -377,21 +359,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new quantityOrdered.
+     * Sets a new quantityOrdered
      *
      * @param float $quantityOrdered
-     *
      * @return self
      */
     public function setQuantityOrdered($quantityOrdered)
     {
         $this->quantityOrdered = $quantityOrdered;
-
         return $this;
     }
 
     /**
-     * Gets as quantityShipped.
+     * Gets as quantityShipped
      *
      * @return float
      */
@@ -401,21 +381,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new quantityShipped.
+     * Sets a new quantityShipped
      *
      * @param float $quantityShipped
-     *
      * @return self
      */
     public function setQuantityShipped($quantityShipped)
     {
         $this->quantityShipped = $quantityShipped;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderId.
+     * Gets as repairOrderId
      *
      * @return int
      */
@@ -425,21 +403,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new repairOrderId.
+     * Sets a new repairOrderId
      *
      * @param int $repairOrderId
-     *
      * @return self
      */
     public function setRepairOrderId($repairOrderId)
     {
         $this->repairOrderId = $repairOrderId;
-
         return $this;
     }
 
     /**
-     * Gets as repairOrderJobNumber.
+     * Gets as repairOrderJobNumber
      *
      * @return int
      */
@@ -449,21 +425,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new repairOrderJobNumber.
+     * Sets a new repairOrderJobNumber
      *
      * @param int $repairOrderJobNumber
-     *
      * @return self
      */
     public function setRepairOrderJobNumber($repairOrderJobNumber)
     {
         $this->repairOrderJobNumber = $repairOrderJobNumber;
-
         return $this;
     }
 
     /**
-     * Gets as shippedPartNumber.
+     * Gets as shippedPartNumber
      *
      * @return string
      */
@@ -473,21 +447,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new shippedPartNumber.
+     * Sets a new shippedPartNumber
      *
      * @param string $shippedPartNumber
-     *
      * @return self
      */
     public function setShippedPartNumber($shippedPartNumber)
     {
         $this->shippedPartNumber = $shippedPartNumber;
-
         return $this;
     }
 
     /**
-     * Gets as shipperNumber.
+     * Gets as shipperNumber
      *
      * @return string
      */
@@ -497,21 +469,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new shipperNumber.
+     * Sets a new shipperNumber
      *
      * @param string $shipperNumber
-     *
      * @return self
      */
     public function setShipperNumber($shipperNumber)
     {
         $this->shipperNumber = $shipperNumber;
-
         return $this;
     }
 
     /**
-     * Gets as source.
+     * Gets as source
      *
      * @return string
      */
@@ -521,21 +491,19 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new source.
+     * Sets a new source
      *
      * @param string $source
-     *
      * @return self
      */
     public function setSource($source)
     {
         $this->source = $source;
-
         return $this;
     }
 
     /**
-     * Gets as vendor.
+     * Gets as vendor
      *
      * @return string
      */
@@ -545,16 +513,17 @@ class PartsOrderLinePushRequestType
     }
 
     /**
-     * Sets a new vendor.
+     * Sets a new vendor
      *
      * @param string $vendor
-     *
      * @return self
      */
     public function setVendor($vendor)
     {
         $this->vendor = $vendor;
-
         return $this;
     }
+
+
 }
+

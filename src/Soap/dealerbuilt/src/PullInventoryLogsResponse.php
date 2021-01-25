@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullInventoryLogsResponse.
+ * Class representing PullInventoryLogsResponse
  */
 class PullInventoryLogsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\LoggingType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\LoggingType[] $pullInventoryLogsResult
      */
     private $pullInventoryLogsResult = null;
 
     /**
-     * Adds as logging.
+     * Adds as logging
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LoggingType $logging
      */
-    public function addToPullInventoryLogsResult(BaseApi\LoggingType $logging)
+    public function addToPullInventoryLogsResult(\App\Soap\dealerbuilt\src\BaseApi\LoggingType $logging)
     {
         $this->pullInventoryLogsResult[] = $logging;
-
         return $this;
     }
 
     /**
-     * isset pullInventoryLogsResult.
+     * isset pullInventoryLogsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullInventoryLogsResult($index)
@@ -39,10 +37,9 @@ class PullInventoryLogsResponse
     }
 
     /**
-     * unset pullInventoryLogsResult.
+     * unset pullInventoryLogsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullInventoryLogsResult($index)
@@ -51,7 +48,7 @@ class PullInventoryLogsResponse
     }
 
     /**
-     * Gets as pullInventoryLogsResult.
+     * Gets as pullInventoryLogsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\LoggingType[]
      */
@@ -61,16 +58,17 @@ class PullInventoryLogsResponse
     }
 
     /**
-     * Sets a new pullInventoryLogsResult.
+     * Sets a new pullInventoryLogsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\LoggingType[] $pullInventoryLogsResult
-     *
      * @return self
      */
     public function setPullInventoryLogsResult(array $pullInventoryLogsResult)
     {
         $this->pullInventoryLogsResult = $pullInventoryLogsResult;
-
         return $this;
     }
+
+
 }
+

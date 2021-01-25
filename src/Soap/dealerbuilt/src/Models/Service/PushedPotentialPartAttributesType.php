@@ -3,84 +3,86 @@
 namespace App\Soap\dealerbuilt\src\Models\Service;
 
 /**
- * Class representing PushedPotentialPartAttributesType.
+ * Class representing PushedPotentialPartAttributesType
  *
+ * 
  * XSD Type: PushedPotentialPartAttributes
  */
 class PushedPotentialPartAttributesType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      */
     private $cost = null;
 
     /**
-     * @var string
+     * @var string $description
      */
     private $description = null;
 
     /**
-     * @var string
+     * @var string $externalPartId
      */
     private $externalPartId = null;
 
     /**
-     * @var bool
+     * @var bool $isApproved
      */
     private $isApproved = null;
 
     /**
-     * @var bool
+     * @var bool $isFailed
      */
     private $isFailed = null;
 
     /**
-     * @var int
+     * @var int $laborOperationNumber
      */
     private $laborOperationNumber = null;
 
     /**
-     * @var string
+     * @var string $modifiedBy
      */
     private $modifiedBy = null;
 
     /**
-     * @var string
+     * @var string $partNumber
      */
     private $partNumber = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      */
     private $price = null;
 
     /**
-     * @var string
+     * @var string $priceCategory
      */
     private $priceCategory = null;
 
     /**
-     * @var float
+     * @var float $quantity
      */
     private $quantity = null;
 
     /**
-     * @var string[]
+     * @var string[] $serialNumbers
      */
     private $serialNumbers = null;
 
     /**
-     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType
+     * @var \App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount
      */
     private $taxAmount = null;
 
     /**
-     * @var string
+     * @var string $vendor
      */
     private $vendor = null;
 
     /**
-     * Gets as cost.
+     * Gets as cost
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -90,19 +92,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new cost.
+     * Sets a new cost
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost
      * @return self
      */
     public function setCost(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $cost)
     {
         $this->cost = $cost;
-
         return $this;
     }
 
     /**
-     * Gets as description.
+     * Gets as description
      *
      * @return string
      */
@@ -112,21 +114,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new description.
+     * Sets a new description
      *
      * @param string $description
-     *
      * @return self
      */
     public function setDescription($description)
     {
         $this->description = $description;
-
         return $this;
     }
 
     /**
-     * Gets as externalPartId.
+     * Gets as externalPartId
      *
      * @return string
      */
@@ -136,21 +136,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new externalPartId.
+     * Sets a new externalPartId
      *
      * @param string $externalPartId
-     *
      * @return self
      */
     public function setExternalPartId($externalPartId)
     {
         $this->externalPartId = $externalPartId;
-
         return $this;
     }
 
     /**
-     * Gets as isApproved.
+     * Gets as isApproved
      *
      * @return bool
      */
@@ -160,21 +158,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new isApproved.
+     * Sets a new isApproved
      *
      * @param bool $isApproved
-     *
      * @return self
      */
     public function setIsApproved($isApproved)
     {
         $this->isApproved = $isApproved;
-
         return $this;
     }
 
     /**
-     * Gets as isFailed.
+     * Gets as isFailed
      *
      * @return bool
      */
@@ -184,21 +180,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new isFailed.
+     * Sets a new isFailed
      *
      * @param bool $isFailed
-     *
      * @return self
      */
     public function setIsFailed($isFailed)
     {
         $this->isFailed = $isFailed;
-
         return $this;
     }
 
     /**
-     * Gets as laborOperationNumber.
+     * Gets as laborOperationNumber
      *
      * @return int
      */
@@ -208,21 +202,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new laborOperationNumber.
+     * Sets a new laborOperationNumber
      *
      * @param int $laborOperationNumber
-     *
      * @return self
      */
     public function setLaborOperationNumber($laborOperationNumber)
     {
         $this->laborOperationNumber = $laborOperationNumber;
-
         return $this;
     }
 
     /**
-     * Gets as modifiedBy.
+     * Gets as modifiedBy
      *
      * @return string
      */
@@ -232,21 +224,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new modifiedBy.
+     * Sets a new modifiedBy
      *
      * @param string $modifiedBy
-     *
      * @return self
      */
     public function setModifiedBy($modifiedBy)
     {
         $this->modifiedBy = $modifiedBy;
-
         return $this;
     }
 
     /**
-     * Gets as partNumber.
+     * Gets as partNumber
      *
      * @return string
      */
@@ -256,21 +246,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new partNumber.
+     * Sets a new partNumber
      *
      * @param string $partNumber
-     *
      * @return self
      */
     public function setPartNumber($partNumber)
     {
         $this->partNumber = $partNumber;
-
         return $this;
     }
 
     /**
-     * Gets as price.
+     * Gets as price
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -280,19 +268,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new price.
+     * Sets a new price
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $price
      * @return self
      */
     public function setPrice(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $price)
     {
         $this->price = $price;
-
         return $this;
     }
 
     /**
-     * Gets as priceCategory.
+     * Gets as priceCategory
      *
      * @return string
      */
@@ -302,21 +290,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new priceCategory.
+     * Sets a new priceCategory
      *
      * @param string $priceCategory
-     *
      * @return self
      */
     public function setPriceCategory($priceCategory)
     {
         $this->priceCategory = $priceCategory;
-
         return $this;
     }
 
     /**
-     * Gets as quantity.
+     * Gets as quantity
      *
      * @return float
      */
@@ -326,38 +312,33 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new quantity.
+     * Sets a new quantity
      *
      * @param float $quantity
-     *
      * @return self
      */
     public function setQuantity($quantity)
     {
         $this->quantity = $quantity;
-
         return $this;
     }
 
     /**
-     * Adds as string.
+     * Adds as string
      *
      * @return self
-     *
      * @param string $string
      */
     public function addToSerialNumbers($string)
     {
         $this->serialNumbers[] = $string;
-
         return $this;
     }
 
     /**
-     * isset serialNumbers.
+     * isset serialNumbers
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetSerialNumbers($index)
@@ -366,10 +347,9 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * unset serialNumbers.
+     * unset serialNumbers
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetSerialNumbers($index)
@@ -378,7 +358,7 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Gets as serialNumbers.
+     * Gets as serialNumbers
      *
      * @return string[]
      */
@@ -388,21 +368,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new serialNumbers.
+     * Sets a new serialNumbers
      *
      * @param string[] $serialNumbers
-     *
      * @return self
      */
     public function setSerialNumbers(array $serialNumbers)
     {
         $this->serialNumbers = $serialNumbers;
-
         return $this;
     }
 
     /**
-     * Gets as taxAmount.
+     * Gets as taxAmount
      *
      * @return \App\Soap\dealerbuilt\src\Models\MonetaryValueType
      */
@@ -412,19 +390,19 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new taxAmount.
+     * Sets a new taxAmount
      *
+     * @param \App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount
      * @return self
      */
     public function setTaxAmount(\App\Soap\dealerbuilt\src\Models\MonetaryValueType $taxAmount)
     {
         $this->taxAmount = $taxAmount;
-
         return $this;
     }
 
     /**
-     * Gets as vendor.
+     * Gets as vendor
      *
      * @return string
      */
@@ -434,16 +412,17 @@ class PushedPotentialPartAttributesType
     }
 
     /**
-     * Sets a new vendor.
+     * Sets a new vendor
      *
      * @param string $vendor
-     *
      * @return self
      */
     public function setVendor($vendor)
     {
         $this->vendor = $vendor;
-
         return $this;
     }
+
+
 }
+

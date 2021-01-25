@@ -5,7 +5,7 @@ App\Soap\dealerbuilt\src\BaseApi\ServicePersonSearchCriteriaType:
             access_type: public_method
             serialized_name: EmployeeTypes
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getEmployeeTypes
                 setter: setEmployeeTypes
@@ -14,13 +14,13 @@ App\Soap\dealerbuilt\src\BaseApi\ServicePersonSearchCriteriaType:
                 inline: false
                 entry_name: ServicePersonType
                 skip_when_empty: true
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
         status:
             expose: true
             access_type: public_method
             serialized_name: Status
             xml_element:
-                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi'
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
             accessor:
                 getter: getStatus
                 setter: setStatus

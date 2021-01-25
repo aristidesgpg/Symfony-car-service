@@ -3,37 +3,37 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ArrayOfDealPushRequestType.
+ * Class representing ArrayOfDealPushRequestType
  *
+ * 
  * XSD Type: ArrayOfDealPushRequest
  */
 class ArrayOfDealPushRequestType
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType[] $dealPushRequest
      */
     private $dealPushRequest = [
+        
     ];
 
     /**
-     * Adds as dealPushRequest.
+     * Adds as dealPushRequest
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType $dealPushRequest
      */
-    public function addToDealPushRequest(DealPushRequestType $dealPushRequest)
+    public function addToDealPushRequest(\App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType $dealPushRequest)
     {
         $this->dealPushRequest[] = $dealPushRequest;
-
         return $this;
     }
 
     /**
-     * isset dealPushRequest.
+     * isset dealPushRequest
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetDealPushRequest($index)
@@ -42,10 +42,9 @@ class ArrayOfDealPushRequestType
     }
 
     /**
-     * unset dealPushRequest.
+     * unset dealPushRequest
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetDealPushRequest($index)
@@ -54,7 +53,7 @@ class ArrayOfDealPushRequestType
     }
 
     /**
-     * Gets as dealPushRequest.
+     * Gets as dealPushRequest
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType[]
      */
@@ -64,16 +63,17 @@ class ArrayOfDealPushRequestType
     }
 
     /**
-     * Sets a new dealPushRequest.
+     * Sets a new dealPushRequest
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType[] $dealPushRequest
-     *
      * @return self
      */
     public function setDealPushRequest(array $dealPushRequest)
     {
         $this->dealPushRequest = $dealPushRequest;
-
         return $this;
     }
+
+
 }
+

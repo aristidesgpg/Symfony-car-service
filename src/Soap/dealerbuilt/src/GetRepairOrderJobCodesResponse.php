@@ -3,17 +3,18 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing GetRepairOrderJobCodesResponse.
+ * Class representing GetRepairOrderJobCodesResponse
  */
 class GetRepairOrderJobCodesResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationJobCodesType
+     * @var \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationJobCodesType $getRepairOrderJobCodesResult
      */
     private $getRepairOrderJobCodesResult = null;
 
     /**
-     * Gets as getRepairOrderJobCodesResult.
+     * Gets as getRepairOrderJobCodesResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationJobCodesType
      */
@@ -23,16 +24,17 @@ class GetRepairOrderJobCodesResponse
     }
 
     /**
-     * Sets a new getRepairOrderJobCodesResult.
+     * Sets a new getRepairOrderJobCodesResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\ServiceLocationJobCodesType $getRepairOrderJobCodesResult
-     *
      * @return self
      */
-    public function setGetRepairOrderJobCodesResult(BaseApi\ServiceLocationJobCodesType $getRepairOrderJobCodesResult)
+    public function setGetRepairOrderJobCodesResult(\App\Soap\dealerbuilt\src\BaseApi\ServiceLocationJobCodesType $getRepairOrderJobCodesResult)
     {
         $this->getRepairOrderJobCodesResult = $getRepairOrderJobCodesResult;
-
         return $this;
     }
+
+
 }
+

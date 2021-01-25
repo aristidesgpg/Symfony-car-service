@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\Models;
 
 /**
- * Class representing PullProduct.
+ * Class representing PullProduct
  */
 class PullProduct extends PullProductType
 {
+
+
 }
+

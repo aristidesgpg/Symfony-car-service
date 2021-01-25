@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing ArrayOflong.
+ * Class representing ArrayOflong
  */
 class ArrayOflong extends ArrayOflongType
 {
+
+
 }
+

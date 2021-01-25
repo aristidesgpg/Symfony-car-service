@@ -3,8 +3,11 @@
 namespace App\Soap\dealerbuilt\src\BaseApi;
 
 /**
- * Class representing ServiceLocationPushResponse.
+ * Class representing ServiceLocationPushResponse
  */
 class ServiceLocationPushResponse extends ServiceLocationPushResponseType
 {
+
+
 }
+

@@ -3,34 +3,32 @@
 namespace App\Soap\dealerbuilt\src;
 
 /**
- * Class representing PullCustomerPartsResponse.
+ * Class representing PullCustomerPartsResponse
  */
 class PullCustomerPartsResponse
 {
+
     /**
-     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[]
+     * @var \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[] $pullCustomerPartsResult
      */
     private $pullCustomerPartsResult = null;
 
     /**
-     * Adds as customerPart.
+     * Adds as customerPart
      *
      * @return self
-     *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType $customerPart
      */
-    public function addToPullCustomerPartsResult(BaseApi\CustomerPartType $customerPart)
+    public function addToPullCustomerPartsResult(\App\Soap\dealerbuilt\src\BaseApi\CustomerPartType $customerPart)
     {
         $this->pullCustomerPartsResult[] = $customerPart;
-
         return $this;
     }
 
     /**
-     * isset pullCustomerPartsResult.
+     * isset pullCustomerPartsResult
      *
      * @param int|string $index
-     *
      * @return bool
      */
     public function issetPullCustomerPartsResult($index)
@@ -39,10 +37,9 @@ class PullCustomerPartsResponse
     }
 
     /**
-     * unset pullCustomerPartsResult.
+     * unset pullCustomerPartsResult
      *
      * @param int|string $index
-     *
      * @return void
      */
     public function unsetPullCustomerPartsResult($index)
@@ -51,7 +48,7 @@ class PullCustomerPartsResponse
     }
 
     /**
-     * Gets as pullCustomerPartsResult.
+     * Gets as pullCustomerPartsResult
      *
      * @return \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[]
      */
@@ -61,16 +58,17 @@ class PullCustomerPartsResponse
     }
 
     /**
-     * Sets a new pullCustomerPartsResult.
+     * Sets a new pullCustomerPartsResult
      *
      * @param \App\Soap\dealerbuilt\src\BaseApi\CustomerPartType[] $pullCustomerPartsResult
-     *
      * @return self
      */
     public function setPullCustomerPartsResult(array $pullCustomerPartsResult)
     {
         $this->pullCustomerPartsResult = $pullCustomerPartsResult;
-
         return $this;
     }
+
+
 }
+
