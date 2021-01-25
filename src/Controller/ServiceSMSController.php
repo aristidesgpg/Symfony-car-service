@@ -114,6 +114,7 @@ class ServiceSMSController extends AbstractFOSRestController {
                    ->setPhone($customer->getPhone())
                    ->setMessage($message)
                    ->setIncoming(false)
+                   ->setIsRead(true)
                    ->setSid($sid);
 
         $em->persist($serviceSMS);
@@ -163,6 +164,7 @@ class ServiceSMSController extends AbstractFOSRestController {
         //update serviceSMS
         $serviceSMS->setIncoming(false)
                    ->setSid($sid)
+                   ->setIsRead(true)
                    ->setStatus("");
 
         $em->persist($serviceSMS);

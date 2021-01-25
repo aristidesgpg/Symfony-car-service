@@ -35,15 +35,13 @@ class ServiceSMSFixture extends Fixture implements DependentFixtureInterface {
                        ->setCustomer($customer)
                        ->setPhone($customer->getPhone())
                        ->setMessage($faker->sentence($nbWords = 5, $variableNbWords = true))
+                       ->setIsRead($faker->boolean(80))
                        ->setIncoming($inComing)
                        ->setDate($date);
             
             if(!$inComing){
                 $serviceSMS->setStatus($status)
-                           ->setIsRead($faker->boolean(80));
-            }
-            else{
-                $serviceSMS->setIsRead(true);
+                           ->setIsRead(true);
             }
                        
             $manager->persist($serviceSMS);
