@@ -33,18 +33,19 @@ class TwilioHelper {
      *
      * @throws \Exception
      */
-    public function sendSms (string $phone, string $msg): void {
+    public function sendSms (string $phone, string $msg): string {
         $phone    = str_replace(['.', '-', '\\', '(', ')', 'x', ' ', '+'], '', $phone);
         $phone    = substr($phone, 0, 10);
         
         if (preg_match('/https?:\/\//', $msg)) {
-            $this->curlIsre($phone, $msg);
+            $message = $this->curlIsre($phone, $msg);
         } else {
-            $this->twilio->messages->create('+1' . $phone, [
+            $message = $this->twilio->messages->create('+1' . $phone, [
                 'body' => $msg,
                 'from' => $this->fromNumber,
             ]);
         }
+        return $message->sid;
     }
 
     /**
@@ -79,7 +80,7 @@ class TwilioHelper {
      * @param string $phone
      * @param string $msg
      */
-    private function curlIsre (string $phone, string $msg): void {
+    private function curlIsre (string $phone, string $msg): string {
         $endpoint = 'http://isre.us/api/twilio-short-code/send';
         $curl     = curl_init($endpoint);
         curl_setopt_array($curl, [
@@ -106,5 +107,7 @@ class TwilioHelper {
             $this->logInfo($error);
             throw new \RuntimeException($error);
         }
+
+        return $response;
     }
 }
