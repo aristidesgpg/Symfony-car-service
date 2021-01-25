@@ -29,6 +29,18 @@ class SettingsHelper
 //            'default_value' => '60',
 //            'front_end' => '',
 //        ],
+//        'percentageOfTax' => [
+//            'default_value' => '6.25',
+//            'front_end' => '',
+//        ],
+//        'limitOnTax' => [
+//            'default_value' => '10000',
+//            'front_end' => '',
+//        ],
+//        'totalDays' => [
+//            'default_value' => '7',
+//            'front_end' => '',
+//        ],
         'techAppUsername' => [
             'default_value' => 'iService',
             'front_end' => 'iService App > App Username',
@@ -148,18 +160,6 @@ class SettingsHelper
         'upgradeDisclaimer' => [
             'default_value' => 'The cash offer is contingent upon verifying the condition and trim levels are true that were selected.',
             'front_end' => 'Upgrade > Upgrade disclaimer',
-        ],
-        'percentageOfTax' => [
-            'default_value' => '6.25',
-            'front_end' => '',
-        ],
-        'limitOnTax' => [
-            'default_value' => '10000',
-            'front_end' => '',
-        ],
-        'totalDays' => [
-            'default_value' => '7',
-            'front_end' => '',
         ],
         'upgradeInitialText' => [
             'default_value' => 'Click the link below to see the value of your vehicle.  Thank you for visiting Performance Toyota',
