@@ -169,7 +169,7 @@ class ServiceSMSController extends AbstractFOSRestController {
         $em->flush();
 
         return $this->handleView($this->view([
-            'message' => 'Message Was Sent'
+            'message' => 'Message Was Resent'
         ], Response::HTTP_OK));
     }
 
