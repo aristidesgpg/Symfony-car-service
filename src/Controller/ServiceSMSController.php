@@ -468,6 +468,6 @@ class ServiceSMSController extends AbstractFOSRestController {
         $customer   = $customerRepo->findOneBy(["phone" => $to]);
         //find ServiceSMS by sid and update status
         $serviceSMS = $serviceSMSRepo->findOneBy(["sid" => $sid]);
-        $serviceSMS->setSent($smsStatus == "Sent" ? true : false);
+        $serviceSMS->setStatus($smsStatus);
     }
 }
