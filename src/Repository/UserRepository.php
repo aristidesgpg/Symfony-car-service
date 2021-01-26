@@ -49,7 +49,7 @@ class UserRepository extends ServiceEntityRepository
         $sortDirection = null,
         $searchField = null,
         $searchTerm = null
-    ): Query {
+    ) {
         $qb = $this->createQueryBuilder('u')
                    ->andWhere('u.active = 1');
 
@@ -67,7 +67,7 @@ class UserRepository extends ServiceEntityRepository
             $qb->orderBy('u.'.$sortField, $sortDirection);
         }
 
-        return $qb->getQuery();
+        return $qb->getQuery()->getResult();
     }
 
     /**
