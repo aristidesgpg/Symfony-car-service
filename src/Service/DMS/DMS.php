@@ -12,6 +12,7 @@ use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
+use App\Soap\dealerbuilt\src\Models\PhoneNumberType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
@@ -165,77 +166,111 @@ class DMS
             $roKey = $dmsOpenRepairOrder->getRoKey();
 
             $customer = $this->customerFinder($dmsOpenRepairOrder);
-
-            // Check if the customer exists already
+            //Can't find a customer.
             if (!$customer) {
-                foreach ($phoneNumbers as $phoneNumber) {
-                    // Try to find the customer
-                    // Check if the customer exists and use that one instead if so
-                    $customer = $this->customerRepo->findOneBy(['phone' => $phoneNumber->getDigits()]);
-                    //Found a customer so stop looping.
-                    if ($customer) {
-                        break;
-                    }
-                }
-            }
-
-            // Still no customer, create a new one but only use a valid phone number
-            if (!$customer) {
-                foreach ($phoneNumbers as $phoneNumber) {
-                    // Try to validate the phone number
-                    try {
-                        // Phone is valid, use this one
-                        $phoneValid = true;
-
-                        // We want to skip validating the customer phone if production
-                        if ('prod' == $this->parameterBag->get('app_env')) {
-                            $phoneValid = $this->twilioHelper->lookupNumber($phoneNumber);
-                        }
-
-                        if ($phoneValid) {
-                            $customer = new Customer();
-                            $newCustomer = $this->customerHelper->commitCustomer($customer, ['phone' => $phoneNumber->getDigits(), 'name' => $name, 'email' => $email]);
-
-                            dump($newCustomer);
-                            //exit;
-                        }
-                        break;
-                    } catch (\Exception $e) {
-                        // Nothing for now
-                        continue;
-                    }
-                }
-            }
-
-            // STILL no customer, just used the first number we got
-            if (!$customer && isset($phoneNumbers[0])) {
-                $phoneNumber = $phoneNumbers[0];
-                $customer = new Customer();
-                $this->customerHelper->commitCustomer($customer, ['phone' => $phoneNumber, 'name' => $name, 'email' => $email]);
-            }
-
-            // If there isn't a customer at this state, just skip the RO, something seriously weird happened
-            if (!$customer || !$customer->getId()) {
+                dd('Should Never Get here');
                 continue;
             }
         }
         dd($dmsOpenRepairOrders);
     }
 
-    public function customerFinder(DMSResult $dmsOpenRepairOrder)
+    /**
+     * Tries to find a customer based on the phone number. If not, creates one based on name and email.
+     */
+    public function customerFinder(DMSResult $dmsOpenRepairOrder): ?Customer
     {
+        dump('CustoemrFinder');
+
         // No phone numbers passed, create new customer.
         dump($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers());
 
+        //No Phone Number so create new customer.
+        /*
+        * TODO This is weird logic. If there is no phone number, and it creates a customer based on name and email, it's possible fo there to be duplicates.
+        * If there is no email, it should check to see if that customer already exists, and then return that vs creating the same customer over and over if they don't
+        * Have a phone number.
+        */
+        //TODO CommitCustomer->PhoneValidator()clean has a bug. Returns error on: 1112223333
+        //TODO CommitCustomer->validateParams()->email has a bug. If the email is blank, it says invalid email.
         if (empty($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers())) {
-            dd('No PHone Number, ', $dmsOpenRepairOrder);
-            $customer = new Customer();
-            $this->customerHelper->commitCustomer($customer, ['name' => $name, 'email' => $email]);
-            return $customer;
+            dump('No PHone Number, ', $dmsOpenRepairOrder);
+
+            return $this->customerHelper->commitCustomer(
+                new Customer(),
+                [
+                    'name' => $dmsOpenRepairOrder->getCustomer()->getName(),
+                    'email' => $dmsOpenRepairOrder->getCustomer()->getEmail(),
+                ]
+            );
         }
 
+        //TODO PhoneNumberType might not be generic enough to work with all of the DMS's.
+        // Check if the customer exists already
+        /**
+         * @var PhoneNumberType $phoneNumber
+         */
+        foreach ($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers() as $phoneNumber) {
+            // Try to find the customer
+            // Check if the customer exists and use that one instead if so
+            $customer = $this->customerRepo->findOneBy(['phone' => $phoneNumber->getDigits()]);
+            //Found a customer so stop looping.
+            if ($customer) {
+                return $customer;
+            }
+        }
 
-        return null;
+        // Still no customer, create a new one but only use a valid phone number
+        //TODO PhoneNumberType might not be generic enough to work with all of the DMS's.
+        // Check if the customer exists already
+        // This method does not seem to be complete.
+        /**
+         * @var PhoneNumberType $phoneNumber
+         */
+        foreach ($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers() as $phoneNumber) {
+            // Try to validate the phone number
+            try {
+                // Phone is valid, use this one
+                $phoneValid = true;
+
+                // We want to skip validating the customer phone if production
+                if ('prod' == $this->parameterBag->get('app_env')) {
+                    $phoneValid = $this->twilioHelper->lookupNumber($phoneNumber);
+                }
+
+                if ($phoneValid) {
+                    return $this->customerHelper->commitCustomer(
+                        new Customer(), [
+                            'phone' => $phoneNumber->getDigits(),
+                            'name' => $dmsOpenRepairOrder->getCustomer()->getName(),
+                            'email' => $dmsOpenRepairOrder->getCustomer()->getEmail(),
+                        ]
+                    );
+                }
+            } catch (\Exception $e) {
+                // Nothing for now
+                continue;
+            }
+        }
+
+        // STILL no customer, just used the first number we got
+        $phoneNumber = $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers()[0];
+
+        return $this->customerHelper->commitCustomer(
+            new Customer(),
+            [
+                'phone' => $phoneNumber->getDigits(),
+                'name' => $dmsOpenRepairOrder->getCustomer()->getName(),
+                'email' => $dmsOpenRepairOrder->getCustomer()->getEmail(),
+            ]
+        );
+
+        //Should never make it here.
+//        // If there isn't a customer at this state, just skip the RO, something seriously weird happened
+//        if (!$customer || !$customer->getId()) {
+//            continue;
+//        }
+//        return null;
     }
 
     public function getDms(): DMSClientInterface
