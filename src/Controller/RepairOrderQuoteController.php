@@ -129,7 +129,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if (!empty($validation)) {
             return new ValidationResponse($validation);
         }
-        return $this->view('success', Response::HTTP_NOT_ACCEPTABLE);
+
         // add recommendations
         foreach ($obj as $index => $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
