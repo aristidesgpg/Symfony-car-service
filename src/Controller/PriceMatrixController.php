@@ -4,19 +4,16 @@ namespace App\Controller;
 
 use App\Entity\PriceMatrix;
 use App\Repository\PriceMatrixRepository;
-use App\Response\ValidationResponse;
 use App\Service\Pagination;
-use App\Service\PriceMatrixHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
  * Class PriceMatrixController
@@ -24,14 +21,15 @@ use Doctrine\ORM\EntityManagerInterface;
  * @package App\Controller
  *
  */
-class PriceMatrixController extends AbstractFOSRestController {
+class PriceMatrixController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 100;
 
     /**
      * @Rest\Get("/api/price-matrix")
      *
-     * @SWG\Tag(name="PriceMatrix")
-     * @SWG\Get(description="Get PriceMatrix")
+     * @SWG\Tag(name="Price Matrix")
+     * @SWG\Get(description="Get Price Matrix")
      * 
      * @SWG\Response(
      *     response="200",
@@ -62,11 +60,13 @@ class PriceMatrixController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function list (Request $request, PriceMatrixRepository $priceMatrixRepository,
-                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
+    public function list(
+        Request $request,
+        PriceMatrixRepository $priceMatrixRepository,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator
+    ): Response {
         $page          = $request->query->getInt('page', 1);
-        $startDate     = $request->query->get('startDate');
-        $endDate       = $request->query->get('endDate');
         $urlParameters = [];
 
         // Invalid page
@@ -75,9 +75,9 @@ class PriceMatrixController extends AbstractFOSRestController {
         }
 
         $priceMatrixQuery = $priceMatrixRepository->getAllItems();
-        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $pager         = $paginator->paginate($priceMatrixQuery, $page, $pageLimit);
-        $pagination    = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pageLimit        = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pager            = $paginator->paginate($priceMatrixQuery, $page, $pageLimit);
+        $pagination       = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
             'priceMatrixs' => $pager->getItems(),
@@ -96,8 +96,8 @@ class PriceMatrixController extends AbstractFOSRestController {
     /**
      * @Rest\Post("/api/price-matrix")
      *
-     * @SWG\Tag(name="PriceMatrix")
-     * @SWG\Post(description="Create PriceMatrix")
+     * @SWG\Tag(name="Price Matrix")
+     * @SWG\Post(description="Create Price Matrix")
      *
      * @SWG\Parameter(
      *     name="payload",
@@ -117,40 +117,39 @@ class PriceMatrixController extends AbstractFOSRestController {
      * @return Response
      */
 
-    public function new (Request $request, PriceMatrixRepository $respository, EntityManagerInterface $em) {
+    public function new(Request $request, PriceMatrixRepository $respository, EntityManagerInterface $em)
+    {
         $payload       = $request->get('payload');
 
-        $payload       = str_replace("'",'"', $payload);
+        $payload       = str_replace("'", '"', $payload);
         $obj           = (array)json_decode($payload);
         $allItems      = $respository->getAllItems();
 
         //check parameter validation
-        foreach($obj as $item){
-            if( $item->hours === null){
+        foreach ($obj as $item) {
+            if ($item->hours === null) {
                 return $this->handleView($this->view('Missing hours parameter', Response::HTTP_BAD_REQUEST));
-            }
-            else if($item->price === null){
+            } else if ($item->price === null) {
                 return $this->handleView($this->view('Missing price parameter', Response::HTTP_BAD_REQUEST));
             }
         }
 
-        foreach($allItems as $item){
+        foreach ($allItems as $item) {
             $em->remove($item);
             $em->flush();
         }
 
-        foreach($obj as $item){
+        foreach ($obj as $item) {
             $priceMatrix = new PriceMatrix();
             $priceMatrix->setHours($item->hours)
-                        ->setPrice($item->price);
-            
+                ->setPrice($item->price);
+
             $em->persist($priceMatrix);
             $em->flush();
         }
- 
+
         return $this->handleView($this->view([
             'message' => 'Successfully created'
         ], Response::HTTP_OK));
     }
-
 }
