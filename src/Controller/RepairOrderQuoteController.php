@@ -14,6 +14,7 @@ use Doctrine\ORM\ORMException;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -121,8 +122,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote = new RepairOrderQuote();
         $repairOrderQuote->setRepairOrder($repairOrder);
 
-        // $em->persist($repairOrderQuote);
-        // $em->flush();
+        $em->persist($repairOrderQuote);
+        $em->flush();
 
         // @TODO: Add validation to make sure they passed valid json
         $validation       = $helper->validateParams($obj);
