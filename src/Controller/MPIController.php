@@ -64,15 +64,9 @@ class MPIController extends AbstractFOSRestController
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The value of search. The available field is name",
      *     in="query"
      * )
      * @SWG\Response(
@@ -107,7 +101,10 @@ class MPIController extends AbstractFOSRestController
         $urlParameters = [];
         $queryParameters = [];
         $errors = [];
+
         $columns = $em->getClassMetadata('App\Entity\MPITemplate')->getFieldNames();
+        $groupColumns = $em->getClassMetadata('App\Entity\MPIGroup')->getFieldNames();
+        $itemColumns = $em->getClassMetadata('App\Entity\MPIItem')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -124,21 +121,12 @@ class MPIController extends AbstractFOSRestController
             }
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
+        if ($request->query->has('searchTerm')) {
+            $searchTerm = $request->query->get('searchTerm');
+            $qb->andWhere("mp.name like :searchTerm");
+            $queryParameters['searchTerm'] = '%' . $searchTerm . '%';
 
-            //check if the searchField exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            } else {
-                $searchTerm = $request->query->get('searchTerm');
-
-                $qb->andWhere('mp.'.$searchField.' LIKE :searchTerm');
-                $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
-
-                $urlParameters['searchField'] = $searchField;
-                $urlParameters['searchTerm'] = $searchTerm;
-            }
+            $urlParameters['searchTerm'] = $searchTerm;
         }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
@@ -149,7 +137,7 @@ class MPIController extends AbstractFOSRestController
                 $errors['sortField'] = 'Invalid sort field name';
             } else {
                 $sortDirection = $request->query->get('sortDirection');
-                $qb->orderBy('mp.'.$sortField, $sortDirection);
+                $qb->orderBy('mp.' . $sortField, $sortDirection);
 
                 $urlParameters['sortField'] = $sortField;
                 $urlParameters['sortDirection'] = $sortDirection;
@@ -297,13 +285,13 @@ class MPIController extends AbstractFOSRestController
         // create new Brakes configuration group and MPI items
         $brakeConfiguration = new MPIGroup();
         $brakeConfiguration->setName("Brakes Configuration")
-                           ->setMPITemplate($mpiTemplate);
+            ->setMPITemplate($mpiTemplate);
         $mpiTemplate->addMPIGroup($brakeConfiguration);
         $em->persist($brakeConfiguration);
 
         $tireConfiguration = new MPIGroup();
         $tireConfiguration->setName("Tire Configuration")
-                          ->setMPITemplate($mpiTemplate);
+            ->setMPITemplate($mpiTemplate);
         $mpiTemplate->addMPIGroup($tireConfiguration);
         $em->persist($tireConfiguration);
         $em->flush();
@@ -322,8 +310,8 @@ class MPIController extends AbstractFOSRestController
                 }
             } else {
                 if ($numberOfAxles > 2) {
-                    $itemPassenger = "Axle".($index + 1)." - Passenger";
-                    $itemDriver = "Axle".($index + 1)." - Driver";
+                    $itemPassenger = "Axle" . ($index + 1) . " - Passenger";
+                    $itemDriver = "Axle" . ($index + 1) . " - Driver";
                     $itemNames = [$itemPassenger, $itemDriver];
                     //create brake items
                     $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
@@ -332,10 +320,10 @@ class MPIController extends AbstractFOSRestController
                         $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
                     } else {
                         if ($axle->wheels == 4) {
-                            $itemPassengerInner = "Axle".($index + 1)." - Passenger Inner";
-                            $itemPassengerOuter = "Axle".($index + 1)." - Passenger Outer";
-                            $itemDriverInner = "Axle".($index + 1)." - Driver Inner";
-                            $itemDriverOuter = "Axle".($index + 1)." - Driver Outer";
+                            $itemPassengerInner = "Axle" . ($index + 1) . " - Passenger Inner";
+                            $itemPassengerOuter = "Axle" . ($index + 1) . " - Passenger Outer";
+                            $itemDriverInner = "Axle" . ($index + 1) . " - Driver Inner";
+                            $itemDriverOuter = "Axle" . ($index + 1) . " - Driver Outer";
                             $itemNames = [$itemPassengerInner, $itemPassengerOuter, $itemDriverInner, $itemDriverOuter];
 
                             $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
@@ -401,7 +389,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiTemplate);
         $em->flush();
 
-        $this->logInfo('MPI Template "'.$mpiTemplate->getName().'" Has Been Updated');
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Updated');
 
         $result = $mpiTemplateHelper->getActiveTemplate($mpiTemplate, false);
 
@@ -441,7 +429,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiTemplate);
         $em->flush();
 
-        $this->logInfo('MPI Template "'.$mpiTemplate->getName().'" Has Been Deactivated');
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deactivated');
 
         return $this->handleView(
             $this->view(
@@ -483,7 +471,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiTemplate);
         $em->flush();
 
-        $this->logInfo('MPI Template "'.$mpiTemplate->getName().'" Has Been Deactivated');
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deactivated');
 
         return $this->handleView(
             $this->view(
@@ -525,7 +513,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiTemplate);
         $em->flush();
 
-        $this->logInfo('MPI Template "'.$mpiTemplate->getName().'" Has Been Deleted');
+        $this->logInfo('MPI Template "' . $mpiTemplate->getName() . '" Has Been Deleted');
 
         return $this->handleView(
             $this->view(
@@ -595,12 +583,12 @@ class MPIController extends AbstractFOSRestController
         // create group
         $mpiGroup = new MPIGroup();
         $mpiGroup->setName($name)
-                 ->setMPITemplate($mpiTemplate);
+            ->setMPITemplate($mpiTemplate);
 
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Created');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Created');
 
         $view = $this->view($mpiGroup);
         $view->getContext()->setGroups(['mpi_group_list']);
@@ -653,7 +641,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Updated');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Updated');
 
         $view = $this->view($mpiGroup);
         $view->getContext()->setGroups(['mpi_group_list']);
@@ -691,7 +679,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Deactivated');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deactivated');
 
         return $this->handleView(
             $this->view(
@@ -733,7 +721,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Deactivated');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deactivated');
 
         return $this->handleView(
             $this->view(
@@ -775,7 +763,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiGroup);
         $em->flush();
 
-        $this->logInfo('MPI Group "'.$mpiGroup->getName().'" Has Been Deleted');
+        $this->logInfo('MPI Group "' . $mpiGroup->getName() . '" Has Been Deleted');
 
         return $this->handleView(
             $this->view(
@@ -853,12 +841,12 @@ class MPIController extends AbstractFOSRestController
         // create item
         $mpiItem = new MPIItem();
         $mpiItem->setName($name)
-                ->setMPIGroup($mpiGroup);
+            ->setMPIGroup($mpiGroup);
 
         $em->persist($mpiItem);
         $em->flush();
 
-        $this->logInfo('MPI Item "'.$mpiItem->getName().'" Has Been Created');
+        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Created');
 
         $view = $this->view($mpiItem);
         $view->getContext()->setGroups(['mpi_item_list']);
@@ -921,7 +909,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiItem);
         $em->flush();
 
-        $this->logInfo('MPI Item "'.$mpiItem->getName().'" Has Been Updated');
+        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Updated');
 
         $view = $this->view($mpiItem);
         $view->getContext()->setGroups(['mpi_item_list']);
@@ -959,7 +947,7 @@ class MPIController extends AbstractFOSRestController
         $em->persist($mpiItem);
         $em->flush();
 
-        $this->logInfo('MPI Item "'.$mpiItem->getName().'" Has Been Deleted');
+        $this->logInfo('MPI Item "' . $mpiItem->getName() . '" Has Been Deleted');
 
         return $this->handleView(
             $this->view(
