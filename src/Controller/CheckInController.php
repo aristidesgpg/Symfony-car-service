@@ -65,15 +65,9 @@ class CheckInController extends AbstractFOSRestController
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The value of search. The available field is identification",
      *     in="query"
      * )
      * @SWG\Response(
@@ -112,9 +106,9 @@ class CheckInController extends AbstractFOSRestController
         $urlParameters = [];
         $sortField = '';
         $sortDirection = '';
-        $searchField = '';
         $searchTerm = '';
         $errors = [];
+
         $columns = $em->getClassMetadata('App\Entity\CheckIn')->getFieldNames();
 
         // Invalid page
@@ -141,17 +135,10 @@ class CheckInController extends AbstractFOSRestController
             $urlParameters['sortField'] = $sortField;
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
-
-            //check if the searchField exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            }
+        if ($request->query->has('searchTerm')) {
 
             $searchTerm = $request->query->get('searchTerm');
 
-            $urlParameters['searchField'] = $searchField;
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
@@ -164,8 +151,7 @@ class CheckInController extends AbstractFOSRestController
             $endDate,
             $sortField,
             $sortDirection,
-            $searchField,
-            $searchTerm
+            $searchTerm,
         );
         $pager = $paginator->paginate($checkInQuery, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
@@ -254,5 +240,4 @@ class CheckInController extends AbstractFOSRestController
 
         return $this->handleView($view);
     }
-
 }
