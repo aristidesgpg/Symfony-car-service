@@ -332,7 +332,7 @@ class RepairOrderController extends AbstractFOSRestController
             $twilioHelper->sendSms($ro->getPrimaryCustomer()->getPhone(), $welcomeMessage);
         } else {
             // waiver enabled
-            $url = $customerURL.'/'.$ro->getLinkHash();
+            $url = $customerURL.$ro->getLinkHash();
             $shortUrl = $shortUrlHelper->generateShortUrl($url);
             try {
                 $phone = $ro->getPrimaryCustomer()->getPhone();
