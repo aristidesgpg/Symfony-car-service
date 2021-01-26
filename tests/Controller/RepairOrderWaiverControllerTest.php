@@ -33,7 +33,7 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
             'repairOrderId' => 1,
         ];
 
-        $this->requestWaiverActions('PATCH', $endpoint, $params);
+        $this->requestWaiverActions('POST', $endpoint, $params);
         $roInteractionRes = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
         $this->assertEquals(1, $roInteractionRes->id);
@@ -41,7 +41,7 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
         // Invalid signature
         $params = ['signature' => 'Invalid base 64 svg'];
 
-        $this->requestWaiverActions('PATCH', $endpoint, $params);
+        $this->requestWaiverActions('POST', $endpoint, $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 

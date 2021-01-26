@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RepairOrderWaiverController extends AbstractFOSRestController
 {
     /**
-     * @Rest\Patch("/signed")
+     * @Rest\Post("/signed")
      *
      * @SWG\Parameter(name="signature", type="string", in="formData", required=true)
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)
