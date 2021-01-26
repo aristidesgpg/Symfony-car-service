@@ -14,11 +14,9 @@ use Doctrine\ORM\ORMException;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Response\ValidationResponse;
 
 class RepairOrderQuoteController extends AbstractFOSRestController
@@ -96,9 +94,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $helper
     ) {
-        $repairOrderID = $request->get('repairOrderID');
+        $repairOrderID   = $request->get('repairOrderID');
         $recommendations = str_replace("'", '"', $request->get('recommendations'));
-        $obj = (array) json_decode($recommendations);
+        $obj             = (array) json_decode($recommendations);
 
         //check if params are valid
         if (!$repairOrderID) {
@@ -106,13 +104,13 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
 
         // Check if Repair Order exists
-        $repairOrder = $repairOrderRepository->find($repairOrderID);
+        $repairOrder     = $repairOrderRepository->find($repairOrderID);
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         // Check if there is a quote already
-        $exists = $repairOrderQuoteRepository->findOneBy(['repairOrder' => $repairOrder]);
+        $exists          = $repairOrderQuoteRepository->findOneBy(['repairOrder' => $repairOrder]);
         if ($exists) {
             return $this->handleView(
                 $this->view('A quote already exists for this Repair Order', Response::HTTP_NOT_ACCEPTABLE)
@@ -127,7 +125,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // $em->flush();
 
         // @TODO: Add validation to make sure they passed valid json
-        $validation = $helper->validateParams($obj);
+        $validation       = $helper->validateParams($obj);
         if (!empty($validation)) {
             return new ValidationResponse($validation);
         }

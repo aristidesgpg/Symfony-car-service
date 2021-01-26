@@ -46,8 +46,9 @@ class RepairOrderQuoteHelper
                             $errors[$field] = "Missing Value";
                         }
                         if ($field === "partsPrice" || $field === "suppliesPrice" || $field === "laborPrice") {
-                            if (!is_numeric($fields[$field]))
+                            if (!is_numeric($fields[$field])) {
                                 $errors[$field] = "Invalid value";
+                            }
                         }
                     }
                 }
