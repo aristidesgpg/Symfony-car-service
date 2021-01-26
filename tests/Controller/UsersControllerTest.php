@@ -26,9 +26,9 @@ class UserControllerTest extends WebTestCase
         $this->token = $authData->token;
     }
 
-    public function testGetAll() {
+    public function testGetUsers() {
         // Get all, Ok
-        $this->requestAction('GET');
+        $this->requestAction('GET', '/users');
 
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
@@ -36,108 +36,124 @@ class UserControllerTest extends WebTestCase
 
         // Page not found, 404
         $page = 0;
-        $this->requestAction('GET', '', ['page' => $page]);
+        $this->requestAction('GET', '/users', ['page' => $page]);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         // Page limit validation, 406
         $pageLimit = 0;
-        $this->requestAction('GET', '', ['pageLimit' => $pageLimit]);
+        $this->requestAction('GET', '/users', ['pageLimit' => $pageLimit]);
+        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+        
+        // Invalid role, 406
+        // Valid: {"ROLE_ADMIN", "ROLE_SERVICE_MANAGER", "ROLE_SERVICE_ADVISOR", "ROLE_TECHNICIAN", "ROLE_PARTS_ADVISOR", "ROLE_SALES_MANAGER", "ROLE_SALES_AGENT"}
+        $role = "ROLE_ADMIN@";
+        $this->requestAction('GET', '/users', ['role' => $role]);
         $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
 
         // sortField, sortDirection, searchField, searchTerm
         $params = [
-            'page' => 1,
-            'pageLimit' => 25,
-            'sortField' => ['phone', 'emai'],
+            'page'          => 1,
+            'pageLimit'     => 25,
+            'sortField'     => ['phone', 'emai'],
             'sortDirection' => 'ASC',
-            'searchField' => ['name', 'emai'],
-            'searchTerm' => 'Prof'
+            'searchField'   => ['name', 'emai'],
+            'searchTerm'    => 'Prof'
         ];
-        $this->requestAction('GET', '', $params);
+        $this->requestAction('GET', '/users', $params);
         $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testGetUser() {
-        // Not found
-        $this->requestAction('GET', '/9999999999999999');
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-
+    public function testNew() {
         // Ok
-        $id = 1;
-        $this->requestAction('GET', '/'.$id);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertGreaterThanOrEqual($id, $response->id);
-    }
-
-    public function testAddUser() {
-        // Ok
+        $email = 'tempmail@gmail.com';
         $params = [
-            'name' => 'Name Tester',
-            'phone' => '8623084956',
-            'email' => 'emails@gmail.com',
-            'doNotContact' => true,
-            'skipMobileVerification' => true
+            'role'              => 'ROLE_ADMIN',
+            'firstName'         => 'Fisrt',
+            'lastName'          => 'Last',
+            'email'             => $email,
+            'phone'             => '8623082654',
+            'password'          => 'test',
+            'pin'               => '3753',
+            'certification'     => 'certification of technician',
+            'experience'        => 'experience of technician',
+            'processRefund'     => true,
+            'shareRepairOrders' => true
         ];
-        $this->requestAction('POST', '', $params);
+        $this->requestAction('POST', '/users', $params);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals('Name Tester', $response->name);
+        $this->assertEquals($email, $response->email);
 
         // Validate parameters
         $params = [
-            'name' => 'Name Tester',
-            'email' => '',
-            'doNotContact' => false,
-            'skipMobileVerification' => true
+            'role' => 'ROLE_ADMIN',
+            'firstName' => 'Fisrt',
+            'lastName' => 'Last',
+            'email' => $email
         ];
 
-        $this->requestAction('POST', '', $params);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+        $this->requestAction('POST', '/users', $params);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testUpdateUser() {
+    public function testEdit() {
         // Ok
-        $name = 'Updater Name';
+        $email = 'newupdater@iserviceauto.com';
         $params = [
-            'name' => $name,
-            'phone' => '8623064956',
-            'email' => 'updatedemail@gmail.com',
-            'doNotContact' => false,
-            'skipMobileVerification' => false
+            'role'              => 'ROLE_ADMIN',
+            'firstName'         => 'Fisrt',
+            'lastName'          => 'Last',
+            'email'             => $email,
+            'phone'             => '8623082654',
+            'password'          => 'test',
+            'pin'               => '3753',
+            'processRefund'     => true,
+            'shareRepairOrders' => true
         ];
-        $this->requestAction('PUT', '/1', $params);
+        $this->requestAction('PUT', '/users/1', $params);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals($name, $response->name);
+        $this->assertEquals($email, $response->email);
+
+        // Certification and Experience is Only for Technicians
+        $email = 'newupdater@iserviceauto.com';
+        $params = [
+            'role'              => 'ROLE_ADMIN',
+            'firstName'         => 'Fisrt',
+            'lastName'          => 'Last',
+            'email'             => $email,
+            'phone'             => '8623082654',
+            'password'          => 'test',
+            'pin'               => '3753',
+            'certification'     => 'certification of technician',
+            'experience'        => 'experience of technician',
+            'processRefund'     => true,
+            'shareRepairOrders' => true
+        ];
+        $this->requestAction('PUT', '/users/1', $params);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
         // Validate parameters
         $params = [
-            'name' => $name,
-            'phone' => '',
-            'email' => 'updatedemail@gmail.com',
-            'doNotContact' => false,
-            'skipMobileVerification' => false
+            'phone'     => '',
+            'email'     => $email,
+            'firstName' => 'John',
+            'lastName'  => 'Doe',
+            'role'      =>'Invalid Role'
         ];
-        $this->requestAction('PUT', '/1', $params);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+        $this->requestAction('PUT', '/users/1', $params);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testDeleteUser() {
+    public function testDelete() {
         // Ok
         $id = 1;
-        $this->requestAction('DELETE', '/'.$id);
+        $this->requestAction('DELETE', '/users/'.$id);
         $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals($id, $response->id);
-
-        // Not found
-        $this->requestAction('DELETE', '/9999999999999999999999999');
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     private function requestAction($method, $endpoint='', $params=[]) {
-        $apiUrl = '/api/User' . $endpoint;
+        $apiUrl = '/api' . $endpoint;
         $crawler = $this->client->request($method, $apiUrl, $params, [], [
             'HTTP_Authorization' => 'Bearer '.$this->token,
             'HTTP_CONTENT_TYPE'  => 'application/json',

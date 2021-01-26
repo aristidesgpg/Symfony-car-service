@@ -85,14 +85,6 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-<<<<<<< HEAD
-=======
-     *
->>>>>>> 28c124e518c5eeef12109b85e847978a7ec841c0
-     * @SWG\Response(
-     *     response="400",
-     *     description="Invalid Role Parameter"
-     * )
      * 
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
@@ -130,7 +122,7 @@ class UserController extends AbstractFOSRestController
 
         // role is invalid
         if (!is_null($role) && !$userHelper->isValidRole($role)) {
-            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_NOT_ACCEPTABLE));
         }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
@@ -165,6 +157,11 @@ class UserController extends AbstractFOSRestController
 
         $users = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchField, $searchTerm);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        if ($pageLimit < 1) {
+            return $this->handleView(
+                $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
+            );
+        }
         $pager = $paginator->paginate($users, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
