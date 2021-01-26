@@ -6,8 +6,11 @@ use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\OperationCodeRepository;
+use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
+use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -81,57 +84,103 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param Request                 $request
-     * @param RepairOrderRepository   $repairOrderRepository
-     * @param OperationCodeRepository $operationCodeRepository
-     * @param EntityManagerInterface  $em
-     *
      * @return Response
      */
     public function createRepairOrderQuote(
         Request $request,
         RepairOrderRepository $repairOrderRepository,
         OperationCodeRepository $operationCodeRepository,
+        RepairOrderQuoteRepository $repairOrderQuoteRepository,
         EntityManagerInterface $em
     ) {
         $repairOrderID = $request->get('repairOrderID');
         $recommendations = str_replace("'", '"', $request->get('recommendations'));
         $obj = (array) json_decode($recommendations);
+
         //check if params are valid
         if (!$repairOrderID) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //Check if Repair Order exists
+
+        // Check if Repair Order exists
         $repairOrder = $repairOrderRepository->find($repairOrderID);
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
-        //store repairOrderQuote
+
+        // Check if there is a quote already
+        $exists = $repairOrderQuoteRepository->findOneBy(['repairOrder' => $repairOrder]);
+        if ($exists) {
+            return $this->handleView(
+                $this->view('A quote already exists for this Repair Order', Response::HTTP_NOT_ACCEPTABLE)
+            );
+        }
+
+        // store repairOrderQuote
         $repairOrderQuote = new RepairOrderQuote();
         $repairOrderQuote->setRepairOrder($repairOrder);
-        //add recommendations
-        foreach ($obj as $index => $recommendation) {
-            $rOQRecom = new RepairOrderQuoteRecommendation();
-            //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
-            if (!$operationCode) {
-                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
-            }
-            $rOQRecom->setRepairOrderQuote($repairOrderQuote)
-                     ->setOperationCode($operationCode)
-                     ->setDescription($recommendation->description)
-                     ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
-                     ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
-                     ->setPartsPrice($recommendation->partsPrice)
-                     ->setSuppliesPrice($recommendation->suppliesPrice)
-                     ->setNotes($recommendation->notes);
-
-            $em->persist($rOQRecom);
-            $em->flush();
-        }
 
         $em->persist($repairOrderQuote);
         $em->flush();
+
+        // @TODO: Add validation to make sure they passed valid json
+
+        // add recommendations
+        foreach ($obj as $index => $recommendation) {
+            $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
+
+            //Check if Operation Code exists
+            $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
+            if (!$operationCode) {
+                // Remove the quote that was created
+                $em->remove($repairOrderQuote);
+                $em->flush();
+
+                return $this->handleView($this->view('Invalid operationCode Parameter', Response::HTTP_BAD_REQUEST));
+            }
+
+            try {
+                $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
+                                               ->setOperationCode($operationCode)
+                                               ->setDescription($recommendation->description)
+                                               ->setPreApproved(
+                                                   filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                                               )
+                                               ->setApproved(
+                                                   filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
+                                               )
+                                               ->setPartsPrice($recommendation->partsPrice)
+                                               ->setSuppliesPrice($recommendation->suppliesPrice)
+                                               ->setNotes($recommendation->notes);
+            } catch (Exception $e) {
+                // Remove the quote that was created
+                $em->remove($repairOrderQuote);
+                $em->flush();
+
+                return $this->handleView(
+                    $this->view(
+                        'Missing required recommendation parameter: description, preApproved, approved, partsPrice, suppliesPrice, notes',
+                        Response::HTTP_BAD_REQUEST
+                    )
+                );
+            }
+
+            try {
+                $em->persist($repairOrderQuoteRecommendation);
+                $em->flush();
+            } catch (ORMException $e) {
+                // Remove the quote that was created
+                $em->remove($repairOrderQuote);
+                $em->flush();
+
+                return $this->handleView(
+                    $this->view(
+                        'Something went wrong inserting recommendation into the database',
+                        Response::HTTP_BAD_REQUEST
+                    )
+                );
+            }
+        }
 
         return $this->handleView(
             $this->view(
