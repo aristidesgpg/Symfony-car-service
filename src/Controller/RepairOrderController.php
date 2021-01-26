@@ -336,8 +336,7 @@ class RepairOrderController extends AbstractFOSRestController
             $shortUrl = $shortUrlHelper->generateShortUrl($url);
             try {
                 $phone = $ro->getPrimaryCustomer()->getPhone();
-                $twilioHelper->sendSms($phone, $waiverIntroText);
-                $shortUrlHelper->sendShortenedLink($phone, $ro->getWaiver(), $shortUrl, true);
+                $shortUrlHelper->sendShortenedLink($phone, $waiverIntroText, $shortUrl, true);
             } catch (Exception $e) {
                 throw new Exception($e);
             }

@@ -77,7 +77,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
         $waiverText = $settingsHelper->getSetting('waiverEstimateText');
 
-        $errors = $helper->updateRepairOrder(['waiver' => $signature, 'waiverVerbiage' => $waiverText], $ro);
+        $errors = $helper->updateRepairOrder(['waiverSignature' => $signature, 'waiverVerbiage' => $waiverText], $ro);
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }

@@ -171,7 +171,7 @@ class RepairOrder
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $waiver;
+    private $waiverSignature;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -526,14 +526,14 @@ class RepairOrder
         return $this;
     }
 
-    public function getWaiver(): ?string
+    public function getWaiverSignature(): ?string
     {
-        return $this->waiver;
+        return $this->waiverSignature;
     }
 
-    public function setWaiver(?string $waiver): self
+    public function setWaiverSignature(?string $waiverSignature): self
     {
-        $this->waiver = $waiver;
+        $this->waiverSignature = $waiverSignature;
 
         return $this;
     }
