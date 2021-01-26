@@ -61,7 +61,7 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The value of search. The available fields are name, phone, and email",
      *     in="query"
      * )
      *

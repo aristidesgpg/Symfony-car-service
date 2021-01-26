@@ -52,7 +52,7 @@ class CouponsController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The value of search. The available field is title",
      *     in="query"
      * )
      * @SWG\Response(

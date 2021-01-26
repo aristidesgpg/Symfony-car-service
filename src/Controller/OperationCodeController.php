@@ -50,7 +50,7 @@ class OperationCodeController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The value of search.  The available fields are code and description",
      *     in="query"
      * )
      *

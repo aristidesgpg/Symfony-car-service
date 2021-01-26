@@ -119,7 +119,7 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The available fields are [number, year, make, model, miles, vin] of RepairOrder, [name, phone, email] of primaryCustomer, [name, email, phone] of primaryAdvisor and primaryTechnician",
      *     in="query"
      * )
      */

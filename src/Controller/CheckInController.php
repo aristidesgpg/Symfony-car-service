@@ -67,7 +67,7 @@ class CheckInController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The value of search. The available field is identification",
      *     in="query"
      * )
      * @SWG\Response(
