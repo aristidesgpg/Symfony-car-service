@@ -8,6 +8,7 @@ use App\Helper\iServiceLoggerTrait;
 use Doctrine\ORM\EntityManagerInterface;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class TwilioHelper {
     use iServiceLoggerTrait;
@@ -21,10 +22,16 @@ class TwilioHelper {
     /** @var string */
     private $fromNumber;
 
-    public function __construct (Client $twilio, EntityManagerInterface $em, SettingsHelper $settings) {
-        $this->twilio     = $twilio;
-        $this->em         = $em;
-        $this->fromNumber = '+1' . $settings->getSetting('serviceTwilioFromNumber');
+    /**
+     * @var UrlGeneratorInterface
+     */
+    private $urlGenerator;
+
+    public function __construct (Client $twilio, EntityManagerInterface $em, SettingsHelper $settings, UrlGeneratorInterface $urlGenerator) {
+        $this->twilio       = $twilio;
+        $this->em           = $em;
+        $this->fromNumber   = '+1' . $settings->getSetting('serviceTwilioFromNumber');
+        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -43,6 +50,7 @@ class TwilioHelper {
             $message = $this->twilio->messages->create('+1' . $phone, [
                 'body' => $msg,
                 'from' => $this->fromNumber,
+                'statusCallback' => $this->urlGenerator->generate('app_servicesms_statuscallback', [], UrlGeneratorInterface::ABSOLUTE_URL)
             ]);
         }
         return $message->sid;
