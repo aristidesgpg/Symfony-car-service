@@ -98,6 +98,10 @@ class CustomerHelper {
      */
     public function commitCustomer (Customer $customer, array $params = []) {
         $errors = $this->validateParams($params);
+        dump('CommitCustomer');
+        dump($params, $errors);
+
+
         if (empty($errors) !== true) {
             return;
         }
@@ -129,7 +133,7 @@ class CustomerHelper {
         if ($customer->getId() === null) {
             $this->em->persist($customer);
         }
-
+        dump('Customer Created.');
         $this->em->beginTransaction();
         try {
             $this->em->flush();
