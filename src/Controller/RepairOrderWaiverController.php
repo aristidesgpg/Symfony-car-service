@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class RepairOrderWaiverController extends AbstractFOSRestController
 {
     /**
-     * @Rest\Patch("/waiver/signed")
+     * @Rest\Patch("/signed")
      *
      * @SWG\Parameter(name="signature", type="string", in="formData", required=true)
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)
@@ -100,7 +100,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/waiver/viewed")
+     * @Rest\Post("/viewed")
      * @SWG\Post(description="Add an interaction Waiver Viewed")
      * 
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)
@@ -159,7 +159,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/waiver/acknowledged")
+     * @Rest\Post("/acknowledged")
      * @SWG\Post(description="Add an interaction Waiver Acknowledged")
      * 
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)
@@ -220,7 +220,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/waiver/re-send")
+     * @Rest\Post("/re-send")
      * @SWG\Post(description="Add an interaction Waiver Resend")
      * 
      * @SWG\Parameter(name="repairOrderId", type="integer", in="formData", required=true)

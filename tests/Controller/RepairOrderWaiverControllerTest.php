@@ -27,7 +27,7 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
 
     public function testWaiverSigned() {
         // Ok
-        $endpoint = '/waiver/signed';
+        $endpoint = '/signed';
         $params   = [
             'signature'     => 'image/svg+xml;base64,Qk3eAgAAAAAAADYAAAAoAAAADQAAABEAAAABABgAAAAAAKgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
             'repairOrderId' => 1,
@@ -47,7 +47,7 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
 
     public function testWaiverViewed() {
         // Ok
-        $endpoint = '/waiver/viewed';
+        $endpoint = '/viewed';
 
         $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => 2]);
         $roInteractionRes = json_decode($this->client->getResponse()->getContent());
@@ -56,34 +56,34 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
 
     public function testWaiverAcknowledged() {
         // Ok
-        $endpoint = '/waiver/acknowledged';
+        $endpoint = '/acknowledged';
 
         $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => 3]);
         $roInteractionRes = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
 
         // Not found
-        $endpoint = '/waiver/acknowledged';
+        $endpoint = '/acknowledged';
         $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => 999999999999999]);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testWaiverResend() {
         // Ok
-        $endpoint = '/waiver/re-send';
+        $endpoint = '/re-send';
 
         $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => 5]);
         $roInteractionRes = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
 
         // Waiver is already signed
-        $endpoint = '/waiver/re-send'; // TODO: fixture update
+        $endpoint = '/re-send'; // TODO: fixture update
         $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => 5]);
         $this->assertResponseIsSuccessful();
         // $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
         // Not found
-        $endpoint = '/waiver/re-send';
+        $endpoint = '/re-send';
         $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => 999999999999999]);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
