@@ -8,6 +8,7 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\OperationCodeRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
+use App\Service\RepairOrderQuoteHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Exception;
@@ -18,6 +19,7 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Response\ValidationResponse;
 
 class RepairOrderQuoteController extends AbstractFOSRestController
 {
@@ -43,9 +45,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote)
     {
-        if ($repairOrderQuote->getDeleted()) {
-            throw new NotFoundHttpException();
-        }
+        // if ($repairOrderQuote->getDeleted()) {
+        //     throw new NotFoundHttpException();
+        // }
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
@@ -91,7 +93,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderRepository $repairOrderRepository,
         OperationCodeRepository $operationCodeRepository,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderQuoteHelper $helper
     ) {
         $repairOrderID = $request->get('repairOrderID');
         $recommendations = str_replace("'", '"', $request->get('recommendations'));
@@ -120,11 +123,15 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote = new RepairOrderQuote();
         $repairOrderQuote->setRepairOrder($repairOrder);
 
-        $em->persist($repairOrderQuote);
-        $em->flush();
+        // $em->persist($repairOrderQuote);
+        // $em->flush();
 
         // @TODO: Add validation to make sure they passed valid json
-
+        $validation = $helper->validateParams($obj);
+        if (!empty($validation)) {
+            return new ValidationResponse($validation);
+        }
+        return $this->view('success', Response::HTTP_NOT_ACCEPTABLE);
         // add recommendations
         foreach ($obj as $index => $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
@@ -141,17 +148,17 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
             try {
                 $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                                               ->setOperationCode($operationCode)
-                                               ->setDescription($recommendation->description)
-                                               ->setPreApproved(
-                                                   filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                                               )
-                                               ->setApproved(
-                                                   filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
-                                               )
-                                               ->setPartsPrice($recommendation->partsPrice)
-                                               ->setSuppliesPrice($recommendation->suppliesPrice)
-                                               ->setNotes($recommendation->notes);
+                    ->setOperationCode($operationCode)
+                    ->setDescription($recommendation->description)
+                    ->setPreApproved(
+                        filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                    )
+                    ->setApproved(
+                        filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
+                    )
+                    ->setPartsPrice($recommendation->partsPrice)
+                    ->setSuppliesPrice($recommendation->suppliesPrice)
+                    ->setNotes($recommendation->notes);
             } catch (Exception $e) {
                 // Remove the quote that was created
                 $em->remove($repairOrderQuote);
@@ -242,15 +249,15 @@ class RepairOrderQuoteController extends AbstractFOSRestController
                 return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
             }
             $repairOrderRecommendation->setRepairOrderQuote($repairOrderQuote)
-                                      ->setOperationCode($operationCode)
-                                      ->setDescription($recommendation->description)
-                                      ->setPreApproved(
-                                          filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                                      )
-                                      ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
-                                      ->setPartsPrice($recommendation->partsPrice)
-                                      ->setSuppliesPrice($recommendation->suppliesPrice)
-                                      ->setNotes($recommendation->notes);
+                ->setOperationCode($operationCode)
+                ->setDescription($recommendation->description)
+                ->setPreApproved(
+                    filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                )
+                ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
+                ->setPartsPrice($recommendation->partsPrice)
+                ->setSuppliesPrice($recommendation->suppliesPrice)
+                ->setNotes($recommendation->notes);
 
             $em->persist($repairOrderRecommendation);
             $em->flush();
