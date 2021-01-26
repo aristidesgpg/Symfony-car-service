@@ -66,7 +66,7 @@ class RepairOrderRepository extends ServiceEntityRepository
                             $qb->setParameter("videoStatus", 'Not Started');
                         }
                     } else {
-                        $qb->andWhere("ro.$name = :waiter");
+                        $qb->andWhere("ro.$name = :$name");
                         $qb->setParameter($name, $value);
                     }
                 }
