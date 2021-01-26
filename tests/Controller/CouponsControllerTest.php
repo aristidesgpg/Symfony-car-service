@@ -43,7 +43,7 @@ class CouponsControllerTest extends WebTestCase
         // image upload test
         $uploadedFile = new UploadedFile(
             dirname(__DIR__,1).'/Fixtures/uploads/testImage.jpeg',
-            'testImage.jpeg'
+            'testImage.jpeg' // If you run the CouponsFixture, it will download testImage.jpeg on test device
         );
         $crawler = $this->client->request('POST', '/api/coupons', ['title' => 'Qui neque veritatis omnis omnis.'], ['file' => $uploadedFile], [
             'HTTP_Authorization' => 'Bearer '.$this->token,

@@ -17,7 +17,7 @@ class UserControllerTest extends WebTestCase
     public function setUp() {
         $this->client = static::createClient();
 
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
+        $authCrawler  = $this->client->request('POST', '/api/authentication/authenticate', [
             'username' => 'tperson@iserviceauto.com',
             'password' => 'test'
         ]);
@@ -65,7 +65,7 @@ class UserControllerTest extends WebTestCase
 
     public function testNew() {
         // Ok
-        $email = 'tempmail@gmail.com';
+        $email  = 'tempmail@gmail.com';
         $params = [
             'role'              => 'ROLE_ADMIN',
             'firstName'         => 'Fisrt',
@@ -98,7 +98,7 @@ class UserControllerTest extends WebTestCase
 
     public function testEdit() {
         // Ok
-        $email = 'newupdater@iserviceauto.com';
+        $email  = 'newupdater@iserviceauto.com';
         $params = [
             'role'              => 'ROLE_ADMIN',
             'firstName'         => 'Fisrt',
@@ -150,6 +150,57 @@ class UserControllerTest extends WebTestCase
         $id = 1;
         $this->requestAction('DELETE', '/users/'.$id);
         $this->assertResponseIsSuccessful();
+    }
+
+    public function testSecurity() {
+        // Ok
+        $id     = 1;
+        $params = [
+            'question' => 'Your pet?',
+            'answer'   => 'Bunny'
+        ];
+        $this->requestAction('PATCH', '/security/'.$id.'/set', $params);
+        $this->assertResponseIsSuccessful();
+
+        // Missing required parameters
+        $this->requestAction('PATCH', '/security/'.$id.'/set');
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testGetSecurityQuestion() {
+        // Ok
+        $params = [
+            'email' => 'tperson@iserviceauto.com'
+        ];
+        $this->requestAction('POST', '/security/get-security-question', $params);
+        $this->assertResponseIsSuccessful();
+
+        // Missing required parameters
+        $this->requestAction('POST', '/security/get-security-question');
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testResetPassword() {
+        // Ok
+        $params = [
+            'token'    => $this->token, // this is not the rest password token, it's user auth token
+            'password' => 'new password'
+        ];
+        $this->requestAction('PATCH', '/security/reset-password', $params);
+        // $this->assertResponseIsSuccessful();
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+
+        // Invalid token
+        $params = [
+            'token'    => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2MTE2NTc4NjgsInVzZXJuYW1lIjoidHBlcnNvbkBpc2VydmljZWF1dG8uY29tIiwiZXhwIjoxNjExNjg2NjY4fQ.Vh52A_oMsbBPFjcDIFvWLVabVuIBI_G15IRUQaSivg2QD_XK8svSCctQouH1YsIkLPCeyR3BeMMmT-MTmmDXlK0ixt3zdHXRjF49tYJ-UGzgSadrauRtmWZFBvmnp4LU-_M3uhITrzHUI5W8kTFJCwUTmm39D1bfSc2Dq4uMi34g1Kcih467julRIXaTiDikNEsTNqe-71oJbdLjAEM2C-jW_MDhCt-b_dYz6Ud-7oJj52EHNLqhG4aTf-Hcyywqe3x8QExcsI6TEBk6P08rEh70ggHxJAdoNEhNKxy1Ii2QTOiZr4_8rHY-HaUsb1Gsde69HollKHUcbM-RTSucWF4NB8xuzld07o_-cKHgmNOrcOjDvXEtvTScMJLs93gSrAxVfYbzCDeGpIWG5T3ujEg8oK9XTDhj1S6U42Gz6f0Ghs3QqGNRV_hFZO5cnHCUYSqCJp7953DHjAqfFhRYQtMa-0aM_6GMszQ_GNud5bPJbzLwlCz6ywvFbMwzctivOa5BrInDHzCksppem6nDrt4uRmBTI0BOTuDksEjmYRcFCTtmug2KbgC1r0xkxZTJh5uFnKcEcv-K9O88tVF58GwE8pGWDfTNVtLzViCDzjYCoG82SAoiYvRaCEXep9LHc8QstW12mq9FnPZn7O',
+            'password' => 'new password'
+        ];
+        $this->requestAction('PATCH', '/security/reset-password', $params);
+        $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
+
+        // Missing required parameters
+        $this->requestAction('PATCH', '/security/reset-password');
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     private function requestAction($method, $endpoint='', $params=[]) {
