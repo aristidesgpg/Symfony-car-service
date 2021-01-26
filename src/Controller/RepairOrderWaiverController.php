@@ -199,7 +199,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
         $ro = $roRepo->find($repairOrderId);
 
-        if ($ro->getDeleted()) {
+        if (!$ro || $ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
@@ -255,7 +255,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
         $ro = $roRepo->find($repairOrderId);
 
-        if ($ro->getDeleted()) {
+        if (!$ro || $ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
