@@ -317,17 +317,17 @@ class RepairOrderController extends AbstractFOSRestController
         SettingsHelper $settingsHelper,
         ParameterBagInterface $parameterBag
     ): Response {
-        $ro = $helper->addRepairOrder($req->request->all());
+        $ro                        = $helper->addRepairOrder($req->request->all());
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
-        $waiverMessageText = $settingsHelper->getSetting('waiverEstimateText');
-        $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
-        $customerURL = $parameterBag->get('customer_url');
+        $waiverIntroText           = $settingsHelper->getSetting('waiverIntroText');
+        $welcomeMessage            = $settingsHelper->getSetting('serviceTextIntro');
+        $customerURL               = $parameterBag->get('customer_url');
 
         if (is_array($ro)) {
             return new ValidationResponse($ro);
         }
 
-        if ($waiverActivateAuthMessage) {
+        if (!$waiverActivateAuthMessage) {
             // waiver disabled so send regular text
             $twilioHelper->sendSms($ro->getPrimaryCustomer()->getPhone(), $welcomeMessage);
         } else {
@@ -336,7 +336,8 @@ class RepairOrderController extends AbstractFOSRestController
             $shortUrl = $shortUrlHelper->generateShortUrl($url);
             try {
                 $phone = $ro->getPrimaryCustomer()->getPhone();
-                $shortUrlHelper->sendShortenedLink($phone, $waiverMessageText, $shortUrl, true);
+                $twilioHelper->sendSms($phone, $waiverIntroText);
+                $shortUrlHelper->sendShortenedLink($phone, $ro->getWaiver(), $shortUrl, true);
             } catch (Exception $e) {
                 throw new Exception($e);
             }

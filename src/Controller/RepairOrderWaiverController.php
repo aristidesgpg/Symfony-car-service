@@ -9,6 +9,7 @@ use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
 use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
+use App\Service\TwilioHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -53,6 +54,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         RepairOrderRepository $roRepo,
         RepairOrderHelper $helper,
         SettingsHelper $settingsHelper,
+        TwilioHelper $twilioHelper,
         EntityManagerInterface $em
     ) {
         $signature = $req->get('signature');
@@ -89,9 +91,8 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         $em->persist($roInteraction);
         $em->flush();
 
-        // $welcomeMessage = $settingsHelper->getSetting('previewSalesVideoText');
-
-        // $twilioHelper->sendSms($ro->getPrimaryCustomer->getPhone(), $welcomeMessage);
+        $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
+        $twilioHelper->sendSms($ro->getPrimaryCustomer->getPhone(), $welcomeMessage);
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
