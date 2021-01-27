@@ -181,28 +181,6 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @SWG\Tag(name="Service SMS")
      * @SWG\Post(description="Receive a message from a customer")
      *
-     *  @SWG\Parameter(
-     *     name="From",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The From Number",
-     * )
-     * @SWG\Parameter(
-     *     name="To",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The To Number",
-     * )
-     * @SWG\Parameter(
-     *     name="Body",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The Body",
-     * )
-     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -229,7 +207,7 @@ class ServiceSMSController extends AbstractFOSRestController {
         $message  = $request->get('Body');
         $from     = $request->get('From');
         $to       = $request->get('To');
-        $sid      = $request->get('Sid');
+        $sid      = $request->get('MessageSid');
 
         $phone    = $phoneValidator->clean($from);
         //check if customer exists
@@ -407,21 +385,6 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @SWG\Tag(name="Service SMS")
      * @SWG\Post(description="Get SMS Status Update from Twilio")
      *
-     * @SWG\Parameter(
-     *     name="smsStatus",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The User ID",
-     * )
-     * @SWG\Parameter(
-     *     name="to",
-     *     in="formData",
-     *     required=true,
-     *     type="string",
-     *     description="The Customer ID",
-     * )
-     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -451,7 +414,7 @@ class ServiceSMSController extends AbstractFOSRestController {
     ) {
         $smsStatus = $request->get('SmsStatus');
         $to        = $phoneValidator->clean($request->get('To'));
-        $sid       = $request->get('Sid');
+        $sid       = $request->get('MessageSid');
         //find customer by phone
         $customer   = $customerRepo->findOneBy(["phone" => $to]);
         //find ServiceSMS by sid and update status
