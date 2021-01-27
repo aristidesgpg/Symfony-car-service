@@ -143,6 +143,7 @@ class ServiceSMSController extends AbstractFOSRestController {
      *
      * @param ServiceSMS             $serviceSMS
      * @param TwilioHelper           $twilioHelper
+     * @param CustomerRepository     $customerRepo
      * @param EntityManagerInterface $em
      *
      * @return Response
@@ -150,6 +151,7 @@ class ServiceSMSController extends AbstractFOSRestController {
     public function resend (
         ServiceSMS             $serviceSMS,
         TwilioHelper           $twilioHelper, 
+        CustomerRepository     $customerRepo,
         EntityManagerInterface $em
     ) {
         $customerID = $serviceSMS->getCustomer();
@@ -158,6 +160,11 @@ class ServiceSMSController extends AbstractFOSRestController {
         //check if message is inbound
         if($inComing){
             return $this->handleView($this->view('Can not Resend Inbound Message', Response::HTTP_BAD_REQUEST));
+        }
+        //check if cusomter exists
+        $customer = $customerRepo->findOneBy(["id" => $customerID]);
+        if(!$customer){
+            return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
         //send message to a customer
         $sid = $twilioHelper->sendSms($customer->getPhone(), $twilioHelper->Decode($message));
