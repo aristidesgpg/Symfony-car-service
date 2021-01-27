@@ -106,6 +106,7 @@ class RepairOrderMPIController extends AbstractFOSRestController
         //store repairOrderMPI
         $repairOrderMPI = new RepairOrderMPI();
         $repairOrderMPI->setRepairOrder($repairOrder)
+                       ->setStatus("Completed")
                        ->setResults($res);
 
         $em->persist($repairOrderMPI);
@@ -120,7 +121,8 @@ class RepairOrderMPIController extends AbstractFOSRestController
         $em->flush();
         //Send MPI to customer and update MPI status; needs to consider later
         $repairOrder->setMpiStatus('Sent');
-        $repairOrderMPI->setDateSent(new DateTime());
+        $repairOrderMPI->setDateSent(new DateTime())
+                       ->setStatus("Sent");
         $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
         $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
                                   ->setUser($repairOrder->getPrimaryTechnician())
