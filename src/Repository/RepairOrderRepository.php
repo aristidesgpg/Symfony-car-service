@@ -145,7 +145,7 @@ class RepairOrderRepository extends ServiceEntityRepository
 
             $items = $qb->getQuery()->getResult();
             foreach ($items as $item) {
-                if ($item->getRepairOrderQuote() && $item->getRepairOrderQuote()->getDeleted()) {
+                if ($item->getRepairOrderQuote()) {
                     $item->setRepairOrderQuote(null);
                 }
             }
