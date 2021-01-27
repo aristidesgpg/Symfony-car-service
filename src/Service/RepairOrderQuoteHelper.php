@@ -3,7 +3,6 @@
 namespace App\Service;
 
 use Exception;
-use JsonException;
 
 /**
  * Class RepairOrderQuoteHelper
@@ -13,54 +12,48 @@ use JsonException;
 class RepairOrderQuoteHelper
 {
     /** @var string[] */
-    private const REQUIRED_FIELDS = ['operationCode', 'description', 'preApproved', 'approved', 'partsPrice', 'suppliesPrice', 'laborPrice', 'notes'];
+    private const REQUIRED_FIELDS = [
+        'operationCode',
+        'description',
+        'preApproved',
+        'approved',
+        'partsPrice',
+        'suppliesPrice',
+        'laborPrice',
+        'notes',
+    ];
 
     /**
-     * RepairOrderQuoteHelper constructor.
-     *
+     * @throws Exception
      */
-    public function __construct()
+    public function validateRecommendationsJSON(array $params)
     {
-    }
+        foreach ($params as $recommendation) {
+            if (!is_object($recommendation)) {
+                throw new Exception('Recommendations data is invalid');
+            }
 
-    /**
-     * @param array $params
-     * @param bool  $quoteRequiredFields
-     *
-     * @return string Empty on successful validation
-     */
-    public function validateParams(array $params)
-    {
+            $fields = [];
+            foreach ($recommendation as $field => $value) {
+                array_push($fields, $field);
+                $fields[$field] = $value;
+            }
 
-        try {
-            foreach ($params as $recommendation) {
-                if (!is_object($recommendation))
-                    return "recommendations data is invalid";
-                $fields = array();
-                foreach ($recommendation as $field => $value) {
-                    array_push($fields, $field);
-                    $fields[$field] = $value;
-                }
-                foreach (self::REQUIRED_FIELDS as $field) {
+            foreach (self::REQUIRED_FIELDS as $field) {
+                if (!isset($fields[$field])) {
+                    throw new Exception($field.' is missing in recommendations json');
+                } else {
+                    if ($fields[$field] === "") {
+                        throw new Exception($field.' has no value in recommendations json');
+                    }
 
-                    if (!isset($fields[$field])) {
-                        return "$field is missing in recommendations";
-                    } else {
-                        if ($fields[$field] === "") {
-                            return "$field has not value in recommendations";
-                        }
-                        if ($field === "partsPrice" || $field === "suppliesPrice" || $field === "laborPrice") {
-                            if (!is_numeric($fields[$field])) {
-                                return "$field has invalid value in recommendations";
-                            }
+                    if ($field == 'partsPrice' || $field == 'suppliesPrice' || $field == 'laborPrice') {
+                        if (!is_numeric($fields[$field])) {
+                            throw new Exception($field.' has invalid value in recommendations json');
                         }
                     }
                 }
             }
-        } catch (Exception $e) {
-            return $e->getMessage();
         }
-
-        return "";
     }
 }

@@ -16,9 +16,10 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Response\ValidationResponse;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RepairOrderQuoteController extends AbstractFOSRestController
 {
@@ -84,8 +85,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Created" }),
      *         )
      * )
-     *
-     * @return Response
+     * @throws InternalErrorException
      */
     public function createRepairOrderQuote(
         Request $request,
@@ -95,35 +95,36 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $helper
     ) {
-        $repairOrderID   = $request->get('repairOrderID');
-
+        $repairOrderID = $request->get('repairOrderID');
         $recommendations = $request->get('recommendations');
+
+        // Validate recommendation json
         if ($recommendations) {
-            $obj             =  json_decode($recommendations);
+            $obj = json_decode($recommendations);
             if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
-                return $this->handleView($this->view('recommendations data is invalid', Response::HTTP_BAD_REQUEST));
+                throw new BadRequestHttpException('Recommendations data is invalid');
             }
 
-            // @TODO: Add validation to make sure they passed valid json
-            $validation       = $helper->validateParams($obj);
-            if ($validation) {
-                return $this->handleView($this->view($validation, Response::HTTP_BAD_REQUEST));
+            try {
+                $helper->validateRecommendationsJSON($obj);
+            } catch (Exception $e) {
+                throw new BadRequestHttpException($e->getMessage());
             }
         }
 
-        //check if params are valid
+        // check if params are valid
         if (!$repairOrderID) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         // Check if Repair Order exists
-        $repairOrder     = $repairOrderRepository->find($repairOrderID);
+        $repairOrder = $repairOrderRepository->find($repairOrderID);
         if (!$repairOrder) {
             return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         // Check if there is a quote already
-        $exists          = $repairOrderQuoteRepository->findOneBy(['repairOrder' => $repairOrder]);
+        $exists = $repairOrderQuoteRepository->findOneBy(['repairOrder' => $repairOrder]);
         if ($exists) {
             return $this->handleView(
                 $this->view('A quote already exists for this Repair Order', Response::HTTP_NOT_ACCEPTABLE)
@@ -149,33 +150,29 @@ class RepairOrderQuoteController extends AbstractFOSRestController
                     $em->remove($repairOrderQuote);
                     $em->flush();
 
-                    return $this->handleView($this->view('Invalid operationCode Parameter', Response::HTTP_BAD_REQUEST));
+                    throw new BadRequestHttpException('Invalid operationCode Parameter in recommendations JSON');
                 }
 
                 try {
                     $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                        ->setOperationCode($operationCode)
-                        ->setDescription($recommendation->description)
-                        ->setPreApproved(
-                            filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                        )
-                        ->setApproved(
-                            filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
-                        )
-                        ->setPartsPrice($recommendation->partsPrice)
-                        ->setSuppliesPrice($recommendation->suppliesPrice)
-                        ->setNotes($recommendation->notes);
+                                                   ->setOperationCode($operationCode)
+                                                   ->setDescription($recommendation->description)
+                                                   ->setPreApproved(
+                                                       filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                                                   )
+                                                   ->setApproved(
+                                                       filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
+                                                   )
+                                                   ->setPartsPrice($recommendation->partsPrice)
+                                                   ->setSuppliesPrice($recommendation->suppliesPrice)
+                                                   ->setNotes($recommendation->notes);
                 } catch (Exception $e) {
                     // Remove the quote that was created
                     $em->remove($repairOrderQuote);
                     $em->flush();
 
-                    return $this->handleView(
-                        $this->view(
-                            'Missing required recommendation parameter: description, preApproved, approved, partsPrice, suppliesPrice, notes',
-                            Response::HTTP_BAD_REQUEST
-                        )
-                    );
+                    $message = 'Missing required recommendation parameter: description, preApproved, approved, partsPrice, suppliesPrice, notes';
+                    throw new BadRequestHttpException($message);
                 }
 
                 try {
@@ -186,12 +183,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
                     $em->remove($repairOrderQuote);
                     $em->flush();
 
-                    return $this->handleView(
-                        $this->view(
-                            'Something went wrong inserting recommendation into the database',
-                            Response::HTTP_BAD_REQUEST
-                        )
-                    );
+                    throw new InternalErrorException($e->getMessage());
                 }
             }
         }
@@ -257,15 +249,15 @@ class RepairOrderQuoteController extends AbstractFOSRestController
                 return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
             }
             $repairOrderRecommendation->setRepairOrderQuote($repairOrderQuote)
-                ->setOperationCode($operationCode)
-                ->setDescription($recommendation->description)
-                ->setPreApproved(
-                    filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                )
-                ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
-                ->setPartsPrice($recommendation->partsPrice)
-                ->setSuppliesPrice($recommendation->suppliesPrice)
-                ->setNotes($recommendation->notes);
+                                      ->setOperationCode($operationCode)
+                                      ->setDescription($recommendation->description)
+                                      ->setPreApproved(
+                                          filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                                      )
+                                      ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
+                                      ->setPartsPrice($recommendation->partsPrice)
+                                      ->setSuppliesPrice($recommendation->suppliesPrice)
+                                      ->setNotes($recommendation->notes);
 
             $em->persist($repairOrderRecommendation);
             $em->flush();
