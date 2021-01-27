@@ -29,12 +29,12 @@ class RepairOrderQuoteHelper
      *
      * @return array Empty on successful validation
      */
-    public function validateParams(array $params): array
+    public function validateParams($params): array
     {
         $errors = [];
 
         if (!is_array($params) || count($params) === 0)
-            return ["Type error" => "The data should be json format"];
+            return ["Type error" => "The data should be Array type"];
 
         try {
             foreach ($params as $recommendation) {
