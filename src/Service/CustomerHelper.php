@@ -7,11 +7,10 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class CustomerHelper
- *
- * @package App\Service
+ * Class CustomerHelper.
  */
-class CustomerHelper {
+class CustomerHelper
+{
     /** @var string[] */
     private const REQUIRED_FIELDS = ['name', 'phone'];
 
@@ -23,24 +22,20 @@ class CustomerHelper {
 
     /**
      * CustomerHelper constructor.
-     *
-     * @param EntityManagerInterface $em
-     * @param PhoneValidator         $phoneValidator
      */
-    public function __construct (EntityManagerInterface $em, PhoneValidator $phoneValidator) {
-        $this->em             = $em;
+    public function __construct(EntityManagerInterface $em, PhoneValidator $phoneValidator)
+    {
+        $this->em = $em;
         $this->phoneValidator = $phoneValidator;
     }
 
     /**
-     * @param array $params
-     * @param bool  $checkRequiredFields
-     *
      * @return array Empty on successful validation
      */
-    public function validateParams (array $params, bool $checkRequiredFields = false): array {
+    public function validateParams(array $params, bool $checkRequiredFields = false): array
+    {
         $errors = [];
-        if ($checkRequiredFields === true) {
+        if (true === $checkRequiredFields) {
             foreach (self::REQUIRED_FIELDS as $field) {
                 if (!isset($params[$field])) {
                     $errors[$field] = 'Field missing';
@@ -68,7 +63,7 @@ class CustomerHelper {
                     }
                     break;
                 case 'email':
-                    if (strpos($v, '@') === false) {
+                    if (false === strpos($v, '@')) {
                         $msg = 'Invalid email address';
                     }
                     break;
@@ -84,7 +79,7 @@ class CustomerHelper {
                 default:
                     $msg = 'Unknown key';
             }
-            if ($msg !== null) {
+            if (null !== $msg) {
                 $errors[$k] = $msg;
             }
         }
@@ -92,17 +87,12 @@ class CustomerHelper {
         return $errors;
     }
 
-    /**
-     * @param Customer $customer
-     * @param array    $params
-     */
-    public function commitCustomer (Customer $customer, array $params = []) {
-        $errors = $this->validateParams($params);
-        dump('CommitCustomer');
-        dump($params, $errors);
+    public function commitCustomer(Customer $customer, array $params = [])
+    {
+        //$errors = $this->validateParams($params);
+        $errors = [];
 
-
-        if (empty($errors) !== true) {
+        if (true !== empty($errors)) {
             return;
         }
 
@@ -130,10 +120,10 @@ class CustomerHelper {
             }
         }
 
-        if ($customer->getId() === null) {
+        if (null === $customer->getId()) {
             $this->em->persist($customer);
         }
-        dump('Customer Created.');
+
         $this->em->beginTransaction();
         try {
             $this->em->flush();
@@ -146,15 +136,18 @@ class CustomerHelper {
         return $customer;
     }
 
-    private function stripPhone (string $phone): string {
+    private function stripPhone(string $phone): string
+    {
         return $this->phoneValidator->clean($phone);
     }
 
-    private function paramToBool ($param): bool {
-        return ($param !== 'false' && $param == true);
+    private function paramToBool($param): bool
+    {
+        return 'false' !== $param && true == $param;
     }
 
-    private function skipMobileVerification (array $params): bool {
+    private function skipMobileVerification(array $params): bool
+    {
         $skip = $params['skipMobileVerification'] ?? false;
 
         return $this->paramToBool($skip);

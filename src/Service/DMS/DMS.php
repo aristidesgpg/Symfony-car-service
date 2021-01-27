@@ -282,14 +282,16 @@ class DMS
 //        //$roKey            = isset($dmsOpenRepairOrder->roKey) ? $dmsOpenRepairOrder->roKey : null;
 //        $roKey = $dmsRepairOrder->getRoKey();
 
+        //TODO: The customerFinder() logic needs revisited.
         $customer = $this->customerFinder($dmsRepairOrder);
         //Can't find a customer.
-        if (!$customer || !$customer->getId()) {
-            //Should never get hear since we create empty customers.
-            //TODO: The customerFinder() logic needs revisited.
-            return;
-        }
+//        if (!$customer || !$customer->getId()) {
+//            //Should never get hear since we create empty customers.
+//            dump('EMpty Customer, Returning');
+//            return;
+//        }
 
+        dump('Looking for advisor');
         //returns default advisor if one is not found.
         $advisor = $this->advisorFinder($dmsRepairOrder);
 //        Can't fnd an advisor, use default.
@@ -434,6 +436,7 @@ class DMS
     public function advisorFinder(DMSResult $dmsOpenRepairOrder): ?User
     {
         //search advisor by id.
+        dump('AdvisorFinder');
         if ($dmsOpenRepairOrder->getAdvisor()->getId()) {
             $foundAdvisor = $this->userRepo->findOneBy(['id' => $dmsOpenRepairOrder->getAdvisor()->getId(), 'role' => 'ROLE_SERVICE_ADVISOR']);
             if ($foundAdvisor) {
