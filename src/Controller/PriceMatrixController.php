@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
@@ -104,11 +105,22 @@ class PriceMatrixController extends AbstractFOSRestController
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="[{'hours':0,'price':0},{'hours':0.1,'price':0.5},{'hours':0.2,'price':1},{'hours':0.3,'price':1.5},{'hours':0.4,'price':2},{'hours':0.5,'price':2.5},{'hours':0.6,'price':3},{'hours':0.7,'price':3.5},{'hours':0.8,'price':4},{'hours':0.9,'price':4.5},{'hours':1,'price':5},{'hours':1.1,'price':5.5},{'hours':1.2,'price':6},{'hours':1.3,'price':6.5},{'hours':1.4,'price':7},{'hours':1.5,'price':7.5},{'hours':1.6,'price':8},{'hours':1.7,'price':8.5},{'hours':1.8,'price':9},{'hours':1.9,'price':9.5}]"
+     *     description="[{""hours"":0,""price"":0},{""hours"":0.1,""price"":0.5},{""hours"":0.2,""price"":1},{""hours"":0.3,""price"":1.5},{""hours"":0.4,""price"":2},{""hours"":0.5,""price"":2.5},{""hours"":0.6,""price"":3},{""hours"":0.7,""price"":3.5},{""hours"":0.8,""price"":4},{""hours"":0.9,""price"":4.5},{""hours"":1,""price"":5},{""hours"":1.1,""price"":5.5},{""hours"":1.2,""price"":6},{""hours"":1.3,""price"":6.5},{""hours"":1.4,""price"":7},{""hours"":1.5,""price"":7.5},{""hours"":1.6,""price"":8},{""hours"":1.7,""price"":8.5},{""hours"":1.8,""price"":9},{""hours"":1.9,""price"":9.5}]"
      * )
      *
      * @SWG\Response(response="200", description="Success!")
-     *
+     * @SWG\Response(
+     *     response="404",
+     *     description="Invalid repairOrderId"
+     * )
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing field"
+     * )
+     * @SWG\Response(
+     *     response="406",
+     *     description="Invalid value"
+     * )
      *
      * @param Request                $request
      * @param PriceMatrixRepository  $respository
@@ -120,19 +132,30 @@ class PriceMatrixController extends AbstractFOSRestController
     public function new(Request $request, PriceMatrixRepository $respository, EntityManagerInterface $em)
     {
         $payload       = $request->get('payload');
-
-        $payload       = str_replace("'", '"', $payload);
         $obj           = (array)json_decode($payload);
-        $allItems      = $respository->getAllItems();
+
+        if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
+            return $this->handleView($this->view('Payload data is invalid', Response::HTTP_BAD_REQUEST));
+        }
 
         //check parameter validation
         foreach ($obj as $item) {
-            if ($item->hours === null) {
-                return $this->handleView($this->view('Missing hours parameter', Response::HTTP_BAD_REQUEST));
-            } else if ($item->price === null) {
-                return $this->handleView($this->view('Missing price parameter', Response::HTTP_BAD_REQUEST));
+            if (!is_object($item))
+                return $this->handleView($this->view('Payload data is invalid', Response::HTTP_BAD_REQUEST));
+            $arr = get_object_vars($item);
+            $keys = array_keys($arr);
+            $requiredFields = ['hours', 'price'];
+
+            foreach ($requiredFields as $key) {
+                if (!in_array($key, $keys))
+                    return $this->handleView($this->view("Missing $key parameter", Response::HTTP_BAD_REQUEST));
+
+                if (!is_numeric($arr[$key]))
+                    return $this->handleView($this->view("Invalid $key value", Response::HTTP_NOT_ACCEPTABLE));
             }
         }
+
+        $allItems      = $respository->getAllItems();
 
         foreach ($allItems as $item) {
             $em->remove($item);
