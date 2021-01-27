@@ -103,6 +103,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
                 return $this->handleView($this->view('recommendations data is invalid', Response::HTTP_BAD_REQUEST));
             }
+
+            // @TODO: Add validation to make sure they passed valid json
+            $validation       = $helper->validateParams($obj);
+            if ($validation) {
+                return $this->handleView($this->view($validation, Response::HTTP_BAD_REQUEST));
+            }
         }
 
         //check if params are valid
@@ -132,12 +138,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $em->flush();
 
         if ($recommendations) {
-            // @TODO: Add validation to make sure they passed valid json
-            $validation       = $helper->validateParams($obj);
-            if ($validation) {
-                return $this->handleView($this->view($validation, Response::HTTP_BAD_REQUEST));
-            }
-
             // add recommendations
             foreach ($obj as $index => $recommendation) {
                 $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
