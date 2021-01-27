@@ -72,7 +72,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="[{'operationCode':14, 'description':'Neque maxime ex dolorem ut.','preApproved':true,'approved':true,'partsPrice':1.0,'suppliesPrice':14.02,'laborPrice':5.3,'notes':'Cumque tempora ut nobis.'},{'operationCode':11, 'description':'Quidem earum sapiente at dolores quia natus.','preApproved':false,'approved':true,'partsPrice':2.6,'suppliesPrice':509.02,'laborPrice':36.9,'notes':'Et accusantium rerum.'},{'operationCode':4, 'description':'Mollitia unde nobis doloribus sed.','preApproved':true,'approved':false,'partsPrice':1.1,'suppliesPrice':71.7,'laborPrice':55.1,'notes':'Voluptates et aut debitis.'}]",
+     *     description="[{""operationCode"":14, ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""notes"":""Cumque tempora ut nobis.""},{""operationCode"":11, ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""notes"":""Et accusantium rerum.""},{""operationCode"":4, ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""notes"":""Voluptates et aut debitis.""}]",
      * )
      *
      * @SWG\Response(
@@ -99,9 +99,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $recommendations = $request->get('recommendations');
         if ($recommendations) {
-            $recommendations =  $helper->jsonParse($recommendations);
             $obj             =  json_decode($recommendations);
-            if (!$obj) {
+            if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
                 return $this->handleView($this->view('recommendations data is invalid', Response::HTTP_BAD_REQUEST));
             }
         }
@@ -135,8 +134,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if ($recommendations) {
             // @TODO: Add validation to make sure they passed valid json
             $validation       = $helper->validateParams($obj);
-            if (!empty($validation)) {
-                return new ValidationResponse($validation);
+            if ($validation) {
+                return $this->handleView($this->view($validation, Response::HTTP_BAD_REQUEST));
             }
 
             // add recommendations
