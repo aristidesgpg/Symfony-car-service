@@ -160,7 +160,7 @@ class ServiceSMSController extends AbstractFOSRestController {
             return $this->handleView($this->view('Can not Resend Inbound Message', Response::HTTP_BAD_REQUEST));
         }
         //send message to a customer
-        $sid = $twilioHelper->sendSms($customer->getPhone(), $message);
+        $sid = $twilioHelper->sendSms($customer->getPhone(), $twilioHelper->Decode($message));
         //update serviceSMS
         $serviceSMS->setIncoming(false)
                    ->setSid($sid)
