@@ -348,8 +348,7 @@ class RepairOrderController extends AbstractFOSRestController
             $roInteraction = new RepairOrderInteraction();
             $roInteraction->setRepairOrder($ro)
                           ->setUser($this->getUser())
-                          ->setType("Waiver Sent")
-                          ->setDate();
+                          ->setType('Waiver Sent');
             $em->persist($roInteraction);
             $em->flush();
         }
@@ -384,7 +383,7 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     * 
+     *
      * @return Response
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response

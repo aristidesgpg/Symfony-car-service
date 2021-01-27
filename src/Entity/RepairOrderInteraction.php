@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RepairOrderInteractionRepository;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -51,6 +52,11 @@ class RepairOrderInteraction
      * @Serializer\Groups(groups={"ro_interaction_list"})
      */
     private $date;
+
+    public function __construct()
+    {
+        $this->date = new DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -105,20 +111,19 @@ class RepairOrderInteraction
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date = null): self
+    public function setDate(DateTimeInterface $date = null): self
     {
         if (!$date) {
             $this->date = new DateTime();
-        }
-        else {
+        } else {
             $this->date = $date;
         }
-        
+
         return $this;
     }
 }
