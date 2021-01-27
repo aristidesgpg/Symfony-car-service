@@ -1,0 +1,9 @@
+{
+    "require": {
+        "friendsofphp/php-cs-fixer": "^2.17",
+        "vimeo/psalm": "^4.3",
+        "psalm/plugin-symfony": "^2.1",
+        "goetas-webservices/xsd2php-runtime": "^0.2.2",
+        "goetas-webservices/xsd2php":"^0.3"
+    }
+}
