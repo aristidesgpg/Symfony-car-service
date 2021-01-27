@@ -229,6 +229,7 @@ class ServiceSMSController extends AbstractFOSRestController {
         $message  = $request->get('Body');
         $from     = $request->get('From');
         $to       = $request->get('To');
+        $sid      = $request->get('Sid');
 
         $phone    = $phoneValidator->clean($from);
         //check if customer exists
@@ -238,6 +239,7 @@ class ServiceSMSController extends AbstractFOSRestController {
             $serviceSMS->setCustomer($customer)
                        ->setPhone($phone)
                        ->setMessage($message)
+                       ->setSid($sid)
                        ->setIncoming(true);
             $em->persist($serviceSMS);
             $em->flush();
@@ -449,7 +451,7 @@ class ServiceSMSController extends AbstractFOSRestController {
     ) {
         $smsStatus = $request->get('SmsStatus');
         $to        = $phoneValidator->clean($request->get('To'));
-        $sid       = $request->get('sid');
+        $sid       = $request->get('Sid');
         //find customer by phone
         $customer   = $customerRepo->findOneBy(["phone" => $to]);
         //find ServiceSMS by sid and update status
