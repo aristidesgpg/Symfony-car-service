@@ -112,7 +112,7 @@ class ServiceSMSController extends AbstractFOSRestController {
         $serviceSMS->setUser($user)
                    ->setCustomer($customer)
                    ->setPhone($customer->getPhone())
-                   ->setMessage($message)
+                   ->setMessage($twilioHelper->Encode($message))
                    ->setIncoming(false)
                    ->setIsRead(true)
                    ->setSid($sid);
@@ -195,6 +195,7 @@ class ServiceSMSController extends AbstractFOSRestController {
      * @param EntityManagerInterface $em
      * @param CustomerRepository     $customerRepo
      * @param PhoneValidator         $phoneValidator
+     * @param TwilioHelper           $twilioHelper
      *
      * @return Response
      */
@@ -202,7 +203,8 @@ class ServiceSMSController extends AbstractFOSRestController {
         Request                $request, 
         EntityManagerInterface $em,
         CustomerRepository     $customerRepo,
-        PhoneValidator         $phoneValidator
+        PhoneValidator         $phoneValidator,
+        TwilioHelper           $twilioHelper
     ) {
         $message  = $request->get('Body');
         $from     = $request->get('From');
@@ -216,7 +218,7 @@ class ServiceSMSController extends AbstractFOSRestController {
             $serviceSMS = new ServiceSMS();
             $serviceSMS->setCustomer($customer)
                        ->setPhone($phone)
-                       ->setMessage($message)
+                       ->setMessage($twilioHelper->Encode($message))
                        ->setSid($sid)
                        ->setIncoming(true);
             $em->persist($serviceSMS);
