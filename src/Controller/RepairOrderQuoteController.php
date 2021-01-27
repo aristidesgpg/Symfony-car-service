@@ -102,7 +102,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $recommendations =  $helper->jsonParse($recommendations);
             $obj             =  json_decode($recommendations);
             if (!$obj) {
-                return $this->handleView($this->view('Invalid JSON format', Response::HTTP_BAD_REQUEST));
+                return $this->handleView($this->view('recommendations data is invalid', Response::HTTP_BAD_REQUEST));
             }
         }
 

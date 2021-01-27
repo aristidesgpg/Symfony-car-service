@@ -34,13 +34,13 @@ class RepairOrderQuoteHelper
         $errors = [];
 
         if (!is_array($params) || count($params) === 0)
-            return ["Type error" => "The data should be Array type"];
+            return ["Type error" => "recommendations data is invalid"];
 
         try {
             foreach ($params as $recommendation) {
 
                 if (!is_object($recommendation))
-                    return ["Type error" => "Each data should be object"];
+                    return ["Type error" => "recommendations data is invalid"];
 
                 $fields = array();
                 foreach ($recommendation as $field => $value) {
