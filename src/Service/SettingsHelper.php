@@ -284,7 +284,6 @@ class SettingsHelper
 
     /**
      * @param ?string $value
-     * @return Settings
      */
     private function addSetting(string $key, ?string $value): Settings
     {
@@ -322,7 +321,6 @@ class SettingsHelper
 
     /**
      * TODO Should this do something besides fail quietly?
-     * @param string $key
      */
     public function removeSetting(string $key)
     {
@@ -334,7 +332,6 @@ class SettingsHelper
             $this->em->flush();
         }
     }
-
 
     /**
      * @param $key
