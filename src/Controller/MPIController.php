@@ -247,7 +247,11 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
-     *  @SWG\Response(
+     * @SWG\Response(
+     *     response="404",
+     *     description="Invalid repairOrderId"
+     * )
+     * @SWG\Response(
      *     response="400",
      *     description="Missing field"
      * )
@@ -255,6 +259,7 @@ class MPIController extends AbstractFOSRestController
      *     response="406",
      *     description="Invalid value"
      * )
+     *
      *
      * @param Request                $request
      * @param EntityManagerInterface $em
@@ -265,23 +270,39 @@ class MPIController extends AbstractFOSRestController
     public function createTemplate(
         Request $request,
         EntityManagerInterface $em,
-        MPITemplateHelper $mpiTemplateHelper,
+        MPITemplateHelper $mpiTemplateHelper
     ) {
         $name = $request->get('name');
         $axleInfo = $request->get('axleInfo');
-
-        //convert string to object
-        $obj = (array)json_decode($axleInfo);
-        if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
-            return $this->handleView($this->view('Payload data is invalid', Response::HTTP_BAD_REQUEST));
-        }
-
-        $numberOfAxles = count($obj);
 
         //check if params are valid
         if (!$name || !$axleInfo) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
+
+        //convert string to object
+        $obj = (array)json_decode($axleInfo);
+        if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
+            return $this->handleView($this->view('Axle Information is invalid', Response::HTTP_BAD_REQUEST));
+        }
+
+        foreach ($obj as $item) {
+            if (!is_object($item))
+                return $this->handleView($this->view('Axle Information is invalid', Response::HTTP_BAD_REQUEST));
+            $arr = get_object_vars($item);
+            $keys = array_keys($arr);
+            $requiredFields = ['wheels', 'brakesRangeMaximum', 'tireRangeMaximum'];
+
+            foreach ($requiredFields as $key) {
+                if (!in_array($key, $keys))
+                    return $this->handleView($this->view("Missing $key parameter", Response::HTTP_BAD_REQUEST));
+
+                if (!is_numeric($arr[$key]))
+                    return $this->handleView($this->view("Invalid $key value", Response::HTTP_NOT_ACCEPTABLE));
+            }
+        }
+
+        $numberOfAxles = count($obj);
 
         //create a new template
         $mpiTemplate = new MPITemplate();
