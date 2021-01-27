@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Soap\dealerbuilt\src\DateTime;
+use DateTime;
 
 /**
  * Class DMSResult.
@@ -128,11 +128,11 @@ class DMSResult
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getWaiter(): string
+    public function getWaiter(): bool
     {
-        return $this->waiter;
+        return ($this->waiter) ? false : true;
     }
 
     /**
@@ -146,7 +146,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getPickupDate(): DateTime
+    public function getPickupDate(): ?DateTime
     {
         return $this->pickupDate;
     }
