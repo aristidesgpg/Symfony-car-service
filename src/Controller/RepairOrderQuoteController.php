@@ -96,8 +96,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuoteHelper $helper
     ) {
         $repairOrderID   = $request->get('repairOrderID');
-        $recommendations = str_replace("'", '"', $request->get('recommendations'));
-        $obj             = (array) json_decode($recommendations);
+        $recommendations =  $helper->jsonParse($request->get('recommendations'));
+        $obj             =  json_decode($recommendations);
 
         //check if params are valid
         if (!$repairOrderID) {

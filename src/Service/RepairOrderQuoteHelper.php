@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use Exception;
+use JsonException;
 
 /**
  * Class RepairOrderQuoteHelper
@@ -31,14 +32,24 @@ class RepairOrderQuoteHelper
     public function validateParams(array $params): array
     {
         $errors = [];
+
+        if (!is_array($params) || count($params) === 0)
+            return ["Type error" => "The data should be json format"];
+
         try {
             foreach ($params as $recommendation) {
+
+                if (!is_object($recommendation))
+                    return ["Type error" => "Each data should be object"];
+
                 $fields = array();
                 foreach ($recommendation as $field => $value) {
                     array_push($fields, $field);
                     $fields[$field] = $value;
                 }
+
                 foreach (self::REQUIRED_FIELDS as $field) {
+
                     if (!isset($fields[$field])) {
                         $errors[$field] = "Missing Field";
                     } else {
@@ -58,5 +69,29 @@ class RepairOrderQuoteHelper
         }
 
         return $errors;
+    }
+
+    /**
+     * @param string $json
+     *
+     * @return array 
+     */
+    public function jsonParse(string $json)
+    {
+        $newJSON = '';
+
+        $jsonLength = strlen($json);
+        for ($i = 0; $i < $jsonLength; $i++) {
+            if ($json[$i] == '"' || $json[$i] == "'") {
+                $nextQuote = strpos($json, $json[$i], $i + 1);
+                $quoteContent = substr($json, $i + 1, $nextQuote - $i - 1);
+                $newJSON .= '"' . str_replace('"', "'", $quoteContent) . '"';
+                $i = $nextQuote;
+            } else {
+                $newJSON .= $json[$i];
+            }
+        }
+
+        return $newJSON;
     }
 }
