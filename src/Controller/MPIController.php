@@ -235,7 +235,7 @@ class MPIController extends AbstractFOSRestController
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="Axle Information - [{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6},{'wheels':4,'brakesRangeMaximum':12,'tireRangeMaximum':12},{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6}]",
+     *     description="Axle Information - [{""wheels"":2,""brakesRangeMaximum"":10,""tireRangeMaximum"":6},{""wheels"":4,""brakesRangeMaximum"":12,""tireRangeMaximum"":12},{""wheels"":2,""brakesRangeMaximum"":10,""tireRangeMaximum"":6}]",
      * )
      *
      * @SWG\Response(
@@ -247,11 +247,18 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
+     *  @SWG\Response(
+     *     response="400",
+     *     description="Missing field"
+     * )
+     * @SWG\Response(
+     *     response="406",
+     *     description="Invalid value"
+     * )
      *
      * @param Request                $request
      * @param EntityManagerInterface $em
      * @param MPITemplateHelper      $mpiTemplateHelper
-     * @param MPITemplateRepository  $mpiTemplateRepository
      *
      * @return Response
      */
@@ -259,13 +266,16 @@ class MPIController extends AbstractFOSRestController
         Request $request,
         EntityManagerInterface $em,
         MPITemplateHelper $mpiTemplateHelper,
-        MPITemplateRepository $mpiTemplateRepository
     ) {
         $name = $request->get('name');
-        $axleInfo = str_replace("'", '"', $request->get('axleInfo'));
+        $axleInfo = $request->get('axleInfo');
 
         //convert string to object
         $obj = (array)json_decode($axleInfo);
+        if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
+            return $this->handleView($this->view('Payload data is invalid', Response::HTTP_BAD_REQUEST));
+        }
+
         $numberOfAxles = count($obj);
 
         //check if params are valid
