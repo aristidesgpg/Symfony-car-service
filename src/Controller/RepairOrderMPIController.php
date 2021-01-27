@@ -109,7 +109,6 @@ class RepairOrderMPIController extends AbstractFOSRestController
                        ->setResults($res);
 
         $em->persist($repairOrderMPI);
-        $em->flush();
 
         //Create RepairOrderMPIInteraction
         $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
@@ -117,7 +116,19 @@ class RepairOrderMPIController extends AbstractFOSRestController
                                   ->setUser($repairOrder->getPrimaryTechnician())
                                   ->setCustomer($repairOrder->getPrimaryCustomer())
                                   ->setType('Completed');
+        $em->persist($repairOrderMPIInteraction);
+        $em->flush();
+        //Send MPI to customer and update MPI status; needs to consider later
+        $repairOrder->setMpiStatus('Sent');
+        $repairOrderMPI->setDateSent(new DateTime());
+        $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
+        $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
+                                  ->setUser($repairOrder->getPrimaryTechnician())
+                                  ->setCustomer($repairOrder->getPrimaryCustomer())
+                                  ->setType('Sent');
 
+        $em->persist($repairOrder);
+        $em->persist($repairOrderMPI);
         $em->persist($repairOrderMPIInteraction);
         $em->flush();
 
@@ -125,56 +136,6 @@ class RepairOrderMPIController extends AbstractFOSRestController
             $this->view(
                 [
                     'message' => 'RepairOrderMPI Created',
-                ],
-                Response::HTTP_OK
-            )
-        );
-    }
-
-    /**
-     * @Rest\Post("/api/repair-order-mpi/{id}/view")
-     *
-     * @SWG\Tag(name="Repair Order MPI")
-     * @SWG\Post(description="Set RepairOrderMPI status as Viewed")
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "RepairOrderMPI Status Updated" }),
-     *         )
-     * )
-     *
-     * @return Response
-     */
-    public function customerViewed(
-        RepairOrderMPI $repairOrderMPI,
-        EntityManagerInterface $em
-    ) {
-        $repairOrder = $repairOrderMPI->getRepairOrder();
-
-        //update RepairOrder MPI Status
-        $repairOrder->setMpiStatus('Viewed');
-
-        //set RepairOrderMPI dateViewed
-        $repairOrderMPI->setDateViewed(new DateTime());
-
-        //Create RepairOrderMPIInteraction
-        $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
-        $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
-                                  ->setUser($repairOrder->getPrimaryTechnician())
-                                  ->setCustomer($repairOrder->getPrimaryCustomer())
-                                  ->setType('Viewed');
-
-        $em->persist($repairOrderMPIInteraction);
-        $em->flush();
-
-        return $this->handleView(
-            $this->view(
-                [
-                    'message' => 'RepairOrderMPI Status Updated',
                 ],
                 Response::HTTP_OK
             )
@@ -217,6 +178,56 @@ class RepairOrderMPIController extends AbstractFOSRestController
                                   ->setUser($repairOrder->getPrimaryTechnician())
                                   ->setCustomer($repairOrder->getPrimaryCustomer())
                                   ->setType('Sent');
+
+        $em->persist($repairOrderMPIInteraction);
+        $em->flush();
+
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RepairOrderMPI Status Updated',
+                ],
+                Response::HTTP_OK
+            )
+        );
+    }
+
+    /**
+     * @Rest\Post("/api/repair-order-mpi/{id}/view")
+     *
+     * @SWG\Tag(name="Repair Order MPI")
+     * @SWG\Post(description="Set RepairOrderMPI status as Viewed")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "RepairOrderMPI Status Updated" }),
+     *         )
+     * )
+     *
+     * @return Response
+     */
+    public function customerViewed(
+        RepairOrderMPI $repairOrderMPI,
+        EntityManagerInterface $em
+    ) {
+        $repairOrder = $repairOrderMPI->getRepairOrder();
+
+        //update RepairOrder MPI Status
+        $repairOrder->setMpiStatus('Viewed');
+
+        //set RepairOrderMPI dateViewed
+        $repairOrderMPI->setDateViewed(new DateTime());
+
+        //Create RepairOrderMPIInteraction
+        $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
+        $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
+                                  ->setUser($repairOrder->getPrimaryTechnician())
+                                  ->setCustomer($repairOrder->getPrimaryCustomer())
+                                  ->setType('Viewed');
 
         $em->persist($repairOrderMPIInteraction);
         $em->flush();
