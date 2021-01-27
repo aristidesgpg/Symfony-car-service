@@ -96,8 +96,16 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuoteHelper $helper
     ) {
         $repairOrderID   = $request->get('repairOrderID');
-        $recommendations =  $helper->jsonParse($request->get('recommendations'));
-        $obj             =  json_decode($recommendations);
+
+        $recommendations = $request->get('recommendations');
+        if ($recommendations) {
+            $recommendations =  $helper->jsonParse($recommendations);
+            $obj             =  json_decode($recommendations);
+
+            if (!$obj) {
+                return $this->handleView($this->view('Invalid JSON format', Response::HTTP_BAD_REQUEST));
+            }
+        }
 
         //check if params are valid
         if (!$repairOrderID) {
@@ -125,68 +133,71 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $em->persist($repairOrderQuote);
         $em->flush();
 
-        // @TODO: Add validation to make sure they passed valid json
-        $validation       = $helper->validateParams($obj);
-        if (!empty($validation)) {
-            return new ValidationResponse($validation);
+        if ($recommendations) {
+            // @TODO: Add validation to make sure they passed valid json
+            $validation       = $helper->validateParams($obj);
+            if (!empty($validation)) {
+                return new ValidationResponse($validation);
+            }
+
+            // add recommendations
+            foreach ($obj as $index => $recommendation) {
+                $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
+
+                //Check if Operation Code exists
+                $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
+                if (!$operationCode) {
+                    // Remove the quote that was created
+                    $em->remove($repairOrderQuote);
+                    $em->flush();
+
+                    return $this->handleView($this->view('Invalid operationCode Parameter', Response::HTTP_BAD_REQUEST));
+                }
+
+                try {
+                    $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
+                        ->setOperationCode($operationCode)
+                        ->setDescription($recommendation->description)
+                        ->setPreApproved(
+                            filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                        )
+                        ->setApproved(
+                            filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
+                        )
+                        ->setPartsPrice($recommendation->partsPrice)
+                        ->setSuppliesPrice($recommendation->suppliesPrice)
+                        ->setNotes($recommendation->notes);
+                } catch (Exception $e) {
+                    // Remove the quote that was created
+                    $em->remove($repairOrderQuote);
+                    $em->flush();
+
+                    return $this->handleView(
+                        $this->view(
+                            'Missing required recommendation parameter: description, preApproved, approved, partsPrice, suppliesPrice, notes',
+                            Response::HTTP_BAD_REQUEST
+                        )
+                    );
+                }
+
+                try {
+                    $em->persist($repairOrderQuoteRecommendation);
+                    $em->flush();
+                } catch (ORMException $e) {
+                    // Remove the quote that was created
+                    $em->remove($repairOrderQuote);
+                    $em->flush();
+
+                    return $this->handleView(
+                        $this->view(
+                            'Something went wrong inserting recommendation into the database',
+                            Response::HTTP_BAD_REQUEST
+                        )
+                    );
+                }
+            }
         }
 
-        // add recommendations
-        foreach ($obj as $index => $recommendation) {
-            $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
-
-            //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
-            if (!$operationCode) {
-                // Remove the quote that was created
-                $em->remove($repairOrderQuote);
-                $em->flush();
-
-                return $this->handleView($this->view('Invalid operationCode Parameter', Response::HTTP_BAD_REQUEST));
-            }
-
-            try {
-                $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                    ->setOperationCode($operationCode)
-                    ->setDescription($recommendation->description)
-                    ->setPreApproved(
-                        filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                    )
-                    ->setApproved(
-                        filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
-                    )
-                    ->setPartsPrice($recommendation->partsPrice)
-                    ->setSuppliesPrice($recommendation->suppliesPrice)
-                    ->setNotes($recommendation->notes);
-            } catch (Exception $e) {
-                // Remove the quote that was created
-                $em->remove($repairOrderQuote);
-                $em->flush();
-
-                return $this->handleView(
-                    $this->view(
-                        'Missing required recommendation parameter: description, preApproved, approved, partsPrice, suppliesPrice, notes',
-                        Response::HTTP_BAD_REQUEST
-                    )
-                );
-            }
-
-            try {
-                $em->persist($repairOrderQuoteRecommendation);
-                $em->flush();
-            } catch (ORMException $e) {
-                // Remove the quote that was created
-                $em->remove($repairOrderQuote);
-                $em->flush();
-
-                return $this->handleView(
-                    $this->view(
-                        'Something went wrong inserting recommendation into the database',
-                        Response::HTTP_BAD_REQUEST
-                    )
-                );
-            }
-        }
 
         return $this->handleView(
             $this->view(
