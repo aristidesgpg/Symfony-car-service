@@ -59,7 +59,7 @@ class InternalMessageControllerTest extends WebTestCase {
         $this->assertGreaterThanOrEqual(0, $messagesData->totalResults);
         
         // User Not Found
-        $otherUserId = '9999999999999999999999999';
+        $otherUserId = 99999999999999;
         $page        = 1;
 
         $this->requestGetMessagesNewest($otherUserId, $page);
