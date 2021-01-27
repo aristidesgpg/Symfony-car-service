@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
-use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
@@ -118,15 +117,9 @@ class RepairOrderController extends AbstractFOSRestController
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The available fields are [number, year, make, model, miles, vin] of RepairOrder, [name, phone, email] of primaryCustomer, [name, email, phone] of primaryAdvisor and primaryTechnician",
      *     in="query"
      * )
      */
@@ -142,136 +135,62 @@ class RepairOrderController extends AbstractFOSRestController
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
         $urlParameters = [];
-        $queryParameters = [];
         $errors = [];
-        $sortField = '';
-        $sortDirection = '';
-        $searchField = '';
-        $searchTerm = '';
+        $sortField =  $sortDirection = $searchTerm = '';
+        $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
+
+        $fields =  array();
+
+        foreach ($inputFields as $field) {
+            if ($request->query->has($field)) {
+                $fields[$field] = $this->paramToBool($request->query->get($field));
+                $urlParameters[$field] = $fields[$field];
+            } else {
+                $fields[$field] = null;
+            }
+        }
 
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $qb = $repairOrderRepo->createQueryBuilder('ro');
-        $qb->andWhere('ro.deleted = 0');
-
-        if ($request->query->has('archived') && $this->paramToBool($request->query->get('archived'))) {
-            $qb->andWhere('ro.archived = 1');
-            $urlParameters['archived'] = 1;
-        } else {
-            $qb->andWhere('ro.archived = 0');
-        }
-
-        if ($request->query->has('open')) {
-            if ($this->paramToBool($request->query->get('open'))) {
-                $urlParameters['open'] = 1;
-                $qb->andWhere('ro.dateClosed IS NULL');
-            } else {
-                $urlParameters['open'] = 0;
-                $qb->andWhere('ro.dateClosed IS NOT NULL');
-            }
-        }
-
-        if ($request->query->has('waiter')) {
-            $qb->andWhere("ro.waiter = :waiter");
-            $queryParameters['waiter'] = $this->paramToBool($request->query->get('waiter'));
-        }
-
-        if ($request->query->has('internal')) {
-            $qb->andWhere("ro.internal = :internal");
-            $queryParameters['internal'] = $this->paramToBool($request->query->get('internal'));
-        }
-
-        if ($request->query->has('needsVideo') && $this->paramToBool($request->query->get('needsVideo'))) {
-            $qb->andWhere('ro.videoStatus = :videoStatus');
-            $queryParameters['videoStatus'] = 'Not Started';
-        }
-
-        if ($startDate && $endDate) {
-            try {
-                $startDate = new DateTime($startDate);
-                $endDate = new DateTime($endDate);
-
-                $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate');
-                $queryParameters['startDate'] = $startDate;
-                $queryParameters['endDate'] = $endDate;
-            } catch (Exception $e) {
-                $errors['date'] = 'Invalid date format';
-            }
-        }
-
-        //get all field names of RepairOrder Entity
         $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField = $request->query->get('sortField');
+            $sortField                      = $request->query->get('sortField');
 
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
-                $errors['sortField'] = 'Invalid sort field name';
+                $errors['sortField']        = 'Invalid sort field name';
             }
 
             $sortDirection = $request->query->get('sortDirection');
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField']     = $sortField;
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
-
-            //check if the searchField exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            }
-
-            $searchTerm = $request->query->get('searchTerm');
-        }
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }
 
-        if ($searchTerm) {
-            $qb->andWhere('ro.'.$searchField.' LIKE :searchTerm');
-            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
-
-            $urlParameters['searchField'] = $searchField;
+        if ($request->query->has('searchTerm')) {
+            $searchTerm = $request->query->get('searchTerm');
         }
-
         $user = $this->getUser();
-        if ($user instanceof User) {
-            if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
-                if ($user->getShareRepairOrders()) {
-                    $qb->andWhere('ro.primaryAdvisor IN (:users)');
-                    $queryParameters['users'] = $userRepo->getSharedUsers();
-                } else {
-                    $qb->andWhere('ro.primaryAdvisor = :user');
-                    $queryParameters['user'] = $user;
-                }
-            } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
-                $qb->andWhere('ro.primaryTechnician = :user');
-                $queryParameters['user'] = $user;
-            }
-        }
+        $items = $repairOrderRepo->getAllItems(
+            $user,
+            $userRepo,
+            $startDate,
+            $endDate,
+            $sortField,
+            $sortDirection,
+            $searchTerm,
+            $fields,
+        );
 
-        if ($sortDirection) {
-            $qb->orderBy('ro.'.$sortField, $sortDirection);
-
-            $urlParameters['sortField'] = $sortField;
-            $urlParameters['sortDirection'] = $sortDirection;
-        }
-
-        $q = $qb->getQuery();
-        $q->setParameters($queryParameters);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $items = $q->getResult();
-        foreach ($items as $item) {
-            if ($item->getRepairOrderQuote() && $item->getRepairOrderQuote()->getDeleted()) {
-                $item->setRepairOrderQuote(null);
-            }
-        }
-
-        $urlParameters += $queryParameters;
         if ($searchTerm) {
             $urlParameters['searchTerm'] = $searchTerm;
         }
@@ -280,12 +199,12 @@ class RepairOrderController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'repairOrders' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
             ]
         );
 
