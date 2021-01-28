@@ -17,8 +17,8 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\EntityManagerInterface;
 
 /**
@@ -234,7 +234,7 @@ class FollowUpController extends AbstractFOSRestController
         $user    = $this->getUser();
 
         if (!$user instanceof Customer) {
-            return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
+            throw new NotAcceptableHttpException('The type of user should be Customer.');
         }
 
         $helper->updateFollowUp($followup, $user, 'Converted');
