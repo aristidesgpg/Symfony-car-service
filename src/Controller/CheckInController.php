@@ -3,30 +3,25 @@
 namespace App\Controller;
 
 use App\Entity\CheckIn;
-use App\Entity\User;
 use App\Repository\CheckInRepository;
 use App\Response\ValidationResponse;
-use App\Service\Pagination;
 use App\Service\CheckInHelper;
+use App\Service\Pagination;
+use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Doctrine\ORM\EntityManagerInterface;
 
-/**
- * Class CheckInController
- *
- * @package App\Controller
- *
- */
-class CheckInController extends AbstractFOSRestController {
+class CheckInController extends AbstractFOSRestController
+{
     private const PAGE_LIMIT = 100;
 
     /**
@@ -34,6 +29,7 @@ class CheckInController extends AbstractFOSRestController {
      *
      * @SWG\Tag(name="CHECKin")
      * @SWG\Get(description="Get checkins")
+     *
      * @SWG\Parameter(
      *     name="startDate",
      *     type="string",
@@ -46,6 +42,32 @@ class CheckInController extends AbstractFOSRestController {
      *     type="string",
      *     format="date-time",
      *     description="Get ROs created before supplied date-time",
+     *     in="query"
+     * )
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search. The available field is identification",
      *     in="query"
      * )
      * @SWG\Response(
@@ -69,38 +91,78 @@ class CheckInController extends AbstractFOSRestController {
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     *
-     * @param Request               $request
-     * @param CheckInRepository     $checkInRepository
-     * @param PaginatorInterface    $paginator
-     * @param UrlGeneratorInterface $urlGenerator
-     *
-     * @return Response
      */
-    public function list (Request $request, CheckInRepository $checkInRepository,
-                          PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator): Response {
-        $page          = $request->query->getInt('page', 1);
-        $startDate     = $request->query->get('startDate');
-        $endDate       = $request->query->get('endDate');
+    public function list(
+        Request $request,
+        CheckInRepository $checkInRepository,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
+    ): Response {
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
+        $sortField = '';
+        $sortDirection = '';
+        $searchTerm = '';
+        $errors = [];
+
+        $columns = $em->getClassMetadata('App\Entity\CheckIn')->getFieldNames();
 
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        $checkInQuery = $checkInRepository->getAllItems($startDate, $endDate);
-        $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $pager        = $paginator->paginate($checkInQuery, $page, $pageLimit);
-        $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
+        // Invalid page limit
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
+        }
+
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
+
+            $sortDirection = $request->query->get('sortDirection');
+
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+        }
+
+        if ($request->query->has('searchTerm')) {
+
+            $searchTerm = $request->query->get('searchTerm');
+
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        $checkInQuery = $checkInRepository->getAllItems(
+            $startDate,
+            $endDate,
+            $sortField,
+            $sortDirection,
+            $searchTerm,
+        );
+        $pager = $paginator->paginate($checkInQuery, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
-            'checkIns'     => $pager->getItems(),
+            'results' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('getCheckIns', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('getCheckIns', $urlParameters)
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('app_checkin_list', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('app_checkin_list', $urlParameters),
         ];
 
         $view = $this->view($json);
@@ -148,25 +210,28 @@ class CheckInController extends AbstractFOSRestController {
      * @return Response
      */
 
-    public function new (Request $request, CheckInHelper $helper, EntityManagerInterface $em) {
-        $file           = $request->files->get('video');
+    public function new(Request $request, CheckInHelper $helper, EntityManagerInterface $em)
+    {
+        $file = $request->files->get('video');
         $identification = $request->get('identification');
 
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
-        } else if ($file->getError() !== UPLOAD_ERR_OK) {
-            return new ValidationResponse(['video' => $file->getErrorMessage()]);
+        } else {
+            if ($file->getError() !== UPLOAD_ERR_OK) {
+                return new ValidationResponse(['video' => $file->getErrorMessage()]);
+            }
         }
 
-        $user    = $this->getUser();
-        $video   = $helper->createVideo($file);
+        $user = $this->getUser();
+        $video = $helper->createVideo($file);
         $checkin = new CheckIn();
 
         $checkin->setIdentification($identification);
         $checkin->setVideo($video);
-        $checkin->setDate(new \DateTime());
+        $checkin->setDate(new DateTime());
         $checkin->setUser($user);
-        
+
         $em->persist($checkin);
         $em->flush();
 
@@ -175,5 +240,4 @@ class CheckInController extends AbstractFOSRestController {
 
         return $this->handleView($view);
     }
-
 }

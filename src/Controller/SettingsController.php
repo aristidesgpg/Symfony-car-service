@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
+use App\Repository\SettingsRepository;
 use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
-use App\Repository\SettingsRepository;
 use App\Service\UploadHelper;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -34,7 +34,8 @@ use Symfony\Component\HttpFoundation\Response;
  *     )
  * )
  */
-class SettingsController extends AbstractFOSRestController {
+class SettingsController extends AbstractFOSRestController
+{
     public const  SMS_MAX_LENGTH       = 160;
     public const  SMS_EXTRA_MAX_LENGTH = 109;
     public const  ZIP_LENGTH           = 5;
@@ -59,8 +60,38 @@ class SettingsController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getSettings (SettingsRepository $repo): Response {
+    public function getSettings(SettingsRepository $repo): Response
+    {
         return $this->settingsResponse($repo->findAll());
+    }
+
+    private function settingsResponse(array $settings): Response
+    {
+        $json = [];
+
+        foreach ($settings as $setting) {
+            if (!$setting instanceof Settings) {
+                throw new InvalidArgumentException(
+                    sprintf('$settings must be array of "%s" instances', Settings::class)
+                );
+            }
+
+            // Filter out password hash
+            if ($setting->getKey() === 'techAppPassword') {
+                $json[] = [
+                    'key' => 'techAppPassword',
+                    'value' => '',
+                ];
+                continue;
+            }
+
+            $json[] = [
+                'key' => $setting->getKey(),
+                'value' => ($setting->getValue() === null) ? '' : $setting->getValue(),
+            ];
+        }
+
+        return $this->json($json, Response::HTTP_OK);
     }
 
     /**
@@ -126,6 +157,7 @@ class SettingsController extends AbstractFOSRestController {
      * @SWG\Parameter(name="upgradeTradeInTax", type="number", in="formData")
      * @SWG\Parameter(name="upgradeTradeInTaxLimit", type="number", in="formData")
      * @SWG\Parameter(name="upgradeOfferExpiration", type="number", in="formData")
+     * @SWG\Parameter(name="upgradeInitialText", type="string", in="formData")
      * @SWG\Parameter(name="upgradeInstantOfferUrl", type="string", in="formData")
      * @SWG\Parameter(name="upgradeIntroText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      * @SWG\Parameter(name="upgradeOfferText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
@@ -157,11 +189,12 @@ class SettingsController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function setSettings (Request $req, SettingsHelper $helper, UploadHelper $uploader): Response {
+    public function setSettings(Request $req, SettingsHelper $helper, UploadHelper $uploader): Response
+    {
         $parameterList = SettingsHelper::VALID_SETTINGS;
-        $fileList      = SettingsHelper::VALID_FILE_SETTINGS;
-        $settings      = [];
-        $errors        = [];
+        $fileList = SettingsHelper::VALID_FILE_SETTINGS;
+        $settings = [];
+        $errors = [];
 
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {
@@ -192,6 +225,7 @@ class SettingsController extends AbstractFOSRestController {
                 case 'serviceTextPayment':
                 case 'waiverIntroText':
                 case 'previewSalesVideoText':
+                case 'upgradeInitialText':
                 case 'upgradeIntroText':
                 case 'upgradeOfferText':
                     if (strlen($val) > self::SMS_EXTRA_MAX_LENGTH) {
@@ -234,7 +268,9 @@ class SettingsController extends AbstractFOSRestController {
                 continue;
             }
 
-            $isValid = ($key === 'custAppPostInspectionVideo') ? $uploader->isValidVideo($file) : $uploader->isValidImage($file);
+            $isValid = ($key === 'custAppPostInspectionVideo') ? $uploader->isValidVideo(
+                $file
+            ) : $uploader->isValidImage($file);
             if ($isValid !== true) {
                 $errors[$key] = 'Invalid file type';
                 continue;
@@ -257,6 +293,7 @@ class SettingsController extends AbstractFOSRestController {
                 }
             } catch (Exception $e) {
                 $this->logger->error(sprintf('Failed to upload file for key "%s": "%s"', $key, $e->getMessage()));
+
                 return $this->errorResponse('Failed to upload file');
             }
         }
@@ -272,33 +309,12 @@ class SettingsController extends AbstractFOSRestController {
     }
 
     /**
-     * @param Settings[] $settings
-     *
-     * @return Response
-     */
-    private function settingsResponse (array $settings): Response {
-        $json = [];
-
-        foreach ($settings as $setting) {
-            if (!$setting instanceof Settings) {
-                throw new InvalidArgumentException(sprintf('$settings must be array of "%s" instances', Settings::class));
-            }
-
-            $json[] = [
-                'key'   => $setting->getKey(),
-                'value' => ($setting->getValue() === null) ? '' : $setting->getValue(),
-            ];
-        }
-
-        return $this->json($json, Response::HTTP_OK);
-    }
-
-    /**
      * @param array $errors
      *
      * @return JsonResponse
      */
-    private function validationErrorResponse (array $errors): JsonResponse {
+    private function validationErrorResponse(array $errors): JsonResponse
+    {
         $json = [];
         foreach ($errors as $k => $v) {
             $json[] = ['key' => $k, 'msg' => $v];
@@ -312,7 +328,8 @@ class SettingsController extends AbstractFOSRestController {
      *
      * @return JsonResponse
      */
-    private function errorResponse (string $msg): JsonResponse {
+    private function errorResponse(string $msg): JsonResponse
+    {
         return $this->json(['error' => $msg], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
