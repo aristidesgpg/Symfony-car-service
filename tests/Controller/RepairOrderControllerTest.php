@@ -26,22 +26,17 @@ class RepairOrderControllerTest extends WebTestCase {
     }
 
     public function testNew() {
-        
-        $ids = [1, 33, 999];
+        $id = 1;
+        $this->requestNew($id);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        // $this->assertResponseIsSuccessful();
+        // $messagesData = json_decode($this->client->getResponse()->getContent());
+        // $this->assertEquals($id, $messagesData->repairOrder->id);
 
-        foreach($ids as $id){
-            $this->requestNew($id);
-            $code = $this->client->getResponse()->getStatusCode();
-    
-            if($code === 200){
-                $this->assertResponseIsSuccessful();
-                $messagesData = json_decode($this->client->getResponse()->getContent());
-
-                $this->assertEquals($id, $messagesData->repairOrder->id);
-            }else if($code === 404){
-                $this->assertEquals(Response::HTTP_NOT_FOUND, 404);
-            }
-        }
+        $id = 2147483647;
+        $this->requestNew($id);
+        // $this->assertResponseIsSuccessful();
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     private function requestNew($id) {
@@ -56,20 +51,13 @@ class RepairOrderControllerTest extends WebTestCase {
     }
 
     public function testDelete() {
-        $ids = [1, 33, 999];
-        
-        foreach($ids as $id){
-            $this->requestDelete($id);
-            $code = $this->client->getResponse()->getStatusCode();
-            
-            if($code === 200){
-                $this->assertResponseIsSuccessful();
-                $messagesData = json_decode($this->client->getResponse()->getContent());
-                $this->assertEquals("Successfully removed", $messagesData->message);
-            }else if($code === 404){
-                $this->assertEquals(Response::HTTP_NOT_FOUND, 404);
-            }
-        }
+        $id = 1;
+        $this->requestDelete($id);
+        $this->assertResponseIsSuccessful();
+
+        $id = 2147483647;
+        $this->requestDelete($id);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
     
     private function requestDelete($id) {
