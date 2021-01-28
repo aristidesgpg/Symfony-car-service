@@ -160,12 +160,6 @@ class User implements UserInterface {
     private $internalMessages;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Serializer\Groups({"user_list"})
-     */
-    private $externalAuthentication = false;
-
-    /**
      * User constructor.
      */
     public function __construct () {
@@ -487,24 +481,6 @@ class User implements UserInterface {
 
     public function setShareRepairOrders (bool $shareRepairOrders): self {
         $this->shareRepairOrders = $shareRepairOrders;
-
-        return $this;
-    }
-
-    /**
-     * @return bool|null
-     */
-    public function getExternalAuthentication (): ?bool {
-        return $this->externalAuthentication;
-    }
-
-    /**
-     * @param bool $externalAuthentication
-     *
-     * @return $this
-     */
-    public function setExternalAuthentication (bool $externalAuthentication): self {
-        $this->externalAuthentication = $externalAuthentication;
 
         return $this;
     }
