@@ -11,7 +11,9 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -110,10 +112,6 @@ class PriceMatrixController extends AbstractFOSRestController
      *
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(
-     *     response="404",
-     *     description="Invalid repairOrderId"
-     * )
-     * @SWG\Response(
      *     response="400",
      *     description="Missing field"
      * )
@@ -136,23 +134,24 @@ class PriceMatrixController extends AbstractFOSRestController
         $obj           = (array)json_decode($payload);
 
         if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
-            return $this->handleView($this->view('Payload data is invalid', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Payload data is invalid');
         }
 
         //check parameter validation
         foreach ($obj as $item) {
             if (!is_object($item))
-                return $this->handleView($this->view('Payload data is invalid', Response::HTTP_BAD_REQUEST));
+                throw new BadRequestHttpException('Payload data is invalid');
+
             $arr = get_object_vars($item);
             $keys = array_keys($arr);
             $requiredFields = ['hours', 'price'];
 
             foreach ($requiredFields as $key) {
                 if (!in_array($key, $keys))
-                    return $this->handleView($this->view("Missing $key parameter", Response::HTTP_BAD_REQUEST));
+                    throw new BadRequestHttpException("Missing $key parameter");
 
                 if (!is_numeric($arr[$key]))
-                    return $this->handleView($this->view("Invalid $key value", Response::HTTP_NOT_ACCEPTABLE));
+                    throw new NotAcceptableHttpException("Invalid $key value");
             }
         }
 
