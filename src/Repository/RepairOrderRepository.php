@@ -122,7 +122,7 @@ class RepairOrderRepository extends ServiceEntityRepository
                 if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
                     if ($user->getShareRepairOrders()) {
                         $qb->andWhere('ro.primaryAdvisor IN (:users)')
-                           ->setParameter('user', $user);
+                           ->setParameter('users', $user);
                         $queryParameters['users'] = $userRepo->getSharedUsers();
                     } else {
                         $qb->andWhere('ro.primaryAdvisor = :user')
