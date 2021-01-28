@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderInteraction;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
-use DateTime;
+use App\Service\SettingsHelper;
+use App\Service\ShortUrlHelper;
+use App\Service\TwilioHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -17,6 +20,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -34,23 +38,6 @@ class RepairOrderController extends AbstractFOSRestController
 
     /**
      * @Rest\Get(name="getRepairOrders")
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(
-     *         type="object",
-     *         @SWG\Property(
-     *             property="items",
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
-     *         ),
-     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
-     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
-     *         @SWG\Property(property="total", type="integer", description="Total number of items for query")
-     *     )
-     * )
-     * @SWG\Response(response="404", description="Invalid page parameter")
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
@@ -122,6 +109,24 @@ class RepairOrderController extends AbstractFOSRestController
      *     description="The available fields are [number, year, make, model, miles, vin] of RepairOrder, [name, phone, email] of primaryCustomer, [name, email, phone] of primaryAdvisor and primaryTechnician",
      *     in="query"
      * )
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="items",
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     *         ),
+     *         @SWG\Property(property="next", type="string", description="URL of next page of results or null"),
+     *         @SWG\Property(property="prev", type="string", description="URL of previous page of results or null"),
+     *         @SWG\Property(property="total", type="integer", description="Total number of items for query")
+     *     )
+     * )
+     * @SWG\Response(response="404", description="Invalid page parameter")
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      */
     public function getAll(
         Request $request,
@@ -134,6 +139,7 @@ class RepairOrderController extends AbstractFOSRestController
         $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
         $errors = [];
         $sortField =  $sortDirection = $searchTerm = '';
@@ -215,6 +221,7 @@ class RepairOrderController extends AbstractFOSRestController
 
     /**
      * @Rest\Get("/{id}", name="getRepairOrder")
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -240,6 +247,7 @@ class RepairOrderController extends AbstractFOSRestController
 
     /**
      * @Rest\Get("/link-hash/{linkHash}", name="getRepairOrderByLinkHash")
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -274,20 +282,12 @@ class RepairOrderController extends AbstractFOSRestController
 
     /**
      * @Rest\Post
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
-     * )
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
      * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
      * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
-     *
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
-     *
      * @SWG\Parameter(name="number", type="string", in="formData", required=true)
      * @SWG\Parameter(name="startValue", type="number", in="formData")
      * @SWG\Parameter(name="waiter", type="boolean", in="formData")
@@ -302,12 +302,55 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(type="object", ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     * )
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
+     *
+     * @throws Exception
      */
-    public function add(Request $req, RepairOrderHelper $helper): Response
-    {
-        $ro = $helper->addRepairOrder($req->request->all());
+    public function add(
+        Request $req,
+        RepairOrderHelper $helper,
+        EntityManagerInterface $em,
+        TwilioHelper $twilioHelper,
+        ShortUrlHelper $shortUrlHelper,
+        SettingsHelper $settingsHelper,
+        ParameterBagInterface $parameterBag
+    ): Response {
+        $ro                        = $helper->addRepairOrder($req->request->all());
+        $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
+        $waiverIntroText           = $settingsHelper->getSetting('waiverIntroText');
+        $welcomeMessage            = $settingsHelper->getSetting('serviceTextIntro');
+        $customerURL               = $parameterBag->get('customer_url');
+
         if (is_array($ro)) {
             return new ValidationResponse($ro);
+        }
+
+        if (!$waiverActivateAuthMessage) {
+            // waiver disabled so send regular text
+            $twilioHelper->sendSms($ro->getPrimaryCustomer()->getPhone(), $welcomeMessage);
+        } else {
+            // waiver enabled
+            $url = $customerURL.$ro->getLinkHash();
+            $shortUrl = $shortUrlHelper->generateShortUrl($url);
+            try {
+                $phone = $ro->getPrimaryCustomer()->getPhone();
+                $shortUrlHelper->sendShortenedLink($phone, $waiverIntroText, $shortUrl, true);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+
+            $roInteraction = new RepairOrderInteraction();
+            $roInteraction->setRepairOrder($ro)
+                          ->setUser($this->getUser())
+                          ->setType('Waiver Sent');
+            $em->persist($roInteraction);
+            $em->flush();
         }
 
         $view = $this->view($ro);
@@ -340,6 +383,8 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
+     *
+     * @return Response
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
     {

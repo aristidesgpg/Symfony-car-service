@@ -145,7 +145,11 @@ class User implements UserInterface {
     private $shareRepairOrders = false;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderInteraction::class, mappedBy="user")
+     */
+    private $repairOrderInteractions;
 
+    /**
      * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="user")
      */
     private $repairOrderTeams;
@@ -167,8 +171,8 @@ class User implements UserInterface {
     public function __construct () {
         $this->technicianRepairOrders     = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
-
-        $this->repairOrderTeams = new ArrayCollection();
+        $this->repairOrderInteractions    = new ArrayCollection();
+        $this->repairOrderTeams           = new ArrayCollection();
         $this->internalMessages           = new ArrayCollection();
     }
 
@@ -550,6 +554,23 @@ class User implements UserInterface {
     }
 
     /**
+     * @return Collection|RepairOrderInteraction[]
+     */
+    public function getRepairOrderInteractions(): Collection
+    {
+        return $this->repairOrderInteractions;
+    }
+
+    public function addRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if (!$this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions[] = $repairOrderInteraction;
+            $repairOrderInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+    /**
      * @return Collection|RepairOrderTeam[]
      */
     public function getRepairOrderTeams(): Collection
@@ -562,6 +583,19 @@ class User implements UserInterface {
         if (!$this->repairOrderTeams->contains($repairOrderTeam)) {
             $this->repairOrderTeams[] = $repairOrderTeam;
             $repairOrderTeam->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if ($this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions->removeElement($repairOrderInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderInteraction->getUser() === $this) {
+                $repairOrderInteraction->setUser(null);
+            }
         }
 
         return $this;

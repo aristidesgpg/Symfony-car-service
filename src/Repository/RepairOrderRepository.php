@@ -143,14 +143,7 @@ class RepairOrderRepository extends ServiceEntityRepository
                 $urlParameters['sortDirection'] = $sortDirection;
             }
 
-            $items = $qb->getQuery()->getResult();
-            foreach ($items as $item) {
-                if ($item->getRepairOrderQuote()) {
-                    $item->setRepairOrderQuote(null);
-                }
-            }
-
-            return $items;
+            return $qb->getQuery()->getResult();
         } catch (NonUniqueResultException $e) {
             return null;
         }
