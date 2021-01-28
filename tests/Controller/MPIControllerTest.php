@@ -66,7 +66,8 @@ class MPIControllerTest extends WebTestCase
         $this->assertGreaterThanOrEqual($id, $response->id);
 
         // Not found
-        $this->requestAction('GET', '/mpi-template/999999999999999999');
+        $id = 2147483647;
+        $this->requestAction('GET', '/mpi-template/'.$id);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
@@ -94,29 +95,32 @@ class MPIControllerTest extends WebTestCase
 
     public function testEditTemplate() {
         // Ok
+        $id     = 1;
         $name   = 'MPI template name for update';
         $params = [
             'name' => $name
         ];
-        $this->requestAction('PUT', '/mpi-template/1', $params);
+        $this->requestAction('PUT', '/mpi-template/'.$id, $params);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals($name, $response->name);
 
         // Require parameters
-        $this->requestAction('PUT', '/mpi-template/1');
+        $this->requestAction('PUT', '/mpi-template/'.$id);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeactivateTemplate() {
         // Ok
-        $this->requestAction('PUT', '/mpi-template/de-activate/1');
+        $id = 1;
+        $this->requestAction('PUT', '/mpi-template/de-activate/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
     public function testReactivateTemplate() {
         // Ok
-        $this->requestAction('PUT', '/mpi-template/re-activate/1');
+        $id = 1;
+        $this->requestAction('PUT', '/mpi-template/re-activate/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
@@ -145,7 +149,7 @@ class MPIControllerTest extends WebTestCase
 
         // Invalid Template Parameter
         $params = [
-            'id'   => 999999999999999999, // MPI template ID
+            'id'   => 2147483647, // MPI template ID
             'name' => $name
         ];
         $this->requestAction('POST', '/mpi-group', $params);
@@ -154,29 +158,33 @@ class MPIControllerTest extends WebTestCase
 
     public function testEditGroup() {
         // Ok
+        $id   = 1;
         $name = 'New name of MPI group';
-        $this->requestAction('PUT', '/mpi-group/1', ['name' => $name]);
+        $this->requestAction('PUT', '/mpi-group/'.$id, ['name' => $name]);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals($name, $response->name);
 
         // Missing required parameter
-        $this->requestAction('PUT', '/mpi-group/1');
+        $this->requestAction('PUT', '/mpi-group/'.$id);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeactivateGroup() {
-        $this->requestAction('PUT', '/mpi-group/de-activate/1');
+        $id = 1;
+        $this->requestAction('PUT', '/mpi-group/de-activate/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
     public function testReactivateGroup() {
-        $this->requestAction('PUT', '/mpi-group/re-activate/1');
+        $id = 1;
+        $this->requestAction('PUT', '/mpi-group/re-activate/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
     public function testDeleteGroup() {
-        $this->requestAction('DELETE', '/mpi-group/1');
+        $id = 1;
+        $this->requestAction('DELETE', '/mpi-group/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
@@ -198,7 +206,7 @@ class MPIControllerTest extends WebTestCase
 
         // Invalid Template Parameter
         $params = [
-            'id'   => 999999999999999999,
+            'id'   => 2147483647,
             'name' => $name
         ];
         $this->requestAction('POST', '/mpi-item', $params);
@@ -207,19 +215,21 @@ class MPIControllerTest extends WebTestCase
 
     public function testEditItem() {
         // Ok
+        $id = 1;
         $name = 'New name of MPI item';
-        $this->requestAction('PUT', '/mpi-item/1', ['name' => $name]);
+        $this->requestAction('PUT', '/mpi-item/'.$id, ['name' => $name]);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals($name, $response->name);
 
         // Missing required parameter
-        $this->requestAction('PUT', '/mpi-item/1');
+        $this->requestAction('PUT', '/mpi-item/'.$id);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteItem() {
-        $this->requestAction('DELETE', '/mpi-item/1');
+        $id = 1;
+        $this->requestAction('DELETE', '/mpi-item/'.$id);
         $this->assertResponseIsSuccessful();
     }
 

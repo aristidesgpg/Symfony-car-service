@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CheckInControllerTest extends WebTestCase
 {
     private $client = null;
+    
     private $token;
 
     /**

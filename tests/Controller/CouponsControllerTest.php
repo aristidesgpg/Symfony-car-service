@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CouponsControllerTest extends WebTestCase
 {
     private $client = null;
-
+    
     private $token;
 
     /**
@@ -43,7 +43,7 @@ class CouponsControllerTest extends WebTestCase
         // image upload test
         $uploadedFile = new UploadedFile(
             dirname(__DIR__,1).'/Fixtures/uploads/testImage.jpeg',
-            'testImage.jpeg' // If you run the CouponsFixture, it will download testImage.jpeg on test device
+            'testImage.jpeg' // If you run the CouponsFixture, it will download testImage.jpeg on test device !important
         );
         $crawler = $this->client->request('POST', '/api/coupons', ['title' => 'Qui neque veritatis omnis omnis.'], ['file' => $uploadedFile], [
             'HTTP_Authorization' => 'Bearer '.$this->token,
@@ -68,11 +68,13 @@ class CouponsControllerTest extends WebTestCase
 
     public function testDelete() {
         // Ok
-        $this->requestAction('DELETE', '/1');
+        $id = 1;
+        $this->requestAction('DELETE', '/'.$id);
         $this->assertResponseIsSuccessful();
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $this->requestAction('DELETE', '/9999999999999999999999999');
+        $id = 2147483647;
+        $this->requestAction('DELETE', '/'.$id);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 

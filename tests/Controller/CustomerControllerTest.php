@@ -59,7 +59,8 @@ class CustomerControllerTest extends WebTestCase
 
     public function testGetCustomer() {
         // Not found
-        $this->requestAction('GET', '/9999999999999999');
+        $id = 2147483647;
+        $this->requestAction('GET', '/'.$id);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         // Ok
@@ -72,21 +73,22 @@ class CustomerControllerTest extends WebTestCase
 
     public function testAddCustomer() {
         // Ok
+        $name   = 'John Doe';
         $params = [
-            'name' => 'Name Tester',
-            'phone' => '8623084956',
-            'email' => 'emails@gmail.com',
+            'name' => $name,
+            'phone' => '8623456789',
+            'email' => 'test@test.com',
             'doNotContact' => true,
             'skipMobileVerification' => true
         ];
         $this->requestAction('POST', '', $params);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals('Name Tester', $response->name);
+        $this->assertEquals($name, $response->name);
 
         // Validate parameters
         $params = [
-            'name' => 'Name Tester',
+            'name' => $name,
             'email' => '',
             'doNotContact' => false,
             'skipMobileVerification' => true
@@ -98,11 +100,11 @@ class CustomerControllerTest extends WebTestCase
 
     public function testUpdateCustomer() {
         // Ok
-        $name = 'Updater Name';
+        $name = 'Jane Doe';
         $params = [
             'name' => $name,
-            'phone' => '8623064956',
-            'email' => 'updatedemail@gmail.com',
+            'phone' => '8623456788',
+            'email' => 'updated@test.com',
             'doNotContact' => false,
             'skipMobileVerification' => false
         ];
@@ -115,7 +117,7 @@ class CustomerControllerTest extends WebTestCase
         $params = [
             'name' => $name,
             'phone' => '',
-            'email' => 'updatedemail@gmail.com',
+            'email' => 'updated@test.com',
             'doNotContact' => false,
             'skipMobileVerification' => false
         ];
@@ -132,7 +134,8 @@ class CustomerControllerTest extends WebTestCase
         $this->assertEquals($id, $response->id);
 
         // Not found
-        $this->requestAction('DELETE', '/9999999999999999999999999');
+        $id = 2147483647;
+        $this->requestAction('DELETE', '/'.$id);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 

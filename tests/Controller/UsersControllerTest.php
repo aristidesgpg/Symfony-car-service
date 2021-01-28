@@ -65,14 +65,14 @@ class UserControllerTest extends WebTestCase
 
     public function testNew() {
         // Ok
-        $email  = 'tempmail@gmail.com';
+        $email  = 'test@test.com';
         $params = [
             'role'              => 'ROLE_ADMIN',
-            'firstName'         => 'Fisrt',
-            'lastName'          => 'Last',
+            'firstName'         => 'John',
+            'lastName'          => 'Doe',
             'email'             => $email,
-            'phone'             => '8623082654',
-            'password'          => 'test',
+            'phone'             => '8623456789',
+            'password'          => 'testpass',
             'pin'               => '3753',
             'certification'     => 'certification of technician',
             'experience'        => 'experience of technician',
@@ -87,8 +87,8 @@ class UserControllerTest extends WebTestCase
         // Validate parameters
         $params = [
             'role' => 'ROLE_ADMIN',
-            'firstName' => 'Fisrt',
-            'lastName' => 'Last',
+            'firstName' => 'Jane',
+            'lastName' => 'Doe',
             'email' => $email
         ];
 
@@ -98,31 +98,32 @@ class UserControllerTest extends WebTestCase
 
     public function testEdit() {
         // Ok
-        $email  = 'newupdater@iserviceauto.com';
+        $id     = 1;
+        $email  = 'newupdater@test.com';
         $params = [
             'role'              => 'ROLE_ADMIN',
-            'firstName'         => 'Fisrt',
-            'lastName'          => 'Last',
+            'firstName'         => 'John',
+            'lastName'          => 'Doe',
             'email'             => $email,
-            'phone'             => '8623082654',
+            'phone'             => '8623456789',
             'password'          => 'test',
             'pin'               => '3753',
             'processRefund'     => true,
             'shareRepairOrders' => true
         ];
-        $this->requestAction('PUT', '/users/1', $params);
+        $this->requestAction('PUT', '/users/'.$id, $params);
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals($email, $response->email);
 
         // Certification and Experience is Only for Technicians
-        $email = 'newupdater@iserviceauto.com';
+        $email = 'newupdater@test.com';
         $params = [
             'role'              => 'ROLE_ADMIN',
-            'firstName'         => 'Fisrt',
-            'lastName'          => 'Last',
+            'firstName'         => 'Jane',
+            'lastName'          => 'Doe',
             'email'             => $email,
-            'phone'             => '8623082654',
+            'phone'             => '8623456789',
             'password'          => 'test',
             'pin'               => '3753',
             'certification'     => 'certification of technician',
@@ -130,7 +131,7 @@ class UserControllerTest extends WebTestCase
             'processRefund'     => true,
             'shareRepairOrders' => true
         ];
-        $this->requestAction('PUT', '/users/1', $params);
+        $this->requestAction('PUT', '/users/'.$id, $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
         // Validate parameters
@@ -141,7 +142,7 @@ class UserControllerTest extends WebTestCase
             'lastName'  => 'Doe',
             'role'      =>'Invalid Role'
         ];
-        $this->requestAction('PUT', '/users/1', $params);
+        $this->requestAction('PUT', '/users/'.$id, $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
@@ -187,7 +188,6 @@ class UserControllerTest extends WebTestCase
             'password' => 'new password'
         ];
         $this->requestAction('PATCH', '/security/reset-password', $params);
-        // $this->assertResponseIsSuccessful();
         $this->assertEquals(Response::HTTP_UNAUTHORIZED, $this->client->getResponse()->getStatusCode());
 
         // Invalid token
