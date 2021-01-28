@@ -97,3 +97,14 @@ MySQL Version: 5.7.31
    
    1. php tools/vendor/bin/php-cs-fixer fix [FILE_PATH_HERE]
       example: php tools/vendor/bin/php-cs-fixer fix ./src/Command/UnleashTheKrakenCommand.php
+
+10. How to test? ( unit & functional testing )
+
+    1. Create a new database `iservice3_test` to match the test environment. For the test env, it will use `.env.test` or `.env.test.local`
+    2. Migrate and load data fixtures. Add `--env=test` for each console command like below:
+
+           php bin/console doctrine:fixture:load --env=test
+
+    3. At last, run phpunit test:
+        
+           php bin/phpunit

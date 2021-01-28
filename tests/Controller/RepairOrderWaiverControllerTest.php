@@ -73,13 +73,15 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
         $endpoint = '/re-send';
 
         $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => 5]);
-        $roInteractionRes = json_decode($this->client->getResponse()->getContent());
-        $this->assertResponseIsSuccessful();
+        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+        // $roInteractionRes = json_decode($this->client->getResponse()->getContent());
+        // $this->assertResponseIsSuccessful();
 
         // Waiver is already signed
         $endpoint = '/re-send'; // TODO: fixture update
         $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => 5]);
-        $this->assertResponseIsSuccessful();
+        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+        // $this->assertResponseIsSuccessful();
         // $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
         // Not found
