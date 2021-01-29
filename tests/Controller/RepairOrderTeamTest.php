@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderTeam;
 use App\Entity\User;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -68,7 +69,20 @@ class RepairOrderTeamTest extends WebTestCase
             $this->assertResponseIsSuccessful();
             $response = json_decode($this->client->getResponse()->getContent());
             $this->assertObjectHasAttribute('id', $response);
-            
+        }
+    }
+
+    public function testDelete() {
+        $roTeam = $this->entityManager
+                       ->getRepository(RepairOrderTeam::class)
+                       ->createQueryBuilder('rot')
+                       ->setMaxResults(1)
+                       ->getQuery()
+                       ->getOneOrNullResult();
+
+        if ($roTeam) {
+            $this->requestActions('DELETE', '/'.$roTeam->getId());
+            $this->assertResponseIsSuccessful();
         }
     }
 
