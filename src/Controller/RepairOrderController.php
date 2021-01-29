@@ -142,10 +142,9 @@ class RepairOrderController extends AbstractFOSRestController
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
         $errors = [];
-        $sortField =  $sortDirection = $searchTerm = '';
+        $sortField = $sortDirection = $searchTerm = '';
         $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
-
-        $fields =  array();
+        $fields = [];
 
         foreach ($inputFields as $field) {
             if ($request->query->has($field)) {
@@ -163,16 +162,16 @@ class RepairOrderController extends AbstractFOSRestController
         $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField                      = $request->query->get('sortField');
+            $sortField = $request->query->get('sortField');
 
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
-                $errors['sortField']        = 'Invalid sort field name';
+                $errors['sortField'] = 'Invalid sort field name';
             }
 
             $sortDirection = $request->query->get('sortDirection');
             $urlParameters['sortDirection'] = $sortDirection;
-            $urlParameters['sortField']     = $sortField;
+            $urlParameters['sortField'] = $sortField;
         }
 
 
@@ -192,7 +191,7 @@ class RepairOrderController extends AbstractFOSRestController
             $sortField,
             $sortDirection,
             $searchTerm,
-            $fields,
+            $fields
         );
 
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
@@ -205,12 +204,12 @@ class RepairOrderController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'results'      => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages'   => $pagination->totalPages,
-                'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
-                'currentPage'  => $pagination->currentPage,
-                'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
             ]
         );
 
@@ -321,11 +320,11 @@ class RepairOrderController extends AbstractFOSRestController
         SettingsHelper $settingsHelper,
         ParameterBagInterface $parameterBag
     ): Response {
-        $ro                        = $helper->addRepairOrder($req->request->all());
+        $ro = $helper->addRepairOrder($req->request->all());
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
-        $waiverIntroText           = $settingsHelper->getSetting('waiverIntroText');
-        $welcomeMessage            = $settingsHelper->getSetting('serviceTextIntro');
-        $customerURL               = $parameterBag->get('customer_url');
+        $waiverIntroText = $settingsHelper->getSetting('waiverIntroText');
+        $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
+        $customerURL = $parameterBag->get('customer_url');
 
         if (is_array($ro)) {
             return new ValidationResponse($ro);
