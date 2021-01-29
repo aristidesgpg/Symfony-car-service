@@ -338,11 +338,13 @@ class ServiceSMSController extends AbstractFOSRestController
                             group by ss.customer_id
                             order by ss2.unread DESC, ss.date DESC";
                 } else {
-                    $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss.unread
-                            FROM (select * from service_sms where user_id In (select max(user_id) from service_sms group by customer_id)) ss
+                    $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
+                            FROM (select * from service_sms where date In (select max(date) from service_sms where is_read = 0 group by customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
-                            group by ss.customer_id
-                            order by ss.date DESC";
+                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by user_id, customer_id) ss2 on (ss2.customer_id=ss.customer_id)
+                            Where ss.user_id = " . $user->getId() .
+                            " group by ss.customer_id
+                            order by ss2.unread DESC, ss.date DESC";
                 }
             } else {
                 return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
