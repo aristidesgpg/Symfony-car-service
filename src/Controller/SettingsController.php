@@ -178,11 +178,11 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="generalLogo", type="file", in="formData")
      *
      * myReview Settings
-     * @SWG\Parameter(name="reviewGoogleUrl", type="string", in="formData")
-     * @SWG\Parameter(name="reviewFacebookUrl", type="string", in="formData")
+     * @SWG\Parameter(name="myReviewGoogleURL", type="string", in="formData")
+     * @SWG\Parameter(name="myReviewFacebookURL", type="string", in="formData")
      * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
-     * @SWG\Parameter(name="reviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
-     * @SWG\Parameter(name="reviewActivated", type="boolean", in="formData")
+     * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
+     * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")
      *
      * @param Request        $req
      * @param SettingsHelper $helper
@@ -215,7 +215,7 @@ class SettingsController extends AbstractFOSRestController
                     }
                     break;
                 case 'serviceTextIntro':
-                case 'reviewText':
+                case 'myReviewText':
                     if (strlen($val) > self::SMS_MAX_LENGTH) {
                         $errors[$key] = sprintf(self::TOO_LONG_MSG, self::SMS_MAX_LENGTH);
                     }

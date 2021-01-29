@@ -461,18 +461,17 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="RO is already closed")
      * @SWG\Response(response="404", description="RO does not exist")
-     *
-     * @param RepairOrder       $ro
-     * @param RepairOrderHelper $helper
-     * @param MyReviewHelper    $myReviewHelper
-     * @param SettingsHelper    $settingsHelper
-     *
-     * @return Response
      */
-    public function close (RepairOrder $ro, RepairOrderHelper $helper, MyReviewHelper $myReviewHelper, SettingsHelper $settingsHelper): Response {
+    public function close(
+        RepairOrder $ro,
+        RepairOrderHelper $helper,
+        MyReviewHelper $myReviewHelper,
+        SettingsHelper $settingsHelper
+    ): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
+
         if ($ro->isClosed() === true) {
             return $this->handleView(
                 $this->view(
@@ -485,15 +484,19 @@ class RepairOrderController extends AbstractFOSRestController
         }
         $helper->closeRepairOrder($ro);
 
-        //if reviewActivated is true, proceed with review action
-        $isReviewActivated = $settingsHelper->getSetting('reviewActivated');
-        if($isReviewActivated){
-            $user          = $this->getUser();
+        //if myReviewActivated is true, proceed with review action
+        $isMyReviewActivated = $settingsHelper->getSetting('myReviewActivated');
+        if ($isMyReviewActivated) {
+            $user = $this->getUser();
             $myReviewHelper->new($ro, $user);
         }
 
-        return $this->handleView($this->view([
-            'message' => 'RO Closed',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RO Closed',
+                ]
+            )
+        );
     }
 }

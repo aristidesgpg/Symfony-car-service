@@ -55,9 +55,6 @@ class MyReviewHelper {
         $this->params             = $params;
     }
 
-    /**
-     * @param RepairOrder $repairOrder
-     */
     public function new(RepairOrder $repairOrder, $user){
         $review = $this->review->new($repairOrder);
         $this->reviewInteractions->new($review, 'Sent', $user);
@@ -69,7 +66,7 @@ class MyReviewHelper {
      * @param RepairOrder $repairOrder
      */
     public function sendMessage(RepairOrder $repairOrder){
-        $msg      = $this->settingsHelper->getSetting('reviewText');
+        $msg      = $this->settingsHelper->getSetting('myReviewText');
         $phone    = $repairOrder->getPrimaryCustomer()->getPhone();
         $linkhash = $repairOrder->getLinkHash();
         
