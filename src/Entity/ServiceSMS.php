@@ -3,9 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ServiceSMSRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=ServiceSMSRepository::class)
@@ -25,12 +26,14 @@ class ServiceSMS
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="serviceSMS")
+     * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups({"sms_list"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="serviceSMS")
+     * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups({"sms_list"})
      */
     private $customer;
@@ -66,9 +69,9 @@ class ServiceSMS
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $sid = "SMXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+    private $sid;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -157,12 +160,12 @@ class ServiceSMS
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 
