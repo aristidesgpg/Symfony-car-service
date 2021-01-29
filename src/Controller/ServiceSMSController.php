@@ -81,29 +81,30 @@ class ServiceSMSController extends AbstractFOSRestController
         $customerID = $request->get('customerID');
         $message = $request->get('message');
 
-        //check if parameters are valid
+        // check if parameters are valid
         if (!$customerID || !$message) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        //check if user exists
+        // check if user exists
         $user = $userRepo->find($userID);
         if (!$user) {
             return $this->handleView($this->view('User Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
 
-        //check if customer exists
+        // check if customer exists
         $customer = $customerRepo->find($customerID);
         if (!$customer) {
             return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
 
-        //send message to a customer
+        // send message to a customer
         $sid = $twilioHelper->sendSms($customer->getPhone(), $message);
 
-        //save message
+        // save message
         $serviceSMS = new ServiceSMS();
         $serviceSMS->setUser($user)
+                   ->setCustomer($customerID)
                    ->setPhone($customer->getPhone())
                    ->setMessage($twilioHelper->Encode($message))
                    ->setIncoming(false)
@@ -307,7 +308,6 @@ class ServiceSMSController extends AbstractFOSRestController
      */
     public function getThreads(
         Request $request,
-        ServiceSMSRepository $serviceSMSRepos,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
@@ -320,31 +320,31 @@ class ServiceSMSController extends AbstractFOSRestController
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($role[0] == 'ROLE_ADMIN' || $role[0] == 'ROLE_SERVICE_MANAGER') {
-            $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unreads
+            $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
                             FROM (select * from service_sms where date In (select max(date) from service_sms group by user_id ,customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
-                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
+                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
                             group by ss.user_id, ss.customer_id
-                            order by ss2.unreads DESC, ss.date DESC";
+                            order by ss2.unread DESC, ss.date DESC";
 
         } else {
             if ($role[0] == 'ROLE_SERVICE_ADVISOR') {
                 if ($shareRepairOrders) {
-                    $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unreads
+                    $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
                             FROM (select * from service_sms where date In (select max(date) from service_sms group by user_id ,customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
-                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
+                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
                             Where ss.user_id In (select id from user where share_repair_orders=1)
                             group by ss.user_id, ss.customer_id
-                            order by ss2.unreads DESC, ss.date DESC";
+                            order by ss2.unread DESC, ss.date DESC";
                 } else {
-                    $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unreads
+                    $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
                             FROM (select * from service_sms where date In (select max(date) from service_sms group by user_id ,customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
-                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unreads from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
+                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by user_id, customer_id) ss2 on (ss2.user_id = ss.user_id and ss2.customer_id=ss.customer_id)
                             Where ss.user_id = '".$user->getId()."'
                             group by ss.user_id, ss.customer_id
-                            order by ss2.unreads DESC, ss.date DESC";
+                            order by ss2.unread DESC, ss.date DESC";
                 }
             } else {
                 return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
@@ -392,12 +392,9 @@ class ServiceSMSController extends AbstractFOSRestController
      */
     public function statusCallback(
         Request $request,
-        TwilioHelper $twilioHelper,
         EntityManagerInterface $em,
-        CustomerRepository $customerRepo,
-        PhoneValidator $phoneValidator,
         ServiceSMSRepository $serviceSMSRepo
-    ) {
+    ): Response {
         $smsStatus = $request->get('SmsStatus');
         $sid = $request->get('MessageSid');
 

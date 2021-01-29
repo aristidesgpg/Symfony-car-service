@@ -60,7 +60,7 @@ class ServiceSMS
      * @ORM\Column(type="boolean")
      * @Serializer\Groups({"sms_list"})
      */
-    private $is_read = false;
+    private $isRead = false;
 
     /**
      * @ORM\Column(type="datetime")
@@ -150,12 +150,12 @@ class ServiceSMS
 
     public function getIsRead(): ?bool
     {
-        return $this->is_read;
+        return $this->isRead;
     }
 
-    public function setIsRead(bool $is_read): self
+    public function setIsRead(bool $isRead): self
     {
-        $this->is_read = $is_read;
+        $this->isRead = $isRead;
 
         return $this;
     }
