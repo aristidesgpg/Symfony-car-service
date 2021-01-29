@@ -4,9 +4,11 @@ namespace App\Repository;
 
 use App\Entity\RepairOrder;
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 
 /**
  * @method RepairOrder|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,15 +16,137 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method RepairOrder[]    findAll()
  * @method RepairOrder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RepairOrderRepository extends ServiceEntityRepository {
+class RepairOrderRepository extends ServiceEntityRepository
+{
 
     /**
      * RepairOrderRepository constructor.
      *
      * @param ManagerRegistry $registry
      */
-    public function __construct (ManagerRegistry $registry) {
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, RepairOrder::class);
+    }
+
+    /**
+     * @param null   $start
+     * @param null   $end
+     * @param string $sortField
+     * @param string $sortDirection
+     * @param null   $searchTerm
+     *
+     * @return Query|null
+     * @throws Exception
+     */
+    public function getAllItems(
+        $user,
+        $userRepo,
+        $startDate = null,
+        $endDate = null,
+        $sortField = 'date',
+        $sortDirection = 'DESC',
+        $searchTerm = null,
+        $fields = []
+    ) {
+        try {
+            $qb = $this->createQueryBuilder('ro');
+            $qb->andWhere('ro.deleted = 0');
+
+            foreach ($fields as $name => $value) {
+                if ($value !== null) {
+                    if ($name === 'open') {
+                        if ($value) {
+                            $qb->andWhere('ro.dateClosed IS NULL');
+                        } else {
+                            $qb->andWhere('ro.dateClosed IS NOT NULL');
+                        }
+                    } else {
+                        if ($name === 'needsVideo') {
+                            if ($value) {
+                                $qb->andWhere('ro.videoStatus = :videoStatus')
+                                   ->setParameter('videoStatus', 'Not Started');
+                            }
+                        } else {
+                            $qb->andWhere("ro.$name = :$name")
+                               ->setParameter($name, $value);
+                        }
+                    }
+                }
+            }
+
+            if ($startDate && $endDate) {
+                try {
+                    $startDate = new DateTime($startDate);
+                    $endDate = new DateTime($endDate);
+
+                    $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate')
+                       ->setParameter('startDate', $startDate)
+                       ->setParameter('endDate', $endDate);
+                } catch (Exception $e) {
+                    $errors['date'] = 'Invalid date format';
+                }
+            }
+
+            if ($searchTerm) {
+                $query = '';
+                $qb->leftJoin('ro.primaryCustomer', 'ro_customer')
+                   ->leftJoin('ro.primaryTechnician', 'ro_technician')
+                   ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
+
+                $searchFields = [
+                    'ro' => ['number', 'year', 'model', 'miles', 'vin'],
+                    'ro_customer' => ['name', 'phone', 'email'],
+                    'ro_advisor' => ['combine_name', 'phone', 'email'],
+                    'ro_technician' => ['combine_name', 'phone', 'email'],
+                ];
+
+                foreach ($searchFields as $class => $fields) {
+                    foreach ($fields as $field) {
+                        if ($field === 'combine_name') {
+                            $query .= "CONCAT($class.firstName , ' ' , $class.lastName) LIKE :searchTerm OR ";
+                        } else {
+                            $query .= "$class.$field LIKE :searchTerm OR ";
+                        }
+                    }
+                }
+
+                $query = substr($query, 0, strlen($query) - 4);
+
+                $qb->andWhere($query)
+                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
+            }
+
+
+            if ($user instanceof User) {
+                if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
+                    if ($user->getShareRepairOrders()) {
+                        $qb->andWhere('ro.primaryAdvisor IN (:users)')
+                           ->setParameter('users', $user);
+                        $queryParameters['users'] = $userRepo->getSharedUsers();
+                    } else {
+                        $qb->andWhere('ro.primaryAdvisor = :user')
+                           ->setParameter('user', $user);
+                        $queryParameters['user'] = $user;
+                    }
+                } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
+                    $qb->andWhere('ro.primaryTechnician = :user')
+                       ->setParameter('user', $user);
+                    $queryParameters['user'] = $user;
+                }
+            }
+
+            if ($sortDirection) {
+                $qb->orderBy('ro.'.$sortField, $sortDirection);
+
+                $urlParameters['sortField'] = $sortField;
+                $urlParameters['sortDirection'] = $sortDirection;
+            }
+
+            return $qb->getQuery()->getResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 
     /**
@@ -30,10 +154,11 @@ class RepairOrderRepository extends ServiceEntityRepository {
      *
      * @return RepairOrder|null
      */
-    public function findByUID (string $uid): ?RepairOrder {
+    public function findByUID(string $uid): ?RepairOrder
+    {
         try {
             // If they pass an integer, they're trying to find an ID
-            if (is_int($uid)){
+            if (is_int($uid)) {
                 return $this->find($uid);
             }
 
@@ -56,7 +181,8 @@ class RepairOrderRepository extends ServiceEntityRepository {
      *
      * @return RepairOrder|null
      */
-    public function findByNumber (string $number): ?RepairOrder {
+    public function findByNumber(string $number): ?RepairOrder
+    {
         try {
             return $this->createQueryBuilder('ro')
                         ->andWhere('ro.number = :number')
@@ -73,7 +199,8 @@ class RepairOrderRepository extends ServiceEntityRepository {
      *
      * @return RepairOrder|null
      */
-    public function findByHash (string $linkHash): ?RepairOrder {
+    public function findByHash(string $linkHash): ?RepairOrder
+    {
         try {
             return $this->createQueryBuilder('ro')
                         ->andWhere('ro.linkHash = :hash')

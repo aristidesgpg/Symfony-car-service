@@ -8,6 +8,7 @@ parameters:
   csv_directory: '%kernel.project_dir%/public/csv/'
   reset_password_secret: '%env(RESET_PASSWORD_TOKEN_SECRET)%'
   sender: '%env(SENDER)%'
+  customer_url: '%env(CUSTOMER_URL)%'
 services:
   # default configuration for services in *this* file
   _defaults:

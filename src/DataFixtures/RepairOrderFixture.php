@@ -131,7 +131,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                         ->setQuoteStatus('Not Started')
                         ->setWaiter($waiter)
                         ->setPickupDate($pickupDate)
-                        ->setLinkHash(sha1($faker->unique(true)->randomAscii))
+                        ->setLinkHash(sha1($faker->unique()->randomAscii.$i))
                         ->setDeleted($faker->boolean(2))
                         ->setArchived($faker->boolean(5))
                         ->setDateCreated($dateCreated)
@@ -141,7 +141,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                         ->setMake('Toyota')
                         ->setModel('Corolla')
                         ->setMiles($faker->numberBetween(1000, 250000))
-                        ->setVin(sha1($faker->unique(true)->randomAscii))
+                        ->setVin(sha1($faker->unique()->randomAscii.$i))
                         ->setStartValue($startValue)
                         ->setApprovedValue($approvedValue)
                         ->setFinalValue($finalValue);

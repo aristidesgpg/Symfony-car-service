@@ -83,3 +83,17 @@ MySQL Version: 5.7.31
     8. In the text box type "Bearer " then paste the token you copied
     9. Click "Authorize" 
     10. All calls after this will automatically have the bearer token in the "Autorization" header
+
+
+9. Installing Developer Tools.
+   
+   `This installs: php-cs-fixer, psalm & xsd2php.`
+   
+   1. From the root of the project, run: 
+      1. cd ./tools/
+      2. composer install
+   
+   To use php-cs-fixer(from root):
+   
+   1. php tools/vendor/bin/php-cs-fixer fix [FILE_PATH_HERE]
+      example: php tools/vendor/bin/php-cs-fixer fix ./src/Command/UnleashTheKrakenCommand.php
