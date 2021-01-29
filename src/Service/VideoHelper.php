@@ -102,9 +102,6 @@ class VideoHelper
         $this->em->flush();
     }
 
-    /**
-     * @param RepairOrderVideo $video
-     */
     public function deleteVideo(RepairOrderVideo $video): void
     {
         if ($video->isDeleted()) {
@@ -115,13 +112,9 @@ class VideoHelper
         $this->em->flush();
     }
 
-    /**
-     * @param RepairOrder      $ro
-     * @param RepairOrderVideo $video
-     * @param Customer|User    $user
-     */
-    public function viewVideo(RepairOrder $ro, RepairOrderVideo $video, $user): void
+    public function viewVideo(RepairOrderVideo $video, $user): void
     {
+        $repairOrder = $video->getRepairOrder();
         $interaction = new RepairOrderVideoInteraction();
         if ($user instanceof Customer) {
             $interaction->setCustomer($user);
@@ -132,9 +125,9 @@ class VideoHelper
         }
 
         $interaction->setRepairOrderVideo($video)
-                    ->setUser($ro->getPrimaryTechnician())
-                    ->setCustomer($ro->getPrimaryCustomer())
+                    ->setCustomer($repairOrder->getPrimaryCustomer())
                     ->setType('Viewed');
+
         $video->addInteraction($interaction)
               ->setDateViewed(new DateTime());
 
