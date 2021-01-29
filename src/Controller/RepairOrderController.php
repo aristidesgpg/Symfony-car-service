@@ -74,7 +74,7 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="needsVideo",
      *     type="boolean",
-     *     description="Only return ROs that do not have a video",
+     *     description="Only return ROs that do not have a video. NOTE: Will ignore all other filters",
      *     in="query"
      * )
      * @SWG\Parameter(
@@ -183,17 +183,23 @@ class RepairOrderController extends AbstractFOSRestController
         if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
         }
+
         $user = $this->getUser();
-        $items = $repairOrderRepo->getAllItems(
-            $user,
-            $userRepo,
-            $startDate,
-            $endDate,
-            $sortField,
-            $sortDirection,
-            $searchTerm,
-            $fields
-        );
+
+        if ($request->get('needsVideo')) {
+            $items = $repairOrderRepo->findByNeedsVideo($user, $sortField, $sortDirection, $searchTerm);
+        } else {
+            $items = $repairOrderRepo->getAllItems(
+                $user,
+                $userRepo,
+                $startDate,
+                $endDate,
+                $sortField,
+                $sortDirection,
+                $searchTerm,
+                $fields
+            );
+        }
 
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 

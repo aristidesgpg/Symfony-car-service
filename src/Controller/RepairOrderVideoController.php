@@ -12,6 +12,7 @@ use App\Service\VideoHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use RuntimeException;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class RepairOrderVideoController
+ *
  * @package App\Controller
  *
  * @Rest\Route("/api/repair-order/{ro}/video")
@@ -29,7 +31,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *     description="Repair Order or Video does not exist"
  * )
  */
-class RepairOrderVideoController extends AbstractFOSRestController {
+class RepairOrderVideoController extends AbstractFOSRestController
+{
     /**
      * @Rest\Get
      * @SWG\Response(
@@ -45,7 +48,8 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getAll (RepairOrder $ro): Response {
+    public function getAll(RepairOrder $ro): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -71,27 +75,25 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      * )
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      * @SWG\Parameter(name="video", type="file", in="formData", required=true)
-     *
-     * @param Request     $request
-     * @param RepairOrder $ro
-     * @param VideoHelper $helper
-     *
-     * @return Response
      */
-    public function uploadVideo (Request $request, RepairOrder $ro, VideoHelper $helper): Response {
+    public function uploadVideo(Request $request, RepairOrder $ro, VideoHelper $helper): Response
+    {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
+
         $file = $request->files->get('video');
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
         } elseif ($file->getError() !== UPLOAD_ERR_OK) {
             return new ValidationResponse(['video' => $file->getErrorMessage()]);
         }
+
         $user = $this->getUser();
         if (!$user instanceof User || $user->getId() === null) {
             $user = null;
         }
+
         $video = $helper->uploadVideo($ro, $file, $user);
 
         $view = $this->view($video);
@@ -113,7 +115,8 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getOne (RepairOrder $ro, RepairOrderVideo $video): Response {
+    public function getOne(RepairOrder $ro, RepairOrderVideo $video): Response
+    {
         if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -133,15 +136,20 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function deleteVideo (RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response {
+    public function deleteVideo(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response
+    {
         if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
             throw new NotFoundHttpException();
         }
         $helper->deleteVideo($video);
 
-        return $this->handleView($this->view([
-            'message' => 'Video deleted',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Video deleted',
+                ]
+            )
+        );
     }
 
     /**
@@ -154,19 +162,24 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function viewVideo (RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response {
+    public function viewVideo(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response
+    {
         if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
             throw new NotFoundHttpException();
         }
         $user = $this->getUser();
         if (!$user instanceof Customer && !$user instanceof User) {
-            throw new \RuntimeException('Could not determine user');
+            throw new RuntimeException('Could not determine user');
         }
         $helper->viewVideo($ro, $video, $user);
 
-        return $this->handleView($this->view([
-            'message' => 'Video view recorded',
-        ]));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Video view recorded',
+                ]
+            )
+        );
     }
 
     /**
@@ -187,7 +200,8 @@ class RepairOrderVideoController extends AbstractFOSRestController {
      *
      * @return Response
      */
-    public function getInteractions (RepairOrder $ro, RepairOrderVideo $video): Response {
+    public function getInteractions(RepairOrder $ro, RepairOrderVideo $video): Response
+    {
         if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
             throw new NotFoundHttpException();
         }
