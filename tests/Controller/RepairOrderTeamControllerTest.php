@@ -8,7 +8,7 @@ use App\Entity\User;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class RepairOrderTeamTest extends WebTestCase
+class RepairOrderTeamControllerTest extends WebTestCase
 {
     private $client = null;
 
