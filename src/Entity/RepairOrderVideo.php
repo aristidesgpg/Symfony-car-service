@@ -15,6 +15,8 @@ class RepairOrderVideo
 {
     public const GROUPS = ['rov_list'];
 
+    public const STATUSES = ['Not Started', 'Uploaded', 'Sent', 'Viewed'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -88,27 +90,16 @@ class RepairOrderVideo
         $this->interactions = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return User|null
-     */
     public function getTechnician(): ?User
     {
         return $this->technician;
     }
 
-    /**
-     * @param User $technician
-     *
-     * @return $this
-     */
     public function setTechnician(User $technician): self
     {
         $this->technician = $technician;
@@ -116,19 +107,11 @@ class RepairOrderVideo
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPath(): ?string
     {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return $this
-     */
     public function setPath(string $path): self
     {
         $this->path = $path;
@@ -136,39 +119,11 @@ class RepairOrderVideo
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param string $status
-     *
-     * @return $this
-     */
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getShortUrl(): ?string
     {
         return $this->shortUrl;
     }
 
-    /**
-     * @param string $shortUrl
-     *
-     * @return $this
-     */
     public function setShortUrl(string $shortUrl): self
     {
         $this->shortUrl = $shortUrl;
@@ -176,19 +131,11 @@ class RepairOrderVideo
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isDeleted(): bool
     {
         return $this->deleted;
     }
 
-    /**
-     * @param bool $deleted
-     *
-     * @return $this
-     */
     public function setDeleted(bool $deleted): self
     {
         $this->deleted = $deleted;
@@ -199,16 +146,37 @@ class RepairOrderVideo
 
     public function updateRepairOrderVideoStatus(): self
     {
-        $statusArray = [0 => "Uploaded", 1 => "Sent", 2 => "Viewed"];
         $repairVideos = $this->getRepairOrder()->getVideos();
-        $repairOrderVideoStatus = "Viewed";
+        $repairOrderVideoStatus = null;
+
+        // No videos
+        if (!$repairVideos) {
+            $this->getRepairOrder()->setVideoStatus(self::STATUSES[0]);
+
+            return $this;
+        }
+
         foreach ($repairVideos as $repairOrderVideo) {
-            if (!$repairOrderVideo->isDeleted() && array_search(
-                    $repairOrderVideo->getStatus(),
-                    $statusArray
-                ) < array_search($repairOrderVideoStatus, $statusArray)) {
+            if ($repairOrderVideo->isDeleted()) {
+                continue;
+            }
+
+            // If null, default to the first video we find
+            if ($repairOrderVideoStatus === null) {
+                $repairOrderVideoStatus = $repairOrderVideo->getStatus();
+                continue;
+            }
+
+            $videoKey = array_search($repairOrderVideo->getStatus(), self::STATUSES);
+            $roVideoKey = array_search($repairOrderVideoStatus, self::STATUSES);
+
+            if ($videoKey < $roVideoKey) {
                 $repairOrderVideoStatus = $repairOrderVideo->getStatus();
             }
+        }
+
+        if ($repairOrderVideoStatus === null) {
+            $repairOrderVideoStatus = self::STATUSES[0];
         }
 
         $this->getRepairOrder()->setVideoStatus($repairOrderVideoStatus);
@@ -216,19 +184,11 @@ class RepairOrderVideo
         return $this;
     }
 
-    /**
-     * @return RepairOrder|null
-     */
     public function getRepairOrder(): ?RepairOrder
     {
         return $this->repairOrder;
     }
 
-    /**
-     * @param RepairOrder $repairOrder
-     *
-     * @return $this
-     */
     public function setRepairOrder(RepairOrder $repairOrder): self
     {
         $this->repairOrder = $repairOrder;
@@ -236,32 +196,34 @@ class RepairOrderVideo
         return $this;
     }
 
-    /**
-     * @return RepairOrderVideoInteraction[]
-     */
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
     public function getInteractions(): array
     {
         return $this->interactions->toArray();
     }
 
-    /**
-     * @param RepairOrderVideoInteraction $interaction
-     *
-     * @return $this
-     */
     public function addInteraction(RepairOrderVideoInteraction $interaction): self
     {
-        $statusArray = [0 => "Uploaded", 1 => "Sent", 2 => "Viewed"];
-
         $status = $interaction->getType();
         $this->setStatus($status);
         $this->updateRepairOrderVideoStatus();
 
         $videoStatus = $this->getRepairOrder()->getVideoStatus();
 
-        if ($videoStatus == "Not Started" || array_search($status, $statusArray) < array_search(
+        if ($videoStatus == 'Not Started' || array_search($status, self::STATUSES) < array_search(
                 $videoStatus,
-                $statusArray
+                self::STATUSES
             )) {
             $this->getRepairOrder()->setVideoStatus($status);
         }
