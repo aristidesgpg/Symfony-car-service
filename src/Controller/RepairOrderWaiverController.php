@@ -74,9 +74,9 @@ class RepairOrderWaiverController extends AbstractFOSRestController
             throw new NotAcceptableHttpException('Waiver has already been signed');
         }
 
-        $pattern = "/^\s*([a-z]+\/[a-z0-9\-\+]+(;[a-z\-]+\=[a-z0-9\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i";
-        if (!preg_match($pattern, $signature)) {
-            return $this->handleView($this->view('Input valid signature (base64 svg)', Response::HTTP_BAD_REQUEST));
+        // Invalid image
+        if (!base64_decode($signature)) {
+            return $this->handleView($this->view('Invalid base64 image', Response::HTTP_BAD_REQUEST));
         }
 
         $ro->setWaiverSignature($signature);
