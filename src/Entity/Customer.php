@@ -84,12 +84,18 @@ class Customer implements UserInterface {
     private $repairOrderInteractions;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderReviewInteractions::class, mappedBy="customer")
+     */
+    private $repairOrderReviewInteractions;
+
+    /**
      * Customer constructor.
      */
     public function __construct () {
         $this->primaryRepairOrders = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
         $this->repairOrderInteractions = new ArrayCollection();
+        $this->repairOrderReviewInteractions = new ArrayCollection();
     }
 
     /**
@@ -308,6 +314,37 @@ class Customer implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderInteraction->getCustomer() === $this) {
                 $repairOrderInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getCustomer() === $this) {
+                $repairOrderReviewInteraction->setCustomer(null);
             }
         }
 

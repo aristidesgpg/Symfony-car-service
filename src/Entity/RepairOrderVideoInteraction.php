@@ -7,7 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity
  */
-class RepairOrderVideoInteraction {
+class RepairOrderVideoInteraction
+{
     public const GROUPS = ['int_list'];
 
     use InteractionTrait;
@@ -17,30 +18,20 @@ class RepairOrderVideoInteraction {
      */
     private $repairOrderVideo;
 
-    /**
-     * @return RepairOrderVideo
-     */
-    public function getRepairOrderVideo (): RepairOrderVideo {
+    public function getRepairOrderVideo(): RepairOrderVideo
+    {
         return $this->repairOrderVideo;
     }
 
-    /**
-     * @param RepairOrderVideo $video
-     *
-     * @return $this
-     */
-    public function setRepairOrderVideo (RepairOrderVideo $video): self {
+    public function setRepairOrderVideo(RepairOrderVideo $video): self
+    {
         $this->repairOrderVideo = $video;
 
         return $this;
     }
 
-    /**
-     * @param string $type
-     *
-     * @return $this
-     */
-    public function setType (string $type): self {
+    public function setType(string $type): self
+    {
         $this->type = $type;
 
         return $this;
