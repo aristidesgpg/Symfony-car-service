@@ -333,6 +333,24 @@ class RepairOrder
         return $this;
     }
 
+    public function getRepairOrderMPI(): ?RepairOrderMPI
+    {
+        return $this->repairOrderMPI;
+    }
+
+    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
+    {
+        $this->repairOrderMPI = $repairOrderMPI;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newRepairOrder = null === $repairOrderMPI ? null : $this;
+        if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
+            $repairOrderMPI->setRepairOrder($newRepairOrder);
+        }
+
+        return $this;
+    }
+
     public function getQuoteStatus(): ?string
     {
         return $this->quoteStatus;
@@ -586,24 +604,6 @@ class RepairOrder
     public function setDeleted(bool $deleted): self
     {
         $this->deleted = $deleted;
-
-        return $this;
-    }
-
-    public function getRepairOrderMPI(): ?RepairOrderMPI
-    {
-        return $this->repairOrderMPI;
-    }
-
-    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
-    {
-        $this->repairOrderMPI = $repairOrderMPI;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newRepairOrder = null === $repairOrderMPI ? null : $this;
-        if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
-            $repairOrderMPI->setRepairOrder($newRepairOrder);
-        }
 
         return $this;
     }

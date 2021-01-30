@@ -72,7 +72,7 @@ class SettingsFixture extends Fixture
             'totalDays' => '7',
             'upgradeInitialText' => 'Click the link below to see the value of your vehicle.  Thank you for visiting Performance Toyota',
             'upgradeCashOffer' => 'Show to any sales agent to claim your offer.',
-            'generalName' => null,
+            'generalName' => '(Dealer Name)',
             'generalEmail' => null,
             'generalWebsiteUrl' => 'https://www.performancetoyotastore.com/value-your-trade/',
             'generalInventoryUrl' => null,

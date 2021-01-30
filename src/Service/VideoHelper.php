@@ -64,7 +64,6 @@ class VideoHelper
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Uploaded')
                     ->setUser($this->user)
-                    ->setCustomer($ro->getPrimaryCustomer())
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction);
         $ro->addVideo($video);
@@ -72,16 +71,16 @@ class VideoHelper
         $this->em->persist($video);
         $this->em->flush();
 
-        $this->sendVideo($ro, $video);
+        $this->sendVideo($video);
 
         return $video;
     }
 
-    public function sendVideo(RepairOrder $ro, RepairOrderVideo $video): void
+    public function sendVideo(RepairOrderVideo $video): void
     {
         $phone = $video->getRepairOrder()->getPrimaryCustomer()->getPhone();
         $message = $this->settings->find('serviceTextVideo')->getValue();
-        $url = $_SERVER['CUSTOMER_URL'].'/'.$video->getRepairOrder()->getLinkHash();
+        $url = $_SERVER['CUSTOMER_URL'].$video->getRepairOrder()->getLinkHash();
         $shortUrl = $this->urlHelper->generateShortUrl($url);
         try {
             $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
@@ -92,7 +91,6 @@ class VideoHelper
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Sent')
                     ->setUser($this->user)
-                    ->setCustomer($ro->getPrimaryCustomer())
                     ->setRepairOrderVideo($video);
         $video->addInteraction($interaction)
               ->setDateSent(new DateTime())

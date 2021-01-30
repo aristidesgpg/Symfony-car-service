@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderMPIRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderMPIRepository::class)
@@ -15,7 +16,8 @@ use DateTime;
  */
 class RepairOrderMPI
 {
-    public const GROUPS = ['rom_list', 'ro_list'];
+    public const GROUPS   = ['rom_list', 'ro_list'];
+    public const STATUSES = ['Not Started', 'Complete', 'Sent', 'Viewed'];
 
     /**
      * @ORM\Id
@@ -27,7 +29,6 @@ class RepairOrderMPI
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderMPI")
-     * @Serializer\Groups(groups={"rom_list","ro_list"})
      */
     private $repairOrder;
 
@@ -51,6 +52,7 @@ class RepairOrderMPI
 
     /**
      * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="repairOrderMPI", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"rom_list"})
      */
     private $repairOrderMPIInteractions;
 
@@ -68,7 +70,7 @@ class RepairOrderMPI
     public function __construct()
     {
         $this->dateCompleted = new DateTime();
-        $this->repairOrderMPIInteractions = new ArrayCollection(); 
+        $this->repairOrderMPIInteractions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,36 +78,36 @@ class RepairOrderMPI
         return $this->id;
     }
 
-    public function getRepairOrder(): ?RepairOrder
-    {
-        return $this->repairOrder;
-    }
-
-    public function setRepairOrder(?RepairOrder $repairOrder): self
-    {
-        $this->repairOrder = $repairOrder;
-
-        return $this;
-    }
-
-    public function getDateCompleted(): ?\DateTimeInterface
+    public function getDateCompleted(): ?DateTimeInterface
     {
         return $this->dateCompleted;
     }
 
-    public function setDateCompleted(\DateTimeInterface $dateCompleted): self
+    public function setDateCompleted(DateTimeInterface $dateCompleted): self
     {
         $this->dateCompleted = $dateCompleted;
 
         return $this;
     }
 
-    public function getDateSent(): ?\DateTimeInterface
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDateSent(): ?DateTimeInterface
     {
         return $this->dateSent;
     }
 
-    public function setDateSent(\DateTimeInterface $dateSent): self
+    public function setDateSent(DateTimeInterface $dateSent): self
     {
         $this->dateSent = $dateSent;
 
@@ -134,10 +136,32 @@ class RepairOrderMPI
 
     public function addRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
     {
+        $roMPIStatus = $this->getRepairOrder()->getMpiStatus();
+
+        $interactionKey = array_search($repairOrderMPIInteraction->getType(), self::STATUSES);
+        $currentKey = array_search($roMPIStatus, self::STATUSES);
+
+        if ($currentKey < $interactionKey) {
+            $this->getRepairOrder()->setMpiStatus($repairOrderMPIInteraction->getType());
+            $this->setStatus($repairOrderMPIInteraction->getType());
+        }
+
         if (!$this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
             $this->repairOrderMPIInteractions[] = $repairOrderMPIInteraction;
             $repairOrderMPIInteraction->setRepairOrderMPI($this);
         }
+
+        return $this;
+    }
+
+    public function getRepairOrder(): ?RepairOrder
+    {
+        return $this->repairOrder;
+    }
+
+    public function setRepairOrder(?RepairOrder $repairOrder): self
+    {
+        $this->repairOrder = $repairOrder;
 
         return $this;
     }
@@ -155,27 +179,16 @@ class RepairOrderMPI
         return $this;
     }
 
-    public function getDateViewed(): ?\DateTimeInterface
+    public function getDateViewed(): ?DateTimeInterface
     {
         return $this->dateViewed;
     }
 
-    public function setDateViewed(\DateTimeInterface $dateViewed): self
+    public function setDateViewed(DateTimeInterface $dateViewed): self
     {
         $this->dateViewed = $dateViewed;
 
         return $this;
     }
 
-    public function getStatus(): ?string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
-
-        return $this;
-    }
 }
