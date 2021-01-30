@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
-use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
-use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
 use App\Repository\RepairOrderRepository;
 use App\Repository\RepairOrderVideoRepository;
@@ -32,6 +30,68 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class RepairOrderVideoController extends AbstractFOSRestController
 {
+    /**
+     * @Rest\Get
+     *
+     * @SWG\Parameter(
+     *     name="repairOrderID",
+     *     type="integer",
+     *     description="The Repair Order ID you want to find videos for",
+     *     in="query",
+     *     required=true
+     * )
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS))
+     *     )
+     * )
+     */
+    public function getAll(Request $request, RepairOrderRepository $repairOrderRepository): Response
+    {
+        $repairOrderID = $request->query->get('repairOrderID');
+        if (!$repairOrderID) {
+            throw new BadRequestHttpException('Missing Required Parameter repairOrderID');
+        }
+
+        $repairOrder = $repairOrderRepository->find($repairOrderID);
+        if (!$repairOrder || $repairOrder->getDeleted()) {
+            throw new NotFoundHttpException('Repair Order Not Found');
+        }
+
+        $videos = [];
+        foreach ($repairOrder->getVideos() as $video) {
+            if ($video->isDeleted()) {
+                continue;
+            }
+            $videos[] = $video;
+        }
+
+        $view = $this->view($videos);
+        $view->getContext()->setGroups(['rov_list', 'int_list']);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Get("/{id}")
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(ref=@Model(type=RepairOrderVideo::class, groups=RepairOrderVideo::GROUPS))
+     * )
+     */
+    public function getOne(RepairOrderVideo $repairOrderVideo)
+    {
+        $view = $this->view($repairOrderVideo);
+        $view->getContext()->setGroups(['rov_list', 'int_list']);
+
+        return $this->handleView($view);
+    }
+
     /**
      * @Rest\Post
      *
@@ -85,26 +145,17 @@ class RepairOrderVideoController extends AbstractFOSRestController
         $video = $helper->uploadVideo($repairOrder, $file, $user);
 
         $view = $this->view($video);
-        $view->getContext()->setGroups(RepairOrderVideo::GROUPS);
+        $view->getContext()->setGroups(['rov_list', 'int_list']);
 
         return $this->handleView($view);
     }
 
     /**
-     * @Rest\Delete("/{video}")
+     * @Rest\Delete("/{id}")
      * @SWG\Response(response="200", description="Success!")
-     *
-     * @param RepairOrder      $ro
-     * @param RepairOrderVideo $video
-     * @param VideoHelper      $helper
-     *
-     * @return Response
      */
-    public function deleteVideo(RepairOrder $ro, RepairOrderVideo $video, VideoHelper $helper): Response
+    public function deleteVideo(RepairOrderVideo $video, VideoHelper $helper): Response
     {
-        if ($video->getRepairOrder() !== $ro || $ro->getDeleted() || $video->isDeleted()) {
-            throw new NotFoundHttpException();
-        }
         $helper->deleteVideo($video);
 
         return $this->handleView(
@@ -151,34 +202,7 @@ class RepairOrderVideoController extends AbstractFOSRestController
 
         $helper->viewVideo($repairOrderVideo, $user);
 
-        return $this->handleView(
-            $this->view(
-                [
-                    'message' => 'Video view recorded',
-                ]
-            )
-        );
-    }
-
-    /**
-     * @Rest\Get("/{video}/interactions")
-     *
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(
-     *             ref=@Model(type=RepairOrderVideoInteraction::class, groups=RepairOrderVideoInteraction::GROUPS)
-     *         )
-     *     )
-     * )
-     *
-     * @return Response
-     */
-    public function getInteractions(RepairOrderVideo $video): Response
-    {
-        $view = $this->view($video->getInteractions());
+        $view = $this->view($repairOrderVideo);
         $view->getContext()->setGroups(['rov_list', 'int_list']);
 
         return $this->handleView($view);
