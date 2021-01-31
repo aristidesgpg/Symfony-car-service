@@ -14,7 +14,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  * @package App\DataFixtures
  */
 class RepairOrderReviewInteractionsFixture extends Fixture implements DependentFixtureInterface {
-    private const STATUS_FIXTURES  = ['Sent', 'Viewd', 'Complete'] ;
+    private const STATUS_FIXTURES  = ['Sent', 'Viewed', 'Complete'] ;
 
     /**
      * @param ObjectManager $manager
