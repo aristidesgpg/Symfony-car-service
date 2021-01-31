@@ -241,10 +241,6 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        // if ($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()) {
-        //     $repairOrder->setRepairOrderQuote(null);
-        // }
-
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -275,10 +271,6 @@ class RepairOrderController extends AbstractFOSRestController
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
         }
-
-        // if ($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()) {
-        //     $repairOrder->setRepairOrderQuote(null);
-        // }
 
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
