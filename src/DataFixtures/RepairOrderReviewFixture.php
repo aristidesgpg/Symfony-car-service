@@ -14,7 +14,7 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
  * @package App\DataFixtures
  */
 class RepairOrderReviewFixture extends Fixture implements DependentFixtureInterface {
-    private const STATUS_FIXTURES  = ['Sent', 'Viewd', 'Complete'] ;
+    private const STATUS_FIXTURES  = ['Sent', 'Viewed', 'Complete'] ;
     private const RATING_FIXTURES = ['poor', 'average', 'great'];
     private const PLATFORM_FIXTURES = ['facebook', 'google'];
     /**
@@ -33,7 +33,7 @@ class RepairOrderReviewFixture extends Fixture implements DependentFixtureInterf
 
             if($status ==='Sent')
                 $repairOrderReview->setDateSent($faker->dateTime($max='now'));
-            else if($status === 'Viewd'){
+            else if($status === 'Viewed'){
                 $viewed_date = $faker->dateTime($max='now');
                 $repairOrderReview->setDateViewed($viewed_date)
                                   ->setDateSent($faker->dateTime($viewed_date));
