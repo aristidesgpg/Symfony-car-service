@@ -94,7 +94,7 @@ class RepairOrderMPIController extends AbstractFOSRestController
         // Store repairOrderMPI
         $repairOrderMPI = new RepairOrderMPI();
         $repairOrderMPI->setRepairOrder($repairOrder)
-                       ->setStatus('Completed')
+                       ->setStatus('Complete')
                        ->setResults($mpiResultsJSON);
 
         $em->persist($repairOrderMPI);
@@ -104,7 +104,7 @@ class RepairOrderMPIController extends AbstractFOSRestController
         $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
         $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
                                   ->setUser($this->getUser())
-                                  ->setType('Completed');
+                                  ->setType('Complete');
         $repairOrderMPI->addRepairOrderMPIInteraction($repairOrderMPIInteraction);
         $em->persist($repairOrderMPI);
         $em->flush();

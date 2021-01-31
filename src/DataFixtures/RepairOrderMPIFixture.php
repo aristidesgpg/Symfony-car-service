@@ -49,7 +49,7 @@ class RepairOrderMPIFixture extends Fixture implements DependentFixtureInterface
             $repairOrderReference = $faker->unique()->numberBetween(1, 150);
             $repairOrder = $this->getReference('repairOrder_' . $repairOrderReference);
             //Completed
-            $status         = "Completed";
+            $status         = "Complete";
             $dateCompleted  = $faker->dateTimeBetween('-1 year');
 
             $repairOrderMPI = new RepairOrderMPI();
