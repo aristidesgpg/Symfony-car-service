@@ -59,7 +59,7 @@ class MyReviewController extends AbstractFOSRestController
             throw new NotAcceptableHttpException('The review of this repairOrder was not created yet.');
         }
 
-        if ($repairOrderReview->getStatus() !== 'Completed') {
+        if ($repairOrderReview->getStatus() !== 'Complete') {
             $repairOrderReview->setStatus('Viewed');
             $repairOrderReview->setDateViewed(new DateTime());
 
@@ -125,11 +125,11 @@ class MyReviewController extends AbstractFOSRestController
             throw new NotAcceptableHttpException('The review of this repairOrder was not created yet.');
         }
 
-        if ($repairOrderReview->getStatus() === 'Completed') {
+        if ($repairOrderReview->getStatus() === 'Complete') {
             throw new NotAcceptableHttpException('This review was already completed.');
         }
 
-        $repairOrderReview->setStatus('Completed')
+        $repairOrderReview->setStatus('Complete')
                           ->setDateCompleted(new DateTime())
                           ->setRating($rating)
                           ->setPlatform($platform);
@@ -137,7 +137,7 @@ class MyReviewController extends AbstractFOSRestController
         $em->persist($repairOrderReview);
         $em->flush();
 
-        $reviewInteractions->new($repairOrderReview, 'Completed', $user);
+        $reviewInteractions->new($repairOrderReview, 'Complete', $user);
 
         return $this->handleView($this->view(['message' => 'Success'], Response::HTTP_OK));
     }
