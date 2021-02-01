@@ -23,6 +23,7 @@ class RepairOrder
         'roqs_list',
         'operation_code_list',
         'rov_list',
+        'ror_list',
     ];
 
     /**
@@ -236,6 +237,7 @@ class RepairOrder
 
     /**
      * @ORM\OneToOne(targetEntity=RepairOrderReview::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $repairOrderReview;
 
