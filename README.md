@@ -100,11 +100,14 @@ MySQL Version: 5.7.31
 
 10. How to test? ( unit & functional testing )
 
-    1. Create a new database `iservice3_test` to match the test environment. For the test env, it will use `.env.test` or `.env.test.local`
-    2. Migrate and load data fixtures. Add `--env=test` for each console command like below:
+    1. For all tests
 
-           php bin/console doctrine:fixture:load --env=test
-
-    3. At last, run phpunit test:
-        
            php bin/phpunit
+
+    2. For single test
+        
+           php bin/phpunit [FILE_PATH_HERE]
+           
+       Example:
+
+           php bin/phpunit tests/Controller/RepairOrderTeamControllerTest.php
