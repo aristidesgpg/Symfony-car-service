@@ -25,88 +25,145 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
      * {@inheritDoc}
      */
     public function setUp() {
-        $this->client = static::createClient();
-
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
+        $this->client         = static::createClient();
+        $authCrawler          = $this->client->request('POST', '/api/authentication/authenticate', [
             'username' => 'tperson@iserviceauto.com',
             'password' => 'test'
         ]);
+        $authData             = json_decode($this->client->getResponse()->getContent());
+        $this->token          = $authData->token;
 
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token = $authData->token;
-
-        $this->entityManager = self::$container->get('doctrine')
-                                               ->getManager();
+        $this->entityManager  = self::$container->get('doctrine')
+                                                ->getManager();
         $this->settingsHelper = self::$container->get(SettingsHelper::class);
+        $this->repairOrder    = self::$container->get('doctrine')
+                                                ->getManager()
+                                                ->getRepository(RepairOrder::class)
+                                                ->createQueryBuilder('ro')
+                                                ->setMaxResults(1)
+                                                ->getQuery()
+                                                ->getOneOrNullResult();
     }
 
     public function testWaiverSigned() {
-        // Ok
-        $endpoint      = '/signed';
-        $repairOrderId = 1;
-        $params        = [
-            'signature'     => 'image/svg+xml;base64,Qk3eAgAAAAAAADYAAAAoAAAADQAAABEAAAABABgAAAAAAKgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
-            'repairOrderId' => $repairOrderId,
-        ];
+        if ($this->repairOrder) {
+            // Ok
+            $endpoint      = '/signed';
+            $repairOrderId = $this->repairOrder->getId();
+            $params        = [
+                'signature'     => 'image/svg+xml;base64,Qk3eAgAAAAAAADYAAAAoAAAADQAAABEAAAABABgAAAAAAKgCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
+                'repairOrderId' => $repairOrderId,
+            ];
 
-        $this->requestWaiverActions('POST', $endpoint, $params);
-        $roInteractionRes = json_decode($this->client->getResponse()->getContent());
-        $this->assertResponseIsSuccessful();
-        $this->assertEquals($repairOrderId, $roInteractionRes->id);
+            $this->requestWaiverActions('POST', $endpoint, $params);
 
-        // Invalid signature
-        $params = ['signature' => 'Invalid base 64 svg'];
+            if ($this->repairOrder->getDeleted()) { // Deleted
+                $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            }
+            else if (!empty($this->repairOrder->getWaiverSignature())) { // Waiver has already been signed
+                $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+            }
+            else { // OK
+                $this->assertResponseIsSuccessful();
+                $roInteractionRes = json_decode($this->client->getResponse()->getContent());
+                $this->assertEquals($repairOrderId, $roInteractionRes->id);
+            }
+        }
+        else {
+            $this->assertEquals(null, $this->repairOrder);
+        }
 
-        $this->requestWaiverActions('POST', $endpoint, $params);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        // For the invalid signature test, get second row from db
+        $ro = self::$container->get('doctrine')
+                                    ->getManager()
+                                    ->getRepository(RepairOrder::class)
+                                    ->createQueryBuilder('ro')
+                                    ->setMaxResults(2)
+                                    ->getQuery()
+                                    ->getResult();
+        $repairOrder = $ro[1];
+        if ($repairOrder) {
+            // Invalid signature
+            $params = [
+                'signature'     => 'imae/sv+ml;bse64,Qk3eAgAAAAAAADYAAAAoA',
+                'repairOrderId' => $repairOrder->getId(),
+            ];
+
+            $this->requestWaiverActions('POST', $endpoint, $params);
+
+            if ($repairOrder->getDeleted()) { // Deleted
+                $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            }
+            else if (!empty($repairOrder->getWaiverSignature())) { // Waiver has already been signed
+                $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+            }
+            else { // Invalid signature
+                $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+            }
+        }
     }
 
     public function testWaiverViewed() {
-        // Ok
-        $endpoint      = '/viewed';
-        $repairOrderId = 2;
+        if ($this->repairOrder) {
+            $endpoint      = '/viewed';
+            $repairOrderId = $this->repairOrder->getId();
 
-        $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
-        $roInteractionRes = json_decode($this->client->getResponse()->getContent());
-        $this->assertResponseIsSuccessful();
+            $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
+
+            if ($this->repairOrder->getDeleted()) { // Deleted
+                $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            }
+            else if (!empty($this->repairOrder->getWaiverSignature())) { // Waiver has already been signed
+                $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+            }
+            else { // OK
+                $this->assertResponseIsSuccessful();
+                $roInteractionRes = json_decode($this->client->getResponse()->getContent());
+                $this->assertObjectHasAttribute('id', $roInteractionRes);
+            }
+        }
+        else {
+            $this->assertEquals(null, $this->repairOrder);
+        }
     }
 
     public function testWaiverAcknowledged() {
-        // Ok
-        $endpoint      = '/acknowledged';
-        $repairOrderId = 3;
+        if ($this->repairOrder) {
+            $endpoint      = '/acknowledged';
+            $repairOrderId = $this->repairOrder->getId();
 
-        $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
-        $roInteractionRes = json_decode($this->client->getResponse()->getContent());
-        $this->assertResponseIsSuccessful();
+            $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
 
-        // Not found
-        $endpoint = '/acknowledged';
-        $repairOrderId = 2147483647;
-
-        $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            if ($this->repairOrder->getDeleted()) { // Deleted
+                $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            }
+            else if (!empty($this->repairOrder->getWaiverSignature())) { // Waiver has already been signed
+                $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+            }
+            else { // OK
+                $this->assertResponseIsSuccessful();
+                $roInteractionRes = json_decode($this->client->getResponse()->getContent());
+                $this->assertObjectHasAttribute('id', $roInteractionRes);
+            }
+        }
+        else {
+            $this->assertEquals(null, $this->repairOrder);
+        }
     }
 
     public function testWaiverResend() {
         $waiverActivateAuthMessage = $this->settingsHelper->getSetting('waiverActivateAuthMessage');
-        $ro = $this->entityManager
-                   ->getRepository(RepairOrder::class)
-                   ->createQueryBuilder('ro')
-                   ->setMaxResults(1)
-                   ->getQuery()
-                   ->getOneOrNullResult();
 
-        if ($ro) {
+        if ($this->repairOrder) {
             $endpoint      = '/re-send';
-            $repairOrderId = $ro;
+            $repairOrderId = $this->repairOrder->getId();
 
             $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
 
-            if ($ro->getDeleted()) { // Deleted
+            if ($this->repairOrder->getDeleted()) { // Deleted
                 $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
             }
-            else if (!empty($ro->getWaiverSignature())) { // Waiver has already been signed
+            else if (!empty($this->repairOrder->getWaiverSignature())) { // Waiver has already been signed
                 $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
             }
             else if (!$waiverActivateAuthMessage) { // Waiver is not enabled
@@ -117,7 +174,7 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
             }
         }
         else {
-            $this->assertEquals(null, $ro);
+            $this->assertEquals(null, $this->repairOrder);
         }
     }
 
