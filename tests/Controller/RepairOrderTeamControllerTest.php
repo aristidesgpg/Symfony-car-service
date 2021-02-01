@@ -42,6 +42,7 @@ class RepairOrderTeamControllerTest extends WebTestCase
 
     public function testNew()
     {
+        // OK
         $role = $this->faker->randomElements(['ROLE_TECHNICIAN', 'ROLE_PARTS_ADVISOR', 'ROLE_SERVICE_ADVISOR']);
         $user = $this->entityManager
                      ->getRepository(User::class)
@@ -73,6 +74,7 @@ class RepairOrderTeamControllerTest extends WebTestCase
     }
 
     public function testDelete() {
+        // OK
         $roTeam = $this->entityManager
                        ->getRepository(RepairOrderTeam::class)
                        ->createQueryBuilder('rot')

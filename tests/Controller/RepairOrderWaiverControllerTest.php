@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\RepairOrder;
+use App\Service\SettingsHelper;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -9,6 +11,15 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
     private $client = null;
 
     private $token;
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $entityManager;
+
+    private $settingsHelper;
+
+    private $repairOrder;
 
     /**
      * {@inheritDoc}
@@ -23,6 +34,10 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
 
         $authData = json_decode($this->client->getResponse()->getContent());
         $this->token = $authData->token;
+
+        $this->entityManager = self::$container->get('doctrine')
+                                               ->getManager();
+        $this->settingsHelper = self::$container->get(SettingsHelper::class);
     }
 
     public function testWaiverSigned() {
@@ -74,23 +89,36 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
     }
 
     public function testWaiverResend() {
-        // Ok
-        $endpoint      = '/re-send';
-        $repairOrderId = 5;
+        $waiverActivateAuthMessage = $this->settingsHelper->getSetting('waiverActivateAuthMessage');
+        $ro = $this->entityManager
+                   ->getRepository(RepairOrder::class)
+                   ->createQueryBuilder('ro')
+                   ->setMaxResults(1)
+                   ->getQuery()
+                   ->getOneOrNullResult();
 
-        $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        if ($ro) {
+            $endpoint      = '/re-send';
+            $repairOrderId = $ro;
 
-        // Waiver is already signed
-        $endpoint = '/re-send'; // TODO: fixture update
-        $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+            $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
 
-        // Not found
-        $endpoint      = '/re-send';
-        $repairOrderId = 2147483647;
-        $this->requestWaiverActions('POST', $endpoint, ['repairOrderId' => $repairOrderId]);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            if ($ro->getDeleted()) { // Deleted
+                $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            }
+            else if (!empty($ro->getWaiverSignature())) { // Waiver has already been signed
+                $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+            }
+            else if (!$waiverActivateAuthMessage) { // Waiver is not enabled
+                $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+            }
+            else { // OK
+                $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+            }
+        }
+        else {
+            $this->assertEquals(null, $ro);
+        }
     }
 
     private function requestWaiverActions($method, $endpoint, $params=[]) {
