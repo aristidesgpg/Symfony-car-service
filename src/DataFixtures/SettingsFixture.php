@@ -55,7 +55,7 @@ class SettingsFixture extends Fixture
             'pricingPartsTax' => '9.25',
             'waiverEstimateText' => 'Test Waiver Text. Please acknowledge that you understand.',
             'waiverActivateAuthMessage' => 1,
-            'waiverIntroText' => 'SIGN THIS NOW',
+            'waiverIntroText' => 'Welcome to (dealer name). Click the link below to begin your visit.',
             'advisorUsageEmails' => null,
             'openLate' => '0',
             'previewSalesVideoText' => 'Welcome to the coolest dealership!',
