@@ -310,52 +310,33 @@ class ServiceSMSController extends AbstractFOSRestController
         Request $request,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
-        EntityManagerInterface $em
+        ServiceSMSRepository $repo
     ): Response {
         $page = $request->query->getInt('page', 1);
         $user = $this->getUser();
         $role = $user->getRoles();
         $shareRepairOrders = $user->getShareRepairOrders();
-
+        $result = array();
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($role[0] == 'ROLE_ADMIN' || $role[0] == 'ROLE_SERVICE_MANAGER') {
-            $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
-                            FROM (select * from service_sms where date In (select max(date) from service_sms where is_read = 0 group by customer_id)) ss
-                            LEFT JOIN customer c ON c.id = ss.customer_id
-                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by customer_id) ss2 on (ss2.customer_id=ss.customer_id)
-                            group by ss.customer_id
-                            order by ss2.unread DESC, ss.date DESC";
+           $result = $repo->getTrheadsByAdmin();
 
-        } else {
+        } else {    
             if ($role[0] == 'ROLE_SERVICE_ADVISOR') {
+                $userId = $user->getId();
                 if ($shareRepairOrders) {
-                    $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
-                            FROM (select * from service_sms where date In (select max(date) from service_sms where is_read = 0 group by customer_id)) ss
-                            LEFT JOIN customer c ON c.id = ss.customer_id
-                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by user_id, customer_id) ss2 on (ss2.customer_id=ss.customer_id)
-                            Where ss.user_id In (select id from user where share_repair_orders=1)
-                            group by ss.customer_id
-                            order by ss2.unread DESC, ss.date DESC";
+                    $result = $repo->getThreadsByAdvisor($userId, true);
+
                 } else {
-                    $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
-                            FROM (select * from service_sms where date In (select max(date) from service_sms where is_read = 0 group by customer_id)) ss
-                            LEFT JOIN customer c ON c.id = ss.customer_id
-                            LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by user_id, customer_id) ss2 on (ss2.customer_id=ss.customer_id)
-                            Where ss.user_id = " . $user->getId() .
-                            " group by ss.customer_id
-                            order by ss2.unread DESC, ss.date DESC";
+                    $result = $repo->getThreadsByAdvisor($userId, false);
                 }
             } else {
                 return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
             }
         }
 
-        // $em = $this->getDoctrine()->getManager();
-        $statement = $em->getConnection()->prepare($threadQuery);
-        $statement->execute();
-
-        $pager = $paginator->paginate($statement->fetchAll(), $page, $pageLimit);
+        $pager = $paginator->paginate($result, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view(
