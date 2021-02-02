@@ -116,13 +116,14 @@ class ServiceSMSRepository extends ServiceEntityRepository
                 $statement->execute();
  
                 if($statement->fetch()['user_id'] == $userId){
-                     $query2    = "SELECT count(ss.id) as unread, ss3.message as message, ss3.date as date from service_sms ss 
+                     $query2   = "SELECT count(ss.id) as unread, ss3.message as message, ss3.date as date from service_sms ss 
                                 LEFT JOIN (select date,message,customer_id FROM service_sms ss WHERE date in (SELECT max(date) from service_sms ss2 
                                    WHERE is_read =0 group by customer_id)) ss3 on ss3.customer_id = ss.customer_id WHERE ss.customer_id = $customerId and ss.is_read =0";
                    
-                   $statement = $this->em->getConnection()->prepare($query2);
+                   $statement  = $this->em->getConnection()->prepare($query2);
                     $statement->execute();
                     $recentSMS = $statement->fetch();
+                    
                     if($recentSMS){
                         array_push($result, [
                             "id"      => $customerId,
