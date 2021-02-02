@@ -87,6 +87,11 @@ class Customer implements UserInterface {
      * @ORM\OneToMany(targetEntity=ServiceSMS::class, mappedBy="customer")
      */
     private $serviceSMS;
+    
+    /*
+     * @ORM\OneToMany(targetEntity=RepairOrderReviewInteractions::class, mappedBy="customer")
+     */
+    private $repairOrderReviewInteractions;
 
     /**
      * Customer constructor.
@@ -95,7 +100,10 @@ class Customer implements UserInterface {
         $this->primaryRepairOrders = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
         $this->repairOrderInteractions = new ArrayCollection();
+
         $this->serviceSMS = new ArrayCollection();
+
+        $this->repairOrderReviewInteractions = new ArrayCollection();
     }
 
     /**
@@ -337,6 +345,23 @@ class Customer implements UserInterface {
 
         return $this;
     }
+    /*
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
 
     public function removeServiceSM(ServiceSMS $serviceSM): self
     {
@@ -344,6 +369,19 @@ class Customer implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($serviceSM->getCustomer() === $this) {
                 $serviceSM->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getCustomer() === $this) {
+                $repairOrderReviewInteraction->setCustomer(null);
             }
         }
 

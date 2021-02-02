@@ -22,6 +22,8 @@ class RepairOrder
         'rot_list',
         'roqs_list',
         'operation_code_list',
+        'rov_list',
+        'ror_list',
     ];
 
     /**
@@ -234,6 +236,12 @@ class RepairOrder
     private $repairOrderInteractions;
 
     /**
+     * @ORM\OneToOne(targetEntity=RepairOrderReview::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $repairOrderReview;
+
+    /**
      * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="repairOrder", orphanRemoval=true)
      * @Serializer\Groups(groups={"ro_list"})
      */
@@ -323,6 +331,24 @@ class RepairOrder
     public function setMpiStatus(string $mpiStatus): self
     {
         $this->mpiStatus = $mpiStatus;
+
+        return $this;
+    }
+
+    public function getRepairOrderMPI(): ?RepairOrderMPI
+    {
+        return $this->repairOrderMPI;
+    }
+
+    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
+    {
+        $this->repairOrderMPI = $repairOrderMPI;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newRepairOrder = null === $repairOrderMPI ? null : $this;
+        if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
+            $repairOrderMPI->setRepairOrder($newRepairOrder);
+        }
 
         return $this;
     }
@@ -584,24 +610,6 @@ class RepairOrder
         return $this;
     }
 
-    public function getRepairOrderMPI(): ?RepairOrderMPI
-    {
-        return $this->repairOrderMPI;
-    }
-
-    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
-    {
-        $this->repairOrderMPI = $repairOrderMPI;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newRepairOrder = null === $repairOrderMPI ? null : $this;
-        if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
-            $repairOrderMPI->setRepairOrder($newRepairOrder);
-        }
-
-        return $this;
-    }
-
     public function isArchived(): bool
     {
         return $this->archived === true;
@@ -661,6 +669,23 @@ class RepairOrder
         if (!$this->repairOrderInteractions->contains($repairOrderInteraction)) {
             $this->repairOrderInteractions[] = $repairOrderInteraction;
             $repairOrderInteraction->setRepairOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function getRepairOrderReview(): ?RepairOrderReview
+    {
+        return $this->repairOrderReview;
+    }
+
+    public function setRepairOrderReview(RepairOrderReview $repairOrderReview): self
+    {
+        $this->repairOrderReview = $repairOrderReview;
+
+        // set the owning side of the relation if necessary
+        if ($repairOrderReview->getRepairOrder() !== $this) {
+            $repairOrderReview->setRepairOrder($this);
         }
 
         return $this;

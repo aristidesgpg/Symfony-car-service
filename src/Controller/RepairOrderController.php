@@ -8,6 +8,7 @@ use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
+use App\Service\MyReviewHelper;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
@@ -73,7 +74,7 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="needsVideo",
      *     type="boolean",
-     *     description="Only return ROs that do not have a video",
+     *     description="Only return ROs that do not have a video. NOTE: Will ignore all other filters",
      *     in="query"
      * )
      * @SWG\Parameter(
@@ -182,17 +183,23 @@ class RepairOrderController extends AbstractFOSRestController
         if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
         }
+
         $user = $this->getUser();
-        $items = $repairOrderRepo->getAllItems(
-            $user,
-            $userRepo,
-            $startDate,
-            $endDate,
-            $sortField,
-            $sortDirection,
-            $searchTerm,
-            $fields
-        );
+
+        if ($request->get('needsVideo')) {
+            $items = $repairOrderRepo->findByNeedsVideo($user, $sortField, $sortDirection, $searchTerm);
+        } else {
+            $items = $repairOrderRepo->getAllItems(
+                $user,
+                $userRepo,
+                $startDate,
+                $endDate,
+                $sortField,
+                $sortDirection,
+                $searchTerm,
+                $fields
+            );
+        }
 
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
@@ -234,10 +241,6 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        // if ($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()) {
-        //     $repairOrder->setRepairOrderQuote(null);
-        // }
-
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -268,10 +271,6 @@ class RepairOrderController extends AbstractFOSRestController
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
         }
-
-        // if ($repairOrder->getRepairOrderQuote() && $repairOrder->getRepairOrderQuote()->getDeleted()) {
-        //     $repairOrder->setRepairOrderQuote(null);
-        // }
 
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -461,11 +460,16 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Response(response="400", description="RO is already closed")
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function close(RepairOrder $ro, RepairOrderHelper $helper): Response
-    {
+    public function close(
+        RepairOrder $ro,
+        RepairOrderHelper $helper,
+        MyReviewHelper $myReviewHelper,
+        SettingsHelper $settingsHelper
+    ): Response {
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
+
         if ($ro->isClosed() === true) {
             return $this->handleView(
                 $this->view(
@@ -477,6 +481,13 @@ class RepairOrderController extends AbstractFOSRestController
             );
         }
         $helper->closeRepairOrder($ro);
+
+        //if myReviewActivated is true, proceed with review action
+        $isMyReviewActivated = $settingsHelper->getSetting('myReviewActivated');
+        if ($isMyReviewActivated) {
+            $user = $this->getUser();
+            $myReviewHelper->new($ro, $user);
+        }
 
         return $this->handleView(
             $this->view(

@@ -553,6 +553,24 @@ class User implements UserInterface {
         return $this;
     }
     /**
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /*
      * @return Collection|RepairOrderTeam[]
      */
     public function getRepairOrderTeams(): Collection
@@ -577,6 +595,19 @@ class User implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderInteraction->getUser() === $this) {
                 $repairOrderInteraction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getUser() === $this) {
+                $repairOrderReviewInteraction->setUser(null);
             }
         }
 
