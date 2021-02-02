@@ -54,22 +54,32 @@ class ServiceSMSRepository extends ServiceEntityRepository
     }
     */
     public function getTrheadsByAdmin(){
-        $threadQuery = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
+        $threadQuery    = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
                             FROM (select * from service_sms where date In (select max(date) from service_sms where is_read = 0 group by customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
                             LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by customer_id) ss2 on (ss2.customer_id=ss.customer_id)
-                            order by ss2.unread DESC, ss.date DESC";
-         $statement   = $this->em->getConnection()->prepare($threadQuery);
+                            order by ss.date DESC";
+         $statement     = $this->em->getConnection()->prepare($threadQuery);
          $statement->execute();
  
-         $result      = $statement->fetchAll();
+         $result        = $statement->fetchAll();
+         
+         $query         = "select c.id,ss4.date,ss4.message, if(ss1.unread = 1, 0,1) as unreads  from (select customer_id , min(is_read) as unread from service_sms ss group by customer_id)ss1 
+                        LEFT JOIN customer c ON c.id = ss1.customer_id
+                        LEFT JOIN (select customer_id, message, date from service_sms ss2 where date in (select MAX(date) from service_sms ss3 group by customer_id)) ss4 ON ss4.customer_id = ss1.customer_id
+                        where unread = 1 order by date DESC ";
+         $statement     = $this->em->getConnection()->prepare($query);
+         $statement->execute();
+         $readCustomers = $statement->fetchAll();
+
+         $result        = array_merge($result, $readCustomers);
 
          return $result;
     }
     
     public function getThreadsByAdvisor($userId, $isShared)
     {
-        $result      = array();
+        $result         = array();
 
         //when there are repairOrders for the customer
         if($isShared){
@@ -136,7 +146,21 @@ class ServiceSMSRepository extends ServiceEntityRepository
                 }
             }
         }
- 
+        
+        usort($result, function($a, $b){
+            return $a["date"] < $b["date"]?1:-1;
+        });
+        
+        $query           = "select c.id,ss4.date,ss4.message, if(ss1.unread = 1, 0,1) as unreads  from (select customer_id , min(is_read) as unread from service_sms ss group by customer_id)ss1 
+                        LEFT JOIN customer c ON c.id = ss1.customer_id
+                        LEFT JOIN (select customer_id, message, date from service_sms ss2 where date in (select MAX(date) from service_sms ss3 group by customer_id)) ss4 ON ss4.customer_id = ss1.customer_id
+                        where unread = 1 order by date DESC ";
+        $statement       = $this->em->getConnection()->prepare($query);
+        $statement->execute();
+        $readCustomers   = $statement->fetchAll();
+
+        $result = array_merge($result, $readCustomers);
+
         return $result;
     }
     
