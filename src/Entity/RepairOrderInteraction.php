@@ -2,56 +2,54 @@
 
 namespace App\Entity;
 
-use App\Repository\RepairOrderMPIInteractionRepository;
+use App\Repository\RepairOrderInteractionRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
- * @ORM\Entity(repositoryClass=RepairOrderMPIInteractionRepository::class)
- * @ORM\Table(name="repair_order_mpi_interaction")
+ * @ORM\Entity(repositoryClass=RepairOrderInteractionRepository::class)
  */
-class RepairOrderMPIInteraction
+class RepairOrderInteraction
 {
-    public const GROUPS = ['romi_list', 'rom_list', 'user_list', 'customer_list'];
+    public const GROUPS = ['ro_interaction_list', 'customer_list'];
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Serializer\Groups(groups={"romi_list"})
+     * @Serializer\Groups(groups={"ro_interaction_list"})
      */
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=RepairOrderMPI::class, inversedBy="repairOrderMPIInteractions")
-     * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Groups(groups={"romi_list"})
+     * @ORM\ManyToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderInteractions")
      */
-    private $repairOrderMPI;
+    private $repairOrder;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="repairOrderMPIInteractions")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="repairOrderInteractions")
      * @ORM\JoinColumn(nullable=true)
-     * @Serializer\Groups(groups={"romi_list"})
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="repairOrderMPIInteractions")
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="repairOrderInteractions")
      * @ORM\JoinColumn(nullable=true)
-     * @Serializer\Groups(groups={"romi_list"})
+     * @Serializer\Groups(groups={"ro_interaction_list"})
      */
     private $customer;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Serializer\Groups(groups={"romi_list"})
+     * @Serializer\Groups(groups={"ro_interaction_list"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Serializer\Groups(groups={"romi_list"})
+     * @Serializer\Groups(groups={"ro_interaction_list"})
      */
     private $date;
 
@@ -65,14 +63,14 @@ class RepairOrderMPIInteraction
         return $this->id;
     }
 
-    public function getRepairOrderMPI(): ?RepairOrderMPI
+    public function getRepairOrder(): ?RepairOrder
     {
-        return $this->repairOrderMPI;
+        return $this->repairOrder;
     }
 
-    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
+    public function setRepairOrder(?RepairOrder $repairOrder): self
     {
-        $this->repairOrderMPI = $repairOrderMPI;
+        $this->repairOrder = $repairOrder;
 
         return $this;
     }
@@ -113,14 +111,18 @@ class RepairOrderMPIInteraction
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date = null): self
     {
-        $this->date = $date;
+        if (!$date) {
+            $this->date = new DateTime();
+        } else {
+            $this->date = $date;
+        }
 
         return $this;
     }

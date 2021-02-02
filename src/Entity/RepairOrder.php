@@ -14,7 +14,17 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrder
 {
-    public const GROUPS = ['ro_list', 'customer_list', 'user_list', 'roq_list', 'rot_list'];
+    public const GROUPS = [
+        'ro_list',
+        'customer_list',
+        'user_list',
+        'roq_list',
+        'rot_list',
+        'roqs_list',
+        'operation_code_list',
+        'rov_list',
+        'ror_list',
+    ];
 
     /**
      * @ORM\Id
@@ -170,11 +180,13 @@ class RepairOrder
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
-    private $waiver;
+    private $waiverSignature;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
      */
     private $waiverVerbiage;
 
@@ -219,6 +231,17 @@ class RepairOrder
     private $repairOrderQuote;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderInteraction::class, mappedBy="repairOrder")
+     */
+    private $repairOrderInteractions;
+
+    /**
+     * @ORM\OneToOne(targetEntity=RepairOrderReview::class, mappedBy="repairOrder", cascade={"persist", "remove"})
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $repairOrderReview;
+
+    /**
      * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="repairOrder", orphanRemoval=true)
      * @Serializer\Groups(groups={"ro_list"})
      */
@@ -231,6 +254,7 @@ class RepairOrder
     {
         $this->dateCreated = new DateTime();
         $this->videos = new ArrayCollection();
+        $this->repairOrderInteractions = new ArrayCollection();
         $this->repairOrderTeam = new ArrayCollection();
     }
 
@@ -307,6 +331,24 @@ class RepairOrder
     public function setMpiStatus(string $mpiStatus): self
     {
         $this->mpiStatus = $mpiStatus;
+
+        return $this;
+    }
+
+    public function getRepairOrderMPI(): ?RepairOrderMPI
+    {
+        return $this->repairOrderMPI;
+    }
+
+    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
+    {
+        $this->repairOrderMPI = $repairOrderMPI;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newRepairOrder = null === $repairOrderMPI ? null : $this;
+        if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
+            $repairOrderMPI->setRepairOrder($newRepairOrder);
+        }
 
         return $this;
     }
@@ -520,14 +562,14 @@ class RepairOrder
         return $this;
     }
 
-    public function getWaiver(): ?string
+    public function getWaiverSignature(): ?string
     {
-        return $this->waiver;
+        return $this->waiverSignature;
     }
 
-    public function setWaiver(?string $waiver): self
+    public function setWaiverSignature(?string $waiverSignature): self
     {
-        $this->waiver = $waiver;
+        $this->waiverSignature = $waiverSignature;
 
         return $this;
     }
@@ -564,24 +606,6 @@ class RepairOrder
     public function setDeleted(bool $deleted): self
     {
         $this->deleted = $deleted;
-
-        return $this;
-    }
-
-    public function getRepairOrderMPI(): ?RepairOrderMPI
-    {
-        return $this->repairOrderMPI;
-    }
-
-    public function setRepairOrderMPI(?RepairOrderMPI $repairOrderMPI): self
-    {
-        $this->repairOrderMPI = $repairOrderMPI;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newRepairOrder = null === $repairOrderMPI ? null : $this;
-        if ($repairOrderMPI->getRepairOrder() !== $newRepairOrder) {
-            $repairOrderMPI->setRepairOrder($newRepairOrder);
-        }
 
         return $this;
     }
@@ -632,6 +656,41 @@ class RepairOrder
         return $this;
     }
 
+    /**
+     * @return Collection|RepairOrderInteraction[]
+     */
+    public function getRepairOrderInteractions(): Collection
+    {
+        return $this->repairOrderInteractions;
+    }
+
+    public function addRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if (!$this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions[] = $repairOrderInteraction;
+            $repairOrderInteraction->setRepairOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function getRepairOrderReview(): ?RepairOrderReview
+    {
+        return $this->repairOrderReview;
+    }
+
+    public function setRepairOrderReview(RepairOrderReview $repairOrderReview): self
+    {
+        $this->repairOrderReview = $repairOrderReview;
+
+        // set the owning side of the relation if necessary
+        if ($repairOrderReview->getRepairOrder() !== $this) {
+            $repairOrderReview->setRepairOrder($this);
+        }
+
+        return $this;
+    }
+
     public function getNotes(): array
     {
         return $this->notes->toArray();
@@ -654,6 +713,19 @@ class RepairOrder
         if (!$this->repairOrderTeam->contains($repairOrderTeam)) {
             $this->repairOrderTeam[] = $repairOrderTeam;
             $repairOrderTeam->setRepairOrder($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if ($this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions->removeElement($repairOrderInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderInteraction->getRepairOrder() === $this) {
+                $repairOrderInteraction->setRepairOrder(null);
+            }
         }
 
         return $this;

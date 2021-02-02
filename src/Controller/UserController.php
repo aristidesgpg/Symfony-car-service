@@ -85,24 +85,14 @@ class UserController extends AbstractFOSRestController
      *         description="firstName, lastName, email, phone, roles, active, lastLogin, processRefund, shareRepairOrders"
      *     )
      * )
-<<<<<<< HEAD
-=======
      *
->>>>>>> 28c124e518c5eeef12109b85e847978a7ec841c0
      * @SWG\Response(
      *     response="400",
      *     description="Invalid Role Parameter"
      * )
-     * 
+     *
      * @SWG\Response(response="404", description="Invalid page parameter")
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
-     * 
-     * @param Request                $request
-     * @param UserRepository         $userRepo
-     * @param UserHelper             $userHelper
-     * @param PaginatorInterface     $paginator
-     * @param UrlGeneratorInterface  $urlGenerator
-     * @param EntityManagerInterface $em
      *
      * @return Response
      */
@@ -524,8 +514,7 @@ class UserController extends AbstractFOSRestController
              ->setPhone($phone)
              ->setPin($pin)
              ->setRole($role);
-
-        if ($password) {
+        if($password){
             $user->setPassword($userHelper->passwordEncoder($user, $password));
         }
 
