@@ -263,14 +263,13 @@ class MPIController extends AbstractFOSRestController
         $name = $request->get('name');
         $axleInfo = $request->get('axleInfo');
 
-        //convert string to object
-        $obj = json_decode($axleInfo);
-        $numberOfAxles = count($obj);
-
-        //check if params are valid
         if (!$name || !$axleInfo) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
+
+        // Convert string to object
+        $obj = json_decode($axleInfo);
+        $numberOfAxles = count($obj);
 
         //create a new template
         $mpiTemplate = new MPITemplate();
@@ -280,13 +279,13 @@ class MPIController extends AbstractFOSRestController
 
         // create new Brakes configuration group and MPI items
         $brakeConfiguration = new MPIGroup();
-        $brakeConfiguration->setName("Brakes Configuration")
+        $brakeConfiguration->setName('Brakes Configuration')
                            ->setMPITemplate($mpiTemplate);
         $mpiTemplate->addMPIGroup($brakeConfiguration);
         $em->persist($brakeConfiguration);
 
         $tireConfiguration = new MPIGroup();
-        $tireConfiguration->setName("Tire Configuration")
+        $tireConfiguration->setName('Tire Configuration')
                           ->setMPITemplate($mpiTemplate);
         $mpiTemplate->addMPIGroup($tireConfiguration);
         $em->persist($tireConfiguration);
@@ -295,8 +294,8 @@ class MPIController extends AbstractFOSRestController
         //create MPI Items
         foreach ($obj as $index => $axle) {
             if ($numberOfAxles == 2) {
-                $itemPassenger = $index == 0 ? "Front Passenger" : "Rear Passenger";
-                $itemDriver = $index == 0 ? "Front Driver" : "Rear Driver";
+                $itemPassenger = $index == 0 ? 'Front Passenger' : 'Rear Passenger';
+                $itemDriver = $index == 0 ? 'Front Driver' : 'Rear Driver';
                 $itemNames = [$itemPassenger, $itemDriver];
                 //create brake items
                 $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
@@ -306,20 +305,22 @@ class MPIController extends AbstractFOSRestController
                 }
             } else {
                 if ($numberOfAxles > 2) {
-                    $itemPassenger = "Axle".($index + 1)." - Passenger";
-                    $itemDriver = "Axle".($index + 1)." - Driver";
+                    $itemPassenger = 'Axle'.($index + 1).' - Passenger';
+                    $itemDriver = 'Axle'.($index + 1).' - Driver';
                     $itemNames = [$itemPassenger, $itemDriver];
+
                     //create brake items
                     $mpiTemplateHelper->createMPIItems('brake', $itemNames, $axle, $brakeConfiguration);
+
                     //create tire items
                     if ($axle->wheels == 2) {
                         $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
                     } else {
                         if ($axle->wheels == 4) {
-                            $itemPassengerInner = "Axle".($index + 1)." - Passenger Inner";
-                            $itemPassengerOuter = "Axle".($index + 1)." - Passenger Outer";
-                            $itemDriverInner = "Axle".($index + 1)." - Driver Inner";
-                            $itemDriverOuter = "Axle".($index + 1)." - Driver Outer";
+                            $itemPassengerInner = 'Axle'.($index + 1).' - Passenger Inner';
+                            $itemPassengerOuter = 'Axle'.($index + 1).' - Passenger Outer';
+                            $itemDriverInner = 'Axle'.($index + 1).' - Driver Inner';
+                            $itemDriverOuter = 'Axle'.($index + 1).' - Driver Outer';
                             $itemNames = [$itemPassengerInner, $itemPassengerOuter, $itemDriverInner, $itemDriverOuter];
 
                             $mpiTemplateHelper->createMPIItems('tire', $itemNames, $axle, $tireConfiguration);
