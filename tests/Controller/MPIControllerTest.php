@@ -74,7 +74,7 @@ class MPIControllerTest extends WebTestCase
     public function testCreateTemplate() {
         // Ok
         $name     = 'MPI Template Name';
-        $axleInfo = "[{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6},{'wheels':4,'brakesRangeMaximum':12,'tireRangeMaximum':12},{'wheels':2,'brakesRangeMaximum':10,'tireRangeMaximum':6}]";
+        $axleInfo = '[{"wheels":2,"brakesRangeMaximum":10,"tireRangeMaximum":6},{"wheels":4,"brakesRangeMaximum":12,"tireRangeMaximum":12},{"wheels":2,"brakesRangeMaximum":10,"tireRangeMaximum":6}]';
         $params   = [
             'name'     => $name,
             'axleInfo' => $axleInfo
