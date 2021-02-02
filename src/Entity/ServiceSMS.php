@@ -26,7 +26,7 @@ class ServiceSMS
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="serviceSMS")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Serializer\Groups({"sms_list"})
      */
     private $user;
