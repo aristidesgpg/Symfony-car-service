@@ -8,7 +8,6 @@ use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -58,42 +57,12 @@ class PriceMatrixController extends AbstractFOSRestController
      *
      * @param Request               $request
      * @param PriceMatrixRepository $priceMatrixRepository
-     * @param PaginatorInterface    $paginator
-     * @param UrlGeneratorInterface $urlGenerator
      *
      * @return Response
      */
-    public function list(
-        Request $request,
-        PriceMatrixRepository $priceMatrixRepository,
-        PaginatorInterface $paginator,
-        UrlGeneratorInterface $urlGenerator
-    ): Response {
-        $page          = $request->query->getInt('page', 1);
-        $urlParameters = [];
-
-        // Invalid page
-        if ($page < 1) {
-            throw new NotFoundHttpException();
-        }
-
-        $priceMatrixQuery = $priceMatrixRepository->getAllItems();
-        $pageLimit        = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $pager            = $paginator->paginate($priceMatrixQuery, $page, $pageLimit);
-        $pagination       = new Pagination($pager, $pageLimit, $urlGenerator);
-
-        $json = [
-            'priceMatrixs' => $pager->getItems(),
-            'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('app_pricematrix_list', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('app_pricematrix_list', $urlParameters)
-        ];
-
-        $view = $this->view($json);
-
-        return $this->handleView($view);
+    public function list(Request $request, PriceMatrixRepository $priceMatrixRepository): Response {
+        $priceMatrixes = $priceMatrixRepository->findAll();
+        return $this->handleView($this->view($priceMatrixes ,Response::HTTP_OK));
     }
 
     /**
