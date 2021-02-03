@@ -19,6 +19,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -67,7 +68,7 @@ class ServiceSMSController extends AbstractFOSRestController
         Request $request,
         TwilioHelper $twilioHelper,
         EntityManagerInterface $em,
-        CustomerRepository $customerRepo 
+        CustomerRepository $customerRepo
     ) {
         $customerID = $request->get('customerID');
         $message = $request->get('message');
@@ -77,25 +78,18 @@ class ServiceSMSController extends AbstractFOSRestController
         }
 
         $user = $this->getUser();
-        
+
         $customer = $customerRepo->find($customerID);
         if (!$customer) {
             return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
 
-        $sid = $twilioHelper->sendSms($customer->getPhone(), $message);
-
-        $serviceSMS = new ServiceSMS();
-        $serviceSMS->setUser($user)
-                   ->setCustomer($customer)
-                   ->setPhone($customer->getPhone())
-                   ->setMessage($twilioHelper->Encode($message))
-                   ->setIncoming(false)
-                   ->setIsRead(true)
-                   ->setSid($sid);
-
-        $em->persist($serviceSMS);
-        $em->flush();
+        // send message to a customer
+        try {
+            $twilioHelper->sendSms($customer, $message);
+        } catch (Exception $e) {
+            throw new InternalErrorException($e);
+        }
 
         return $this->handleView(
             $this->view(
@@ -144,7 +138,8 @@ class ServiceSMSController extends AbstractFOSRestController
         if (!$customer) {
             return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
-        $sid = $twilioHelper->sendSms($customer->getPhone(), $twilioHelper->Decode($message));
+        //send message to a customer
+        $sid = $twilioHelper->sendSms($customer, $twilioHelper->Decode($message));
 
         $serviceSMS->setIncoming(false)
                    ->setSid($sid)

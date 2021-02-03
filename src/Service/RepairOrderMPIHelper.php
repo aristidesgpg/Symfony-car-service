@@ -30,6 +30,7 @@ class RepairOrderMPIHelper
     private $parameterBag;
     private $shortUrlHelper;
     private $user;
+    private $twilioHelper;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -40,7 +41,8 @@ class RepairOrderMPIHelper
         SettingsHelper $settingsHelper,
         ParameterBagInterface $parameterBag,
         ShortUrlHelper $shortUrlHelper,
-        Security $security
+        Security $security,
+        TwilioHelper $twilioHelper
     ) {
         $this->em = $em;
         $this->repo = $repo;
@@ -51,6 +53,7 @@ class RepairOrderMPIHelper
         $this->parameterBag = $parameterBag;
         $this->shortUrlHelper = $shortUrlHelper;
         $this->user = $security->getUser();
+        $this->twilioHelper = $twilioHelper;
     }
 
     /**
@@ -123,13 +126,15 @@ class RepairOrderMPIHelper
     {
         $repairOrder = $repairOrderMPI->getRepairOrder();
         $dealer = $this->settingsHelper->getSetting('generalName');
-        $phone = $repairOrderMPI->getRepairOrder()->getPrimaryCustomer()->getPhone();
+        $customer = $repairOrderMPI->getRepairOrder()->getPrimaryCustomer();
         $message = 'Your Multi Point Inspection Report is ready from '.$dealer;
         $customerURL = $this->parameterBag->get('customer_url');
         $url = $customerURL.$repairOrder->getLinkHash();
+        $shortURL = $this->shortUrlHelper->generateShortUrl($url);
+        $message = $message.' '.$shortURL;
 
         try {
-            $this->shortUrlHelper->sendShortenedLink($phone, $message, $url);
+            $this->twilioHelper->sendSms($customer, $message);
         } catch (Exception $e) {
             return;
         }

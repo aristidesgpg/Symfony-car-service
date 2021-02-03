@@ -82,10 +82,10 @@ class SettingsFixture extends Fixture
             'generalState' => null,
             'generalZip' => null,
             'generalPhone' => null,
-            'myReviewGoogleURL' => null,
-            'myReviewFacebookURL' => null,
+            'myReviewGoogleURL' => 'https://www.google.com',
+            'myReviewFacebookURL' => 'https://www.facebook.com',
             'myReviewText' => 'Please leave your review for our company.',
-            'myReviewActivated' => 0,
+            'myReviewActivated' => 1,
         ];
 
         foreach ($settings as $k => $v) {

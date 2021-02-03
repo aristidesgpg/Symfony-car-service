@@ -21,6 +21,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -175,7 +176,6 @@ class RepairOrderController extends AbstractFOSRestController
             $urlParameters['sortField'] = $sortField;
         }
 
-
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }
@@ -329,26 +329,28 @@ class RepairOrderController extends AbstractFOSRestController
             return new ValidationResponse($ro);
         }
 
-        if (!$waiverActivateAuthMessage) {
+        // Send waiver or intro message
+        try {
             // waiver disabled so send regular text
-            $twilioHelper->sendSms($ro->getPrimaryCustomer()->getPhone(), $welcomeMessage);
-        } else {
-            // waiver enabled
-            $url = $customerURL.$ro->getLinkHash();
-            $shortUrl = $shortUrlHelper->generateShortUrl($url);
-            try {
-                $phone = $ro->getPrimaryCustomer()->getPhone();
-                $shortUrlHelper->sendShortenedLink($phone, $waiverIntroText, $shortUrl, true);
-            } catch (Exception $e) {
-                throw new Exception($e);
-            }
+            if (!$waiverActivateAuthMessage) {
+                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
+            } else {
+                // waiver enabled
+                $url = $customerURL.$ro->getLinkHash();
+                $shortUrl = $shortUrlHelper->generateShortUrl($url);
+                $waiverMessage = $waiverIntroText .' '.$shortUrl;
 
-            $roInteraction = new RepairOrderInteraction();
-            $roInteraction->setRepairOrder($ro)
-                          ->setUser($this->getUser())
-                          ->setType('Waiver Sent');
-            $em->persist($roInteraction);
-            $em->flush();
+                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
+
+                $roInteraction = new RepairOrderInteraction();
+                $roInteraction->setRepairOrder($ro)
+                              ->setUser($this->getUser())
+                              ->setType('Waiver Sent');
+                $em->persist($roInteraction);
+                $em->flush();
+            }
+        } catch (Exception $e) {
+            throw new InternalErrorException($e);
         }
 
         $view = $this->view($ro);
