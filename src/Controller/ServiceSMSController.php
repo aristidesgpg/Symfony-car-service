@@ -37,13 +37,6 @@ class ServiceSMSController extends AbstractFOSRestController
      * @SWG\Post(description="Send a message to a customer")
      *
      * @SWG\Parameter(
-     *     name="userID",
-     *     in="formData",
-     *     required=true,
-     *     type="integer",
-     *     description="The User ID",
-     * )
-     * @SWG\Parameter(
      *     name="customerID",
      *     in="formData",
      *     required=true,
@@ -78,7 +71,6 @@ class ServiceSMSController extends AbstractFOSRestController
         CustomerRepository $customerRepo,
         UserRepository $userRepo
     ) {
-        $userID = $request->get('userID');
         $customerID = $request->get('customerID');
         $message = $request->get('message');
 
@@ -88,11 +80,8 @@ class ServiceSMSController extends AbstractFOSRestController
         }
 
         // check if user exists
-        $user = $userRepo->find($userID);
-        if (!$user) {
-            return $this->handleView($this->view('User Does Not Exist', Response::HTTP_BAD_REQUEST));
-        }
-
+        $user = $this->getUser();
+        
         // check if customer exists
         $customer = $customerRepo->find($customerID);
         if (!$customer) {
@@ -105,7 +94,7 @@ class ServiceSMSController extends AbstractFOSRestController
         // save message
         $serviceSMS = new ServiceSMS();
         $serviceSMS->setUser($user)
-                   ->setCustomer($customerID)
+                   ->setCustomer($customer)
                    ->setPhone($customer->getPhone())
                    ->setMessage($twilioHelper->Encode($message))
                    ->setIncoming(false)

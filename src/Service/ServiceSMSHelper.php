@@ -55,7 +55,7 @@ class ServiceSMSHelper
         $statement = $this->em->getConnection()->prepare($threadQuery);
         $statement->execute();
 
-        return $statement->fetchAll();
+        return $statement->fetchAllAssociative();
     }
 
     private function getThreadsByAdvisor($userId, $searchTerm, $isShared)
@@ -89,7 +89,7 @@ class ServiceSMSHelper
         $statement = $this->em->getConnection()->prepare($threadQuery);
         $statement->execute();
 
-        $result = $statement->fetchAll();
+        $result = $statement->fetchAllAssociative();
 
         //get all customers
         if ($searchTerm) {
@@ -99,7 +99,7 @@ class ServiceSMSHelper
         $query = "SELECT c.id as id, c.name as name FROM service_sms ss LEFT JOIN customer c on c.id = ss.customer_id $searchQuery  group by customer_id";
         $statement = $this->em->getConnection()->prepare($query);
         $statement->execute();
-        $customers = $statement->fetchAll();
+        $customers = $statement->fetchAllAssociative();
 
         foreach ($customers as $customer) {
             $customerId = $customer['id'];
@@ -113,14 +113,14 @@ class ServiceSMSHelper
                 $statement = $this->em->getConnection()->prepare($query1);
                 $statement->execute();
 
-                if ($statement->fetch()['user_id'] == $userId) {
+                if ($statement->fetchAssociative()['user_id'] == $userId) {
                     $query2 = "SELECT SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread, ss3.message as message, ss3.date as date from service_sms ss 
                                   LEFT JOIN (select date,message,customer_id FROM service_sms ss WHERE date in (SELECT max(date) from service_sms ss2 
                                   group by customer_id)) ss3 on ss3.customer_id = ss.customer_id WHERE ss.customer_id = $customerId";
 
                     $statement = $this->em->getConnection()->prepare($query2);
                     $statement->execute();
-                    $recentSMS = $statement->fetch();
+                    $recentSMS = $statement->fetchAssociative();
 
                     if ($recentSMS) {
                         array_push(
