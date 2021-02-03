@@ -74,24 +74,19 @@ class ServiceSMSController extends AbstractFOSRestController
         $customerID = $request->get('customerID');
         $message = $request->get('message');
 
-        // check if parameters are valid
         if (!$customerID || !$message) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        // check if user exists
         $user = $this->getUser();
         
-        // check if customer exists
         $customer = $customerRepo->find($customerID);
         if (!$customer) {
             return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
 
-        // send message to a customer
         $sid = $twilioHelper->sendSms($customer->getPhone(), $message);
 
-        // save message
         $serviceSMS = new ServiceSMS();
         $serviceSMS->setUser($user)
                    ->setCustomer($customer)
@@ -143,20 +138,16 @@ class ServiceSMSController extends AbstractFOSRestController
         $message = $serviceSMS->getMessage();
         $incoming = $serviceSMS->getIncoming();
 
-        //check if message is inbound
         if ($incoming) {
             return $this->handleView($this->view('Can not Resend Inbound Message', Response::HTTP_BAD_REQUEST));
         }
 
-        //check if customer exists
         $customer = $customerRepo->find($customerID);
         if (!$customer) {
             return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
         }
-        //send message to a customer
         $sid = $twilioHelper->sendSms($customer->getPhone(), $twilioHelper->Decode($message));
 
-        //update serviceSMS
         $serviceSMS->setIncoming(false)
                    ->setSid($sid)
                    ->setIsRead(true);
@@ -253,7 +244,6 @@ class ServiceSMSController extends AbstractFOSRestController
         Customer $customer,
         ServiceSMSRepository $serviceSMSRepo
     ): Response {
-        //get service messages
         $messages = $serviceSMSRepo->findBy(['customer' => $customer->getId()]);
 
         $view = $this->view($messages);
