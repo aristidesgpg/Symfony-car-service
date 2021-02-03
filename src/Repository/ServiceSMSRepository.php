@@ -155,7 +155,7 @@ class ServiceSMSRepository extends ServiceEntityRepository
         }
         
         $result1 = array_filter($result, function($item){if($item["unread"]!=="0") return true; });
-        $result2 = array_filter($result, function($item){if($item["unread"]==="0") return true;});
+        $result2 = array_filter($result, function($item){if($item["unread"]==="0") return true; });
         
         usort($result1, function($a, $b){
             return $a["date"] < $b["date"]?1:-1;
