@@ -319,23 +319,21 @@ class ServiceSMSController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         ServiceSMSHelper $helper
     ): Response {
-        $page              = $request->query->getInt('page', 1);
-        $searchTerm        = $request->query->get('searchTerm', "");
-        $pageLimit         = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $page = $request->query->getInt('page', 1);
+        $searchTerm = $request->query->get('searchTerm', '');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $result = $helper->getThreads($searchTerm);
+        $pager = $paginator->paginate($result, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $result            = $helper->getThreads($searchTerm);
-        
-        $pager             = $paginator->paginate($result, $page, $pageLimit);
-        $pagination        = new Pagination($pager, $pageLimit, $urlGenerator);
-
-        $view              = $this->view(
+        $view = $this->view(
             [
-                'results'      => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages'   => $pagination->totalPages,
-                'previous'     => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
-                'currentPage'  => $pagination->currentPage,
-                'next'         => $pagination->getNextPageURL('app_servicesms_getthreads'),
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_servicesms_getthreads'),
             ]
         );
 
