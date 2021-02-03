@@ -8,7 +8,6 @@ use App\Entity\ServiceSMSLog;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\CustomerRepository;
 use App\Repository\ServiceSMSRepository;
-use App\Repository\UserRepository;
 use App\Service\Pagination;
 use App\Service\PhoneValidator;
 use App\Service\ServiceSMSHelper;
@@ -68,8 +67,7 @@ class ServiceSMSController extends AbstractFOSRestController
         Request $request,
         TwilioHelper $twilioHelper,
         EntityManagerInterface $em,
-        CustomerRepository $customerRepo,
-        UserRepository $userRepo
+        CustomerRepository $customerRepo 
     ) {
         $customerID = $request->get('customerID');
         $message = $request->get('message');
