@@ -11,6 +11,7 @@ use App\Repository\ServiceSMSRepository;
 use App\Repository\UserRepository;
 use App\Service\Pagination;
 use App\Service\PhoneValidator;
+use App\Service\ServiceSMSHelper;
 use App\Service\TwilioHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -316,32 +317,14 @@ class ServiceSMSController extends AbstractFOSRestController
         Request $request,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
-        ServiceSMSRepository $repo
+        ServiceSMSHelper $helper
     ): Response {
         $page              = $request->query->getInt('page', 1);
-        $user              = $this->getUser();
-        $role              = $user->getRoles();
-        
-        $shareRepairOrders = $user->getShareRepairOrders();
         $searchTerm        = $request->query->get('searchTerm', "");
         $pageLimit         = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $result            = array();
 
-        if ($role[0] == 'ROLE_ADMIN' || $role[0] == 'ROLE_SERVICE_MANAGER') {
-           $result = $repo->getThreadsByAdmin($searchTerm);
-        } else if ($role[0] == 'ROLE_SERVICE_ADVISOR') {
-            $userId        = $user->getId();
-
-            if ($shareRepairOrders) {
-                $result    = $repo->getThreadsByAdvisor($userId, $searchTerm, true);
-            } else {
-                $result    = $repo->getThreadsByAdvisor($userId, $searchTerm, false);
-            }
-        }
-        else {
-            return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
-        }
-
+        $result            = $helper->getThreads($searchTerm);
+        
         $pager             = $paginator->paginate($result, $page, $pageLimit);
         $pagination        = new Pagination($pager, $pageLimit, $urlGenerator);
 
