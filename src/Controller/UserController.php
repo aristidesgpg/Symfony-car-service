@@ -98,14 +98,14 @@ class UserController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $page = $request->query->getInt('page', 1);
-        $role = $request->query->get('role');
+        $page       = $request->query->getInt('page', 1);
+        $role       = $request->query->get('role');
         $urlParameters = [];
-        $errors = [];
-        $sortField = '';
+        $errors     = [];
+        $sortField  = '';
         $sortDirection = '';
         $searchTerm = '';
-        $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
+        $columns    = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -117,7 +117,7 @@ class UserController extends AbstractFOSRestController
         }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField = $request->query->get('sortField');
+            $sortField  = $request->query->get('sortField');
 
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
@@ -138,19 +138,19 @@ class UserController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        $users = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchTerm);
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $pager = $paginator->paginate($users, $page, $pageLimit);
+        $users      = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchTerm);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pager      = $paginator->paginate($users, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
             ]
         );
 
