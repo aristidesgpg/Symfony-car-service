@@ -290,6 +290,12 @@ class ServiceSMSController extends AbstractFOSRestController
      *     description="Page Limit",
      *     in="query"
      * )
+     * * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="Search Value",
+     *     in="query"
+     * )
      *
      * @SWG\Response(
      *     response=200,
@@ -312,41 +318,43 @@ class ServiceSMSController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         ServiceSMSRepository $repo
     ): Response {
-        $page = $request->query->getInt('page', 1);
-        $user = $this->getUser();
-        $role = $user->getRoles();
+        $page              = $request->query->getInt('page', 1);
+        $user              = $this->getUser();
+        $role              = $user->getRoles();
+        
         $shareRepairOrders = $user->getShareRepairOrders();
-        $result = array();
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $searchTerm        = $request->query->get('searchTerm', "");
+        $pageLimit         = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $result            = array();
 
         if ($role[0] == 'ROLE_ADMIN' || $role[0] == 'ROLE_SERVICE_MANAGER') {
-           $result = $repo->getTrheadsByAdmin();
+           $result = $repo->getThreadsByAdmin($searchTerm);
 
         } else {    
             if ($role[0] == 'ROLE_SERVICE_ADVISOR') {
-                $userId = $user->getId();
+                $userId     = $user->getId();
                 if ($shareRepairOrders) {
-                    $result = $repo->getThreadsByAdvisor($userId, true);
+                    $result = $repo->getThreadsByAdvisor($userId, $searchTerm, true);
 
                 } else {
-                    $result = $repo->getThreadsByAdvisor($userId, false);
+                    $result = $repo->getThreadsByAdvisor($userId, $searchTerm, false);
                 }
             } else {
                 return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
             }
         }
 
-        $pager = $paginator->paginate($result, $page, $pageLimit);
+        $pager      = $paginator->paginate($result, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view = $this->view(
+        $view       = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('app_servicesms_getthreads'),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('app_servicesms_getthreads'),
             ]
         );
 

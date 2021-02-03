@@ -53,23 +53,33 @@ class ServiceSMSRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function getTrheadsByAdmin(){
-        $threadQuery    = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
+    public function getThreadsByAdmin($searchTerm){
+        $searchQuery     = "";
+        if($searchTerm){
+            $searchQuery = " where c.phone LIKE '%$searchTerm%' or c.name LIKE '%$searchTerm%' ";
+        }
+
+        $threadQuery     = "SELECT c.id, c.name,ss.date, ss.message, ss2.unread
                             FROM (select * from service_sms where date In (select max(date) from service_sms group by customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
                             LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by customer_id) ss2 on (ss2.customer_id=ss.customer_id)
-                            order by unread =0 ASC , ss.date DESC";
-         $statement     = $this->em->getConnection()->prepare($threadQuery);
+                            $searchQuery order by unread =0 ASC , ss.date DESC";
+
+         $statement      = $this->em->getConnection()->prepare($threadQuery);
          $statement->execute();
  
-         $result        = $statement->fetchAll();
+         $result         = $statement->fetchAll();
 
          return $result;
     }
     
-    public function getThreadsByAdvisor($userId, $isShared)
+    public function getThreadsByAdvisor($userId, $searchTerm, $isShared)
     {
-        $result         = array();
+        $result          = array();
+        $searchQuery     = "";
+        if($searchTerm){
+            $searchQuery = " and (c.phone LIKE '%$searchTerm%' or c.name LIKE '%$searchTerm%' )";
+        }
 
         //when there are repairOrders for the customer
         if($isShared){
@@ -79,7 +89,7 @@ class ServiceSMSRepository extends ServiceEntityRepository
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
                             LEFT JOIN customer c on c.id = ss2.primary_customer_id
                             LEFT JOIN (select SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread, customer_id from service_sms ss3 group by customer_id)ss4 on ss4.customer_id = ss2.primary_customer_id
-                            where ss2.s_advisor_id in (select id from user where share_repair_orders=1)
+                            where ss2.s_advisor_id in (select id from user where share_repair_orders=1) $searchQuery
                             ";
         }else{
             $threadQuery = "SELECT c.id, c.name,ss3.date,ss3.message, ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = 3 group by primary_advisor_id ,primary_customer_id) ss 
@@ -88,7 +98,7 @@ class ServiceSMSRepository extends ServiceEntityRepository
                         LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
                         LEFT JOIN customer c on c.id = ss2.primary_customer_id
                         LEFT JOIN (select SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread, customer_id from service_sms ss3 group by customer_id)ss4 on ss4.customer_id = ss2.primary_customer_id
-                        where ss2.s_advisor_id = ".$userId;
+                        where ss2.s_advisor_id = ".$userId . $searchQuery;
         }
         
         $statement   = $this->em->getConnection()->prepare($threadQuery);
@@ -96,11 +106,14 @@ class ServiceSMSRepository extends ServiceEntityRepository
 
         $result      = $statement->fetchAll();
         
-        //get all customers which have unread messages
-        $query       = "SELECT c.id as id, c.name as name FROM service_sms ss LEFT JOIN customer c on c.id = ss.customer_id where is_read=0  group by customer_id";
-        $statement   = $this->em->getConnection()->prepare($query);
+        //get all customers
+        if($searchTerm){
+            $searchQuery = " where (c.phone LIKE '%$searchTerm%' or c.name LIKE '%$searchTerm%' )";
+        }
+        $query           = "SELECT c.id as id, c.name as name FROM service_sms ss LEFT JOIN customer c on c.id = ss.customer_id $searchQuery  group by customer_id";
+        $statement       = $this->em->getConnection()->prepare($query);
         $statement->execute();
-        $customers   = $statement->fetchAll();
+        $customers       = $statement->fetchAll();
         
  
         foreach($customers as $customer){
@@ -119,9 +132,9 @@ class ServiceSMSRepository extends ServiceEntityRepository
                 if($statement->fetch()['user_id'] == $userId){
                      $query2   = "SELECT SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread, ss3.message as message, ss3.date as date from service_sms ss 
                                   LEFT JOIN (select date,message,customer_id FROM service_sms ss WHERE date in (SELECT max(date) from service_sms ss2 
-                                     group by customer_id)) ss3 on ss3.customer_id = ss.customer_id WHERE ss.customer_id = 21";
+                                     group by customer_id)) ss3 on ss3.customer_id = ss.customer_id WHERE ss.customer_id = $customerId";
                    
-                   $statement  = $this->em->getConnection()->prepare($query2);
+                    $statement = $this->em->getConnection()->prepare($query2);
                     $statement->execute();
                     $recentSMS = $statement->fetch();
                     
@@ -131,7 +144,7 @@ class ServiceSMSRepository extends ServiceEntityRepository
                             "name"    => $customer['name'],
                             "date"    => $recentSMS['date'],
                             "message" => $recentSMS['message'],
-                            "unread" => $recentSMS['unread']
+                            "unread"  => $recentSMS['unread']
                         ] );
                     }
                 }
