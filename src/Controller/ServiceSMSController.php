@@ -329,25 +329,23 @@ class ServiceSMSController extends AbstractFOSRestController
 
         if ($role[0] == 'ROLE_ADMIN' || $role[0] == 'ROLE_SERVICE_MANAGER') {
            $result = $repo->getThreadsByAdmin($searchTerm);
+        } else if ($role[0] == 'ROLE_SERVICE_ADVISOR') {
+            $userId        = $user->getId();
 
-        } else {    
-            if ($role[0] == 'ROLE_SERVICE_ADVISOR') {
-                $userId     = $user->getId();
-                if ($shareRepairOrders) {
-                    $result = $repo->getThreadsByAdvisor($userId, $searchTerm, true);
-
-                } else {
-                    $result = $repo->getThreadsByAdvisor($userId, $searchTerm, false);
-                }
+            if ($shareRepairOrders) {
+                $result    = $repo->getThreadsByAdvisor($userId, $searchTerm, true);
             } else {
-                return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
+                $result    = $repo->getThreadsByAdvisor($userId, $searchTerm, false);
             }
         }
+        else {
+            return $this->handleView($this->view('Permission Denied', Response::HTTP_FORBIDDEN));
+        }
 
-        $pager      = $paginator->paginate($result, $page, $pageLimit);
-        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+        $pager             = $paginator->paginate($result, $page, $pageLimit);
+        $pagination        = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view       = $this->view(
+        $view              = $this->view(
             [
                 'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
