@@ -110,7 +110,6 @@ class RepairOrderRepository extends ServiceEntityRepository
                    ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 
-
             if ($user instanceof User) {
                 if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
                     if ($user->getShareRepairOrders()) {
@@ -136,7 +135,6 @@ class RepairOrderRepository extends ServiceEntityRepository
             }else{
                 $qb->orderBy('ro.dateCreated', 'DESC'); 
             }
-
 
             return $qb->getQuery()->getResult();
         } catch (NonUniqueResultException $e) {
