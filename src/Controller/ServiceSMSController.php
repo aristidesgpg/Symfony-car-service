@@ -216,11 +216,18 @@ class ServiceSMSController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/customer/{id}/services-messages")
+     * @Rest\Get("/api/services-sms/thread")
      *
      * @SWG\Tag(name="Service SMS")
      * @SWG\Get(description="Get messages by customer")
      *
+     * @SWG\Parameter(
+     *     name="customer",
+     *     type="integer",
+     *     description="Customer ID",
+     *     in="query"
+     * )
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -232,9 +239,21 @@ class ServiceSMSController extends AbstractFOSRestController
      * )
      */
     public function serviceMessages(
-        Customer $customer,
-        ServiceSMSRepository $serviceSMSRepo
+        Request              $request,
+        ServiceSMSRepository $serviceSMSRepo,
+        CustomerRepository   $customerRepo
     ): Response {
+        $customerID = $request->query->getInt('customer', null);
+        //check if customer id exists
+        if(!$customerID){
+            return $this->handleView($this->view('Customer ID is required', Response::HTTP_BAD_REQUEST));
+        }
+        $customer = $customerRepo->findOneBy(["id" => $customerID]);
+        //check if customer id is valid
+        if(!$customer){
+            return $this->handleView($this->view('Customer ID is invalid', Response::HTTP_BAD_REQUEST));
+        }
+        
         $messages = $serviceSMSRepo->findBy(['customer' => $customer->getId()]);
 
         $view = $this->view($messages);
