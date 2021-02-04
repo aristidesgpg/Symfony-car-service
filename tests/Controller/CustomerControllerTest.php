@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Customer;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,6 +11,11 @@ class CustomerControllerTest extends WebTestCase
     private $client = null;
 
     private $token;
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $entityManager;
 
     /**
      * {@inheritDoc}
@@ -24,6 +30,8 @@ class CustomerControllerTest extends WebTestCase
 
         $authData = json_decode($this->client->getResponse()->getContent());
         $this->token = $authData->token;
+
+        $this->entityManager = self::$container->get('doctrine')->getManager();
     }
 
     public function testGetAll() {
@@ -58,17 +66,21 @@ class CustomerControllerTest extends WebTestCase
     }
 
     public function testGetCustomer() {
-        // Not found
-        $id = 2147483647;
-        $this->requestAction('GET', '/'.$id);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $customer = $this->entityManager->getRepository(Customer::class)
+                                        ->createQueryBuilder('c')
+                                        ->where('c.deleted = 0')
+                                        ->setMaxResults(1)
+                                        ->getQuery()
+                                        ->getOneOrNullResult();
 
-        // Ok
-        $id = 1;
-        $this->requestAction('GET', '/'.$id);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertGreaterThanOrEqual($id, $response->id);
+        if ($customer) {
+            // Ok
+            $id = $customer->getId();
+            $this->requestAction('GET', '/'.$id);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertGreaterThanOrEqual($id, $response->id);
+        }
     }
 
     public function testAddCustomer() {
@@ -99,44 +111,47 @@ class CustomerControllerTest extends WebTestCase
     }
 
     public function testUpdateCustomer() {
-        // Ok
-        $name = 'Jane Doe';
-        $params = [
-            'name' => $name,
-            'phone' => '8623456788',
-            'email' => 'updated@test.com',
-            'doNotContact' => false,
-            'skipMobileVerification' => false
-        ];
-        $this->requestAction('PUT', '/1', $params);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals($name, $response->name);
+        $customer = $this->entityManager->getRepository(Customer::class)
+                                        ->createQueryBuilder('c')
+                                        ->where('c.deleted = 0')
+                                        ->setMaxResults(1)
+                                        ->getQuery()
+                                        ->getOneOrNullResult();
 
-        // Validate parameters
-        $params = [
-            'name' => $name,
-            'phone' => '',
-            'email' => 'updated@test.com',
-            'doNotContact' => false,
-            'skipMobileVerification' => false
-        ];
-        $this->requestAction('PUT', '/1', $params);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+        if ($customer) {
+            // Ok
+            $id     = $customer->getId();
+            $name   = 'Jane Doe';
+            $params = [
+                'name'                   => $name,
+                'phone'                  => '8623456788',
+                'email'                  => 'updated@test.com',
+                'doNotContact'           => false,
+                'skipMobileVerification' => false
+            ];
+            $this->requestAction('PUT', '/'.$id, $params);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertEquals($name, $response->name);
+        }
     }
 
     public function testDeleteCustomer() {
-        // Ok
-        $id = 1;
-        $this->requestAction('DELETE', '/'.$id);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals($id, $response->id);
+        $customer = $this->entityManager->getRepository(Customer::class)
+                                        ->createQueryBuilder('c')
+                                        ->where('c.deleted = 0')
+                                        ->setMaxResults(1)
+                                        ->getQuery()
+                                        ->getOneOrNullResult();
 
-        // Not found
-        $id = 2147483647;
-        $this->requestAction('DELETE', '/'.$id);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        if ($customer) {
+            // Ok
+            $id     = $customer->getId();
+            $this->requestAction('DELETE', '/'.$id);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertEquals($id, $response->id);
+        }
     }
 
     private function requestAction($method, $endpoint='', $params=[]) {
