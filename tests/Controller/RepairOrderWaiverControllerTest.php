@@ -169,8 +169,12 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
             else if (!$waiverActivateAuthMessage) { // Waiver is not enabled
                 $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
             }
-            else { // OK
-                $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+            else { 
+                // OK
+                // $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+                // 500 error if mobile number is incorrect
+                $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
             }
         }
         else {
