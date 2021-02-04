@@ -143,7 +143,7 @@ class RepairOrderController extends AbstractFOSRestController
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
         $errors = [];
-        $sortField = $sortDirection = $searchTerm = '';
+        $sortField = $sortDirection = $searchTerm = null;
         $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
         $fields = [];
 

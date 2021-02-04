@@ -44,7 +44,7 @@ class RepairOrderRepository extends ServiceEntityRepository
         $userRepo,
         $startDate = null,
         $endDate = null,
-        $sortField = 'date',
+        $sortField = 'dateCreated',
         $sortDirection = 'DESC',
         $searchTerm = null,
         $fields = []
@@ -128,13 +128,15 @@ class RepairOrderRepository extends ServiceEntityRepository
                     $queryParameters['user'] = $user;
                 }
             }
-
             if ($sortDirection) {
                 $qb->orderBy('ro.'.$sortField, $sortDirection);
 
                 $urlParameters['sortField'] = $sortField;
                 $urlParameters['sortDirection'] = $sortDirection;
+            }else{
+                $qb->orderBy('ro.dateCreated', 'DESC'); 
             }
+
 
             return $qb->getQuery()->getResult();
         } catch (NonUniqueResultException $e) {
