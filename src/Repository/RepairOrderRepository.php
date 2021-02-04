@@ -70,8 +70,8 @@ class RepairOrderRepository extends ServiceEntityRepository
 
             if ($startDate && $endDate) {
                 try {
-                    $startDate = new DateTime($startDate);
-                    $endDate = new DateTime($endDate);
+                    $startDate     = new DateTime($startDate);
+                    $endDate       = new DateTime($endDate);
 
                     $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate')
                        ->setParameter('startDate', $startDate)
@@ -89,8 +89,8 @@ class RepairOrderRepository extends ServiceEntityRepository
 
                 $searchFields = [
                     'ro' => ['number', 'year', 'model', 'miles', 'vin'],
-                    'ro_customer' => ['name', 'phone', 'email'],
-                    'ro_advisor' => ['combine_name', 'phone', 'email'],
+                    'ro_customer'   => ['name', 'phone', 'email'],
+                    'ro_advisor'    => ['combine_name', 'phone', 'email'],
                     'ro_technician' => ['combine_name', 'phone', 'email'],
                 ];
 
@@ -120,19 +120,19 @@ class RepairOrderRepository extends ServiceEntityRepository
                     } else {
                         $qb->andWhere('ro.primaryAdvisor = :user')
                            ->setParameter('user', $user);
-                        $queryParameters['user'] = $user;
+                        $queryParameters['user']  = $user;
                     }
                 } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
                     $qb->andWhere('ro.primaryTechnician = :user')
                        ->setParameter('user', $user);
-                    $queryParameters['user'] = $user;
+                    $queryParameters['user']      = $user;
                 }
             }
             if ($sortDirection) {
                 $qb->orderBy('ro.'.$sortField, $sortDirection);
 
-                $urlParameters['sortField'] = $sortField;
-                $urlParameters['sortDirection'] = $sortDirection;
+                $urlParameters['sortField']       = $sortField;
+                $urlParameters['sortDirection']   = $sortDirection;
             }else{
                 $qb->orderBy('ro.dateCreated', 'DESC'); 
             }
