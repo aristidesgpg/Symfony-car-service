@@ -77,8 +77,6 @@ class ServiceSMSController extends AbstractFOSRestController
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        $user = $this->getUser();
-
         $customer = $customerRepo->find($customerID);
         if (!$customer) {
             return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
