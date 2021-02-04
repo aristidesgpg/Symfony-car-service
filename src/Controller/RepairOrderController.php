@@ -160,19 +160,19 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        $columns       = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField = $request->query->get('sortField');
+            $sortField                      = $request->query->get('sortField');
 
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
-                $errors['sortField'] = 'Invalid sort field name';
+                $errors['sortField']        = 'Invalid sort field name';
             }
 
             $sortDirection = $request->query->get('sortDirection');
             $urlParameters['sortDirection'] = $sortDirection;
-            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortField']     = $sortField;
         }
 
 
