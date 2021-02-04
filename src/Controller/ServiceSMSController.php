@@ -253,8 +253,6 @@ class ServiceSMSController extends AbstractFOSRestController
         if(!$customer){
             return $this->handleView($this->view('Customer ID is invalid', Response::HTTP_BAD_REQUEST));
         }
-        //check if the authenticated user has permission to get messages
-        
         $messages = $serviceSMSRepo->findBy(['customer' => $customer->getId()]);
         //if authenticated user is ROLE_SERVICE_ADVISOR, then update message statuses
         $user = $this->getUser();
