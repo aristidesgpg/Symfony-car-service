@@ -244,6 +244,17 @@ class DMS
 
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
+        //TODO Testing, take out for prod. 111 numbers fail validation.
+        foreach($dmsRepairOrder->getCustomer()->getPhoneNumbers() as $key => $number)
+        {
+            $dmsRepairOrder->getCustomer()->getPhoneNumbers()[$key]->setDigits(str_replace('1', '2', $number->getDigits()));
+//            dump( str_replace('1', '2', $number->getDigits()));
+//            dump($number);
+//            dd($dmsRepairOrder);
+        }
+//        dd($dmsRepairOrder);
+        //End TODO
+
         // First check if it exists already
         $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsRepairOrder->getNumber()]);
         if ($repairOrderExists) {
@@ -270,7 +281,7 @@ class DMS
 //            dump('Greater Than 5 days ago.');
 //            return;
 //        }
-
+        //TODO end
 //        $customer = null;
 //        $advisor = null;
 //        $phoneNumbers = $dmsRepairOrder->getCustomer()->getPhoneNumbers();
@@ -315,7 +326,9 @@ class DMS
         }
 
         //text customer.
-        $this->sendCommunicationToCustomer($repairOrder, $customer);
+
+        //TODO Turn Back on.
+        //$this->sendCommunicationToCustomer($repairOrder, $customer);
     }
 
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
