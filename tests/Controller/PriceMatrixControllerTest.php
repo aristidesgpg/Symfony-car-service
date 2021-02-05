@@ -46,13 +46,19 @@ class PriceMatrixControllerTest extends WebTestCase {
         $roInteractionRes = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals( Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
+        //wrong json object.  use " instead of '
+        $data = "[{'hours':0, 'price':0}, {'hours':0.1,'price':0.5}]";
+        $this->requestActions('POST', ["payload"=>$data]);
+        $roInteractionRes = json_decode($this->client->getResponse()->getContent());
+        $this->assertEquals( Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+
         //wrong jon object.  It should be array type
         $data = '{"hours":0, price":0}';
         $this->requestActions('POST', ["payload"=>$data]);
         $roInteractionRes = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals( Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
-        //wrong json object.  
+        //wrong json object.  Each item should be object
         $data = '["hours":0]';
         $this->requestActions('POST', ["payload"=>$data]);
         $roInteractionRes = json_decode($this->client->getResponse()->getContent());
