@@ -52,7 +52,6 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
             'Sent',
             'Viewed',
             'Paid',
-            'Complete',
             'Confirmed',
         ];
 
