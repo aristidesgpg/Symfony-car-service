@@ -38,11 +38,6 @@ services:
   App\Service\SpacesClient:
     arguments:
       - '%env(CUSTOMER_URL)%'
-  App\Service\PhoneValidator:
-    class: App\Service\PhoneValidator
-    arguments:
-      - '%env(TWILIO_SID)%'
-      - '%env(TWILIO_AUTH_TOKEN)%'
   Twilio\Rest\Client:
     arguments:
       - '%env(TWILIO_SID)%'
