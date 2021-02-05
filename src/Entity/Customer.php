@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,7 +30,7 @@ class Customer implements UserInterface {
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      * @Serializer\Groups({"customer_list"})
      */
     private $phone;
@@ -73,10 +74,28 @@ class Customer implements UserInterface {
     private $primaryRepairOrders;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderMPIInteraction::class, mappedBy="customer")
+     */
+    private $repairOrderMPIInteractions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderInteraction::class, mappedBy="customer")
+     */
+    private $repairOrderInteractions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderReviewInteractions::class, mappedBy="customer")
+     */
+    private $repairOrderReviewInteractions;
+
+    /**
      * Customer constructor.
      */
     public function __construct () {
         $this->primaryRepairOrders = new ArrayCollection();
+        $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->repairOrderInteractions = new ArrayCollection();
+        $this->repairOrderReviewInteractions = new ArrayCollection();
     }
 
     /**
@@ -237,5 +256,98 @@ class Customer implements UserInterface {
 
     public function eraseCredentials () {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * @return Collection|RepairOrderMPIInteraction[]
+     */
+    public function getRepairOrderMPIInteractions(): Collection
+    {
+        return $this->repairOrderMPIInteractions;
+    }
+
+    public function addRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if (!$this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions[] = $repairOrderMPIInteraction;
+            $repairOrderMPIInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderMPIInteraction(RepairOrderMPIInteraction $repairOrderMPIInteraction): self
+    {
+        if ($this->repairOrderMPIInteractions->contains($repairOrderMPIInteraction)) {
+            $this->repairOrderMPIInteractions->removeElement($repairOrderMPIInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderMPIInteraction->getCustomer() === $this) {
+                $repairOrderMPIInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderInteraction[]
+     */
+    public function getRepairOrderInteractions(): Collection
+    {
+        return $this->repairOrderInteractions;
+    }
+
+    public function addRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if (!$this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions[] = $repairOrderInteraction;
+            $repairOrderInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if ($this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions->removeElement($repairOrderInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderInteraction->getCustomer() === $this) {
+                $repairOrderInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getCustomer() === $this) {
+                $repairOrderReviewInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
     }
 }

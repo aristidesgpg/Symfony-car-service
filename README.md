@@ -26,7 +26,7 @@ MySQL Version: 5.7.31
 
         `composer install`
 
-        `openssl genrsa -out config/jwt/private.pem -aes256 4096`
+        `mkdir config/jwt | openssl genrsa -out config/jwt/private.pem -aes256 4096`
         You need to use this password for it to work: 0dd003e40304fb6c03eb056fcaa27a3c
         `openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem`
         Make sure you use the same password
@@ -37,6 +37,9 @@ MySQL Version: 5.7.31
         
         `php bin/console assets:install --symlink`
         This command will set up the symlinks for swagger-ui (if necessary)
+
+        `chmod -R 755 config/jwt`
+        This command will allow you to read jwt key files
 
 6. NOTE: Occasionally as things change you will have to remove containers and images created by docker-compose using the commands below
 
@@ -80,3 +83,17 @@ MySQL Version: 5.7.31
     8. In the text box type "Bearer " then paste the token you copied
     9. Click "Authorize" 
     10. All calls after this will automatically have the bearer token in the "Autorization" header
+
+
+9. Installing Developer Tools.
+   
+   `This installs: php-cs-fixer, psalm & xsd2php.`
+   
+   1. From the root of the project, run: 
+      1. cd ./tools/
+      2. composer install
+   
+   To use php-cs-fixer(from root):
+   
+   1. php tools/vendor/bin/php-cs-fixer fix [FILE_PATH_HERE]
+      example: php tools/vendor/bin/php-cs-fixer fix ./src/Command/UnleashTheKrakenCommand.php
