@@ -20,7 +20,6 @@ class RepairOrderQuoteHelper
         'partsPrice',
         'suppliesPrice',
         'laborPrice',
-        'notes',
     ];
 
     /**
