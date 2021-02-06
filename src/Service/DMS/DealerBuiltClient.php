@@ -78,20 +78,10 @@ class DealerBuiltClient extends AbstractDMSClient
                 ],
             ];
 
-            //It should validate against the wsdl before the call to make sure its correct.
-            try {
-                $pullRepairOrders = $client->__soapCall('PullRepairOrders', [$searchCriteria]);
-            } catch (SoapFault $e) {
-                //Most likely a malformed request/invalid parameters were provided.
-
-                dd($e->getMessage());
-                $this->logError($this->getWsdl(), $e->getMessage());
-
-                return $repairOrders;
-            }
+            $result = $this->sendSoapCall($client, 'PullRepairOrders', [$searchCriteria], true);
 
             //Deserialize the soap result into objects.
-            $deserializedNode = $this->getSerializer()->deserialize($client->__getLastResponse(), DealerBuiltSoapEnvelope::class, 'xml');
+            $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelope::class, 'xml');
 
             /**
              * @var RepairOrderType $repairOrder

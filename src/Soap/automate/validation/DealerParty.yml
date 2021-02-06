@@ -1,0 +1,12 @@
+App\Soap\automate\src\DealerParty:
+    properties:
+        alternatePartyDocument:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        partyActionEvent:
+            -
+                Valid: null

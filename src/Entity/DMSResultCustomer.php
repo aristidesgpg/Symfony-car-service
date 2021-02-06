@@ -2,30 +2,16 @@
 
 namespace App\Entity;
 
-/**
- * Class DMSResultCustomer.
- */
 class DMSResultCustomer
 {
-    /**
-     * @var string
-     */
     private $name;
-
-    /**
-     * @var array
-     */
-    private $phoneNumbers = [];
-
-    /**
-     * @var string
-     */
+    private $phoneNumbers;
     private $email;
 
     /**
      * @return mixed
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }
@@ -38,12 +24,18 @@ class DMSResultCustomer
         $this->name = $name;
     }
 
-    public function getPhoneNumbers(): array
+    /**
+     * @return mixed
+     */
+    public function getPhoneNumbers()
     {
         return $this->phoneNumbers;
     }
 
-    public function setPhoneNumbers(array $phoneNumbers): void
+    /**
+     * @param mixed $phoneNumbers
+     */
+    public function setPhoneNumbers($phoneNumbers): void
     {
         $this->phoneNumbers = $phoneNumbers;
     }
@@ -51,7 +43,7 @@ class DMSResultCustomer
     /**
      * @return mixed
      */
-    public function getEmail(): string
+    public function getEmail()
     {
         return $this->email;
     }

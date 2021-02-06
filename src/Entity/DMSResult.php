@@ -2,11 +2,8 @@
 
 namespace App\Entity;
 
-use DateTime;
+use App\Soap\dealerbuilt\src\DateTime;
 
-/**
- * Class DMSResult.
- */
 class DMSResult
 {
     /**
@@ -14,60 +11,30 @@ class DMSResult
      */
     private $customer;
 
-    /**
-\     * @var string
-     */
     private $number;
-
-    /**
-     * @var string
-     */
     private $roKey;
-
     /**
      * @var DateTime
      */
     private $date;
-
-    /**
-     * @var string
-     */
     private $waiter;
-
-    /**
-     * @var DateTime
-     */
     private $pickupDate;
-
-    /**
-     * @var string
-     */
     private $year;
-
-    /**
-     * @var string
-     */
     private $make;
-
-    /**
-     * @var string
-     */
     private $model;
-
-    /**
-     * @var string
-     */
     private $miles;
-
-    /**
-     * @var string
-     */
     private $vin;
 
     /**
      * @var DMSResultAdvisor
      */
     private $advisor;
+
+    public function __construct()
+    {
+        $this->customer = new DMSResultCustomer();
+        $this->advisor = new DMSResultAdvisor();
+    }
 
     public function getCustomer(): DMSResultCustomer
     {
@@ -82,7 +49,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getNumber(): string
+    public function getNumber()
     {
         return $this->number;
     }
@@ -98,7 +65,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getRoKey(): string
+    public function getRoKey()
     {
         return $this->roKey;
     }
@@ -114,7 +81,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getDate(): DateTime
+    public function getDate()
     {
         return $this->date;
     }
@@ -128,11 +95,11 @@ class DMSResult
     }
 
     /**
-     * @return bool
+     * @return mixed
      */
-    public function getWaiter(): bool
+    public function getWaiter()
     {
-        return ($this->waiter) ? false : true;
+        return $this->waiter;
     }
 
     /**
@@ -146,7 +113,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getPickupDate(): ?DateTime
+    public function getPickupDate()
     {
         return $this->pickupDate;
     }
@@ -162,7 +129,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getYear(): string
+    public function getYear()
     {
         return $this->year;
     }
@@ -178,7 +145,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getMake(): string
+    public function getMake()
     {
         return $this->make;
     }
@@ -194,7 +161,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getModel(): string
+    public function getModel()
     {
         return $this->model;
     }
@@ -210,7 +177,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getMiles(): string
+    public function getMiles()
     {
         return $this->miles;
     }
@@ -226,7 +193,7 @@ class DMSResult
     /**
      * @return mixed
      */
-    public function getVin(): string
+    public function getVin()
     {
         return $this->vin;
     }

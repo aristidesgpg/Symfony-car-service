@@ -160,7 +160,7 @@ class DMS
      * @param $RONumber
      *
      * @throws exception
-     *                   TODO Revisit after dms clients are done
+     * TODO Revisit after dms clients are done
      */
     public function addSingleRepairOrder($RONumber): bool
     {
@@ -244,6 +244,7 @@ class DMS
 
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
+
         //TODO Testing, take out for prod. 111 numbers fail validation.
         foreach($dmsRepairOrder->getCustomer()->getPhoneNumbers() as $key => $number)
         {

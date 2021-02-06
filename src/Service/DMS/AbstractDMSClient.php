@@ -10,6 +10,7 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
+use SoapFault;
 use SoapHeader;
 use SoapVar;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -43,6 +44,8 @@ abstract class AbstractDMSClient implements DMSClientInterface
      */
     private $thirdPartyAPILogHelper;
 
+    private $soapClient;
+
     public function __construct(EntityManagerInterface $entityManager,
                                 PhoneValidator $phoneValidator,
                                 ParameterBagInterface $parameterBag,
@@ -54,10 +57,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
         $this->thirdPartyAPILogHelper = $thirdPartyAPILogHelper;
     }
 
-    /**
-     * @param string $dir
-     * @param string $namespacePrefix
-     */
     public function buildSerializer(string $dir, string $namespacePrefix = '')
     {
         $serializerBuilder = SerializerBuilder::create();
@@ -71,24 +70,43 @@ abstract class AbstractDMSClient implements DMSClientInterface
     }
 
     /**
-     * @param string $wsdl
      * @return ?\SoapClient
      */
     public function initializeSoapClient(string $wsdl): ?\SoapClient
     {
         try {
-            $client = new \SoapClient($wsdl, [
+            $this->soapClient = new \SoapClient($wsdl, [
                 'trace' => 1, //This is needed to get the __getLastResponse()
 //                'exceptions' => true, //used for debugging.
             ]);
-//            dump($client->__getFunctions());//used for debugging.
-//            dump($client->__getTypes());//used for debugging.
-            return $client;
+//            dump($this->getSoapClient()->__getFunctions());//used for debugging.
+//            dump($this->getSoapClient()->__getTypes());//used for debugging.
+            return $this->soapClient;
         } catch (\SoapFault $e) {
             $this->logError($this->getWsdl(), $e->getMessage());
         }
 
         return null;
+    }
+
+    public function sendSoapCall($name, $args, $returnLastResponse = false)
+    {
+        //It should validate against the wsdl before the call to make sure its correct.
+        try {
+            $result = $this->getSoapClient()->__soapCall($name, $args);
+            if ($returnLastResponse) {
+                return $this->getSoapClient()->__getLastResponse();
+            }
+
+            return $result;
+        } catch (SoapFault $e) {
+            //Most likely a malformed request/invalid parameters were provided.
+
+            dd($e->getMessage());
+            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage());
+
+            return [];
+        }
     }
 
     /**
@@ -188,5 +206,21 @@ abstract class AbstractDMSClient implements DMSClientInterface
     public function setThirdPartyAPILogHelper(ThirdPartyAPILogHelper $thirdPartyAPILogHelper): void
     {
         $this->thirdPartyAPILogHelper = $thirdPartyAPILogHelper;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSoapClient()
+    {
+        return $this->soapClient;
+    }
+
+    /**
+     * @param mixed $soapClient
+     */
+    public function setSoapClient($soapClient): void
+    {
+        $this->soapClient = $soapClient;
     }
 }

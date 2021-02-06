@@ -1,0 +1,48 @@
+App\Soap\automate\src\ResidenceAddress:
+    properties:
+        lineOne:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        cityName:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        countryID:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        postcode:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        stateOrProvinceCountrySubDivisionID:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        countyCountrySubDivision:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
