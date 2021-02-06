@@ -1,0 +1,11 @@
+App\Soap\automate\src\DocumentIdentification:
+    xml_root_name: DocumentIdentification
+    properties:
+        documentID:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentID
+            accessor:
+                getter: getDocumentID
+                setter: setDocumentID
+            type: string

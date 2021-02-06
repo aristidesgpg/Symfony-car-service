@@ -1,0 +1,45 @@
+App\Soap\automate\src\TelephoneCommunication:
+    properties:
+        channelCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        completeNumber:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        extensionNumber:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+        useCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        privacy:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

@@ -1,0 +1,7 @@
+App\Soap\automate\src\RepairOrderStatus:
+    properties:
+        statusText:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

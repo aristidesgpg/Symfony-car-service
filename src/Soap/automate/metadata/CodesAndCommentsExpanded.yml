@@ -1,0 +1,34 @@
+App\Soap\automate\src\CodesAndCommentsExpanded:
+    xml_root_name: CodesAndCommentsExpanded
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        causeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: CauseDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getCauseDescription
+                setter: setCauseDescription
+            type: string
+        complaintDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: ComplaintDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getComplaintDescription
+                setter: setComplaintDescription
+            type: string
+        correctionDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: CorrectionDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getCorrectionDescription
+                setter: setCorrectionDescription
+            type: string

@@ -1,0 +1,78 @@
+App\Soap\automate\src\SpecifiedPerson:
+    xml_root_name: SpecifiedPerson
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        givenName:
+            expose: true
+            access_type: public_method
+            serialized_name: GivenName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getGivenName
+                setter: setGivenName
+            type: string
+        middleName:
+            expose: true
+            access_type: public_method
+            serialized_name: MiddleName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getMiddleName
+                setter: setMiddleName
+            type: string
+        familyName:
+            expose: true
+            access_type: public_method
+            serialized_name: FamilyName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getFamilyName
+                setter: setFamilyName
+            type: string
+        birthDate:
+            expose: true
+            access_type: public_method
+            serialized_name: BirthDate
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getBirthDate
+                setter: setBirthDate
+            type: string
+        residenceAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: ResidenceAddress
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getResidenceAddress
+                setter: setResidenceAddress
+            type: App\Soap\automate\src\ResidenceAddress
+        telephoneCommunication:
+            expose: true
+            access_type: public_method
+            serialized_name: TelephoneCommunication
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getTelephoneCommunication
+                setter: setTelephoneCommunication
+            xml_list:
+                inline: true
+                entry_name: TelephoneCommunication
+                namespace: 'http://www.starstandard.org/STAR/5'
+            type: App\Soap\automate\src\TelephoneCommunication
+        postalAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: PostalAddress
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPostalAddress
+                setter: setPostalAddress
+            type: App\Soap\automate\src\PostalAddress

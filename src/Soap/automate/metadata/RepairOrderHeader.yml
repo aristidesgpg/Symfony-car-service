@@ -1,0 +1,148 @@
+App\Soap\automate\src\RepairOrderHeader:
+    xml_root_name: RepairOrderHeader
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        documentDateTime:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentDateTime
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDocumentDateTime
+                setter: setDocumentDateTime
+            type: string
+        documentIdentificationGroup:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentIdentificationGroup
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDocumentIdentificationGroup
+                setter: setDocumentIdentificationGroup
+            type: App\Soap\automate\src\DocumentIdentificationGroup
+        dealerParty:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerParty
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDealerParty
+                setter: setDealerParty
+            type: App\Soap\automate\src\DealerParty
+        ownerParty:
+            expose: true
+            access_type: public_method
+            serialized_name: OwnerParty
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getOwnerParty
+                setter: setOwnerParty
+            type: App\Soap\automate\src\OwnerParty
+        repairOrderVehicleLineItem:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderVehicleLineItem
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getRepairOrderVehicleLineItem
+                setter: setRepairOrderVehicleLineItem
+            type: App\Soap\automate\src\RepairOrderVehicleLineItem
+        repairOrderOpenedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderOpenedDate
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getRepairOrderOpenedDate
+                setter: setRepairOrderOpenedDate
+            type: string
+        repairOrderCompletedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderCompletedDate
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getRepairOrderCompletedDate
+                setter: setRepairOrderCompletedDate
+            type: string
+        repairOrderInvoiceDate:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderInvoiceDate
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getRepairOrderInvoiceDate
+                setter: setRepairOrderInvoiceDate
+            type: string
+        serviceAdvisorParty:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceAdvisorParty
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getServiceAdvisorParty
+                setter: setServiceAdvisorParty
+            type: App\Soap\automate\src\ServiceAdvisorParty
+        inDistanceMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: InDistanceMeasure
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getInDistanceMeasure
+                setter: setInDistanceMeasure
+            type: App\Soap\automate\src\InDistanceMeasure
+        repairOrderStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderStatus
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getRepairOrderStatus
+                setter: setRepairOrderStatus
+            xml_list:
+                inline: true
+                entry_name: RepairOrderStatus
+                namespace: 'http://www.starstandard.org/STAR/5'
+            type: array<App\Soap\automate\src\RepairOrderStatus>
+        promisedRepairCompletionDate:
+            expose: true
+            access_type: public_method
+            serialized_name: PromisedRepairCompletionDate
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPromisedRepairCompletionDate
+                setter: setPromisedRepairCompletionDate
+            type: string
+        repairOrderPriorityCode:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderPriorityCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getRepairOrderPriorityCode
+                setter: setRepairOrderPriorityCode
+            type: string
+        documentIdentification:
+            expose: true
+            access_type: public_method
+            serialized_name: DocuementIdentification
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDocuementIdentification
+                setter: setDocuementIdentification
+            type: App\Soap\automate\src\DocuementIdentification
