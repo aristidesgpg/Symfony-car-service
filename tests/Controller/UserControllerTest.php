@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -10,6 +11,11 @@ class UserControllerTest extends WebTestCase
     private $client = null;
 
     private $token;
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $entityManager;
 
     /**
      * {@inheritDoc}
@@ -24,6 +30,8 @@ class UserControllerTest extends WebTestCase
 
         $authData = json_decode($this->client->getResponse()->getContent());
         $this->token = $authData->token;
+
+        $this->entityManager = self::$container->get('doctrine')->getManager();
     }
 
     public function testGetUsers() {
@@ -97,53 +105,61 @@ class UserControllerTest extends WebTestCase
     }
 
     public function testEdit() {
-        // Ok
-        $id     = 1;
-        $email  = 'newupdater@test.com';
-        $params = [
-            'role'              => 'ROLE_ADMIN',
-            'firstName'         => 'John',
-            'lastName'          => 'Doe',
-            'email'             => $email,
-            'phone'             => '8623456789',
-            'password'          => 'test',
-            'pin'               => '3753',
-            'processRefund'     => true,
-            'shareRepairOrders' => true
-        ];
-        $this->requestAction('PUT', '/users/'.$id, $params);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals($email, $response->email);
+        $user = $this->entityManager->getRepository(User::class)
+                                    ->createQueryBuilder('u')
+                                    ->where('u.active = 1')
+                                    ->setMaxResults(1)
+                                    ->getQuery()
+                                    ->getOneOrNullResult();
+        if ($user) {
+            // Ok
+            $id     = $user->getId();
+            $email  = 'newupdater@test.com';
+            $params = [
+                'role'              => 'ROLE_ADMIN',
+                'firstName'         => 'John',
+                'lastName'          => 'Doe',
+                'email'             => $email,
+                'phone'             => '8623456789',
+                'password'          => 'test',
+                'pin'               => '3753',
+                'processRefund'     => true,
+                'shareRepairOrders' => true
+            ];
+            $this->requestAction('PUT', '/users/'.$id, $params);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertEquals($email, $response->email);
 
-        // Certification and Experience is Only for Technicians
-        $email = 'newupdater@test.com';
-        $params = [
-            'role'              => 'ROLE_ADMIN',
-            'firstName'         => 'Jane',
-            'lastName'          => 'Doe',
-            'email'             => $email,
-            'phone'             => '8623456789',
-            'password'          => 'test',
-            'pin'               => '3753',
-            'certification'     => 'certification of technician',
-            'experience'        => 'experience of technician',
-            'processRefund'     => true,
-            'shareRepairOrders' => true
-        ];
-        $this->requestAction('PUT', '/users/'.$id, $params);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+            // Certification and Experience is Only for Technicians
+            $email = 'newupdater@test.com';
+            $params = [
+                'role'              => 'ROLE_ADMIN',
+                'firstName'         => 'Jane',
+                'lastName'          => 'Doe',
+                'email'             => $email,
+                'phone'             => '8623456789',
+                'password'          => 'test',
+                'pin'               => '3753',
+                'certification'     => 'certification of technician',
+                'experience'        => 'experience of technician',
+                'processRefund'     => true,
+                'shareRepairOrders' => true
+            ];
+            $this->requestAction('PUT', '/users/'.$id, $params);
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
-        // Validate parameters
-        $params = [
-            'phone'     => '',
-            'email'     => $email,
-            'firstName' => 'John',
-            'lastName'  => 'Doe',
-            'role'      =>'Invalid Role'
-        ];
-        $this->requestAction('PUT', '/users/'.$id, $params);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+            // Validate parameters
+            $params = [
+                'phone'     => '',
+                'email'     => $email,
+                'firstName' => 'John',
+                'lastName'  => 'Doe',
+                'role'      =>'Invalid Role'
+            ];
+            $this->requestAction('PUT', '/users/'.$id, $params);
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        }
     }
 
     public function testDelete() {
@@ -154,18 +170,26 @@ class UserControllerTest extends WebTestCase
     }
 
     public function testSecurity() {
-        // Ok
-        $id     = 1;
-        $params = [
-            'question' => 'Your pet?',
-            'answer'   => 'Bunny'
-        ];
-        $this->requestAction('PATCH', '/security/'.$id.'/set', $params);
-        $this->assertResponseIsSuccessful();
+        $user = $this->entityManager->getRepository(User::class)
+                                    ->createQueryBuilder('u')
+                                    ->where('u.active = 1')
+                                    ->setMaxResults(1)
+                                    ->getQuery()
+                                    ->getOneOrNullResult();
+        if ($user) {
+            // Ok
+            $id     = $user->getId();
+            $params = [
+                'question' => 'Your pet?',
+                'answer'   => 'Bunny'
+            ];
+            $this->requestAction('PATCH', '/security/'.$id.'/set', $params);
+            $this->assertResponseIsSuccessful();
 
-        // Missing required parameters
-        $this->requestAction('PATCH', '/security/'.$id.'/set');
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+            // Missing required parameters
+            $this->requestAction('PATCH', '/security/'.$id.'/set');
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        }
     }
 
     public function testGetSecurityQuestion() {
