@@ -47,9 +47,8 @@ class UserRepository extends ServiceEntityRepository
         $role = null,
         $sortField = null,
         $sortDirection = null,
-        $searchField = null,
         $searchTerm = null
-    ): Query {
+    ) {
         $qb = $this->createQueryBuilder('u')
                    ->andWhere('u.active = 1');
 
@@ -59,15 +58,15 @@ class UserRepository extends ServiceEntityRepository
         }
 
         if ($searchTerm) {
-            $qb->andWhere('u.'.$searchField.' LIKE :searchTerm')
-               ->setParameter('searchTerm', '%'.$searchTerm.'%');
+            $qb->andWhere(" CONCAT(u.firstName,' ',u.lastName) LIKE :searchTerm OR u.email LIKE :searchTerm OR u.phone LIKE :searchTerm")
+               ->setParameter('searchTerm', "%$searchTerm%");
         }
 
         if ($sortDirection) {
             $qb->orderBy('u.'.$sortField, $sortDirection);
         }
 
-        return $qb->getQuery();
+        return $qb->getQuery()->getResult();
     }
 
     /**

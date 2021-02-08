@@ -130,7 +130,7 @@ class InternalMessageController extends AbstractFOSRestController {
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
-            'threads'      => $pager->getItems(),
+            'results'      => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages'   => $pagination->totalPages,
             'previous'     => $pagination->getPreviousPageURL('getInternalThreads', $urlParams),
@@ -228,7 +228,7 @@ class InternalMessageController extends AbstractFOSRestController {
         }
 
         $otherUser = $this->getDoctrine()->getRepository(User::class)->find($otherUserId);
-        if (!$otherUser || !$otherUser->getActive()) {
+        if (!$otherUser) {
             return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
         }
 
@@ -244,7 +244,7 @@ class InternalMessageController extends AbstractFOSRestController {
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view([
-            'internalMessages' => $pager->getItems(),
+            'results' => $pager->getItems(),
             'totalResults'     => $pagination->totalResults,
             'totalPages'       => $pagination->totalPages,
             'previous'         => $pagination->getPreviousPageURL('getInternalMessages', $urlParams),
