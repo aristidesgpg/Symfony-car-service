@@ -5,6 +5,7 @@ namespace App\Service\DMS;
 use App\Entity\DMSResult;
 use App\Entity\DMSResultAdvisor;
 use App\Entity\DMSResultCustomer;
+use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\dealerbuilt\src\BaseApi\RepairOrderType;
@@ -61,6 +62,8 @@ class DealerBuiltClient extends AbstractDMSClient
 
         $this->buildSerializer('../src/Soap/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
     }
+
+    public function init(){}
 
     public function getOpenRepairOrders(): array
     {
@@ -151,7 +154,7 @@ class DealerBuiltClient extends AbstractDMSClient
         return $repairOrders;
     }
 
-    public function getClosedRoDetails()
+    public function getClosedRoDetails(array $openRepairOrders)
     {
         // TODO: Implement getClosedRoDetails() method.
     }

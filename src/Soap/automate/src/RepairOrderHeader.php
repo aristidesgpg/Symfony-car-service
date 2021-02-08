@@ -81,6 +81,13 @@ class RepairOrderHeader
     private $documentIdentification = null;
 
     /**
+     * @var string $orderNotes
+     */
+    private $orderNotes = null;
+
+
+
+    /**
      * Gets as documentDateTime
      *
      * @return string
@@ -422,5 +429,26 @@ class RepairOrderHeader
         return $this;
     }
 
+    /**
+     * Gets as orderNotes
+     *
+     * @return string
+     */
+    public function getOrderNotes()
+    {
+        return $this->orderNotes;
+    }
+
+    /**
+     * Sets a new orderNotes
+     *
+     * @param string $orderNotes
+     * @return self
+     */
+    public function setOrderNotes($orderNotes)
+    {
+        $this->orderNotes = $orderNotes;
+        return $this;
+    }
 }
 

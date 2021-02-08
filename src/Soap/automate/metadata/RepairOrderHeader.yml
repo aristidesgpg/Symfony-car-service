@@ -146,3 +146,13 @@ App\Soap\automate\src\RepairOrderHeader:
                 getter: getDocuementIdentification
                 setter: setDocuementIdentification
             type: App\Soap\automate\src\DocuementIdentification
+        orderNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderNotes
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getOrderNotes
+                setter: setOrderNotes
+            type: string
