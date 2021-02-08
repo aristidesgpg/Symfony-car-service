@@ -4,35 +4,24 @@ namespace App\Controller;
 
 use App\Entity\PriceMatrix;
 use App\Repository\PriceMatrixRepository;
-use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 
-/**
- * Class PriceMatrixController
- *
- * @package App\Controller
- *
- */
 class PriceMatrixController extends AbstractFOSRestController
 {
-    private const PAGE_LIMIT = 100;
-
     /**
      * @Rest\Get("/api/price-matrix")
      *
      * @SWG\Tag(name="Price Matrix")
      * @SWG\Get(description="Get Price Matrix")
-     * 
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -54,22 +43,19 @@ class PriceMatrixController extends AbstractFOSRestController
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     *
-     * @param Request               $request
-     * @param PriceMatrixRepository $priceMatrixRepository
-     *
-     * @return Response
      */
-    public function list(Request $request, PriceMatrixRepository $priceMatrixRepository): Response {
+    public function list(PriceMatrixRepository $priceMatrixRepository): Response
+    {
         $priceMatrixes = $priceMatrixRepository->findAll();
-        return $this->handleView($this->view($priceMatrixes ,Response::HTTP_OK));
+
+        return $this->handleView($this->view($priceMatrixes, Response::HTTP_OK));
     }
 
     /**
      * @Rest\Post("/api/price-matrix")
      *
      * @SWG\Tag(name="Price Matrix")
-     * @SWG\Post(description="Create Price Matrix")
+     * @SWG\Post(description="Create Price Matrix. Will delete all current data and replace it with the new matrix.")
      *
      * @SWG\Parameter(
      *     name="payload",
@@ -89,18 +75,12 @@ class PriceMatrixController extends AbstractFOSRestController
      *     description="Invalid value"
      * )
      *
-     *
-     * @param Request                $request
-     * @param PriceMatrixRepository  $respository
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-
-    public function new(Request $request, PriceMatrixRepository $respository, EntityManagerInterface $em)
+    public function new(Request $request, PriceMatrixRepository $priceMatrixRepository, EntityManagerInterface $em)
     {
-        $payload       = $request->get('payload');
-        $obj           = (array)json_decode($payload);
+        $payload = $request->get('payload');
+        $obj = (array) json_decode($payload);
 
         if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
             throw new BadRequestHttpException('Payload data is invalid');
@@ -108,23 +88,26 @@ class PriceMatrixController extends AbstractFOSRestController
 
         //check parameter validation
         foreach ($obj as $item) {
-            if (!is_object($item))
+            if (!is_object($item)) {
                 throw new BadRequestHttpException('Payload data is invalid');
+            }
 
             $arr = get_object_vars($item);
             $keys = array_keys($arr);
             $requiredFields = ['hours', 'price'];
 
             foreach ($requiredFields as $key) {
-                if (!in_array($key, $keys))
+                if (!in_array($key, $keys)) {
                     throw new BadRequestHttpException("Missing $key parameter");
+                }
 
-                if (!is_numeric($arr[$key]))
+                if (!is_numeric($arr[$key])) {
                     throw new NotAcceptableHttpException("Invalid $key value");
+                }
             }
         }
 
-        $allItems      = $respository->getAllItems();
+        $allItems = $priceMatrixRepository->getAllItems();
 
         foreach ($allItems as $item) {
             $em->remove($item);
@@ -134,14 +117,19 @@ class PriceMatrixController extends AbstractFOSRestController
         foreach ($obj as $item) {
             $priceMatrix = new PriceMatrix();
             $priceMatrix->setHours($item->hours)
-                ->setPrice($item->price);
+                        ->setPrice($item->price);
 
             $em->persist($priceMatrix);
             $em->flush();
         }
 
-        return $this->handleView($this->view([
-            'message' => 'Successfully created'
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Successfully created',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 }
