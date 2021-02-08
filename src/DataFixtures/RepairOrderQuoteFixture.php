@@ -22,7 +22,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $repairOrderReference        = $faker->unique()->numberBetween(1, 150);
 
             $dateCreated                 = $faker->dateTimeBetween('-1 year');
