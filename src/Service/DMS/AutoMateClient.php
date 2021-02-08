@@ -14,7 +14,6 @@ use App\Soap\automate\src\ProcessEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\Process\Process;
 
 /**
  * Class AutoMateClient.
@@ -103,7 +102,7 @@ class AutoMateClient extends AbstractDMSClient
                 return $repairOrders;
             }
 
-            $chunks = array_chunk($targetNodes, 1);
+            $chunks = array_chunk($targetNodes, 50);
             foreach ($chunks as $chunk) {
                 //Convert back to a string to send in the payload.
                 $xml = implode('', $chunk);
@@ -114,19 +113,8 @@ class AutoMateClient extends AbstractDMSClient
 
                 $result = $this->sendSoapCall('processEvent', $this->buildEventForSoap($this->getProcessEvent()), true);
 
-                //TODO Need to build the URI classes but haven't found one with them.
-                if (str_contains('URICommunication', $result)) {
-                    var_dump($result);
-                    dd('Found URICommunication');
-                }
-                //TODO Need to build the URI classes but haven't found one with them.
-                if (str_contains('URIID', $result)) {
-                    var_dump($result);
-                    dd('Found URIID');
-                }
-
                 $response = $this->deserializeSOAPResponse($result)->getResponse();
-
+                dump($response);
                 if (!$response) {
                     continue;
                 }
@@ -134,7 +122,7 @@ class AutoMateClient extends AbstractDMSClient
                 //Since this is returned as a malformed array of xml nodes, to deserialize it, add a fake body.
                 $rootNode = '<?xml version="1.0" ?><body>'.$response.'</body>';
                 $deserializedNodes = $this->getSerializer()->deserialize($rootNode, AutomateFakeBodyType::class, 'xml');
-
+                dd($deserializedNodes);
                 foreach ($deserializedNodes->getRepairOrder() as $repairOrder) {
                     $parsed = $this->parseRepairOrderNode($repairOrder);
                     if ($parsed) {
@@ -152,26 +140,15 @@ class AutoMateClient extends AbstractDMSClient
 
     /**
      * Parses the returned SOAP response and pulls out the relevant information.
+     *
      * @return DMSResult|null
      */
     public function parseRepairOrderNode(\App\Soap\automate\src\RepairOrder $repairOrder)
     {
-        /**
-         * @var Job $job
-         */
+        dump($repairOrder);
+
+        //This assumes that there cannot be other job types besides internal on an internal job.
         foreach ($repairOrder->getJob() as $job) {
-            /*
-             * TODO There can be multiple jobs, then what?
-             * Legacy code breaks if there is more than 1 job. Meaning it processes the RO. Should we?
-             *
-                // Internal RO
-                if (isset($repairOrder->Job->JobTypeString)) {
-                    if ($repairOrder->Job->JobTypeString == 'INTERNAL') {
-                        continue;
-                    }
-                }
-             *
-             */
             if ('INTERNAL' == $job->getJobTypeString()) {
                 return null;
             }
@@ -202,7 +179,6 @@ class AutoMateClient extends AbstractDMSClient
             if ($ownerParty->getSpecifiedOrganization()) {
                 $specifiedOrganization = $ownerParty->getSpecifiedOrganization();
 
-                //TODO Org name, before if the first name was empty, it would put the Org Name + Last Name, do we still want that?
                 if (!$dmsResult->getCustomer()->getName()) {
                     $dmsResult->getCustomer()->setName($specifiedOrganization->getCompanyName());
                 }
@@ -220,11 +196,7 @@ class AutoMateClient extends AbstractDMSClient
                 return null;
             }
 
-            //TODO Could not find a person with an email to generate the classes.
-//                // Try to get email
-//                if (isset($repairOrder->RepairOrderHeader->OwnerParty->SpecifiedPerson->URICommunication)) {
-//                    $email = $repairOrder->RepairOrderHeader->OwnerParty->SpecifiedPerson->URICommunication->URIID;
-//                }
+            //Email is not used.
 
             //Vehicle Details
             $vehicle = $repairOrder->getRepairOrderHeader()->getRepairOrderVehicleLineItem()->getVehicle();
@@ -295,18 +267,16 @@ class AutoMateClient extends AbstractDMSClient
      * @param $result
      *
      * @return mixed
-     *
-     * @throws \Exception
      */
     public function deserializeSOAPResponse($result)
     {
         $deserialized = $this->getSerializer()->deserialize($result, AutomateEnvelope::class, 'xml');
         $processEventResultType = $deserialized->getBody()->getProcessEventResponse()->getProcessEventResult();
 
-        //TODO What should we do with errors? Fail Silently?
         if (in_array($processEventResultType->getStatusCode(), ['VALIDATION_FAILURE', 'UNKNOWN_FAILURE'])) {
             $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $this->getSoapClient()->__getLastResponse());
-            throw new \Exception('There was an error with the SOAP Response. '.$processEventResultType->getStatusCode());
+
+            return null;
         }
 
         return $processEventResultType;

@@ -12,7 +12,6 @@ use App\Soap\dealerbuilt\src\BaseApi\RepairOrderType;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelope;
 use App\Soap\dealerbuilt\src\Models\PhoneNumberType;
 use Doctrine\ORM\EntityManagerInterface;
-use SoapFault;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
@@ -47,6 +46,11 @@ class DealerBuiltClient extends AbstractDMSClient
      */
     private $serviceLocationId;
 
+    /*
+     * TODO When comparing the results of this class against the original, the original returns 10 more.
+     * Didn't see anything obvious as to why. Possibly one is a little more restricted >= vs >?
+     */
+
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -60,18 +64,21 @@ class DealerBuiltClient extends AbstractDMSClient
             $this->timeFrame = 'PT8760H';
         }
 
-        $this->buildSerializer('../src/Soap/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
+        $this->init();
     }
 
-    public function init(){}
+    public function init()
+    {
+        $this->buildSerializer('../src/Soap/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
+        $this->initializeSoapClient($this->getWsdl());
+    }
 
     public function getOpenRepairOrders(): array
     {
         $repairOrders = [];
-        $client = $this->initializeSoapClient($this->getWsdl());
-        if ($client) {
+        if ($this->getSoapClient()) {
             //create authentication token
-            $client->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
             $searchCriteria = [
                 'searchCriteria' => [
@@ -81,7 +88,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 ],
             ];
 
-            $result = $this->sendSoapCall($client, 'PullRepairOrders', [$searchCriteria], true);
+            $result = $this->sendSoapCall('PullRepairOrders', [$searchCriteria], true);
 
             //Deserialize the soap result into objects.
             $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelope::class, 'xml');
@@ -125,9 +132,12 @@ class DealerBuiltClient extends AbstractDMSClient
                         break;
                     }
                 }
-                $dmsResultCustomer->setPhoneNumbers($phoneNumbers);
+                $dmsResultCustomer->setPhoneNumbers(
+                    $this->phoneNormalizer($phoneNumbers)
+                );
 
                 $dmsResult->setNumber($repairOrder->getAttributes()->getRepairOrderNumber());
+
                 $dmsResult->setMiles($repairOrder->getAttributes()->getMilesIn());
                 //vehicle
                 $vehicle = $repairOrder->getReferences()->getROVehicle()->getAttributes();
@@ -156,7 +166,63 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getClosedRoDetails(array $openRepairOrders)
     {
-        // TODO: Implement getClosedRoDetails() method.
+        $rosWithKeys    = [];
+        $rosWithoutKeys = [];
+
+        /** @var RepairOrder $repairOrder */
+        foreach ($openRepairOrders as $repairOrder) {
+            if ($repairOrder->getDmsKey()) {
+                $rosWithKeys[] = $repairOrder;
+                continue;
+            }
+
+            $rosWithoutKeys[] = $repairOrder;
+        }
+
+        if ($rosWithKeys) {
+            $this->closeRosWithKeys($rosWithKeys);
+            return;
+        }
+
+        if ($rosWithoutKeys) {
+            $this->closeRosWithoutKeys($rosWithoutKeys);
+            return;
+        }
+    }
+
+    public function closeRosWithKeys($repairOrders): array
+    {
+
+        dump($repairOrders);
+        if ($this->getSoapClient()) {
+            //create authentication token
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+
+            $repairOrderKeyString = '';
+            //foreach ($repairOrders as $repairOrder) {
+               // $repairOrderKeyString .= "<arr:string>{$repairOrder->getDmsKey()}</arr:string>";
+            $repairOrderKeyString .= "<arr:string>GZ451916</arr:string>";
+
+           // }
+
+            $searchCriteria = [
+                'repairOrderKeys' => [
+                    $repairOrderKeyString
+                ],
+            ];
+
+            $result = $this->sendSoapCall('PullRepairOrdersByKey', [$searchCriteria], true);
+
+            //Deserialize the soap result into objects.
+            $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelope::class, 'xml');
+            dd($deserializedNode);
+
+        }
+    }
+
+    public function closeRosWithoutKeys($repairOrders): array
+    {
+        return [];
     }
 
     public function getPostUrl(): string
@@ -222,6 +288,5 @@ class DealerBuiltClient extends AbstractDMSClient
     public static function getDefaultIndexName()
     {
         return 'usingDealerBuilt';
-
     }
 }

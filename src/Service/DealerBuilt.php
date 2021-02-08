@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\Exception\ParameterNotFoundException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
- * Class DealerBuiltClient
+ * Class DealerBuilt
  *
  * @package App\Service
  */
@@ -53,7 +53,7 @@ class DealerBuilt extends SOAP {
     private $phoneValidator;
 
     /**
-     * AutoMateClient constructor.
+     * AutoMate constructor.
      *
      * @param EntityManagerInterface $em
      * @param PhoneValidator         $phoneValidator
@@ -89,7 +89,7 @@ class DealerBuilt extends SOAP {
             "Host: cdx.dealerbuilt.com:443"
         ];
 
-        $xmlPostString = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:deal="http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi" xmlns:deal1="http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service" xmlns:ns="http://cdx.dealerbuilt.com/Api/0.99/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+        $xmlPostString = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:deal="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi" xmlns:deal1="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service" xmlns:ns="http://cdx.dealerbuilt.com/Api/0.99/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <SOAP-ENV:Header>
                 <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
                     <wsse:UsernameToken wsu:Id="UsernameToken-4F23E153EDAE16D1E3151320297535313">
@@ -119,7 +119,7 @@ class DealerBuilt extends SOAP {
 
         $result = $this->sendRequest($headers, $this->postUrl, $xmlPostString);
 
-        file_put_contents('log', $result);
+        //file_put_contents('log', $result);
 
         if ($result) {
             $response    = preg_replace("/(<\/?)(\w+):([^>]*>)/", "$1$2$3", $result);
@@ -180,7 +180,10 @@ class DealerBuilt extends SOAP {
                         }
 
                         if (isset($customer['cPersonalName']['cLastName'])) {
-                            $roObject->customer->name .= ' ' . $customer['cPersonalName']['cLastName'];
+                            if(!is_array($customer['cPersonalName']['cLastName'])){
+                                $roObject->customer->name .= ' ' . $customer['cPersonalName']['cLastName'];
+                            }
+
                         }
 
                         // No customer name, it's an internal RO so skip
@@ -241,6 +244,7 @@ class DealerBuilt extends SOAP {
                             $roObject->roKey = $repairOrder['aROKey'];
                         }
                     }
+                    $return[] = $roObject;
                 }
             }
 
@@ -301,7 +305,7 @@ class DealerBuilt extends SOAP {
             $repairOrderKeyString .= "<arr:string>{$repairOrder->getDmsKey()}</arr:string>";
         }
 
-        $xmlPostString = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:deal="http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi" xmlns:deal1="http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service" xmlns:ns="http://cdx.dealerbuilt.com/Api/0.99/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+        $xmlPostString = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:deal="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi" xmlns:deal1="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service" xmlns:ns="http://cdx.dealerbuilt.com/Api/0.99/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <SOAP-ENV:Header>
                 <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
                     <wsse:UsernameToken wsu:Id="UsernameToken-4F23E153EDAE16D1E3151320297535313">
@@ -367,11 +371,11 @@ class DealerBuilt extends SOAP {
                                                         $technicianLastName  = $roAttributes['bJobs']['bRepairOrderJob'][0]['bTechs']['bJobTechnician']['bTech']['cPersonalName']['cLastName'];
                                                         $qb                  = $this->em->createQueryBuilder();
                                                         $qb->select('u')
-                                                           ->from('AppBundle:Technician', 'u')
-                                                           ->where('u.firstName = :firstName')
-                                                           ->andWhere('u.lastName = :lastName')
-                                                           ->setParameter('firstName', $technicianFirstName)
-                                                           ->setParameter('lastName', $technicianLastName);
+                                                            ->from('AppBundle:Technician', 'u')
+                                                            ->where('u.firstName = :firstName')
+                                                            ->andWhere('u.lastName = :lastName')
+                                                            ->setParameter('firstName', $technicianFirstName)
+                                                            ->setParameter('lastName', $technicianLastName);
                                                         $technician = $qb->getQuery()->getResult();
                                                         if ($technician) {
                                                             if (array_key_exists('0', $technician)) {
@@ -436,7 +440,7 @@ class DealerBuilt extends SOAP {
                 "Host: cdx.dealerbuilt.com:443"
             ];
 
-            $xmlPostString = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:deal="http://schemas.datacontract.org/2004/07/DealerBuiltClient.BaseApi" xmlns:deal1="http://schemas.datacontract.org/2004/07/DealerBuiltClient.Models.Service" xmlns:ns="http://cdx.dealerbuilt.com/Api/0.99/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+            $xmlPostString = '<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:deal="http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi" xmlns:deal1="http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service" xmlns:ns="http://cdx.dealerbuilt.com/Api/0.99/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
             <SOAP-ENV:Header>
                 <wsse:Security xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
                     <wsse:UsernameToken wsu:Id="UsernameToken-4F23E153EDAE16D1E3151320297535313">
