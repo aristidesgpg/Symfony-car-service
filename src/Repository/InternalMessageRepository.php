@@ -48,15 +48,6 @@ class InternalMessageRepository extends ServiceEntityRepository
     }
     */
     public function getThreads($userId){
-//        return $this->createQueryBuilder('i')
-//            ->select('u.*, i.id AS im_id, i.from_id, i.to_id, i.message, i.date, i.is_read, im.unreads')
-//            ->innerJoin('customer','c','WITH','c.id = ss.customer')
-//            ->where('ss.user = :val')
-//            ->setParameter('val', 65)
-//            ->groupBy('ss.customer')
-//            ->orderBy('ss.is_read', 'ASC')
-//            ->orderBy('ss.date', 'DESC')
-//            ->getQuery();
         return "
             SELECT  u.*, i.id AS im_id, i.from_id, i.to_id, i.message, i.date, i.is_read, im.unreads
             FROM internal_message i
