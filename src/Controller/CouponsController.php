@@ -50,15 +50,9 @@ class CouponsController extends AbstractFOSRestController
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The value of search. The available field is title",
      *     in="query"
      * )
      * @SWG\Response(
@@ -94,7 +88,6 @@ class CouponsController extends AbstractFOSRestController
         $errors = [];
         $sortField = '';
         $sortDirection = '';
-        $searchField = '';
         $searchTerm = '';
         $columns = $em->getClassMetadata('App\Entity\Coupon')->getFieldNames();
 
@@ -113,14 +106,7 @@ class CouponsController extends AbstractFOSRestController
             $sortDirection = $request->query->get('sortDirection');
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
-
-            //check if the searchField exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            }
-
+        if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
         }
 
@@ -132,15 +118,15 @@ class CouponsController extends AbstractFOSRestController
         $qb->andWhere('co.deleted = 0');
 
         if ($searchTerm) {
-            $qb->andWhere('co.'.$searchField.' LIKE :searchTerm');
-            $queryParameters['searchTerm'] = '%'.$searchTerm.'%';
+            $qb->andWhere("co.title LIKE :searchTerm ");
 
-            $urlParameters['searchField'] = $searchField;
+            $queryParameters['searchTerm'] = '%' . $searchTerm . '%';
+
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
         if ($sortDirection) {
-            $qb->orderBy('co.'.$sortField, $sortDirection);
+            $qb->orderBy('co.' . $sortField, $sortDirection);
 
             $urlParameters['sortField'] = $sortField;
             $urlParameters['sortDirection'] = $sortDirection;
@@ -156,7 +142,7 @@ class CouponsController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'coupons' => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
                 'totalPages' => $pagination->totalPages,
                 'previous' => $pagination->getPreviousPageURL('app_coupons_list', $urlParameters),
@@ -303,5 +289,4 @@ class CouponsController extends AbstractFOSRestController
 
         return $this->handleView($this->view('Coupon Deleted', Response::HTTP_OK));
     }
-
 }
