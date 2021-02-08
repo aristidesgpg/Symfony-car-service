@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Customer;
 use App\Entity\RepairOrder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,6 +56,110 @@ class RepairOrderControllerTest extends WebTestCase {
             $this->assertResponseIsSuccessful();
             $response = json_decode($this->client->getResponse()->getContent());
             $this->assertObjectHasAttribute('id', $response);
+        }
+    }
+
+    public function testGetByLinkHash() {
+        $repairOrder = $this->entityManager->getRepository(RepairOrder::class)
+                                   ->createQueryBuilder('ro')
+                                   ->where('ro.deleted = 0')
+                                   ->setMaxResults(1)
+                                   ->getQuery()
+                                   ->getOneOrNullResult();
+
+        if ($repairOrder && $repairOrder->getLinkHash()) {
+            $linkHash = $repairOrder->getLinkHash();
+
+            $this->requestAction('GET', '/link-hash/'.$linkHash);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertObjectHasAttribute('id', $response);
+        }
+    }
+
+    public function testAdd() {
+        $customer = $this->entityManager->getRepository(Customer::class)
+                         ->createQueryBuilder('c')
+                         ->where('c.deleted = 0')
+                         ->setMaxResults(1)
+                         ->getQuery()
+                         ->getOneOrNullResult();
+
+        if ($customer) {
+            $params = [
+                'customerName'  => 'John Doe',
+                'customerPhone' => $customer->getPhone(),
+                'number'        => '758'
+            ];
+
+            $this->requestAction('POST', '', $params);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertObjectHasAttribute('id', $response);
+        }
+    }
+
+    public function testUpdate() {
+        $repairOrder = $this->entityManager->getRepository(RepairOrder::class)
+                            ->createQueryBuilder('r')
+                            ->where('r.deleted = 0')
+                            ->setMaxResults(1)
+                            ->getQuery()
+                            ->getOneOrNullResult();
+
+        if ($repairOrder) {
+            $params = [
+                'make'  => 'new make',
+                'model' => 'new model'
+            ];
+
+            $this->requestAction('PUT', '/'.$repairOrder->getId(), $params);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertObjectHasAttribute('id', $response);
+        }
+    }
+
+    public function testDelete() {
+        $repairOrder = $this->entityManager->getRepository(RepairOrder::class)
+                            ->createQueryBuilder('r')
+                            ->where('r.deleted = 0')
+                            ->setMaxResults(1)
+                            ->getQuery()
+                            ->getOneOrNullResult();
+
+        if ($repairOrder) {
+            $this->requestAction('DELETE', '/'.$repairOrder->getId());
+            $this->assertResponseIsSuccessful();
+        }
+    }
+
+    public function testArchive() {
+        $repairOrder = $this->entityManager->getRepository(RepairOrder::class)
+                            ->createQueryBuilder('r')
+                            ->where('r.deleted = 0')
+                            ->andWhere('r.archived = 0')
+                            ->setMaxResults(1)
+                            ->getQuery()
+                            ->getOneOrNullResult();
+
+        if ($repairOrder) {
+            $this->requestAction('PUT', '/'.$repairOrder->getId().'/archive');
+            $this->assertResponseIsSuccessful();
+        }
+    }
+
+    public function testClose() {
+        $repairOrder = $this->entityManager->getRepository(RepairOrder::class)
+                            ->createQueryBuilder('r')
+                            ->where('r.deleted = 0')
+                            ->setMaxResults(1)
+                            ->getQuery()
+                            ->getOneOrNullResult();
+
+        if ($repairOrder && !$repairOrder->isClosed()) {
+            $this->requestAction('PUT', '/'.$repairOrder->getId().'/close');
+            $this->assertResponseIsSuccessful();
         }
     }
 
