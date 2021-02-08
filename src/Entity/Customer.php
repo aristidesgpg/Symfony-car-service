@@ -89,6 +89,11 @@ class Customer implements UserInterface {
     private $repairOrderReviewInteractions;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="customer")
+     */
+    private $repairOrderQuoteInteractions;
+
+    /**
      * Customer constructor.
      */
     public function __construct () {
@@ -96,6 +101,7 @@ class Customer implements UserInterface {
         $this->repairOrderMPIInteractions = new ArrayCollection();
         $this->repairOrderInteractions = new ArrayCollection();
         $this->repairOrderReviewInteractions = new ArrayCollection();
+        $this->repairOrderQuoteInteractions = new ArrayCollection();
     }
 
     /**
@@ -345,6 +351,37 @@ class Customer implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderReviewInteraction->getCustomer() === $this) {
                 $repairOrderReviewInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderQuoteInteraction[]
+     */
+    public function getRepairOrderQuoteInteractions(): Collection
+    {
+        return $this->repairOrderQuoteInteractions;
+    }
+
+    public function addRepairOrderQuoteInteractions(RepairOrderQuoteInteraction $repairOrderQuoteInteractions): self
+    {
+        if (!$this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteractions)) {
+            $this->repairOrderQuoteInteractions[] = $repairOrderQuoteInteractions;
+            $repairOrderQuoteInteractions->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderQuoteInteractions(RepairOrderQuoteInteraction $repairOrderQuoteInteractions): self
+    {
+        if ($this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteractions)) {
+            $this->repairOrderQuoteInteractions->removeElement($repairOrderQuoteInteractions);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteInteractions->getCustomer() === $this) {
+                $repairOrderQuoteInteractions->setCustomer(null);
             }
         }
 

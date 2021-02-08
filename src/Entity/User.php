@@ -160,6 +160,11 @@ class User implements UserInterface {
     private $internalMessages;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="user")
+     */
+    private $repairOrderQuoteInteractions;
+
+    /**
      * User constructor.
      */
     public function __construct () {
@@ -168,6 +173,7 @@ class User implements UserInterface {
         $this->repairOrderInteractions    = new ArrayCollection();
         $this->repairOrderTeams           = new ArrayCollection();
         $this->internalMessages           = new ArrayCollection();
+        $this->repairOrderQuoteInteractions = new ArrayCollection();
     }
 
     /**
@@ -615,6 +621,37 @@ class User implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderTeam->getUser() === $this) {
                 $repairOrderTeam->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderQuoteInteraction[]
+     */
+    public function getRepairOrderQuoteInteractions(): Collection
+    {
+        return $this->repairOrderQuoteInteractions;
+    }
+
+    public function addRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
+    {
+        if (!$this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
+            $this->repairOrderQuoteInteractions[] = $repairOrderQuoteInteraction;
+            $repairOrderQuoteInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
+    {
+        if ($this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
+            $this->repairOrderQuoteInteractions->removeElement($repairOrderQuoteInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteInteraction->getUser() === $this) {
+                $repairOrderQuoteInteraction->setUser(null);
             }
         }
 

@@ -68,10 +68,16 @@ class RepairOrderQuote
      */
     private $repairOrderQuoteRecommendations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="repairOrderQuote")
+     */
+    private $repairOrderQuoteInteractions;
+
     public function __construct()
     {
         $this->dateCreated = new DateTime();
         $this->repairOrderQuoteRecommendations = new ArrayCollection();
+        $this->repairOrderQuoteInteractions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,6 +181,37 @@ class RepairOrderQuote
             // set the owning side to null (unless already changed)
             if ($repairOrderQuoteRecommendation->getRepairOrderQuote() === $this) {
                 $repairOrderQuoteRecommendation->setRepairOrderQuote(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderQuoteInteraction[]
+     */
+    public function getRepairOrderQuoteInteractions(): Collection
+    {
+        return $this->repairOrderQuoteInteractions;
+    }
+
+    public function addRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
+    {
+        if (!$this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
+            $this->repairOrderQuoteInteractions[] = $repairOrderQuoteInteraction;
+            $repairOrderQuoteInteraction->setRepairOrderQuote($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
+    {
+        if ($this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
+            $this->repairOrderQuoteInteractions->removeElement($repairOrderQuoteInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteInteraction->getRepairOrderQuote() === $this) {
+                $repairOrderQuoteInteraction->setRepairOrderQuote(null);
             }
         }
 
