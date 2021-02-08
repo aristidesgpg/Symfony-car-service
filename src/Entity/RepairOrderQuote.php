@@ -76,7 +76,7 @@ class RepairOrderQuote
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    private $status = "Not Started";
 
     public function __construct()
     {
