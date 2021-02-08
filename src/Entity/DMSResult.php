@@ -30,6 +30,11 @@ class DMSResult
      */
     private $advisor;
 
+    /**
+     * The actual result. Used for troubleshooting.
+     */
+    private $raw;
+
     public function __construct()
     {
         $this->customer = new DMSResultCustomer();
@@ -215,4 +220,22 @@ class DMSResult
     {
         $this->advisor = $advisor;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getRaw()
+    {
+        return $this->raw;
+    }
+
+    /**
+     * @param mixed $raw
+     */
+    public function setRaw($raw): void
+    {
+        $this->raw = $raw;
+    }
+
+
 }

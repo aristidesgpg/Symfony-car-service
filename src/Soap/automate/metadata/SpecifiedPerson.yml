@@ -61,10 +61,10 @@ App\Soap\automate\src\SpecifiedPerson:
             accessor:
                 getter: getTelephoneCommunication
                 setter: setTelephoneCommunication
-            xml_list:
-                inline: true
-                entry_name: TelephoneCommunication
-                namespace: 'http://www.starstandard.org/STAR/5'
+#            xml_list:
+#                inline: true
+#                entry_name: TelephoneCommunication
+#                namespace: 'http://www.starstandard.org/STAR/5'
             type: App\Soap\automate\src\TelephoneCommunication
         postalAddress:
             expose: true
