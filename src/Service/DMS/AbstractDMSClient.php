@@ -104,6 +104,19 @@ abstract class AbstractDMSClient implements DMSClientInterface
     }
 
     /**
+     * The end goal is to find a mobile phone number to validate against. Each DMS returns the number in different formats. This function tries to normalize that into a phone number.
+     *
+     * TODO Need to see the desired outcome, whether an array or just a string.
+     */
+    public function phoneNormalizer($phone)
+    {
+        return $phone;
+
+    }
+
+
+
+    /**
      * Helper for creating a Web Services Security UsernameToken.
      *
      * @param $username

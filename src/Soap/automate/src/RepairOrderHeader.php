@@ -86,7 +86,6 @@ class RepairOrderHeader
     private $orderNotes = null;
 
 
-
     /**
      * Gets as documentDateTime
      *

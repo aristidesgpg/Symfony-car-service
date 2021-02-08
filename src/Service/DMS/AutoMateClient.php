@@ -14,7 +14,11 @@ use App\Soap\automate\src\ProcessEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Process\Process;
 
+/**
+ * Class AutoMateClient.
+ */
 class AutoMateClient extends AbstractDMSClient
 {
     /**
@@ -37,6 +41,9 @@ class AutoMateClient extends AbstractDMSClient
      */
     private $endpointID;
 
+    /**
+     * @var ProcessEvent
+     */
     private $processEvent;
 
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
@@ -96,7 +103,7 @@ class AutoMateClient extends AbstractDMSClient
                 return $repairOrders;
             }
 
-            $chunks = array_chunk($targetNodes, 50);
+            $chunks = array_chunk($targetNodes, 1);
             foreach ($chunks as $chunk) {
                 //Convert back to a string to send in the payload.
                 $xml = implode('', $chunk);
@@ -106,48 +113,72 @@ class AutoMateClient extends AbstractDMSClient
                     ->setPayload('<ExtractRequest><targets>'.$xml.'</targets></ExtractRequest>');
 
                 $result = $this->sendSoapCall('processEvent', $this->buildEventForSoap($this->getProcessEvent()), true);
+
+                //TODO Need to build the URI classes but haven't found one with them.
+                if (str_contains('URICommunication', $result)) {
+                    var_dump($result);
+                    dd('Found URICommunication');
+                }
+                //TODO Need to build the URI classes but haven't found one with them.
+                if (str_contains('URIID', $result)) {
+                    var_dump($result);
+                    dd('Found URIID');
+                }
+
                 $response = $this->deserializeSOAPResponse($result)->getResponse();
 
                 if (!$response) {
                     continue;
                 }
 
-                //TODO Need to build the URI classes but haven't found one with them.
-                if (str_contains('URICommunication', $response)) {
-                    var_dump($response);
-                    dd('Found URICommunication');
-                }
-
                 //Since this is returned as a malformed array of xml nodes, to deserialize it, add a fake body.
                 $rootNode = '<?xml version="1.0" ?><body>'.$response.'</body>';
                 $deserializedNodes = $this->getSerializer()->deserialize($rootNode, AutomateFakeBodyType::class, 'xml');
+
                 foreach ($deserializedNodes->getRepairOrder() as $repairOrder) {
-                    $repairOrders[] = $this->parseNode($repairOrder);
+                    $parsed = $this->parseRepairOrderNode($repairOrder);
+                    if ($parsed) {
+                        $repairOrders[] = $parsed;
+                    }
                 }
+//                var_dump($result);
+//                dump($deserializedNodes);
+//                dd($repairOrders);
             }
         }
 
         return $repairOrders;
     }
 
-    public function parseNode(\App\Soap\automate\src\RepairOrder $repairOrder)
+    /**
+     * Parses the returned SOAP response and pulls out the relevant information.
+     * @return DMSResult|null
+     */
+    public function parseRepairOrderNode(\App\Soap\automate\src\RepairOrder $repairOrder)
     {
-        dump($repairOrder);
-        //TODO There can be multiple jobs, then what?
-        // Internal RO
         /**
          * @var Job $job
          */
         foreach ($repairOrder->getJob() as $job) {
+            /*
+             * TODO There can be multiple jobs, then what?
+             * Legacy code breaks if there is more than 1 job. Meaning it processes the RO. Should we?
+             *
+                // Internal RO
+                if (isset($repairOrder->Job->JobTypeString)) {
+                    if ($repairOrder->Job->JobTypeString == 'INTERNAL') {
+                        continue;
+                    }
+                }
+             *
+             */
             if ('INTERNAL' == $job->getJobTypeString()) {
-                continue;
+                return null;
             }
         }
 
         $dmsResult = new DMSResult();
-        //TODO Still need to deserialize null objects. Very time consuming. [DONE]
-        $customerFirstName = '';
-        $customerLastName = '';
+        $dmsResult->setRaw($repairOrder);
 
         //Local vars, Make things easier to read
         $ownerParty = $repairOrder->getRepairOrderHeader()->getOwnerParty();
@@ -161,8 +192,9 @@ class AutoMateClient extends AbstractDMSClient
 
                 //phone number
                 if ($specifiedPerson->getTelephoneCommunication()) {
-                    dump($specifiedPerson->getTelephoneCommunication());
-                    $dmsResult->getCustomer()->setPhoneNumbers($specifiedPerson->getTelephoneCommunication()->getCompleteNumber());
+                    $dmsResult->getCustomer()->setPhoneNumbers(
+                        $this->phoneNormalizer($specifiedPerson->getTelephoneCommunication()->getCompleteNumber())
+                    );
                 }
             }
 
@@ -175,17 +207,18 @@ class AutoMateClient extends AbstractDMSClient
                     $dmsResult->getCustomer()->setName($specifiedOrganization->getCompanyName());
                 }
 
-                //No phone, so see if there is an org phone.
+                //No person phone, see if there is an organization phone.
                 if ($specifiedOrganization->getPrimaryContact() && !$dmsResult->getCustomer()->getPhoneNumbers()) {
-                    $dmsResult->getCustomer()->setPhoneNumbers($specifiedOrganization->getPrimaryContact()->getTelephoneCommunication()->getCompleteNumber());
+                    $dmsResult->getCustomer()->setPhoneNumbers(
+                        $this->phoneNormalizer($specifiedOrganization->getPrimaryContact()->getTelephoneCommunication()->getCompleteNumber())
+                    );
                 }
             }
 
-            //TODO Turned off for testing.
-//                // Still no phone number, just skip
-//                if (!$dmsResult->getCustomer()->getPhoneNumbers()) {
-//                    continue;
-//                }
+            // Still no phone number, just skip
+            if (!$dmsResult->getCustomer()->getPhoneNumbers()) {
+                return null;
+            }
 
             //TODO Could not find a person with an email to generate the classes.
 //                // Try to get email
@@ -201,22 +234,12 @@ class AutoMateClient extends AbstractDMSClient
                 $dmsResult->setModel($vehicle->getModel());
                 $dmsResult->setVin($vehicle->getVehicleID());
             }
-            $dmsResult->setMiles($repairOrder->getRepairOrderHeader()->getInDistanceMeasure());
+            $dmsResult->setMiles($repairOrder->getRepairOrderHeader()->getInDistanceMeasure()->value());
 
             $dmsResult->getAdvisor()->setFirstName($repairOrder->getRepairOrderHeader()->getServiceAdvisorParty()->getSpecifiedPerson()->getGivenName());
             $dmsResult->getAdvisor()->setLastName($repairOrder->getRepairOrderHeader()->getServiceAdvisorParty()->getSpecifiedPerson()->getFamilyName());
 
             $dmsResult->setNumber($repairOrder->getRepairOrderHeader()->getDocumentIdentificationGroup()->getAlternateDocumentIdentification()->getDocumentID());
-            //$createdDate = new DateTime();
-
-//
-//                try {
-//                    $createdDate = new DateTime($repairOrder->RepairOrderHeader->DealerParty->AlternatePartyDocument->EffectivePeriod->StartDateTime);
-//
-//                } catch (Exception $e) {
-//                    // nothing
-//                }
-
             $dmsResult->setDate($repairOrder->getRepairOrderHeader()->getDealerParty()->getAlternatePartyDocument()->getEffectivePeriod()->getStartDateTime());
 
             //waiter
@@ -230,7 +253,7 @@ class AutoMateClient extends AbstractDMSClient
                 if (false !== strpos($status->getStatusText(), 'PICKUP_DATE')) {
                     try {
                         $dmsResult->setPickupDate(new \DateTime(explode('=', $status->getStatusText())[1]));
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         // nothing
                     }
                 }
@@ -241,15 +264,11 @@ class AutoMateClient extends AbstractDMSClient
             } else {
                 $dmsResult->setRoKey($repairOrder->getRepairOrderHeader()->getDocumentIdentificationGroup()->getDocumentIdentification()->getDocumentID());
             }
+
+            return $dmsResult;
         }
 
-//
-//            if ($repairOrder->getRepairOrderHeader()->getOwnerParty() && $repairOrder->getRepairOrderHeader()->getOwnerParty()->getFamilyName()) {
-//                $customerLastName = $repairOrder->RepairOrderHeader->OwnerParty->SpecifiedPerson->FamilyName;
-//            }
-//
-
-        return $dmsResult;
+        return null;
     }
 
     public function getRepairOrderKeys(ProcessEvent $processEvent): array
@@ -272,6 +291,13 @@ class AutoMateClient extends AbstractDMSClient
         );
     }
 
+    /**
+     * @param $result
+     *
+     * @return mixed
+     *
+     * @throws \Exception
+     */
     public function deserializeSOAPResponse($result)
     {
         $deserialized = $this->getSerializer()->deserialize($result, AutomateEnvelope::class, 'xml');
@@ -286,6 +312,11 @@ class AutoMateClient extends AbstractDMSClient
         return $processEventResultType;
     }
 
+    /**
+     * @param $processEvent
+     *
+     * @return array[]
+     */
     public function buildEventForSoap($processEvent)
     {
         return [[
@@ -298,6 +329,11 @@ class AutoMateClient extends AbstractDMSClient
         ]];
     }
 
+    /**
+     * @return array
+     *
+     * @throws \Exception
+     */
     public function getClosedRoDetails(array $openRepairOrders)
     {
         $closedRepairOrders = [];
@@ -317,9 +353,6 @@ class AutoMateClient extends AbstractDMSClient
             /**
              * @var AutomateEnvelope $automateEnvelope
              */
-//            $automateEnvelope = $this->getSerializer()->deserialize($result, AutomateEnvelope::class, 'xml');
-//            $response = $automateEnvelope->getBody()->getProcessEventResponse()->getProcessEventResult()->getResponse();
-
             $response = $this->deserializeSOAPResponse($result)->getResponse();
             if (!$response) {
                 continue;
@@ -327,18 +360,16 @@ class AutoMateClient extends AbstractDMSClient
 
             //Since this is returned as an array of xml nodes, to deserialize it, add a fake body.
             $rootNode = '<?xml version="1.0" ?><body>'.$response.'</body>';
-
             $deserializedNode = $this->getSerializer()->deserialize($rootNode, \App\Soap\automate\src\AutomateFakeBodyType::class, 'xml');
-            dump($deserializedNode->getRepairOrder());
 
             if (!isset($deserializedNode->getRepairOrder()[0])) {
                 continue;
             }
+
             /**
              * @var \App\Soap\automate\src\RepairOrder $resultRepairOrder
              */
             $resultRepairOrder = $deserializedNode->getRepairOrder()[0];
-
             if (!$resultRepairOrder) {
                 continue;
             }
@@ -361,7 +392,6 @@ class AutoMateClient extends AbstractDMSClient
             }
 
             //TODO Nested for loop. Revisit
-            //TODO Need to revisit incase repair order status is not an array.
             foreach ($resultRepairOrder->getJob() as $job) {
                 if (!$job->getPricing()) {
                     continue;
@@ -382,10 +412,6 @@ class AutoMateClient extends AbstractDMSClient
             $this->getEntityManager()->flush();
 
             $closedRepairOrder[] = $repairOrder;
-            dump($resultRepairOrder);
-            dump($deserializedNode);
-
-            dd();
         }
 
         return $closedRepairOrders;
@@ -453,7 +479,7 @@ class AutoMateClient extends AbstractDMSClient
         $this->processEvent = $processEvent;
     }
 
-    public static function getDefaultIndexName()
+    public static function getDefaultIndexName(): string
     {
         return 'usingAutomate';
     }
