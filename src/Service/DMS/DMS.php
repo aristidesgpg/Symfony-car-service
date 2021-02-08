@@ -245,6 +245,9 @@ class DMS
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
 
+        dd($dmsRepairOrder);
+
+
         //TODO Testing, take out for prod. 111 numbers fail validation.
         foreach($dmsRepairOrder->getCustomer()->getPhoneNumbers() as $key => $number)
         {
