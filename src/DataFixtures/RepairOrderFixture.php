@@ -44,7 +44,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
             'Advisor In Progress',
             'Sent',
             'Viewed',
-            'Complete',
+            'Completed',
             'Confirmed',
         ];
         $paymentOptions = [
