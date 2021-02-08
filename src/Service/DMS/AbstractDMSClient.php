@@ -78,6 +78,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
             ]);
 
         } catch (\SoapFault $e) {
+            dd($e);
             $this->logError($this->getWsdl(), $e->getMessage());
         }
     }

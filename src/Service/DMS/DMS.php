@@ -142,7 +142,7 @@ class DMS
         //$defaultTechnician = $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC']);
 
         $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
-        dump($dmsOpenRepairOrders);
+        return $dmsOpenRepairOrders;
 
         // Loop over found repair orders
         /**
@@ -153,7 +153,9 @@ class DMS
 
             $this->processRepairOrder($dmsOpenRepairOrder);
         }
-        dd($dmsOpenRepairOrders);
+
+
+        return $dmsOpenRepairOrders;
     }
 
     /**
@@ -379,7 +381,7 @@ class DMS
     public function closeOpenRepairOrders()
     {
         // Get open repair orders
-        $openRepairOrders = $this->repairOrderRepo->findBy(['dateClosed' => null, 'deleted' => 0]);
+        $openRepairOrders = $this->repairOrderRepo->findBy(['dateClosed' => null, 'deleted' => 0]);  ;
         $checkRepairOrders = [];
 
         // if ($openRepairOrders) {
