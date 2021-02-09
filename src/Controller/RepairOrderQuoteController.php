@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrderQuote;
+use App\Entity\RepairOrderQuoteInteraction;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\OperationCodeRepository;
@@ -20,6 +21,7 @@ use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use DateTime;
 
 class RepairOrderQuoteController extends AbstractFOSRestController
 {
@@ -271,6 +273,67 @@ class RepairOrderQuoteController extends AbstractFOSRestController
                 Response::HTTP_OK
             )
         );
+    }
+
+    /**
+     * @Rest\Post("/api/repair-order-quote/view")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Put(description="Set the RepairOrderQuote status as Viewed")
+     * @SWG\Parameter(
+     *     name="repairOrderQuoteID",
+     *     type="integer",
+     *     in="formData",
+     *     description="ID for the RepairOrderQuote",
+     *     required=true
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Updated" }),
+     *         )
+     * )
+     */
+    public function customerViewed(
+        Request                    $request,
+        RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        OperationCodeRepository    $operationCodeRepository,
+        EntityManagerInterface     $em
+    ): Response {
+        $repairOrderQuoteID = $request->get('repairOrderQuoteID');
+        $status             = "Viewed";
+        //check if param is valid
+        if(!$repairOrderQuoteID){
+            throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
+        }
+        $repairOrderQuote   = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        if (!$repairOrderQuote) {
+            throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        //Get RepairOrder
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        //Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+        // Update repairOrderQuote Status
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status)
+                         ->setDateCustomerViewed(new DateTime());
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
+
+        return $this->handleView($this->view(['message' => 'RepairOrderQuote Updated'], Response::HTTP_OK));
     }
 
     /**
