@@ -193,7 +193,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      * @Rest\Post("/api/repair-order-quote/view")
      *
      * @SWG\Tag(name="Repair Order Quote")
-     * @SWG\Put(description="Set the RepairOrderQuote status as Viewed")
+     * @SWG\Post(description="Set the RepairOrderQuote status as Viewed")
      * @SWG\Parameter(
      *     name="repairOrderQuoteID",
      *     type="integer",
@@ -253,7 +253,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      * @Rest\Post("/api/repair-order-quote/complete")
      *
      * @SWG\Tag(name="Repair Order Quote")
-     * @SWG\Put(description="Set the RepairOrderQuote status as Completed")
+     * @SWG\Post(description="Set the RepairOrderQuote status as Completed")
      * @SWG\Parameter(
      *     name="repairOrderQuoteID",
      *     type="integer",
@@ -310,10 +310,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/repair-order-quote/complete")
+     * @Rest\Post("/api/repair-order-quote/confirm")
      *
      * @SWG\Tag(name="Repair Order Quote")
-     * @SWG\Put(description="Set the RepairOrderQuote status as Confirmed")
+     * @SWG\Post(description="Set the RepairOrderQuote status as Confirmed")
      * @SWG\Parameter(
      *     name="repairOrderQuoteID",
      *     type="integer",
