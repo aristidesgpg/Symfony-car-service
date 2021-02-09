@@ -115,7 +115,7 @@ class UserController extends AbstractFOSRestController
             $users = $userRepo->getActiveUsers();
         }
         else if (!$userHelper->isValidRole($role)) {
-            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_NOT_ACCEPTABLE));
         }else{
             $users = $userRepo->getUserByRole($role);
         }
