@@ -122,7 +122,7 @@ class RepairOrderRepository extends ServiceEntityRepository
                         $queryParameters['user']  = $user;
                     }
                 } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
-                    $qb->andWhere('ro.primaryTechnician = :user')
+                    $qb->andWhere('ro.primaryTechnician = :user  OR ro.primaryTechnician is NULL')
                        ->setParameter('user', $user);
                     $queryParameters['user']      = $user;
                 }

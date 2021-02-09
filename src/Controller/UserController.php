@@ -111,9 +111,13 @@ class UserController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        // role is invalid
-        if (!is_null($role) && !$userHelper->isValidRole($role)) {
-            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_NOT_ACCEPTABLE));
+        if(!$role){
+            $users = $userRepo->getActiveUsers();
+        }
+        else if (!$userHelper->isValidRole($role)) {
+            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+        }else{
+            $users = $userRepo->getUserByRole($role);
         }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
@@ -145,7 +149,7 @@ class UserController extends AbstractFOSRestController
                 $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
             );
         }
-        
+
         $pager      = $paginator->paginate($users, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
