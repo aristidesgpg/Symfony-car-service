@@ -41,67 +41,64 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
                                         ->setType($status)
                                         ->setDate($dateCreated);
             $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
-            //Sent
+            //Advisor in Progress
             if($faker->boolean(50)){
-                $dateSent       = clone $dateCreated;
-                $dateSentModify = random_int(1, 12);
-                $dateSent       = $dateSent->modify('+' . $dateSentModify . ' hours');
-                $status         = "Sent";
-                //update repairOrderQuote sent date
-                $repairOrderQuote->setDateSent($dateSent);
+                $dateAdvisorInProgress       = clone $dateCreated;
+                $dateAdvisorInProgressModify = random_int(1, 12);
+                $dateAdvisorInProgress       = $dateAdvisorInProgress->modify('+' . $dateAdvisorInProgressModify . ' hours');
+                $status         = "Advisor In Progress";
                 //create repairOrderQuoteInteraction
                 $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
                 $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
                                             ->setUser($repairOrder->getPrimaryTechnician())
                                             ->setCustomer($repairOrder->getPrimaryCustomer())
                                             ->setType($status)
-                                            ->setDate($dateCreated);
+                                            ->setDate($dateAdvisorInProgress);
                 $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
-                //Viewed
+                //Sent
                 if($faker->boolean(50)){
-                    $viewCount  = $faker->numberBetween(1, 5);
-                    $dateViewed = clone $dateSent;
-                    for($j = 0; $j < $viewCount; $j++){
-                        $dateViewed       = clone $dateViewed;
-                        $dateViewedModify = random_int(1, 12);
-                        $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
-                        $status           = "Viewed";
-                        //update repairOrderQuote viewed date
-                        $repairOrderQuote->getDateCustomerViewed($dateSent);
-                        //create repairOrderQuoteInteraction
-                        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
-                        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                                    ->setType($status)
-                                                    ->setDate($dateCreated);
-                        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
-                    }
-                    //Completed
+                    $dateSent       = clone $dateAdvisorInProgress;
+                    $dateSentModify = random_int(1, 12);
+                    $dateSent       = $dateSent->modify('+' . $dateSentModify . ' hours');
+                    $status         = "Sent";
+                    //update repairOrderQuote sent date
+                    $repairOrderQuote->setDateSent($dateSent);
+                    //create repairOrderQuoteInteraction
+                    $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+                    $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                                ->setUser($repairOrder->getPrimaryTechnician())
+                                                ->setCustomer($repairOrder->getPrimaryCustomer())
+                                                ->setType($status)
+                                                ->setDate($dateCreated);
+                    $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                    //Viewed
                     if($faker->boolean(50)){
-                        $dateCompleted       = clone $dateViewed;
-                        $dateCompletedModify = random_int(1, 12);
-                        $dateCompleted       = $dateCompleted->modify('+' . $dateCompletedModify . ' hours');
-                        $status              = "Completed";
-                        //update repairOrderQuote sent date
-                        $repairOrderQuote->getDateCustomerCompleted($dateCompleted);
-                        //create repairOrderQuoteInteraction
-                        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
-                        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                                    ->setType($status)
-                                                    ->setDate($dateCompleted);
-                        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
-
-                        //Confirmed
+                        $viewCount  = $faker->numberBetween(1, 5);
+                        $dateViewed = clone $dateSent;
+                        for($j = 0; $j < $viewCount; $j++){
+                            $dateViewed       = clone $dateViewed;
+                            $dateViewedModify = random_int(1, 12);
+                            $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
+                            $status           = "Viewed";
+                            //update repairOrderQuote viewed date
+                            $repairOrderQuote->getDateCustomerViewed($dateSent);
+                            //create repairOrderQuoteInteraction
+                            $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+                            $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                                        ->setUser($repairOrder->getPrimaryTechnician())
+                                                        ->setCustomer($repairOrder->getPrimaryCustomer())
+                                                        ->setType($status)
+                                                        ->setDate($dateCreated);
+                            $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                        }
+                        //Completed
                         if($faker->boolean(50)){
-                            $dateConfirmed       = clone $dateCompleted;
-                            $dateConfirmedModify = random_int(1, 12);
-                            $dateConfirmed       = $dateConfirmed->modify('+' . $dateConfirmedModify . ' hours');
-                            $status              = "Confirmed";
+                            $dateCompleted       = clone $dateViewed;
+                            $dateCompletedModify = random_int(1, 12);
+                            $dateCompleted       = $dateCompleted->modify('+' . $dateCompletedModify . ' hours');
+                            $status              = "Completed";
                             //update repairOrderQuote sent date
-                            $repairOrderQuote->setDateCustomerConfirmed($dateCompleted);
+                            $repairOrderQuote->getDateCustomerCompleted($dateCompleted);
                             //create repairOrderQuoteInteraction
                             $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
                             $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
@@ -110,6 +107,24 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
                                                         ->setType($status)
                                                         ->setDate($dateCompleted);
                             $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+
+                            //Confirmed
+                            if($faker->boolean(50)){
+                                $dateConfirmed       = clone $dateCompleted;
+                                $dateConfirmedModify = random_int(1, 12);
+                                $dateConfirmed       = $dateConfirmed->modify('+' . $dateConfirmedModify . ' hours');
+                                $status              = "Confirmed";
+                                //update repairOrderQuote sent date
+                                $repairOrderQuote->setDateCustomerConfirmed($dateCompleted);
+                                //create repairOrderQuoteInteraction
+                                $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+                                $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                                            ->setUser($repairOrder->getPrimaryTechnician())
+                                                            ->setCustomer($repairOrder->getPrimaryCustomer())
+                                                            ->setType($status)
+                                                            ->setDate($dateCompleted);
+                                $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                            }
                         }
                     }
 
