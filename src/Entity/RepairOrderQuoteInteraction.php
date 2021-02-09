@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\RepairOrderQuoteInteractionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderQuoteInteractionRepository::class)
@@ -42,6 +43,11 @@ class RepairOrderQuoteInteraction
      * @ORM\Column(type="datetime")
      */
     private $date;
+
+    public function __construct()
+    {
+        $this->date = new DateTime();
+    }
 
     public function getId(): ?int
     {

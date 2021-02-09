@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrderQuote;
+use App\Entity\RepairOrderQuoteInteraction;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderQuoteHelper;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -115,7 +117,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
-        if (is_null($recommendations) || !is_array($recommendations) || count($recommendations) === 0) {
+        if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
             throw new BadRequestHttpException('Recommendations data is invalid');
         }
 
@@ -154,6 +156,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Updated" }),
      *         )
      * )
+     *
      * @throws Exception
      */
     public function updateRepairOrderQuote(
@@ -169,7 +172,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
-        if (is_null($recommendations) || !is_array($recommendations) || count($recommendations) === 0) {
+        if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
             throw new BadRequestHttpException('Recommendations data is invalid');
         }
 
@@ -187,6 +190,67 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     }
 
     /**
+     * @Rest\Post("/api/repair-order-quote/view")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Put(description="Set the RepairOrderQuote status as Viewed")
+     * @SWG\Parameter(
+     *     name="repairOrderQuoteID",
+     *     type="integer",
+     *     in="formData",
+     *     description="ID for the RepairOrderQuote",
+     *     required=true
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Updated" }),
+     *         )
+     * )
+     */
+    public function customerViewed(
+        Request $request,
+        RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        OperationCodeRepository $operationCodeRepository,
+        EntityManagerInterface $em
+    ): Response {
+        $repairOrderQuoteID = $request->get('repairOrderQuoteID');
+        $status = 'Viewed';
+        //check if param is valid
+        if (!$repairOrderQuoteID) {
+            throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
+        }
+        $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        if (!$repairOrderQuote) {
+            throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        //Get RepairOrder
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        //Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+        // Update repairOrderQuote Status
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status)
+                         ->setDateCustomerViewed(new DateTime());
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
+
+        return $this->handleView($this->view(['message' => 'RepairOrderQuote Updated'], Response::HTTP_OK));
+    }
+
+    /**
      * @Rest\Delete("/api/repair-order-quote/{id}")
      *
      * @SWG\Tag(name="Repair Order Quote")
@@ -201,9 +265,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @param RepairOrderQuote       $repairOrderQuote
-     * @param EntityManagerInterface $em
      *
      * @return Response
      */
