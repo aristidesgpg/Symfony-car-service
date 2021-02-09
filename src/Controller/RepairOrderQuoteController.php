@@ -189,6 +189,183 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         return $this->handleView($view);
     }
 
+        /**
+     * @Rest\Post("/api/repair-order-quote/tech-in-progress")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Post(description="Set the RepairOrderQuote status as Technician In Progress")
+     * @SWG\Parameter(
+     *     name="repairOrderQuoteID",
+     *     type="integer",
+     *     in="formData",
+     *     description="ID for the RepairOrderQuote",
+     *     required=true
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "RepairOrderQuote Status Updated" }),
+     *         )
+     * )
+     */
+    public function techInProgress(
+        Request                    $request,
+        RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        EntityManagerInterface     $em
+    ): Response {
+        $repairOrderQuoteID = $request->get('repairOrderQuoteID');
+        $status             = "Technician In Progress";
+        //check if param is valid
+        if(!$repairOrderQuoteID){
+            throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
+        }
+        $repairOrderQuote   = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        if (!$repairOrderQuote) {
+            throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        //Get RepairOrder
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        //Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+        // Update repairOrderQuote Status
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status);
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
+
+        return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Post("/api/repair-order-quote/parts-in-progress")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Post(description="Set the RepairOrderQuote status as Parts In Progress")
+     * @SWG\Parameter(
+     *     name="repairOrderQuoteID",
+     *     type="integer",
+     *     in="formData",
+     *     description="ID for the RepairOrderQuote",
+     *     required=true
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "RepairOrderQuote Status Updated" }),
+     *         )
+     * )
+     */
+    public function partsInProgress(
+        Request                    $request,
+        RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        EntityManagerInterface     $em
+    ): Response {
+        $repairOrderQuoteID = $request->get('repairOrderQuoteID');
+        $status             = "Parts In Progress";
+        //check if param is valid
+        if(!$repairOrderQuoteID){
+            throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
+        }
+        $repairOrderQuote   = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        if (!$repairOrderQuote) {
+            throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        //Get RepairOrder
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        //Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+        // Update repairOrderQuote Status
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status);
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
+
+        return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
+    }
+
+    /**
+     * @Rest\Post("/api/repair-order-quote/advisor-in-progress")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Post(description="Set the RepairOrderQuote status as Advisor In Progress")
+     * @SWG\Parameter(
+     *     name="repairOrderQuoteID",
+     *     type="integer",
+     *     in="formData",
+     *     description="ID for the RepairOrderQuote",
+     *     required=true
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "RepairOrderQuote Status Updated" }),
+     *         )
+     * )
+     */
+    public function advisorInProgress(
+        Request                    $request,
+        RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        EntityManagerInterface     $em
+    ): Response {
+        $repairOrderQuoteID = $request->get('repairOrderQuoteID');
+        $status             = "Advisor In Progress";
+        //check if param is valid
+        if(!$repairOrderQuoteID){
+            throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
+        }
+        $repairOrderQuote   = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        if (!$repairOrderQuote) {
+            throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        //Get RepairOrder
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        //Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+        // Update repairOrderQuote Status
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status);
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
+
+        return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
+    }
+
     /**
      * @Rest\Post("/api/repair-order-quote/view")
      *
