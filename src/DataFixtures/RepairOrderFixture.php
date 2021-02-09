@@ -52,7 +52,6 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
             'Sent',
             'Viewed',
             'Paid',
-            'Complete',
             'Confirmed',
         ];
 
@@ -69,8 +68,8 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                     ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
                     ->setVideoStatus('Not Started')
                     ->setMPIStatus('Not Started')
-                    ->setPaymentStatus('Not Started')
-                    ->setQuoteStatus('Not Started')
+                    ->setPaymentStatus($faker->randomElement($paymentOptions))
+                    ->setQuoteStatus($faker->randomElement($quoteOptions))
                     ->setWaiter($faker->boolean(25))
                     ->setLinkHash(sha1('test'))
                     ->setDeleted($faker->boolean(2))
@@ -127,8 +126,8 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                         ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
                         ->setVideoStatus('Not Started')
                         ->setMPIStatus('Not Started')
-                        ->setPaymentStatus('Not Started')
-                        ->setQuoteStatus('Not Started')
+                        ->setPaymentStatus($faker->randomElement($paymentOptions))
+                        ->setQuoteStatus($faker->randomElement($quoteOptions))
                         ->setWaiter($waiter)
                         ->setPickupDate($pickupDate)
                         ->setLinkHash(sha1($faker->unique()->randomAscii.$i))

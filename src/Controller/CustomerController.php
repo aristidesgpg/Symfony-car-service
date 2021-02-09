@@ -42,14 +42,14 @@ class CustomerController extends AbstractFOSRestController
      *     description="Page Limit",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="sortField",
      *     type="string",
      *     description="The name of sort field",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="sortDirection",
      *     type="string",
@@ -57,7 +57,7 @@ class CustomerController extends AbstractFOSRestController
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
@@ -143,7 +143,7 @@ class CustomerController extends AbstractFOSRestController
             null,
             $sortField,
             $sortDirection,
-            $searchTerm,
+            $searchTerm
         );
 
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);

@@ -82,7 +82,7 @@ class RepairOrderMPIController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Not Found');
         }
 
-        //check if repair Order is duplicated
+        // check if repair Order is duplicated
         $isDuplicated = $repairOrderMPIRepository->findOneBy(['repairOrder' => $repairOrderID]);
         if ($isDuplicated) {
             throw new BadRequestHttpException('MPI Results already exists for this repair order');
@@ -108,6 +108,13 @@ class RepairOrderMPIController extends AbstractFOSRestController
         $repairOrderMPI->addRepairOrderMPIInteraction($repairOrderMPIInteraction);
         $em->persist($repairOrderMPI);
         $em->flush();
+
+        // Check to see if we need to assign the technician
+        if (is_null($repairOrder->getPrimaryTechnician()) && $this->isGranted('ROLE_TECHNICIAN')) {
+            $repairOrder->setPrimaryTechnician($this->getUser());
+            $em->persist($repairOrder);
+            $em->flush();
+        }
 
         // Send MPI
         $repairOrderMPIHelper->sendMPI($repairOrderMPI);

@@ -193,9 +193,9 @@ class SettingsController extends AbstractFOSRestController
     public function setSettings(Request $req, SettingsHelper $helper, UploadHelper $uploader): Response
     {
         $parameterList = SettingsHelper::VALID_SETTINGS;
-        $fileList = SettingsHelper::VALID_FILE_SETTINGS;
-        $settings = [];
-        $errors = [];
+        $fileList      = SettingsHelper::VALID_FILE_SETTINGS;
+        $settings      = [];
+        $errors        = [];
 
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {

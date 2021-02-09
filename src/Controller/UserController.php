@@ -59,12 +59,6 @@ class UserController extends AbstractFOSRestController
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
      *     description="The value of search",
@@ -104,27 +98,30 @@ class UserController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $page = $request->query->getInt('page', 1);
-        $role = $request->query->get('role');
+        $page       = $request->query->getInt('page', 1);
+        $role       = $request->query->get('role');
         $urlParameters = [];
-        $errors = [];
-        $sortField = '';
+        $errors     = [];
+        $sortField  = '';
         $sortDirection = '';
-        $searchField = '';
         $searchTerm = '';
-        $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
+        $columns    = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        // role is invalid
-        if (!is_null($role) && !$userHelper->isValidRole($role)) {
-            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_NOT_ACCEPTABLE));
+        if(!$role){
+            $users = $userRepo->getActiveUsers();
+        }
+        else if (!$userHelper->isValidRole($role)) {
+            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+        }else{
+            $users = $userRepo->getUserByRole($role);
         }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField = $request->query->get('sortField');
+            $sortField  = $request->query->get('sortField');
 
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
@@ -136,16 +133,8 @@ class UserController extends AbstractFOSRestController
             $urlParameters['sortDirection'] = $sortDirection;
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
-
-            //check if the searchField exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            }
-
+        if ( $request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
-            $urlParameters['searchField'] = $searchField;
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
@@ -153,24 +142,24 @@ class UserController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        $users = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchField, $searchTerm);
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $users      = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchTerm);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         if ($pageLimit < 1) {
             return $this->handleView(
                 $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
             );
         }
-        $pager = $paginator->paginate($users, $page, $pageLimit);
+        $pager      = $paginator->paginate($users, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
             ]
         );
 
