@@ -23,8 +23,8 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
     {
         $faker = Factory::create();
 
-        for ($i = 1; $i < 100; $i++) {
-            $repairOrderReference = $faker->numberBetween(1, 150);
+        for ($i = 1; $i <= 100; $i++) {
+            $repairOrderReference = $faker->unique()->numberBetween(1, 150);
             $repairOrder = $this->getReference('repairOrder_' . $repairOrderReference);
             
             $dateCreated = $faker->dateTimeThisYear;
@@ -96,7 +96,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
 
                         //Confirmed
                         if($faker->boolean(50)){
-                            $dateConfirmed       = clone $dateViewed;
+                            $dateConfirmed       = clone $dateCompleted;
                             $dateConfirmedModify = random_int(1, 12);
                             $dateConfirmed       = $dateConfirmed->modify('+' . $dateConfirmedModify . ' hours');
                             $status              = "Confirmed";
@@ -120,6 +120,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
             $repairOrderQuote->setStatus($status);
             $manager->persist($repairOrderQuote);
             $manager->persist($repairOrder);
+            $manager->flush();
 
             $this->addReference('repairOrderQuote_' . $i, $repairOrderQuote);
         }

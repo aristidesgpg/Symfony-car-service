@@ -20,12 +20,13 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
     public function load (ObjectManager $manager) {
         $faker = Factory::create();
         
-        for($i = 0; $i < 50; $i ++){
-            $repairOrderQuoteReference   = $faker->numberBetween(1, 49);
+        for($i = 1; $i <= 50; $i ++){
+            $repairOrderQuoteReference   = $faker->numberBetween(1, 100);
+            $repairOrderQuote            = $this->getReference('repairOrderQuote_' . $repairOrderQuoteReference);
             $operationCodeReference      = $faker->numberBetween(2, 50);
            
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
-            $repairOrderQuoteRecommendation->setRepairOrderQuote($this->getReference('repairOrderQuote_' . $repairOrderQuoteReference))
+            $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
                                            ->setOperationCode($this->getReference('operationCode_' . $operationCodeReference))
                                            ->setDescription($faker->sentence($nbWords = 5, $variableNbWords = true))
                                            ->setPreApproved($faker->boolean(70))
@@ -35,7 +36,7 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
                                            ->setLaborPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
                                            ->setNotes($faker->sentence($nbWords = 3, $variableNbWords = true));
 
-            $manager->persist($repairOrderQuoteRecommendation);
+            $manager->persist($repairOrderQuote);
             $manager->flush();
 
             $this->addReference('repairOrderQuoteRecommendation_' . $i, $repairOrderQuoteRecommendation);

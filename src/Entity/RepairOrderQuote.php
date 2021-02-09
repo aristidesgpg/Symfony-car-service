@@ -69,7 +69,7 @@ class RepairOrderQuote
     private $repairOrderQuoteRecommendations;
 
     /**
-     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="repairOrderQuote")
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="repairOrderQuote", cascade={"persist"})
      */
     private $repairOrderQuoteInteractions;
 
