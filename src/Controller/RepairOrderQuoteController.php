@@ -251,6 +251,67 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     }
 
     /**
+     * @Rest\Post("/api/repair-order-quote/complete")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Put(description="Set the RepairOrderQuote status as Completed")
+     * @SWG\Parameter(
+     *     name="repairOrderQuoteID",
+     *     type="integer",
+     *     in="formData",
+     *     description="ID for the RepairOrderQuote",
+     *     required=true
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Updated" }),
+     *         )
+     * )
+     */
+    public function customerCompleted(
+        Request                    $request,
+        RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        OperationCodeRepository    $operationCodeRepository,
+        EntityManagerInterface     $em
+    ): Response {
+        $repairOrderQuoteID = $request->get('repairOrderQuoteID');
+        $status             = "Completed";
+        //check if param is valid
+        if(!$repairOrderQuoteID){
+            throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
+        }
+        $repairOrderQuote   = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        if (!$repairOrderQuote) {
+            throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        //Get RepairOrder
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        //Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+        // Update repairOrderQuote Status
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status)
+                         ->setDateCustomerCompleted(new DateTime());
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
+
+        return $this->handleView($this->view(['message' => 'RepairOrderQuote Updated'], Response::HTTP_OK));
+    }
+
+    /**
      * @Rest\Delete("/api/repair-order-quote/{id}")
      *
      * @SWG\Tag(name="Repair Order Quote")
