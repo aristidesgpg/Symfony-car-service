@@ -35,6 +35,9 @@ class DMSResult
      */
     private $raw;
 
+    private $initialROValue;
+
+
     public function __construct()
     {
         $this->customer = new DMSResultCustomer();
@@ -236,6 +239,24 @@ class DMSResult
     {
         $this->raw = $raw;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getInitialROValue()
+    {
+        return $this->initialROValue;
+    }
+
+    /**
+     * @param mixed $initialROValue
+     */
+    public function setInitialROValue($initialROValue): void
+    {
+        $this->initialROValue = $initialROValue;
+    }
+
+
 
 
 }

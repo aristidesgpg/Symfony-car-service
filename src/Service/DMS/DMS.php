@@ -142,15 +142,12 @@ class DMS
         //$defaultTechnician = $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC']);
 
         $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
-        return $dmsOpenRepairOrders;
 
         // Loop over found repair orders
         /**
          * @var DMSResult $dmsOpenRepairOrder
          */
         foreach ($dmsOpenRepairOrders as $dmsOpenRepairOrder) {
-            dump('here');
-
             $this->processRepairOrder($dmsOpenRepairOrder);
         }
 
@@ -247,7 +244,7 @@ class DMS
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
 
-        dd($dmsRepairOrder);
+        //dd($dmsRepairOrder);
 
 
         //TODO Testing, take out for prod. 111 numbers fail validation.
@@ -381,7 +378,9 @@ class DMS
     public function closeOpenRepairOrders()
     {
         // Get open repair orders
-        $openRepairOrders = $this->repairOrderRepo->findBy(['dateClosed' => null, 'deleted' => 0]);  ;
+        $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
+
+
         $checkRepairOrders = [];
 
         // if ($openRepairOrders) {

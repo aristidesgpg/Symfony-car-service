@@ -45,6 +45,9 @@ class AutoMateClient extends AbstractDMSClient
      */
     private $processEvent;
 
+
+    //TODO Initial RO Value
+
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -114,7 +117,6 @@ class AutoMateClient extends AbstractDMSClient
                 $result = $this->sendSoapCall('processEvent', $this->buildEventForSoap($this->getProcessEvent()), true);
 
                 $response = $this->deserializeSOAPResponse($result)->getResponse();
-                dump($response);
                 if (!$response) {
                     continue;
                 }
@@ -122,7 +124,6 @@ class AutoMateClient extends AbstractDMSClient
                 //Since this is returned as a malformed array of xml nodes, to deserialize it, add a fake body.
                 $rootNode = '<?xml version="1.0" ?><body>'.$response.'</body>';
                 $deserializedNodes = $this->getSerializer()->deserialize($rootNode, AutomateFakeBodyType::class, 'xml');
-                dd($deserializedNodes);
                 foreach ($deserializedNodes->getRepairOrder() as $repairOrder) {
                     $parsed = $this->parseRepairOrderNode($repairOrder);
                     if ($parsed) {
@@ -145,8 +146,6 @@ class AutoMateClient extends AbstractDMSClient
      */
     public function parseRepairOrderNode(\App\Soap\automate\src\RepairOrder $repairOrder)
     {
-        dump($repairOrder);
-
         //This assumes that there cannot be other job types besides internal on an internal job.
         foreach ($repairOrder->getJob() as $job) {
             if ('INTERNAL' == $job->getJobTypeString()) {

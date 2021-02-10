@@ -69,20 +69,44 @@ abstract class AbstractDMSClient implements DMSClientInterface
         $this->serializer = $serializerBuilder->build();
     }
 
-
     public function initializeSoapClient(string $wsdl)
     {
         try {
             $this->soapClient = new \SoapClient($wsdl, [
                 'trace' => 1, //This is needed to get the __getLastResponse()
             ]);
-
         } catch (\SoapFault $e) {
             dd($e);
             $this->logError($this->getWsdl(), $e->getMessage());
         }
     }
 
+
+    /**
+     * Provides a list of the functions and struct's available for a wsdl. Used for development only.
+     * @param string $wsdl
+     */
+    public function describeWsdl(string $wsdl)
+    {
+        try {
+            $client = new \SoapClient($wsdl, [
+                'trace' => 1, //This is needed to get the __getLastResponse()
+            ]);
+            var_dump($client->__getFunctions());
+            var_dump($client->__getTypes());
+        } catch (\SoapFault $e) {
+            var_dump($e->getMessage());
+        }
+    }
+
+
+    /**
+     * @param $name
+     * @param $args
+     * @param false $returnLastResponse
+     *
+     * @return mixed|string|null
+     */
     public function sendSoapCall($name, $args, $returnLastResponse = false)
     {
         //It should validate against the wsdl before the call to make sure its correct.
@@ -99,9 +123,8 @@ abstract class AbstractDMSClient implements DMSClientInterface
             dd($e->getMessage());
             $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage());
 
-            return [];
+            return null;
         }
-
     }
 
     /**
@@ -112,10 +135,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
     public function phoneNormalizer($phone)
     {
         return $phone;
-
     }
-
-
 
     /**
      * Helper for creating a Web Services Security UsernameToken.

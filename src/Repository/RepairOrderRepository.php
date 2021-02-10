@@ -14,26 +14,36 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method RepairOrder[]    findAll()
  * @method RepairOrder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RepairOrderRepository extends ServiceEntityRepository {
-
+class RepairOrderRepository extends ServiceEntityRepository
+{
     /**
      * RepairOrderRepository constructor.
-     *
-     * @param ManagerRegistry $registry
      */
-    public function __construct (ManagerRegistry $registry) {
+    public function __construct(ManagerRegistry $registry)
+    {
         parent::__construct($registry, RepairOrder::class);
     }
 
     /**
-     * @param string $uid
-     *
-     * @return RepairOrder|null
+     * @return array
      */
-    public function findByUID (string $uid): ?RepairOrder {
+    public function getOpenRepairOrders(): array
+    {
+        //Set the number as the key to make it faster for finding.
+        $results = $this->findBy(['dateClosed' => null, 'deleted' => 0]);
+        $result = [];
+        foreach ($results as $r) {
+            $result[$r->getNumber()] = $r;
+        }
+
+        return $result;
+    }
+
+    public function findByUID(string $uid): ?RepairOrder
+    {
         try {
             // If they pass an integer, they're trying to find an ID
-            if (is_int($uid)){
+            if (is_int($uid)) {
                 return $this->find($uid);
             }
 
@@ -51,12 +61,8 @@ class RepairOrderRepository extends ServiceEntityRepository {
         }
     }
 
-    /**
-     * @param string $number
-     *
-     * @return RepairOrder|null
-     */
-    public function findByNumber (string $number): ?RepairOrder {
+    public function findByNumber(string $number): ?RepairOrder
+    {
         try {
             return $this->createQueryBuilder('ro')
                         ->andWhere('ro.number = :number')
@@ -68,12 +74,8 @@ class RepairOrderRepository extends ServiceEntityRepository {
         }
     }
 
-    /**
-     * @param string $linkHash
-     *
-     * @return RepairOrder|null
-     */
-    public function findByHash (string $linkHash): ?RepairOrder {
+    public function findByHash(string $linkHash): ?RepairOrder
+    {
         try {
             return $this->createQueryBuilder('ro')
                         ->andWhere('ro.linkHash = :hash')
@@ -84,7 +86,6 @@ class RepairOrderRepository extends ServiceEntityRepository {
             return null;
         }
     }
-
 
     // /**
     //  * @return User[] Returns an array of User objects
