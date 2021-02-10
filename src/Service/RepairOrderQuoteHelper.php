@@ -20,6 +20,7 @@ class RepairOrderQuoteHelper
         'partsPrice',
         'suppliesPrice',
         'laborPrice',
+        'notes',
     ];
 
     /**
@@ -42,7 +43,7 @@ class RepairOrderQuoteHelper
                 if (!isset($fields[$field])) {
                     throw new Exception($field.' is missing in recommendations json');
                 } else {
-                    if ($fields[$field] === "") {
+                    if ($fields[$field] === '') {
                         throw new Exception($field.' has no value in recommendations json');
                     }
 
