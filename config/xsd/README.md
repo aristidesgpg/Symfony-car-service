@@ -22,3 +22,9 @@ https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd10
 https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd11
 https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd12
 maker: tools\vendor\bin\xsd2php.bat convert config\xsd\dealerbuilt.yml config\xsd\dealerbuilt.xsd
+
+
+DealerTrack:
+wsdl: https://otstaging.arkona.com/opentrack/serviceapi.asmx?WSDL
+xsd: None. Generated one from the XML result, then modified.
+maker: tools\vendor\bin\xsd2php.bat convert config\xsd\dealertrack.yml config\xsd\dealertrack.xsd

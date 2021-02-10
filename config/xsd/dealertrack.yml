@@ -1,0 +1,18 @@
+# config.yml
+# Linux Users: PHP Namespaces use back slash \ rather than a forward slash /
+# So for destinations_php, the namespace would be App\Model
+
+xsd2php:
+  namespaces:
+    'http://www.w3.org/2001/XMLSchema': 'App\Soap\dealertrack\src'
+    'opentrack.dealertrack.com/transitional': 'App\Soap\dealertrack\src'
+
+  destinations_php:
+    'App\Soap\dealertrack\src': src\Soap\dealertrack\src  #  on Windows
+
+  destinations_jms:
+    'App\Soap\dealertrack\src': src\Soap\dealertrack\metadata  #  on Windows
+
+  # symfony/validator metadata to be generated from XSD
+  destinations_validation:
+    'App\Soap\dealertrack\src': src\Soap\dealertrack\validation  #  on Windows
