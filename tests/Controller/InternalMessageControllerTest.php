@@ -57,11 +57,11 @@ class InternalMessageControllerTest extends WebTestCase {
         $this->assertEquals(51, $messagesData->totalResults);
         
         // User Not Found
-        $otherUserId = 1005;
+        $otherUserId = 99999999999999;
         $page        = 1;
 
         $this->requestGetMessagesNewest($otherUserId, $page);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         // User Parameter Required
         $this->requestGetMessagesNewest();
@@ -83,14 +83,14 @@ class InternalMessageControllerTest extends WebTestCase {
         $message = "Hello World";
 
         $this->requestSendMessage($toId, $message);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         // Message from You to You
         $toId    = 3;
         $message = "Hello World";
 
         $this->requestSendMessage($toId, $message);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
 
         // Parameter(s) Required
         $this->requestSendMessage();

@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderNote;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -14,27 +15,29 @@ use Faker\Factory;
  *
  * @package App\DataFixtures
  */
-class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
+class RepairOrderFixture extends Fixture implements DependentFixtureInterface
+{
     /**
      * @param ObjectManager $manager
      *
      * @throws Exception
      */
-    public function load (ObjectManager $manager) {
-        $faker          = Factory::create();
-        $mpiOptions     = [
+    public function load(ObjectManager $manager)
+    {
+        $faker = Factory::create();
+        $mpiOptions = [
             'Not Started',
             'Complete',
             'Sent',
-            'Viewed'
+            'Viewed',
         ];
-        $videoOptions   = [
+        $videoOptions = [
             'Not Started',
             'Uploaded',
             'Sent',
-            'Viewed'
+            'Viewed',
         ];
-        $quoteOptions   = [
+        $quoteOptions = [
             'Not Started',
             'Technician In Progress',
             'Parts In Progress',
@@ -42,32 +45,31 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
             'Sent',
             'Viewed',
             'Complete',
-            'Confirmed'
+            'Confirmed',
         ];
         $paymentOptions = [
             'Not Started',
             'Sent',
             'Viewed',
             'Paid',
-            'Complete',
-            'Confirmed'
+            'Confirmed',
         ];
 
         // @TODO: Make this better w/ optional completions/values/cars/etc.
         // Make one constant RO
-        $repairOrder       = new RepairOrder();
-        $userReference     = $faker->numberBetween(1, 50);
+        $repairOrder = new RepairOrder();
+        $userReference = $faker->numberBetween(1, 50);
         $customerReference = $faker->numberBetween(1, 50);
-        $advisorReference  = $faker->numberBetween(1, 30);
+        $advisorReference = $faker->numberBetween(1, 30);
 
         $repairOrder->setNumber(1234567)
                     ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                     ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                     ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
-                    ->setVideoStatus($videoOptions[$faker->numberBetween(0, 3)])
-                    ->setMPIStatus($mpiOptions[$faker->numberBetween(0, 3)])
-                    ->setPaymentStatus($paymentOptions[$faker->numberBetween(0, 5)])
-                    ->setQuoteStatus($quoteOptions[$faker->numberBetween(0, 7)])
+                    ->setVideoStatus('Not Started')
+                    ->setMPIStatus('Not Started')
+                    ->setPaymentStatus($faker->randomElement($paymentOptions))
+                    ->setQuoteStatus($faker->randomElement($quoteOptions))
                     ->setWaiter($faker->boolean(25))
                     ->setLinkHash(sha1('test'))
                     ->setDeleted($faker->boolean(2))
@@ -78,25 +80,25 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
 
         // Now make 150 more
         for ($i = 1; $i <= 150; $i++) {
-            $repairOrder         = new RepairOrder();
-            $userReference       = $faker->numberBetween(1, 50);
-            $customerReference   = $faker->numberBetween(1, 50);
-            $advisorReference    = $faker->numberBetween(1, 30);
-            $waiter              = $faker->boolean(75);
-            $pickupDate          = null;
-            $dateCreated         = $faker->dateTimeBetween('-1 year');
-            $dateClosed          = clone $dateCreated;
-            $dateModify          = random_int(1, 12);
-            $dateClosed          = $dateClosed->modify('+' . $dateModify . ' hours');
-            $closedRandom        = random_int(0, 100);
-            $startValue          = $faker->randomFloat(2, 100, 3000);
-            $approvedValue       = null;
-            $finalValue          = null;
+            $repairOrder = new RepairOrder();
+            $userReference = $faker->numberBetween(1, 50);
+            $customerReference = $faker->numberBetween(1, 50);
+            $advisorReference = $faker->numberBetween(1, 30);
+            $waiter = $faker->boolean(75);
+            $pickupDate = null;
+            $dateCreated = $faker->dateTimeBetween('-1 year');
+            $dateClosed = clone $dateCreated;
+            $dateModify = random_int(1, 12);
+            $dateClosed = $dateClosed->modify('+'.$dateModify.' hours');
+            $closedRandom = random_int(0, 100);
+            $startValue = $faker->randomFloat(2, 100, 3000);
+            $approvedValue = null;
+            $finalValue = null;
             $approvedValueRandom = random_int(0, 100);
 
             if (!$waiter) {
                 $pickupDate = clone $dateCreated;
-                $pickupDate->modify('+' . $faker->numberBetween(1, 24) . ' hours');
+                $pickupDate->modify('+'.$faker->numberBetween(1, 24).' hours');
             }
 
             // 80% chance it's closed
@@ -122,13 +124,13 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                         ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
                         ->setPrimaryTechnician($this->getReference('user_' . $userReference))
                         ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
-                        ->setVideoStatus($videoOptions[$faker->numberBetween(0, 3)])
-                        ->setMPIStatus($mpiOptions[$faker->numberBetween(0, 3)])
-                        ->setPaymentStatus($paymentOptions[$faker->numberBetween(0, 5)])
-                        ->setQuoteStatus($quoteOptions[$faker->numberBetween(0, 7)])
+                        ->setVideoStatus('Not Started')
+                        ->setMPIStatus('Not Started')
+                        ->setPaymentStatus($faker->randomElement($paymentOptions))
+                        ->setQuoteStatus($faker->randomElement($quoteOptions))
                         ->setWaiter($waiter)
                         ->setPickupDate($pickupDate)
-                        ->setLinkHash(sha1($faker->unique(true)->randomAscii))
+                        ->setLinkHash(sha1($faker->unique()->randomAscii.$i))
                         ->setDeleted($faker->boolean(2))
                         ->setArchived($faker->boolean(5))
                         ->setDateCreated($dateCreated)
@@ -138,7 +140,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
                         ->setMake('Toyota')
                         ->setModel('Corolla')
                         ->setMiles($faker->numberBetween(1000, 250000))
-                        ->setVin(sha1($faker->unique(true)->randomAscii))
+                        ->setVin(sha1($faker->unique()->randomAscii.$i))
                         ->setStartValue($startValue)
                         ->setApprovedValue($approvedValue)
                         ->setFinalValue($finalValue);
@@ -146,17 +148,34 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface {
             $manager->persist($repairOrder);
             $manager->flush();
 
-            $this->addReference('repairOrder_' . $i, $repairOrder);
+            $this->addReference('repairOrder_'.$i, $repairOrder);
+
+            // Determine if it should a note
+            $noteCount = $faker->numberBetween(0, 3);
+
+            if ($noteCount > 0) {
+                for ($x = 1; $x <= $noteCount; $x++) {
+                    $dateCreated = $faker->dateTimeBetween($dateCreated, $dateClosed);
+                    $note = new RepairOrderNote();
+                    $note->setRepairOrder($repairOrder)
+                         ->setNote($faker->realText(400))
+                         ->setDateCreated($dateCreated);
+
+                    $manager->persist($note);
+                    $manager->flush();
+                }
+            }
         }
     }
 
     /**
      * @return string[]
      */
-    public function getDependencies (): array {
+    public function getDependencies(): array
+    {
         return [
             UserFixture::class,
-            CustomerFixture::class
+            CustomerFixture::class,
         ];
     }
 }

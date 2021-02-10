@@ -145,15 +145,19 @@ class User implements UserInterface {
     private $shareRepairOrders = false;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderInteraction::class, mappedBy="user")
+     */
+    private $repairOrderInteractions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="user")
+     */
+    private $repairOrderTeams;
+    
+    /**
      * @ORM\OneToMany(targetEntity=InternalMessage::class, mappedBy="from")
      */
     private $internalMessages;
-
-    /**
-     * @ORM\Column(type="boolean")
-     * @Serializer\Groups({"user_list"})
-     */
-    private $externalAuthentication = false;
 
     /**
      * User constructor.
@@ -161,6 +165,8 @@ class User implements UserInterface {
     public function __construct () {
         $this->technicianRepairOrders     = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->repairOrderInteractions    = new ArrayCollection();
+        $this->repairOrderTeams           = new ArrayCollection();
         $this->internalMessages           = new ArrayCollection();
     }
 
@@ -480,24 +486,6 @@ class User implements UserInterface {
     }
 
     /**
-     * @return bool|null
-     */
-    public function getExternalAuthentication (): ?bool {
-        return $this->externalAuthentication;
-    }
-
-    /**
-     * @param bool $externalAuthentication
-     *
-     * @return $this
-     */
-    public function setExternalAuthentication (bool $externalAuthentication): self {
-        $this->externalAuthentication = $externalAuthentication;
-
-        return $this;
-    }
-
-    /**
      * @return Collection|RepairOrderMPIInteraction[]
      */
     public function getRepairOrderMPIInteractions (): Collection {
@@ -539,6 +527,98 @@ class User implements UserInterface {
                             ->orderBy(['dateCreated' => 'DESC']);
 
         $this->technicianRepairOrders->matching($criteria);
+    }
+
+    /**
+     * @return Collection|RepairOrderInteraction[]
+     */
+    public function getRepairOrderInteractions(): Collection
+    {
+        return $this->repairOrderInteractions;
+    }
+
+    public function addRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if (!$this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions[] = $repairOrderInteraction;
+            $repairOrderInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+    /**
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /*
+     * @return Collection|RepairOrderTeam[]
+     */
+    public function getRepairOrderTeams(): Collection
+    {
+        return $this->repairOrderTeams;
+    }
+
+    public function addRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
+    {
+        if (!$this->repairOrderTeams->contains($repairOrderTeam)) {
+            $this->repairOrderTeams[] = $repairOrderTeam;
+            $repairOrderTeam->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if ($this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions->removeElement($repairOrderInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderInteraction->getUser() === $this) {
+                $repairOrderInteraction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getUser() === $this) {
+                $repairOrderReviewInteraction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
+    {
+        if ($this->repairOrderTeams->contains($repairOrderTeam)) {
+            $this->repairOrderTeams->removeElement($repairOrderTeam);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderTeam->getUser() === $this) {
+                $repairOrderTeam->setUser(null);
+            }
+        }
+
+        return $this;
     }
 
 }
