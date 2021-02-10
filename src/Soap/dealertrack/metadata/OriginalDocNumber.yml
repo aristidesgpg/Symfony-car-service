@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\OriginalDocNumber:
+    xml_root_name: OriginalDocNumber
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

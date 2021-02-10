@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\CustomerAddress2:
+    xml_root_name: CustomerAddress2
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

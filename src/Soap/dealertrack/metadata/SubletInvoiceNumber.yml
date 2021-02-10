@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\SubletInvoiceNumber:
+    xml_root_name: SubletInvoiceNumber
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

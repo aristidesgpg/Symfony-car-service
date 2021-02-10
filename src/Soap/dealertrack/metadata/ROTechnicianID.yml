@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\ROTechnicianID:
+    xml_root_name: ROTechnicianID
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }
