@@ -10,6 +10,8 @@ use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\dealerbuilt\src\BaseApi\RepairOrderType;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelope;
+use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeByKey;
+use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeByNumber;
 use App\Soap\dealerbuilt\src\Models\PhoneNumberType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -50,7 +52,6 @@ class DealerBuiltClient extends AbstractDMSClient
      * TODO When comparing the results of this class against the original, the original returns 10 more.
      * Didn't see anything obvious as to why. Possibly one is a little more restricted >= vs >?
      */
-
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -83,7 +84,7 @@ class DealerBuiltClient extends AbstractDMSClient
             $searchCriteria = [
                 'searchCriteria' => [
                     'MaxElapsedSinceUpdate' => $this->getTimeFrame(),
-                    'ServiceLocationIds' => [$this->getServiceLocationId()],
+                    'ServiceLocationId' => $this->getServiceLocationId(),
                     'Statuses' => ['Open'],
                 ],
             ];
@@ -101,6 +102,8 @@ class DealerBuiltClient extends AbstractDMSClient
                 $dmsResult = new DMSResult();
                 $dmsResultCustomer = new DMSResultCustomer();
                 $dmsResultAdvisor = new DMSResultAdvisor();
+                //All DealerBuilt have waiter set to false.
+                $dmsResult->setWaiter(false);
 
                 if ('InternalRepairOrder' == $repairOrder->getAttributes()->getType()) {
                     continue;
@@ -166,7 +169,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getClosedRoDetails(array $openRepairOrders)
     {
-        $rosWithKeys    = [];
+        $rosWithKeys = [];
         $rosWithoutKeys = [];
 
         /** @var RepairOrder $repairOrder */
@@ -179,50 +182,143 @@ class DealerBuiltClient extends AbstractDMSClient
             $rosWithoutKeys[] = $repairOrder;
         }
 
+        //TODO Shouldn't we close both?
         if ($rosWithKeys) {
             $this->closeRosWithKeys($rosWithKeys);
+
             return;
         }
 
         if ($rosWithoutKeys) {
             $this->closeRosWithoutKeys($rosWithoutKeys);
+
             return;
         }
     }
 
+    /**
+     * @param $repairOrders
+     */
     public function closeRosWithKeys($repairOrders): array
     {
-
-        dump($repairOrders);
+        $closedRepairOrders = [];
         if ($this->getSoapClient()) {
             //create authentication token
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
-            $repairOrderKeyString = '';
-            //foreach ($repairOrders as $repairOrder) {
-               // $repairOrderKeyString .= "<arr:string>{$repairOrder->getDmsKey()}</arr:string>";
-            $repairOrderKeyString .= "<arr:string>GZ451916</arr:string>";
-
-           // }
+            $repairOrderKeyString = [];
+            foreach ($repairOrders as $ro) {
+                //$repairOrderKeyString .= "<arr:string>{$repairOrder->getDmsKey()}</arr:string>";
+                $repairOrderKeyString[] = $ro->getDmsKey();
+            }
 
             $searchCriteria = [
-                'repairOrderKeys' => [
-                    $repairOrderKeyString
-                ],
+                'repairOrderKeys' => $repairOrderKeyString,
             ];
 
             $result = $this->sendSoapCall('PullRepairOrdersByKey', [$searchCriteria], true);
 
-            //Deserialize the soap result into objects.
-            $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelope::class, 'xml');
-            dd($deserializedNode);
+            if ($result) {
+                //Deserialize the soap result into objects.
+                $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopeByKey::class, 'xml');
+                dump($deserializedNode);
 
+                /**
+                 * @var RepairOrderType $repairOrder
+                 */
+                foreach ($deserializedNode->getBody()->getPullRepairOrdersByKeyResponse()->getPullRepairOrdersByKeyResult() as $repairOrder) {
+                    $closed = $this->closeRo($repairOrder, $repairOrders);
+                    if ($closed) {
+                        $closedRepairOrders[] = $closed;
+                    }
+                }
+            }
         }
+
+        return $closedRepairOrders;
     }
 
+    /**
+     * @param $repairOrders
+     */
     public function closeRosWithoutKeys($repairOrders): array
     {
-        return [];
+        $closedRepairOrders = [];
+        if ($this->getSoapClient()) {
+            //create authentication token
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+
+            foreach ($repairOrders as $ro) {
+                $searchCriteria = [
+                    'serviceLocationId' => $this->getServiceLocationId(),
+                    'repairOrderNumber' => $ro->getNumber(),
+                ];
+
+                $result = $this->sendSoapCall('PullRepairOrderByNumber', [$searchCriteria], true);
+
+                if ($result) {
+                    //Deserialize the soap result into objects.
+                    $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopeByNumber::class, 'xml');
+                    dump($deserializedNode);
+
+                    /**
+                     * @var RepairOrderType $repairOrder
+                     */
+                    foreach ($deserializedNode->getBody()->getPullRepairOrdersByKeyResponse()->getPullRepairOrdersByKeyResult() as $repairOrder) {
+                        $closed = $this->closeRo($repairOrder, $repairOrders);
+                        if ($closed) {
+                            $closedRepairOrders[] = $closed;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $closedRepairOrders;
+    }
+
+
+    /**
+     * @param RepairOrder[] $repairOrders
+     */
+    public function closeRo(RepairOrderType $repairOrder, array $repairOrders): ?RepairOrderType
+    {
+        $technicianRecord = null;
+
+        //TODO Take Open Out, there was none with Open to test.
+        if (in_array($repairOrder->getAttributes()->getStatus(), ['Posted', 'Closed', 'Open'])) {
+            $closedDate = new \DateTime();
+            if ($repairOrder->getAttributes()->getClosedStamp()) {
+                $closedDate = $repairOrder->getAttributes()->getClosedStamp();
+            }
+
+            // Try to set the technician that recorded it when closing
+            //TODO There can be multiple jobs. Then what? Currently it just grabs the first job.
+            if ($repairOrder->getAttributes()->getJobs()) {
+                $job = $repairOrder->getAttributes()->getJobs()[0];
+                if ($job->getTechs()) {
+                    $firstName = $job->getTechs()[0]->getTech()->getPersonalName()->getFirstName();
+                    $lastName = $job->getTechs()[0]->getTech()->getPersonalName()->getLastName();
+                    $technicianRecord = $this->getEntityManager()->getRepository('App:User')
+                        ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
+                }
+            }
+
+            // Loop over all passed ROs to get the RO in question
+            if (array_key_exists($repairOrder->getAttributes()->getRepairOrderNumber(), $repairOrders)) {
+                $referenceRepairOrder = $repairOrders[$repairOrder->getAttributes()->getRepairOrderNumber()];
+                $referenceRepairOrder
+                    ->setDateClosed($closedDate)
+                    ->setFinalValue($repairOrder->getAttributes()->getTotalAmount()->getAmount())
+                    ->setPrimaryTechnician($technicianRecord);
+                $this->getEntityManager()->persist($referenceRepairOrder);
+                $this->getEntityManager()->flush();
+
+                return $repairOrder;
+            }
+        }//end closed/posted if.
+
+        return null;
     }
 
     public function getPostUrl(): string
@@ -285,6 +381,9 @@ class DealerBuiltClient extends AbstractDMSClient
         $this->serviceLocationId = $serviceLocationId;
     }
 
+    /**
+     * @return string
+     */
     public static function getDefaultIndexName()
     {
         return 'usingDealerBuilt';

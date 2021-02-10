@@ -19,7 +19,7 @@ class DealerBuiltSoapEnvelopeBody
      * @return self
      * @param \App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $repairOrder
      */
-    public function addToPullRepairOrdersResponse(\App\Soap\dealerbuilt\src\BaseApi\PullRepairOrdersResponse $pullRepairOrdersResponse)
+    public function addToPullRepairOrdersResponse(\App\Soap\dealerbuilt\src\BaseApi\RepairOrderType $pullRepairOrdersResponse)
     {
         $this->pullRepairOrdersResponse[] = $pullRepairOrdersResponse;
         return $this;
@@ -44,7 +44,7 @@ class DealerBuiltSoapEnvelopeBody
      */
     public function unsetPullRepairOrdersResponse($index)
     {
-        unset($this->PullRepairOrdersResponse[$index]);
+        unset($this->pullRepairOrdersResponse[$index]);
     }
 
 
