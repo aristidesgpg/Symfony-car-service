@@ -91,8 +91,8 @@ class CouponFixture extends Fixture {
             $this->addReference('coupon_' . $i, $coupon);
         }
 
-        // upload image for test
-        $file = $this->createFileObject($image);
+        // upload image for unit test ing
+        /*$file = $this->createFileObject($image);
         if ($file) {
             $uploadsDirectory = 'tests/Fixtures/' . 'uploads';
             $filename         = 'testImage' . '.' . $file->guessExtension();
@@ -109,6 +109,6 @@ class CouponFixture extends Fixture {
             } catch (Exception  $e) {
                 return false;
             }
-        }
+        }*/
     }
 }
