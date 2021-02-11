@@ -81,10 +81,8 @@ abstract class AbstractDMSClient implements DMSClientInterface
         }
     }
 
-
     /**
      * Provides a list of the functions and struct's available for a wsdl. Used for development only.
-     * @param string $wsdl
      */
     public function describeWsdl(string $wsdl)
     {
@@ -99,7 +97,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
         }
     }
 
-
     /**
      * @param $name
      * @param $args
@@ -112,6 +109,11 @@ abstract class AbstractDMSClient implements DMSClientInterface
         //It should validate against the wsdl before the call to make sure its correct.
         try {
             $result = $this->getSoapClient()->__soapCall($name, $args);
+
+//            dump($this->getSoapClient()->__getLastRequest());
+//            dump($this->getSoapClient()->__getLastResponse());
+//            dd($this->getSoapClient()->__getLastRequestHeaders());
+
             if ($returnLastResponse) {
                 return $this->getSoapClient()->__getLastResponse();
             }
@@ -130,11 +132,44 @@ abstract class AbstractDMSClient implements DMSClientInterface
     /**
      * The end goal is to find a mobile phone number to validate against. Each DMS returns the number in different formats. This function tries to normalize that into a phone number.
      *
-     * TODO Need to see the desired outcome, whether an array or just a string.
+     * TODO Need to see the desired outcome, whether an array or just a string. Right now it's coded to just return ONE phone number.
+     * TODO Also, should we be using PhoneLookup?
      */
     public function phoneNormalizer($phone)
     {
-        return $phone;
+        if (is_array($phone)) {
+            foreach ($phone as $p) {
+                $result = $this->phoneNormalizerParser($p);
+                if ($result) {
+                    return $result;
+                }
+            }
+            //No valid mobile found.
+            return null;
+        }
+
+        return $this->phoneNormalizerParser($phone);
+    }
+
+    /**
+     * Checks if a phone is mobile and valid.
+     * @param $phoneNumber
+     * @return null
+     */
+    public function phoneNormalizerParser($phoneNumber)
+    {
+        try {
+            $cleaned = $this->getPhoneValidator()->clean($phoneNumber);
+            $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
+            if ($isMobile) {
+                //Found a valid mobile number.
+                return $phoneNumber;
+            }
+        } catch (\Exception $exception) {
+            //Couldn't validate phone.
+        }
+
+        return null;
     }
 
     /**

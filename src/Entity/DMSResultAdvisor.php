@@ -30,9 +30,11 @@ class DMSResultAdvisor
     /**
      * @param $id
      */
-    public function setId($id): void
+    public function setId($id): DMSResultAdvisor
     {
         $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -46,9 +48,11 @@ class DMSResultAdvisor
     /**
      * @param $firstName
      */
-    public function setFirstName($firstName): void
+    public function setFirstName($firstName): DMSResultAdvisor
     {
         $this->firstName = $firstName;
+
+        return $this;
     }
 
     /**
@@ -62,8 +66,10 @@ class DMSResultAdvisor
     /**
      * @param mixed $lastName
      */
-    public function setLastName($lastName): void
+    public function setLastName($lastName): DMSResultAdvisor
     {
         $this->lastName = $lastName;
+
+        return $this;
     }
 }

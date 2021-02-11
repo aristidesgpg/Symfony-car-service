@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+/**
+ * Class DMSResultCustomer.
+ */
 class DMSResultCustomer
 {
     private $name;
@@ -19,9 +22,11 @@ class DMSResultCustomer
     /**
      * @param mixed $name
      */
-    public function setName($name): void
+    public function setName($name): DMSResultCustomer
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -35,9 +40,11 @@ class DMSResultCustomer
     /**
      * @param mixed $phoneNumbers
      */
-    public function setPhoneNumbers($phoneNumbers): void
+    public function setPhoneNumbers($phoneNumbers): DMSResultCustomer
     {
         $this->phoneNumbers = $phoneNumbers;
+
+        return $this;
     }
 
     /**
@@ -51,8 +58,10 @@ class DMSResultCustomer
     /**
      * @param mixed $email
      */
-    public function setEmail($email): void
+    public function setEmail($email): DMSResultCustomer
     {
         $this->email = $email;
+
+        return $this;
     }
 }

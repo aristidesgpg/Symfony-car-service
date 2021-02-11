@@ -100,8 +100,8 @@ class DealerBuiltClient extends AbstractDMSClient
             foreach ($deserializedNode->getBody()->getPullRepairOrdersResponse()->getPullRepairOrdersResult() as $repairOrder) {
                 //init result objects
                 $dmsResult = new DMSResult();
-                $dmsResultCustomer = new DMSResultCustomer();
-                $dmsResultAdvisor = new DMSResultAdvisor();
+//                $dmsResultCustomer = new DMSResultCustomer();
+//                $dmsResultAdvisor = new DMSResultAdvisor();
                 //All DealerBuilt have waiter set to false.
                 $dmsResult->setWaiter(false);
 
@@ -116,8 +116,8 @@ class DealerBuiltClient extends AbstractDMSClient
                     continue;
                 }
 
-                $dmsResultCustomer->setName($customerName);
-                $dmsResultCustomer->setEmail($customer->getEmailAddress());
+                $dmsResult->getCustomer()->setName($customerName);
+                $dmsResult->getCustomer()->setEmail($customer->getEmailAddress());
                 $phoneNumbers = [];
                 /**
                  * @var PhoneNumberType $phoneNumberType
@@ -135,7 +135,7 @@ class DealerBuiltClient extends AbstractDMSClient
                         break;
                     }
                 }
-                $dmsResultCustomer->setPhoneNumbers(
+                $dmsResult->getCustomer()->setPhoneNumbers(
                     $this->phoneNormalizer($phoneNumbers)
                 );
 
@@ -151,15 +151,15 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 //advisor
                 $advisor = $repairOrder->getAttributes()->getServiceAdvisor()->getPersonalName();
-                $dmsResultAdvisor->setFirstName($advisor->getFirstName());
-                $dmsResultAdvisor->setLastName($advisor->getLastName());
+                $dmsResult->getAdvisor()->setFirstName($advisor->getFirstName());
+                $dmsResult->getAdvisor()->setLastName($advisor->getLastName());
 
                 //The date is converted to a DateTime when its serialized.
                 $dmsResult->setDate($repairOrder->getAttributes()->getOpenedStamp());
                 $dmsResult->setRoKey($repairOrder->getROKey());
 
-                $dmsResult->setCustomer($dmsResultCustomer);
-                $dmsResult->setAdvisor($dmsResultAdvisor);
+//                $dmsResult->setCustomer($dmsResultCustomer);
+//                $dmsResult->setAdvisor($dmsResultAdvisor);
                 $repairOrders[] = $dmsResult;
             }
         }
