@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
+use App\Service\Authentication;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,18 +18,26 @@ class CheckInControllerTest extends WebTestCase
      */
     public function setUp() {
         $this->client = static::createClient();
+        $user = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(1)
+                                ->getQuery()
+                                ->getOneOrNullResult();
 
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
-            'username' => 'tperson@iserviceauto.com',
-            'password' => 'test'
-        ]);
-
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token = $authData->token;
+        $authentication = self::$container->get(Authentication::class);
+        $ttl            = 31536000;
+        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
     }
 
     public function testList()
     {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+
         // Ok
         $this->requestList();
         $listData = json_decode($this->client->getResponse()->getContent());
@@ -61,6 +71,11 @@ class CheckInControllerTest extends WebTestCase
     }
 
     public function testNew() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+        
         $identification = "4345cb1fa27885a8fbfe7c0c830a592cc76a552b";
         $video          = "https://autoboost.sfo2.digitaloceanspaces.com/fixtures/fixture-video-2.mp4";
         $apiUrl         = '/api/check-in';
