@@ -1,0 +1,9 @@
+App\Soap\cdk\src\LinLineCode:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
