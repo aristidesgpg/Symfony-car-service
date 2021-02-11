@@ -113,6 +113,8 @@ class CDK extends SOAP {
         curl_setopt_array($ch, $curlOptions);
         $response = curl_exec($ch);
 
+
+        dump($response);
         // Not an error, but logs the request/response for compliance
         $this->logError($this->openROExtractURL, $response);
 
@@ -123,7 +125,7 @@ class CDK extends SOAP {
         $xml          = simplexml_load_string($response, 'SimpleXMLElement', LIBXML_NOWARNING);
         $xml          = json_decode(json_encode($xml), true);
         $repairOrders = $xml['service-repair-order-open'];
-
+        dd($repairOrders);
         foreach ($repairOrders as $repairOrder) {
             $roData = $this->extractROInfo($repairOrder);
 

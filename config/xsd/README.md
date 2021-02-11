@@ -28,3 +28,8 @@ DealerTrack:
 wsdl: https://otstaging.arkona.com/opentrack/serviceapi.asmx?WSDL
 xsd: None. Generated one from the XML result, then modified.
 maker: tools\vendor\bin\xsd2php.bat convert config\xsd\dealertrack.yml config\xsd\dealertrack.xsd
+
+CDK:
+Does not have a WSDL. Is not SOAP. Restfull API.
+Exported xml and converted to xsd.
+vendor\bin\xsd2php.bat convert config\xsd\cdk.yml config\xsd\cdk.xsd

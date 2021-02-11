@@ -1,0 +1,4 @@
+App\Soap\cdk\src\DisPartsDiscount:
+    xml_root_name: disPartsDiscount
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

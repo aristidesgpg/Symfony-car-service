@@ -7,6 +7,8 @@ use App\Service\ThirdPartyAPILogHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
@@ -45,6 +47,9 @@ abstract class AbstractDMSClient implements DMSClientInterface
     private $thirdPartyAPILogHelper;
 
     private $soapClient;
+
+    private $guzzleClient;
+    private $guzzleType;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 PhoneValidator $phoneValidator,
@@ -122,11 +127,42 @@ abstract class AbstractDMSClient implements DMSClientInterface
         } catch (SoapFault $e) {
             //Most likely a malformed request/invalid parameters were provided.
 
-            dd($e->getMessage());
             $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage());
-
-            return null;
+            dd($e->getMessage());
         }
+
+        return null;
+    }
+
+    public function initializeGuzzleClient($baseURI, $options, $type = 'POST')
+    {
+        $this->setGuzzleType($type);
+        $headers = array_merge(
+            ['base_uri' => $baseURI],
+            $options
+        );
+        $this->setGuzzleClient(new Client($headers));
+    }
+
+    public function sendGuzzleRequest($uri, $options = [])
+    {
+        try {
+            dump('Sending Request');
+//            $response = $this->getGuzzleClient()->post($uri, $options);
+            $response = $this->getGuzzleClient()->request($this->getGuzzleType(), $uri, $options);
+            return $response->getBody()->getContents();
+        } catch (GuzzleException $e) {
+            if ($e->hasResponse()) {
+                $error = sprintf('Response: %s, Contents: %s',
+                    $e->getResponse()->getStatusCode(),
+                    $e->getResponse()->getBody()->getContents()
+                );
+                $this->logError($uri, $error, true);
+                dd($error);
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -153,10 +189,12 @@ abstract class AbstractDMSClient implements DMSClientInterface
 
     /**
      * Checks if a phone is mobile and valid.
+     *
      * @param $phoneNumber
+     *
      * @return null
      */
-    public function phoneNormalizerParser($phoneNumber)
+    private function phoneNormalizerParser($phoneNumber)
     {
         try {
             $cleaned = $this->getPhoneValidator()->clean($phoneNumber);
@@ -212,7 +250,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
      * @param $response
      * @param bool $isRest
      */
-    public function logError($request, $response, $isRest = true)
+    public function logError($request, $response, $isRest = false)
     {
         if ($isRest) {
             $this->getThirdPartyAPILogHelper()->commitAPILog($request, null, $response, $isRest);
@@ -285,5 +323,37 @@ abstract class AbstractDMSClient implements DMSClientInterface
     public function setSoapClient($soapClient): void
     {
         $this->soapClient = $soapClient;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGuzzleClient()
+    {
+        return $this->guzzleClient;
+    }
+
+    /**
+     * @param mixed $guzzleClient
+     */
+    public function setGuzzleClient($guzzleClient): void
+    {
+        $this->guzzleClient = $guzzleClient;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getGuzzleType()
+    {
+        return $this->guzzleType;
+    }
+
+    /**
+     * @param mixed $guzzleType
+     */
+    public function setGuzzleType($guzzleType): void
+    {
+        $this->guzzleType = $guzzleType;
     }
 }
