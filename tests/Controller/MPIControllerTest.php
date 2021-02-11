@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\MPIGroup;
+use App\Entity\MPITemplate;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -12,18 +14,25 @@ class MPIControllerTest extends WebTestCase
     private $token;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $entityManager;
+
+    /**
      * {@inheritDoc}
      */
     public function setUp() {
-        $this->client = static::createClient();
+        $this->client        = static::createClient();
 
-        $authCrawler  = $this->client->request('POST', '/api/authentication/authenticate', [
+        $authCrawler         = $this->client->request('POST', '/api/authentication/authenticate', [
             'username' => 'tperson@iserviceauto.com',
             'password' => 'test'
         ]);
 
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token = $authData->token;
+        $authData            = json_decode($this->client->getResponse()->getContent());
+        $this->token         = $authData->token;
+
+        $this->entityManager = self::$container->get('doctrine')->getManager();
     }
 
     public function testGetTemplates() {
@@ -58,17 +67,25 @@ class MPIControllerTest extends WebTestCase
     }
 
     public function testGetTemplate() {
-        // Ok
-        $id = 1;
-        $this->requestAction('GET', '/mpi-template/'.$id);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertGreaterThanOrEqual($id, $response->id);
+        $mpi = $this->entityManager->getRepository(MPITemplate::class)
+                                   ->createQueryBuilder('mpi')
+                                   ->setMaxResults(1)
+                                   ->getQuery()
+                                   ->getOneOrNullResult();
+        
+        if ($mpi && !$mpi->getDeleted()) { // Ok
+            $id = $mpi->getId();
 
-        // Not found
-        $id = 2147483647;
-        $this->requestAction('GET', '/mpi-template/'.$id);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            $this->requestAction('GET', '/mpi-template/'.$id);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertEquals($id, $response->id);
+        }
+        else if($mpi && $mpi->getDeleted()) { // Not found
+            $id = $mpi->getId();
+            $this->requestAction('GET', '/mpi-template/'.$id);
+            $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        }        
     }
 
     public function testCreateTemplate() {
@@ -94,48 +111,81 @@ class MPIControllerTest extends WebTestCase
     }
 
     public function testEditTemplate() {
-        // Ok
-        $id     = 1;
-        $name   = 'MPI template name for update';
-        $params = [
-            'name' => $name
-        ];
-        $this->requestAction('PUT', '/mpi-template/'.$id, $params);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals($name, $response->name);
+        $mpi = $this->entityManager->getRepository(MPITemplate::class)
+                                   ->createQueryBuilder('mpi')
+                                   ->where('mpi.deleted = 0')
+                                   ->setMaxResults(1)
+                                   ->getQuery()
+                                   ->getOneOrNullResult();
+        if ($mpi) {
+            // Ok
+            $id     = $mpi->getId();
+            $name   = 'MPI template name for update';
+            $params = [
+                'name' => $name
+            ];
+            $this->requestAction('PUT', '/mpi-template/'.$id, $params);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertEquals($name, $response->name);
 
-        // Require parameters
-        $this->requestAction('PUT', '/mpi-template/'.$id);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+            // Require parameters
+            $this->requestAction('PUT', '/mpi-template/'.$id);
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        }
     }
 
     public function testDeactivateTemplate() {
+        $mpi = $this->entityManager->getRepository(MPITemplate::class)
+                                   ->createQueryBuilder('mpi')
+                                   ->where('mpi.deleted = 0')
+                                   ->andWhere('mpi.active = 1')
+                                   ->setMaxResults(1)
+                                   ->getQuery()
+                                   ->getOneOrNullResult();
         // Ok
-        $id = 1;
+        $id = $mpi->getId();
         $this->requestAction('PUT', '/mpi-template/de-activate/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
     public function testReactivateTemplate() {
+        $mpi = $this->entityManager->getRepository(MPITemplate::class)
+                                   ->createQueryBuilder('mpi')
+                                   ->where('mpi.deleted = 0')
+                                   ->setMaxResults(1)
+                                   ->getQuery()
+                                   ->getOneOrNullResult();
         // Ok
-        $id = 1;
+        $id = $mpi->getId();
         $this->requestAction('PUT', '/mpi-template/re-activate/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
     public function testDeleteTemplate() {
+        $mpi = $this->entityManager->getRepository(MPITemplate::class)
+                                   ->createQueryBuilder('mpi')
+                                   ->where('mpi.deleted = 0')
+                                   ->setMaxResults(1)
+                                   ->getQuery()
+                                   ->getOneOrNullResult();
         // Ok
-        $id = 1;
+        $id = $mpi->getId();
         $this->requestAction('DELETE', '/mpi-template/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
     public function testCreateGroup() {
+        $mpiTemplate = $this->entityManager->getRepository(MPITemplate::class)
+                                           ->createQueryBuilder('mpi')
+                                           ->where('mpi.deleted = 0')
+                                           ->setMaxResults(1)
+                                           ->getQuery()
+                                           ->getOneOrNullResult();
         // Ok
         $name   = 'New MPI group name';
         $params = [
-            'id'   => 1, // MPI template ID
+            'id'   => $mpiTemplate->getId(), // MPI template ID
             'name' => $name
         ];
         $this->requestAction('POST', '/mpi-group', $params);
@@ -148,17 +198,23 @@ class MPIControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
         // Invalid Template Parameter
-        $params = [
-            'id'   => 2147483647, // MPI template ID
-            'name' => $name
-        ];
-        $this->requestAction('POST', '/mpi-group', $params);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+        // $params = [
+        //     'id'   => 2147483647, // MPI template ID
+        //     'name' => $name
+        // ];
+        // $this->requestAction('POST', '/mpi-group', $params);
+        // $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
     }
 
     public function testEditGroup() {
+        $mpiGroup = $this->entityManager->getRepository(MPIGroup::class)
+                                        ->createQueryBuilder('mpi')
+                                        ->where('mpi.deleted = 0')
+                                        ->setMaxResults(1)
+                                        ->getQuery()
+                                        ->getOneOrNullResult();
         // Ok
-        $id   = 1;
+        $id   = $mpiGroup->getId();
         $name = 'New name of MPI group';
         $this->requestAction('PUT', '/mpi-group/'.$id, ['name' => $name]);
         $this->assertResponseIsSuccessful();
@@ -171,19 +227,38 @@ class MPIControllerTest extends WebTestCase
     }
 
     public function testDeactivateGroup() {
-        $id = 1;
+        $mpiGroup = $this->entityManager->getRepository(MPIGroup::class)
+                                        ->createQueryBuilder('mpi')
+                                        ->where('mpi.deleted = 0')
+                                        ->andWhere('mpi.active = 1')
+                                        ->setMaxResults(1)
+                                        ->getQuery()
+                                        ->getOneOrNullResult();
+        $id = $mpiGroup->getId();
         $this->requestAction('PUT', '/mpi-group/de-activate/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
     public function testReactivateGroup() {
-        $id = 1;
+        $mpiGroup = $this->entityManager->getRepository(MPIGroup::class)
+                                        ->createQueryBuilder('mpi')
+                                        ->where('mpi.deleted = 0')
+                                        ->setMaxResults(1)
+                                        ->getQuery()
+                                        ->getOneOrNullResult();
+        $id = $mpiGroup->getId();
         $this->requestAction('PUT', '/mpi-group/re-activate/'.$id);
         $this->assertResponseIsSuccessful();
     }
 
     public function testDeleteGroup() {
-        $id = 1;
+        $mpiGroup = $this->entityManager->getRepository(MPIGroup::class)
+                                        ->createQueryBuilder('mpi')
+                                        ->where('mpi.deleted = 0')
+                                        ->setMaxResults(1)
+                                        ->getQuery()
+                                        ->getOneOrNullResult();
+        $id = $mpiGroup->getId();
         $this->requestAction('DELETE', '/mpi-group/'.$id);
         $this->assertResponseIsSuccessful();
     }

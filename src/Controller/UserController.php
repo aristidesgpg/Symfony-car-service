@@ -149,6 +149,7 @@ class UserController extends AbstractFOSRestController
                 $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
             );
         }
+
         $pager      = $paginator->paginate($users, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 

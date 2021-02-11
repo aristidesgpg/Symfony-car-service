@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Coupon;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,18 +14,25 @@ class CouponsControllerTest extends WebTestCase
     private $token;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $entityManager;
+
+    /**
      * {@inheritDoc}
      */
     public function setUp() {
-        $this->client = static::createClient();
+        $this->client        = static::createClient();
 
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
+        $authCrawler         = $this->client->request('POST', '/api/authentication/authenticate', [
             'username' => 'tperson@iserviceauto.com',
             'password' => 'test'
         ]);
 
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token = $authData->token;
+        $authData            = json_decode($this->client->getResponse()->getContent());
+        $this->token         = $authData->token;
+
+        $this->entityManager = self::$container->get('doctrine')->getManager();
     }
 
     public function testList() {
@@ -55,27 +63,40 @@ class CouponsControllerTest extends WebTestCase
     }
 
     public function testEdit() {
-        // Ok
-        $this->requestAction('PUT', '/1', ['title' => 'New title']);
-        $this->assertResponseIsSuccessful();
-        $response = json_decode($this->client->getResponse()->getContent());
-        $this->assertEquals('New title', $response->title);
+        $coupon = $this->entityManager->getRepository(Coupon::class)
+                                   ->createQueryBuilder('c')
+                                   ->where('c.deleted = 0')
+                                   ->setMaxResults(1)
+                                   ->getQuery()
+                                   ->getOneOrNullResult();
+        if ($coupon) {
+            $id = $coupon->getId();
+            // Ok
+            $this->requestAction('PUT', '/'.$id, ['title' => 'New title']);
+            $this->assertResponseIsSuccessful();
+            $response = json_decode($this->client->getResponse()->getContent());
+            $this->assertEquals('New title', $response->title);
 
-        // Missing required parameter
-        $this->requestAction('PUT', '/1');
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+            // Missing required parameter
+            $this->requestAction('PUT', '/'.$id);
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        }
     }
 
     public function testDelete() {
-        // Ok
-        $id = 1;
-        $this->requestAction('DELETE', '/'.$id);
-        $this->assertResponseIsSuccessful();
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-
-        $id = 2147483647;
-        $this->requestAction('DELETE', '/'.$id);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $coupon = $this->entityManager->getRepository(Coupon::class)
+                                   ->createQueryBuilder('c')
+                                   ->where('c.deleted = 0')
+                                   ->setMaxResults(1)
+                                   ->getQuery()
+                                   ->getOneOrNullResult();
+        if ($coupon) {
+            $id = $coupon->getId();
+            // Ok
+            $this->requestAction('DELETE', '/'.$id);
+            $this->assertResponseIsSuccessful();
+            $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        }
     }
 
     private function requestAction($method, $endpoint, $params=[]) {
