@@ -11,6 +11,13 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    <xs:element name="GetClosedRepairOrderDetailsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="t:Result"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
     <xs:element name="Result">
         <xs:complexType>
             <xs:sequence>

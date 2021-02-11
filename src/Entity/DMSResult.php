@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Soap\dealerbuilt\src\DateTime;
 
+/**
+ * Class DMSResult.
+ */
 class DMSResult
 {
     /**
@@ -37,7 +40,6 @@ class DMSResult
 
     private $initialROValue;
 
-
     public function __construct()
     {
         $this->customer = new DMSResultCustomer();
@@ -49,9 +51,14 @@ class DMSResult
         return $this->customer;
     }
 
-    public function setCustomer(DMSResultCustomer $customer): void
+    /**
+     * @return $this
+     */
+    public function setCustomer(DMSResultCustomer $customer)
     {
         $this->customer = $customer;
+
+        return $this;
     }
 
     /**
@@ -65,9 +72,11 @@ class DMSResult
     /**
      * @param mixed $number
      */
-    public function setNumber($number): void
+    public function setNumber($number): DMSResult
     {
         $this->number = $number;
+
+        return $this;
     }
 
     /**
@@ -81,9 +90,11 @@ class DMSResult
     /**
      * @param mixed $roKey
      */
-    public function setRoKey($roKey): void
+    public function setRoKey($roKey): DMSResult
     {
         $this->roKey = $roKey;
+
+        return $this;
     }
 
     /**
@@ -97,9 +108,11 @@ class DMSResult
     /**
      * @param mixed $date
      */
-    public function setDate($date): void
+    public function setDate($date): DMSResult
     {
         $this->date = $date;
+
+        return $this;
     }
 
     /**
@@ -113,9 +126,11 @@ class DMSResult
     /**
      * @param mixed $waiter
      */
-    public function setWaiter($waiter): void
+    public function setWaiter($waiter): DMSResult
     {
         $this->waiter = $waiter;
+
+        return $this;
     }
 
     /**
@@ -129,9 +144,11 @@ class DMSResult
     /**
      * @param mixed $pickupDate
      */
-    public function setPickupDate($pickupDate): void
+    public function setPickupDate($pickupDate): DMSResult
     {
         $this->pickupDate = $pickupDate;
+
+        return $this;
     }
 
     /**
@@ -145,9 +162,11 @@ class DMSResult
     /**
      * @param mixed $year
      */
-    public function setYear($year): void
+    public function setYear($year): DMSResult
     {
         $this->year = $year;
+
+        return $this;
     }
 
     /**
@@ -161,9 +180,11 @@ class DMSResult
     /**
      * @param mixed $make
      */
-    public function setMake($make): void
+    public function setMake($make): DMSResult
     {
         $this->make = $make;
+
+        return $this;
     }
 
     /**
@@ -177,9 +198,11 @@ class DMSResult
     /**
      * @param mixed $model
      */
-    public function setModel($model): void
+    public function setModel($model): DMSResult
     {
         $this->model = $model;
+
+        return $this;
     }
 
     /**
@@ -193,9 +216,11 @@ class DMSResult
     /**
      * @param mixed $miles
      */
-    public function setMiles($miles): void
+    public function setMiles($miles): DMSResult
     {
         $this->miles = $miles;
+
+        return $this;
     }
 
     /**
@@ -209,9 +234,11 @@ class DMSResult
     /**
      * @param mixed $vin
      */
-    public function setVin($vin): void
+    public function setVin($vin): DMSResult
     {
         $this->vin = $vin;
+
+        return $this;
     }
 
     public function getAdvisor(): DMSResultAdvisor
@@ -219,9 +246,11 @@ class DMSResult
         return $this->advisor;
     }
 
-    public function setAdvisor(DMSResultAdvisor $advisor): void
+    public function setAdvisor(DMSResultAdvisor $advisor): DMSResult
     {
         $this->advisor = $advisor;
+
+        return $this;
     }
 
     /**
@@ -235,9 +264,11 @@ class DMSResult
     /**
      * @param mixed $raw
      */
-    public function setRaw($raw): void
+    public function setRaw($raw): DMSResult
     {
         $this->raw = $raw;
+
+        return $this;
     }
 
     /**
@@ -251,12 +282,10 @@ class DMSResult
     /**
      * @param mixed $initialROValue
      */
-    public function setInitialROValue($initialROValue): void
+    public function setInitialROValue($initialROValue): DMSResult
     {
         $this->initialROValue = $initialROValue;
+
+        return $this;
     }
-
-
-
-
 }

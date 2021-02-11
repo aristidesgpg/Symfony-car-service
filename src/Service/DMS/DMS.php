@@ -151,7 +151,6 @@ class DMS
             $this->processRepairOrder($dmsOpenRepairOrder);
         }
 
-
         return $dmsOpenRepairOrders;
     }
 
@@ -159,7 +158,7 @@ class DMS
      * @param $RONumber
      *
      * @throws exception
-     * TODO Revisit after dms clients are done
+     *                   TODO Revisit after dms clients are done
      */
     public function addSingleRepairOrder($RONumber): bool
     {
@@ -243,18 +242,19 @@ class DMS
 
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
-
         //dd($dmsRepairOrder);
 
-
-        //TODO Testing, take out for prod. 111 numbers fail validation.
-        foreach($dmsRepairOrder->getCustomer()->getPhoneNumbers() as $key => $number)
-        {
-            $dmsRepairOrder->getCustomer()->getPhoneNumbers()[$key]->setDigits(str_replace('1', '2', $number->getDigits()));
-//            dump( str_replace('1', '2', $number->getDigits()));
-//            dump($number);
-//            dd($dmsRepairOrder);
-        }
+//        //TODO Testing, take out for prod. 111 numbers fail validation.
+//        if(is_array($dmsRepairOrder->getCustomer()->getPhoneNumbers())){
+//            foreach($dmsRepairOrder->getCustomer()->getPhoneNumbers() as $key => $number)
+//            {
+//                $dmsRepairOrder->getCustomer()->getPhoneNumbers()[$key]->setDigits(str_replace('1', '2', $number->getDigits()));
+//    //            dump( str_replace('1', '2', $number->getDigits()));
+//    //            dump($number);
+//    //            dd($dmsRepairOrder);
+//            }
+//
+//        }
 //        dd($dmsRepairOrder);
         //End TODO
 
@@ -262,6 +262,7 @@ class DMS
         $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsRepairOrder->getNumber()]);
         if ($repairOrderExists) {
             dump('Already Exists');
+
             return;
         }
 
@@ -270,6 +271,7 @@ class DMS
         if ('false' != $filter && false != $filter) {
             if (0 === strncmp($dmsRepairOrder->getNumber(), $filter, strlen($filter))) {
                 dump('Filter It Out');
+
                 return;
             }
         }
@@ -322,6 +324,7 @@ class DMS
         }
 
         // Throws an error if it's not a mobile number
+        //TODO, we are validating this upstream, before we create the DMSResult? Should we capture phone even if we aren't sending a text?
         try {
             $this->twilioHelper->lookupNumber($customer->getPhone());
         } catch (\Exception $e) {
@@ -336,6 +339,8 @@ class DMS
 
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
     {
+        dump($dmsResult);
+
         $defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
         $repairOrder = (new RepairOrder())
             ->setPrimaryCustomer($customer)
@@ -379,7 +384,6 @@ class DMS
     {
         // Get open repair orders
         $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
-
 
         $checkRepairOrders = [];
 
@@ -455,6 +459,7 @@ class DMS
     {
         //search advisor by id.
         dump('AdvisorFinder');
+        dump($dmsOpenRepairOrder);
         if ($dmsOpenRepairOrder->getAdvisor()->getId()) {
             $foundAdvisor = $this->userRepo->findOneBy(['id' => $dmsOpenRepairOrder->getAdvisor()->getId(), 'role' => 'ROLE_SERVICE_ADVISOR']);
             if ($foundAdvisor) {
@@ -504,54 +509,54 @@ class DMS
 
         //TODO PhoneNumberType might not be generic enough to work with all of the DMS's.
         // Check if the customer exists already
-        /**
-         * @var PhoneNumberType $phoneNumber
-         */
-        foreach ($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers() as $phoneNumber) {
-            // Try to find the customer
-            // Check if the customer exists and use that one instead if so
-            $customer = $this->customerRepo->findOneBy(['phone' => $phoneNumber->getDigits()]);
-            //Found a customer so stop looping.
-            if ($customer) {
-                return $customer;
-            }
+//        /**
+//         * @var PhoneNumberType $phoneNumber
+//         */
+        //foreach ($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers() as $phoneNumber) {
+        // Try to find the customer
+        // Check if the customer exists and use that one instead if so
+        $customer = $this->customerRepo->findOneBy(['phone' => $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers()]);
+        //Found a customer so stop looping.
+        if ($customer) {
+            return $customer;
         }
 
         // Still no customer, create a new one but only use a valid phone number
         //TODO PhoneNumberType might not be generic enough to work with all of the DMS's.
         // Check if the customer exists already
         // This method does not seem to be complete.
-        /**
+        // TODO, Phone number validation is done upstream..........
+        /*
          * @var PhoneNumberType $phoneNumber
          */
-        foreach ($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers() as $phoneNumber) {
-            // Try to validate the phone number
-            try {
-                // Phone is valid, use this one
-                $phoneValid = true;
+        //foreach ($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers() as $phoneNumber) {
+        // Try to validate the phone number
+        try {
+            // Phone is valid, use this one
+            $phoneValid = true;
 
-                // We want to skip validating the customer phone if production
-                if ('prod' == $this->parameterBag->get('app_env')) {
-                    $phoneValid = $this->twilioHelper->lookupNumber($phoneNumber);
-                }
+            // We want to skip validating the customer phone if production
+            if ('prod' == $this->parameterBag->get('app_env')) {
+                $phoneValid = $this->twilioHelper->lookupNumber($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers());
+            }
 
-                if ($phoneValid) {
-                    return $this->customerHelper->commitCustomer(
+            if ($phoneValid) {
+                return $this->customerHelper->commitCustomer(
                         new Customer(), [
-                            'phone' => $phoneNumber->getDigits(),
+                            'phone' => $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers(),
                             'name' => $dmsOpenRepairOrder->getCustomer()->getName(),
                             'email' => $dmsOpenRepairOrder->getCustomer()->getEmail(),
                         ]
                     );
-                }
-            } catch (\Exception $e) {
-                // Nothing for now
-                continue;
             }
+        } catch (\Exception $e) {
+            // Nothing for now
+                //continue;
         }
+        // }
 
         // STILL no customer, just used the first number we got
-        $phoneNumber = $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers()[0];
+        $phoneNumber = $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers();
 
         return $this->customerHelper->commitCustomer(
             new Customer(),

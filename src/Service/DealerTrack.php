@@ -125,7 +125,7 @@ class DealerTrack extends SOAP {
         foreach ($xml->children() as $el) {
             array_push($repairOrders, json_decode(json_encode($el)));
         }
-        dd($repairOrders);
+
         if ($repairOrders) {
             foreach ($repairOrders as $repairOrder) {
                 $openDate = new DateTime();
