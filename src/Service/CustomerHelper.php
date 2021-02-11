@@ -116,9 +116,6 @@ class CustomerHelper
                         $msg = 'Invalid phone number';
                         break;
                     }
-                    if (!$this->skipMobileVerification($params) && !$this->phoneValidator->isMobile($v)) {
-                        $msg = 'Phone number is not mobile';
-                    }
                     break;
                 case 'email':
                     if (!empty($v)) {
