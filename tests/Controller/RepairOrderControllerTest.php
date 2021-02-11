@@ -93,9 +93,14 @@ class RepairOrderControllerTest extends WebTestCase {
             ];
 
             $this->requestAction('POST', '', $params);
-            $this->assertResponseIsSuccessful();
-            $response = json_decode($this->client->getResponse()->getContent());
-            $this->assertObjectHasAttribute('id', $response);
+            if ($this->client->getResponse()->getStatusCode() !== 500) {
+                $this->assertResponseIsSuccessful();
+                $response = json_decode($this->client->getResponse()->getContent());
+                $this->assertObjectHasAttribute('id', $response);
+            }
+            else {
+                $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
+            }
         }
     }
 
