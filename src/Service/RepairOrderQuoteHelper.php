@@ -23,6 +23,10 @@ class RepairOrderQuoteHelper
         'notes',
     ];
 
+    private const NOT_REQUIRED_FIELDS = [
+        'notes',
+    ];
+
     /**
      * @throws Exception
      */
@@ -52,6 +56,13 @@ class RepairOrderQuoteHelper
                             throw new Exception($field.' has invalid value in recommendations json');
                         }
                     }
+                }
+            }
+
+            // These are required to be set but not required to have a value
+            foreach (self::NOT_REQUIRED_FIELDS as $field) {
+                if (!isset($fields[$field])) {
+                    throw new Exception($field.' is missing in recommendations json');
                 }
             }
         }
