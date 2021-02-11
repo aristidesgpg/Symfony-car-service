@@ -361,7 +361,7 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/phone-validate")
+     * @Rest\Post("/phone-validate")
      *
      * @SWG\Parameter(name="phone", type="string", in="formData", required=true)
      *
