@@ -7,6 +7,7 @@ use App\Entity\RepairOrder;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
+use App\Service\PhoneValidator;
 use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
@@ -25,19 +26,22 @@ class RepairOrderHelper
     private $customers;
     private $users;
     private $customerHelper;
+    private $phoneValidator;
 
     public function __construct(
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
         UserRepository $users,
-        CustomerHelper $customerHelper
+        CustomerHelper $customerHelper,
+        PhoneValidator $phoneValidator
     ) {
         $this->em = $em;
         $this->repo = $repo;
         $this->customers = $customers;
         $this->users = $users;
         $this->customerHelper = $customerHelper;
+        $this->phoneValidator = $phoneValidator;
     }
 
     /**
@@ -78,6 +82,11 @@ class RepairOrderHelper
             }
             $ro->setPrimaryAdvisor($advisor);
         }
+        // check mobile validation
+        $phone       = $params['customerPhone'];
+        $cleanNumber = $this->phoneValidator->clean($phone);
+        $isValid     = $this->phoneValidator->isMobile($cleanNumber);
+
         $this->em->persist($ro);
         $this->commitRepairOrder();
 
