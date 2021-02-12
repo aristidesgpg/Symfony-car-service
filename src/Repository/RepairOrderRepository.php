@@ -44,7 +44,7 @@ class RepairOrderRepository extends ServiceEntityRepository
         $userRepo,
         $startDate = null,
         $endDate = null,
-        $sortField = 'date',
+        $sortField = 'dateCreated',
         $sortDirection = 'DESC',
         $searchTerm = null,
         $fields = []
@@ -110,7 +110,6 @@ class RepairOrderRepository extends ServiceEntityRepository
                    ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 
-
             if ($user instanceof User) {
                 if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
                     if ($user->getShareRepairOrders()) {
@@ -123,17 +122,18 @@ class RepairOrderRepository extends ServiceEntityRepository
                         $queryParameters['user'] = $user;
                     }
                 } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
-                    $qb->andWhere('ro.primaryTechnician = :user')
+                    $qb->andWhere('ro.primaryTechnician = :user  OR ro.primaryTechnician is NULL')
                        ->setParameter('user', $user);
                     $queryParameters['user'] = $user;
                 }
             }
-
             if ($sortDirection) {
                 $qb->orderBy('ro.'.$sortField, $sortDirection);
 
                 $urlParameters['sortField'] = $sortField;
                 $urlParameters['sortDirection'] = $sortDirection;
+            } else {
+                $qb->orderBy('ro.dateCreated', 'DESC');
             }
 
             return $qb->getQuery()->getResult();
@@ -150,9 +150,9 @@ class RepairOrderRepository extends ServiceEntityRepository
     public function findByUID(string $uid): ?RepairOrder
     {
         try {
-            // If they pass an integer, they're trying to find an ID
-            if (is_int($uid)) {
-                return $this->find($uid);
+            $repairOrder = $this->find($uid);
+            if ($repairOrder) {
+                return $repairOrder;
             }
 
             return $this->createQueryBuilder('r')

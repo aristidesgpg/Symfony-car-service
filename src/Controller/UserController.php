@@ -98,25 +98,31 @@ class UserController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $page          = $request->query->getInt('page', 1);
-        $role          = $request->query->get('role');
+        $page = $request->query->getInt('page', 1);
+        $role = $request->query->get('role');
         $urlParameters = [];
-        $errors        = [];
-        $sortField     = '';
+        $errors = [];
+        $sortField = '';
         $sortDirection = '';
-        $searchTerm    = '';
-        $columns       = $em->getClassMetadata('App\Entity\User')->getFieldNames();
+        $searchField = '';
+        $searchTerm = '';
+        $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
 
-        if (!is_null($role) && !$userHelper->isValidRole($role)) {
+        if(!$role){
+            $users = $userRepo->getActiveUsers();
+        }
+        else if (!$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+        }else{
+            $users = $userRepo->getUserByRole($role);
         }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField     = $request->query->get('sortField');
+            $sortField  = $request->query->get('sortField');
 
             if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
@@ -127,9 +133,8 @@ class UserController extends AbstractFOSRestController
             $urlParameters['sortDirection'] = $sortDirection;
         }
 
-        if ($request->query->has('searchTerm')) {
-
-            $searchTerm    = $request->query->get('searchTerm');
+        if ( $request->query->has('searchTerm')) {
+            $searchTerm = $request->query->get('searchTerm');
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
@@ -144,12 +149,12 @@ class UserController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
             ]
         );
 
