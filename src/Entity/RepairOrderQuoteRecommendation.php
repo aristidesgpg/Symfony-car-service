@@ -69,7 +69,25 @@ class RepairOrderQuoteRecommendation
      * @ORM\Column(type="float", nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
-    private $laborPrice;
+   
+     private $laborPrice;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+   
+     private $laborTax;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+   
+     private $partsTax;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $suppliesTax;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -189,4 +207,27 @@ class RepairOrderQuoteRecommendation
 
         return $this;
     }
+
+    public function setLaborTax(?float $laborTax): self
+    {
+        $this->laborTax = $laborTax;
+
+        return $this;
+    }
+
+    public function setPartsTax(?float $partsTax): self
+    {
+        $this->partsTax = $partsTax;
+
+        return $this;
+    }
+
+    public function setSuppliesTax(?float $suppliesTax): self
+    {
+        $this->suppliesTax = $suppliesTax;
+
+        return $this;
+    }
+
+
 }

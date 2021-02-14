@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\CustomerRepository;
+use App\Repository\PriceMatrixRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
 use DateTime;
@@ -25,19 +26,25 @@ class RepairOrderHelper
     private $customers;
     private $users;
     private $customerHelper;
+    private $settingsHelper;
+    private $priceRepository;
 
     public function __construct(
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
         UserRepository $users,
-        CustomerHelper $customerHelper
+        PriceMatrixRepository $priceRepository,
+        CustomerHelper $customerHelper,
+        SettingsHelper $settingsHelper
     ) {
-        $this->em = $em;
-        $this->repo = $repo;
-        $this->customers = $customers;
-        $this->users = $users;
-        $this->customerHelper = $customerHelper;
+        $this->em              = $em;
+        $this->repo            = $repo;
+        $this->customers       = $customers;
+        $this->users           = $users;
+        $this->priceRepository = $priceRepository;
+        $this->customerHelper  = $customerHelper;
+        $this->settingsHelper  = $settingsHelper;
     }
 
     /**
@@ -335,4 +342,66 @@ class RepairOrderHelper
         $ro->setDeleted(true);
         $this->commitRepairOrder();
     }
+
+    /**
+     * @param RepairOrder $ro
+     */
+    public function calculateLaborPrice(RepairOrder $ro)
+    {
+        $quote = $ro->getRepairOrderQuote();
+        if($quote && $quote->getRepairOrderQuoteRecommendations() && $quote->getRepairOrderQuoteRecommendations()){
+            $recommendations = $quote->getRepairOrderQuoteRecommendations();
+            if(count($recommendations) > 0)
+            {
+                $labor_price = 0;
+                $pricingLaborRate = $this->settingsHelper->getSetting("pricingLaborRate");
+
+                foreach($recommendations as $index =>$recommendation){
+                    $hours = $recommendation->getOperationCode()->getLaborHours();
+
+                    if($this->settingsHelper->getSetting('pricingUseMatrix')){
+                        $labor_price = $this->priceRepository->getPrice($hours);
+                        
+                        if(is_null($labor_price)){
+                           $labor_price = $hours * $pricingLaborRate;
+                        } 
+                    }
+                    else{
+                        $labor_price = $hours * $pricingLaborRate;
+                    }
+                    
+                    $isLaborTaxable = $recommendation->getOperationCode()->getLaborTaxable();
+                    if($isLaborTaxable){
+                       $labor_tax = $labor_price * $this->settingsHelper->getSetting("pricingLaborTax") * 0.01;  
+                    }
+                    else{
+                        $labor_tax = 0;
+                    }
+
+                    if($recommendation->getOperationCode()->getPartsTaxable()){
+                        $parts_tax = $recommendation->getPartsPrice() * $this->settingsHelper->getSetting("pricingPartsTax") * 0.01;
+                    }
+                    else{
+                        $parts_tax = 0;
+                    }
+
+                    if($recommendation->getOperationCode()->getSuppliesTaxable()){
+                        $supplies_tax = $recommendation->getSuppliesPrice() * $this->settingsHelper->getSetting("pricingPartsTax") * 0.01;
+                    }
+                    else{
+                        $supplies_tax = 0;
+                    }
+
+                    $ro->getRepairOrderQuote()->getRepairOrderQuoteRecommendations()[$index]->setLaborPrice($labor_price);
+                    $ro->getRepairOrderQuote()->getRepairOrderQuoteRecommendations()[$index]->setLaborTax($labor_tax);
+                    $ro->getRepairOrderQuote()->getRepairOrderQuoteRecommendations()[$index]->setPartsTax($parts_tax);
+                    $ro->getRepairOrderQuote()->getRepairOrderQuoteRecommendations()[$index]->setSuppliesTax($supplies_tax);
+                }
+            }
+        }
+
+        return $ro;
+    }
+
+    
 }

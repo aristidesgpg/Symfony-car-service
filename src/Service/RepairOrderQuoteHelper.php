@@ -24,7 +24,7 @@ class RepairOrderQuoteHelper
         'approved',
         'partsPrice',
         'suppliesPrice',
-        'laborPrice',
+        // 'laborPrice',
     ];
 
     private const NOT_REQUIRED_FIELDS = [
@@ -64,7 +64,7 @@ class RepairOrderQuoteHelper
                         throw new Exception($field.' has no value in recommendations json');
                     }
 
-                    if ($field == 'partsPrice' || $field == 'suppliesPrice' || $field == 'laborPrice') {
+                    if ($field == 'partsPrice' || $field == 'suppliesPrice') {
                         if (!is_numeric($fields[$field])) {
                             throw new Exception($field.' has invalid value in recommendations json');
                         }

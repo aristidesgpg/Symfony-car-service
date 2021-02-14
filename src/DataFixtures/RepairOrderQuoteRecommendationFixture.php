@@ -32,7 +32,7 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
                                            ->setApproved($faker->boolean(50))
                                            ->setPartsPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
                                            ->setSuppliesPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
-                                           ->setLaborPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
+                                        //    ->setLaborPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
                                            ->setNotes($faker->sentence($nbWords = 3, $variableNbWords = true));
 
             $manager->persist($repairOrderQuoteRecommendation);
