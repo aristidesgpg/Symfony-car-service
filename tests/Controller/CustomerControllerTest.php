@@ -2,7 +2,9 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
 use App\Entity\Customer;
+use App\Service\Authentication;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,18 +25,26 @@ class CustomerControllerTest extends WebTestCase
     public function setUp() {
         $this->client = static::createClient();
 
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
-            'username' => 'tperson@iserviceauto.com',
-            'password' => 'test'
-        ]);
+        $user = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(1)
+                                ->getQuery()
+                                ->getOneOrNullResult();
 
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token = $authData->token;
+        $authentication = self::$container->get(Authentication::class);
+        $ttl            = 31536000;
+        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
 
         $this->entityManager = self::$container->get('doctrine')->getManager();
     }
 
     public function testGetAll() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         // Get all, Ok
         $this->requestAction('GET');
 
@@ -66,6 +76,10 @@ class CustomerControllerTest extends WebTestCase
     }
 
     public function testGetCustomer() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         $customer = $this->entityManager->getRepository(Customer::class)
                                         ->createQueryBuilder('c')
                                         ->where('c.deleted = 0')
@@ -80,10 +94,17 @@ class CustomerControllerTest extends WebTestCase
             $this->assertResponseIsSuccessful();
             $response = json_decode($this->client->getResponse()->getContent());
             $this->assertGreaterThanOrEqual($id, $response->id);
+        } else {
+            $this->assertEmpty($customer, 'Customer is null');
+            return;
         }
     }
 
     public function testAddCustomer() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         // Ok
         $name   = 'John Doe';
         $params = [
@@ -111,6 +132,10 @@ class CustomerControllerTest extends WebTestCase
     }
 
     public function testUpdateCustomer() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         $customer = $this->entityManager->getRepository(Customer::class)
                                         ->createQueryBuilder('c')
                                         ->where('c.deleted = 0')
@@ -133,10 +158,17 @@ class CustomerControllerTest extends WebTestCase
             $this->assertResponseIsSuccessful();
             $response = json_decode($this->client->getResponse()->getContent());
             $this->assertEquals($name, $response->name);
+        } else {
+            $this->assertEmpty($customer, 'Customer is null');
+            return;
         }
     }
 
     public function testDeleteCustomer() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         $customer = $this->entityManager->getRepository(Customer::class)
                                         ->createQueryBuilder('c')
                                         ->where('c.deleted = 0')
@@ -151,6 +183,9 @@ class CustomerControllerTest extends WebTestCase
             $this->assertResponseIsSuccessful();
             $response = json_decode($this->client->getResponse()->getContent());
             $this->assertEquals($id, $response->id);
+        } else {
+            $this->assertEmpty($customer, 'Customer is null');
+            return;
         }
     }
 
