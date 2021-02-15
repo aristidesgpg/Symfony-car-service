@@ -35,6 +35,11 @@ class InternalMessageControllerTest extends WebTestCase {
     }
 
     public function testGetThreads() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+        
         // Page Not Found
         $page = 0;
         $this->requestAction('GET', '/threads?page=' . $page );
@@ -49,6 +54,11 @@ class InternalMessageControllerTest extends WebTestCase {
     }
 
     public function testGetMessagesNewest() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+
         $users = self::$container->get('doctrine')
                                 ->getManager()
                                 ->getRepository(User::class)
@@ -80,6 +90,11 @@ class InternalMessageControllerTest extends WebTestCase {
     }
 
     public function testSendMessage() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+
         $users = self::$container->get('doctrine')
                                 ->getManager()
                                 ->getRepository(User::class)

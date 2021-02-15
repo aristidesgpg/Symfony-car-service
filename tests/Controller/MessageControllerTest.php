@@ -28,10 +28,14 @@ class MessageControllerTest extends WebTestCase
                                 ->setMaxResults(1)
                                 ->getQuery()
                                 ->getOneOrNullResult();
+        if (!$user) {
+            $this->assertEmpty($user, 'User is null');
+            return;
+        }
 
         $authentication = self::$container->get(Authentication::class);
         $ttl            = 31536000;
-        $token    = $authentication->getJWT($user->getEmail(), $ttl);
+        $token          = $authentication->getJWT($user->getEmail(), $ttl);
 
         $unReadCrawler = $this->client->request('GET', '/api/message/unread', [], [], [
                 'HTTP_Authorization' => 'Bearer '.$token,
