@@ -8,6 +8,7 @@ use App\Repository\OperationCodeRepository;
 use App\Repository\PriceMatrixRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
+use Symfony\Component\Security\Core\Security;
 use Exception;
 
 /**
@@ -33,19 +34,21 @@ class RepairOrderQuoteHelper
     ];
 
     private $em;
+    private $security;
     private $operationCodeRepository;
     private $pricingLaborRate;
     private $isPricingMatrix;
     private $pricingLaborTax;
     private $pricingPartsTax; 
     private $priceRepository;
+    
 
     public function __construct( EntityManagerInterface $em, OperationCodeRepository $operationCodeRepository, 
-                                SettingsHelper $settingsHelper, PriceMatrixRepository $priceRepository )
+                                SettingsHelper $settingsHelper, PriceMatrixRepository $priceRepository , Security $security)
     {
         $this->em = $em;
         $this->operationCodeRepository = $operationCodeRepository;
-        $this->settingsHelper   = $settingsHelper;
+        $this->security = $security;
         $this->priceRepository  = $priceRepository;
 
         $this->pricingLaborRate = $settingsHelper->getSetting("pricingLaborRate");
@@ -116,10 +119,6 @@ class RepairOrderQuoteHelper
                 $this->em->remove($oldRecommendation);
             }
 
-            $partsPrice = $recommendation->partsPrice;
-            $suppliesPrice = $recommendation->suppliesPrice;
-            $laborAndTax = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
-
             $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
                                            ->setOperationCode($operationCode)
                                            ->setDescription($recommendation->description)
@@ -131,11 +130,18 @@ class RepairOrderQuoteHelper
                                            )
                                            ->setPartsPrice($recommendation->partsPrice)
                                            ->setSuppliesPrice($recommendation->suppliesPrice)
-                                           ->setNotes($recommendation->notes)
-                                           ->setLaborPrice($laborAndTax['laborPrice'])
-                                           ->setLaborTax($laborAndTax['laborTax'])
-                                           ->setPartsTax($laborAndTax['partsTax'])
-                                           ->setSuppliesTax($laborAndTax['suppliesTax']);
+                                           ->setNotes($recommendation->notes);
+                                           
+            if ( $this->security->isGranted('ROLE_CUSTOMER' ) ){
+                $partsPrice    = $recommendation->partsPrice;
+                $suppliesPrice = $recommendation->suppliesPrice;
+                $laborAndTax   = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
+               
+                $repairOrderQuoteRecommendation->setLaborPrice($laborAndTax['laborPrice'])
+                                               ->setLaborTax($laborAndTax['laborTax'])
+                                               ->setPartsTax($laborAndTax['partsTax'])
+                                               ->setSuppliesTax($laborAndTax['suppliesTax']);
+            }
 
             $this->em->persist($repairOrderQuoteRecommendation);
             $this->em->beginTransaction();
