@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderTeam;
 use App\Entity\User;
+use App\Service\Authentication;
 use Faker\Factory;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -27,13 +28,17 @@ class RepairOrderTeamControllerTest extends WebTestCase
     public function setUp() {
         $this->client = static::createClient();
 
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
-            'username' => 'tperson@iserviceauto.com',
-            'password' => 'test'
-        ]);
+        $user = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(1)
+                                ->getQuery()
+                                ->getOneOrNullResult();
 
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token = $authData->token;
+        $authentication = self::$container->get(Authentication::class);
+        $ttl            = 31536000;
+        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
 
         $this->entityManager = self::$container->get('doctrine')
                                                ->getManager();
@@ -42,6 +47,10 @@ class RepairOrderTeamControllerTest extends WebTestCase
 
     public function testNew()
     {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         // OK
         $role = $this->faker->randomElements(['ROLE_TECHNICIAN', 'ROLE_PARTS_ADVISOR', 'ROLE_SERVICE_ADVISOR']);
         $user = $this->entityManager
@@ -70,10 +79,16 @@ class RepairOrderTeamControllerTest extends WebTestCase
             $this->assertResponseIsSuccessful();
             $response = json_decode($this->client->getResponse()->getContent());
             $this->assertObjectHasAttribute('id', $response);
+        } else {
+            $this->assertEmpty(null, 'User or RepairOrder is null');
         }
     }
 
     public function testDelete() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         // OK
         $roTeam = $this->entityManager
                        ->getRepository(RepairOrderTeam::class)
@@ -85,6 +100,8 @@ class RepairOrderTeamControllerTest extends WebTestCase
         if ($roTeam) {
             $this->requestActions('DELETE', '/'.$roTeam->getId());
             $this->assertResponseIsSuccessful();
+        } else {
+            $this->assertEmpty($roTeam, 'RepairOrderTeam is null');
         }
     }
 
