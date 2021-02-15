@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Repository\OperationCodeRepository;
+use App\Repository\PriceMatrixRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Exception;
@@ -33,11 +34,16 @@ class RepairOrderQuoteHelper
 
     private $em;
     private $operationCodeRepository;
+    private $settingsHelper;
+    private $priceRepository;
 
-    public function __construct(EntityManagerInterface $em, OperationCodeRepository $operationCodeRepository)
+    public function __construct( EntityManagerInterface $em, OperationCodeRepository $operationCodeRepository, 
+                                SettingsHelper $settingsHelper, PriceMatrixRepository $priceRepository )
     {
         $this->em = $em;
         $this->operationCodeRepository = $operationCodeRepository;
+        $this->settingsHelper  = $settingsHelper;
+        $this->priceRepository = $priceRepository;
     }
 
     /**
@@ -127,5 +133,66 @@ class RepairOrderQuoteHelper
                 throw new Exception($e->getMessage());
             }
         }
+    }
+
+    /**
+     * @param RepairOrder $ro
+     */
+    public function calculateLaborPrice(RepairOrderQuote $quote)
+    {
+        if($quote && $quote->getRepairOrderQuoteRecommendations() && $quote->getRepairOrderQuoteRecommendations()){
+            $recommendations            = $quote->getRepairOrderQuoteRecommendations();
+            
+            if(count($recommendations) > 0)
+            {
+                $labor_price            = 0;
+                $pricingLaborRate       = $this->settingsHelper->getSetting("pricingLaborRate");
+
+                foreach($recommendations as $index =>$recommendation){
+                    $hours              = $recommendation->getOperationCode()->getLaborHours();
+
+                    if($this->settingsHelper->getSetting('pricingUseMatrix')){
+                        $labor_price    = $this->priceRepository->getPrice($hours);
+                        
+                        if( is_null( $labor_price ) ) {
+                           $labor_price = $hours * $pricingLaborRate;
+                        } 
+                    }
+                    else{
+                        $labor_price    = $hours * $pricingLaborRate;
+                    }
+
+                    $isLaborTaxable     = $recommendation->getOperationCode()->getLaborTaxable();
+
+                    if($isLaborTaxable){
+                       $labor_tax       = $labor_price * $this->settingsHelper->getSetting("pricingLaborTax") * 0.01;  
+                    }
+                    else{
+                        $labor_tax      = 0;
+                    }
+
+                    if($recommendation->getOperationCode()->getPartsTaxable()){
+                        $parts_tax      = $recommendation->getPartsPrice() * $this->settingsHelper->getSetting("pricingPartsTax") * 0.01;
+                    }
+                    else{
+                        $parts_tax      = 0;
+                    }
+
+                    if($recommendation->getOperationCode()->getSuppliesTaxable()){
+                        $supplies_tax   = $recommendation->getSuppliesPrice() * $this->settingsHelper->getSetting("pricingPartsTax") * 0.01;
+                    }
+                    else{
+                        $supplies_tax   = 0;
+                    }
+
+                    $quote->getRepairOrderQuoteRecommendations()[$index]->setLaborPrice($labor_price)
+                                                                        ->setLaborTax($labor_tax)
+                                                                        ->setPartsTax($parts_tax)
+                                                                        ->setSuppliesTax($supplies_tax);
+                }
+            }
+        }
+
+        return $quote;
     }
 }
