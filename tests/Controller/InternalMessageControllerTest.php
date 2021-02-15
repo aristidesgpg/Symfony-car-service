@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
+use App\Service\Authentication;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,14 +20,18 @@ class InternalMessageControllerTest extends WebTestCase {
     public function setUp() {
         $this->client = static::createClient();
 
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
-            'username' => 'tperson@iserviceauto.com',
-            'password' => 'test'
-        ]);
+        $user = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(1)
+                                ->getQuery()
+                                ->getOneOrNullResult();
 
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token               = $authData->token;
-        $this->authenticatedUserId = $authData->user->id;
+        $authentication = self::$container->get(Authentication::class);
+        $ttl            = 31536000;
+        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
+        $this->authenticatedUserId = $user->getId();
     }
 
     public function testGetThreads() {
@@ -43,61 +49,69 @@ class InternalMessageControllerTest extends WebTestCase {
     }
 
     public function testGetMessagesNewest() {
-        // Page Not Found
-        $otherUserId = 5;
-        $page        = 0;
+        $users = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(2)
+                                ->getQuery()
+                                ->getResult();
+        $user = $users[1];
+        if ($user) {
+            // Page Not Found
+            $otherUserId = $user->getId();
+            $page        = 0;
 
-        $this->requestAction('GET', '/messages?otherUserId=' . $otherUserId . '&page=' . $page);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            $this->requestAction('GET', '/messages?otherUserId=' . $otherUserId . '&page=' . $page);
+            $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
-        // Ok
-        $otherUserId = 5;
-        $page        = 1;
+            // Ok
+            $otherUserId = $user->getId();
+            $page        = 1;
 
-        $this->requestAction('GET', '/messages?otherUserId=' . $otherUserId . '&page=' . $page);
-        $messagesData = json_decode($this->client->getResponse()->getContent());
-        $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, $messagesData->totalResults);
-        
-        // User Not Found
-        $otherUserId = 2147483647;
-        $page        = 1;
-
-        $this->requestAction('GET', '/messages?otherUserId=' . $otherUserId . '&page=' . $page);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
-
-        // User Parameter Required
-        $this->requestAction('GET', '/messages');
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+            $this->requestAction('GET', '/messages?otherUserId=' . $otherUserId . '&page=' . $page);
+            $messagesData = json_decode($this->client->getResponse()->getContent());
+            $this->assertResponseIsSuccessful();
+            $this->assertGreaterThanOrEqual(0, $messagesData->totalResults);
+        } else {
+            $this->assertEmpty($user, 'User is null');
+            return;
+        }
     }
 
     public function testSendMessage() {
-        // Ok
-        $toId    = 5;
-        $message = "Hello World";
+        $users = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(2)
+                                ->getQuery()
+                                ->getResult();
+        $user = $users[1];
+        if ($user) {
+            // Ok
+            $toId    = $user->getId();
+            $message = "Hello World";
 
-        $this->requestAction('POST', '?toId=' . $toId . '&message=' . $message);
-        $messagesData = json_decode($this->client->getResponse()->getContent());
-        $this->assertResponseIsSuccessful();
-        $this->assertEquals($message, $messagesData->message);
+            $this->requestAction('POST', '?toId=' . $toId . '&message=' . $message);
+            $messagesData = json_decode($this->client->getResponse()->getContent());
+            $this->assertResponseIsSuccessful();
+            $this->assertEquals($message, $messagesData->message);
 
-        // User Not Found
-        $toId    = 2147483647;
-        $message = "Hello World";
+            // Message from You to You
+            $toId    = $this->authenticatedUserId;
+            $message = "Hello World";
 
-        $this->requestAction('POST', '?toId=' . $toId . '&message=' . $message);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+            $this->requestAction('POST', '?toId=' . $toId . '&message=' . $message);
+            $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
 
-        // Message from You to You
-        $toId    = $this->authenticatedUserId;
-        $message = "Hello World";
-
-        $this->requestAction('POST', '?toId=' . $toId . '&message=' . $message);
-        $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
-
-        // Parameter(s) Required
-        $this->requestAction('POST', '');
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+            // Parameter(s) Required
+            $this->requestAction('POST', '');
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        } else {
+            $this->assertEmpty($user, 'User is null');
+            return;
+        }
     }
 
     private function requestAction($method, $apiUrl, $params=[]) {
