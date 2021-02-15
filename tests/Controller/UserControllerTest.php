@@ -203,11 +203,19 @@ class UserControllerTest extends WebTestCase
             return;
         }
         // Ok
-        $params = [
-            'email' => 'tperson@iserviceauto.com'
-        ];
-        $this->requestAction('POST', '/security/get-security-question', $params);
-        $this->assertResponseIsSuccessful();
+        $user = $this->entityManager->getRepository(User::class)
+                                    ->createQueryBuilder('u')
+                                    ->where('u.active = 1')
+                                    ->setMaxResults(1)
+                                    ->getQuery()
+                                    ->getOneOrNullResult();
+        if ($user) {
+            $params = [
+                'email' => $user->getEmail()
+            ];
+            $this->requestAction('POST', '/security/get-security-question', $params);
+            $this->assertResponseIsSuccessful();
+        }
 
         // Missing required parameters
         $this->requestAction('POST', '/security/get-security-question');
