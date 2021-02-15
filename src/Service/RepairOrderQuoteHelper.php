@@ -132,7 +132,7 @@ class RepairOrderQuoteHelper
                                            ->setSuppliesPrice($recommendation->suppliesPrice)
                                            ->setNotes($recommendation->notes);
                                            
-            if ( $this->security->isGranted('ROLE_CUSTOMER' ) ){
+            if ( $this->security->isGranted('ROLE_CUSTOMER') ){
                 $partsPrice    = $recommendation->partsPrice;
                 $suppliesPrice = $recommendation->suppliesPrice;
                 $laborAndTax   = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
