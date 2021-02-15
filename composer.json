@@ -8,6 +8,7 @@
         "ext-gd": "*",
         "ext-iconv": "*",
         "ext-json": "*",
+        "ext-simplexml": "*",
         "aws/aws-sdk-php": "^3.168",
         "composer/package-versions-deprecated": "^1.11",
         "doctrine/doctrine-bundle": "^2.1",
@@ -38,7 +39,6 @@
         "symfony/twig-bundle": "4.4.*",
         "symfony/validator": "4.4.*",
         "symfony/yaml": "4.4.*",
-        "tijsverkoyen/css-to-inline-styles": "^2.2",
         "twilio/sdk": "^6.10"
     },
     "require-dev": {
