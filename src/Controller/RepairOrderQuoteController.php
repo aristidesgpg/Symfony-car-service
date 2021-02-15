@@ -42,7 +42,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote, RepairOrderQuoteHelper $helper)
     {
-        $repairOrderQuote = $helper->calculateLaborPrice($repairOrderQuote);
+        $repairOrderQuote = $helper->calculateLaborAndTax($repairOrderQuote);
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
 
