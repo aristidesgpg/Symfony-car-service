@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
+use App\Service\Authentication;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,16 +18,24 @@ class PriceMatrixControllerTest extends WebTestCase {
     public function setUp() {
         $this->client = static::createClient();
 
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
-            'username' => 'tperson@iserviceauto.com',
-            'password' => 'test'
-        ]);
+        $user = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(1)
+                                ->getQuery()
+                                ->getOneOrNullResult();
 
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token = $authData->token;
+        $authentication = self::$container->get(Authentication::class);
+        $ttl            = 31536000;
+        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
     }
 
     public function testList() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         $this->requestActions('GET');
         $roInteractionRes = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
@@ -33,6 +43,10 @@ class PriceMatrixControllerTest extends WebTestCase {
     }
 
     public function testPost() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         // Ok
         $data = '[{"hours":0,"price":0}, {"hours":0.1,"price":0.5}]';
         $this->requestActions('POST', ["payload"=>$data]);
