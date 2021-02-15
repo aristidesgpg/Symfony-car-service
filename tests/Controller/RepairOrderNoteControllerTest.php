@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
+use App\Service\Authentication;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderNote;
 use Faker\Factory;
@@ -26,21 +28,28 @@ class RepairOrderNoteControllerTest extends WebTestCase
     public function setUp() {
         $this->client = static::createClient();
 
-        $authCrawler = $this->client->request('POST', '/api/authentication/authenticate', [
-            'username' => 'tperson@iserviceauto.com',
-            'password' => 'test'
-        ]);
+        $user = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(1)
+                                ->getQuery()
+                                ->getOneOrNullResult();
 
-        $authData = json_decode($this->client->getResponse()->getContent());
-        $this->token = $authData->token;
+        $authentication = self::$container->get(Authentication::class);
+        $ttl            = 31536000;
+        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
 
         $this->entityManager = self::$container->get('doctrine')
                                                ->getManager();
         $this->faker = Factory::create();
     }
 
-    public function testAddNote()
-    {
+    public function testAddNote() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         // OK
         $ro   = $this->entityManager
                      ->getRepository(RepairOrder::class)
@@ -59,10 +68,16 @@ class RepairOrderNoteControllerTest extends WebTestCase
             $this->assertResponseIsSuccessful();
             $response = json_decode($this->client->getResponse()->getContent());
             $this->assertObjectHasAttribute('id', $response);
+        } else {
+            $this->assertEmpty($ro, 'RepairOrder is null');
         }
     }
 
     public function testDeleteNote() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
         // OK
         $roNote = $this->entityManager
                        ->getRepository(RepairOrderNote::class)
@@ -74,6 +89,8 @@ class RepairOrderNoteControllerTest extends WebTestCase
         if ($roNote) {
             $this->requestActions('DELETE', '/'.$roNote->getId());
             $this->assertResponseIsSuccessful();
+        } else {
+            $this->assertEmpty($roNote, 'RepairOrderNote is null');
         }
     }
 
