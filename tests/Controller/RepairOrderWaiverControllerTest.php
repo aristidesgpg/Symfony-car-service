@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\User;
+use App\Service\Authentication;
 use App\Entity\RepairOrder;
 use App\Service\SettingsHelper;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -26,12 +28,17 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
      */
     public function setUp() {
         $this->client         = static::createClient();
-        $authCrawler          = $this->client->request('POST', '/api/authentication/authenticate', [
-            'username' => 'tperson@iserviceauto.com',
-            'password' => 'test'
-        ]);
-        $authData             = json_decode($this->client->getResponse()->getContent());
-        $this->token          = $authData->token;
+        $user = self::$container->get('doctrine')
+                                ->getManager()
+                                ->getRepository(User::class)
+                                ->createQueryBuilder('u')
+                                ->setMaxResults(1)
+                                ->getQuery()
+                                ->getOneOrNullResult();
+
+        $authentication = self::$container->get(Authentication::class);
+        $ttl            = 31536000;
+        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
 
         $this->entityManager  = self::$container->get('doctrine')
                                                 ->getManager();
@@ -46,6 +53,11 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
     }
 
     public function testWaiverSigned() {
+        if (!$this->token || !$this->repairOrder) {
+            $this->assertEmpty(null, 'Token or RepairOrder is null');
+            return;
+        }
+
         if ($this->repairOrder) {
             // Ok
             $endpoint      = '/signed';
@@ -61,7 +73,7 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
                 $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
             }
             else if (!empty($this->repairOrder->getWaiverSignature())) { // Waiver has already been signed
-                $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+                $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
             }
             else { // OK
                 $this->assertResponseIsSuccessful();
@@ -104,6 +116,10 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
     }
 
     public function testWaiverViewed() {
+        if (!$this->token || !$this->repairOrder) {
+            $this->assertEmpty(null, 'Token or RepairOrder is null');
+            return;
+        }
         if ($this->repairOrder) {
             $endpoint      = '/viewed';
             $repairOrderId = $this->repairOrder->getId();
@@ -128,6 +144,10 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
     }
 
     public function testWaiverAcknowledged() {
+        if (!$this->token || !$this->repairOrder) {
+            $this->assertEmpty(null, 'Token or RepairOrder is null');
+            return;
+        }
         if ($this->repairOrder) {
             $endpoint      = '/acknowledged';
             $repairOrderId = $this->repairOrder->getId();
@@ -152,6 +172,10 @@ class RepairOrderWaiverControllerTest extends WebTestCase {
     }
 
     public function testWaiverResend() {
+        if (!$this->token || !$this->repairOrder) {
+            $this->assertEmpty(null, 'Token or RepairOrder is null');
+            return;
+        }
         $waiverActivateAuthMessage = $this->settingsHelper->getSetting('waiverActivateAuthMessage');
 
         if ($this->repairOrder) {
