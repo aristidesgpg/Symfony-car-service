@@ -170,6 +170,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
      *
      * TODO Need to see the desired outcome, whether an array or just a string. Right now it's coded to just return ONE phone number.
      * TODO Also, should we be using PhoneLookup?
+     * TODO Do we want to save the number if it isn't a mobile number?
      */
     public function phoneNormalizer($phone)
     {
