@@ -70,7 +70,7 @@ class PartsController extends AbstractFOSRestController
      * )
      *
      * @SWG\Response(response="404", description="Invalid page parameter")
-     * @SWG\Response(response="400", description="Missing parameter")
+     * @SWG\Response(response="400", description="Invalid sort field")
      *
      * @return Response
      */
