@@ -19,6 +19,35 @@ class PartsRepository extends ServiceEntityRepository
         parent::__construct($registry, Parts::class);
     }
 
+     /**
+     *
+     * @return QueryBuilder
+     */
+    public function getParts($sortField = null, $sortDirection = null, $searchTerm = null)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $columns = ['number', 'name', 'bin'];
+
+        if ($searchTerm) {
+            $query          = "";
+            foreach ($columns as $column) {
+                if ($query)
+                    $query .= " OR ";
+
+                $query     .= "p.$column LIKE :searchTerm ";
+            }
+
+            $qb->andWhere($query)
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
+        }
+
+        if ($sortDirection)
+            $qb->orderBy('p.' . $sortField, $sortDirection);
+
+        return $qb->getQuery();
+    }
+
+
     // /**
     //  * @return Parts[] Returns an array of Parts objects
     //  */

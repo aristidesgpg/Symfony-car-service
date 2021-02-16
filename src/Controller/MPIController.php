@@ -279,7 +279,7 @@ class MPIController extends AbstractFOSRestController
 
         //check if params are valid
         if (!$name || !$axleInfo) {
-            throw new BadRequestHttpException('Missing Required Paramete');
+            throw new BadRequestHttpException('Missing Required Parameter');
         }
 
         //convert string to object

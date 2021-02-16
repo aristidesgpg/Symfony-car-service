@@ -60,7 +60,7 @@ class PartsController extends AbstractFOSRestController
      *     description="Return Parts",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"operation_code_list"})),
+     *         @SWG\Items(ref=@Model(type=Parts::class, groups={"part_list"})),
      *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
      *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
      *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
@@ -69,24 +69,25 @@ class PartsController extends AbstractFOSRestController
      *     )
      * )
      *
-     * @SWG\Response(response="400", ref="#/responses/ValidationResponse")
+     * @SWG\Response(response="404", description="Invalid page parameter")
+     * @SWG\Response(response="400", description="Missing parameter")
      *
      * @return Response
      */
     public function getParts(
         Request $request,
-        PartsRepository $operationCodeRepo,
+        PartsRepository $repo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $page = $request->query->getInt('page', 1);
+        $page          = $request->query->getInt('page', 1);
         $urlParameters = [];
-        $errors = [];
-        $sortField = '';
+        $errors        = [];
+        $sortField     = '';
         $sortDirection = '';
-        $searchTerm = '';
-        $columns = $em->getClassMetadata('App\Entity\Parts')->getFieldNames();
+        $searchTerm    = '';
+        $columns       = $em->getClassMetadata('App\Entity\Parts')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -100,44 +101,43 @@ class PartsController extends AbstractFOSRestController
                 $errors['sortField'] = 'Invalid sort field name';
             }
 
-            $sortDirection = $request->query->get('sortDirection');
-            $urlParameters['sortField'] = $sortField;
+            $sortDirection                  = $request->query->get('sortDirection');
+            $urlParameters['sortField']     = $sortField;
             $urlParameters['sortDirection'] = $sortDirection;
         }
 
         if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
 
-            $urlParameters['searchTerm'] = $searchTerm;
+            $urlParameters['searchTerm']    = $searchTerm;
         }
 
         if (!empty($errors)) {
-            return new BadRequestHttpException();
+            throw new BadRequestHttpException('Invalid sort field name');
         }
 
-        // //get all active operation codes
-        // $operationCodes = $operationCodeRepo->getActivePartss(
-        //     $sortField,
-        //     $sortDirection,
-        //     $searchTerm,
-        // );
+        $parts = $repo->getParts(
+            $sortField,
+            $sortDirection,
+            $searchTerm,
+        );
 
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $pager = $paginator->paginate([], $page, $pageLimit);
+        $pager      = $paginator->paginate($parts, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view = $this->view(
+        $view       = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('app_operationcode_getoperationcodes', $urlParameters),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('app_operationcode_getoperationcodes', $urlParameters),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('app_parts_getparts', $urlParameters),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('app_parts_getparts', $urlParameters),
             ]
         );
-        $view->getContext()->setGroups(['operation_code_list']);
+        $view->getContext()->setGroups(['part_list']);
 
         return $this->handleView($view);
     }
@@ -149,62 +149,34 @@ class PartsController extends AbstractFOSRestController
      * @SWG\Post(description="Create a Part")
      *
      * @SWG\Parameter(
-     *     name="code",
-     *     in="query",
-     *     required=true,
-     *     type="string",
-     *     description="Part"
-     * )
-     * @SWG\Parameter(
-     *     name="description",
+     *     name="number",
      *     in="formData",
      *     required=true,
      *     type="string",
-     *     description="The Description for Part",
+     *     description="The Number for Part",
      * )
      * @SWG\Parameter(
-     *     name="laborHours",
+     *     name="name",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The Name for Part",
+     * )
+     * @SWG\Parameter(
+     *     name="bin",
+     *     in="formData",
+     *     required=true,
+     *     type="string",
+     *     description="The bin for Part",
+     * )
+     * @SWG\Parameter(
+     *     name="available",
      *     in="formData",
      *     required=true,
      *     type="number",
-     *     description="The Labor Hours",
+     *     description="The available for  Price",
      * )
-     * @SWG\Parameter(
-     *     name="laborTaxable",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="The Labor Taxable",
-     * )
-     * @SWG\Parameter(
-     *     name="partsPrice",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Parts Price",
-     * )
-     * @SWG\Parameter(
-     *     name="partsTaxable",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="The Parts Taxable",
-     * )
-     * @SWG\Parameter(
-     *     name="suppliesPrice",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Supplies Price",
-     * )
-     * @SWG\Parameter(
-     *     name="suppliesTaxable",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="The Supplies Taxable",
-     * )
-     *
+     * 
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -222,38 +194,28 @@ class PartsController extends AbstractFOSRestController
      */
     public function create(Request $request, EntityManagerInterface $em)
     {
-        $code = $request->get('code');
-        $description = $request->get('description');
-        $laborHours = $request->get('laborHours');
-        $laborTaxable = $request->get('laborTaxable');
-        $partsPrice = $request->get('partsPrice');
-        $partsTaxable = $request->get('partsTaxable');
-        $suppliesPrice = $request->get('suppliesPrice');
-        $suppliesTaxable = $request->get('suppliesTaxable');
+        $number    = $request->get('number');
+        $name      = $request->get('name');
+        $bin       = $request->get('bin');
+        $available = $request->get('available');
 
-        //params are invalid
-        if (!$code || !$description || !$laborHours || !$laborTaxable || !$partsPrice || !$partsTaxable || !$suppliesPrice || !$suppliesTaxable) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        if (!$name || !$number || !$bin || !$available) {
+            throw new BadRequestHttpException('Missing Required Parameter');
         }
 
-        //create a new operation code
-        $operationCode = new Parts();
-        $operationCode->setCode($code)
-            ->setDescription($description)
-            ->setLaborHours($laborHours)
-            ->setLaborTaxable($laborTaxable)
-            ->setPartsPrice($partsPrice)
-            ->setPartsTaxable($partsTaxable)
-            ->setSuppliesPrice($suppliesPrice)
-            ->setSuppliesTaxable($suppliesTaxable);
+        $part = new Parts();
+        $part->setName($name)
+             ->setNumber($number)
+             ->setBin($bin)
+             ->setAvailable($available);
 
-        $em->persist($operationCode);
+        $em->persist($part);
         $em->flush();
 
         return $this->handleView(
             $this->view(
                 [
-                    'message' => 'Part Created',
+                    'message' => 'Successfully created',
                 ],
                 Response::HTTP_OK
             )
@@ -267,122 +229,78 @@ class PartsController extends AbstractFOSRestController
      * @SWG\Put(description="Update a Part")
      *
      * @SWG\Parameter(
-     *     name="code",
-     *     in="query",
-     *     required=true,
+     *     name="number",
+     *     in="formData",
      *     type="string",
-     *     description="Part"
+     *     description="The Number for Part",
      * )
      * @SWG\Parameter(
-     *     name="description",
+     *     name="name",
      *     in="formData",
-     *     required=true,
      *     type="string",
-     *     description="The Description for Part",
+     *     description="The Name for Part",
      * )
      * @SWG\Parameter(
-     *     name="laborHours",
+     *     name="bin",
      *     in="formData",
-     *     required=true,
+     *     type="string",
+     *     description="The bin for Part",
+     * )
+     * @SWG\Parameter(
+     *     name="available",
+     *     in="formData",
      *     type="number",
-     *     description="The Labor Hours",
-     * )
-     * @SWG\Parameter(
-     *     name="laborTaxable",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="The Labor Taxable",
-     * )
-     * @SWG\Parameter(
-     *     name="partsPrice",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Parts Price",
-     * )
-     * @SWG\Parameter(
-     *     name="partsTaxable",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="The Parts Taxable",
-     * )
-     * @SWG\Parameter(
-     *     name="suppliesPrice",
-     *     in="formData",
-     *     required=true,
-     *     type="number",
-     *     description="The Supplies Price",
-     * )
-     * @SWG\Parameter(
-     *     name="suppliesTaxable",
-     *     in="formData",
-     *     required=true,
-     *     type="boolean",
-     *     description="The Supplies Taxable",
+     *     description="The available for  Price",
      * )
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Updated" }),
-     *         )
+     *     description="Return updated Part",
+     *     @SWG\Schema(ref=@Model(type=Parts::class, groups={"part_list"})))
      * )
-     *
-     * @param Parts          $operationCode
+     * 
+     * @param Parts                  $part
      * @param Request                $request
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function edit(Parts $operationCode, Request $request, EntityManagerInterface $em)
+    public function edit(Parts $part, Request $request, EntityManagerInterface $em)
     {
-        $code = $request->get('code');
-        $description = $request->get('description');
-        $laborHours = $request->get('laborHours');
-        $laborTaxable = $request->get('laborTaxable');
-        $partsPrice = $request->get('partsPrice');
-        $partsTaxable = $request->get('partsTaxable');
-        $suppliesPrice = $request->get('suppliesPrice');
-        $suppliesTaxable = $request->get('suppliesTaxable');
+        $number    = $request->get('number');
+        $name      = $request->get('name');
+        $bin       = $request->get('bin');
+        $available = $request->get('available');
 
-        //params are invalid
-        if (!$code || !$description || $laborHours === null || !$laborTaxable || $partsPrice === null || !$partsTaxable || $suppliesPrice === null || !$suppliesTaxable) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        if($number){
+            $part->setNumber($number);    
+        }
+        if($name){
+            $part->setName($name);    
+        }
+        if($bin){
+            $part->setBin($bin);    
+        }
+        if($available){
+            $part->setAvailable($available);    
         }
 
-        //update a operation code
-        $operationCode->setCode($code)
-            ->setDescription($description)
-            ->setLaborHours($laborHours)
-            ->setLaborTaxable(filter_var($laborTaxable, FILTER_VALIDATE_BOOLEAN))
-            ->setPartsPrice($partsPrice)
-            ->setPartsTaxable(filter_var($partsTaxable, FILTER_VALIDATE_BOOLEAN))
-            ->setSuppliesPrice($suppliesPrice)
-            ->setSuppliesTaxable(filter_var($suppliesTaxable, FILTER_VALIDATE_BOOLEAN));
-
-        $em->persist($operationCode);
+        $em->persist($part);
         $em->flush();
 
         return $this->handleView(
             $this->view(
-                [
-                    'message' => 'Operation Code Updated',
-                ],
+                $part,
                 Response::HTTP_OK
             )
         );
     }
 
-    /**
-     * @Rest\Delete("/api/part/{id}")
+     /**
+     * @Rest\Delete("/api/parts/{id}")
      *
      * @SWG\Tag(name="Parts")
-     * @SWG\Delete(description="Delete a Operation Code")
+     * @SWG\Delete(description="Delete a Part")
      *
      * @SWG\Response(
      *     response=200,
@@ -394,23 +312,21 @@ class PartsController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param Parts          $operationCode
+     * @param Parts                  $part
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function delete(Parts $operationCode, EntityManagerInterface $em)
+    public function delete(Parts $part, EntityManagerInterface $em)
     {
-        //Delete a operation code
-        $operationCode->setDeleted(true);
 
-        $em->persist($operationCode);
+        $em->remove($part);
         $em->flush();
 
         return $this->handleView(
             $this->view(
                 [
-                    'message' => 'Operation Code Deleted',
+                    'message' => 'Successfully Deleted',
                 ],
                 Response::HTTP_OK
             )

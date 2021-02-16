@@ -4,36 +4,43 @@ namespace App\Entity;
 
 use App\Repository\PartsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=PartsRepository::class)
  */
 class Parts
 {
+    public const GROUPS = ['part_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"part_list"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
+     * @Serializer\Groups(groups={"part_list"})
      */
     private $number;
 
     /**
      * @ORM\Column(type="string", length=30)
+     * @Serializer\Groups(groups={"part_list"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"part_list"})
      */
     private $bin;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Serializer\Groups(groups={"part_list"})
      */
     private $available;
 
