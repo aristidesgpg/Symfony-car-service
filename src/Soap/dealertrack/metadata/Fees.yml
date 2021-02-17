@@ -1,13 +1,13 @@
 App\Soap\dealertrack\src\Fees:
     xml_root_name: Fees
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties:
         repairOrderFee:
             expose: true
             access_type: public_method
             serialized_name: RepairOrderFee
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getRepairOrderFee
                 setter: setRepairOrderFee

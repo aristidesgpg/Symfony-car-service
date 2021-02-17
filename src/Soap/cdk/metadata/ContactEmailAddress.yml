@@ -1,4 +1,12 @@
 App\Soap\cdk\src\ContactEmailAddress:
     xml_root_name: ContactEmailAddress
     xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
-    properties: {  }
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: string

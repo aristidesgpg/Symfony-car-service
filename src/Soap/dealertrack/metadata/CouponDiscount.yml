@@ -1,6 +1,6 @@
 App\Soap\dealertrack\src\CouponDiscount:
     xml_root_name: CouponDiscount
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties:
         __value:
             expose: true

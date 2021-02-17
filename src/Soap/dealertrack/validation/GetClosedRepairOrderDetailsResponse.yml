@@ -1,6 +1,6 @@
 App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResponse:
     properties:
-        result:
+        getClosedRepairOrderDetailsResult:
             -
                 NotNull:
                     groups:

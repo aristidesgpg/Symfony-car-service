@@ -142,7 +142,7 @@ class DMS
         //$defaultTechnician = $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC']);
 
         $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
-
+        dump($dmsOpenRepairOrders);
         // Loop over found repair orders
         /**
          * @var DMSResult $dmsOpenRepairOrder
@@ -177,7 +177,7 @@ class DMS
             throw new Exception('We were unable to find that RO Number on your DMS');
         }
 
-        $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsRepairOrder->number]);
+        $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsRepairOrder->getNumber()]);
         if ($repairOrderExists) {
             throw new Exception('This RO is already in the system');
         }
@@ -242,7 +242,7 @@ class DMS
 
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
-        //dd($dmsRepairOrder);
+        dump('processRepairOrder');
 
 //        //TODO Testing, take out for prod. 111 numbers fail validation.
 //        if(is_array($dmsRepairOrder->getCustomer()->getPhoneNumbers())){
@@ -278,6 +278,7 @@ class DMS
 
         // Must be opened in the past 5 days
         $date = $dmsRepairOrder->getDate();
+        dump($date);
         $openTimestamp = $date->getTimestamp();
         $fiveDaysAgo = (new DateTime())->modify('-5 days')->getTimestamp();
 
@@ -348,7 +349,7 @@ class DMS
             ->setPrimaryAdvisor($advisor)
             ->setNumber($dmsResult->getNumber())
             ->setDmsKey($dmsResult->getRoKey())
-            ->setStartValue(0)
+            ->setStartValue($dmsResult->getInitialROValue())
             ->setDateCreated($dmsResult->getDate())
             ->setWaiter($dmsResult->getWaiter())
             ->setPickupDate($dmsResult->getPickupDate())
@@ -384,7 +385,7 @@ class DMS
     {
         // Get open repair orders
         $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
-
+        dump($openRepairOrders);
         $checkRepairOrders = [];
 
         // if ($openRepairOrders) {
@@ -402,7 +403,8 @@ class DMS
         // }
 
         if ($openRepairOrders) {
-            $this->integration->getClosedRoDetails($openRepairOrders);
+           $result = $this->integration->getClosedRoDetails($openRepairOrders);
+           dd($result);
         }
     }
 

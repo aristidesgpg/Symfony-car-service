@@ -1,18 +1,18 @@
 App\Soap\dealertrack\src\Details:
     xml_root_name: Details
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties:
-        openRepairOrderDetail:
+        closedRepairOrderDetail:
             expose: true
             access_type: public_method
-            serialized_name: OpenRepairOrderDetail
+            serialized_name: ClosedRepairOrderDetail
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
-                getter: getOpenRepairOrderDetail
-                setter: setOpenRepairOrderDetail
+                getter: getClosedRepairOrderDetail
+                setter: setClosedRepairOrderDetail
             xml_list:
                 inline: true
-                entry_name: OpenRepairOrderDetail
-                namespace: opentrack.dealertrack.com/transitional
-            type: array<App\Soap\dealertrack\src\OpenRepairOrderDetail>
+                entry_name: ClosedRepairOrderDetail
+                namespace: opentrack.dealertrack.com
+            type: array<App\Soap\dealertrack\src\ClosedRepairOrderDetail>

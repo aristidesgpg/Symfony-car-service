@@ -1,4 +1,4 @@
 App\Soap\dealertrack\src\LaborAccount:
     xml_root_name: LaborAccount
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties: {  }

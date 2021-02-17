@@ -6,7 +6,7 @@ use App\Entity\DMSResult;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
-use App\Soap\dealertrack\src\DealerTrackRequestSoapEnvelope;
+use App\Soap\dealertrack\src\DealerTrackClosedSoapEnvelope;
 use App\Soap\dealertrack\src\DealerTrackSoapEnvelope;
 use App\Soap\dealertrack\src\Result;
 use Doctrine\ORM\EntityManagerInterface;
@@ -104,13 +104,12 @@ class DealerTrackClient extends AbstractDMSClient
                 return $repairOrders;
             }
 
-            dump($response->getBody()->getOpenRepairOrderLookupResult()->getResult());
             /**
              * @var Result $result
              */
             foreach ($response->getBody()->getOpenRepairOrderLookupResult()->getResult() as $result) {
-                dump($result);
                 $dmsResult = new DMSResult();
+                $dmsResult->setRaw($result);
 
                 $openDate = new \DateTime();
                 try {
@@ -145,34 +144,35 @@ class DealerTrackClient extends AbstractDMSClient
                     ->setMake($result->getMake())
                     ->setModel($result->getModel())
                     ->setMiles($result->getOdometerIn())
-                    ->setVin($result->getVIN());
-
+                    ->setVin($result->getVIN())
+                    ->setInitialROValue($result->getTotalEstimate());
 
                 //TODO, someitmes ServiceWriterId is a string. What should we do?
                 //  -serviceWriterID: "MM"
-                if(is_int($result->getServiceWriterID())){
+                if (is_int($result->getServiceWriterID())) {
                     $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
                 }
-
 
                 $repairOrders[] = $dmsResult;
             }
         }
-        dump($repairOrders);
+
         return $repairOrders;
     }
 
-    //TODO This Needs Tested. Couldn't find one not closed.
+    //TODO This Needs Tested. Couldn't find one closed.
     public function getClosedRoDetails(array $openRepairOrders)
     {
-
+        $closedRepairOrders = [];
+//        $monthAgo = (new \DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
+//        $monthAhead = (new \DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
+//        $sixYearsAgo = (new \DateTime())->modify('-6 year')->format('Y-m-d\TH:i:s\Z');
         /**
          * @var RepairOrder $repairOrder
          */
-        foreach($openRepairOrders as $repairOrder){
+        foreach ($openRepairOrders as $repairOrder) {
             if ($this->getSoapClient()) {
                 $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
-
 
                 $request = [
                     'dealer' => [
@@ -183,46 +183,53 @@ class DealerTrackClient extends AbstractDMSClient
                     'request' => [
                         'RepairOrderNumber' => $repairOrder->getNumber(),
                     ],
+//                    'request' => [
+//                        'RepairOrderNumber' => 6006036,
+//                    ],
+//                    'request' => [
+//                        'ModifiedAfter' => $monthAgo,
+//                        'CreatedDateTimeStart' => $sixYearsAgo,
+//                        'CreatedDateTimeEnd' => $monthAhead,
+//                        'CustomerNumber' => 0,
+//                        'FinalCloseDateEnd' => $monthAhead,
+//                        'FinalCloseDateStart' => $sixYearsAgo,
+//                    ],
                 ];
 
                 $soapResult = $this->sendSoapCall('GetClosedRepairOrderDetails', [$request], true);
+                //$soapResult = $this->sendSoapCall('GetClosedRepairOrders', [$request], true);
 
-                dump($soapResult);
-                $response = $this->getSerializer()->deserialize($soapResult, DealerTrackRequestSoapEnvelope::class, 'xml');
-
-                dump($response);
+                /**
+                 * @var DealerTrackClosedSoapEnvelope $response
+                 */
+                $response = $this->getSerializer()->deserialize($soapResult, DealerTrackClosedSoapEnvelope::class, 'xml');
                 if (!$response) {
                     continue;
                 }
-                //TODO, STILL NEED TO IMPLEMENT
-                /*
-            try {
-                $closedDate = new DateTime();
-                if ($details->FinalCloseDate && $details->FinalCloseDate != 0) {
-                    $closedDate = $details->FinalCloseDate;
-                    $closedDate = substr($closedDate, 0, 4) . '-' . substr($closedDate, 4, 2) . '-' . substr($closedDate, 6, 2);
-                    $closedDate = new DateTime($closedDate);
-                } else if ($details->CloseDate && $details->CloseDate != 0) {
-                    $closedDate = $details->CloseDate;
-                    $closedDate = substr($closedDate, 0, 4) . '-' . substr($closedDate, 4, 2) . '-' . substr($closedDate, 6, 2);
-                    $closedDate = new DateTime($closedDate);
+
+                $closedRepairOrder = $response->getBody()->getgetClosedRepairOrderDetailsResponse()->getGetClosedRepairOrderDetailsResult()->getClosedRepairOrder();
+                if (!$closedRepairOrder) {
+                    continue;
                 }
-            } catch (Exception $e) {
-                continue;
-            }
 
-            $repairOrder->setDateClosed($closedDate)->setFinalValue($details->TotalSale);
-
-            try {
-                $this->em->persist($repairOrder);
-                $this->em->flush();
-            } catch (OptimisticLockException $e) {
-                continue;
-            }
-                 */
-
+                $closedDate = new \DateTime();
+                try {
+                    if (0 != $closedRepairOrder->getFinalCloseDate()) {
+                        $closedDate = new \DateTime($closedRepairOrder->getFinalCloseDate());
+                    } elseif (0 != $closedRepairOrder->getCloseDate()) {
+                        $closedDate = new \DateTime($closedRepairOrder->getCloseDate());
+                    }
+                } catch (\Exception $e) {
+                    continue;
+                }
+                $repairOrder->setDateClosed($closedDate)->setFinalValue($closedRepairOrder->getTotalSale());
+                $this->getEntityManager()->persist($repairOrder);
+                $this->getEntityManager()->flush();
+                $closedRepairOrders[] = $repairOrder;
             }
         }
+
+        return $closedRepairOrders;
     }
 
     public static function getDefaultIndexName(): string

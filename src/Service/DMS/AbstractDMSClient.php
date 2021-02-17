@@ -46,9 +46,19 @@ abstract class AbstractDMSClient implements DMSClientInterface
      */
     private $thirdPartyAPILogHelper;
 
+    /**
+     * @var
+     */
     private $soapClient;
 
+    /**
+     * @var
+     */
     private $guzzleClient;
+
+    /**
+     * @var
+     */
     private $guzzleType;
 
     public function __construct(EntityManagerInterface $entityManager,
@@ -95,10 +105,10 @@ abstract class AbstractDMSClient implements DMSClientInterface
             $client = new \SoapClient($wsdl, [
                 'trace' => 1, //This is needed to get the __getLastResponse()
             ]);
-            var_dump($client->__getFunctions());
-            var_dump($client->__getTypes());
+            dump($client->__getFunctions());
+            dump($client->__getTypes());
         } catch (\SoapFault $e) {
-            var_dump($e->getMessage());
+           dump($e->getMessage());
         }
     }
 
@@ -114,7 +124,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
         //It should validate against the wsdl before the call to make sure its correct.
         try {
             $result = $this->getSoapClient()->__soapCall($name, $args);
-
+//
 //            dump($this->getSoapClient()->__getLastRequest());
 //            dump($this->getSoapClient()->__getLastResponse());
 //            dd($this->getSoapClient()->__getLastRequestHeaders());
@@ -126,7 +136,9 @@ abstract class AbstractDMSClient implements DMSClientInterface
             return $result;
         } catch (SoapFault $e) {
             //Most likely a malformed request/invalid parameters were provided.
-
+//            dump($this->getSoapClient()->__getLastRequest());
+//            dump($this->getSoapClient()->__getLastResponse());
+//            dd($this->getSoapClient()->__getLastRequestHeaders());
             $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage());
             dd($e->getMessage());
         }
@@ -134,6 +146,11 @@ abstract class AbstractDMSClient implements DMSClientInterface
         return null;
     }
 
+    /**
+     * @param $baseURI
+     * @param $options
+     * @param string $type
+     */
     public function initializeGuzzleClient($baseURI, $options, $type = 'POST')
     {
         $this->setGuzzleType($type);
@@ -144,12 +161,19 @@ abstract class AbstractDMSClient implements DMSClientInterface
         $this->setGuzzleClient(new Client($headers));
     }
 
+    /**
+     * @param $uri
+     * @param array $options
+     *
+     * @return null
+     */
     public function sendGuzzleRequest($uri, $options = [])
     {
         try {
             dump('Sending Request');
 //            $response = $this->getGuzzleClient()->post($uri, $options);
             $response = $this->getGuzzleClient()->request($this->getGuzzleType(), $uri, $options);
+
             return $response->getBody()->getContents();
         } catch (GuzzleException $e) {
             if ($e->hasResponse()) {
