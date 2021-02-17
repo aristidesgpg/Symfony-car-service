@@ -5,14 +5,9 @@ namespace App\Service;
 use App\Entity\Customer;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use InvalidArgumentException;
-use RuntimeException;
 
 /**
- * Class CustomerHelper
- *
- * @package App\Service
+ * Class CustomerHelper.
  */
 class CustomerHelper
 {
@@ -27,9 +22,6 @@ class CustomerHelper
 
     /**
      * CustomerHelper constructor.
-     *
-     * @param EntityManagerInterface $em
-     * @param PhoneValidator         $phoneValidator
      */
     public function __construct(EntityManagerInterface $em, PhoneValidator $phoneValidator)
     {
@@ -38,15 +30,72 @@ class CustomerHelper
     }
 
     /**
-     * @param Customer $customer
-     * @param array    $params
+     * @return array Empty on successful validation
      */
-    public function commitCustomer(Customer $customer, array $params = []): void
+    public function validateParams(array $params, bool $checkRequiredFields = false): array
     {
-        $valid = empty($this->validateParams($params));
-        if ($valid !== true) {
-            throw new InvalidArgumentException('Params did not validate. Call validateParams first.');
+        $errors = [];
+        if (true === $checkRequiredFields) {
+            foreach (self::REQUIRED_FIELDS as $field) {
+                if (!isset($params[$field])) {
+                    $errors[$field] = 'Field missing';
+                }
+            }
         }
+
+        foreach ($params as $k => $v) {
+            $msg = null;
+            switch ($k) {
+                case 'name':
+                    if (empty($v)) {
+                        $msg = 'Cannot be blank';
+                    }
+                    break;
+                case 'phone':
+                    try {
+                        $v = $this->stripPhone($v);
+                    } catch (\Exception $e) {
+                        $msg = 'Invalid phone number';
+                        break;
+                    }
+                    if (!$this->skipMobileVerification($params) && !$this->phoneValidator->isMobile($v)) {
+                        $msg = 'Phone number is not mobile';
+                    }
+                    break;
+                case 'email':
+                    if (false === strpos($v, '@')) {
+                        $msg = 'Invalid email address';
+                    }
+                    break;
+                case 'addedBy':
+                    if (!$v instanceof User) {
+                        $msg = sprintf('addedBy must be instance of "%s"', User::class);
+                    }
+                    break;
+                case 'doNotContact':
+                case 'skipMobileVerification':
+                    // Do nothing
+                    break;
+                default:
+                    $msg = 'Unknown key';
+            }
+            if (null !== $msg) {
+                $errors[$k] = $msg;
+            }
+        }
+
+        return $errors;
+    }
+
+    public function commitCustomer(Customer $customer, array $params = [])
+    {
+        //$errors = $this->validateParams($params);
+        $errors = [];
+
+        if (true !== empty($errors)) {
+            return;
+        }
+
         foreach ($params as $k => $v) {
             switch ($k) {
                 case 'name':
@@ -71,85 +120,30 @@ class CustomerHelper
             }
         }
 
-        if ($customer->getId() === null) {
+        if (null === $customer->getId()) {
             $this->em->persist($customer);
         }
+
         $this->em->beginTransaction();
         try {
             $this->em->flush();
             $this->em->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->em->rollback();
-            throw new RuntimeException('Caught exception during flush', 0, $e);
+            throw new \RuntimeException('Caught exception during flush', 0, $e);
         }
+
+        return $customer;
     }
 
-    /**
-     * @param array $params
-     * @param bool  $checkRequiredFields
-     *
-     * @return array Empty on successful validation
-     */
-    public function validateParams(array $params, bool $checkRequiredFields = false): array
-    {
-        $errors = [];
-        if ($checkRequiredFields === true) {
-            foreach (self::REQUIRED_FIELDS as $field) {
-                if (!isset($params[$field])) {
-                    $errors[$field] = 'Field missing';
-                }
-            }
-        }
-
-        foreach ($params as $k => $v) {
-            $msg = null;
-            switch ($k) {
-                case 'name':
-                    if (empty($v)) {
-                        $msg = 'Cannot be blank';
-                    }
-                    break;
-                case 'phone':
-                    try {
-                        $v = $this->stripPhone($v);
-                    } catch (Exception $e) {
-                        $msg = 'Invalid phone number';
-                        break;
-                    }
-                    if (!$this->skipMobileVerification($params) && !$this->phoneValidator->isMobile($v)) {
-                        $msg = 'Phone number is not mobile';
-                    }
-                    break;
-                case 'email':
-                    if (!empty($v)) {
-                        if (strpos($v, '@') === false) {
-                            $msg = 'Invalid email address';
-                        }
-                    }
-                    break;
-                case 'addedBy':
-                    if (!$v instanceof User) {
-                        $msg = sprintf('addedBy must be instance of "%s"', User::class);
-                    }
-                    break;
-                case 'doNotContact':
-                case 'skipMobileVerification':
-                    // Do nothing
-                    break;
-                default:
-                    $msg = 'Unknown key';
-            }
-            if ($msg !== null) {
-                $errors[$k] = $msg;
-            }
-        }
-
-        return $errors;
-    }
-
-     private function stripPhone(string $phone): string
+    private function stripPhone(string $phone): string
     {
         return $this->phoneValidator->clean($phone);
+    }
+
+    private function paramToBool($param): bool
+    {
+        return 'false' !== $param && true == $param;
     }
 
     private function skipMobileVerification(array $params): bool
@@ -157,10 +151,5 @@ class CustomerHelper
         $skip = $params['skipMobileVerification'] ?? false;
 
         return $this->paramToBool($skip);
-    }
-
-    private function paramToBool($param): bool
-    {
-        return ($param !== 'false' && $param == true);
     }
 }

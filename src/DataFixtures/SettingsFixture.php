@@ -25,8 +25,7 @@ class SettingsFixture extends Fixture {
      *
      * @param PasswordHelper $passwordHelper
      */
-    public function __construct(PasswordHelper $passwordHelper)
-    {
+    public function __construct (PasswordHelper $passwordHelper) {
         $this->passwordHelper = $passwordHelper;
     }
 
@@ -35,16 +34,15 @@ class SettingsFixture extends Fixture {
      *
      * @throws Exception
      */
-    public function load(ObjectManager $manager)
-    {
+    public function load (ObjectManager $manager) {
         $settings = [
-            'phase1' => '60',
-            'phase2' => '60',
-            'phase3' => '60',
-            'techAppUsername' => 'iService',
-            'techAppPassword' => $this->passwordHelper->hashPassword('test'),
-            'techAppReAuthenticate' => false,
-            'custAppAppraiseButtonText' => 'Appraise My Car',
+            'phase1'                     => '60',
+            'phase2'                     => '60',
+            'phase3'                     => '60',
+            'techAppUsername'            => 'iService',
+            'techAppPassword'            => $this->passwordHelper->hashPassword('test'),
+            'techAppReAuthenticate'      => false,
+            'custAppAppraiseButtonText'  => 'Appraise My Car',
             'custAppPostInspectionVideo' => null,
             'custAppFinanceRepairUrl'    => null,
             'serviceTwilioFromNumber'    => '8478137493',
@@ -76,7 +74,7 @@ class SettingsFixture extends Fixture {
             'totalDays'                  => '7',
             'upgradeInitialText'         => 'Click the link below to see the value of your vehicle.  Thank you for visiting Performance Toyota',
             'upgradeCashOffer'           => 'Show to any sales agent to claim your offer.',
-            'generalName'                => 'Dealership 123',
+            'generalName'                => null,
             'generalEmail'               => null,
             'generalWebsiteUrl'          => 'https://www.performancetoyotastore.com/value-your-trade/',
             'generalInventoryUrl'        => null,

@@ -14,7 +14,6 @@ parameters:
   dealerbuilt_location_id: '%env(DEALERBUILT_LOCATION_ID)%'
   dealertrack_company: '%env(DEALERTRACK_COMPANY)%'
   dealertrack_enterprise: '%env(DEALERTRACK_ENTERPRISE)%'
-  customer_url: '%env(CUSTOMER_URL)%'
 services:
   # default configuration for services in *this* file
   _defaults:
