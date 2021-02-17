@@ -13,6 +13,9 @@ use App\Soap\cdk\src\ServiceRODetailOpen;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
+/**
+ * Class CDKClient.
+ */
 class CDKClient extends AbstractDMSClient
 {
     /**
@@ -24,11 +27,6 @@ class CDKClient extends AbstractDMSClient
      * @var string
      */
     private $password = 'jSarJLFv0rkL';
-
-    /**
-     * @var string
-     */
-    private $authentication;
 
     /**
      * @var string
@@ -55,6 +53,9 @@ class CDKClient extends AbstractDMSClient
      */
     private $baseURI;
 
+    /**
+     * @var
+     */
     private $client;
 
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
@@ -62,7 +63,6 @@ class CDKClient extends AbstractDMSClient
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
 
         $this->dealerID = $parameterBag->get('cdk_dealer_id');
-        $this->authentication = $this->username.':'.$this->password;
         $today = (new \DateTime())->format('m/d/Y');
 
         $this->baseURI = 'https://3pa.dmotorworks.com/pip-extract/';
@@ -76,6 +76,7 @@ class CDKClient extends AbstractDMSClient
             $this->singleROExtractURL = 'service-ro-open/extract?dealerId='.$this->dealerID.'&queryId=SROD_ByRONumber&timeoutSeconds=2700&qparamRONum=';
             $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate='.$today.'&qparamEndDate='.$today;
 
+            //TODO Only used for testing.
             $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate=1/1/2020&qparamEndDate=12/31/2020';
         }
 
@@ -90,26 +91,14 @@ class CDKClient extends AbstractDMSClient
         $this->initializeGuzzleClient($this->getBaseURI(), $options);
     }
 
-    public function getOpenRepairOrders()
+    public function getOpenRepairOrders(): array
     {
         $repairOrders = [];
 
         if ($this->getGuzzleClient()) {
-            $rawResponse = $this->sendGuzzleRequest($this->getOpenROExtractURL());
-            if ($rawResponse) {
-                // Not an error, but logs the request/response for compliance
-                // If there is an error, then we log when we do the guzzle request.
-                $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $rawResponse, true);
-            }
-            dump($rawResponse);
-            $response = $this->getSerializer()->deserialize($rawResponse, ServiceRODetailOpen::class, 'xml');
-            dd($response);
+            $response = $this->sendRequest($this->getOpenROExtractURL(), ServiceRODetailOpen::class);
             if (!$response) {
                 return $repairOrders;
-            }
-
-            if (0 != $response->getErrorCode()) {
-                $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $response->getErrorMessage(), true);
             }
 
             /**
@@ -123,18 +112,16 @@ class CDKClient extends AbstractDMSClient
 
                 $repairOrders[] = $ro;
             }
-
-            dd($response);
         }
 
         return $repairOrders;
     }
 
-    public function getClosedRoDetails(array $entityRepairOrders)
+    public function getClosedRoDetails(array $entityRepairOrders): array
     {
         // Collect all the ro numbers in an array to compare against
         $openRepairOrderNumbers = [];
-        $closedRepairOrders     = [];
+        $closedRepairOrders = [];
 
         /** @var RepairOrder $entityRepairOrder */
         foreach ($entityRepairOrders as $entityRepairOrder) {
@@ -142,29 +129,16 @@ class CDKClient extends AbstractDMSClient
         }
 
         if ($this->getGuzzleClient()) {
-            $rawResponse = $this->sendGuzzleRequest($this->getClosedROExtractURL());
-            if ($rawResponse) {
-                // Not an error, but logs the request/response for compliance
-                // If there is an error, then we log when we do the guzzle request.
-                $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $rawResponse, true);
-            }
-            dump($rawResponse);
-            $response = $this->getSerializer()->deserialize($rawResponse, ServiceRODetailClosed::class, 'xml');
-
+            $response = $this->sendRequest($this->getClosedROExtractURL(), ServiceRODetailClosed::class);
             if (!$response) {
                 return $closedRepairOrders;
-            }
-
-            if (0 != $response->getErrorCode()) {
-                $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $response->getErrorMessage(), true);
             }
 
             /**
              * @var ServiceRepairOrderClosed $repairOrder
              */
             foreach ($response->getServiceRepairOrderClosed() as $repairOrder) {
-                //$ro = $this->extractROInfo($repairOrder);
-                if(!$repairOrder->getRONumber()){
+                if (!$repairOrder->getRONumber()) {
                     continue;
                 }
 
@@ -174,18 +148,17 @@ class CDKClient extends AbstractDMSClient
                 }
 
                 // Make sure it's closed
-                if('CLOSED' != $repairOrder->getStatusDesc()){
+                if ('CLOSED' != $repairOrder->getStatusDesc()) {
                     continue;
                 }
 
-
                 $closedDate = new \DateTime();
-                if($repairOrder->getClosedDate()){
+                if ($repairOrder->getClosedDate()) {
                     $closedDate = $repairOrder->getClosedDate();
                 }
 
                 $entityRepairOrder = $this->getEntityManager()->getRepository(RepairOrder::class)->findOneBy(['number' => $repairOrder->getRONumber()]);
-                if($entityRepairOrder){
+                if ($entityRepairOrder) {
                     $entityRepairOrder
                         ->setDateClosed($closedDate)
                         ->setFinalValue($repairOrder->getPayCPTotal());
@@ -193,12 +166,7 @@ class CDKClient extends AbstractDMSClient
                     $this->getEntityManager()->flush();
                     $closedRepairOrders[] = $repairOrder;
                 }
-
-
-
             }
-
-            dd($response);
         }
 
         return $closedRepairOrders;
@@ -216,23 +184,11 @@ class CDKClient extends AbstractDMSClient
         $repairOrder = null;
 
         if ($this->getGuzzleClient()) {
-            $rawResponse = $this->sendGuzzleRequest($this->getSingleROExtractURL() . $RONumber);
-            if ($rawResponse) {
-                // Not an error, but logs the request/response for compliance
-                // If there is an error, then we log when we do the guzzle request.
-                $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $rawResponse, true);
-            }
-            dump($rawResponse);
-            $response = $this->getSerializer()->deserialize($rawResponse, ServiceRODetailOpen::class, 'xml');
+            $response = $this->sendRequest($this->getSingleROExtractURL().$RONumber, ServiceRODetailOpen::class);
 
             if (!$response) {
                 return $repairOrder;
             }
-
-            if (0 != $response->getErrorCode()) {
-                $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $response->getErrorMessage(), true);
-            }
-
             /**
              * @var ServiceRepairOrderOpen $repairOrder
              */
@@ -244,17 +200,48 @@ class CDKClient extends AbstractDMSClient
 
                 $repairOrder = $ro;
             }
-
-            dd($response);
         }
 
         return $repairOrder;
     }
 
+    /**
+     * @param $url
+     * @param $deserializationClass
+     *
+     * @return mixed|null
+     */
+    private function sendRequest($url, $deserializationClass)
+    {
+        $rawResponse = $this->sendGuzzleRequest($url);
+        if ($rawResponse) {
+            // Not an error, but logs the request/response for compliance
+            // If there is an error, then we log when we do the guzzle request.
+            $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $rawResponse, true);
+        }
+
+        $response = $this->getSerializer()->deserialize($rawResponse, $deserializationClass, 'xml');
+
+        if (!$response) {
+            return null;
+        }
+
+        if (0 != $response->getErrorCode()) {
+            $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $response->getErrorMessage(), true);
+        }
+
+        return $response;
+    }
+
+    /**
+     * @param $repairOrder
+     *
+     * @return null
+     */
     private function extractROInfo($repairOrder)
     {
-        dump($repairOrder);
         $dmsResult = new DMSResult();
+        $dmsResult->setRaw($repairOrder);
 
         //name
         $name = $repairOrder->getName1();
@@ -274,9 +261,16 @@ class CDKClient extends AbstractDMSClient
 
         $dmsResult->getCustomer()->setName($namePieces[1].' '.$namePieces[0]);
 
-        $dmsResult->getCustomer()->setPhoneNumbers($this->phoneNormalizer($repairOrder->getPhoneNumber()));
+        //Try to find a number.
+        $phoneNumber = $this->phoneNormalizer($repairOrder->getPhoneNumber());
+        //TODO Turn On For Prod.
+//        if(!$phoneNumber){
+//            return null;
+//        }
 
-        $dmsResult->getCustomer()->setEmail($repairOrder->getContactEmailAddress());
+        $dmsResult->getCustomer()->setPhoneNumbers($phoneNumber);
+
+        $dmsResult->getCustomer()->setEmail($repairOrder->getContactEmailAddress()->value());
         $dmsResult->setNumber($repairOrder->getRONumber());
         if (!$dmsResult->getNumber()) {
             return null;
@@ -296,12 +290,18 @@ class CDKClient extends AbstractDMSClient
             //nothing
         }
 
+        $initialRoValue = 0;
+        foreach ($repairOrder->getTotRoSalePostDed() as $value) {
+            $initialRoValue += $value->value();
+        }
+
         $dmsResult
             ->setYear($repairOrder->getYear())
             ->setMake($repairOrder->getMakeDesc())
             ->setModel($repairOrder->getModelDesc())
             ->setVin($repairOrder->getVIN())
             ->setMiles($repairOrder->getMileage())
+            ->setInitialROValue($initialRoValue)
             ->getAdvisor()->setId($repairOrder->getServiceAdvisor());
 
         // No MakeDesc, it's preferred because this is usually an abbreviation
@@ -312,11 +312,17 @@ class CDKClient extends AbstractDMSClient
         if (!$dmsResult->getModel()) {
             $dmsResult->setModel($repairOrder->getModel());
         }
+
+        return $dmsResult;
     }
 
+    /**
+     * @param $phoneNumbers
+     *
+     * @return null
+     */
     public function phoneNormalizer($phoneNumbers)
     {
-        //parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
         if (is_array($phoneNumbers)) {
             foreach ($phoneNumbers as $p) {
                 $result = parent::phoneNormalizer($p->value());
@@ -331,6 +337,9 @@ class CDKClient extends AbstractDMSClient
         return parent::phoneNormalizer($phoneNumbers->value());
     }
 
+    /**
+     * @return string
+     */
     public static function getDefaultIndexName()
     {
         return 'usingCdk';
@@ -354,16 +363,6 @@ class CDKClient extends AbstractDMSClient
     public function setPassword(string $password): void
     {
         $this->password = $password;
-    }
-
-    public function getAuthentication(): string
-    {
-        return $this->authentication;
-    }
-
-    public function setAuthentication(string $authentication): void
-    {
-        $this->authentication = $authentication;
     }
 
     public function getDealerID(): string

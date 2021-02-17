@@ -1,13 +1,13 @@
 App\Soap\dealertrack\src\RepairOrderFee:
     xml_root_name: RepairOrderFee
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties:
         serviceLineNumber:
             expose: true
             access_type: public_method
             serialized_name: ServiceLineNumber
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getServiceLineNumber
                 setter: setServiceLineNumber
@@ -17,7 +17,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: FeeCode
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getFeeCode
                 setter: setFeeCode
@@ -27,7 +27,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: LinePaymentMethod
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getLinePaymentMethod
                 setter: setLinePaymentMethod
@@ -37,7 +37,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: TotalFeesAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getTotalFeesAmount
                 setter: setTotalFeesAmount
@@ -47,7 +47,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: CustomerFeesAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getCustomerFeesAmount
                 setter: setCustomerFeesAmount
@@ -57,7 +57,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: CustomerPartsAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getCustomerPartsAmount
                 setter: setCustomerPartsAmount
@@ -67,7 +67,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: CustomerLaborAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getCustomerLaborAmount
                 setter: setCustomerLaborAmount
@@ -77,7 +77,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: InternalFeesAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getInternalFeesAmount
                 setter: setInternalFeesAmount
@@ -87,7 +87,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: InternalPartsAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getInternalPartsAmount
                 setter: setInternalPartsAmount
@@ -97,7 +97,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: InternalLaborAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getInternalLaborAmount
                 setter: setInternalLaborAmount
@@ -107,7 +107,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: ServiceFeesAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getServiceFeesAmount
                 setter: setServiceFeesAmount
@@ -117,7 +117,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: ServicePartsAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getServicePartsAmount
                 setter: setServicePartsAmount
@@ -127,7 +127,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: ServiceLaborAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getServiceLaborAmount
                 setter: setServiceLaborAmount
@@ -137,7 +137,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: WarrantyFeesAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getWarrantyFeesAmount
                 setter: setWarrantyFeesAmount
@@ -147,7 +147,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: WarrantyPartsAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getWarrantyPartsAmount
                 setter: setWarrantyPartsAmount
@@ -157,7 +157,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: WarrantyLaborAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getWarrantyLaborAmount
                 setter: setWarrantyLaborAmount
@@ -167,7 +167,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: FeeDescription
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getFeeDescription
                 setter: setFeeDescription
@@ -177,7 +177,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: FeeType
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getFeeType
                 setter: setFeeType
@@ -187,7 +187,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: ValidFrom
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getValidFrom
                 setter: setValidFrom
@@ -197,7 +197,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: ValidTill
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getValidTill
                 setter: setValidTill
@@ -207,7 +207,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: PaymentMethods
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getPaymentMethods
                 setter: setPaymentMethods
@@ -217,7 +217,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: AmountType
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getAmountType
                 setter: setAmountType
@@ -227,7 +227,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: MinimumAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getMinimumAmount
                 setter: setMinimumAmount
@@ -237,7 +237,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: MaximumAmount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getMaximumAmount
                 setter: setMaximumAmount
@@ -247,7 +247,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: CalculationBasis
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getCalculationBasis
                 setter: setCalculationBasis
@@ -257,7 +257,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: PartsAccount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getPartsAccount
                 setter: setPartsAccount
@@ -267,7 +267,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: PartsPercentage
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getPartsPercentage
                 setter: setPartsPercentage
@@ -277,7 +277,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: LaborAccount
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getLaborAccount
                 setter: setLaborAccount
@@ -287,7 +287,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: LaborPercentage
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getLaborPercentage
                 setter: setLaborPercentage
@@ -297,7 +297,7 @@ App\Soap\dealertrack\src\RepairOrderFee:
             access_type: public_method
             serialized_name: Taxable
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
                 getter: getTaxable
                 setter: setTaxable

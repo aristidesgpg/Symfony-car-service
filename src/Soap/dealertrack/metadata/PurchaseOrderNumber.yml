@@ -1,4 +1,4 @@
 App\Soap\dealertrack\src\PurchaseOrderNumber:
     xml_root_name: PurchaseOrderNumber
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties: {  }

@@ -1,6 +1,6 @@
 App\Soap\dealertrack\src\PartsAccount:
     xml_root_name: PartsAccount
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties:
         __value:
             expose: true

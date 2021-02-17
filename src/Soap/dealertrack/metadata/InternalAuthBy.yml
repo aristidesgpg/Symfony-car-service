@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\InternalAuthBy:
+    xml_root_name: InternalAuthBy
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

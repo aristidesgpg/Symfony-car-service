@@ -9,65 +9,65 @@ class Details
 {
 
     /**
-     * @var \App\Soap\dealertrack\src\OpenRepairOrderDetail[] $openRepairOrderDetail
+     * @var \App\Soap\dealertrack\src\ClosedRepairOrderDetail[] $closedRepairOrderDetail
      */
-    private $openRepairOrderDetail = [
+    private $closedRepairOrderDetail = [
         
     ];
 
     /**
-     * Adds as openRepairOrderDetail
+     * Adds as closedRepairOrderDetail
      *
      * @return self
-     * @param \App\Soap\dealertrack\src\OpenRepairOrderDetail $openRepairOrderDetail
+     * @param \App\Soap\dealertrack\src\ClosedRepairOrderDetail $closedRepairOrderDetail
      */
-    public function addToOpenRepairOrderDetail(\App\Soap\dealertrack\src\OpenRepairOrderDetail $openRepairOrderDetail)
+    public function addToClosedRepairOrderDetail(\App\Soap\dealertrack\src\ClosedRepairOrderDetail $closedRepairOrderDetail)
     {
-        $this->openRepairOrderDetail[] = $openRepairOrderDetail;
+        $this->closedRepairOrderDetail[] = $closedRepairOrderDetail;
         return $this;
     }
 
     /**
-     * isset openRepairOrderDetail
+     * isset closedRepairOrderDetail
      *
      * @param int|string $index
      * @return bool
      */
-    public function issetOpenRepairOrderDetail($index)
+    public function issetClosedRepairOrderDetail($index)
     {
-        return isset($this->openRepairOrderDetail[$index]);
+        return isset($this->closedRepairOrderDetail[$index]);
     }
 
     /**
-     * unset openRepairOrderDetail
+     * unset closedRepairOrderDetail
      *
      * @param int|string $index
      * @return void
      */
-    public function unsetOpenRepairOrderDetail($index)
+    public function unsetClosedRepairOrderDetail($index)
     {
-        unset($this->openRepairOrderDetail[$index]);
+        unset($this->closedRepairOrderDetail[$index]);
     }
 
     /**
-     * Gets as openRepairOrderDetail
+     * Gets as closedRepairOrderDetail
      *
-     * @return \App\Soap\dealertrack\src\OpenRepairOrderDetail[]
+     * @return \App\Soap\dealertrack\src\ClosedRepairOrderDetail[]
      */
-    public function getOpenRepairOrderDetail()
+    public function getClosedRepairOrderDetail()
     {
-        return $this->openRepairOrderDetail;
+        return $this->closedRepairOrderDetail;
     }
 
     /**
-     * Sets a new openRepairOrderDetail
+     * Sets a new closedRepairOrderDetail
      *
-     * @param \App\Soap\dealertrack\src\OpenRepairOrderDetail[] $openRepairOrderDetail
+     * @param \App\Soap\dealertrack\src\ClosedRepairOrderDetail[] $closedRepairOrderDetail
      * @return self
      */
-    public function setOpenRepairOrderDetail(array $openRepairOrderDetail)
+    public function setClosedRepairOrderDetail(array $closedRepairOrderDetail)
     {
-        $this->openRepairOrderDetail = $openRepairOrderDetail;
+        $this->closedRepairOrderDetail = $closedRepairOrderDetail;
         return $this;
     }
 

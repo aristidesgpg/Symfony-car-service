@@ -9,65 +9,29 @@ class GetClosedRepairOrderDetailsResponse
 {
 
     /**
-     * @var \App\Soap\dealertrack\src\Result[] $result
+     * @var \App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResult $getClosedRepairOrderDetailsResult
      */
-    private $result = [
-        
-    ];
+    private $getClosedRepairOrderDetailsResult = null;
 
     /**
-     * Adds as result
+     * Gets as getClosedRepairOrderDetailsResult
      *
-     * @return self
-     * @param \App\Soap\dealertrack\src\Result $result
+     * @return \App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResult
      */
-    public function addToResult(\App\Soap\dealertrack\src\Result $result)
+    public function getGetClosedRepairOrderDetailsResult()
     {
-        $this->result[] = $result;
-        return $this;
+        return $this->getClosedRepairOrderDetailsResult;
     }
 
     /**
-     * isset result
+     * Sets a new getClosedRepairOrderDetailsResult
      *
-     * @param int|string $index
-     * @return bool
-     */
-    public function issetResult($index)
-    {
-        return isset($this->result[$index]);
-    }
-
-    /**
-     * unset result
-     *
-     * @param int|string $index
-     * @return void
-     */
-    public function unsetResult($index)
-    {
-        unset($this->result[$index]);
-    }
-
-    /**
-     * Gets as result
-     *
-     * @return \App\Soap\dealertrack\src\Result[]
-     */
-    public function getResult()
-    {
-        return $this->result;
-    }
-
-    /**
-     * Sets a new result
-     *
-     * @param \App\Soap\dealertrack\src\Result[] $result
+     * @param \App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResult $getClosedRepairOrderDetailsResult
      * @return self
      */
-    public function setResult(array $result)
+    public function setGetClosedRepairOrderDetailsResult(\App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResult $getClosedRepairOrderDetailsResult)
     {
-        $this->result = $result;
+        $this->getClosedRepairOrderDetailsResult = $getClosedRepairOrderDetailsResult;
         return $this;
     }
 

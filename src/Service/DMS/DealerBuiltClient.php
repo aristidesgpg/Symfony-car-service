@@ -84,10 +84,11 @@ class DealerBuiltClient extends AbstractDMSClient
             $searchCriteria = [
                 'searchCriteria' => [
                     'MaxElapsedSinceUpdate' => $this->getTimeFrame(),
-                    'ServiceLocationId' => $this->getServiceLocationId(),
+                    'ServiceLocationIds' => [$this->getServiceLocationId()],
                     'Statuses' => ['Open'],
                 ],
             ];
+
 
             $result = $this->sendSoapCall('PullRepairOrders', [$searchCriteria], true);
 
@@ -100,8 +101,8 @@ class DealerBuiltClient extends AbstractDMSClient
             foreach ($deserializedNode->getBody()->getPullRepairOrdersResponse()->getPullRepairOrdersResult() as $repairOrder) {
                 //init result objects
                 $dmsResult = new DMSResult();
-//                $dmsResultCustomer = new DMSResultCustomer();
-//                $dmsResultAdvisor = new DMSResultAdvisor();
+                $dmsResult->setRaw($repairOrder);
+
                 //All DealerBuilt have waiter set to false.
                 $dmsResult->setWaiter(false);
 
@@ -118,25 +119,9 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 $dmsResult->getCustomer()->setName($customerName);
                 $dmsResult->getCustomer()->setEmail($customer->getEmailAddress());
-                $phoneNumbers = [];
-                /**
-                 * @var PhoneNumberType $phoneNumberType
-                 */
-                foreach ($customer->getPhoneNumbers() as $phoneNumberType) {
-                    if (in_array($phoneNumberType->getNumberType(), ['Mobile', 'Cell'])) {
-                        try {
-                            $phoneNumberType->setDigits($this->getPhoneValidator()->clean($phoneNumberType->getDigits()));
-                            $phoneNumbers[] = $phoneNumberType;
-                            break; // It's mobile we only need this one
-                        } catch (\Exception $e) {
-                            //fail silently. We don't care if it's a bad number.
-                        }
 
-                        break;
-                    }
-                }
                 $dmsResult->getCustomer()->setPhoneNumbers(
-                    $this->phoneNormalizer($phoneNumbers)
+                    $this->phoneNormalizer($customer->getPhoneNumbers())
                 );
 
                 $dmsResult->setNumber($repairOrder->getAttributes()->getRepairOrderNumber());
@@ -157,9 +142,8 @@ class DealerBuiltClient extends AbstractDMSClient
                 //The date is converted to a DateTime when its serialized.
                 $dmsResult->setDate($repairOrder->getAttributes()->getOpenedStamp());
                 $dmsResult->setRoKey($repairOrder->getROKey());
+                $dmsResult->setInitialROValue($repairOrder->getAttributes()->getTotalAmount()->getAmount());
 
-//                $dmsResult->setCustomer($dmsResultCustomer);
-//                $dmsResult->setAdvisor($dmsResultAdvisor);
                 $repairOrders[] = $dmsResult;
             }
         }
@@ -221,7 +205,6 @@ class DealerBuiltClient extends AbstractDMSClient
             if ($result) {
                 //Deserialize the soap result into objects.
                 $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopeByKey::class, 'xml');
-                dump($deserializedNode);
 
                 /**
                  * @var RepairOrderType $repairOrder
@@ -259,7 +242,6 @@ class DealerBuiltClient extends AbstractDMSClient
                 if ($result) {
                     //Deserialize the soap result into objects.
                     $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopeByNumber::class, 'xml');
-                    dump($deserializedNode);
 
                     /**
                      * @var RepairOrderType $repairOrder
@@ -320,6 +302,35 @@ class DealerBuiltClient extends AbstractDMSClient
 
         return null;
     }
+
+    /**
+     * @param $phoneNumbers
+     *
+     * @return null
+     */
+    public function phoneNormalizer($phoneNumbers)
+    {
+        /**
+         * @var PhoneNumberType $phoneNumberType
+         */
+        foreach ($phoneNumbers as $phoneNumberType) {
+            if (in_array($phoneNumberType->getNumberType(), ['Mobile', 'Cell'])) {
+                try {
+                    $result = parent::phoneNormalizer($phoneNumberType->getDigits());
+                    if ($result) {
+                        return $result;
+                    }
+                } catch (\Exception $e) {
+                    //fail silently. We don't care if it's a bad number.
+                }
+            }
+        }
+
+        //No valid mobile found.
+        return null;
+    }
+
+
 
     public function getPostUrl(): string
     {

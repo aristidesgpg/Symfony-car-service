@@ -45,9 +45,6 @@ class AutoMateClient extends AbstractDMSClient
      */
     private $processEvent;
 
-
-    //TODO Initial RO Value
-
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -99,7 +96,6 @@ class AutoMateClient extends AbstractDMSClient
 
             //Get the keys of open repair orders.
             $targetNodes = $this->getRepairOrderKeys($this->getProcessEvent());
-
             //No open repair orders.
             if (empty($targetNodes)) {
                 return $repairOrders;
@@ -117,6 +113,7 @@ class AutoMateClient extends AbstractDMSClient
                 $result = $this->sendSoapCall('processEvent', $this->buildEventForSoap($this->getProcessEvent()), true);
 
                 $response = $this->deserializeSOAPResponse($result)->getResponse();
+
                 if (!$response) {
                     continue;
                 }
@@ -130,9 +127,6 @@ class AutoMateClient extends AbstractDMSClient
                         $repairOrders[] = $parsed;
                     }
                 }
-//                var_dump($result);
-//                dump($deserializedNodes);
-//                dd($repairOrders);
             }
         }
 
@@ -189,11 +183,11 @@ class AutoMateClient extends AbstractDMSClient
                     );
                 }
             }
-
-            // Still no phone number, just skip
-            if (!$dmsResult->getCustomer()->getPhoneNumbers()) {
-                return null;
-            }
+            //TODO: Uncomment for prod.
+//            // Still no phone number, just skip
+//            if (!$dmsResult->getCustomer()->getPhoneNumbers()) {
+//                return null;
+//            }
 
             //Email is not used.
 
@@ -211,7 +205,12 @@ class AutoMateClient extends AbstractDMSClient
             $dmsResult->getAdvisor()->setLastName($repairOrder->getRepairOrderHeader()->getServiceAdvisorParty()->getSpecifiedPerson()->getFamilyName());
 
             $dmsResult->setNumber($repairOrder->getRepairOrderHeader()->getDocumentIdentificationGroup()->getAlternateDocumentIdentification()->getDocumentID());
-            $dmsResult->setDate($repairOrder->getRepairOrderHeader()->getDealerParty()->getAlternatePartyDocument()->getEffectivePeriod()->getStartDateTime());
+
+            try {
+                $dmsResult->setDate(new \DateTime($repairOrder->getRepairOrderHeader()->getDealerParty()->getAlternatePartyDocument()->getEffectivePeriod()->getStartDateTime()));
+            } catch (\Exception $e) {
+                //Can't parse date.
+            }
 
             //waiter
             $dmsResult->setWaiter(false);
@@ -235,6 +234,19 @@ class AutoMateClient extends AbstractDMSClient
             } else {
                 $dmsResult->setRoKey($repairOrder->getRepairOrderHeader()->getDocumentIdentificationGroup()->getDocumentIdentification()->getDocumentID());
             }
+
+            $initialRoValue = 0;
+            //TODO Nested for loop. Revisit
+            foreach ($repairOrder->getJob() as $job) {
+                if (!$job->getPricing()) {
+                    continue;
+                }
+
+                foreach ($job->getPricing()->getPrice() as $price) {
+                    $initialRoValue += $price->getChargeAmount()->value();
+                }
+            }
+            $dmsResult->setInitialROValue($initialRoValue);
 
             return $dmsResult;
         }
@@ -343,7 +355,7 @@ class AutoMateClient extends AbstractDMSClient
                 continue;
             }
 
-            //TODO Uncomment for prod.
+
             if ('This RO is not retrievable through Open/Mate.' == $resultRepairOrder->getRepairOrderHeader()->getOrderNotes()) {
                 continue;
             }

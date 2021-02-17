@@ -8,60 +8,60 @@ class DealerTrackRequestSoapEnvelopeBody
 {
 
     /**
-     * @var \App\Soap\dealertrack\src\OpenRepairOrderLookupResult  $openRepairOrderLookupResult
+     * @var \App\Soap\dealertrack\src\GetClosedRepairOrdersResponse  $getClosedRepairOrdersResponse
      */
-    private $openRepairOrderLookupResult;
+    private $getClosedRepairOrdersResponse;
 
 
     /**
      * Adds as resiult
      *
      * @return self
-     * @param \App\Soap\dealertrack\src\Result $result
+     * @param \App\Soap\dealertrack\src\GetClosedRepairOrdersResponse $result
      */
-    public function addToOpenRepairOrderLookupResult(\App\Soap\dealertrack\src\Result $result)
+    public function addToGetClosedRepairOrderLookupResult(\App\Soap\dealertrack\src\GetClosedRepairOrdersResponse $result)
     {
-        $this->openRepairOrderLookupResult[] = $result;
+        $this->getClosedRepairOrdersResponse[] = $result;
         return $this;
     }
 
     /**
-     * isset openRepairOrderLookupResult
+     * isset getClosedRepairOrdersResponse
      *
      * @param int|string $index
      * @return bool
      */
-    public function issetOpenRepairOrderLookupResult($index)
+    public function issetGetClosedRepairOrdersResponse($index)
     {
-        return isset($this->openRepairOrderLookupResult[$index]);
+        return isset($this->getClosedRepairOrdersResponse[$index]);
     }
 
     /**
-     * unset openRepairOrderLookupResult
+     * unset getClosedRepairOrdersResponse
      *
      * @param int|string $index
      * @return void
      */
-    public function unsetOpenRepairOrderLookupResult($index)
+    public function unsetGetClosedRepairOrdersResponse($index)
     {
-        unset($this->openRepairOrderLookupResult[$index]);
+        unset($this->getClosedRepairOrdersResponse[$index]);
     }
 
 
     /**
-     * @return OpenRepairOrderLookupResult
+     * @return GetClosedRepairOrdersResponse
      */
-    public function getOpenRepairOrderLookupResult(): OpenRepairOrderLookupResult
+    public function getGetClosedRepairOrdersResponse(): GetClosedRepairOrdersResponse
     {
-        return $this->openRepairOrderLookupResult;
+        return $this->getClosedRepairOrdersResponse;
     }
 
     /**
-     * @param OpenRepairOrderLookupResult $openRepairOrderLookupResult
+     * @param GetClosedRepairOrdersResponse $getClosedRepairOrdersResponse
      */
-    public function setOpenRepairOrderLookupResult(OpenRepairOrderLookupResult $openRepairOrderLookupResult): void
+    public function setGetClosedRepairOrdersResponse(GetClosedRepairOrdersResponse $getClosedRepairOrdersResponse): void
     {
-        $this->openRepairOrderLookupResult = $openRepairOrderLookupResult;
+        $this->getClosedRepairOrdersResponse = $getClosedRepairOrdersResponse;
     }
 
 

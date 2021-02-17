@@ -1,6 +1,6 @@
 App\Soap\dealertrack\src\WarrantyShopSup:
     xml_root_name: WarrantyShopSup
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties:
         __value:
             expose: true

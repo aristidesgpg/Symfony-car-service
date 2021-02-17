@@ -1,6 +1,6 @@
 App\Soap\dealertrack\src\Details\DetailsAType:
     properties:
-        openRepairOrderDetail:
+        closedRepairOrderDetail:
             -
                 NotNull:
                     groups:

@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Settings;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -28,12 +30,18 @@ class SettingsRepository extends ServiceEntityRepository
      */
     public function findActiveDms()
     {
-        return $this->createQueryBuilder('q')
-            ->select('q.key')
-            ->andwhere("q.value='true'")
-            ->andWhere("q.key like 'using%'")
-            ->getQuery()
-            ->setMaxResults(1)
-            ->getSingleScalarResult();
+        try {
+            return $this->createQueryBuilder('q')
+                ->select('q.key')
+                ->andwhere("q.value='true'")
+                ->andWhere("q.key like 'using%'")
+                ->getQuery()
+                ->setMaxResults(1)
+                ->getSingleScalarResult();
+        } catch (NoResultException $e) {
+        } catch (NonUniqueResultException $e) {
+        }
+
+        return null;
     }
 }

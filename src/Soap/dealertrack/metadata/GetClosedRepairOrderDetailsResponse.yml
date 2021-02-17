@@ -1,18 +1,14 @@
 App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResponse:
     xml_root_name: GetClosedRepairOrderDetailsResponse
-    xml_root_namespace: opentrack.dealertrack.com/transitional
+    xml_root_namespace: opentrack.dealertrack.com
     properties:
-        result:
+        getClosedRepairOrderDetailsResult:
             expose: true
             access_type: public_method
-            serialized_name: Result
+            serialized_name: GetClosedRepairOrderDetailsResult
             xml_element:
-                namespace: opentrack.dealertrack.com/transitional
+                namespace: opentrack.dealertrack.com
             accessor:
-                getter: getResult
-                setter: setResult
-            xml_list:
-                inline: true
-                entry_name: Result
-                namespace: opentrack.dealertrack.com/transitional
-            type: array<App\Soap\dealertrack\src\Result>
+                getter: getGetClosedRepairOrderDetailsResult
+                setter: setGetClosedRepairOrderDetailsResult
+            type: App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResult

@@ -1,4 +1,12 @@
 App\Soap\dealertrack\src\FailureCode:
     xml_root_name: FailureCode
-    xml_root_namespace: opentrack.dealertrack.com/transitional
-    properties: {  }
+    xml_root_namespace: opentrack.dealertrack.com
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: string
