@@ -219,7 +219,7 @@ class DMS
 
         //text customer.
         try {
-            $this->sendCommunicationToCustomer($repairOrder, $customer);
+            //$this->sendCommunicationToCustomer($repairOrder, $customer);
         } catch (Exception $e) {
         }
     }
