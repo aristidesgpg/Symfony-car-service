@@ -91,7 +91,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
                 'trace' => 1, //This is needed to get the __getLastResponse()
             ]);
         } catch (\SoapFault $e) {
-            dd($e);
             $this->logError($this->getWsdl(), $e->getMessage());
         }
     }
@@ -108,7 +107,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
             dump($client->__getFunctions());
             dump($client->__getTypes());
         } catch (\SoapFault $e) {
-           dump($e->getMessage());
+            dump($e->getMessage());
         }
     }
 
@@ -119,28 +118,18 @@ abstract class AbstractDMSClient implements DMSClientInterface
      *
      * @return mixed|string|null
      */
-    public function sendSoapCall($name, $args, $returnLastResponse = false)
+    public function sendSoapCall($name, $args, $returnLastResponse = false): ?string
     {
         //It should validate against the wsdl before the call to make sure its correct.
         try {
             $result = $this->getSoapClient()->__soapCall($name, $args);
-//
-//            dump($this->getSoapClient()->__getLastRequest());
-//            dump($this->getSoapClient()->__getLastResponse());
-//            dd($this->getSoapClient()->__getLastRequestHeaders());
-
             if ($returnLastResponse) {
                 return $this->getSoapClient()->__getLastResponse();
             }
 
             return $result;
         } catch (SoapFault $e) {
-            //Most likely a malformed request/invalid parameters were provided.
-//            dump($this->getSoapClient()->__getLastRequest());
-//            dump($this->getSoapClient()->__getLastResponse());
-//            dd($this->getSoapClient()->__getLastRequestHeaders());
             $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage());
-            dd($e->getMessage());
         }
 
         return null;
@@ -170,8 +159,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
     public function sendGuzzleRequest($uri, $options = [])
     {
         try {
-            dump('Sending Request');
-//            $response = $this->getGuzzleClient()->post($uri, $options);
             $response = $this->getGuzzleClient()->request($this->getGuzzleType(), $uri, $options);
 
             return $response->getBody()->getContents();
@@ -182,7 +169,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
                     $e->getResponse()->getBody()->getContents()
                 );
                 $this->logError($uri, $error, true);
-                dd($error);
             }
         }
 
@@ -190,13 +176,13 @@ abstract class AbstractDMSClient implements DMSClientInterface
     }
 
     /**
-     * The end goal is to find a mobile phone number to validate against. Each DMS returns the number in different formats. This function tries to normalize that into a phone number.
+     * The end goal is to find a mobile phone number to validate against. Each DMS returns the number in different formats. This function tries to normalize that into a valid mobile phone number.
      *
-     * TODO Need to see the desired outcome, whether an array or just a string. Right now it's coded to just return ONE phone number.
-     * TODO Also, should we be using PhoneLookup?
-     * TODO Do we want to save the number if it isn't a mobile number?
+     * @param $phone
+     *
+     * @return null
      */
-    public function phoneNormalizer($phone)
+    public function phoneNormalizer($phone): ?string
     {
         if (is_array($phone)) {
             foreach ($phone as $p) {
@@ -284,51 +270,81 @@ abstract class AbstractDMSClient implements DMSClientInterface
         }
     }
 
+    /**
+     * @return Serializer
+     */
     public function getSerializer(): Serializer
     {
         return $this->serializer;
     }
 
+    /**
+     * @param Serializer $serializer
+     */
     public function setSerializer(Serializer $serializer): void
     {
         $this->serializer = $serializer;
     }
 
+    /**
+     * @return EntityManagerInterface
+     */
     public function getEntityManager(): EntityManagerInterface
     {
         return $this->entityManager;
     }
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     */
     public function setEntityManager(EntityManagerInterface $entityManager): void
     {
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @return PhoneValidator
+     */
     public function getPhoneValidator(): PhoneValidator
     {
         return $this->phoneValidator;
     }
 
+    /**
+     * @param PhoneValidator $phoneValidator
+     */
     public function setPhoneValidator(PhoneValidator $phoneValidator): void
     {
         $this->phoneValidator = $phoneValidator;
     }
 
+    /**
+     * @return ParameterBagInterface
+     */
     public function getParameterBag(): ParameterBagInterface
     {
         return $this->parameterBag;
     }
 
+    /**
+     * @param ParameterBagInterface $parameterBag
+     */
     public function setParameterBag(ParameterBagInterface $parameterBag): void
     {
         $this->parameterBag = $parameterBag;
     }
 
+    /**
+     * @return ThirdPartyAPILogHelper
+     */
     public function getThirdPartyAPILogHelper(): ThirdPartyAPILogHelper
     {
         return $this->thirdPartyAPILogHelper;
     }
 
+    /**
+     * @param ThirdPartyAPILogHelper $thirdPartyAPILogHelper
+     */
     public function setThirdPartyAPILogHelper(ThirdPartyAPILogHelper $thirdPartyAPILogHelper): void
     {
         $this->thirdPartyAPILogHelper = $thirdPartyAPILogHelper;

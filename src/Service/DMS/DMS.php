@@ -12,13 +12,15 @@ use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
-use App\Soap\dealerbuilt\src\Models\PhoneNumberType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DependencyInjection\ServiceLocator;
 
+/**
+ * Class DMS.
+ */
 class DMS
 {
     /**
@@ -50,16 +52,28 @@ class DMS
      */
     private $parameterBag;
 
+    /**
+     * @var \App\Repository\CustomerRepository|\Doctrine\Persistence\ObjectRepository
+     */
     private $customerRepo;
+    /**
+     * @var \App\Repository\RepairOrderRepository|\Doctrine\Persistence\ObjectRepository
+     */
     private $repairOrderRepo;
+    /**
+     * @var \App\Repository\UserRepository|\Doctrine\Persistence\ObjectRepository
+     */
     private $userRepo;
 
+    /**
+     * @var string|null
+     */
     private $customerURL;
+    /**
+     * @var string|null
+     */
     private $dmsFilter;
-    private $usingAutomate;
-    private $usingDealerTrack;
-    private $usingDealerBuilt;
-    private $usingCdk;
+
     /**
      * @var bool
      */
@@ -99,10 +113,6 @@ class DMS
 
         $this->customerURL = $this->settingsHelper->getSetting('customerURL');
         $this->dmsFilter = $this->settingsHelper->getSetting('dmsFilter');
-//        $this->usingAutomate = 'true' === $this->settingsHelper->getSetting('usingAutomate');
-//        $this->usingDealerTrack = 'true' === $this->settingsHelper->getSetting('usingDealerTrack');
-//        $this->usingDealerBuilt = 'true' === $this->settingsHelper->getSetting('usingDealerBuilt');
-//        $this->usingCdk = 'true' === $this->settingsHelper->getSetting('usingCdk');
         $this->activateIntegrationSms = true;
 
         //TODO This needs to be revisited after the SettingsHelper branch is merged into master.
@@ -110,39 +120,17 @@ class DMS
         if ($this->getServiceLocator()->has($activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($activeDMS);
         }
-
-//        if ($this->usingAutomate) {
-//            $this->integration = $automate;
-//            return;
-//        }
-//
-//        if ($this->usingDealerTrack) {
-//            $this->integration = $dealerTrack;
-//            return;
-//        }
-//
-//        if ($this->usingDealerBuilt) {
-//            $this->integration = $dealerBuilt;
-//            return;
-//        }
-//
-//        if ($this->usingCdk) {
-//            $this->integration = $cdk;
-//            return;
-//        }
     }
 
-    public function addOpenRepairOrders()
+    public function addOpenRepairOrders(): ?array
     {
         // Not integrated, do nothing
         if (!$this->integration) {
-            return;
+            return null;
         }
 
-        //$defaultTechnician = $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC']);
-
         $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
-        dump($dmsOpenRepairOrders);
+
         // Loop over found repair orders
         /**
          * @var DMSResult $dmsOpenRepairOrder
@@ -158,12 +146,9 @@ class DMS
      * @param $RONumber
      *
      * @throws exception
-     *                   TODO Revisit after dms clients are done
      */
     public function addSingleRepairOrder($RONumber): bool
     {
-//        $filter = $this->dmsFilter;
-
         if (!$this->integration) {
             throw new Exception('You are not integrated with a DMS');
         }
@@ -184,85 +169,14 @@ class DMS
 
         $this->processRepairOrder($dmsRepairOrder);
 
-        //$advisor = null;
-//        $phone = $dmsRepairOrder->customer->phone;
-//        $name = $dmsRepairOrder->customer->name;
-//        $email = $dmsRepairOrder->customer->email;
-//        $dmsAdvisorId = $dmsRepairOrder->advisor->id;
-//        $advisorFirstName = $dmsRepairOrder->advisor->firstName;
-//        $advisorLastName = $dmsRepairOrder->advisor->lastName;
-//        $roKey = isset($dmsRepairOrder->roKey) ? $dmsRepairOrder->roKey : null;
-
-        // Skip certain ROs w/ customer names of those shown in the skip array
-        // No phone number, just create the customer and move on
-//        if (!$dmsRepairOrder->getCustomer()->getPhone()) {
-//            $customer = new Customer();
-//            $this->customerHelper->commitCustomer($customer, ['name' => $name, 'email' => $email]);
-//        } else {
-//            // Check if the customer exists and use that one instead if so
-//            $customerExists = $this->customerRepo->findOneBy(['phone' => $phone]);
-//
-//            if ($customerExists) {
-//                $customer = $customerExists;
-//            } else {
-//                $customer = new Customer();
-//                $this->customerHelper->commitCustomer($customer, ['phone' => $phone, 'name' => $name, 'email' => $email]);
-//            }
-//        }
-
-//        $customer = $this->customerFinder($dmsRepairOrder);
-//
-//        $advisor = $this->advisorFinder($dmsRepairOrder);
-//        //Can't fnd an advisor, use default.
-//        if (!$advisor) {
-//            $advisor = $defaultAdvisor;
-//        }
-
-//        // If there is a filter, check against it and skip if matched
-//        if ('false' != $filter && false != $filter) {
-//            if (0 === strncmp($dmsRepairOrder->getNumber(), $filter, strlen($filter))) {
-//                return false;
-//            }
-//        }
-//
-//        $repairOrder = $this->createRepairOrder($dmsRepairOrder, $customer, $advisor);
-
-//        if ($customer->getPhone()) {
-//            // Don't do the rest of the script if it's not a mobile number
-//            try {
-//                $this->twilioHelper->lookupNumber($customer->getPhone());
-//                $this->sendCommunicationToCustomer($repairOrder, $customer);
-//            } catch (Exception $e) {
-//                return true;
-//            }
-//        }
-
         return true;
     }
 
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
-        dump('processRepairOrder');
-
-//        //TODO Testing, take out for prod. 111 numbers fail validation.
-//        if(is_array($dmsRepairOrder->getCustomer()->getPhoneNumbers())){
-//            foreach($dmsRepairOrder->getCustomer()->getPhoneNumbers() as $key => $number)
-//            {
-//                $dmsRepairOrder->getCustomer()->getPhoneNumbers()[$key]->setDigits(str_replace('1', '2', $number->getDigits()));
-//    //            dump( str_replace('1', '2', $number->getDigits()));
-//    //            dump($number);
-//    //            dd($dmsRepairOrder);
-//            }
-//
-//        }
-//        dd($dmsRepairOrder);
-        //End TODO
-
         // First check if it exists already
         $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsRepairOrder->getNumber()]);
         if ($repairOrderExists) {
-            dump('Already Exists');
-
             return;
         }
 
@@ -270,52 +184,23 @@ class DMS
         $filter = $this->getDmsFilter();
         if ('false' != $filter && false != $filter) {
             if (0 === strncmp($dmsRepairOrder->getNumber(), $filter, strlen($filter))) {
-                dump('Filter It Out');
-
                 return;
             }
         }
 
         // Must be opened in the past 5 days
         $date = $dmsRepairOrder->getDate();
-        dump($date);
         $openTimestamp = $date->getTimestamp();
         $fiveDaysAgo = (new DateTime())->modify('-5 days')->getTimestamp();
 
-        //TODO Took out for development, Uncomment for prod.
-//        if ($fiveDaysAgo > $openTimestamp) {
-//            dump('Greater Than 5 days ago.');
-//            return;
-//        }
-        //TODO end
-//        $customer = null;
-//        $advisor = null;
-//        $phoneNumbers = $dmsRepairOrder->getCustomer()->getPhoneNumbers();
-//        $name = $dmsRepairOrder->getCustomer()->getName();
-//        $email = $dmsRepairOrder->getCustomer()->getEmail();
-//        $dmsAdvisorId = $dmsRepairOrder->getAdvisor()->getId();
-//        $advisorFirstName = $dmsRepairOrder->getAdvisor()->getFirstName();
-//        $advisorLastName = $dmsRepairOrder->getAdvisor()->getLastName();
-//        //$roKey            = isset($dmsOpenRepairOrder->roKey) ? $dmsOpenRepairOrder->roKey : null;
-//        $roKey = $dmsRepairOrder->getRoKey();
+        if ($fiveDaysAgo > $openTimestamp) {
+            return;
+        }
 
         //TODO: The customerFinder() logic needs revisited.
         $customer = $this->customerFinder($dmsRepairOrder);
-        //Can't find a customer.
-//        if (!$customer || !$customer->getId()) {
-//            //Should never get hear since we create empty customers.
-//            dump('EMpty Customer, Returning');
-//            return;
-//        }
-
-        dump('Looking for advisor');
         //returns default advisor if one is not found.
         $advisor = $this->advisorFinder($dmsRepairOrder);
-//        Can't fnd an advisor, use default.
-//        if (!$advisor) {
-//            $advisor = $defaultAdvisor;
-//        }
-        dump($advisor);
 
         $repairOrder = $this->persistRepairOrder($dmsRepairOrder, $customer, $advisor);
 
@@ -325,7 +210,7 @@ class DMS
         }
 
         // Throws an error if it's not a mobile number
-        //TODO, we are validating this upstream, before we create the DMSResult? Should we capture phone even if we aren't sending a text?
+        //TODO, we are validating this upstream. Possibly redundant.
         try {
             $this->twilioHelper->lookupNumber($customer->getPhone());
         } catch (\Exception $e) {
@@ -333,15 +218,14 @@ class DMS
         }
 
         //text customer.
-
-        //TODO Turn Back on.
-        //$this->sendCommunicationToCustomer($repairOrder, $customer);
+        try {
+            $this->sendCommunicationToCustomer($repairOrder, $customer);
+        } catch (Exception $e) {
+        }
     }
 
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
     {
-        dump($dmsResult);
-
         $defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
         $repairOrder = (new RepairOrder())
             ->setPrimaryCustomer($customer)
@@ -379,14 +263,11 @@ class DMS
 
     /**
      * Find currently open ROs and see if they've been closed in the DMS.
-     * TODO DoubleCheck after integration's are done.
      */
     public function closeOpenRepairOrders()
     {
         // Get open repair orders
         $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
-        dump($openRepairOrders);
-        $checkRepairOrders = [];
 
         // if ($openRepairOrders) {
         //     /** @var RepairOrder $openRepairOrder */
@@ -403,8 +284,11 @@ class DMS
         // }
 
         if ($openRepairOrders) {
-           $result = $this->integration->getClosedRoDetails($openRepairOrders);
-           dd($result);
+            try {
+                $this->integration->getClosedRoDetails($openRepairOrders);
+            } catch (Exception $e) {
+                //do nothing.
+            }
         }
     }
 
@@ -426,14 +310,13 @@ class DMS
             }
 
             $textLink = $this->customerURL.$repairOrder->getLinkHash().'/repair-waiver';
-            //TODO shortenUrl Does Not Exist, replaced with below? Needs checked.
-            //$textLink = $this->shortUrlHelper->shortenUrl($textLink);
             $textLink = $this->shortUrlHelper->generateShortUrl($textLink);
 
             $introMessage = $introMessage.$textLink;
             if (true == $this->activateIntegrationSms) {
-                //TODO sendShortCode Does Not Exist
-                $this->twilioHelper->sendShortCode($customer->getPhone(), $introMessage);
+                //TODO sendShortCode Does Not Exist, changed to sendSms(). This needs double checked.
+                //$this->twilioHelper->sendShortCode($customer->getPhone(), $introMessage);
+                $this->twilioHelper->sendSms($customer->getPhone(), $introMessage);
             }
         } else {
             $introMessage = '
@@ -460,8 +343,6 @@ class DMS
     public function advisorFinder(DMSResult $dmsOpenRepairOrder): ?User
     {
         //search advisor by id.
-        dump('AdvisorFinder');
-        dump($dmsOpenRepairOrder);
         if ($dmsOpenRepairOrder->getAdvisor()->getId()) {
             $foundAdvisor = $this->userRepo->findOneBy(['id' => $dmsOpenRepairOrder->getAdvisor()->getId(), 'role' => 'ROLE_SERVICE_ADVISOR']);
             if ($foundAdvisor) {
@@ -489,17 +370,14 @@ class DMS
      */
     public function customerFinder(DMSResult $dmsOpenRepairOrder): ?Customer
     {
-        dump('customerFinder');
         // No phone numbers passed, create new customer.
         /*
         * TODO This is weird logic. If there is no phone number, and it creates a customer based on name and email, it's possible for there to be duplicates.
-        * TODO If there is no phone, it should check to see if that customer already exists, and then return that vs creating the same customer over and over if they don't
-        * TODO Have a phone number.
+        *      If there is no phone, it should check to see if that customer already exists, and then return that vs creating the same customer over and over if they don't
+        *      Have a phone number.
         */
         //TODO CommitCustomer->validateParams()->email has a bug. If the email is blank, it says invalid email. Could be intentional.
         if (empty($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers())) {
-            dump('No PHone Number, ', $dmsOpenRepairOrder);
-
             return $this->customerHelper->commitCustomer(
                 new Customer(),
                 [
@@ -509,30 +387,16 @@ class DMS
             );
         }
 
-        //TODO PhoneNumberType might not be generic enough to work with all of the DMS's.
         // Check if the customer exists already
-//        /**
-//         * @var PhoneNumberType $phoneNumber
-//         */
-        //foreach ($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers() as $phoneNumber) {
-        // Try to find the customer
-        // Check if the customer exists and use that one instead if so
         $customer = $this->customerRepo->findOneBy(['phone' => $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers()]);
-        //Found a customer so stop looping.
+        //Found a customer.
         if ($customer) {
             return $customer;
         }
 
         // Still no customer, create a new one but only use a valid phone number
-        //TODO PhoneNumberType might not be generic enough to work with all of the DMS's.
-        // Check if the customer exists already
-        // This method does not seem to be complete.
-        // TODO, Phone number validation is done upstream..........
-        /*
-         * @var PhoneNumberType $phoneNumber
-         */
-        //foreach ($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers() as $phoneNumber) {
-        // Try to validate the phone number
+        // Try to validate the phone number -> The phone number is validated when creating the initial RO.
+        // TODO Should we move this validation to the phoneNormalizer function?
         try {
             // Phone is valid, use this one
             $phoneValid = true;
@@ -553,11 +417,9 @@ class DMS
             }
         } catch (\Exception $e) {
             // Nothing for now
-                //continue;
         }
-        // }
 
-        // STILL no customer, just used the first number we got
+        // STILL no customer, just use the first number we got
         $phoneNumber = $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers();
 
         return $this->customerHelper->commitCustomer(

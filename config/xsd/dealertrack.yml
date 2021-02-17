@@ -6,6 +6,7 @@ xsd2php:
   namespaces:
     'http://www.w3.org/2001/XMLSchema': 'App\Soap\dealertrack\src'
     'opentrack.dealertrack.com/transitional': 'App\Soap\dealertrack\src'
+    'opentrack.dealertrack.com': 'App\Soap\dealertrack\src'
 
   destinations_php:
     'App\Soap\dealertrack\src': src\Soap\dealertrack\src  #  on Windows

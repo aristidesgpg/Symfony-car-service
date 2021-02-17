@@ -9,7 +9,6 @@ use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\automate\src\AuthenticationTokenType;
 use App\Soap\automate\src\AutomateEnvelope;
 use App\Soap\automate\src\AutomateFakeBodyType;
-use App\Soap\automate\src\Job;
 use App\Soap\automate\src\ProcessEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -138,7 +137,7 @@ class AutoMateClient extends AbstractDMSClient
      *
      * @return DMSResult|null
      */
-    public function parseRepairOrderNode(\App\Soap\automate\src\RepairOrder $repairOrder)
+    public function parseRepairOrderNode(\App\Soap\automate\src\RepairOrder $repairOrder): ?DMSResult
     {
         //This assumes that there cannot be other job types besides internal on an internal job.
         foreach ($repairOrder->getJob() as $job) {
@@ -183,11 +182,11 @@ class AutoMateClient extends AbstractDMSClient
                     );
                 }
             }
-            //TODO: Uncomment for prod.
-//            // Still no phone number, just skip
-//            if (!$dmsResult->getCustomer()->getPhoneNumbers()) {
-//                return null;
-//            }
+
+            // Still no phone number, just skip
+            if (!$dmsResult->getCustomer()->getPhoneNumbers()) {
+                return null;
+            }
 
             //Email is not used.
 
@@ -298,7 +297,7 @@ class AutoMateClient extends AbstractDMSClient
      *
      * @return array[]
      */
-    public function buildEventForSoap($processEvent)
+    public function buildEventForSoap($processEvent): array
     {
         return [[
             'authenticationToken' => $processEvent->getAuthenticationToken(),
@@ -315,7 +314,7 @@ class AutoMateClient extends AbstractDMSClient
      *
      * @throws \Exception
      */
-    public function getClosedRoDetails(array $openRepairOrders)
+    public function getClosedRoDetails(array $openRepairOrders): array
     {
         $closedRepairOrders = [];
 
@@ -424,21 +423,33 @@ class AutoMateClient extends AbstractDMSClient
         $this->username = $username;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     */
     public function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
+    /**
+     * @return int
+     */
     public function getEndpointID(): int
     {
         return $this->endpointID;
     }
 
+    /**
+     * @param int $endpointID
+     */
     public function setEndpointID(int $endpointID): void
     {
         $this->endpointID = $endpointID;
@@ -460,6 +471,9 @@ class AutoMateClient extends AbstractDMSClient
         $this->processEvent = $processEvent;
     }
 
+    /**
+     * @return string
+     */
     public static function getDefaultIndexName(): string
     {
         return 'usingAutomate';
