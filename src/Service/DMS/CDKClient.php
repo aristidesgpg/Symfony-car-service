@@ -238,7 +238,7 @@ class CDKClient extends AbstractDMSClient
      *
      * @return null
      */
-    private function extractROInfo($repairOrder)
+    private function extractROInfo($repairOrder): ?DMSResult
     {
         $dmsResult = new DMSResult();
         $dmsResult->setRaw($repairOrder);
@@ -263,10 +263,10 @@ class CDKClient extends AbstractDMSClient
 
         //Try to find a number.
         $phoneNumber = $this->phoneNormalizer($repairOrder->getPhoneNumber());
-        //TODO Turn On For Prod.
-//        if(!$phoneNumber){
-//            return null;
-//        }
+
+        if(!$phoneNumber){
+            return null;
+        }
 
         $dmsResult->getCustomer()->setPhoneNumbers($phoneNumber);
 
@@ -321,7 +321,7 @@ class CDKClient extends AbstractDMSClient
      *
      * @return null
      */
-    public function phoneNormalizer($phoneNumbers)
+    public function phoneNormalizer($phoneNumbers): ?string
     {
         if (is_array($phoneNumbers)) {
             foreach ($phoneNumbers as $p) {
@@ -345,71 +345,113 @@ class CDKClient extends AbstractDMSClient
         return 'usingCdk';
     }
 
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * @param string $username
+     */
     public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     */
     public function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
+    /**
+     * @return string
+     */
     public function getDealerID(): string
     {
         return $this->dealerID;
     }
 
+    /**
+     * @param string $dealerID
+     */
     public function setDealerID(string $dealerID): void
     {
         $this->dealerID = $dealerID;
     }
 
+    /**
+     * @return string
+     */
     public function getOpenROExtractURL(): string
     {
         return $this->openROExtractURL;
     }
 
+    /**
+     * @param string $openROExtractURL
+     */
     public function setOpenROExtractURL(string $openROExtractURL): void
     {
         $this->openROExtractURL = $openROExtractURL;
     }
 
+    /**
+     * @return string
+     */
     public function getSingleROExtractURL(): string
     {
         return $this->singleROExtractURL;
     }
 
+    /**
+     * @param string $singleROExtractURL
+     */
     public function setSingleROExtractURL(string $singleROExtractURL): void
     {
         $this->singleROExtractURL = $singleROExtractURL;
     }
 
+    /**
+     * @return string
+     */
     public function getClosedROExtractURL(): string
     {
         return $this->closedROExtractURL;
     }
 
+    /**
+     * @param string $closedROExtractURL
+     */
     public function setClosedROExtractURL(string $closedROExtractURL): void
     {
         $this->closedROExtractURL = $closedROExtractURL;
     }
 
+    /**
+     * @return string
+     */
     public function getBaseURI(): string
     {
         return $this->baseURI;
     }
 
+    /**
+     * @param string $baseURI
+     */
     public function setBaseURI(string $baseURI): void
     {
         $this->baseURI = $baseURI;

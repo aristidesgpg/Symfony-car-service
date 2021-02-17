@@ -1,4 +1,5 @@
 You can't run cs-fixer against these because the doc blocks are used.
+See git repo: jmdigital/wsdl_dev for full implementations. 
 
 Automate:
 wsdl: https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?wsdl
@@ -32,4 +33,4 @@ maker: tools\vendor\bin\xsd2php.bat convert config\xsd\dealertrack.yml config\xs
 CDK:
 Does not have a WSDL. Is not SOAP. Restfull API.
 Exported xml and converted to xsd.
-vendor\bin\xsd2php.bat convert config\xsd\cdk.yml config\xsd\cdk.xsd
+maker: vendor\bin\xsd2php.bat convert config\xsd\cdk.yml config\xsd\cdk.xsd

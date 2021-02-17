@@ -3,8 +3,6 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
-use App\Entity\DMSResultAdvisor;
-use App\Entity\DMSResultCustomer;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
@@ -26,6 +24,9 @@ class DealerBuiltClient extends AbstractDMSClient
      */
     private $postUrl = 'https://cdx.dealerbuilt.com/0.99a/Api.svc';
 
+    /**
+     * @var string
+     */
     private $wsdl = 'https://cdx.dealerbuilt.com/0.99a/Api.svc?wsdl';
 
     /**
@@ -151,6 +152,9 @@ class DealerBuiltClient extends AbstractDMSClient
         return $repairOrders;
     }
 
+    /**
+     * @param array $openRepairOrders
+     */
     public function getClosedRoDetails(array $openRepairOrders)
     {
         $rosWithKeys = [];
@@ -182,6 +186,8 @@ class DealerBuiltClient extends AbstractDMSClient
 
     /**
      * @param $repairOrders
+     * @return array
+     * @return array
      */
     public function closeRosWithKeys($repairOrders): array
     {
@@ -223,6 +229,8 @@ class DealerBuiltClient extends AbstractDMSClient
 
     /**
      * @param $repairOrders
+     * @return array
+     * @return array
      */
     public function closeRosWithoutKeys($repairOrders): array
     {
@@ -262,20 +270,20 @@ class DealerBuiltClient extends AbstractDMSClient
 
     /**
      * @param RepairOrder[] $repairOrders
+     * @return RepairOrderType|null
+     * @return RepairOrderType|null
      */
     public function closeRo(RepairOrderType $repairOrder, array $repairOrders): ?RepairOrderType
     {
         $technicianRecord = null;
 
-        //TODO Take Open Out, there was none with Open to test.
-        if (in_array($repairOrder->getAttributes()->getStatus(), ['Posted', 'Closed', 'Open'])) {
+        if (in_array($repairOrder->getAttributes()->getStatus(), ['Posted', 'Closed'])) {
             $closedDate = new \DateTime();
             if ($repairOrder->getAttributes()->getClosedStamp()) {
                 $closedDate = $repairOrder->getAttributes()->getClosedStamp();
             }
 
             // Try to set the technician that recorded it when closing
-            //TODO There can be multiple jobs. Then what? Currently it just grabs the first job.
             if ($repairOrder->getAttributes()->getJobs()) {
                 $job = $repairOrder->getAttributes()->getJobs()[0];
                 if ($job->getTechs()) {
@@ -308,7 +316,7 @@ class DealerBuiltClient extends AbstractDMSClient
      *
      * @return null
      */
-    public function phoneNormalizer($phoneNumbers)
+    public function phoneNormalizer($phoneNumbers): ?string
     {
         /**
          * @var PhoneNumberType $phoneNumberType
@@ -331,62 +339,97 @@ class DealerBuiltClient extends AbstractDMSClient
     }
 
 
-
+    /**
+     * @return string
+     */
     public function getPostUrl(): string
     {
         return $this->postUrl;
     }
 
+    /**
+     * @param string $postUrl
+     */
     public function setPostUrl(string $postUrl): void
     {
         $this->postUrl = $postUrl;
     }
 
+    /**
+     * @return string
+     */
     public function getWsdl(): string
     {
         return $this->wsdl;
     }
 
+    /**
+     * @param string $wsdl
+     */
     public function setWsdl(string $wsdl): void
     {
         $this->wsdl = $wsdl;
     }
 
+    /**
+     * @return string
+     */
     public function getTimeFrame(): string
     {
         return $this->timeFrame;
     }
 
+    /**
+     * @param string $timeFrame
+     */
     public function setTimeFrame(string $timeFrame): void
     {
         $this->timeFrame = $timeFrame;
     }
 
+    /**
+     * @return string
+     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
+    /**
+     * @param string $username
+     */
     public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
+    /**
+     * @return string
+     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
+    /**
+     * @param string $password
+     */
     public function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
+    /**
+     * @return string
+     */
     public function getServiceLocationId(): string
     {
         return $this->serviceLocationId;
     }
 
+    /**
+     * @param string $serviceLocationId
+     */
     public function setServiceLocationId(string $serviceLocationId): void
     {
         $this->serviceLocationId = $serviceLocationId;
@@ -395,7 +438,7 @@ class DealerBuiltClient extends AbstractDMSClient
     /**
      * @return string
      */
-    public static function getDefaultIndexName()
+    public static function getDefaultIndexName(): string
     {
         return 'usingDealerBuilt';
     }
