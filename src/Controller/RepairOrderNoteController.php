@@ -47,9 +47,10 @@ class RepairOrderNoteController extends AbstractFOSRestController
         RONoteHelper $helper
     ): Response {
         $repairOrderID = $request->get('repairOrderID');
-
-        if (!$repairOrderID) {
-            return $this->handleView($this->view('Missing Required Parameter: repairOrderID'));
+        $note          = $request->get('note');
+        // check parameters
+        if (!$repairOrderID || !$note) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         $repairOrder = $repairOrderRepository->find($repairOrderID);

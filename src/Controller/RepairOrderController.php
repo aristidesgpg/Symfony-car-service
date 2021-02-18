@@ -138,22 +138,22 @@ class RepairOrderController extends AbstractFOSRestController
         UserRepository $userRepo,
         EntityManagerInterface $em
     ): Response {
-        $page = $request->query->getInt('page', 1);
-        $startDate = $request->query->get('startDate');
-        $endDate = $request->query->get('endDate');
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $page          = $request->query->getInt('page', 1);
+        $startDate     = $request->query->get('startDate');
+        $endDate       = $request->query->get('endDate');
+        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
-        $errors = [];
-        $sortField = $sortDirection = $searchTerm = '';
-        $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
-        $fields = [];
+        $errors        = [];
+        $sortField     = $sortDirection = $searchTerm = null;
+        $inputFields   = ['open', 'waiter', 'internal', 'needsVideo'];
+        $fields        = [];
 
         foreach ($inputFields as $field) {
             if ($request->query->has($field)) {
-                $fields[$field] = $this->paramToBool($request->query->get($field));
+                $fields[$field]        = $this->paramToBool($request->query->get($field));
                 $urlParameters[$field] = $fields[$field];
             } else {
-                $fields[$field] = null;
+                $fields[$field]        = null;
             }
         }
 
@@ -164,16 +164,16 @@ class RepairOrderController extends AbstractFOSRestController
         $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField = $request->query->get('sortField');
+            $sortField                      = $request->query->get('sortField');
 
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
-                $errors['sortField'] = 'Invalid sort field name';
+                $errors['sortField']        = 'Invalid sort field name';
             }
 
             $sortDirection = $request->query->get('sortDirection');
             $urlParameters['sortDirection'] = $sortDirection;
-            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortField']     = $sortField;
         }
 
         if (!empty($errors)) {
@@ -184,7 +184,7 @@ class RepairOrderController extends AbstractFOSRestController
             $searchTerm = $request->query->get('searchTerm');
         }
 
-        $user = $this->getUser();
+        $user      = $this->getUser();
 
         if ($request->get('needsVideo')) {
             $items = $repairOrderRepo->findByNeedsVideo($user, $sortField, $sortDirection, $searchTerm);
@@ -201,22 +201,22 @@ class RepairOrderController extends AbstractFOSRestController
             );
         }
 
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($searchTerm) {
             $urlParameters['searchTerm'] = $searchTerm;
         }
-        $pager = $paginator->paginate($items, $page, $pageLimit);
+        $pager      = $paginator->paginate($items, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view = $this->view(
+        $view       = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
             ]
         );
 

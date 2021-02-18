@@ -228,7 +228,7 @@ class InternalMessageController extends AbstractFOSRestController {
         }
 
         $otherUser = $this->getDoctrine()->getRepository(User::class)->find($otherUserId);
-        if (!$otherUser || !$otherUser->getActive()) {
+        if (!$otherUser) {
             return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
         }
 
