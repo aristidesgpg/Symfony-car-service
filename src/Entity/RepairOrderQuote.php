@@ -28,7 +28,6 @@ class RepairOrderQuote
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderQuote")
      * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Groups(groups={"roq_list"})
      */
     private $repairOrder;
 
