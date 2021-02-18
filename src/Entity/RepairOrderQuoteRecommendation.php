@@ -14,7 +14,7 @@ use DateTime;
  */
 class RepairOrderQuoteRecommendation
 {
-    public const GROUPS = ['roqs_list', 'roq_list'];
+    public const GROUPS = ['roqs_list', 'roq_list', 'rp_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -81,6 +81,7 @@ class RepairOrderQuoteRecommendation
 
     /**
      * @ORM\OneToMany(targetEntity=RecommendationPart::class, mappedBy="repair_order_recommendation_id", orphanRemoval=true)
+     * @Serializer\Groups(groups={"roqs_list"})
      */
     private $recommendationParts;
 
