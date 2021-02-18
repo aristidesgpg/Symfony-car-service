@@ -12,7 +12,7 @@ use DateTime;
  */
 class RepairOrderQuoteRecommendation
 {
-    public const GROUPS = ['roqs_list', 'roq_list'];
+    public const GROUPS = ['roqs_list', 'roq_list', 'operation_code_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
