@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderQuoteRecommendationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use DateTime;
@@ -76,6 +78,16 @@ class RepairOrderQuoteRecommendation
      * @Serializer\Groups(groups={"roqs_list"})
      */
     private $notes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RecommendationPart::class, mappedBy="repair_order_recommendation_id", orphanRemoval=true)
+     */
+    private $recommendationParts;
+
+    public function __construct()
+    {
+        $this->recommendationParts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -186,6 +198,37 @@ class RepairOrderQuoteRecommendation
     public function setNotes(?string $notes): self
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RecommendationPart[]
+     */
+    public function getRecommendationParts(): Collection
+    {
+        return $this->recommendationParts;
+    }
+
+    public function addRecommendationPart(RecommendationPart $recommendationPart): self
+    {
+        if (!$this->recommendationParts->contains($recommendationPart)) {
+            $this->recommendationParts[] = $recommendationPart;
+            $recommendationPart->setRepairOrderRecommendationId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecommendationPart(RecommendationPart $recommendationPart): self
+    {
+        if ($this->recommendationParts->contains($recommendationPart)) {
+            $this->recommendationParts->removeElement($recommendationPart);
+            // set the owning side to null (unless already changed)
+            if ($recommendationPart->getRepairOrderRecommendationId() === $this) {
+                $recommendationPart->setRepairOrderRecommendationId(null);
+            }
+        }
 
         return $this;
     }
