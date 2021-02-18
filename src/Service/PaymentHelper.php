@@ -63,12 +63,11 @@ class PaymentHelper
      */
     public function sendPayment(RepairOrderPayment $payment, bool $resend = false): void
     {
-
         if (null !== $payment->getDateSent() && true !== $resend) {
             throw new \InvalidArgumentException('Payment already sent');
         }
 
-        $url = $_ENV['CUSTOMER_URL'] . $payment->getRepairOrder()->getLinkHash();
+        $url = $_ENV['CUSTOMER_URL'].$payment->getRepairOrder()->getLinkHash();
         $message = $this->settings->find('serviceTextPayment')->getValue();
         $phone = $payment->getRepairOrder()->getPrimaryCustomer()->getPhone();
 
@@ -112,6 +111,14 @@ class PaymentHelper
             // TODO: Fail gracefully
         } finally {
             $this->commitPayment($payment);
+            $email = $payment->getRepairOrder()->getPrimaryCustomer()->getEmail();
+            if ($email) {
+                try {
+                    $this->sendReceipt($payment, $email);
+                } catch (\Throwable $e) {
+                    //do nothing.
+                }
+            }
         }
     }
 
@@ -143,10 +150,14 @@ class PaymentHelper
     public function deletePayment(RepairOrderPayment $payment): void
     {
         if (null !== $payment->getDatePaid()) {
-            throw new \InvalidArgumentException('Paid payments cannot be deleted');
+            throw new \InvalidArgumentException('Paid payments cannot be deleted.');
         }
         if ($payment->isDeleted()) {
-            throw new \InvalidArgumentException('Payment already deleted');
+            throw new \InvalidArgumentException('Payment already deleted.');
+        }
+
+        if ($payment->getDateRefunded()) {
+            throw new \InvalidArgumentException('Payment has been refunded.');
         }
 
         $payment->setDeleted(true);
@@ -167,7 +178,6 @@ class PaymentHelper
         }
 
         $dealerName = $this->settings->find('generalName')->getValue();
-
 
         $sent = $this->mailer->sendMailFromTemplate(
             "iService Auto {$dealerName} Payment Receipt",

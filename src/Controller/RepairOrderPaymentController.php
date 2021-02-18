@@ -9,6 +9,7 @@ use App\Helper\FalsyTrait;
 use App\Money\MoneyHelper;
 use App\Response\ValidationResponse;
 use App\Service\PaymentHelper;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Money\Exception\ParserException;
@@ -23,7 +24,7 @@ use Twilio\Exceptions\TwilioException;
 /**
  * Class RepairOrderPaymentController.
  *
- * @Rest\Route("/api/repair-order/{ro}/payment")
+ * @Rest\Route("/api/repair-order-payment")
  * @SWG\Tag(name="Repair Order Payment")
  * @SWG\Response(
  *     response="404",
@@ -35,7 +36,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
     use FalsyTrait;
 
     /**
-     * @Rest\Get
+     * @Rest\Get("")
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -44,9 +45,27 @@ class RepairOrderPaymentController extends AbstractFOSRestController
      *         @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
      *     )
      * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="query",
+     *     type="integer",
+     *     description="Repair Order ID"
+     * )
      */
-    public function getAll(RepairOrder $ro): Response
+    public function getPaymentsForRO(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $repairOrderID = $request->get('id');
+        // check if params are valid
+        if (!$repairOrderID) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // Check if Repair Order exists
+        $ro = $entityManager->getRepository(RepairOrder::class)->findByUID($repairOrderID);
+        if (!$ro) {
+            throw new NotFoundHttpException('Repair Order not found');
+        }
+
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -71,12 +90,28 @@ class RepairOrderPaymentController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
      *
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The Repair Order ID"
+     * )
      * @SWG\Parameter(name="amount", type="string", in="formData", required=true)
      */
-    public function createPayment(RepairOrder $ro, Request $request, PaymentHelper $helper): Response
+    public function createPayment(Request $request, PaymentHelper $helper, EntityManagerInterface $entityManager): Response
     {
-        if ($ro->getDeleted()) {
-            throw new NotFoundHttpException();
+        $repairOrderID = $request->get('id');
+
+        // check if params are valid
+        if (!$repairOrderID) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // Check if Repair Order exists
+        $ro = $entityManager->getRepository(RepairOrder::class)->findByUID($repairOrderID);
+        if (!$ro) {
+            throw new NotFoundHttpException('Repair Order not found');
         }
 
         try {
@@ -92,44 +127,45 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         return $this->handleView($view);
     }
 
+//
+//    /**
+//     * @Rest\Get("/{payment}")
+//     * @SWG\Response(
+//     *     response="200",
+//     *     description="Success!",
+//     *     @SWG\Schema(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
+//     * )
+//     */
+//    public function getOne(RepairOrder $ro, RepairOrderPayment $payment): Response
+//    {
+//        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
+//            throw new NotFoundHttpException();
+//        }
+//
+//        $view = $this->view($payment);
+//        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
+//
+//        return $this->handleView($view);
+//    }
+
     /**
-     * @Rest\Get("/{payment}")
-     * @SWG\Response(
-     *     response="200",
-     *     description="Success!",
-     *     @SWG\Schema(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
-     * )
-     */
-    public function getOne(RepairOrder $ro, RepairOrderPayment $payment): Response
-    {
-        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
-            throw new NotFoundHttpException();
-        }
-
-        $view = $this->view($payment);
-        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
-
-        return $this->handleView($view);
-    }
-
-    /**
-     * @Rest\Delete("/{payment}")
+     * @Rest\Delete("/{id}")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="Paid payments cannot be deleted")
      */
-    public function delete(RepairOrder $ro, RepairOrderPayment $payment, PaymentHelper $helper): Response
+    public function delete(RepairOrderPayment $id, PaymentHelper $helper): Response
     {
-        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
+        if ($id->getRepairOrder()->getDeleted() || $id->isDeleted()) {
             throw new NotFoundHttpException();
         }
 
-        if (null !== $payment->getDatePaid()) {
+        if (null !== $id->getDatePaid()) {
             return $this->handleView($this->view([
                 'message' => 'Paid payments cannot be deleted',
             ], Response::HTTP_BAD_REQUEST));
         }
 
-        $helper->deletePayment($payment);
+        $helper->deletePayment($id);
 
         return $this->handleView($this->view([
             'message' => 'Payment deleted',
@@ -137,32 +173,45 @@ class RepairOrderPaymentController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/{payment}/send")
+     * @Rest\Post("/send")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="Payment already sent")
      * @SWG\Response(response="500", description="Unable to send payment")
      *
+     * @SWG\Parameter(name="repairOrderPaymentId", type="integer", in="formData", description="Repair Order Payment ID")
      * @SWG\Parameter(name="resend", type="boolean", in="formData", description="Resend payment")
      */
     public function sendPayment(
-        RepairOrder $ro,
-        RepairOrderPayment $payment,
         Request $request,
-        PaymentHelper $helper
+        PaymentHelper $helper,
+        EntityManagerInterface $entityManager
     ): Response {
-        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
+        $repairOrderPaymentId = $request->get('repairOrderPaymentId');
+
+        // check if params are valid
+        if (!$repairOrderPaymentId) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // Check if Repair Order Payment exists
+        $rop = $entityManager->getRepository(RepairOrderPayment::class)->find($repairOrderPaymentId);
+        if (!$rop) {
+            throw new NotFoundHttpException('Repair Order not found');
+        }
+
+        if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
             throw new NotFoundHttpException();
         }
 
         $resend = $this->paramToBool($request->request->get('resend', false));
-        if (true !== $resend && null !== $payment->getDateSent()) {
+        if (true !== $resend && null !== $rop->getDateSent()) {
             return $this->handleView($this->view([
                 'message' => 'Payment already sent',
             ], Response::HTTP_BAD_REQUEST));
         }
 
         try {
-            $helper->sendPayment($payment, $resend);
+            $helper->sendPayment($rop, $resend);
         } catch (TwilioException $e) {
             return $this->handleView($this->view([
                 'message' => 'Unable to send payment',
@@ -173,8 +222,6 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             'message' => 'Payment sent',
         ]));
     }
-
-
 
     /*
      * @Rest\Post("/{payment}/view")
@@ -195,7 +242,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/{payment}/pay")
+     * @Rest\Post("/pay")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(
      *     response="400",
@@ -205,19 +252,36 @@ class RepairOrderPaymentController extends AbstractFOSRestController
      *     )
      * )
      * @SWG\Response(response="500", description="Could not contact payment server")
-     *
+     * @SWG\Parameter(name="repairOrderPaymentId", type="integer", in="formData")
      * @SWG\Parameter(name="paymentToken", type="string", in="formData", required=true)
      */
     public function payPayment(
-        RepairOrder $ro,
-        RepairOrderPayment $payment,
         Request $request,
-        PaymentHelper $helper
+        PaymentHelper $helper,
+        EntityManagerInterface $entityManager
     ): Response {
-        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
+        $repairOrderPaymentId = $request->get('repairOrderPaymentId');
+
+        // check if params are valid
+        if (!$repairOrderPaymentId) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // Check if Repair Order Payment exists
+        $rop = $entityManager->getRepository(RepairOrderPayment::class)->find($repairOrderPaymentId);
+        if (!$rop) {
+            throw new NotFoundHttpException('Repair Order not found');
+        }
+
+        if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
             throw new NotFoundHttpException();
         }
-        if (null !== $payment->getDatePaid()) {
+
+        if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        if (null !== $rop->getDatePaid()) {
             return $this->handleView($this->view([
                 'message' => 'Payment already paid',
             ], Response::HTTP_BAD_REQUEST));
@@ -226,7 +290,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         $message = null;
         $code = Response::HTTP_BAD_REQUEST;
         try {
-            $helper->payPayment($payment, $request->request->get('paymentToken'));
+            $helper->payPayment($rop, $request->request->get('paymentToken'));
             $message = 'Payment successful!';
             $code = Response::HTTP_OK;
         } catch (PaymentException $e) {
@@ -241,7 +305,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/{payment}/refund")
+     * @Rest\Post("/refund")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(
      *     response="400",
@@ -251,16 +315,32 @@ class RepairOrderPaymentController extends AbstractFOSRestController
      *     )
      * )
      * @SWG\Response(response="500", description="Could not contact payment server")
-     *
+     * @SWG\Parameter(name="repairOrderPaymentId", type="integer", in="formData")
      * @SWG\Parameter(name="amount", type="string", in="formData", required=true)
      */
     public function refundPayment(
-        RepairOrder $ro,
-        RepairOrderPayment $payment,
         Request $request,
-        PaymentHelper $helper
+        PaymentHelper $helper,
+        EntityManagerInterface $entityManager
     ): Response {
-        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
+        $repairOrderPaymentId = $request->get('repairOrderPaymentId');
+
+        // check if params are valid
+        if (!$repairOrderPaymentId) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // Check if Repair Order Payment exists
+        $rop = $entityManager->getRepository(RepairOrderPayment::class)->find($repairOrderPaymentId);
+        if (!$rop) {
+            throw new NotFoundHttpException('Repair Order not found');
+        }
+
+        if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
             throw new NotFoundHttpException();
         }
 
@@ -273,7 +353,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         $code = Response::HTTP_OK;
         $message = null;
         try {
-            $helper->refundPayment($payment, $amount);
+            $helper->refundPayment($rop, $amount);
             $message = 'Refund successful';
         } catch (\InvalidArgumentException | PaymentException $e) {
             $message = $e->getMessage();
@@ -289,25 +369,42 @@ class RepairOrderPaymentController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/{payment}/sendReceipt")
+     * @Rest\Post("/send-receipt")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="Payment has not been paid")
      * @SWG\Response(response="500", description="Could not send mail")
      *
+     * @SWG\Parameter(name="repairOrderPaymentId", type="integer", in="formData")
      * @SWG\Parameter(name="sendTo", type="string", in="formData", required=true)
      */
     public function sendReceipt(
-        RepairOrder $ro,
-        RepairOrderPayment $payment,
         Request $request,
-        PaymentHelper $helper
+        PaymentHelper $helper,
+        EntityManagerInterface $entityManager
     ): Response {
-        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
+        $repairOrderPaymentId = $request->get('repairOrderPaymentId');
+
+        // check if params are valid
+        if (!$repairOrderPaymentId) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // Check if Repair Order Payment exists
+        $rop = $entityManager->getRepository(RepairOrderPayment::class)->find($repairOrderPaymentId);
+        if (!$rop) {
+            throw new NotFoundHttpException('Repair Order not found');
+        }
+
+        if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
             throw new NotFoundHttpException();
         }
 
         $text = null;
-        if (null === $payment->getDatePaid()) {
+        if (null === $rop->getDatePaid()) {
             $text = 'Cannot send receipt for unpaid order';
         } elseif (!$request->request->has('sendTo')) {
             $text = 'Missing sendTo parameter';
@@ -321,7 +418,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         $text = 'Receipt sent';
         $code = Response::HTTP_OK;
         try {
-            $helper->sendReceipt($payment, $request->request->get('sendTo'));
+            $helper->sendReceipt($rop, $request->request->get('sendTo'));
         } catch (\Throwable $e) {
             $text = 'Could not send receipt';
             $code = Response::HTTP_INTERNAL_SERVER_ERROR;
