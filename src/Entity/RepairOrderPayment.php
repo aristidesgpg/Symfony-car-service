@@ -78,7 +78,7 @@ class RepairOrderPayment
      * @ORM\Column(type="datetime", nullable=true)
      * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
-    private $datePaidViewed;
+    private $dateConfirmed;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -98,13 +98,13 @@ class RepairOrderPayment
     private $deleted = false;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $cardType;
 
     /**
-     * @ORM\Column(type="string", length=4, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $cardNumber;
@@ -264,17 +264,17 @@ class RepairOrderPayment
         return $this;
     }
 
-    public function getDatePaidViewed(): ?\DateTime
+    public function getDateConfirmed(): ?\DateTime
     {
-        return $this->datePaidViewed;
+        return $this->dateConfirmed;
     }
 
     /**
      * @return $this
      */
-    public function setDatePaidViewed(\DateTime $datePaidViewed): self
+    public function setDateConfirmed(\DateTime $dateConfirmed): self
     {
-        $this->datePaidViewed = $datePaidViewed;
+        $this->dateConfirmed = $dateConfirmed;
 
         return $this;
     }
@@ -324,7 +324,7 @@ class RepairOrderPayment
         return $this;
     }
 
-    public function getCardType(): ?int
+    public function getCardType(): ?string
     {
         return $this->cardType;
     }
@@ -332,7 +332,7 @@ class RepairOrderPayment
     /**
      * @return $this
      */
-    public function setCardType(int $cardType): self
+    public function setCardType(string $cardType): self
     {
         $this->cardType = $cardType;
 

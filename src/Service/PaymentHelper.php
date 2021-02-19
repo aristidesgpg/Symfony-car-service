@@ -82,7 +82,7 @@ class PaymentHelper
     {
         $date = new \DateTime();
         if ($paid) {
-            $payment->setDatePaidViewed($date);
+            $payment->setDateConfirmed($date);
             $interaction = 'Paid Viewed';
         } else {
             $payment->setDateViewed($date);
@@ -98,11 +98,11 @@ class PaymentHelper
     public function payPayment(RepairOrderPayment $payment, string $paymentToken): void
     {
         $response = $this->nmi->makePayment($paymentToken, $payment->getAmountString())->getParsedResponse();
-        $transactionId = $response['transaction_id'] ?? null;
+
+        $transactionId = $response['transactionid'] ?? null;
         $payment->setTransactionId($transactionId);
         $payment->setDatePaid(new \DateTime());
         $this->createInteraction($payment, 'Paid');
-
         try {
             $lookup = $this->nmi->lookupTransaction($transactionId);
             $payment->setCardType($lookup['transaction']['cc_type']);

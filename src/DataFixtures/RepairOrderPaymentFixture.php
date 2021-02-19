@@ -42,7 +42,7 @@ class RepairOrderPaymentFixture extends Fixture implements DependentFixtureInter
                 $this->addInteraction('Paid', $payment, $paid);
 
                 $paidViewed = (clone $paid)->add($minInterval);
-                $payment->setDatePaidViewed($paidViewed);
+                $payment->setDateConfirmed($paidViewed);
                 $this->addInteraction('Paid Viewed', $payment, $paidViewed);
 
                 $receiptSent = (clone $paidViewed)->add($minInterval);
