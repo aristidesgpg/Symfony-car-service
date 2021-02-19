@@ -282,6 +282,45 @@ class RepairOrderRepository extends ServiceEntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
+    /**
+     * @param null   $start
+     * @param null   $end
+     *
+     * @return Query|null
+     * @throws Exception
+     */
+    public function getAllArchives($start = null, $end = null) {
+        if (is_null($end)) {
+            $end = new DateTime();
+        } else {
+            $end = new DateTime($end);
+        }
+
+        if ($start) {
+            $start = new DateTime($start);
+        }
+
+        try {
+            $qb = $this->createQueryBuilder('ro');
+            $qb->andWhere('ro.deleted = false')->andWhere('ro.archived = true');
+
+            if ($start && $end) {
+                $qb->andWhere('ro.dateCreated BETWEEN :start AND :end')
+                    ->setParameter('start', $start->format('Y-m-d H:i'))
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
+            } else {
+                $qb->andWhere('ro.dateCreated < :end')
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
+            }
+            
+            $qb->orderBy('ro.dateCreated', 'DESC');            
+
+            return $qb->getQuery();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
