@@ -76,7 +76,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             }
         }
         $view = $this->view($payments);
-        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
+        $view->getContext()->setGroups(['rop_list']);
 
         return $this->handleView($view);
     }
@@ -122,31 +122,31 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         $payment = $helper->addPayment($ro, $amount);
         $view = $this->view($payment);
-        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
+        $view->getContext()->setGroups(['rop_list']);
 
         return $this->handleView($view);
     }
 
-//
-//    /**
-//     * @Rest\Get("/{payment}")
-//     * @SWG\Response(
-//     *     response="200",
-//     *     description="Success!",
-//     *     @SWG\Schema(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
-//     * )
-//     */
-//    public function getOne(RepairOrder $ro, RepairOrderPayment $payment): Response
-//    {
-//        if ($ro->getDeleted() || $payment->isDeleted() || $ro !== $payment->getRepairOrder()) {
-//            throw new NotFoundHttpException();
-//        }
-//
-//        $view = $this->view($payment);
-//        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
-//
-//        return $this->handleView($view);
-//    }
+
+    /**
+     * @Rest\Get("/{id}")
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
+     * )
+     */
+    public function getPaymentAndInteractions(RepairOrderPayment $payment): Response
+    {
+        if ($payment->getRepairOrder()->getDeleted() || $payment->isDeleted()) {
+            throw new NotFoundHttpException();
+        }
+
+        $view = $this->view($payment);
+        $view->getContext()->setGroups(['int_list']);
+
+        return $this->handleView($view);
+    }
 
     /**
      * @Rest\Delete("/{id}")

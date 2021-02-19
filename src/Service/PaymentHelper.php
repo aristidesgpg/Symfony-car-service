@@ -163,7 +163,6 @@ class PaymentHelper
         $payment->setDeleted(true);
         $payment->setDateDeleted(new \DateTime());
         $this->createInteraction($payment, 'Deleted');
-
         $this->commitPayment($payment);
     }
 
@@ -213,6 +212,7 @@ class PaymentHelper
 
     private function commitPayment(RepairOrderPayment $payment): void
     {
+
         if (null === $payment->getId()) {
             $this->em->persist($payment);
         }
@@ -225,5 +225,6 @@ class PaymentHelper
             $this->em->rollback();
             throw new \RuntimeException('Caught exception during flush', 0, $e);
         }
+
     }
 }

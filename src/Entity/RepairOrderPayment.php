@@ -13,13 +13,13 @@ use Money\Money;
  */
 class RepairOrderPayment
 {
-    public const GROUPS = ['rop_list'];
+    public const GROUPS = ['rop_list', 'int_list'];
 
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $id;
 
@@ -31,64 +31,64 @@ class RepairOrderPayment
     /**
      * @ORM\Column(type="money")
      * @Serializer\Accessor(getter="getAmountString")
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      * @Serializer\Type(name="string")
      */
     private $amount;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $transactionId;
 
     /**
      * @ORM\Column(type="money", nullable=true)
      * @Serializer\Accessor(getter="getRefundedAmountString")
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      * @Serializer\Type(name="string")
      */
     private $refundedAmount;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $dateCreated;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $dateSent;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $dateViewed;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $datePaid;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $datePaidViewed;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $dateRefunded;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $dateDeleted;
 
@@ -99,13 +99,13 @@ class RepairOrderPayment
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $cardType;
 
     /**
      * @ORM\Column(type="string", length=4, nullable=true)
-     * @Serializer\Groups(groups={"rop_list"})
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
      */
     private $cardNumber;
 
@@ -116,6 +116,7 @@ class RepairOrderPayment
      *     cascade={"PERSIST"}
      * )
      * @ORM\OrderBy({"date"="DESC"})
+     * @Serializer\Groups(groups={"int_list"})
      */
     private $interactions;
 
