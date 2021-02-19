@@ -113,6 +113,106 @@ class RepairOrderRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @param null $sortField
+     * @param null $sortDirection
+     * @param null $searchTerm
+     */
+    public function findByNeedsVideo(User $user, $sortField = null, $sortDirection = null, $searchTerm = null)
+    {
+        $queryBuilder = $this->createQueryBuilder('ro');
+
+        // If tech, only get theirs or others where tech is null
+        if ($user->isTechnician()) {
+            $queryBuilder->andWhere('ro.primaryTechnician IS NULL OR ro.primaryTechnician = :primaryTechnician')
+                         ->setParameter('primaryTechnician', $user);
+        }
+
+        // Only non-archived, non-deleted, non-closed repair orders matter
+        $queryBuilder->andWhere('ro.deleted = 0')
+                     ->andWhere('ro.dateClosed IS NULL')
+                     ->andWhere('ro.archived = 0');
+
+        // They passed a search term
+        if ($searchTerm) {
+            $query = '';
+            $queryBuilder->leftJoin('ro.primaryCustomer', 'ro_customer')
+                         ->leftJoin('ro.primaryTechnician', 'ro_technician')
+                         ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
+
+            $searchFields = [
+                'ro' => ['number', 'year', 'model', 'miles', 'vin'],
+                'ro_customer' => ['name', 'phone', 'email'],
+                'ro_advisor' => ['combine_name', 'phone', 'email'],
+                'ro_technician' => ['combine_name', 'phone', 'email'],
+            ];
+
+            foreach ($searchFields as $class => $fields) {
+                foreach ($fields as $field) {
+                    if ($field === 'combine_name') {
+                        $query .= "CONCAT($class.firstName , ' ' , $class.lastName) LIKE :searchTerm OR ";
+                    } else {
+                        $query .= "$class.$field LIKE :searchTerm OR ";
+                    }
+                }
+            }
+
+            $query = substr($query, 0, strlen($query) - 4);
+
+            $queryBuilder->andWhere($query)
+                         ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        }
+
+        // They passed sort data
+        if ($sortDirection) {
+            $queryBuilder->orderBy('ro.'.$sortField, $sortDirection);
+
+            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortDirection'] = $sortDirection;
+        }
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
+    /**
+     * @param null   $start
+     * @param null   $end
+     *
+     * @return Query|null
+     * @throws Exception
+     */
+    public function getAllArchives($start = null, $end = null) {
+        if (is_null($end)) {
+            $end = new DateTime();
+        } else {
+            $end = new DateTime($end);
+        }
+
+        if ($start) {
+            $start = new DateTime($start);
+        }
+
+        try {
+            $qb = $this->createQueryBuilder('ro');
+            $qb->andWhere('ro.deleted = false')->andWhere('ro.archived = true');
+
+            if ($start && $end) {
+                $qb->andWhere('ro.dateCreated BETWEEN :start AND :end')
+                    ->setParameter('start', $start->format('Y-m-d H:i'))
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
+            } else {
+                $qb->andWhere('ro.dateCreated < :end')
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
+            }
+            
+            $qb->orderBy('ro.dateCreated', 'DESC');            
+
+            return $qb->getQuery();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
