@@ -55,6 +55,7 @@ class ReportingControllerTest extends WebTestCase
 
     private function requestAction($page=null, $pageLimit=null) {
         $apiUrl = '/api/reporting/archive';
+
         if ($page !== null && $pageLimit !== null) {
             $apiUrl = $apiUrl . '?page=' . $page . '&pageLimit=' . $pageLimit;
         }
