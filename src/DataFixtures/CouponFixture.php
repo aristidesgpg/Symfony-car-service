@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Coupon;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 use Faker\Factory;
 use App\Service\ImageUploader;
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
@@ -89,5 +90,25 @@ class CouponFixture extends Fixture {
 
             $this->addReference('coupon_' . $i, $coupon);
         }
+
+        // upload image for unit test ing
+        /*$file = $this->createFileObject($image);
+        if ($file) {
+            $uploadsDirectory = 'tests/Fixtures/' . 'uploads';
+            $filename         = 'testImage' . '.' . $file->guessExtension();
+            $validExtensions  = ['jpg', 'jpeg', 'png'];
+            if (!(in_array($file->guessExtension(), $validExtensions))) {
+                return false;
+            }
+
+            try {
+                $file->move(
+                    $uploadsDirectory,
+                    $filename
+                );
+            } catch (Exception  $e) {
+                return false;
+            }
+        }*/
     }
 }
