@@ -39,10 +39,22 @@ class ReportingControllerTest extends WebTestCase
             $this->assertEmpty($this->token, 'Token is null');
             return;
         }
+
+        // Ok
+        $this->requestAction();
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
+
+        // Page limit validation
+        $page      = 1;
+        $pageLimit = 0;
+        $this->requestAction($page, $pageLimit);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    private function requestList($page=null, $pageLimit=null) {
-        $apiUrl = '/api/reporting';
+    private function requestAction($page=null, $pageLimit=null) {
+        $apiUrl = '/api/reporting/archive';
         if ($page !== null && $pageLimit !== null) {
             $apiUrl = $apiUrl . '?page=' . $page . '&pageLimit=' . $pageLimit;
         }
