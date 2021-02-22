@@ -20,10 +20,14 @@ class TwilioHelper {
     /** @var string */
     private $fromNumber;
 
-    public function __construct (Client $twilio, EntityManagerInterface $em, SettingsHelper $settings) {
-        $this->twilio     = $twilio;
-        $this->em         = $em;
-        $this->fromNumber = '+1' . $settings->getSetting('serviceTwilioFromNumber');
+    /** @var PhoneValidator */
+    private $phoneValidator;
+
+    public function __construct (Client $twilio, EntityManagerInterface $em, SettingsHelper $settings, PhoneValidator $phoneValidator) {
+        $this->twilio         = $twilio;
+        $this->em             = $em;
+        $this->fromNumber     = '+1' . $settings->getSetting('serviceTwilioFromNumber');
+        $this->phoneValidator = $phoneValidator;
     }
 
     /**
@@ -100,7 +104,8 @@ class TwilioHelper {
                 $response['message'] ?? 'Unknown'
             );
             $this->logInfo($error);
-            // throw new \RuntimeException($error);
+            if($this->phoneValidator->isMobile())
+                throw new \RuntimeException($error);
         }
     }
 }
