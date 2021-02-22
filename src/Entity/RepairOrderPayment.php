@@ -110,6 +110,12 @@ class RepairOrderPayment
     private $cardNumber;
 
     /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     * @Serializer\Groups(groups={"rop_list", "int_list"})
+     */
+    private $status;
+
+    /**
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\RepairOrderPaymentInteraction",
      *     mappedBy="repairOrderPayment",
@@ -353,6 +359,24 @@ class RepairOrderPayment
     public function setCardNumber(string $cardNumber): self
     {
         $this->cardNumber = $cardNumber;
+
+        return $this;
+    }
+
+    /**
+     * @return ?string
+     */
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

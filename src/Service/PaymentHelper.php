@@ -29,6 +29,16 @@ class PaymentHelper
     /** @var MailerHelper */
     private $mailer;
 
+    /** @var string[] */
+    private $validStatusesInOrder = [
+        'Created',
+        'Sent',
+        'Viewed',
+        'Paid',
+        'Confirmed',
+        'Refunded',
+    ];
+
     /**
      * PaymentHelper constructor.
      */
@@ -50,22 +60,43 @@ class PaymentHelper
     {
         $payment = new RepairOrderPayment();
         $payment->setRepairOrder($ro)
-                ->setAmount($amount)
-                ->setDateCreated(new \DateTime());
+            ->setAmount($amount)
+            ->setDateCreated(new \DateTime())
+            ->setStatus($this->statusCalculator('Created', $payment->getStatus()));
         $this->createInteraction($payment, 'Created');
         $this->commitPayment($payment);
 
         return $payment;
     }
 
+    public function statusCalculator(string $desiredStatus, ?string $currentStatus): ?string
+    {
+        if (!in_array($desiredStatus, $this->getValidStatusesInOrder())) {
+            return $currentStatus;
+        }
+
+        if (!$currentStatus) {
+            return $desiredStatus;
+        }
+
+        $desiredStatusRank = array_search($desiredStatus, $this->getValidStatusesInOrder());
+        $currentStatusRank = array_search($currentStatus, $this->getValidStatusesInOrder());
+
+        if ($desiredStatusRank > $currentStatusRank) {
+            return $desiredStatus;
+        }
+
+        return $currentStatus;
+    }
+
     /**
      * @throws TwilioException
      */
-    public function sendPayment(RepairOrderPayment $payment, bool $resend = false): void
+    public function sendPayment(RepairOrderPayment $payment): void
     {
-        if (null !== $payment->getDateSent() && true !== $resend) {
-            throw new \InvalidArgumentException('Payment already sent');
-        }
+//        if (null !== $payment->getDateSent() && true !== $resend) {
+//            throw new \InvalidArgumentException('Payment already sent');
+//        }
 
         $url = $_ENV['CUSTOMER_URL'].$payment->getRepairOrder()->getLinkHash();
         $message = $this->settings->find('serviceTextPayment')->getValue();
@@ -74,6 +105,7 @@ class PaymentHelper
         $this->urlHelper->sendShortenedLink($phone, $message, $url);
 
         $payment->setDateSent(new \DateTime());
+        $payment->setStatus($this->statusCalculator('Sent', $payment->getStatus()));
         $this->createInteraction($payment, 'Sent');
         $this->commitPayment($payment);
     }
@@ -88,6 +120,15 @@ class PaymentHelper
             $payment->setDateViewed($date);
             $interaction = 'Viewed';
         }
+        $payment->setStatus($this->statusCalculator('Viewed', $payment->getStatus()));
+        $this->createInteraction($payment, $interaction);
+        $this->commitPayment($payment);
+    }
+
+    public function confirmPayment(RepairOrderPayment $payment): void
+    {
+        $interaction = 'Confirmed';
+        $payment->setStatus($this->statusCalculator($interaction, $payment->getStatus()));
         $this->createInteraction($payment, $interaction);
         $this->commitPayment($payment);
     }
@@ -103,6 +144,7 @@ class PaymentHelper
         $payment->setTransactionId($transactionId);
         $payment->setDatePaid(new \DateTime());
         $this->createInteraction($payment, 'Paid');
+        $payment->setStatus($this->statusCalculator('Paid', $payment->getStatus()));
         try {
             $lookup = $this->nmi->lookupTransaction($transactionId);
             $payment->setCardType($lookup['transaction']['cc_type']);
@@ -144,6 +186,7 @@ class PaymentHelper
         $payment->setDateRefunded(new \DateTime())
                 ->setRefundedAmount(isset($totalRefunded) ? $totalRefunded : $amount);
         $this->createInteraction($payment, 'Refunded');
+        $payment->setStatus($this->statusCalculator('Refunded', $payment->getStatus()));
         $this->commitPayment($payment);
     }
 
@@ -212,7 +255,6 @@ class PaymentHelper
 
     private function commitPayment(RepairOrderPayment $payment): void
     {
-
         if (null === $payment->getId()) {
             $this->em->persist($payment);
         }
@@ -226,5 +268,107 @@ class PaymentHelper
             throw new \RuntimeException('Caught exception during flush', 0, $e);
         }
 
+        $this->updateRepairOrderStatus($payment);
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
+     */
+    public function updateRepairOrderStatus(RepairOrderPayment $payment)
+    {
+        $repairOrder = $payment->getRepairOrder();
+        $rops = $repairOrder->getPayments();
+        $currentPaymentRank = array_search($payment->getStatus(), $this->getValidStatusesInOrder());
+
+        foreach ($rops as $rop) {
+            if (!$rop->getStatus()) {
+                continue;
+            }
+            if ($rop->getId() == $payment->getId()) {
+                continue;
+            }
+            $ropStatusRank = array_search($rop->getStatus(), $this->getValidStatusesInOrder());
+            if ($ropStatusRank < $currentPaymentRank) {
+                $currentPaymentRank = $ropStatusRank;
+            }
+        }
+
+        $repairOrder->setPaymentStatus($this->getValidStatusesInOrder()[$currentPaymentRank]);
+        $this->em->persist($repairOrder);
+
+        $this->em->beginTransaction();
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            throw new \RuntimeException('Caught exception during flush', 0, $e);
+        }
+    }
+
+    public function getEm(): EntityManagerInterface
+    {
+        return $this->em;
+    }
+
+    public function setEm(EntityManagerInterface $em): void
+    {
+        $this->em = $em;
+    }
+
+    public function getNmi(): NMI
+    {
+        return $this->nmi;
+    }
+
+    public function setNmi(NMI $nmi): void
+    {
+        $this->nmi = $nmi;
+    }
+
+    public function getUrlHelper(): ShortUrlHelper
+    {
+        return $this->urlHelper;
+    }
+
+    public function setUrlHelper(ShortUrlHelper $urlHelper): void
+    {
+        $this->urlHelper = $urlHelper;
+    }
+
+    public function getSettings(): SettingsRepository
+    {
+        return $this->settings;
+    }
+
+    public function setSettings(SettingsRepository $settings): void
+    {
+        $this->settings = $settings;
+    }
+
+    public function getMailer(): MailerHelper
+    {
+        return $this->mailer;
+    }
+
+    public function setMailer(MailerHelper $mailer): void
+    {
+        $this->mailer = $mailer;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getValidStatusesInOrder(): array
+    {
+        return $this->validStatusesInOrder;
+    }
+
+    /**
+     * @param string[] $validStatusesInOrder
+     */
+    public function setValidStatusesInOrder(array $validStatusesInOrder): void
+    {
+        $this->validStatusesInOrder = $validStatusesInOrder;
     }
 }
