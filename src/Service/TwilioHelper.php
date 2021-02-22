@@ -100,7 +100,7 @@ class TwilioHelper {
                 $response['message'] ?? 'Unknown'
             );
             $this->logInfo($error);
-            throw new \RuntimeException($error);
+            // throw new \RuntimeException($error);
         }
     }
 }
