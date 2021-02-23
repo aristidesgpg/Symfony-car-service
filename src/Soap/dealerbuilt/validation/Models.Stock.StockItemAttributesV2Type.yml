@@ -1,0 +1,211 @@
+App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesV2Type:
+    properties:
+        accumulatedBalance:
+            -
+                Valid: null
+        advertisedSalePrice:
+            -
+                Valid: null
+        advertisingCost:
+            -
+                Valid: null
+        availability:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Available
+                        - Sold
+                        - Pending
+                        - Ordered
+                        - NotAvailable
+                        - Freight
+                        - Hold
+                        - Transit
+                    groups:
+                        - xsd_rules
+        baseMsrp:
+            -
+                Valid: null
+        baseRetailPrice:
+            -
+                Valid: null
+        bookRetail:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        bookWholeSale:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        cost:
+            -
+                Valid: null
+        dealerInventoryBalance:
+            -
+                Valid: null
+        dealerOptionsTotal:
+            -
+                Valid: null
+        deliveryMileage:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        explodeVin:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        floorAmount:
+            -
+                Valid: null
+        fuelType:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Gas
+                        - Diesel
+                        - Hybrid
+                        - Electric
+                        - Hydrogen
+                        - NaturalGas
+                    groups:
+                        - xsd_rules
+        generalJournalAdjustments:
+            -
+                Valid: null
+        holdback:
+            -
+                Valid: null
+        internalROCost:
+            -
+                Valid: null
+        invoiceBalance:
+            -
+                Valid: null
+        irtiPromoted:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        licensingFee:
+            -
+                Valid: null
+        msrp:
+            -
+                Valid: null
+        nadaRetail:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        nadaTrade:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        options:
+            -
+                Valid: null
+        ovAdvertisedSalePrice:
+            -
+                Valid: null
+        pDITechnician:
+            -
+                Valid: null
+        packageDiscount:
+            -
+                Valid: null
+        payFrom:
+            -
+                Valid: null
+        pendingBid:
+            -
+                Valid: null
+        price:
+            -
+                Valid: null
+        rebates:
+            -
+                Valid: null
+        status:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Ground
+                        - Coming
+                    groups:
+                        - xsd_rules
+        stockDataAttributes:
+            -
+                Valid: null
+        totalFacOptsCost:
+            -
+                Valid: null
+        totalFacOptsRetail:
+            -
+                Valid: null
+        type:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Car
+                        - Truck
+                        - Van
+                        - Suv
+                    groups:
+                        - xsd_rules
+        wholesalePrice:
+            -
+                Valid: null
+        writeDown:
+            -
+                Valid: null

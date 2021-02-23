@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfProductListType:
+    properties:
+        productList:
+            -
+                Valid: null

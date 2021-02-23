@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeBodyByNumber:
+  xml_root_name: Body
+#  xml_root_namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+  properties:
+    pullRepairOrderByNumberResponse:
+      expose: true
+      access_type: public_method
+      serialized_name: PullRepairOrderByNumberResponse
+      xml_element:
+        namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+      accessor:
+        getter: getPullRepairOrderByNumberResponse
+        setter: setPullRepairOrderByNumberResponse
+      type: App\Soap\dealerbuilt\src\PullRepairOrderByNumberResponse
+      xml_list:
+        inline: false
+        entry_name: PullRepairOrderByNumberResult
+        skip_when_empty: true
+        namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'

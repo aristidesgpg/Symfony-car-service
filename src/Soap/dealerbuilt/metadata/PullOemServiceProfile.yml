@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\PullOemServiceProfile:
+    xml_root_name: PullOemServiceProfile
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        inquiry:
+            expose: true
+            access_type: public_method
+            serialized_name: inquiry
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getInquiry
+                setter: setInquiry
+            type: App\Soap\dealerbuilt\src\BaseApi\VehicleInquiryType

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushEstimateJobsResponse:
+    properties:
+        pushEstimateJobsResult:
+            -
+                Valid: null

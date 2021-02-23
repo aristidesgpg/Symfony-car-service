@@ -1,0 +1,84 @@
+App\Soap\automate\src\ProcessEventType:
+    properties:
+        authenticationToken:
+            -
+                Valid: null
+        sourceThirdPartyId:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        dealerEndpointId:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        eventType:
+            -
+                Choice:
+                    choices:
+                        - DealerUp
+                        - DealerDown
+                        - ProcessVehicleInventoryBatch
+                        - ProcessVehicleInventoryChange
+                        - ProcessVehicleInventoryAdd
+                        - ProcessVehicleDeleted
+                        - ProcessCustomerChange
+                        - ProcessCustomerAdd
+                        - ProcessCustomerDeleted
+                        - ProcessDealChange
+                        - ProcessDealAdd
+                        - ProcessDealDeleted
+                        - GetSalespersonConfig
+                        - GetDealFees
+                        - GetDealAccessories
+                        - GetDealRebates
+                        - GetDealIncentives
+                        - GetDealInsuranceCompanies
+                        - GetDealServiceWarranties
+                        - GetDealLenders
+                        - ProcessServiceAppointmentCancel
+                        - ProcessServiceAppointmentAdd
+                        - ProcessServiceAppointmentChange
+                        - RepairOrderStatusChanged
+                        - GetAdvisorConfig
+                        - GetServiceCatalog
+                        - GetServiceTechs
+                        - GetRepairOrderStatuses
+                        - ProcessCreditAppAdd
+                        - ProcessCreditAppChange
+                        - GetVehicleInventoryKeys
+                        - GetServiceAppointmentKeys
+                        - GetDealKeys
+                        - GetRepairOrderKeys
+                        - GetCustomerKeys
+                        - GetCustomers
+                        - GetVehicleInventory
+                        - GetRepairOrders
+                        - GetServiceAppointments
+                        - ProcessFinancialStatement
+                        - GetDeals
+                        - ProcessCommand
+                        - GetServiceAppointmentFlags
+                    groups:
+                        - xsd_rules

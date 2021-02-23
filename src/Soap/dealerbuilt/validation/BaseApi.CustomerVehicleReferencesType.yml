@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleReferencesType:
+    properties:
+        owner:
+            -
+                Valid: null

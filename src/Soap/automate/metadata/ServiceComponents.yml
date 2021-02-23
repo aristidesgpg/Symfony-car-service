@@ -1,0 +1,44 @@
+App\Soap\automate\src\ServiceComponents:
+    xml_root_name: ServiceComponents
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        componentTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ComponentTypeCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getComponentTypeCode
+                setter: setComponentTypeCode
+            type: string
+        serviceDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getServiceDescription
+                setter: setServiceDescription
+            type: string
+        pricing:
+            expose: true
+            access_type: public_method
+            serialized_name: Pricing
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPricing
+                setter: setPricing
+            type: App\Soap\automate\src\Pricing
+        itemQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemQuantity
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getItemQuantity
+                setter: setItemQuantity
+            type: float

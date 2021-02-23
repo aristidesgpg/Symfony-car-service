@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Parts\ArrayOfPartsOrderLineType:
+    properties:
+        partsOrderLine:
+            -
+                Valid: null

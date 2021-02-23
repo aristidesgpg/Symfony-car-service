@@ -1,0 +1,102 @@
+App\Soap\dealerbuilt\src\Models\Stock\OptionType:
+    properties:
+        code:
+            expose: true
+            access_type: public_method
+            serialized_name: Code
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getCode
+                setter: setCode
+            type: string
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: Cost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        deleteFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: DeleteFlag
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getDeleteFlag
+                setter: setDeleteFlag
+            type: bool
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        listPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: ListPrice
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getListPrice
+                setter: setListPrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        manufacturerName:
+            expose: true
+            access_type: public_method
+            serialized_name: ManufacturerName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getManufacturerName
+                setter: setManufacturerName
+            type: string
+        optionId:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getOptionId
+                setter: setOptionId
+            type: string
+        optionName:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getOptionName
+                setter: setOptionName
+            type: string
+        optionNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getOptionNotes
+                setter: setOptionNotes
+            type: string
+        optionType:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getOptionType
+                setter: setOptionType
+            type: string

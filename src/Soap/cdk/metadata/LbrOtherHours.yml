@@ -1,0 +1,14 @@
+App\Soap\cdk\src\LbrOtherHours:
+    xml_root_name: lbrOtherHours
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties:
+        v:
+            expose: true
+            access_type: public_method
+            serialized_name: V
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+            accessor:
+                getter: getV
+                setter: setV
+            type: App\Soap\cdk\src\V

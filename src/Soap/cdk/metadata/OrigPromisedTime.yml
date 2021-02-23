@@ -1,0 +1,4 @@
+App\Soap\cdk\src\OrigPromisedTime:
+    xml_root_name: OrigPromisedTime
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

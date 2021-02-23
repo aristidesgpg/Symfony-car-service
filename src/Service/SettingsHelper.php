@@ -31,7 +31,8 @@ class SettingsHelper {
         'upgradeIntroText', 'upgradeOfferText', 'upgradeCashOfferCopy', 'upgradeDisclaimer',
         'generalName', 'generalEmail', 'generalWebsiteUrl', 'generalInventoryUrl', 'generaAddress',
         'generalAddress2', 'generalCity', 'generalState', 'generalZip', 'generalPhone',
-        'myReviewGoogleURL', 'myReviewFacebookURL', 'myReviewText', 'myReviewActivated',
+        'reviewGoogleUrl', 'reviewFacebookUrl', 'reviewText',
+        'usingAutomate', 'usingDealerBuilt', 'usingDealerTrack', 'usingCdk', 'dmsFilter', 'offHoursIntegration', 'customerURL'
     ];
 
     const VALID_FILE_SETTINGS = ['custAppPostInspectionVideo', 'generalLogo', 'reviewLogo'];

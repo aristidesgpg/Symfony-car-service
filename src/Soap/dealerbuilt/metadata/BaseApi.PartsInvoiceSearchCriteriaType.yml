@@ -1,0 +1,77 @@
+App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
+    properties:
+        closedScope:
+            expose: true
+            access_type: public_method
+            serialized_name: ClosedScope
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getClosedScope
+                setter: setClosedScope
+            type: string
+        deliveredScope:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveredScope
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDeliveredScope
+                setter: setDeliveredScope
+            type: string
+        deliveryScope:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveryScope
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDeliveryScope
+                setter: setDeliveryScope
+            type: string
+        maximumClosedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumClosedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumClosedStamp
+                setter: setMaximumClosedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumClosedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumClosedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumClosedStamp
+                setter: setMinimumClosedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        partsInvoiceNumbers:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsInvoiceNumbers
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPartsInvoiceNumbers
+                setter: setPartsInvoiceNumbers
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+        soldToCustomerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: SoldToCustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getSoldToCustomerKey
+                setter: setSoldToCustomerKey
+            type: string

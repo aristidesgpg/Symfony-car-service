@@ -1,0 +1,4 @@
+App\Soap\cdk\src\PrtExtendedSale:
+    xml_root_name: prtExtendedSale
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

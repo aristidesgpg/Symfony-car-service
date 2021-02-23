@@ -1,0 +1,42 @@
+App\Soap\automate\src\OwnerParty:
+    properties:
+        partyID:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        dealerManagementSystemID:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        alternatePartyDocument:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        specifiedPerson:
+            -
+                Valid: null
+        specifiedOrganization:
+            -
+                Valid: null
+        privacy:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

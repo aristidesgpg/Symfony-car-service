@@ -1,0 +1,82 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
+    properties:
+        closedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ClosedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getClosedDate
+                setter: setClosedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        freight:
+            expose: true
+            access_type: public_method
+            serialized_name: Freight
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getFreight
+                setter: setFreight
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        hazmat:
+            expose: true
+            access_type: public_method
+            serialized_name: Hazmat
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getHazmat
+                setter: setHazmat
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        labor:
+            expose: true
+            access_type: public_method
+            serialized_name: Labor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLabor
+                setter: setLabor
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        misc:
+            expose: true
+            access_type: public_method
+            serialized_name: Misc
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getMisc
+                setter: setMisc
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        parts:
+            expose: true
+            access_type: public_method
+            serialized_name: Parts
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getParts
+                setter: setParts
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        sublet:
+            expose: true
+            access_type: public_method
+            serialized_name: Sublet
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getSublet
+                setter: setSublet
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        taxesFees:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxesFees
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getTaxesFees
+                setter: setTaxesFees
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

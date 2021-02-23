@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullPartsResponse:
+    properties:
+        pullPartsResult:
+            -
+                Valid: null

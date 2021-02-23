@@ -1,0 +1,57 @@
+App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType:
+    properties:
+        externalPartsOrderId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalPartsOrderId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getExternalPartsOrderId
+                setter: setExternalPartsOrderId
+            type: string
+        lines:
+            expose: true
+            access_type: public_method
+            serialized_name: Lines
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getLines
+                setter: setLines
+            type: array<App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType>
+            xml_list:
+                inline: false
+                entry_name: PartsOrderLinePushRequest
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+        orderInfo:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderInfo
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getOrderInfo
+                setter: setOrderInfo
+            type: App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType
+        partsOrderKey:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsOrderKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPartsOrderKey
+                setter: setPartsOrderKey
+            type: string
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int

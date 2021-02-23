@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushRepairOrderLaborOperationSublets:
+    properties:
+        requests:
+            -
+                Valid: null

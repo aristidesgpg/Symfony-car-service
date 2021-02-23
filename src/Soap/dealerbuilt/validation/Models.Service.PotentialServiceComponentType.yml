@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\Models\Service\PotentialServiceComponentType:
+    properties:
+        price:
+            -
+                Valid: null
+        tax:
+            -
+                Valid: null

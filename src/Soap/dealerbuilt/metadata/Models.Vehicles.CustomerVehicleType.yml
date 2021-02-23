@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+        references:
+            expose: true
+            access_type: public_method
+            serialized_name: References
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getReferences
+                setter: setReferences
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType
+        stockAttributes:
+            expose: true
+            access_type: public_method
+            serialized_name: StockAttributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getStockAttributes
+                setter: setStockAttributes
+            type: App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
+        vehicleId:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getVehicleId
+                setter: setVehicleId
+            type: int

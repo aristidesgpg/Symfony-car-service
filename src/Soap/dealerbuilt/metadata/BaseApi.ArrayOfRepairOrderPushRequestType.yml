@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfRepairOrderPushRequestType:
+    properties:
+        repairOrderPushRequest:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderPushRequest
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getRepairOrderPushRequest
+                setter: setRepairOrderPushRequest
+            xml_list:
+                inline: true
+                entry_name: RepairOrderPushRequest
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType>

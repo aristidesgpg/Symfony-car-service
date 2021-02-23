@@ -1,0 +1,214 @@
+App\Soap\dealertrack\src\Labor:
+    xml_root_name: Labor
+    xml_root_namespace: opentrack.dealertrack.com
+    properties:
+        lineType:
+            expose: true
+            access_type: public_method
+            serialized_name: LineType
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLineType
+                setter: setLineType
+            type: string
+        lineSeqNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: LineSeqNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLineSeqNumber
+                setter: setLineSeqNumber
+            type: int
+        transactionCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TransactionCode
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getTransactionCode
+                setter: setTransactionCode
+            type: string
+        transactionDate:
+            expose: true
+            access_type: public_method
+            serialized_name: TransactionDate
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getTransactionDate
+                setter: setTransactionDate
+            type: int
+        linePaymentMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: LinePaymentMethod
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLinePaymentMethod
+                setter: setLinePaymentMethod
+            type: string
+        serviceType:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceType
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getServiceType
+                setter: setServiceType
+            type: string
+        policyAdjustment:
+            expose: true
+            access_type: public_method
+            serialized_name: PolicyAdjustment
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getPolicyAdjustment
+                setter: setPolicyAdjustment
+            type: App\Soap\dealertrack\src\PolicyAdjustment
+        technicianID:
+            expose: true
+            access_type: public_method
+            serialized_name: TechnicianID
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getTechnicianID
+                setter: setTechnicianID
+            type: string
+        laborOpCode:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborOpCode
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLaborOpCode
+                setter: setLaborOpCode
+            type: string
+        corrLaborOpCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CorrLaborOpCode
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getCorrLaborOpCode
+                setter: setCorrLaborOpCode
+            type: App\Soap\dealertrack\src\CorrLaborOpCode
+        laborHours:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborHours
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLaborHours
+                setter: setLaborHours
+            type: float
+        laborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLaborAmount
+                setter: setLaborAmount
+            type: float
+        laborCost:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborCost
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLaborCost
+                setter: setLaborCost
+            type: float
+        actualRetailFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualRetailFlag
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getActualRetailFlag
+                setter: setActualRetailFlag
+            type: string
+        failureCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FailureCode
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getFailureCode
+                setter: setFailureCode
+            type: string
+        subletVendorNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: SubletVendorNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getSubletVendorNumber
+                setter: setSubletVendorNumber
+            type: App\Soap\dealertrack\src\SubletVendorNumber
+        subletInvoiceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: SubletInvoiceNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getSubletInvoiceNumber
+                setter: setSubletInvoiceNumber
+            type: App\Soap\dealertrack\src\SubletInvoiceNumber
+        couponNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CouponNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getCouponNumber
+                setter: setCouponNumber
+            type: int
+        couponDiscountBasis:
+            expose: true
+            access_type: public_method
+            serialized_name: CouponDiscountBasis
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getCouponDiscountBasis
+                setter: setCouponDiscountBasis
+            type: App\Soap\dealertrack\src\CouponDiscountBasis
+        vATCode:
+            expose: true
+            access_type: public_method
+            serialized_name: VATCode
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getVATCode
+                setter: setVATCode
+            type: App\Soap\dealertrack\src\VATCode
+        vATAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: VATAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getVATAmount
+                setter: setVATAmount
+            type: float
