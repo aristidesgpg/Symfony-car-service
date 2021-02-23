@@ -4,6 +4,7 @@ namespace App\Service\DMS;
 
 use App\Entity\Customer;
 use App\Entity\DMSResult;
+use App\Entity\Parts;
 use App\Entity\RepairOrder;
 use App\Entity\Settings;
 use App\Entity\User;
@@ -117,6 +118,7 @@ class DMS
 
         //TODO This needs to be revisited after the SettingsHelper branch is merged into master.
         $activeDMS = $em->getRepository(Settings::class)->findActiveDms();
+
         if ($this->getServiceLocator()->has($activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($activeDMS);
         }
@@ -430,6 +432,38 @@ class DMS
                 'email' => $dmsOpenRepairOrder->getCustomer()->getEmail(),
             ]
         );
+    }
+
+    public function getParts()
+    {
+        // Not integrated, do nothing
+        if (!$this->integration) {
+            return null;
+        }
+
+        $dmsParts = $this->integration->getParts();
+
+        // Loop over found repair orders
+        /**
+         * @var Parts $dmsPart
+         */
+        foreach ($dmsParts as $dmsPart) {
+            $this->upsertPart($dmsPart);
+        }
+
+        return $dmsParts;
+    }
+
+    public function upsertPart(Parts $part)
+    {
+        $entityPart = $this->getEm()->getRepository('App:Parts')->findOneBy(['number' => $part->getNumber()]);
+        if (!$entityPart) {
+            $entityPart = $part;
+        }
+        $entityPart->setAvailable($part->getAvailable());
+        $this->getEm()->persist($entityPart);
+        $this->getEm()->flush();
+
     }
 
     public function getTwilioHelper(): TwilioHelper

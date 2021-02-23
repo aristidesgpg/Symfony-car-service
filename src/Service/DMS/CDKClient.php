@@ -83,7 +83,7 @@ class CDKClient extends AbstractDMSClient
         $this->init();
     }
 
-    public function init()
+    public function init(): void
     {
         $this->buildSerializer('../src/Soap/cdk/metadata', 'App\Soap\cdk\src');
 
@@ -337,10 +337,16 @@ class CDKClient extends AbstractDMSClient
         return parent::phoneNormalizer($phoneNumbers->value());
     }
 
+    public function getParts(): array
+    {
+        // TODO: Implement getParts() method.
+        return [];
+    }
+
     /**
      * @return string
      */
-    public static function getDefaultIndexName()
+    public static function getDefaultIndexName(): string
     {
         return 'usingCdk';
     }

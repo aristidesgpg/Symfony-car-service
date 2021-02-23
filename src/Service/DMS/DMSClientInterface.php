@@ -2,22 +2,21 @@
 
 namespace App\Service\DMS;
 
-use App\Entity\RepairOrder;
-
 /**
  * Interface DMSClientInterface.
  */
 interface DMSClientInterface
 {
-    public function init();
+    public function init(): void;
 
-    public function getOpenRepairOrders();
+    public function getOpenRepairOrders(): array;
 
     /**
-     * @param array $openRepairOrders
      * @return mixed
      */
-    public function getClosedRoDetails(array $openRepairOrders);
+    public function getClosedRoDetails(array $openRepairOrders): array;
 
-    public static function getDefaultIndexName();
+    public static function getDefaultIndexName(): string;
+
+    public function getParts(): array;
 }

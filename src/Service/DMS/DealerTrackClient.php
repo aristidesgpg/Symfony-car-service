@@ -69,7 +69,7 @@ class DealerTrackClient extends AbstractDMSClient
         $this->init();
     }
 
-    public function init()
+    public function init(): void
     {
         $this->buildSerializer('../src/Soap/dealertrack/metadata', 'App\Soap\dealertrack\src');
         $this->initializeSoapClient($this->getWsdl());
@@ -236,6 +236,11 @@ class DealerTrackClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
+    public function getParts(): array
+    {
+        // TODO: Implement getParts() method.
+    }
+
     /**
      * @return string
      */
@@ -355,5 +360,6 @@ class DealerTrackClient extends AbstractDMSClient
     {
         return 'usingDealerTrack';
     }
+
 
 }

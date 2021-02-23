@@ -3,13 +3,16 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\Parts;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
+use App\Soap\dealerbuilt\src\BaseApi\InventoryPartType;
 use App\Soap\dealerbuilt\src\BaseApi\RepairOrderType;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelope;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeByKey;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeByNumber;
+use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopePullParts;
 use App\Soap\dealerbuilt\src\Models\PhoneNumberType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -69,7 +72,7 @@ class DealerBuiltClient extends AbstractDMSClient
         $this->init();
     }
 
-    public function init()
+    public function init(): void
     {
         $this->buildSerializer('../src/Soap/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
         $this->initializeSoapClient($this->getWsdl());
@@ -89,7 +92,6 @@ class DealerBuiltClient extends AbstractDMSClient
                     'Statuses' => ['Open'],
                 ],
             ];
-
 
             $result = $this->sendSoapCall('PullRepairOrders', [$searchCriteria], true);
 
@@ -152,10 +154,7 @@ class DealerBuiltClient extends AbstractDMSClient
         return $repairOrders;
     }
 
-    /**
-     * @param array $openRepairOrders
-     */
-    public function getClosedRoDetails(array $openRepairOrders)
+    public function getClosedRoDetails(array $openRepairOrders): array
     {
         $rosWithKeys = [];
         $rosWithoutKeys = [];
@@ -174,20 +173,18 @@ class DealerBuiltClient extends AbstractDMSClient
         if ($rosWithKeys) {
             $this->closeRosWithKeys($rosWithKeys);
 
-            return;
+            return [];
         }
 
         if ($rosWithoutKeys) {
             $this->closeRosWithoutKeys($rosWithoutKeys);
 
-            return;
+            return [];
         }
     }
 
     /**
      * @param $repairOrders
-     * @return array
-     * @return array
      */
     public function closeRosWithKeys($repairOrders): array
     {
@@ -229,8 +226,6 @@ class DealerBuiltClient extends AbstractDMSClient
 
     /**
      * @param $repairOrders
-     * @return array
-     * @return array
      */
     public function closeRosWithoutKeys($repairOrders): array
     {
@@ -267,11 +262,8 @@ class DealerBuiltClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
-
     /**
      * @param RepairOrder[] $repairOrders
-     * @return RepairOrderType|null
-     * @return RepairOrderType|null
      */
     public function closeRo(RepairOrderType $repairOrder, array $repairOrders): ?RepairOrderType
     {
@@ -338,106 +330,118 @@ class DealerBuiltClient extends AbstractDMSClient
         return null;
     }
 
+    public function getParts(): array
+    {
+        $parts = [];
+        if ($this->getSoapClient()) {
+            //create authentication token
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+
+            $searchCriteria = [
+                'searchCriteria' => [
+                    'MinimumAddedDate' => '2021-01-01T00:00:00.000Z',
+                    'ServiceLocationIds' => [$this->getServiceLocationId()],
+                ],
+            ];
+
+            $result = $this->sendSoapCall('PullParts', [$searchCriteria], true);
+
+            //Deserialize the soap result into objects.
+            $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopePullParts::class, 'xml');
+            /**
+             * @var InventoryPartType $dmsPart
+             */
+            foreach ($deserializedNode->getBody()->getPullPartsResponse()->getPullPartsResult() as $dmsPart) {
+                $part = new Parts();
+                $part->setNumber($dmsPart->getPartKey())
+                    ->setName($dmsPart->getAttributes()->getDescription())
+                    ->setBin($this->binProcessor($dmsPart->getAttributes()->getBins()))
+                    ->setAvailable($dmsPart->getAttributes()->getOnHandQuantity());
+
+                $parts[] = $part;
+            }
+
+            dump($parts);
+        }
+        return $parts;
+    }
 
     /**
-     * @return string
+     * @param $bins
      */
+    public function binProcessor($bins): ?string
+    {
+        if (is_array($bins)) {
+            if (empty($bins)) {
+                return null;
+            }
+
+            return implode(', ', $bins);
+        }
+
+        return $bins;
+    }
+
     public function getPostUrl(): string
     {
         return $this->postUrl;
     }
 
-    /**
-     * @param string $postUrl
-     */
     public function setPostUrl(string $postUrl): void
     {
         $this->postUrl = $postUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getWsdl(): string
     {
         return $this->wsdl;
     }
 
-    /**
-     * @param string $wsdl
-     */
     public function setWsdl(string $wsdl): void
     {
         $this->wsdl = $wsdl;
     }
 
-    /**
-     * @return string
-     */
     public function getTimeFrame(): string
     {
         return $this->timeFrame;
     }
 
-    /**
-     * @param string $timeFrame
-     */
     public function setTimeFrame(string $timeFrame): void
     {
         $this->timeFrame = $timeFrame;
     }
 
-    /**
-     * @return string
-     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $username
-     */
     public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
     public function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
-    /**
-     * @return string
-     */
     public function getServiceLocationId(): string
     {
         return $this->serviceLocationId;
     }
 
-    /**
-     * @param string $serviceLocationId
-     */
     public function setServiceLocationId(string $serviceLocationId): void
     {
         $this->serviceLocationId = $serviceLocationId;
     }
 
-    /**
-     * @return string
-     */
     public static function getDefaultIndexName(): string
     {
         return 'usingDealerBuilt';

@@ -62,7 +62,7 @@ class AutoMateClient extends AbstractDMSClient
     /**
      * The ProcessEvent SOAP call is duplicated except for the EventType and the Payload.
      */
-    public function init()
+    public function init(): void
     {
         $this->buildSerializer('../src/Soap/automate/metadata', 'App\Soap\automate\src');
         $this->initializeSoapClient($this->getWsdl());
@@ -395,6 +395,12 @@ class AutoMateClient extends AbstractDMSClient
         }
 
         return $closedRepairOrders;
+    }
+
+    public function getParts(): array
+    {
+        // TODO: Implement getParts() method.
+        return [];
     }
 
     public function getWsdl(): string
