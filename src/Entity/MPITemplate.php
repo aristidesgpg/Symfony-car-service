@@ -14,7 +14,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class MPITemplate
 {
-    public const GROUPS = ['mpi_template_list' ,'mpi_group_list'];
+    public const GROUPS = ['mpi_template_list', 'mpi_group_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

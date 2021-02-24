@@ -62,7 +62,13 @@ class MPIItemRepository extends ServiceEntityRepository
                     ->getResult();
     }
 
-    public function findDuplication($name, $groupID){
+    /**
+     * @param $name
+     *
+     * @return int|mixed|string
+     */
+    public function findDuplication($name, ?int $groupID)
+    {
         return $this->createQueryBuilder('mi')
                     ->where("mi.name = '".$name."'")
                     ->andWhere('mi.mpiGroup = '.$groupID)

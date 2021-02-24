@@ -2,10 +2,12 @@
 
 namespace App\Service;
 
+use App\Controller\SettingsController;
 use RuntimeException;
 
 class ShortUrlHelper
 {
+    public const MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
     private const ENDPOINT = 'http://isre.us/api/create-short-url';
     private $accessToken;
     private $twilio;
@@ -23,13 +25,10 @@ class ShortUrlHelper
         if (!preg_match('/^http/', $url)) {
             $url = 'https://'.$url;
         }
-        $response = $this->curl(
-            self::ENDPOINT,
-            [
-                'access_token' => $this->accessToken,
-                'url' => $url,
-            ]
-        );
+        $response = $this->curl(self::ENDPOINT, [
+            'access_token' => $this->accessToken,
+            'url' => $url,
+        ]);
         if (!isset($response['url']) || empty($response['url'])) {
             throw new RuntimeException('Did not get short URL');
         }
@@ -40,15 +39,12 @@ class ShortUrlHelper
     private function curl(string $url, array $post): array
     {
         $curl = curl_init($url);
-        curl_setopt_array(
-            $curl,
-            [
-                CURLOPT_TIMEOUT => 20,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POST => true,
-                CURLOPT_POSTFIELDS => $post,
-            ]
-        );
+        curl_setopt_array($curl, [
+            CURLOPT_TIMEOUT => 20,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $post,
+        ]);
         $response = curl_exec($curl);
         if ($response === false) {
             $msg = sprintf('Encountered cURL error: (%d) %s', curl_errno($curl), curl_error($curl));

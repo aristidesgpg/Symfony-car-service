@@ -97,3 +97,17 @@ MySQL Version: 5.7.31
    
    1. php tools/vendor/bin/php-cs-fixer fix [FILE_PATH_HERE]
       example: php tools/vendor/bin/php-cs-fixer fix ./src/Command/UnleashTheKrakenCommand.php
+
+10. How to test? ( unit & functional testing )
+
+    1. For all tests
+
+           php bin/phpunit
+
+    2. For single test
+        
+           php bin/phpunit [FILE_PATH_HERE]
+           
+       Example:
+
+           php bin/phpunit tests/Controller/RepairOrderTeamControllerTest.php

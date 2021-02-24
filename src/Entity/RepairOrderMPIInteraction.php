@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderMPIInteractionRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderMPIInteractionRepository::class)

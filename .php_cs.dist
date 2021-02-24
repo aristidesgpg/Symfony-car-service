@@ -2,8 +2,6 @@
 
 $finder = PhpCsFixer\Finder::create()
     ->in(__DIR__.'/src')
-        ->exclude('Soap')
-
 ;
 
 return PhpCsFixer\Config::create()

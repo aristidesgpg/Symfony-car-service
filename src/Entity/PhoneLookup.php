@@ -8,7 +8,8 @@ use Twilio\Rest\Lookups\V1\PhoneNumberInstance;
 /**
  * @ORM\Entity(repositoryClass=PhoneLookup::class)
  */
-class PhoneLookup {
+class PhoneLookup
+{
     /**
      * @ORM\Id
      * @ORM\Column(type="string", length=12)
@@ -32,43 +33,40 @@ class PhoneLookup {
 
     /**
      * PhoneLookup constructor.
-     * @param string                   $phoneNumber
-     * @param PhoneNumberInstance|null $instance
      */
-    public function __construct(string $phoneNumber, ?PhoneNumberInstance $instance = null) {
+    public function __construct(string $phoneNumber, ?PhoneNumberInstance $instance = null)
+    {
         $this->phoneNumber = $phoneNumber;
         $this->created = new \DateTime();
-        if ($instance !== null) {
+        if (null !== $instance) {
             $this->carrierName = $instance->carrier['name'];
             $this->carrierType = $instance->carrier['type'];
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getPhoneNumber (): string {
+    public function getPhoneNumber(): string
+    {
         return $this->phoneNumber;
     }
 
     /**
      * @return string
      */
-    public function getCarrierName (): ?string {
+    public function getCarrierName(): ?string
+    {
         return $this->carrierName;
     }
 
     /**
      * @return string
      */
-    public function getCarrierType (): ?string {
+    public function getCarrierType(): ?string
+    {
         return $this->carrierType;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated (): \DateTime {
+    public function getCreated(): \DateTime
+    {
         return $this->created;
     }
 }

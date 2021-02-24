@@ -32,7 +32,7 @@ class PhoneValidator
     {
         // Remove +1 if it's there. Remove non-integers
         $phone = ltrim($phone, '+1');
-        $phone = preg_replace("/[^0-9]/", '', $phone);
+        $phone = preg_replace('/[^0-9]/', '', $phone);
 
         // Wasn't a +1, but there was an extra 1
         if (strlen($phone) > 10) {
