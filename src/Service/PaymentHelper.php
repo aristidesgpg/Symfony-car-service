@@ -281,6 +281,10 @@ class PaymentHelper
         $currentPaymentRank = array_search($payment->getStatus(), $this->getValidStatusesInOrder());
 
         foreach ($rops as $rop) {
+            if($rop->isDeleted()){
+                continue;
+            }
+
             if (!$rop->getStatus()) {
                 continue;
             }
