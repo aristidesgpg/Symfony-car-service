@@ -31,7 +31,7 @@ class ServiceSMSController extends AbstractFOSRestController
     private const PAGE_LIMIT = 100;
 
     /**
-     * @Rest\Post("/api/service-sms/send")
+     * @Rest\Post("/api/service-sms")
      *
      * @SWG\Tag(name="Service SMS")
      * @SWG\Post(description="Send a message to a customer")
@@ -159,7 +159,7 @@ class ServiceSMSController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/services-sms/thread")
+     * @Rest\Get("/api/service-sms/thread")
      *
      * @SWG\Tag(name="Service SMS")
      * @SWG\Get(description="Get messages by customer")
