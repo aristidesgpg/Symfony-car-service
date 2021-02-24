@@ -159,7 +159,7 @@ class ServiceSMSController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/service-sms/thread")
+     * @Rest\Get("/api/service-sms/messages")
      *
      * @SWG\Tag(name="Service SMS")
      * @SWG\Get(description="Get messages by customer")
