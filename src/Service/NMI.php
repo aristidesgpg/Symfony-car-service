@@ -12,9 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
  */
 class NMI
 {
-    private const ENDPOINT_URL = 'https://secure.networkmerchants.com/api/';
-
     use iServiceLoggerTrait;
+    private const ENDPOINT_URL = 'https://secure.networkmerchants.com/api/';
 
     /**
      * @var string
@@ -53,14 +52,7 @@ class NMI
         if ($response->isOk()) {
             return $response;
         }
-
-        switch ($response->getCode()) {
-            case 300:
-                $reason = 'Duplicate Transaction. If splitting the payment into two transactions, make one transaction amount different from the other in order to prevent the payment processor marking it as a duplicate.';
-                break;
-            default:
-                $reason = "Payment failed. Reason: {$response->getResponseText()}";
-        }
+        $reason = sprintf('Payment failed. Code: %s Reason: %s', $response->getCode(), $response->getResponseText());
 
         throw new PaymentException($response, $reason);
     }
@@ -77,14 +69,7 @@ class NMI
         if ($response->isOk()) {
             return $response;
         }
-
-        switch ($response->getCode()) {
-            case 300:
-                $reason = 'Refund amount can not surpass the original payment amount.';
-                break;
-            default:
-                $reason = "Refund failed. Reason: {$response->getResponseText()}";
-        }
+        $reason = sprintf('Refund failed. Code: %s Reason: %s', $response->getCode(), $response->getResponseText());
 
         throw new PaymentException($response, $reason);
     }
