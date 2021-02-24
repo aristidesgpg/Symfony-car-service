@@ -100,63 +100,6 @@ class ServiceSMSController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/service-sms/{id}/resend")
-     *
-     * @SWG\Tag(name="Service SMS")
-     * @SWG\Post(description="Resend a message to a customer")
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Message Was Resent" }),
-     *         )
-     * )
-     *
-     * @return Response
-     * @throws Exception
-     */
-    public function resend(
-        ServiceSMS $serviceSMS,
-        TwilioHelper $twilioHelper,
-        CustomerRepository $customerRepo,
-        EntityManagerInterface $em
-    ) {
-        $customerID = $serviceSMS->getCustomer();
-        $message = $serviceSMS->getMessage();
-        $incoming = $serviceSMS->getIncoming();
-
-        if ($incoming) {
-            return $this->handleView($this->view('Can not Resend Inbound Message', Response::HTTP_BAD_REQUEST));
-        }
-
-        $customer = $customerRepo->find($customerID);
-        if (!$customer) {
-            return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
-        }
-        //send message to a customer
-        $sid = $twilioHelper->sendSms($customer, $twilioHelper->Decode($message));
-
-        $serviceSMS->setIncoming(false)
-                   ->setSid($sid)
-                   ->setIsRead(true);
-
-        $em->persist($serviceSMS);
-        $em->flush();
-
-        return $this->handleView(
-            $this->view(
-                [
-                    'message' => 'Message Was Resent',
-                ],
-                Response::HTTP_OK
-            )
-        );
-    }
-
-    /**
      * @Rest\Post("/api/service-sms/twilio-incoming")
      *
      * @SWG\Tag(name="Service SMS")
