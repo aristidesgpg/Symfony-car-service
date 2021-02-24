@@ -3,40 +3,36 @@
 namespace App\DataFixtures;
 
 use App\Entity\Coupon;
+use App\Service\ImageUploader;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Faker\Factory;
-use App\Service\ImageUploader;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * Class CouponFixtures
- *
- * @package App\DataFixtures
+ * Class CouponFixtures.
  */
-class CouponFixture extends Fixture {
-
+class CouponFixture extends Fixture
+{
     /**
      * @var ImageUploader
      */
     private $imageUploader;
 
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * CouponFixtures constructor.
-     *
-     * @param ImageUploader $imageUploader
-     * @param Container     $container
      */
-    public function __construct (ImageUploader $imageUploader, Container $container) {
+    public function __construct(ImageUploader $imageUploader, ParameterBagInterface $parameterBag)
+    {
         $this->imageUploader = $imageUploader;
-        $this->container     = $container;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -46,28 +42,28 @@ class CouponFixture extends Fixture {
      *
      * @var array
      */
-    public function createFileObject ($url) {
+    public function createFileObject($url)
+    {
         $rawData = file_get_contents($url);
-        $imgRaw  = imagecreatefromstring($rawData);
+        $imgRaw = imagecreatefromstring($rawData);
 
-        if ($imgRaw !== false) {
-            imagejpeg($imgRaw, $this->container->getParameter('uploads_directory') . 'tmp.jpg', 100);
+        if (false !== $imgRaw) {
+            imagejpeg($imgRaw, $this->parameterBag->get('uploads_directory').'tmp.jpg', 100);
             imagedestroy($imgRaw);
 
-            return new UploadedFile($this->container->getParameter('uploads_directory') . 'tmp.jpg', 'tmp.jpg', 'image/jpeg', null, null, true);
+            return new UploadedFile($this->parameterBag->get('uploads_directory').'tmp.jpg', 'tmp.jpg', 'image/jpeg', null, null, true);
         }
+
         return null;
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
-    public function load (ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $faker = Factory::create();
         $image = 'https://picsum.photos/400/200';
 
         // Load some coupons
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; ++$i) {
             $coupon = new Coupon();
             //upload a random image
             $file = $this->createFileObject($image);
@@ -82,13 +78,13 @@ class CouponFixture extends Fixture {
             }
 
             $coupon->setTitle($faker->sentence($nbWords = 3, $variableNbWords = true))
-                   ->setImage($path)
-                   ->setDeleted($faker->boolean(30));
+                ->setImage($path)
+                ->setDeleted($faker->boolean(30));
 
             $manager->persist($coupon);
             $manager->flush();
 
-            $this->addReference('coupon_' . $i, $coupon);
+            $this->addReference('coupon_'.$i, $coupon);
         }
 
         // upload image for unit test ing

@@ -248,6 +248,11 @@ class RepairOrder
     private $repairOrderTeam;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderPayment", mappedBy="repairOrder")
+     */
+    private $payments;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct()
@@ -256,6 +261,7 @@ class RepairOrder
         $this->videos = new ArrayCollection();
         $this->repairOrderInteractions = new ArrayCollection();
         $this->repairOrderTeam = new ArrayCollection();
+        $this->payments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -618,6 +624,24 @@ class RepairOrder
     public function setArchived(bool $archived): self
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    /**
+     * @return RepairOrderPayment[]
+     */
+    public function getPayments (): array {
+        return $this->payments->toArray();
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
+     *
+     * @return $this
+     */
+    public function addPayment (RepairOrderPayment $payment): self {
+        $this->payments->add($payment);
 
         return $this;
     }

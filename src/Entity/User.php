@@ -286,7 +286,7 @@ class User implements UserInterface {
     }
 
     /**
-     * @return array
+     * @return array (Role|string)[]
      */
     public function getRoles () {
         return [$this->role];
