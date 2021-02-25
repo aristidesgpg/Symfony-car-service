@@ -17,6 +17,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -117,13 +118,11 @@ class InternalMessageController extends AbstractFOSRestController
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($page < 1) {
-            throw new NotFoundHttpException();
+            throw new BadRequestHttpException('Page number should be more than 1');
         }
 
         if ($pageLimit < 1) {
-            return $this->handleView(
-                $this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE)
-            );
+            throw new BadRequestHttpException('Page limit must be a positive non-zero integer');
         }
 
         $threads = $internalMessageHelper->getThreads($userId);
@@ -232,18 +231,16 @@ class InternalMessageController extends AbstractFOSRestController
         }
 
         if ($pageLimit < 1) {
-            return $this->handleView(
-                $this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE)
-            );
+            throw new BadRequestHttpException('Page limit must be a positive non-zero integer');
         }
 
         if (!$otherUserId) {
-            return $this->handleView($this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter(s)');
         }
 
         $otherUser = $this->getDoctrine()->getRepository(User::class)->find($otherUserId);
         if (!$otherUser) {
-            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
+            throw new NotFoundHttpException('User not found');
         }
 
         $queryParams = ['userId' => $user->getId(), 'otherUserId' => $otherUserId];
@@ -338,18 +335,18 @@ class InternalMessageController extends AbstractFOSRestController
         $message = $request->get('message');
 
         if (!$toId || !$message) {
-            return $this->handleView($this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter(s)');
         }
 
         if ($toId == $user->getId()) {
-            return $this->handleView($this->view('You are sending a message to you!', Response::HTTP_NOT_ACCEPTABLE));
+            throw new BadRequestHttpException('You are sending a message to you!');
         }
 
         $internalMessage = new InternalMessage();
         $toUser          = $this->getDoctrine()->getRepository(User::class)->find($toId);
 
         if (!$toUser || !$toUser->getActive()) {
-            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
+            throw new NotFoundHttpException("User doesn\'t exist");
         }
 
         $internalMessage->setFrom($user)
