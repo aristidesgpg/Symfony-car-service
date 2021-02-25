@@ -23,21 +23,28 @@ class OperationCodeRepository extends ServiceEntityRepository
      *
      * @return QueryBuilder
      */
-    public function getActiveOperationCodes ($sortField = null, $sortDirection = null, $searchField = null, $searchTerm = null) {
+    public function getActiveOperationCodes($sortField = null, $sortDirection = null, $searchTerm = null)
+    {
         $qb = $this->createQueryBuilder('o');
         $qb->andWhere('o.deleted = 0');
-        
-        if($searchTerm)
-        {
-            $qb->andWhere('o.'.$searchField.' LIKE :searchTerm')
-               ->setParameter('searchTerm', '%'.$searchTerm.'%');
+        $columns = ['code', 'description'];
+
+        if ($searchTerm) {
+            $query          = "";
+            foreach ($columns as $column) {
+                if ($query)
+                    $query .= " OR ";
+
+                $query     .= "o.$column LIKE :searchTerm ";
+            }
+
+            $qb->andWhere($query)
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
         }
 
-        if($sortDirection)
-            $qb->orderBy('o.'.$sortField, $sortDirection);
-        
-        
-        
+        if ($sortDirection)
+            $qb->orderBy('o.' . $sortField, $sortDirection);
+
         return $qb->getQuery();
     }
 

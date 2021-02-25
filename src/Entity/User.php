@@ -145,21 +145,24 @@ class User implements UserInterface {
     private $shareRepairOrders = false;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderInteraction::class, mappedBy="user")
+     */
+    private $repairOrderInteractions;
 
+    /**
      * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="user")
      */
     private $repairOrderTeams;
-    
+
     /**
      * @ORM\OneToMany(targetEntity=InternalMessage::class, mappedBy="from")
      */
     private $internalMessages;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Serializer\Groups({"user_list"})
+     * @ORM\OneToMany(targetEntity=ServiceSMS::class, mappedBy="user")
      */
-    private $externalAuthentication = false;
+    private $serviceSMS;
 
     /**
      * User constructor.
@@ -167,9 +170,10 @@ class User implements UserInterface {
     public function __construct () {
         $this->technicianRepairOrders     = new ArrayCollection();
         $this->repairOrderMPIInteractions = new ArrayCollection();
-
-        $this->repairOrderTeams = new ArrayCollection();
+        $this->repairOrderInteractions    = new ArrayCollection();
+        $this->repairOrderTeams           = new ArrayCollection();
         $this->internalMessages           = new ArrayCollection();
+        $this->serviceSMS = new ArrayCollection();
     }
 
     /**
@@ -288,7 +292,7 @@ class User implements UserInterface {
     }
 
     /**
-     * @return array
+     * @return array (Role|string)[]
      */
     public function getRoles () {
         return [$this->role];
@@ -488,24 +492,6 @@ class User implements UserInterface {
     }
 
     /**
-     * @return bool|null
-     */
-    public function getExternalAuthentication (): ?bool {
-        return $this->externalAuthentication;
-    }
-
-    /**
-     * @param bool $externalAuthentication
-     *
-     * @return $this
-     */
-    public function setExternalAuthentication (bool $externalAuthentication): self {
-        $this->externalAuthentication = $externalAuthentication;
-
-        return $this;
-    }
-
-    /**
      * @return Collection|RepairOrderMPIInteraction[]
      */
     public function getRepairOrderMPIInteractions (): Collection {
@@ -550,6 +536,41 @@ class User implements UserInterface {
     }
 
     /**
+     * @return Collection|RepairOrderInteraction[]
+     */
+    public function getRepairOrderInteractions(): Collection
+    {
+        return $this->repairOrderInteractions;
+    }
+
+    public function addRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if (!$this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions[] = $repairOrderInteraction;
+            $repairOrderInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+    /**
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    /*
      * @return Collection|RepairOrderTeam[]
      */
     public function getRepairOrderTeams(): Collection
@@ -567,6 +588,32 @@ class User implements UserInterface {
         return $this;
     }
 
+    public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if ($this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions->removeElement($repairOrderInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderInteraction->getUser() === $this) {
+                $repairOrderInteraction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getUser() === $this) {
+                $repairOrderReviewInteraction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function removeRepairOrderTeam(RepairOrderTeam $repairOrderTeam): self
     {
         if ($this->repairOrderTeams->contains($repairOrderTeam)) {
@@ -574,6 +621,36 @@ class User implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderTeam->getUser() === $this) {
                 $repairOrderTeam->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ServiceSMS[]
+     */
+    public function getServiceSMS(): Collection
+    {
+        return $this->serviceSMS;
+    }
+
+    public function addServiceSM(ServiceSMS $serviceSM): self
+    {
+        if (!$this->serviceSMS->contains($serviceSM)) {
+            $this->serviceSMS[] = $serviceSM;
+            $serviceSM->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServiceSM(ServiceSMS $serviceSM): self
+    {
+        if ($this->serviceSMS->removeElement($serviceSM)) {
+            // set the owning side to null (unless already changed)
+            if ($serviceSM->getUser() === $this) {
+                $serviceSM->setUser(null);
             }
         }
 

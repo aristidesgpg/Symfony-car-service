@@ -3,9 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderMPIInteractionRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderMPIInteractionRepository::class)
@@ -31,14 +31,14 @@ class RepairOrderMPIInteraction
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="repairOrderMPIInteractions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Serializer\Groups(groups={"romi_list"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="repairOrderMPIInteractions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      * @Serializer\Groups(groups={"romi_list"})
      */
     private $customer;
