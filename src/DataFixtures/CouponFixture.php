@@ -3,30 +3,26 @@
 namespace App\DataFixtures;
 
 use App\Entity\Coupon;
+use App\Service\ImageUploader;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Exception;
 use Faker\Factory;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * Class CouponFixtures
- *
- * @package App\DataFixtures
- */
-class CouponFixture extends Fixture {
+class CouponFixture extends Fixture
+{
+    private $imageUploader;
 
-    /**
-     * @var Container
-     */
     private $container;
 
-    /**
-     * CouponFixtures constructor.
-     *
-     * @param Container     $container
-     */
-    public function __construct (Container $container) {
-        $this->container     = $container;
+    private $parameterBag;
+
+    public function __construct(ImageUploader $imageUploader, ParameterBagInterface $parameterBag)
+    {
+        $this->imageUploader = $imageUploader;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -46,7 +42,7 @@ class CouponFixture extends Fixture {
             $manager->persist($coupon);
             $manager->flush();
 
-            $this->addReference('coupon_' . $i, $coupon);
+            $this->addReference('coupon_'.$i, $coupon);
         }
     }
 }
