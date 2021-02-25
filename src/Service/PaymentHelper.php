@@ -271,9 +271,6 @@ class PaymentHelper
         $this->updateRepairOrderStatus($payment);
     }
 
-    /**
-     * @param RepairOrderPayment $payment
-     */
     public function updateRepairOrderStatus(RepairOrderPayment $payment)
     {
         $repairOrder = $payment->getRepairOrder();
@@ -281,7 +278,7 @@ class PaymentHelper
         $currentPaymentRank = array_search($payment->getStatus(), $this->getValidStatusesInOrder());
 
         foreach ($rops as $rop) {
-            if($rop->isDeleted()){
+            if ($rop->isDeleted()) {
                 continue;
             }
 
@@ -297,7 +294,13 @@ class PaymentHelper
             }
         }
 
-        $repairOrder->setPaymentStatus($this->getValidStatusesInOrder()[$currentPaymentRank]);
+        $status = $this->getValidStatusesInOrder()[$currentPaymentRank];
+        //If there is no current payment status, set it to Not Started, otherwise it defaults to Created.
+        if (!$currentPaymentRank) {
+            $status = 'Not Started';
+        }
+
+        $repairOrder->setPaymentStatus($status);
         $this->em->persist($repairOrder);
 
         $this->em->beginTransaction();
