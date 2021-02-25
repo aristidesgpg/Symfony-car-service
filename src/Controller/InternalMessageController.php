@@ -112,8 +112,8 @@ class InternalMessageController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         InternalMessageHelper $internalMessageHelper
     ) {
-        $userId = $this->getUser()->getId();
-        $page = $request->query->getInt('page', 1);
+        $userId    = $this->getUser()->getId();
+        $page      = $request->query->getInt('page', 1);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($page < 1) {
@@ -134,20 +134,21 @@ class InternalMessageController extends AbstractFOSRestController
             );
         }
 
-        $urlParams = ['page' => $page];
-        $pager = $paginator->paginate($threads, $page, $pageLimit);
+        $urlParams  = ['page' => $page];
+        $pager      = $paginator->paginate($threads, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('getInternalThreads', $urlParams),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('getInternalThreads', $urlParams),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('getInternalThreads', $urlParams),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('getInternalThreads', $urlParams),
             ]
         );
+
         $view->getContext()->setGroups(['internal_message', 'user_list']);
 
         return $this->handleView($view);
@@ -221,9 +222,9 @@ class InternalMessageController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $user = $this->getUser();
-        $page = $request->query->getInt('page', 1);
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $user        = $this->getUser();
+        $page        = $request->query->getInt('page', 1);
+        $pageLimit   = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $otherUserId = $request->query->get('otherUserId');
 
         if ($page < 1) {
@@ -246,7 +247,7 @@ class InternalMessageController extends AbstractFOSRestController
         }
 
         $queryParams = ['userId' => $user->getId(), 'otherUserId' => $otherUserId];
-        $query = $internalMessageRepository->createQueryBuilder('im')
+        $query       = $internalMessageRepository->createQueryBuilder('im')
                                            ->where(
                                                'im.to = :userId and im.from = :otherUserId OR im.to = :otherUserId and im.from = :userId'
                                            )
@@ -254,14 +255,15 @@ class InternalMessageController extends AbstractFOSRestController
                                            ->orderBy('im.date', 'DESC')
                                            ->getQuery();
 
-        $urlParams = ['otherUserId' => $otherUserId];
-        $pager = $paginator->paginate($query, $page, $pageLimit);
+        $urlParams  = ['otherUserId' => $otherUserId];
+        $pager      = $paginator->paginate($query, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
-        $results = $pager->getItems();
+        $results    = $pager->getItems();
 
-        $markAsRead = $internalMessageRepository->findBy(['to' => $user, 'from' => $otherUser, 'isRead' => 0]);
-
-        foreach ($markAsRead as $internalMessage) {
+        $unreadsFromUser    = $internalMessageRepository->findBy(['to' => $otherUser, 'from' => $user, 'isRead' => 0]);
+        $unreadsFromAnother = $internalMessageRepository->findBy(['to' => $user, 'from' => $otherUser, 'isRead' => 0]);
+        $allUnreads         = array_merge($unreadsFromUser, $unreadsFromAnother);
+        foreach ($allUnreads as $internalMessage) {
             $internalMessage->setIsRead(true);
             $em->persist($internalMessage);
         }
@@ -270,12 +272,12 @@ class InternalMessageController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'results' => $results,
+                'results'      => $results,
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('getInternalMessages', $urlParams),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('getInternalMessages', $urlParams),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('getInternalMessages', $urlParams),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('getInternalMessages', $urlParams),
             ]
         );
         $view->getContext()->setGroups(['internal_message', 'user_list']);
@@ -331,8 +333,8 @@ class InternalMessageController extends AbstractFOSRestController
      */
     public function sendMessage(Request $request, EntityManagerInterface $em)
     {
-        $user = $this->getUser();
-        $toId = $request->get('toId');
+        $user    = $this->getUser();
+        $toId    = $request->get('toId');
         $message = $request->get('message');
 
         if (!$toId || !$message) {
@@ -344,7 +346,7 @@ class InternalMessageController extends AbstractFOSRestController
         }
 
         $internalMessage = new InternalMessage();
-        $toUser = $this->getDoctrine()->getRepository(User::class)->find($toId);
+        $toUser          = $this->getDoctrine()->getRepository(User::class)->find($toId);
 
         if (!$toUser || !$toUser->getActive()) {
             return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
