@@ -199,7 +199,7 @@ class ServiceSMSController extends AbstractFOSRestController
         ServiceSMSRepository $serviceSMSRepo,
         CustomerRepository   $customerRepo,
         PaginatorInterface $paginator,
-        UrlGeneratorInterface $urlGenerator,
+        UrlGeneratorInterface $urlGenerator
     ): Response {
         $page       = $request->query->getInt('page', 1);
         $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
