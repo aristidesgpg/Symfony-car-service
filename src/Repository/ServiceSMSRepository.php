@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
 use App\Entity\ServiceSMS;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -42,15 +43,20 @@ class ServiceSMSRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?ServiceSMS
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */        
+   
+    // public function getMessages(Customer $customer, string $searchTerm)
+    // {
+    //     $query = $this->createQueryBuilder('s')
+    //                   ->andWhere('s.customer = :customer')
+    //                   ->setParameter('customer', $customer->getId());
+        
+    //     if($searchTerm){
+    //         $query->leftJoin('ro.primaryCustomer', 'ro_customer')
+    //         ->andWhere("s.user.phone LIKE :searchTerm ")
+    //                        ->setParameter('searchTerm', "%$searchTerm%");
+    //     }
+
+    //     return $query->getQuery();
+    // }
+   
 }

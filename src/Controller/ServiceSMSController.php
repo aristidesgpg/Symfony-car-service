@@ -22,6 +22,8 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ServiceSMSController extends AbstractFOSRestController
@@ -170,7 +172,18 @@ class ServiceSMSController extends AbstractFOSRestController
      *     description="Customer ID",
      *     in="query"
      * )
-     * 
+     * @SWG\Parameter(
+     *     name="page",
+     *     type="integer",
+     *     description="Page of results",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -184,19 +197,29 @@ class ServiceSMSController extends AbstractFOSRestController
     public function serviceMessages(
         Request              $request,
         ServiceSMSRepository $serviceSMSRepo,
-        CustomerRepository   $customerRepo
+        CustomerRepository   $customerRepo,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
     ): Response {
+        $page       = $request->query->getInt('page', 1);
+        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        
+        if($page < 1){
+            throw new BadRequestHttpException('Page number should be more than 1');
+        }
+
         $customerID = $request->query->getInt('customer', null);
-        //check if customer id exists
         if(!$customerID){
-            return $this->handleView($this->view('Customer ID is required', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Customer ID is required');
         }
-        $customer = $customerRepo->findOneBy(["id" => $customerID]);
-        //check if customer id is valid
+        $customer   = $customerRepo->findOneBy(["id" => $customerID]);
+
         if(!$customer){
-            return $this->handleView($this->view('Customer ID is invalid', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Customer ID is invalid');
         }
-        $messages = $serviceSMSRepo->findBy(['customer' => $customer->getId()]);
+
+        $messages   = $serviceSMSRepo->findBy(['customer' => $customer->getId()]);
+        
         //if authenticated user is ROLE_SERVICE_ADVISOR, then update message statuses
         $user = $this->getUser();
         if(in_array("ROLE_SERVICE_ADVISOR", $user->getRoles())){
@@ -205,7 +228,20 @@ class ServiceSMSController extends AbstractFOSRestController
             }
         }
 
-        $view = $this->view($messages);
+        $pager      = $paginator->paginate($messages, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $view       = $this->view(
+            [
+                'results'      => $pager->getItems(),
+                'totalResults' => $pagination->totalResults,
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('app_servicesms_getthreads'),
+            ]
+        );
+        
         $view->getContext()->setGroups(ServiceSMS::GROUPS);
 
         return $this->handleView($view);

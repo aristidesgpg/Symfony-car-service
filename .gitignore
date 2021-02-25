@@ -21,3 +21,5 @@ tests/Fixtures/uploads
 ###< lexik/jwt-authentication-bundle ###
 /tools/
 /.php_cs.cache
+
+/bin/.phpunit
