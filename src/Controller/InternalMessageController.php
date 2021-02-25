@@ -257,10 +257,8 @@ class InternalMessageController extends AbstractFOSRestController
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
         $results    = $pager->getItems();
 
-        $unreadsFromUser    = $internalMessageRepository->findBy(['to' => $otherUser, 'from' => $user, 'isRead' => 0]);
         $unreadsFromAnother = $internalMessageRepository->findBy(['to' => $user, 'from' => $otherUser, 'isRead' => 0]);
-        $allUnreads         = array_merge($unreadsFromUser, $unreadsFromAnother);
-        foreach ($allUnreads as $internalMessage) {
+        foreach ($unreadsFromAnother as $internalMessage) {
             $internalMessage->setIsRead(true);
             $em->persist($internalMessage);
         }
