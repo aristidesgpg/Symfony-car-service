@@ -170,7 +170,7 @@ class ServiceSMSController extends AbstractFOSRestController
      *     description="Customer ID",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -182,26 +182,38 @@ class ServiceSMSController extends AbstractFOSRestController
      * )
      */
     public function serviceMessages(
-        Request              $request,
+        Request $request,
         ServiceSMSRepository $serviceSMSRepo,
-        CustomerRepository   $customerRepo
+        CustomerRepository $customerRepo,
+        EntityManagerInterface $em
     ): Response {
         $customerID = $request->query->getInt('customer', null);
         //check if customer id exists
-        if(!$customerID){
+        if (!$customerID) {
             return $this->handleView($this->view('Customer ID is required', Response::HTTP_BAD_REQUEST));
         }
         $customer = $customerRepo->findOneBy(["id" => $customerID]);
         //check if customer id is valid
-        if(!$customer){
+        if (!$customer) {
             return $this->handleView($this->view('Customer ID is invalid', Response::HTTP_BAD_REQUEST));
         }
         $messages = $serviceSMSRepo->findBy(['customer' => $customer->getId()]);
+
         //if authenticated user is ROLE_SERVICE_ADVISOR, then update message statuses
         $user = $this->getUser();
-        if(in_array("ROLE_SERVICE_ADVISOR", $user->getRoles())){
-            foreach($messages as $message){
+        if (in_array("ROLE_SERVICE_ADVISOR", $user->getRoles())) {
+            foreach ($messages as $message) {
                 $message->setIsRead(true);
+                $em->persist($message);
+            }
+
+            $em->beginTransaction();
+            try {
+                $em->flush();
+                $em->commit();
+            } catch (Exception $e) {
+                // nothing, need to return results
+                $this->logInfo('Failed to mark thread as read. user:'.$user->getId().'|customer:'.$customer->getId());
             }
         }
 
