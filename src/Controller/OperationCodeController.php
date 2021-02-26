@@ -4,39 +4,134 @@ namespace App\Controller;
 
 use App\Entity\OperationCode;
 use App\Repository\OperationCodeRepository;
+use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Knp\Component\Pager\PaginatorInterface;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class OperationCodeController extends AbstractFOSRestController
 {
+    private const PAGE_LIMIT = 100;
     /**
      * @Rest\Get("/api/operation-code")
      *
      * @SWG\Tag(name="OperationCode")
      * @SWG\Get(description="Get All Operation Codes")
      *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return Operation Codes",
-     *     @SWG\Items(
-     *         type="array",
-     *         @SWG\Items(ref=@Model(type=MPITemplate::class, groups={"operation_code_list"})),
-     *         description="code, description, labor_hours, labor_taxable, parts_price, parts_taxable, supplies_price, supplies_taxable, deleted"
-     *     )
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     * * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search. The available field is identification",
+     *     in="query"
      * )
      *
-     * @return Response
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="operationCodes",
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=OperationCode::class, groups=OperationCode::GROUPS))
+     *         ),
+     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="next", type="string", description="URL for next page")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response="404",
+     *     description="Invalid page parameter"
+     * )
+     *
      */
-    public function getOperationCodes(OperationCodeRepository $operationCodeRepo)
+    public function getOperationCodes(Request $request, OperationCodeRepository $operationCodeRepo, EntityManagerInterface $em,
+                                        PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator)
     {
+        $sortField     = '';
+        $sortDirection = '';
+        $searchTerm    = '';
+        $urlParameters = [];
+        
+        $page = $request->query->getInt('page', 1);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        // Invalid page limit
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
+        }
+        $columns       = $em->getClassMetadata('App\Entity\OperationCode')->getFieldNames();
+
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                throw new BadRequestHttpException('Invalid sort field name');
+            }
+
+            $sortDirection = $request->query->get('sortDirection');
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+        }
+        
+        if ($request->query->has('searchTerm')) {
+
+            $searchTerm = $request->query->get('searchTerm');
+
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+
         //get all active operation codes
-        $operationCodes = $operationCodeRepo->getActiveOperationCodes();
-        $view = $this->view($operationCodes);
+        $operationCodes = $operationCodeRepo->getActiveOperationCodes($sortField, $sortDirection, $searchTerm);
+        $pager = $paginator->paginate($operationCodes, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $json = [
+            'results' => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('app_operationcode_getoperationcodes', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('app_operationcode_getoperationcodes', $urlParameters),
+        ];
+
+        $view = $this->view($json);
 
         $view->getContext()->setGroups(['operation_code_list']);
 
