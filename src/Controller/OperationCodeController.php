@@ -24,7 +24,7 @@ class OperationCodeController extends AbstractFOSRestController
     /**
      * @Rest\Get("/api/operation-code")
      *
-     * @SWG\Tag(name="OperationCode")
+     * @SWG\Tag(name="Operation Code")
      * @SWG\Get(description="Get All Operation Codes")
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
@@ -145,7 +145,7 @@ class OperationCodeController extends AbstractFOSRestController
     /**
      * @Rest\Post("/api/operation-code")
      *
-     * @SWG\Tag(name="OperationCode")
+     * @SWG\Tag(name="Operation Code")
      * @SWG\Post(description="Create a New Operation Code")
      *
      * @SWG\Parameter(
@@ -260,7 +260,7 @@ class OperationCodeController extends AbstractFOSRestController
     /**
      * @Rest\Put("/api/operation-code/{id}")
      *
-     * @SWG\Tag(name="OperationCode")
+     * @SWG\Tag(name="Operation Code")
      * @SWG\Put(description="Update a Operation Code")
      *
      * @SWG\Parameter(
@@ -374,7 +374,7 @@ class OperationCodeController extends AbstractFOSRestController
     /**
      * @Rest\Delete("/api/operation-code/{id}")
      *
-     * @SWG\Tag(name="OperationCode")
+     * @SWG\Tag(name="Operation Code")
      * @SWG\Delete(description="Delete a Operation Code")
      *
      * @SWG\Response(
