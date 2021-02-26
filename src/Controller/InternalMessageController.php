@@ -113,7 +113,6 @@ class InternalMessageController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         InternalMessageHelper $internalMessageHelper
     ) {
-        $userId    = $this->getUser()->getId();
         $page      = $request->query->getInt('page', 1);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
@@ -125,7 +124,7 @@ class InternalMessageController extends AbstractFOSRestController
             throw new BadRequestHttpException('Page limit must be a positive non-zero integer');
         }
 
-        $threads = $internalMessageHelper->getThreads($userId);
+        $threads = $internalMessageHelper->getThreads();
 
         if ($threads === false) {
             return $this->handleView(
