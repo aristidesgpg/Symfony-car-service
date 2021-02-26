@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
 use App\Entity\ServiceSMS;
 use App\Entity\ServiceSMSLog;
 use App\Helper\iServiceLoggerTrait;
@@ -195,53 +194,64 @@ class ServiceSMSController extends AbstractFOSRestController
      * )
      */
     public function serviceMessages(
-        Request              $request,
+        Request $request,
         ServiceSMSRepository $serviceSMSRepo,
-        CustomerRepository   $customerRepo,
+        CustomerRepository $customerRepo,
         PaginatorInterface $paginator,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
     ): Response {
-        $page       = $request->query->getInt('page', 1);
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        
-        if($page < 1){
+        $page = $request->query->getInt('page', 1);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+
+        if ($page < 1) {
             throw new BadRequestHttpException('Page number should be more than 1');
         }
 
         $customerID = $request->query->getInt('customer', null);
-        if(!$customerID){
+        if (!$customerID) {
             throw new BadRequestHttpException('Customer ID is required');
         }
-        $customer   = $customerRepo->findOneBy(["id" => $customerID]);
+        $customer = $customerRepo->findOneBy(['id' => $customerID]);
 
-        if(!$customer){
-            throw new BadRequestHttpException('Customer ID is invalid');
+        if (!$customer) {
+            throw new NotFoundHttpException('Customer ID is invalid');
         }
 
-        $messages   = $serviceSMSRepo->findBy(['customer' => $customer->getId()]);
-        
+        $messages = $serviceSMSRepo->findBy(['customer' => $customer->getId()]);
+
         //if authenticated user is ROLE_SERVICE_ADVISOR, then update message statuses
         $user = $this->getUser();
-        if(in_array("ROLE_SERVICE_ADVISOR", $user->getRoles())){
-            foreach($messages as $message){
+        if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
+            foreach ($messages as $message) {
                 $message->setIsRead(true);
+                $em->persist($message);
+            }
+
+            $em->beginTransaction();
+            try {
+                $em->flush();
+                $em->commit();
+            } catch (Exception $e) {
+                // nothing, need to return results
+                $this->logInfo('Failed to mark thread as read. user:'.$user->getId().'|customer:'.$customer->getId());
             }
         }
 
-        $pager      = $paginator->paginate($messages, $page, $pageLimit);
+        $pager = $paginator->paginate($messages, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view       = $this->view(
+        $view = $this->view(
             [
-                'results'      => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages'   => $pagination->totalPages,
-                'previous'     => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
-                'currentPage'  => $pagination->currentPage,
-                'next'         => $pagination->getNextPageURL('app_servicesms_getthreads'),
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_servicesms_getthreads'),
             ]
         );
-        
+
         $view->getContext()->setGroups(ServiceSMS::GROUPS);
 
         return $this->handleView($view);

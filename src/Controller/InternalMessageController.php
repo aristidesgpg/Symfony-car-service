@@ -17,6 +17,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -112,21 +113,18 @@ class InternalMessageController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         InternalMessageHelper $internalMessageHelper
     ) {
-        $userId = $this->getUser()->getId();
-        $page = $request->query->getInt('page', 1);
+        $page      = $request->query->getInt('page', 1);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($page < 1) {
-            throw new NotFoundHttpException();
+            throw new BadRequestHttpException('Page number should be more than 1');
         }
 
         if ($pageLimit < 1) {
-            return $this->handleView(
-                $this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE)
-            );
+            throw new BadRequestHttpException('Page limit must be a positive non-zero integer');
         }
 
-        $threads = $internalMessageHelper->getThreads($userId);
+        $threads = $internalMessageHelper->getThreads();
 
         if ($threads === false) {
             return $this->handleView(
@@ -134,20 +132,21 @@ class InternalMessageController extends AbstractFOSRestController
             );
         }
 
-        $urlParams = ['page' => $page];
-        $pager = $paginator->paginate($threads, $page, $pageLimit);
+        $urlParams  = ['page' => $page];
+        $pager      = $paginator->paginate($threads, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('getInternalThreads', $urlParams),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('getInternalThreads', $urlParams),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('getInternalThreads', $urlParams),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('getInternalThreads', $urlParams),
             ]
         );
+
         $view->getContext()->setGroups(['internal_message', 'user_list']);
 
         return $this->handleView($view);
@@ -221,9 +220,9 @@ class InternalMessageController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $user = $this->getUser();
-        $page = $request->query->getInt('page', 1);
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $user        = $this->getUser();
+        $page        = $request->query->getInt('page', 1);
+        $pageLimit   = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $otherUserId = $request->query->get('otherUserId');
 
         if ($page < 1) {
@@ -231,22 +230,20 @@ class InternalMessageController extends AbstractFOSRestController
         }
 
         if ($pageLimit < 1) {
-            return $this->handleView(
-                $this->view("Page limit must be a positive non-zero integer", Response::HTTP_NOT_ACCEPTABLE)
-            );
+            throw new BadRequestHttpException('Page limit must be a positive non-zero integer');
         }
 
         if (!$otherUserId) {
-            return $this->handleView($this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter(s)');
         }
 
         $otherUser = $this->getDoctrine()->getRepository(User::class)->find($otherUserId);
         if (!$otherUser) {
-            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
+            throw new NotFoundHttpException('User not found');
         }
 
         $queryParams = ['userId' => $user->getId(), 'otherUserId' => $otherUserId];
-        $query = $internalMessageRepository->createQueryBuilder('im')
+        $query       = $internalMessageRepository->createQueryBuilder('im')
                                            ->where(
                                                'im.to = :userId and im.from = :otherUserId OR im.to = :otherUserId and im.from = :userId'
                                            )
@@ -254,14 +251,13 @@ class InternalMessageController extends AbstractFOSRestController
                                            ->orderBy('im.date', 'DESC')
                                            ->getQuery();
 
-        $urlParams = ['otherUserId' => $otherUserId];
-        $pager = $paginator->paginate($query, $page, $pageLimit);
+        $urlParams  = ['otherUserId' => $otherUserId];
+        $pager      = $paginator->paginate($query, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
-        $results = $pager->getItems();
+        $results    = $pager->getItems();
 
-        $markAsRead = $internalMessageRepository->findBy(['to' => $user, 'from' => $otherUser, 'isRead' => 0]);
-
-        foreach ($markAsRead as $internalMessage) {
+        $unreadsFromAnother = $internalMessageRepository->findBy(['to' => $user, 'from' => $otherUser, 'isRead' => 0]);
+        foreach ($unreadsFromAnother as $internalMessage) {
             $internalMessage->setIsRead(true);
             $em->persist($internalMessage);
         }
@@ -270,12 +266,12 @@ class InternalMessageController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'results' => $results,
+                'results'      => $results,
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('getInternalMessages', $urlParams),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('getInternalMessages', $urlParams),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('getInternalMessages', $urlParams),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('getInternalMessages', $urlParams),
             ]
         );
         $view->getContext()->setGroups(['internal_message', 'user_list']);
@@ -331,23 +327,23 @@ class InternalMessageController extends AbstractFOSRestController
      */
     public function sendMessage(Request $request, EntityManagerInterface $em)
     {
-        $user = $this->getUser();
-        $toId = $request->get('toId');
+        $user    = $this->getUser();
+        $toId    = $request->get('toId');
         $message = $request->get('message');
 
         if (!$toId || !$message) {
-            return $this->handleView($this->view('Missing Required Parameter(s)', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter(s)');
         }
 
         if ($toId == $user->getId()) {
-            return $this->handleView($this->view('You are sending a message to you!', Response::HTTP_NOT_ACCEPTABLE));
+            throw new BadRequestHttpException('You are sending a message to you!');
         }
 
         $internalMessage = new InternalMessage();
-        $toUser = $this->getDoctrine()->getRepository(User::class)->find($toId);
+        $toUser          = $this->getDoctrine()->getRepository(User::class)->find($toId);
 
         if (!$toUser || !$toUser->getActive()) {
-            return $this->handleView($this->view('User doesn\'t exist', Response::HTTP_NOT_FOUND));
+            throw new NotFoundHttpException("User doesn\'t exist");
         }
 
         $internalMessage->setFrom($user)
