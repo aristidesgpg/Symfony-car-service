@@ -8,8 +8,8 @@ use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use Nelmio\ApiDocBundle\Annotation\Model;
 use Knp\Component\Pager\PaginatorInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -20,6 +20,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class OperationCodeController extends AbstractFOSRestController
 {
     private const PAGE_LIMIT = 100;
+
     /**
      * @Rest\Get("/api/operation-code")
      *
@@ -74,19 +75,22 @@ class OperationCodeController extends AbstractFOSRestController
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     *
      */
-    public function getOperationCodes(Request $request, OperationCodeRepository $operationCodeRepo, EntityManagerInterface $em,
-                                        PaginatorInterface $paginator, UrlGeneratorInterface $urlGenerator)
-    {
-        $sortField     = '';
+    public function getOperationCodes(
+        Request $request,
+        OperationCodeRepository $operationCodeRepo,
+        EntityManagerInterface $em,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator
+    ) {
+        $sortField = '';
         $sortDirection = '';
-        $searchTerm    = '';
+        $searchTerm = '';
         $urlParameters = [];
-        
+
         $page = $request->query->getInt('page', 1);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        
+
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
@@ -95,7 +99,7 @@ class OperationCodeController extends AbstractFOSRestController
         if ($pageLimit < 1) {
             return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
         }
-        $columns       = $em->getClassMetadata('App\Entity\OperationCode')->getFieldNames();
+        $columns = $em->getClassMetadata('App\Entity\OperationCode')->getFieldNames();
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
             $sortField = $request->query->get('sortField');
@@ -109,7 +113,7 @@ class OperationCodeController extends AbstractFOSRestController
             $urlParameters['sortDirection'] = $sortDirection;
             $urlParameters['sortField'] = $sortField;
         }
-        
+
         if ($request->query->has('searchTerm')) {
 
             $searchTerm = $request->query->get('searchTerm');
@@ -243,9 +247,14 @@ class OperationCodeController extends AbstractFOSRestController
         $em->persist($operationCode);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'Operation Code Created',
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Operation Code Created',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -352,9 +361,14 @@ class OperationCodeController extends AbstractFOSRestController
         $em->persist($operationCode);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'Operation Code Updated',
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Operation Code Updated',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 
     /**
@@ -383,8 +397,13 @@ class OperationCodeController extends AbstractFOSRestController
         $em->persist($operationCode);
         $em->flush();
 
-        return $this->handleView($this->view([
-            'message' => 'Operation Code Deleted',
-        ], Response::HTTP_OK));
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'Operation Code Deleted',
+                ],
+                Response::HTTP_OK
+            )
+        );
     }
 }
