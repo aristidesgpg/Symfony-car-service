@@ -3,60 +3,26 @@
 namespace App\DataFixtures;
 
 use App\Entity\Coupon;
+use App\Service\ImageUploader;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 use Faker\Factory;
-use App\Service\ImageUploader;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * Class CouponFixtures
- *
- * @package App\DataFixtures
- */
-class CouponFixture extends Fixture {
-
-    /**
-     * @var ImageUploader
-     */
+class CouponFixture extends Fixture
+{
     private $imageUploader;
 
-    /**
-     * @var Container
-     */
     private $container;
 
-    /**
-     * CouponFixtures constructor.
-     *
-     * @param ImageUploader $imageUploader
-     * @param Container     $container
-     */
-    public function __construct (ImageUploader $imageUploader, Container $container) {
+    private $parameterBag;
+
+    public function __construct(ImageUploader $imageUploader, ParameterBagInterface $parameterBag)
+    {
         $this->imageUploader = $imageUploader;
-        $this->container     = $container;
-    }
-
-    /**
-     * Create UploadedFile object from public url.
-     *
-     * @return UploadedFile|null
-     *
-     * @var array
-     */
-    public function createFileObject ($url) {
-        $rawData = file_get_contents($url);
-        $imgRaw  = imagecreatefromstring($rawData);
-
-        if ($imgRaw !== false) {
-            imagejpeg($imgRaw, $this->container->getParameter('uploads_directory') . 'tmp.jpg', 100);
-            imagedestroy($imgRaw);
-
-            return new UploadedFile($this->container->getParameter('uploads_directory') . 'tmp.jpg', 'tmp.jpg', 'image/jpeg', null, null, true);
-        }
-        return null;
+        $this->parameterBag = $parameterBag;
     }
 
     /**
@@ -69,46 +35,14 @@ class CouponFixture extends Fixture {
         // Load some coupons
         for ($i = 1; $i <= 10; $i++) {
             $coupon = new Coupon();
-            //upload a random image
-            $file = $this->createFileObject($image);
-            $path = '';
-
-            if ($file) {
-                $path = $this->imageUploader->uploadImage($file, 'coupons');
-            }
-
-            if (!$path) {
-                continue;
-            }
-
             $coupon->setTitle($faker->sentence($nbWords = 3, $variableNbWords = true))
-                   ->setImage($path)
+                   ->setImage($image)
                    ->setDeleted($faker->boolean(30));
 
             $manager->persist($coupon);
             $manager->flush();
 
-            $this->addReference('coupon_' . $i, $coupon);
+            $this->addReference('coupon_'.$i, $coupon);
         }
-
-        // upload image for unit test ing
-        /*$file = $this->createFileObject($image);
-        if ($file) {
-            $uploadsDirectory = 'tests/Fixtures/' . 'uploads';
-            $filename         = 'testImage' . '.' . $file->guessExtension();
-            $validExtensions  = ['jpg', 'jpeg', 'png'];
-            if (!(in_array($file->guessExtension(), $validExtensions))) {
-                return false;
-            }
-
-            try {
-                $file->move(
-                    $uploadsDirectory,
-                    $filename
-                );
-            } catch (Exception  $e) {
-                return false;
-            }
-        }*/
     }
 }

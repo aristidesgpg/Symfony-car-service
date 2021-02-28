@@ -98,7 +98,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
         $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
         try {
-            $twilioHelper->sendSms($ro->getPrimaryCustomer()->getPhone(), $welcomeMessage);
+            $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
         } catch (Exception $e) {
             // Nothing, waiver was signed but we didn't send a welcome message for some reason
         }
@@ -253,7 +253,8 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         SettingsHelper $settingsHelper,
         EntityManagerInterface $em,
         ParameterBagInterface $parameterBag,
-        ShortUrlHelper $shortUrlHelper
+        ShortUrlHelper $shortUrlHelper,
+        TwilioHelper $twilioHelper
     ) {
         $repairOrderId = $request->get('repairOrderId');
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
@@ -281,9 +282,10 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         // Send it out
         $url = $customerURL.$ro->getLinkHash();
         $shortUrl = $shortUrlHelper->generateShortUrl($url);
+        $waiverMessage = $waiverIntroText.' '.$shortUrl;
+
         try {
-            $phone = $ro->getPrimaryCustomer()->getPhone();
-            $shortUrlHelper->sendShortenedLink($phone, $waiverIntroText, $shortUrl, true);
+            $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
         } catch (Exception $e) {
             throw new Exception($e);
         }

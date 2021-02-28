@@ -5,14 +5,12 @@ namespace App\Service;
 use App\Helper\iServiceLoggerTrait;
 use Http\Client\Exception;
 use Nexy\Slack\Client;
-use Psr\Log\LoggerInterface;
 
 /**
- * Class SlackClient
- *
- * @package App\Service
+ * Class SlackClient.
  */
-class SlackClient {
+class SlackClient
+{
     use iServiceLoggerTrait;
 
     /**
@@ -22,20 +20,17 @@ class SlackClient {
 
     /**
      * SlackClient constructor.
-     *
-     * @param Client $slack
      */
-    public function __construct (Client $slack) {
+    public function __construct(Client $slack)
+    {
         $this->slack = $slack;
     }
 
     /**
-     * @param string $from
-     * @param string $message
-     *
      * @return bool
      */
-    public function sendMessage (string $from, string $message) {
+    public function sendMessage(string $from, string $message)
+    {
         $slackMessage = $this->slack->createMessage()
                                     ->from($from)
                                     ->withIcon(':ghost:')
@@ -47,7 +42,7 @@ class SlackClient {
             return false;
         }
 
-        $this->logger->info('New Message From ' . $from);
+        $this->logger->info('New Message From '.$from);
 
         return true;
     }

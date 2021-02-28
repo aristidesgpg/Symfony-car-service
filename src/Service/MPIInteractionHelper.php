@@ -2,20 +2,18 @@
 
 namespace App\Service;
 
-use App\Entity\User;
 use App\Entity\RepairOrderMPI;
 use App\Entity\RepairOrderMPIInteraction;
+use App\Entity\User;
 use App\Repository\RepairOrderMPIInteractionRepository;
-use Symfony\Component\Security\Core\Security;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
- * Class MPIInteractionHelper
- *
- * @package App\Service
+ * Class MPIInteractionHelper.
  */
-class MPIInteractionHelper {
-
+class MPIInteractionHelper
+{
     /**
      * @var User
      */
@@ -33,34 +31,30 @@ class MPIInteractionHelper {
 
     /**
      * MPIInteractionHelper constructor.
-     *
-     * @param RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo
-     * @param EntityManagerInterface              $em
-     * @param Security                            $security
      */
-    public function __construct (RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo, EntityManagerInterface $em, Security $security) {
+    public function __construct(RepairOrderMPIInteractionRepository $repairOrderMPIInteractionRepo, EntityManagerInterface $em, Security $security)
+    {
         $this->repairOrderMPIInteractionRepo = $repairOrderMPIInteractionRepo;
-        $this->em                            = $em;
-        $this->user                          = $security->getUser();
+        $this->em = $em;
+        $this->user = $security->getUser();
     }
 
     /**
      * @param RepairOrderMPI $repairOrderMpi
-     * @param String         $type
      *
      * @return void
      */
-    public function log (RepairOrderMPI $repairOrderMPI, String $type) {
-
+    public function log(RepairOrderMPI $repairOrderMPI, string $type)
+    {
         $repairOrder = $repairOrderMPI->getRepairOrder();
-        $customer    = $repairOrder->getPrimaryCustomer();
+        $customer = $repairOrder->getPrimaryCustomer();
         //store repairOrderMPI
         $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
         $repairOrderMPIInteraction->setRepairOrderMPI($repairOrderMPI)
                                     ->setUser($this->user)
                                     ->setCustomer($customer)
                                     ->setType($type);
-                                
+
         $this->em->persist($repairOrderMPIInteraction);
         $this->em->flush();
 
@@ -68,10 +62,10 @@ class MPIInteractionHelper {
     }
 
     /**
-     *
      * @return array
      */
-    public function getMPIInteractions () {
+    public function getMPIInteractions()
+    {
         $repairOrderMPIInteractions = $this->repairOrderMPIInteractionRepo->findAll();
 
         return $repairOrderMPIInteractions;
