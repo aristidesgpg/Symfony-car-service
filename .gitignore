@@ -19,4 +19,5 @@ public/uploads
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
 /tools/
-/.php_cs.cache
+/.php_cs.cach/e
+bin/.phpunit
