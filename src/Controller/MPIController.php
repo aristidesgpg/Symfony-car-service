@@ -153,6 +153,11 @@ class MPIController extends AbstractFOSRestController
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        if ($pageLimit < 1) {
+            return $this->handleView(
+                $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
+            );
+        }
         $pager = $paginator->paginate($q, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 

@@ -315,4 +315,57 @@ class RepairOrderHelper {
 
         return $return;
     }
+
+    /**
+     * @return array
+     */
+    public function getSuggestedRoNumbers () {
+        $suggestedRoNumbers = [];
+        // Get the latest RO number that is JUST a number in the last 20 ros entered
+        $query = $this->em
+            ->getConnection()
+            ->prepare("
+                SELECT MAX(r.number) number
+                FROM (
+                    SELECT *
+                    FROM repair_order
+                    WHERE number NOT REGEXP '[[:alpha:]]'
+                    ORDER BY id DESC
+                    LIMIT 20
+                ) r 
+            ");
+        $query->execute();
+        $latestRO = $query->fetchAll();
+
+        if (!$latestRO) {
+            return [];
+        }
+        $latestRO = array_shift($latestRO);
+        if (!isset($latestRO)) {
+            return [];
+        }
+        $latestRO = $latestRO['number'];
+        $start    = $latestRO - 20;
+        $end      = $latestRO + 20;
+        foreach (range($latestRO - 1, $start, -1) as $possibleRONumber) {
+            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
+            if (!$exists) {
+                $suggestedRoNumbers[] = $possibleRONumber;
+            }
+            if (count($suggestedRoNumbers) >= 10) {
+                break;
+            }
+        }
+        foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
+            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
+            if (!$exists) {
+                $suggestedRoNumbers[] = $possibleRONumber;
+            }
+            if (count($suggestedRoNumbers) >= 20) {
+                break;
+            }
+        }
+        sort($suggestedRoNumbers);
+        return $suggestedRoNumbers;
+    }
 }
