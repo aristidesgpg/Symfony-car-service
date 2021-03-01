@@ -125,11 +125,11 @@ class ServiceSMSController extends AbstractFOSRestController
         PhoneValidator $phoneValidator,
         TwilioHelper $twilioHelper
     ): Response {
-        $message = $request->get('Body');
-        $from = $request->get('From');
-        $to = $request->get('To');
-        $sid = $request->get('MessageSid');
-        $phone = $phoneValidator->clean($from);
+        $message  = $request->get('Body');
+        $from     = $request->get('From');
+        $to       = $request->get('To');
+        $sid      = $request->get('MessageSid');
+        $phone    = $phoneValidator->clean($from);
         $customer = $customerRepo->findOneBy(['phone' => $phone]);
 
         if ($customer) {
@@ -139,6 +139,12 @@ class ServiceSMSController extends AbstractFOSRestController
                        ->setMessage($twilioHelper->Encode($message))
                        ->setSid($sid)
                        ->setIncoming(true);
+            if(!$customer->getMobileConfirmed())
+            {
+                $customer->setMobileConfirmed(true);
+                $em->persist($customer);
+            }
+            
             $em->persist($serviceSMS);
             $em->flush();
 
