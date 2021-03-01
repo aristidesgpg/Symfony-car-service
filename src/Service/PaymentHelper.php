@@ -178,6 +178,7 @@ class PaymentHelper
     public function sendPayment(RepairOrderPayment $payment): void
     {
         $url = $this->customerUrl.$payment->getRepairOrder()->getLinkHash();
+        $url = $this->urlHelper->generateShortUrl($url);
         $message = $this->settings->find('serviceTextPayment')->getValue().':'.$url;
         $customer = $payment->getRepairOrder()->getPrimaryCustomer();
 
@@ -218,7 +219,6 @@ class PaymentHelper
     public function payPayment(RepairOrderPayment $payment, string $paymentToken): void
     {
         $response = $this->nmi->makePayment($paymentToken, $payment->getAmountString())->getParsedResponse();
-
         $transactionId = $response['transactionid'] ?? null;
         $payment->setTransactionId($transactionId);
         $payment->setDatePaid(new DateTime());
