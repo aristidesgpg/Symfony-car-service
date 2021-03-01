@@ -139,6 +139,13 @@ class ServiceSMSController extends AbstractFOSRestController
                        ->setMessage($twilioHelper->Encode($message))
                        ->setSid($sid)
                        ->setIncoming(true);
+
+            // We got a message, mark it confirmed mobile
+            if (!$customer->getMobileConfirmed()) {
+                $customer->setMobileConfirmed(true);
+                $em->persist($customer);
+            }
+
             $em->persist($serviceSMS);
             $em->flush();
 
