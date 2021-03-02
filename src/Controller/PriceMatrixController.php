@@ -46,7 +46,7 @@ class PriceMatrixController extends AbstractFOSRestController
      */
     public function list(PriceMatrixRepository $priceMatrixRepository): Response
     {
-        $priceMatrixes = $priceMatrixRepository->findAll();
+        $priceMatrixes = $priceMatrixRepository->getAllItems();
 
         return $this->handleView($this->view($priceMatrixes, Response::HTTP_OK));
     }

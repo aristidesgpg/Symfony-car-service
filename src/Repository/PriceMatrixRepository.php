@@ -39,6 +39,7 @@ class PriceMatrixRepository extends ServiceEntityRepository
     public function getAllItems()
     {
         return $this->createQueryBuilder('p')
+            ->orderBy("p.hours", "ASC")
             ->getQuery()
             ->getResult()
         ;
