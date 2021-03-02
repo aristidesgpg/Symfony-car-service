@@ -68,26 +68,25 @@ class ServiceSMSController extends AbstractFOSRestController
     public function send(
         Request $request,
         TwilioHelper $twilioHelper,
-        EntityManagerInterface $em,
         CustomerRepository $customerRepo
     ) {
         $customerID = $request->get('customerID');
         $message    = $request->get('message');
 
         if (!$customerID || !$message) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter');
         }
 
         $customer = $customerRepo->find($customerID);
         if (!$customer) {
-            return $this->handleView($this->view('Customer Does Not Exist', Response::HTTP_BAD_REQUEST));
+            throw new NotFoundHttpException('Customer Does Not Exist');
         }
 
         // send message to a customer
         try {
             $twilioHelper->sendSms($customer, $message);
         } catch (Exception $e) {
-            throw new InternalErrorException($e);
+            throw new BadRequestHttpException($e->getMessage());
         }
 
         return $this->handleView(
@@ -150,14 +149,14 @@ class ServiceSMSController extends AbstractFOSRestController
 
             $response = new Response('<Response><Response />', Response::HTTP_OK);
         } else {
-            $errorLog = 'Incoming message from '.$from.' to '.$to.'. No customer has this phone number.';
+            $errorLog      = 'Incoming message from '.$from.' to '.$to.'. No customer has this phone number.';
 
             $serviceSMSLog = new ServiceSMSLog();
             $serviceSMSLog->setError($errorLog);
             $em->persist($serviceSMSLog);
             $em->flush();
 
-            $response = new Response("<Response>{$errorLog}</Response>", Response::HTTP_NOT_ACCEPTABLE);
+            $response      = new Response("<Response>{$errorLog}</Response>", Response::HTTP_NOT_ACCEPTABLE);
         }
 
         $response->headers->set('Content-Type', 'text/xml');
@@ -318,12 +317,12 @@ class ServiceSMSController extends AbstractFOSRestController
 
         $view = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('app_servicesms_getthreads'),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('app_servicesms_getthreads'),
             ]
         );
 
