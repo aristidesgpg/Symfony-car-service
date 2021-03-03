@@ -9,6 +9,8 @@ parameters:
   reset_password_secret: '%env(RESET_PASSWORD_TOKEN_SECRET)%'
   sender: '%env(SENDER)%'
   customer_url: '%env(CUSTOMER_URL)%'
+  nmi_username: '%env(NMI_USERNAME)%'
+  nmi_password: '%env(NMI_PASSWORD)%'
 services:
   # default configuration for services in *this* file
   _defaults:
@@ -44,3 +46,8 @@ services:
       - '%env(TWILIO_AUTH_TOKEN)%'
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
+
+  #Custom Transport
+  App\Service\Mailer\ISRETransportFactory:
+    tags: [ mailer.transport_factory ]
+

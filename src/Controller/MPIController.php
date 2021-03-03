@@ -20,6 +20,8 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -103,8 +105,8 @@ class MPIController extends AbstractFOSRestController
         $errors = [];
 
         $columns = $em->getClassMetadata('App\Entity\MPITemplate')->getFieldNames();
-        $groupColumns = $em->getClassMetadata('App\Entity\MPIGroup')->getFieldNames();
-        $itemColumns = $em->getClassMetadata('App\Entity\MPIItem')->getFieldNames();
+        // $groupColumns = $em->getClassMetadata('App\Entity\MPIGroup')->getFieldNames();
+        // $itemColumns = $em->getClassMetadata('App\Entity\MPIItem')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -151,6 +153,11 @@ class MPIController extends AbstractFOSRestController
         $q = $qb->getQuery();
         $q->setParameters($queryParameters);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        if ($pageLimit < 1) {
+            return $this->handleView(
+                $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
+            );
+        }
         $pager = $paginator->paginate($q, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
@@ -247,26 +254,62 @@ class MPIController extends AbstractFOSRestController
      *         description="id, name, active"
      *     )
      * )
+     * @SWG\Response(
+     *     response="404",
+     *     description="Invalid repairOrderId"
+     * )
+     * @SWG\Response(
+     *     response="400",
+     *     description="Missing field"
+     * )
+     * @SWG\Response(
+     *     response="406",
+     *     description="Invalid value"
+     * )
+     *
+     *
+     * @param Request                $request
+     * @param EntityManagerInterface $em
+     * @param MPITemplateHelper      $mpiTemplateHelper
      *
      * @return Response
      */
     public function createTemplate(
         Request $request,
         EntityManagerInterface $em,
-        MPITemplateHelper $mpiTemplateHelper,
-        MPITemplateRepository $mpiTemplateRepository
+        MPITemplateHelper $mpiTemplateHelper
     ) {
         $name = $request->get('name');
         $axleInfo = $request->get('axleInfo');
 
+        //check if params are valid
         if (!$name || !$axleInfo) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Paramete');
         }
 
-        // Convert string to object
-        $obj = json_decode($axleInfo);
-        $numberOfAxles = count($obj);
+        //convert string to object
+        $obj = (array)json_decode($axleInfo);
+        if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
+            throw new BadRequestHttpException('Axle Information JSON is invalid');
+        }
 
+        foreach ($obj as $item) {
+            if (!is_object($item))
+                throw new BadRequestHttpException('Axle Information JSON is invalid');
+            $arr = get_object_vars($item);
+            $keys = array_keys($arr);
+            $requiredFields = ['wheels', 'brakesRangeMaximum', 'tireRangeMaximum'];
+
+            foreach ($requiredFields as $key) {
+                if (!in_array($key, $keys))
+                    throw new BadRequestHttpException('Missing $key Parameter in Axle JSON');
+
+                if (!is_numeric($arr[$key]))
+                    throw new NotAcceptableHttpException('Invalid $key Parameter in Axle JSON');
+            }
+        }
+        
+        $numberOfAxles = count($obj);
         //create a new template
         $mpiTemplate = new MPITemplate();
         $mpiTemplate->setName($name);
@@ -373,7 +416,7 @@ class MPIController extends AbstractFOSRestController
 
         //param is invalid
         if (!$name) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter');
         }
 
         // update template
@@ -565,13 +608,13 @@ class MPIController extends AbstractFOSRestController
 
         //param is invalid
         if (!$templateID || !$name) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter');
         }
 
         $mpiTemplate = $mpiTemplateRepo->find($templateID);
         //Check if MPI Template exists
         if (!$mpiTemplate) {
-            return $this->handleView($this->view('Invalid Template Parameter', Response::HTTP_BAD_REQUEST));
+            throw new NotAcceptableHttpException('Invalid Template Parameter');
         }
         // create group
         $mpiGroup = new MPIGroup();
@@ -625,7 +668,7 @@ class MPIController extends AbstractFOSRestController
 
         //param is invalid
         if (!$name) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter');
         }
 
         // update group
@@ -817,18 +860,18 @@ class MPIController extends AbstractFOSRestController
 
         //param is invalid
         if (!$groupID || !$name) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter');
         }
 
         $mpiGroup = $mpiGroupRepo->find($groupID);
         //check if MPI Group exists
         if (!$mpiGroup) {
-            return $this->handleView($this->view('Invalid Group Parameter', Response::HTTP_BAD_REQUEST));
+            throw new NotAcceptableHttpException('Invalid Group Parameter');
         }
         //check if name is duplicated
         $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiGroup->getId());
         if ($duplicatedItems) {
-            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
+            throw new NotAcceptableHttpException('MPI Item is Duplicated');
         }
 
         // create item
@@ -888,12 +931,12 @@ class MPIController extends AbstractFOSRestController
 
         //param is invalid
         if (!$name) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+            throw new BadRequestHttpException('Missing Required Parameter');
         }
         //check if name is duplicated
         $duplicatedItems = $mpiItemRepo->findDuplication($name, $mpiItem->getMPIGroup()->getId());
         if ($duplicatedItems) {
-            return $this->handleView($this->view('MPI Item is Duplicated', Response::HTTP_BAD_REQUEST));
+            throw new NotAcceptableHttpException('MPI Item is Duplicated');
         }
 
         // update Item

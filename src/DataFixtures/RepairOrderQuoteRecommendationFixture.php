@@ -8,16 +8,13 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-/**
- * Class RepairOrderQuoteRecommendationFixture
- *
- * @package App\DataFixtures
- */
-class RepairOrderQuoteRecommendationFixture extends Fixture implements DependentFixtureInterface {
+class RepairOrderQuoteRecommendationFixture extends Fixture implements DependentFixtureInterface
+{
     /**
-     * @param ObjectManager $manager
+     * @return void
      */
-    public function load (ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $faker = Factory::create();
         
         for($i = 1; $i <= 50; $i ++){
@@ -31,25 +28,26 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
                                            ->setDescription($faker->sentence($nbWords = 5, $variableNbWords = true))
                                            ->setPreApproved($faker->boolean(70))
                                            ->setApproved($faker->boolean(50))
-                                           ->setPartsPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
-                                           ->setSuppliesPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
-                                           ->setLaborPrice($faker->randomFloat($nbMaxDecimals = NULL, $min = 0, $max = NULL))
+                                           ->setPartsPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
+                                           ->setSuppliesPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
+                                           ->setLaborPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
                                            ->setNotes($faker->sentence($nbWords = 3, $variableNbWords = true));
 
             $manager->persist($repairOrderQuote);
             $manager->flush();
 
-            $this->addReference('repairOrderQuoteRecommendation_' . $i, $repairOrderQuoteRecommendation);
+            $this->addReference('repairOrderQuoteRecommendation_'.$i, $repairOrderQuoteRecommendation);
         }
     }
 
     /**
      * @return string[]
      */
-    public function getDependencies () {
+    public function getDependencies()
+    {
         return [
             RepairOrderQuoteFixture::class,
-            OperationCodeFixture::class
+            OperationCodeFixture::class,
         ];
     }
 }

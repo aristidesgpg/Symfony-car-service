@@ -6,22 +6,20 @@ use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteInteraction;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Helper\iServiceLoggerTrait;
-use App\Repository\OperationCodeRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderQuoteHelper;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use DateTime;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RepairOrderQuoteController extends AbstractFOSRestController
 {
@@ -47,10 +45,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote)
     {
-        // if ($repairOrderQuote->getDeleted()) {
-        //     throw new NotFoundHttpException();
-        // }
-
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
 
@@ -87,12 +81,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Created" }),
      *         )
      * )
-     * @throws InternalErrorException
      */
     public function createRepairOrderQuote(
         Request $request,
         RepairOrderRepository $repairOrderRepository,
-        OperationCodeRepository $operationCodeRepository,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $helper
@@ -100,37 +92,21 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderID = $request->get('repairOrderID');
         $recommendations = $request->get('recommendations');
 
-        // Validate recommendation json
-        if ($recommendations) {
-            $obj = json_decode($recommendations);
-            if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
-                throw new BadRequestHttpException('Recommendations data is invalid');
-            }
-
-            try {
-                $helper->validateRecommendationsJSON($obj);
-            } catch (Exception $e) {
-                throw new BadRequestHttpException($e->getMessage());
-            }
-        }
-
         // check if params are valid
         if (!$repairOrderID) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
         // Check if Repair Order exists
-        $repairOrder = $repairOrderRepository->find($repairOrderID);
+        $repairOrder = $repairOrderRepository->findByUID($repairOrderID);
         if (!$repairOrder) {
-            return $this->handleView($this->view('Invalid repair_order Parameter', Response::HTTP_BAD_REQUEST));
+            throw new NotFoundHttpException('Repair Order not found');
         }
 
         // Check if there is a quote already
         $exists = $repairOrderQuoteRepository->findOneBy(['repairOrder' => $repairOrder]);
         if ($exists) {
-            return $this->handleView(
-                $this->view('A quote already exists for this Repair Order', Response::HTTP_NOT_ACCEPTABLE)
-            );
+            throw new BadRequestHttpException('A quote already exists for this Repair Order');
         }
 
         // store repairOrderQuote
@@ -140,65 +116,23 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $em->persist($repairOrderQuote);
         $em->flush();
 
-        if ($recommendations) {
-            // add recommendations
-            foreach ($obj as $index => $recommendation) {
-                $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
-
-                //Check if Operation Code exists
-                $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
-                if (!$operationCode) {
-                    // Remove the quote that was created
-                    $em->remove($repairOrderQuote);
-                    $em->flush();
-
-                    throw new BadRequestHttpException('Invalid operationCode Parameter in recommendations JSON');
-                }
-
-                try {
-                    $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                                                   ->setOperationCode($operationCode)
-                                                   ->setDescription($recommendation->description)
-                                                   ->setPreApproved(
-                                                       filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                                                   )
-                                                   ->setApproved(
-                                                       filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
-                                                   )
-                                                   ->setPartsPrice($recommendation->partsPrice)
-                                                   ->setSuppliesPrice($recommendation->suppliesPrice)
-                                                   ->setNotes($recommendation->notes);
-                } catch (Exception $e) {
-                    // Remove the quote that was created
-                    $em->remove($repairOrderQuote);
-                    $em->flush();
-
-                    $message = 'Missing required recommendation parameter: description, preApproved, approved, partsPrice, suppliesPrice, notes';
-                    throw new BadRequestHttpException($message);
-                }
-
-                try {
-                    $em->persist($repairOrderQuoteRecommendation);
-                    $em->flush();
-                } catch (ORMException $e) {
-                    // Remove the quote that was created
-                    $em->remove($repairOrderQuote);
-                    $em->flush();
-
-                    throw new InternalErrorException($e->getMessage());
-                }
-            }
+        // Validate recommendation json
+        $recommendations = json_decode($recommendations);
+        if (is_null($recommendations) || !is_array($recommendations) || count($recommendations) === 0) {
+            throw new BadRequestHttpException('Recommendations data is invalid');
         }
 
+        try {
+            $helper->validateRecommendationsJson($recommendations);
+            $helper->buildRecommendations($repairOrderQuote, $recommendations);
+        } catch (Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
 
-        return $this->handleView(
-            $this->view(
-                [
-                    'message' => 'RepairOrderQuote Created',
-                ],
-                Response::HTTP_OK
-            )
-        );
+        $view = $this->view($repairOrderQuote);
+        $view->getContext()->setGroups(['roq_list', 'roqs_list']);
+
+        return $this->handleView($view);
     }
 
     /**
@@ -211,7 +145,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="[{'operationCode':14, 'description':'Neque maxime ex dolorem ut.','preApproved':true,'approved':true,'partsPrice':1.0,'suppliesPrice':14.02,'laborPrice':5.3,'notes':'Cumque tempora ut nobis.'},{'operationCode':11, 'description':'Quidem earum sapiente at dolores quia natus.','preApproved':false,'approved':true,'partsPrice':2.6,'suppliesPrice':509.02,'laborPrice':36.9,'notes':'Et accusantium rerum.'},{'operationCode':4, 'description':'Mollitia unde nobis doloribus sed.','preApproved':true,'approved':false,'partsPrice':1.1,'suppliesPrice':71.7,'laborPrice':55.1,'notes':'Voluptates et aut debitis.'}]",
+     *     description="[{""operationCode"":14, ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""notes"":""Cumque tempora ut nobis.""},{""operationCode"":11, ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""notes"":""Et accusantium rerum.""},{""operationCode"":4, ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""notes"":""Voluptates et aut debitis.""}]",
      * )
      *
      * @SWG\Response(
@@ -223,56 +157,36 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Updated" }),
      *         )
      * )
+     * @throws Exception
      */
     public function updateRepairOrderQuote(
         RepairOrderQuote $repairOrderQuote,
         Request $request,
-        RepairOrderRepository $repairOrderRepository,
-        OperationCodeRepository $operationCodeRepository,
-        EntityManagerInterface $em
+        RepairOrderQuoteHelper $repairOrderQuoteHelper
     ): Response {
-        $recommendations = str_replace("'", '"', $request->get('recommendations'));
-        $obj = (array) json_decode($recommendations);
+        $recommendations = $request->get('recommendations');
 
-        // remove existing recommendations
-        $allRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
-        foreach ($allRecommendations as $index => $recommendation) {
-            $em->remove($recommendation);
-            $em->flush();
+        if (!$recommendations) {
+            throw new BadRequestHttpException('Missing Required Parameter: recommendations');
         }
 
-        // add recommendations
-        foreach ($obj as $index => $recommendation) {
-            $repairOrderRecommendation = new RepairOrderQuoteRecommendation();
-
-            //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
-            if (!$operationCode) {
-                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
-            }
-            $repairOrderRecommendation->setRepairOrderQuote($repairOrderQuote)
-                                      ->setOperationCode($operationCode)
-                                      ->setDescription($recommendation->description)
-                                      ->setPreApproved(
-                                          filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                                      )
-                                      ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
-                                      ->setPartsPrice($recommendation->partsPrice)
-                                      ->setSuppliesPrice($recommendation->suppliesPrice)
-                                      ->setNotes($recommendation->notes);
-
-            $em->persist($repairOrderRecommendation);
-            $em->flush();
+        // Validate recommendation json
+        $recommendations = json_decode($recommendations);
+        if (is_null($recommendations) || !is_array($recommendations) || count($recommendations) === 0) {
+            throw new BadRequestHttpException('Recommendations data is invalid');
         }
 
-        return $this->handleView(
-            $this->view(
-                [
-                    'message' => 'RepairOrderQuote Updated',
-                ],
-                Response::HTTP_OK
-            )
-        );
+        try {
+            $repairOrderQuoteHelper->validateRecommendationsJson($recommendations);
+            $repairOrderQuoteHelper->buildRecommendations($repairOrderQuote, $recommendations);
+        } catch (Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        $view = $this->view($repairOrderQuote);
+        $view->getContext()->setGroups(['roq_list', 'roqs_list']);
+
+        return $this->handleView($view);
     }
 
         /**
@@ -631,7 +545,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
     }
-    
+
     /**
      * @Rest\Delete("/api/repair-order-quote/{id}")
      *

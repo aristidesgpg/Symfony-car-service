@@ -1,0 +1,69 @@
+{#
+ # This email template uses Foundation for Emails: https://get.foundation/emails/docs/index.html
+ # Styles are located in assets/foundation-emails.css
+ #
+ # Yes, it's all tables. Yes, it's horrible. Welcome to the hell that is HTML email.
+ #}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width"/>
+</head>
+<body>
+<table class="body">
+    <tr>
+        <td class="center" align="center" valign="top">
+            <center>
+                <table class="container">
+                    <tr>
+                        <td>
+                            <table class="row">
+                                <tr>
+                                    <th class="first last columns">
+                                        <table>
+                                            <tr>
+                                                <th><img src="{# TODO: Dealer logo #}" alt="" /></th>
+                                                <th class="expander"></th>
+                                            </tr>
+                                        </table>
+                                    </th>
+                                </tr>
+                            </table>
+                            {% block body %}{% endblock %}
+                            <table class="row">
+                                <tr>
+                                    <th class="small-6 large-6 first columns" valign="bottom">
+                                        <table>
+                                            <tr>
+                                                <th>
+                                                    Contact:
+                                                    <ul style="margin: 0;">
+                                                        <li>800-225-5288</li>
+                                                        <li>support@example.com</li>
+                                                    </ul>
+                                                </th>
+                                            </tr>
+                                        </table>
+                                    </th>
+                                    <th class="small-6 large-6 last columns" valign="bottom">
+                                        <table>
+                                            <tr>
+                                                <th>
+                                                    <img class="float-right" style="max-width: 125px;" src="http://iserviceauto.com/wp-content/uploads/2019/03/powered-by-iservice.jpg" alt="Powered By iService" /> {# TODO: Update src #}
+                                                </th>
+                                                <th class="expander"></th>
+                                            </tr>
+                                        </table>
+                                    </th>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </center>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
