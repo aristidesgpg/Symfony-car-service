@@ -39,6 +39,8 @@ class PaymentHelper
         'Refunded',
     ];
 
+    private $hasPayments = false;
+
     /**
      * PaymentHelper constructor.
      */
@@ -54,6 +56,10 @@ class PaymentHelper
         $this->urlHelper = $urlHelper;
         $this->settings = $settings;
         $this->mailer = $mailer;
+
+        if ($this->settings->find('hasPayments')->getValue()) {
+            $this->hasPayments = true;
+        }
     }
 
     public function addPayment(RepairOrder $ro, Money $amount): RepairOrderPayment
@@ -377,5 +383,15 @@ class PaymentHelper
     public function setValidStatusesInOrder(array $validStatusesInOrder): void
     {
         $this->validStatusesInOrder = $validStatusesInOrder;
+    }
+
+    public function isHasPayments(): bool
+    {
+        return $this->hasPayments;
+    }
+
+    public function setHasPayments(bool $hasPayments): void
+    {
+        $this->hasPayments = $hasPayments;
     }
 }
