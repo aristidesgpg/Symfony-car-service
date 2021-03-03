@@ -57,6 +57,7 @@ class PaymentHelper
         $this->settings = $settings;
         $this->mailer = $mailer;
 
+        //TODO Find out what we should do if they don't have payments, Return null or exception?
         if ($this->settings->find('hasPayments')->getValue()) {
             $this->hasPayments = true;
         }
