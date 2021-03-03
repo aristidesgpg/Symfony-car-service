@@ -442,6 +442,41 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
+<<<<<<< HEAD
+=======
+     * @Rest\Put("/{id}/archive")
+     * @SWG\Response(response="200", description="Success!")
+     * @SWG\Response(response="400", description="RO is already archived")
+     * @SWG\Response(response="404", description="RO does not exist")
+     */
+    public function archive(RepairOrder $ro, RepairOrderHelper $helper): Response
+    {
+        if ($ro->getDeleted()) {
+            throw new NotFoundHttpException();
+        }
+        if (true === $ro->isArchived()) {
+            return $this->handleView(
+                $this->view(
+                    [
+                        'message' => 'RO already archived',
+                    ],
+                    Response::HTTP_BAD_REQUEST
+                )
+            );
+        }
+        $helper->archiveRepairOrder($ro);
+
+        return $this->handleView(
+            $this->view(
+                [
+                    'message' => 'RO Archived',
+                ]
+            )
+        );
+    }
+
+    /**
+>>>>>>> 5ea412d7 (Remove skipMobileVerification in Customer and RepairOrder)
      * @Rest\Put("/{id}/close")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="RO is already closed")
