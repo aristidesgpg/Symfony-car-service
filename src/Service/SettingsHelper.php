@@ -221,6 +221,14 @@ class SettingsHelper
             'default_value' => null,
             'front_end' => 'Outgoing Messages > Review Text',
         ],
+        'hasPayments' => [
+            'default_value' => 0,
+            'front_end' => 'N/A',
+        ],
+        'paymentToken' => [
+            'default_value' => 'Qv593h-2PkH24-N2JKD8-Ze8NXU',
+            'front_end' => 'N/A',
+        ],
     ];
 
     /**
