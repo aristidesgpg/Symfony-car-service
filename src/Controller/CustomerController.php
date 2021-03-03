@@ -128,7 +128,6 @@ class CustomerController extends AbstractFOSRestController
         }
 
         if ($request->query->has('searchTerm')) {
-
             $searchTerm = $request->query->get('searchTerm');
 
             $urlParameters['searchTerm'] = $searchTerm;
@@ -205,7 +204,6 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="phone", type="string", in="formData", required=True, minLength=10, maxLength=10)
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
-     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      */
     public function addCustomer(Request $req, CustomerHelper $helper): Response
     {
@@ -242,7 +240,6 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="phone", type="string", in="formData")
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
-     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      */
     public function updateCustomer(Customer $customer, Request $req, CustomerHelper $helper): Response
     {
@@ -270,7 +267,7 @@ class CustomerController extends AbstractFOSRestController
      *      description="Return deleted customer",
      *      @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
      * )
-     * 
+     *
      * @SWG\Response(response="404", description="Customer does not exist")
      */
     public function deleteCustomer(Customer $customer, CustomerHelper $helper): Response

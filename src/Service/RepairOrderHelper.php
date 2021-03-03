@@ -18,7 +18,8 @@ use RuntimeException;
 
 class RepairOrderHelper
 {
-    use iServiceLoggerTrait, FalsyTrait;
+    use iServiceLoggerTrait;
+    use FalsyTrait;
 
     private $em;
     private $repo;
@@ -48,7 +49,7 @@ class RepairOrderHelper
         $errors = [];
         $required = ['customerName', 'customerPhone', 'number'];
         foreach ($required as $k) {
-            if (!isset($params[$k]) || strlen($params[$k]) === 0) {
+            if (!isset($params[$k]) || 0 === strlen($params[$k])) {
                 $errors[$k] = 'Required field missing';
             }
         }
@@ -85,14 +86,12 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array $params
-     *
      * @return Customer|array Array on validation failure
      */
     private function handleCustomer(array $params)
     {
         $customer = $this->customers->findByPhone($params['customerPhone']);
-        if ($customer !== null) {
+        if (null !== $customer) {
             $customer->setName($params['customerName']);
             $this->customerHelper->commitCustomer($customer);
 
@@ -114,7 +113,6 @@ class RepairOrderHelper
         $map = [
             'customerName' => 'name',
             'customerPhone' => 'phone',
-            'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
 
@@ -130,9 +128,6 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array       $params
-     * @param RepairOrder $ro
-     *
      * @return array Array on validation failure
      */
     private function buildRO(array $params, RepairOrder $ro): array
@@ -142,16 +137,16 @@ class RepairOrderHelper
             if (!isset($params[$k]) || empty($params[$k])) {
                 continue;
             }
-            $role = ($k === 'advisor') ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
+            $role = ('advisor' === $k) ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
             $user = $this->users->find($params[$k]);
-            if ($user === null) {
+            if (null === $user) {
                 $errors[$k] = ucfirst($k).' not found';
                 continue;
             } elseif (!in_array($role, $user->getRoles())) {
                 $errors[$k] = ucfirst($k).' does not have role '.$role;
                 continue;
             }
-            if ($k === 'advisor') {
+            if ('advisor' === $k) {
                 $ro->setPrimaryAdvisor($user);
             } else {
                 $ro->setPrimaryTechnician($user);
@@ -234,23 +229,13 @@ class RepairOrderHelper
         return $errors;
     }
 
-    /**
-     * @param string $roNumber
-     *
-     * @return bool
-     */
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findByUID($roNumber);
 
-        return ($ro === null);
+        return null === $ro;
     }
 
-    /**
-     * @param string $dateCreated
-     *
-     * @return string
-     */
     private function generateLinkHash(string $dateCreated): string
     {
         try {
@@ -259,7 +244,7 @@ class RepairOrderHelper
             throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
         }
         $ro = $this->repo->findByHash($hash);
-        if ($ro !== null) { // Very unlikely
+        if (null !== $ro) { // Very unlikely
             $this->logger->warning('link hash collision');
 
             return $this->generateLinkHash($dateCreated);
@@ -280,15 +265,9 @@ class RepairOrderHelper
         }
     }
 
-    /**
-     * @param array       $params
-     * @param RepairOrder $ro
-     *
-     * @return array
-     */
     public function updateRepairOrder(array $params, RepairOrder $ro): array
     {
-        if ($ro->getId() === null) {
+        if (null === $ro->getId()) {
             throw new InvalidArgumentException('RO is missing ID');
         }
         $errors = $this->buildRO($params, $ro);
@@ -300,36 +279,27 @@ class RepairOrderHelper
         return [];
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function closeRepairOrder(RepairOrder $ro): void
     {
-        if ($ro->getDateClosed() !== null) {
+        if (null !== $ro->getDateClosed()) {
             throw new InvalidArgumentException('RO is already closed');
         }
         $ro->setDateClosed(new DateTime());
         $this->commitRepairOrder();
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function archiveRepairOrder(RepairOrder $ro): void
     {
-        if ($ro->isArchived() === true) {
+        if (true === $ro->isArchived()) {
             throw new InvalidArgumentException('RO is already archived');
         }
         $ro->setArchived(true);
         $this->commitRepairOrder();
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function deleteRepairOrder(RepairOrder $ro): void
     {
-        if ($ro->getDeleted() === true) {
+        if (true === $ro->getDeleted()) {
             throw new InvalidArgumentException('RO is already deleted');
         }
         $ro->setDeleted(true);
@@ -339,7 +309,8 @@ class RepairOrderHelper
     /**
      * @return array
      */
-    public function getSuggestedRoNumbers () {
+    public function getSuggestedRoNumbers()
+    {
         $suggestedRoNumbers = [];
         // Get the latest RO number that is JUST a number in the last 20 ros entered
         $query = $this->em
@@ -365,8 +336,8 @@ class RepairOrderHelper
             return [];
         }
         $latestRO = $latestRO['number'];
-        $start    = $latestRO - 20;
-        $end      = $latestRO + 20;
+        $start = $latestRO - 20;
+        $end = $latestRO + 20;
         foreach (range($latestRO - 1, $start, -1) as $possibleRONumber) {
             $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {
@@ -386,6 +357,7 @@ class RepairOrderHelper
             }
         }
         sort($suggestedRoNumbers);
+
         return $suggestedRoNumbers;
     }
 }

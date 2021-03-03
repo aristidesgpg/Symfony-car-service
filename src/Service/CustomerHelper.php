@@ -10,9 +10,7 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * Class CustomerHelper
- *
- * @package App\Service
+ * Class CustomerHelper.
  */
 class CustomerHelper
 {
@@ -27,9 +25,6 @@ class CustomerHelper
 
     /**
      * CustomerHelper constructor.
-     *
-     * @param EntityManagerInterface $em
-     * @param PhoneValidator         $phoneValidator
      */
     public function __construct(EntityManagerInterface $em, PhoneValidator $phoneValidator)
     {
@@ -37,14 +32,10 @@ class CustomerHelper
         $this->phoneValidator = $phoneValidator;
     }
 
-    /**
-     * @param Customer $customer
-     * @param array    $params
-     */
     public function commitCustomer(Customer $customer, array $params = []): void
     {
         $valid = empty($this->validateParams($params));
-        if ($valid !== true) {
+        if (true !== $valid) {
             throw new InvalidArgumentException('Params did not validate. Call validateParams first.');
         }
         foreach ($params as $k => $v) {
@@ -54,7 +45,6 @@ class CustomerHelper
                     break;
                 case 'phone':
                     $customer->setPhone($this->stripPhone($v));
-                    $customer->setMobileConfirmed(!$this->skipMobileVerification($params));
                     break;
                 case 'email':
                     $customer->setEmail($v);
@@ -71,7 +61,7 @@ class CustomerHelper
             }
         }
 
-        if ($customer->getId() === null) {
+        if (null === $customer->getId()) {
             $this->em->persist($customer);
         }
         $this->em->beginTransaction();
@@ -85,15 +75,12 @@ class CustomerHelper
     }
 
     /**
-     * @param array $params
-     * @param bool  $checkRequiredFields
-     *
      * @return array Empty on successful validation
      */
     public function validateParams(array $params, bool $checkRequiredFields = false): array
     {
         $errors = [];
-        if ($checkRequiredFields === true) {
+        if (true === $checkRequiredFields) {
             foreach (self::REQUIRED_FIELDS as $field) {
                 if (!isset($params[$field])) {
                     $errors[$field] = 'Field missing';
@@ -116,13 +103,13 @@ class CustomerHelper
                         $msg = 'Invalid phone number';
                         break;
                     }
-                    if (!$this->skipMobileVerification($params) && !$this->phoneValidator->isMobile($v)) {
+                    if (!$this->phoneValidator->isMobile($v)) {
                         $msg = 'Phone number is not mobile';
                     }
                     break;
                 case 'email':
                     if (!empty($v)) {
-                        if (strpos($v, '@') === false) {
+                        if (false === strpos($v, '@')) {
                             $msg = 'Invalid email address';
                         }
                     }
@@ -133,13 +120,11 @@ class CustomerHelper
                     }
                     break;
                 case 'doNotContact':
-                case 'skipMobileVerification':
-                    // Do nothing
                     break;
                 default:
                     $msg = 'Unknown key';
             }
-            if ($msg !== null) {
+            if (null !== $msg) {
                 $errors[$k] = $msg;
             }
         }
@@ -152,15 +137,8 @@ class CustomerHelper
         return $this->phoneValidator->clean($phone);
     }
 
-    private function skipMobileVerification(array $params): bool
-    {
-        $skip = $params['skipMobileVerification'] ?? false;
-
-        return $this->paramToBool($skip);
-    }
-
     private function paramToBool($param): bool
     {
-        return ($param !== 'false' && $param == true);
+        return 'false' !== $param && true == $param;
     }
 }
