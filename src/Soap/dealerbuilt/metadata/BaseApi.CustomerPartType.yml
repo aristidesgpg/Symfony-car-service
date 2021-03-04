@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
+    properties:
+        customerCost:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerCost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerCost
+                setter: setCustomerCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        customerListPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerListPrice
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerListPrice
+                setter: setCustomerListPrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        customerNetPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerNetPrice
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerNetPrice
+                setter: setCustomerNetPrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        customerSalePrice:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerSalePrice
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerSalePrice
+                setter: setCustomerSalePrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        customerSell:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerSell
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerSell
+                setter: setCustomerSell
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        discountLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: DiscountLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDiscountLocationId
+                setter: setDiscountLocationId
+            type: int
+        errorMessage:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorMessage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getErrorMessage
+                setter: setErrorMessage
+            type: string

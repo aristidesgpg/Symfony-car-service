@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\VoidCounterTicketsResponse:
+    properties:
+        voidCounterTicketsResult:
+            -
+                Valid: null

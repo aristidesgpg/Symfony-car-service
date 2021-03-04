@@ -1,0 +1,77 @@
+App\Soap\dealerbuilt\src\Models\Sales\BuyFeeCollectionType:
+    properties:
+        bank:
+            expose: true
+            access_type: public_method
+            serialized_name: Bank
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getBank
+                setter: setBank
+            type: App\Soap\dealerbuilt\src\Models\Sales\StandardFeeType
+        dealerFees:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerFees
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getDealerFees
+                setter: setDealerFees
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType>
+            xml_list:
+                inline: false
+                entry_name: DealerFee
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+        licensing:
+            expose: true
+            access_type: public_method
+            serialized_name: Licensing
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getLicensing
+                setter: setLicensing
+            type: App\Soap\dealerbuilt\src\Models\Sales\StandardFeeType
+        loanOrigination:
+            expose: true
+            access_type: public_method
+            serialized_name: LoanOrigination
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getLoanOrigination
+                setter: setLoanOrigination
+            type: App\Soap\dealerbuilt\src\Models\Sales\StandardFeeType
+        loanProcessing:
+            expose: true
+            access_type: public_method
+            serialized_name: LoanProcessing
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getLoanProcessing
+                setter: setLoanProcessing
+            type: App\Soap\dealerbuilt\src\Models\Sales\StandardFeeType
+        proratedLicensing:
+            expose: true
+            access_type: public_method
+            serialized_name: ProratedLicensing
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getProratedLicensing
+                setter: setProratedLicensing
+            type: App\Soap\dealerbuilt\src\Models\Sales\StandardFeeType
+        tradeLicensing:
+            expose: true
+            access_type: public_method
+            serialized_name: TradeLicensing
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getTradeLicensing
+                setter: setTradeLicensing
+            type: App\Soap\dealerbuilt\src\Models\Sales\StandardFeeType

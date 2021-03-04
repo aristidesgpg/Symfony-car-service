@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\GetTechniciansResponse:
+    xml_root_name: GetTechniciansResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        getTechniciansResult:
+            expose: true
+            access_type: public_method
+            serialized_name: GetTechniciansResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getGetTechniciansResult
+                setter: setGetTechniciansResult
+            type: App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType

@@ -1,0 +1,73 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType:
+    properties:
+        jobId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        laborItems:
+            -
+                Valid: null
+        menuPartsPrice:
+            -
+                Valid: null
+        mpiCode:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - Green
+                        - Yellow
+                        - Red
+                    groups:
+                        - xsd_rules
+        parts:
+            -
+                Valid: null
+        payType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - CustomerCounterTicket
+                        - Customer
+                        - Internal
+                        - ServiceContract
+                        - Warranty
+                    groups:
+                        - xsd_rules
+        status:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - NewEstimate
+                        - EstimateAtTechnician
+                        - EstimateInParts
+                        - EstimateWaitingOnParts
+                        - EstimateReadyToGo
+                        - EstimateCompleted
+                        - CustomerDeclined
+                        - FullyApproved
+                        - Transferred
+                    groups:
+                        - xsd_rules
+        techs:
+            -
+                Valid: null
+        vciCode:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - R
+                        - Rs
+                        - Sm
+                    groups:
+                        - xsd_rules

@@ -1,0 +1,4 @@
+App\Soap\cdk\src\DisSequenceNo:
+    xml_root_name: disSequenceNo
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

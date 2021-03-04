@@ -1,0 +1,222 @@
+App\Soap\dealerbuilt\src\Models\Accounting\GlDetailLineType:
+    properties:
+        accountingDate:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getAccountingDate
+                setter: setAccountingDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        control1Code:
+            expose: true
+            access_type: public_method
+            serialized_name: Control1Code
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getControl1Code
+                setter: setControl1Code
+            type: string
+        control2Code:
+            expose: true
+            access_type: public_method
+            serialized_name: Control2Code
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getControl2Code
+                setter: setControl2Code
+            type: string
+        credits:
+            expose: true
+            access_type: public_method
+            serialized_name: Credits
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getCredits
+                setter: setCredits
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        dateReconciledOnBankRecord:
+            expose: true
+            access_type: public_method
+            serialized_name: DateReconciledOnBankRecord
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDateReconciledOnBankRecord
+                setter: setDateReconciledOnBankRecord
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        debits:
+            expose: true
+            access_type: public_method
+            serialized_name: Debits
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDebits
+                setter: setDebits
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        division:
+            expose: true
+            access_type: public_method
+            serialized_name: Division
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDivision
+                setter: setDivision
+            type: int
+        glHeaderDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: GlHeaderDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getGlHeaderDescription
+                setter: setGlHeaderDescription
+            type: string
+        glVouch:
+            expose: true
+            access_type: public_method
+            serialized_name: GlVouch
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getGlVouch
+                setter: setGlVouch
+            type: string
+        isClearedBank:
+            expose: true
+            access_type: public_method
+            serialized_name: IsClearedBank
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getIsClearedBank
+                setter: setIsClearedBank
+            type: bool
+        isReconciled:
+            expose: true
+            access_type: public_method
+            serialized_name: IsReconciled
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getIsReconciled
+                setter: setIsReconciled
+            type: bool
+        journal:
+            expose: true
+            access_type: public_method
+            serialized_name: Journal
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getJournal
+                setter: setJournal
+            type: string
+        journalDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: JournalDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getJournalDescription
+                setter: setJournalDescription
+            type: string
+        journalType:
+            expose: true
+            access_type: public_method
+            serialized_name: JournalType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getJournalType
+                setter: setJournalType
+            type: string
+        lineDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: LineDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getLineDescription
+                setter: setLineDescription
+            type: string
+        lineId:
+            expose: true
+            access_type: public_method
+            serialized_name: LineId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getLineId
+                setter: setLineId
+            type: int
+        modifiedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getModifiedStamp
+                setter: setModifiedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        monthToDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MonthToDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getMonthToDate
+                setter: setMonthToDate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        reference:
+            expose: true
+            access_type: public_method
+            serialized_name: Reference
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getReference
+                setter: setReference
+            type: string
+        unitCount:
+            expose: true
+            access_type: public_method
+            serialized_name: UnitCount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getUnitCount
+                setter: setUnitCount
+            type: int
+        voidStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: VoidStatus
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getVoidStatus
+                setter: setVoidStatus
+            type: string
+        zeroDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ZeroDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getZeroDate
+                setter: setZeroDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime

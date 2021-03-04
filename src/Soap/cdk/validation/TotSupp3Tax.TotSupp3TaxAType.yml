@@ -1,0 +1,9 @@
+App\Soap\cdk\src\TotSupp3Tax\TotSupp3TaxAType:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

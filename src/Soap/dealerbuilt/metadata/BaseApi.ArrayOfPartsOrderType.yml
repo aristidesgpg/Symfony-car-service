@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPartsOrderType:
+    properties:
+        partsOrder:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsOrder
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPartsOrder
+                setter: setPartsOrder
+            xml_list:
+                inline: true
+                entry_name: PartsOrder
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PartsOrderType>

@@ -1,0 +1,9 @@
+App\Soap\dealerbuilt\src\BaseApi\SourcesSearchCriteriaType:
+    properties:
+        sourceIds:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

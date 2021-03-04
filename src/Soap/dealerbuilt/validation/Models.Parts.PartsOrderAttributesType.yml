@@ -1,0 +1,56 @@
+App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType:
+    properties:
+        alternateShipPriority:
+            -
+                Choice:
+                    choices:
+                        - Unspecified
+                        - Surface
+                        - SecondDayDelivery
+                        - NextDayDelivery
+                        - SaturdayDelivery
+                        - WillCall
+                    groups:
+                        - xsd_rules
+        alternateShipTo:
+            -
+                Valid: null
+        lines:
+            -
+                Valid: null
+        orderType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Stock
+                        - Special
+                        - Emergency
+                        - DealerPickUp
+                        - RemoteDrop
+                        - Supplemental
+                        - LexDpo
+                        - Overnight
+                        - Holiday
+                        - LargeDealerOrder
+                        - Solicited
+                        - TransientOwner
+                        - Campaign
+                        - ASRReturn
+                    groups:
+                        - xsd_rules
+        placedBy:
+            -
+                Valid: null
+        shipPriority:
+            -
+                Choice:
+                    choices:
+                        - Unspecified
+                        - Surface
+                        - SecondDayDelivery
+                        - NextDayDelivery
+                        - SaturdayDelivery
+                        - WillCall
+                    groups:
+                        - xsd_rules

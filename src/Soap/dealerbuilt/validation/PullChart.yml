@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullChart:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

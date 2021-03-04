@@ -5,9 +5,6 @@ namespace App\Service;
 use App\Entity\Customer;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use InvalidArgumentException;
-use RuntimeException;
 
 /**
  * Class CustomerHelper.
@@ -30,48 +27,6 @@ class CustomerHelper
     {
         $this->em = $em;
         $this->phoneValidator = $phoneValidator;
-    }
-
-    public function commitCustomer(Customer $customer, array $params = []): void
-    {
-        $valid = empty($this->validateParams($params));
-        if (true !== $valid) {
-            throw new InvalidArgumentException('Params did not validate. Call validateParams first.');
-        }
-        foreach ($params as $k => $v) {
-            switch ($k) {
-                case 'name':
-                    $customer->setName($v);
-                    break;
-                case 'phone':
-                    $customer->setPhone($this->stripPhone($v));
-                    break;
-                case 'email':
-                    $customer->setEmail($v);
-                    break;
-                case 'doNotContact':
-                    $customer->setDoNotContact($this->paramToBool($v));
-                    break;
-                case 'deleted':
-                    $customer->setDeleted($this->paramToBool($v));
-                    break;
-                case 'addedBy':
-                    $customer->setAddedBy($v);
-                    break;
-            }
-        }
-
-        if (null === $customer->getId()) {
-            $this->em->persist($customer);
-        }
-        $this->em->beginTransaction();
-        try {
-            $this->em->flush();
-            $this->em->commit();
-        } catch (Exception $e) {
-            $this->em->rollback();
-            throw new RuntimeException('Caught exception during flush', 0, $e);
-        }
     }
 
     /**
@@ -99,7 +54,7 @@ class CustomerHelper
                 case 'phone':
                     try {
                         $v = $this->stripPhone($v);
-                    } catch (Exception $e) {
+                    } catch (\Exception $e) {
                         $msg = 'Invalid phone number';
                         break;
                     }
@@ -108,10 +63,8 @@ class CustomerHelper
                     }
                     break;
                 case 'email':
-                    if (!empty($v)) {
-                        if (false === strpos($v, '@')) {
-                            $msg = 'Invalid email address';
-                        }
+                    if (false === strpos($v, '@')) {
+                        $msg = 'Invalid email address';
                     }
                     break;
                 case 'addedBy':
@@ -130,6 +83,55 @@ class CustomerHelper
         }
 
         return $errors;
+    }
+
+    public function commitCustomer(Customer $customer, array $params = [])
+    {
+        //$errors = $this->validateParams($params);
+        $errors = [];
+
+        if (true !== empty($errors)) {
+            return;
+        }
+
+        foreach ($params as $k => $v) {
+            switch ($k) {
+                case 'name':
+                    $customer->setName($v);
+                    break;
+                case 'phone':
+                    $customer->setPhone($this->stripPhone($v));
+                    $customer->setMobileConfirmed(!$this->skipMobileVerification($params));
+                    break;
+                case 'email':
+                    $customer->setEmail($v);
+                    break;
+                case 'doNotContact':
+                    $customer->setDoNotContact($this->paramToBool($v));
+                    break;
+                case 'deleted':
+                    $customer->setDeleted($this->paramToBool($v));
+                    break;
+                case 'addedBy':
+                    $customer->setAddedBy($v);
+                    break;
+            }
+        }
+
+        if (null === $customer->getId()) {
+            $this->em->persist($customer);
+        }
+
+        $this->em->beginTransaction();
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            throw new \RuntimeException('Caught exception during flush', 0, $e);
+        }
+
+        return $customer;
     }
 
     private function stripPhone(string $phone): string

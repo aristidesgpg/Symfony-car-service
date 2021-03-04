@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType:
+    properties:
+        amount:
+            -
+                Valid: null
+        invoiceNumbers:
+            -
+                Valid: null

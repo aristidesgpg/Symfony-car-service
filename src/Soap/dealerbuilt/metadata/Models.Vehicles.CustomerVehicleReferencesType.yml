@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleReferencesType:
+    properties:
+        customerId:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getCustomerId
+                setter: setCustomerId
+            type: int
+        owner:
+            expose: true
+            access_type: public_method
+            serialized_name: Owner
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getOwner
+                setter: setOwner
+            type: App\Soap\dealerbuilt\src\Models\Customers\CustomerType

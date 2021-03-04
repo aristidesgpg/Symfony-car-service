@@ -1,0 +1,16 @@
+App\Soap\automate\src\ServiceLabor:
+    properties:
+        laborOperationIdTypeCode:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+        laborAdditionalHoursNumeric:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        sublet:
+            -
+                Valid: null

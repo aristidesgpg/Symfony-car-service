@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetTechniciansResponse:
+    properties:
+        getTechniciansResult:
+            -
+                Valid: null

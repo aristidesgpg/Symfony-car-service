@@ -1,0 +1,20 @@
+App\Soap\dealerbuilt\src\Models\Accounting\PayTypeStatusType:
+    properties:
+        balanceDue:
+            -
+                Valid: null
+        originalAmount:
+            -
+                Valid: null
+        payType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - CustomerCounterTicket
+                        - Customer
+                        - Internal
+                        - ServiceContract
+                        - Warranty
+                    groups:
+                        - xsd_rules

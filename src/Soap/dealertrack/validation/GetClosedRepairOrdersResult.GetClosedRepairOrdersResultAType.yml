@@ -1,0 +1,14 @@
+App\Soap\dealertrack\src\GetClosedRepairOrdersResult\GetClosedRepairOrdersResultAType:
+    properties:
+        closedRepairOrders:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Count:
+                    min: 1
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

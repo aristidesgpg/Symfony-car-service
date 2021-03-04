@@ -1,0 +1,34 @@
+App\Soap\automate\src\ServiceParts:
+    properties:
+        itemID:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        itemIdDescription:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        itemQuantity:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        partTypeCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        pricing:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

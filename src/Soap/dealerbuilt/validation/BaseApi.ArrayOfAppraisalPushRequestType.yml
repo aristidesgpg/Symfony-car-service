@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfAppraisalPushRequestType:
+    properties:
+        appraisalPushRequest:
+            -
+                Valid: null

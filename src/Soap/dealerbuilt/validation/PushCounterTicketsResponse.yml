@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushCounterTicketsResponse:
+    properties:
+        pushCounterTicketsResult:
+            -
+                Valid: null

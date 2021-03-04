@@ -1,0 +1,17 @@
+App\Soap\dealertrack\src\GetClosedRepairOrdersResult\GetClosedRepairOrdersResultAType:
+    properties:
+        closedRepairOrders:
+            expose: true
+            access_type: public_method
+            serialized_name: ClosedRepairOrders
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getClosedRepairOrders
+                setter: setClosedRepairOrders
+            type: array<App\Soap\dealertrack\src\ClosedRepairOrder>
+            xml_list:
+                inline: false
+                entry_name: ClosedRepairOrder
+                skip_when_empty: false
+                namespace: opentrack.dealertrack.com

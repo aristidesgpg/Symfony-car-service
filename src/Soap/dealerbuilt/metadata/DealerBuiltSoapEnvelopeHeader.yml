@@ -1,0 +1,4 @@
+App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeHeader:
+  xml_root_name: DealerBuiltSoapEnvelopeHeader
+#  #  xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+#  properties:

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType:
+    properties:
+        options:
+            -
+                Valid: null

@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\BaseApi\PushedPaymentType:
+    properties:
+        amount:
+            -
+                Valid: null
+        attributes:
+            -
+                Valid: null

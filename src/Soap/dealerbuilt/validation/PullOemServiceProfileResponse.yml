@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullOemServiceProfileResponse:
+    properties:
+        pullOemServiceProfileResult:
+            -
+                Valid: null

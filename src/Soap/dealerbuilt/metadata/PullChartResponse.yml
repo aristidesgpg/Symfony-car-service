@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullChartResponse:
+    xml_root_name: PullChartResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullChartResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullChartResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullChartResult
+                setter: setPullChartResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\ChartEntryType>
+            xml_list:
+                inline: false
+                entry_name: ChartEntry
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

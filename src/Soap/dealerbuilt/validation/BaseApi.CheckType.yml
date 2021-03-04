@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\BaseApi\CheckType:
+    properties:
+        amount:
+            -
+                Valid: null
+        customerName:
+            -
+                Valid: null

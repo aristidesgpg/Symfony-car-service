@@ -1,0 +1,4 @@
+App\Soap\cdk\src\PrtBin1:
+    xml_root_name: prtBin1
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

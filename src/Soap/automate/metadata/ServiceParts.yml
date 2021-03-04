@@ -1,0 +1,58 @@
+App\Soap\automate\src\ServiceParts:
+    xml_root_name: ServiceParts
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        itemID:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getItemID
+                setter: setItemID
+            type: string
+        itemIdDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemIdDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getItemIdDescription
+                setter: setItemIdDescription
+            type: string
+        itemQuantity:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemQuantity
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getItemQuantity
+                setter: setItemQuantity
+            type: float
+        partTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PartTypeCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPartTypeCode
+                setter: setPartTypeCode
+            type: string
+        pricing:
+            expose: true
+            access_type: public_method
+            serialized_name: Pricing
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPricing
+                setter: setPricing
+            xml_list:
+                inline: true
+                entry_name: Pricing
+                namespace: 'http://www.starstandard.org/STAR/5'
+            type: array<App\Soap\automate\src\Pricing>

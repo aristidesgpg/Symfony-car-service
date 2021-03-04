@@ -207,7 +207,7 @@ class RepairOrderControllerTest extends WebTestCase {
         }
         $repairOrder = $this->entityManager->getRepository(RepairOrder::class)
                             ->createQueryBuilder('r')
-                            ->where('r.deleted = 0')
+                            ->where('r.dateClosed IS NULL')
                             ->setMaxResults(1)
                             ->getQuery()
                             ->getOneOrNullResult();
@@ -216,7 +216,7 @@ class RepairOrderControllerTest extends WebTestCase {
             $this->requestAction('PUT', '/'.$repairOrder->getId().'/close');
             $this->assertResponseIsSuccessful();
         } else {
-            $this->assertEmpty($repairOrder, 'RepairOrder is null');
+            $this->assertEmpty($repairOrder, 'Repair Order is null');
         }
     }
 

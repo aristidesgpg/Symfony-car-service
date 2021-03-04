@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\BuyTaxCollectionType:
+    properties:
+        dealerTaxes:
+            -
+                Valid: null

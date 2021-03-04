@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
+    properties:
+        customer:
+            -
+                Valid: null
+        parts:
+            -
+                Valid: null
+        shippingAddress:
+            -
+                Valid: null
+        shippingCost:
+            -
+                Valid: null

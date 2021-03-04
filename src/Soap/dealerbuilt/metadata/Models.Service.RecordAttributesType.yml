@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\Models\Service\RecordAttributesType:
+    properties:
+        modifiedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getModifiedStamp
+                setter: setModifiedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime

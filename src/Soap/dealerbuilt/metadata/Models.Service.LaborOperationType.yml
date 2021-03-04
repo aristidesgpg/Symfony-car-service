@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\Models\Service\LaborOperationType:
+    properties:
+        code:
+            expose: true
+            access_type: public_method
+            serialized_name: Code
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCode
+                setter: setCode
+            type: string
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        quickCode:
+            expose: true
+            access_type: public_method
+            serialized_name: QuickCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getQuickCode
+                setter: setQuickCode
+            type: string

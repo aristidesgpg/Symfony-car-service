@@ -1,0 +1,25 @@
+App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType:
+    properties:
+        customer:
+            -
+                Valid: null
+        customerName:
+            -
+                Valid: null
+        dealerPrice:
+            -
+                Valid: null
+        lineSequence:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        part:
+            -
+                Valid: null

@@ -1,0 +1,28 @@
+App\Soap\dealerbuilt\src\Models\Accounting\PaymentType:
+    properties:
+        amount:
+            -
+                Valid: null
+        payType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - CustomerCounterTicket
+                        - Customer
+                        - Internal
+                        - ServiceContract
+                        - Warranty
+                    groups:
+                        - xsd_rules
+        paymentId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules

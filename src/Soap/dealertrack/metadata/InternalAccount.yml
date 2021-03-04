@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\InternalAccount:
+    xml_root_name: InternalAccount
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

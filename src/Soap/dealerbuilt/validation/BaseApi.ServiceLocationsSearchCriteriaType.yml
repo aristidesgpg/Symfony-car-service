@@ -1,0 +1,9 @@
+App\Soap\dealerbuilt\src\BaseApi\ServiceLocationsSearchCriteriaType:
+    properties:
+        serviceLocationIds:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

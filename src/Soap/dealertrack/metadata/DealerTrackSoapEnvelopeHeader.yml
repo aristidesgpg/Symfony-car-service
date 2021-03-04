@@ -1,0 +1,2 @@
+App\Soap\dealertrack\src\DealerTrackSoapEnvelopeHeader:
+  xml_root_name: DealerTrackSoapEnvelopeHeader

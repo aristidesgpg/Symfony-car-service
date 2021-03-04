@@ -1,0 +1,109 @@
+App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceAttributesType:
+    properties:
+        actualWholesaleAmount:
+            -
+                Valid: null
+        balanceDue:
+            -
+                Valid: null
+        coreAmount:
+            -
+                Valid: null
+        cost:
+            -
+                Valid: null
+        countyTaxAmount:
+            -
+                Valid: null
+        customerFocusIncentives:
+            -
+                Valid: null
+        dealerDiscountAmount:
+            -
+                Valid: null
+        freightCharge:
+            -
+                Valid: null
+        miscChargeTotal:
+            -
+                Valid: null
+        monthlyDiscountsOrAllowancesAmount:
+            -
+                Valid: null
+        monthlyMiscSalesChargesAmount:
+            -
+                Valid: null
+        monthlyPartsTotalAmount:
+            -
+                Valid: null
+        monthlyTotalAmount:
+            -
+                Valid: null
+        partNumbersStocked:
+            -
+                Valid: null
+        partsDiscountAmount:
+            -
+                Valid: null
+        partsInvoiceItemAmount:
+            -
+                Valid: null
+        partsInvoiceLines:
+            -
+                Valid: null
+        restockingFee:
+            -
+                Valid: null
+        shipTo:
+            -
+                Valid: null
+        shipmentCarrierDetails:
+            -
+                Valid: null
+        soldBy:
+            -
+                Valid: null
+        status:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        subTotal:
+            -
+                Valid: null
+        taxOnTradeInTaxAmount:
+            -
+                Valid: null
+        totalAmount:
+            -
+                Valid: null
+        totalDiscountAmount:
+            -
+                Valid: null
+        totalOtherAmount:
+            -
+                Valid: null
+        totalTaxAmount:
+            -
+                Valid: null
+        tradeInAmount:
+            -
+                Valid: null
+        yTDDiscountsOrAllowancesAmount:
+            -
+                Valid: null
+        yTDMiscSalesChargesAmount:
+            -
+                Valid: null
+        yTDPartsTotalAmount:
+            -
+                Valid: null
+        yTDTotalAmount:
+            -
+                Valid: null

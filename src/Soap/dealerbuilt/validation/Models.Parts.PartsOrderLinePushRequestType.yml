@@ -1,0 +1,49 @@
+App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLinePushRequestType:
+    properties:
+        counterTicketId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        dealerPrice:
+            -
+                Valid: null
+        lineSequence:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        repairOrderId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        repairOrderJobNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
