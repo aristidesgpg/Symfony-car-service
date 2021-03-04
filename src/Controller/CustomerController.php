@@ -290,7 +290,7 @@ class CustomerController extends AbstractFOSRestController
      *
      * @SWG\Post(description="Set mobileConfirmed true for a customer")
      *
-     * @SWG\Parameter(name="customerId", type="string", in="query")
+     * @SWG\Parameter(name="customerId", type="string", in="formData")
      *
      * @SWG\Response(
      *      response="200",
@@ -303,9 +303,9 @@ class CustomerController extends AbstractFOSRestController
      *
      * @SWG\Response(response="400", description="Input customerId")
      */
-    public function setCustomerMobileConfirmed(Request $request, CustomerRepository $customerRepo, EntityManagerInterface $em): Response
+    public function mobileConfirmed(Request $request, CustomerRepository $customerRepo, EntityManagerInterface $em): Response
     {
-        $customerId = $request->query->get('customerId');
+        $customerId = $request->get('customerId');
 
         if (!$customerId) {
             return $this->handleView($this->view('Input customerId', Response::HTTP_BAD_REQUEST));
