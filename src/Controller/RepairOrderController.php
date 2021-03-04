@@ -145,7 +145,7 @@ class RepairOrderController extends AbstractFOSRestController
         $urlParameters = [];
         $errors = [];
         $sortField = $sortDirection = $searchTerm = null;
-        $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
+        $inputFields = ['open', 'waiter', 'internal', 'needsVideo', 'archived'];
         $fields = [];
 
         foreach ($inputFields as $field) {
