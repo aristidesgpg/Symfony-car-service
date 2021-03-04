@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\CustomerRepository;
 use App\Service\PhoneValidator;
-use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Swagger\Annotations as SWG;
