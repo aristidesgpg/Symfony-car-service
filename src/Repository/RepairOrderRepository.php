@@ -220,10 +220,9 @@ class RepairOrderRepository extends ServiceEntityRepository
                          ->setParameter('primaryTechnician', $user);
         }
 
-        // Only non-archived, non-deleted, non-closed repair orders matter
+        // Only non-deleted, non-closed repair orders matter
         $queryBuilder->andWhere('ro.deleted = 0')
-                     ->andWhere('ro.dateClosed IS NULL')
-                     ->andWhere('ro.archived = 0');
+                     ->andWhere('ro.dateClosed IS NULL');
 
         // They passed a search term
         if ($searchTerm) {

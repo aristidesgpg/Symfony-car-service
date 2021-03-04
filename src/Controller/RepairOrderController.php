@@ -67,9 +67,9 @@ class RepairOrderController extends AbstractFOSRestController
      *     in="query"
      * )
      * @SWG\Parameter(
-     *     name="archived",
+     *     name="closed",
      *     type="boolean",
-     *     description="1=Archived, Omit for non-archived",
+     *     description="1=closed, Omit for non-closed",
      *     in="query"
      * )
      * @SWG\Parameter(
@@ -145,7 +145,7 @@ class RepairOrderController extends AbstractFOSRestController
         $urlParameters = [];
         $errors = [];
         $sortField = $sortDirection = $searchTerm = null;
-        $inputFields = ['open', 'waiter', 'internal', 'needsVideo', 'archived'];
+        $inputFields = ['open', 'waiter', 'internal', 'needsVideo', 'closed'];
         $fields = [];
 
         foreach ($inputFields as $field) {

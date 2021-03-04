@@ -315,18 +315,6 @@ class RepairOrderHelper
     /**
      * @param RepairOrder $ro
      */
-    public function archiveRepairOrder(RepairOrder $ro): void
-    {
-        if ($ro->isArchived() === true) {
-            throw new InvalidArgumentException('RO is already archived');
-        }
-        $ro->setArchived(true);
-        $this->commitRepairOrder();
-    }
-
-    /**
-     * @param RepairOrder $ro
-     */
     public function deleteRepairOrder(RepairOrder $ro): void
     {
         if ($ro->getDeleted() === true) {
