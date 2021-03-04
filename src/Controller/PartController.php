@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class PartsController extends AbstractFOSRestController
+class PartController extends AbstractFOSRestController
 {
     private const PAGE_LIMIT = 100;
 
