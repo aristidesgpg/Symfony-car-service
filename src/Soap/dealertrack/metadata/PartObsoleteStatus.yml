@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\PartObsoleteStatus:
+    xml_root_name: PartObsoleteStatus
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

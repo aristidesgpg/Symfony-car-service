@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\PartType:
+    xml_root_name: PartType
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

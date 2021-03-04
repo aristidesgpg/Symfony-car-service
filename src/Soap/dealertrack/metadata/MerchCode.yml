@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\MerchCode:
+    xml_root_name: MerchCode
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }
