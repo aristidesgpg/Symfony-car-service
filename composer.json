@@ -21,6 +21,7 @@
     "jms/serializer-bundle": "^3.7",
     "knplabs/knp-paginator-bundle": "^5.3",
     "lexik/jwt-authentication-bundle": "^2.8",
+    "moneyphp/money": "^3.3",
     "nelmio/api-doc-bundle": "^3.6",
     "nelmio/cors-bundle": "^2.1",
     "nexylan/slack-bundle": "2.2.0",
