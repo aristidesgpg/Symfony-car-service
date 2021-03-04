@@ -2,9 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Parts;
-use App\Repository\PartsRepository;
-use App\Response\ValidationResponse;
+use App\Entity\Part;
+use App\Repository\PartRepository;
 use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -18,14 +17,14 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class PartsController extends AbstractFOSRestController
+class PartController extends AbstractFOSRestController
 {
     private const PAGE_LIMIT = 100;
 
     /**
-     * @Rest\Get("/api/parts")
+     * @Rest\Get("/api/part")
      *
-     * @SWG\Tag(name="Parts")
+     * @SWG\Tag(name="Part")
      * @SWG\Get(description="Get All Parts")
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
@@ -60,7 +59,7 @@ class PartsController extends AbstractFOSRestController
      *     description="Return Parts",
      *     @SWG\Items(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=Parts::class, groups={"part_list"})),
+     *         @SWG\Items(ref=@Model(type=Part::class, groups={"part_list"})),
      *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
      *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
      *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
@@ -76,18 +75,18 @@ class PartsController extends AbstractFOSRestController
      */
     public function getParts(
         Request $request,
-        PartsRepository $repo,
+        PartRepository $repo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $page          = $request->query->getInt('page', 1);
+        $page = $request->query->getInt('page', 1);
         $urlParameters = [];
-        $errors        = [];
-        $sortField     = '';
+        $errors = [];
+        $sortField = '';
         $sortDirection = '';
-        $searchTerm    = '';
-        $columns       = $em->getClassMetadata('App\Entity\Parts')->getFieldNames();
+        $searchTerm = '';
+        $columns = $em->getClassMetadata('App\Entity\Part')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -101,15 +100,15 @@ class PartsController extends AbstractFOSRestController
                 $errors['sortField'] = 'Invalid sort field name';
             }
 
-            $sortDirection                  = $request->query->get('sortDirection');
-            $urlParameters['sortField']     = $sortField;
+            $sortDirection = $request->query->get('sortDirection');
+            $urlParameters['sortField'] = $sortField;
             $urlParameters['sortDirection'] = $sortDirection;
         }
 
         if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
 
-            $urlParameters['searchTerm']    = $searchTerm;
+            $urlParameters['searchTerm'] = $searchTerm;
         }
 
         if (!empty($errors)) {
@@ -119,22 +118,22 @@ class PartsController extends AbstractFOSRestController
         $parts = $repo->getParts(
             $sortField,
             $sortDirection,
-            $searchTerm,
+            $searchTerm
         );
 
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
-        $pager      = $paginator->paginate($parts, $page, $pageLimit);
+        $pager = $paginator->paginate($parts, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view       = $this->view(
+        $view = $this->view(
             [
-                'results'      => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages'   => $pagination->totalPages,
-                'previous'     => $pagination->getPreviousPageURL('app_parts_getparts', $urlParameters),
-                'currentPage'  => $pagination->currentPage,
-                'next'         => $pagination->getNextPageURL('app_parts_getparts', $urlParameters),
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_part_getparts', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_part_getparts', $urlParameters),
             ]
         );
         $view->getContext()->setGroups(['part_list']);
@@ -143,9 +142,9 @@ class PartsController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/parts")
+     * @Rest\Post("/api/part")
      *
-     * @SWG\Tag(name="Parts")
+     * @SWG\Tag(name="Part")
      * @SWG\Post(description="Create a Part")
      *
      * @SWG\Parameter(
@@ -176,7 +175,7 @@ class PartsController extends AbstractFOSRestController
      *     type="number",
      *     description="The available for  Price",
      * )
-     * 
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -194,16 +193,16 @@ class PartsController extends AbstractFOSRestController
      */
     public function create(Request $request, EntityManagerInterface $em)
     {
-        $number    = $request->get('number');
-        $name      = $request->get('name');
-        $bin       = $request->get('bin');
+        $number = $request->get('number');
+        $name = $request->get('name');
+        $bin = $request->get('bin');
         $available = $request->get('available');
 
         if (!$name || !$number || !$bin || !$available) {
             throw new BadRequestHttpException('Missing Required Parameter');
         }
 
-        $part = new Parts();
+        $part = new Part();
         $part->setName($name)
              ->setNumber($number)
              ->setBin($bin)
@@ -225,7 +224,7 @@ class PartsController extends AbstractFOSRestController
     /**
      * @Rest\Put("/api/part/{id}")
      *
-     * @SWG\Tag(name="Parts")
+     * @SWG\Tag(name="Part")
      * @SWG\Put(description="Update a Part")
      *
      * @SWG\Parameter(
@@ -256,33 +255,33 @@ class PartsController extends AbstractFOSRestController
      * @SWG\Response(
      *     response=200,
      *     description="Return updated Part",
-     *     @SWG\Schema(ref=@Model(type=Parts::class, groups={"part_list"})))
+     *     @SWG\Schema(ref=@Model(type=Part::class, groups={"part_list"})))
      * )
-     * 
-     * @param Parts                  $part
+     *
+     * @param Part                   $part
      * @param Request                $request
      * @param EntityManagerInterface $em
      *
      * @return Response
      */
-    public function edit(Parts $part, Request $request, EntityManagerInterface $em)
+    public function edit(Part $part, Request $request, EntityManagerInterface $em)
     {
-        $number    = $request->get('number');
-        $name      = $request->get('name');
-        $bin       = $request->get('bin');
+        $number = $request->get('number');
+        $name = $request->get('name');
+        $bin = $request->get('bin');
         $available = $request->get('available');
 
-        if($number){
-            $part->setNumber($number);    
+        if ($number) {
+            $part->setNumber($number);
         }
-        if($name){
-            $part->setName($name);    
+        if ($name) {
+            $part->setName($name);
         }
-        if($bin){
-            $part->setBin($bin);    
+        if ($bin) {
+            $part->setBin($bin);
         }
-        if($available){
-            $part->setAvailable($available);    
+        if ($available) {
+            $part->setAvailable($available);
         }
 
         $em->persist($part);
@@ -296,10 +295,10 @@ class PartsController extends AbstractFOSRestController
         );
     }
 
-     /**
-     * @Rest\Delete("/api/parts/{id}")
+    /**
+     * @Rest\Delete("/api/part/{id}")
      *
-     * @SWG\Tag(name="Parts")
+     * @SWG\Tag(name="Part")
      * @SWG\Delete(description="Delete a Part")
      *
      * @SWG\Response(
@@ -312,12 +311,9 @@ class PartsController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param Parts                  $part
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-    public function delete(Parts $part, EntityManagerInterface $em)
+    public function delete(Part $part, EntityManagerInterface $em)
     {
 
         $em->remove($part);

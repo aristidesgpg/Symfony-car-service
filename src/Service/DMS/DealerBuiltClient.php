@@ -352,7 +352,7 @@ class DealerBuiltClient extends AbstractDMSClient
              * @var InventoryPartType $dmsPart
              */
             foreach ($deserializedNode->getBody()->getPullPartsResponse()->getPullPartsResult() as $dmsPart) {
-                $part = new Parts();
+                $part = new Part();
                 $part->setNumber($dmsPart->getPartKey())
                     ->setName($dmsPart->getAttributes()->getDescription())
                     ->setBin($this->binProcessor($dmsPart->getAttributes()->getBins()))

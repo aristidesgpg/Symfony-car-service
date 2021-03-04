@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\PartsRepository;
+use App\Repository\PartRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity(repositoryClass=PartsRepository::class)
+ * @ORM\Entity(repositoryClass=PartRepository::class)
  */
-class Parts
+class Part
 {
     public const GROUPS = ['part_list'];
     /**

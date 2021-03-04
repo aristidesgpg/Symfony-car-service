@@ -44,7 +44,7 @@ class OperationCodeController extends AbstractFOSRestController
      *     name="sortDirection",
      *     type="string",
      *     description="The direction of sort",
-     *     in="query",
+     *     in="queryF",
      *     enum={"ASC", "DESC"}
      * )
      * @SWG\Parameter(

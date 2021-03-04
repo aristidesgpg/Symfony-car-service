@@ -31,7 +31,8 @@ class SettingsHelper
         'generalName', 'generalEmail', 'generalWebsiteUrl', 'generalInventoryUrl', 'generaAddress',
         'generalAddress2', 'generalCity', 'generalState', 'generalZip', 'generalPhone',
         'reviewGoogleUrl', 'reviewFacebookUrl', 'reviewText',
-        'usingAutomate', 'usingDealerBuilt', 'usingDealerTrack', 'usingCdk', 'dmsFilter', 'offHoursIntegration', 'customerURL'
+        'usingAutomate', 'usingDealerBuilt', 'usingDealerTrack', 'usingCdk', 'dmsFilter', 'offHoursIntegration', 'customerURL',
+        'myReviewActivated'
     ];
 
     const VALID_FILE_SETTINGS = ['custAppPostInspectionVideo', 'generalLogo', 'reviewLogo'];
