@@ -8,6 +8,7 @@ use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Exception;
 
 /**
@@ -61,10 +62,30 @@ class RepairOrderRepository extends ServiceEntityRepository
                         } else {
                             $qb->andWhere('ro.dateClosed IS NOT NULL');
                         }
-                    } else {
-                        $qb->andWhere("ro.$name = :$name")
-                           ->setParameter($name, $value);
+                    } else{
+                        if ($name === 'dateClosedStart' || $name === 'dateClosedEnd'){
+                            if( !$fields['open'] ){
+                                try {
+                                    $value = new DateTime($value);
+                                } catch (Exception $e) {
+                                    throw new BadRequestHttpException("$name is invalid date format".$value);
+                                }
+                                if ($name === 'dateClosedStart')
+                                    $qb->andWhere("ro.dateClosed >= :$name");
+                                else
+                                $qb->andWhere("ro.dateClosed <= :$name");
+                                $qb->setParameter($name, $value);
+                            }
+                            
+                        }                        
+                        else {
+                            $qb->andWhere("ro.$name = :$name")
+                               ->setParameter($name, $value);
+                        }
+                        
+                        
                     }
+                     
                 }
             }
 
@@ -77,7 +98,7 @@ class RepairOrderRepository extends ServiceEntityRepository
                        ->setParameter('startDate', $startDate)
                        ->setParameter('endDate', $endDate);
                 } catch (Exception $e) {
-                    $errors['date'] = 'Invalid date format';
+                    throw new BadRequestHttpException('Invalid startDate or endDate format');
                 }
             }
 

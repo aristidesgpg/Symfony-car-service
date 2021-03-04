@@ -67,9 +67,17 @@ class RepairOrderController extends AbstractFOSRestController
      *     in="query"
      * )
      * @SWG\Parameter(
-     *     name="closed",
-     *     type="boolean",
-     *     description="1=closed, Omit for non-closed",
+     *     name="dateClosedStart",
+     *     type="string",
+     *     format="date-time",
+     *     description="Get ROs closed after supplied date-time",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="dateClosedEnd",
+     *     type="string",
+     *     format="date-time",
+     *     description="Get ROs closed before supplied date-time",
      *     in="query"
      * )
      * @SWG\Parameter(
@@ -145,7 +153,7 @@ class RepairOrderController extends AbstractFOSRestController
         $urlParameters = [];
         $errors = [];
         $sortField = $sortDirection = $searchTerm = null;
-        $inputFields = ['open', 'waiter', 'internal', 'needsVideo', 'closed'];
+        $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
         $fields = [];
 
         foreach ($inputFields as $field) {
@@ -156,7 +164,9 @@ class RepairOrderController extends AbstractFOSRestController
                 $fields[$field] = null;
             }
         }
-
+        $fields['dateClosedStart'] = $request->query->get('dateClosedStart');
+        $fields['dateClosedEnd'] = $request->query->get('dateClosedEnd');
+        
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
