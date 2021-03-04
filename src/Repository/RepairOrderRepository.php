@@ -73,7 +73,7 @@ class RepairOrderRepository extends ServiceEntityRepository
                                 if ($name === 'dateClosedStart')
                                     $qb->andWhere("ro.dateClosed >= :$name");
                                 else
-                                $qb->andWhere("ro.dateClosed <= :$name");
+                                    $qb->andWhere("ro.dateClosed <= :$name");
                                 $qb->setParameter($name, $value);
                             }
                             
