@@ -10,6 +10,7 @@ use App\Repository\RepairOrderPaymentRepository;
 use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
 use App\Service\PaymentHelper;
+use App\Service\SettingsHelper;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -31,10 +32,34 @@ use Twilio\Exceptions\TwilioException;
  *     response="404",
  *     description="Repair Order or Payment does not exist"
  * )
+ * @SWG\Response(
+ *     response="401",
+ *     description="Not Authorized."
+ * )
  */
 class RepairOrderPaymentController extends AbstractFOSRestController
 {
     use FalsyTrait;
+
+    /**
+     * @var SettingsHelper
+     */
+    private $settingsHelper;
+
+    private $integrated = false;
+
+    public function __construct(SettingsHelper $settingsHelper)
+    {
+        $this->settingsHelper = $settingsHelper;
+        //TODO Revisit after settings branch is merged.
+        try {
+            if ($this->settingsHelper->getSetting('hasPayments')) {
+                $this->integrated = true;
+            }
+        } catch (Exception $e) {
+            //fail silently.
+        }
+    }
 
     /**
      * @Rest\Get
@@ -60,6 +85,10 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         Request $request,
         RepairOrderRepository $repairOrderRepository
     ): Response {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
+
         $repairOrderId = $request->get('repairOrderId');
         // check if params are valid
         if (!$repairOrderId) {
@@ -111,6 +140,10 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         PaymentHelper $helper,
         RepairOrderRepository $repairOrderRepository
     ): Response {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
+
         $repairOrderId = $request->get('repairOrderId');
 
         // check if params are valid
@@ -149,6 +182,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController
      */
     public function getPaymentAndInteractions(RepairOrderPayment $payment): Response
     {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
         if ($payment->getRepairOrder()->getDeleted() || $payment->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -167,6 +203,10 @@ class RepairOrderPaymentController extends AbstractFOSRestController
      */
     public function delete(RepairOrderPayment $id, PaymentHelper $helper): Response
     {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
+
         if ($id->getRepairOrder()->getDeleted() || $id->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -213,6 +253,10 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         PaymentHelper $helper,
         RepairOrderPaymentRepository $repairOrderPaymentRepository
     ): Response {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
+
         $repairOrderPaymentId = $request->get('repairOrderPaymentId');
 
         // check if params are valid
@@ -270,6 +314,10 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         RepairOrderPaymentRepository $repairOrderPaymentRepository,
         PaymentHelper $helper
     ): Response {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
+
         $repairOrderPaymentId = $request->get('repairOrderPaymentId');
 
         // check if params are valid
@@ -317,6 +365,10 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         RepairOrderPaymentRepository $repairOrderPaymentRepository,
         PaymentHelper $helper
     ): Response {
+
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
         $repairOrderPaymentId = $request->get('repairOrderPaymentId');
 
         // check if params are valid
@@ -371,6 +423,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         PaymentHelper $helper,
         RepairOrderPaymentRepository $repairOrderPaymentRepository
     ): Response {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
         $repairOrderPaymentId = $request->get('repairOrderPaymentId');
 
         // check if params are valid
@@ -446,6 +501,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         PaymentHelper $helper,
         RepairOrderPaymentRepository $repairOrderPaymentRepository
     ): Response {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
         $repairOrderPaymentId = $request->get('repairOrderPaymentId');
 
         // check if params are valid
@@ -511,6 +569,9 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         PaymentHelper $helper,
         RepairOrderPaymentRepository $repairOrderPaymentRepository
     ): Response {
+        if (!$this->isIntegrated()) {
+            return $this->handleView($this->view('Not Authorized.', Response::HTTP_UNAUTHORIZED));
+        }
         $repairOrderPaymentId = $request->get('repairOrderPaymentId');
 
         // check if params are valid
@@ -568,4 +629,23 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         );
     }
 
+    public function getSettingsHelper(): SettingsHelper
+    {
+        return $this->settingsHelper;
+    }
+
+    public function setSettingsHelper(SettingsHelper $settingsHelper): void
+    {
+        $this->settingsHelper = $settingsHelper;
+    }
+
+    public function isIntegrated(): bool
+    {
+        return $this->integrated;
+    }
+
+    public function setIntegrated(bool $integrated): void
+    {
+        $this->integrated = $integrated;
+    }
 }

@@ -90,8 +90,6 @@ class SettingsHelper
     /**
      * @param $key
      *
-     * @return string|null
-     *
      * @throws Exception
      */
     public function getSetting(string $key): ?string
