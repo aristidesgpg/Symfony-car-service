@@ -12,6 +12,7 @@ use App\Soap\cdk\src\ServiceRODetailClosed;
 use App\Soap\cdk\src\ServiceRODetailOpen;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class CDKClient.
@@ -339,8 +340,7 @@ class CDKClient extends AbstractDMSClient
 
     public function getParts(): array
     {
-        // TODO: Implement getParts() method.
-        return [];
+        throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     /**

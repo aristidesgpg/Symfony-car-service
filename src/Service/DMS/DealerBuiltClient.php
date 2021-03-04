@@ -3,6 +3,7 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\Part;
 use App\Entity\Parts;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
@@ -346,6 +347,10 @@ class DealerBuiltClient extends AbstractDMSClient
 
             $result = $this->sendSoapCall('PullParts', [$searchCriteria], true);
 
+            if (!$result) {
+                return $parts;
+            }
+
             //Deserialize the soap result into objects.
             $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopePullParts::class, 'xml');
             /**
@@ -360,9 +365,8 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 $parts[] = $part;
             }
-
-            dump($parts);
         }
+
         return $parts;
     }
 

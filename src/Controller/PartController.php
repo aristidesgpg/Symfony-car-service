@@ -17,14 +17,14 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class PartController extends AbstractFOSRestController
+class PartsController extends AbstractFOSRestController
 {
     private const PAGE_LIMIT = 100;
 
     /**
-     * @Rest\Get("/api/part")
+     * @Rest\Get("/api/parts")
      *
-     * @SWG\Tag(name="Part")
+     * @SWG\Tag(name="Parts")
      * @SWG\Get(description="Get All Parts")
      *
      * @SWG\Parameter(name="page", type="integer", in="query")
@@ -131,9 +131,9 @@ class PartController extends AbstractFOSRestController
                 'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
                 'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('app_part_getparts', $urlParameters),
+                'previous' => $pagination->getPreviousPageURL('app_parts_getparts', $urlParameters),
                 'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('app_part_getparts', $urlParameters),
+                'next' => $pagination->getNextPageURL('app_parts_getparts', $urlParameters),
             ]
         );
         $view->getContext()->setGroups(['part_list']);
@@ -142,9 +142,9 @@ class PartController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/part")
+     * @Rest\Post("/api/parts")
      *
-     * @SWG\Tag(name="Part")
+     * @SWG\Tag(name="Parts")
      * @SWG\Post(description="Create a Part")
      *
      * @SWG\Parameter(
@@ -186,9 +186,6 @@ class PartController extends AbstractFOSRestController
      *         )
      * )
      *
-     * @param Request                $request
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
     public function create(Request $request, EntityManagerInterface $em)
@@ -224,7 +221,7 @@ class PartController extends AbstractFOSRestController
     /**
      * @Rest\Put("/api/part/{id}")
      *
-     * @SWG\Tag(name="Part")
+     * @SWG\Tag(name="Parts")
      * @SWG\Put(description="Update a Part")
      *
      * @SWG\Parameter(
@@ -257,10 +254,6 @@ class PartController extends AbstractFOSRestController
      *     description="Return updated Part",
      *     @SWG\Schema(ref=@Model(type=Part::class, groups={"part_list"})))
      * )
-     *
-     * @param Part                   $part
-     * @param Request                $request
-     * @param EntityManagerInterface $em
      *
      * @return Response
      */
@@ -296,9 +289,9 @@ class PartController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Delete("/api/part/{id}")
+     * @Rest\Delete("/api/parts/{id}")
      *
-     * @SWG\Tag(name="Part")
+     * @SWG\Tag(name="Parts")
      * @SWG\Delete(description="Delete a Part")
      *
      * @SWG\Response(
@@ -311,11 +304,12 @@ class PartController extends AbstractFOSRestController
      *         )
      * )
      *
+     * @param Part $part
+     *
      * @return Response
      */
     public function delete(Part $part, EntityManagerInterface $em)
     {
-
         $em->remove($part);
         $em->flush();
 

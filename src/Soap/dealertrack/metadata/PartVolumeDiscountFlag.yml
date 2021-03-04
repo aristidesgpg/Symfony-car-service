@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\PartVolumeDiscountFlag:
+    xml_root_name: PartVolumeDiscountFlag
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

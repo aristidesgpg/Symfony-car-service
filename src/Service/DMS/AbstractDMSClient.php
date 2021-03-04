@@ -84,12 +84,16 @@ abstract class AbstractDMSClient implements DMSClientInterface
         $this->serializer = $serializerBuilder->build();
     }
 
-    public function initializeSoapClient(string $wsdl)
+    public function initializeSoapClient(string $wsdl, $options = [])
     {
-        try {
-            $this->soapClient = new \SoapClient($wsdl, [
+        $options = array_merge(
+            [
                 'trace' => 1, //This is needed to get the __getLastResponse()
-            ]);
+            ],
+            $options);
+
+        try {
+            $this->soapClient = new \SoapClient($wsdl, $options);
         } catch (\SoapFault $e) {
             $this->logError($this->getWsdl(), $e->getMessage());
         }
@@ -123,6 +127,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
         //It should validate against the wsdl before the call to make sure its correct.
         try {
             $result = $this->getSoapClient()->__soapCall($name, $args);
+
             if ($returnLastResponse) {
                 return $this->getSoapClient()->__getLastResponse();
             }
