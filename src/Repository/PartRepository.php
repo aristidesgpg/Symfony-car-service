@@ -27,6 +27,7 @@ class PartRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p');
         $columns = ['number', 'name', 'bin'];
+        $qb->andWhere("p.deleted = 0");
 
         if ($searchTerm) {
             $query          = "";
