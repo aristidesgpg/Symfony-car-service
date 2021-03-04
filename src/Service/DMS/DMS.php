@@ -4,7 +4,7 @@ namespace App\Service\DMS;
 
 use App\Entity\Customer;
 use App\Entity\DMSResult;
-use App\Entity\Parts;
+use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Entity\Settings;
 use App\Entity\User;
@@ -88,6 +88,10 @@ class DMS
      * @var ServiceLocator
      */
     private $serviceLocator;
+    /**
+     * @var string|null
+     */
+    private $activeDMS;
 
     public function __construct(ServiceLocator $serviceLocator,
                                 TwilioHelper $twilioHelper,
@@ -117,10 +121,10 @@ class DMS
         $this->activateIntegrationSms = true;
 
         //TODO This needs to be revisited after the SettingsHelper branch is merged into master.
-        $activeDMS = $em->getRepository(Settings::class)->findActiveDms();
+        $this->activeDMS = $em->getRepository(Settings::class)->findActiveDms();
 
-        if ($this->getServiceLocator()->has($activeDMS)) {
-            $this->integration = $this->getServiceLocator()->get($activeDMS);
+        if ($this->getServiceLocator()->has($this->activeDMS)) {
+            $this->integration = $this->getServiceLocator()->get($this->activeDMS);
         }
     }
 
@@ -443,9 +447,9 @@ class DMS
 
         $dmsParts = $this->integration->getParts();
 
-        // Loop over found repair orders
+        // Loop over found parts
         /**
-         * @var Parts $dmsPart
+         * @var Part $dmsPart
          */
         foreach ($dmsParts as $dmsPart) {
             $this->upsertPart($dmsPart);
@@ -454,16 +458,15 @@ class DMS
         return $dmsParts;
     }
 
-    public function upsertPart(Parts $part)
+    public function upsertPart(Part $part)
     {
-        $entityPart = $this->getEm()->getRepository('App:Parts')->findOneBy(['number' => $part->getNumber()]);
+        $entityPart = $this->getEm()->getRepository(Part::class)->findOneBy(['number' => $part->getNumber()]);
         if (!$entityPart) {
             $entityPart = $part;
         }
         $entityPart->setAvailable($part->getAvailable());
         $this->getEm()->persist($entityPart);
         $this->getEm()->flush();
-
     }
 
     public function getTwilioHelper(): TwilioHelper
@@ -638,5 +641,21 @@ class DMS
     public function setServiceLocator(ServiceLocator $serviceLocator): void
     {
         $this->serviceLocator = $serviceLocator;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getActiveDMS()
+    {
+        return $this->activeDMS;
+    }
+
+    /**
+     * @param string|null $activeDMS
+     */
+    public function setActiveDMS($activeDMS): void
+    {
+        $this->activeDMS = $activeDMS;
     }
 }

@@ -13,6 +13,7 @@ use App\Soap\automate\src\ProcessEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class AutoMateClient.
@@ -399,8 +400,7 @@ class AutoMateClient extends AbstractDMSClient
 
     public function getParts(): array
     {
-        // TODO: Implement getParts() method.
-        return [];
+        throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getWsdl(): string

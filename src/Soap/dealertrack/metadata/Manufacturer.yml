@@ -1,4 +1,12 @@
 App\Soap\dealertrack\src\Manufacturer:
     xml_root_name: Manufacturer
     xml_root_namespace: opentrack.dealertrack.com/transitional
-    properties: {  }
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: string
