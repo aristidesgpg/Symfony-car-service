@@ -244,7 +244,7 @@ class RepairOrderHelper
         return ($ro === null);
     }
 
-    private function generateLinkHash(string $dateCreated): string
+    public function generateLinkHash(string $dateCreated): string
     {
         try {
             $hash = sha1($dateCreated.random_bytes(32));
