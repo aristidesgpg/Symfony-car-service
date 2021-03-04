@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\BaseApi\VoidCounterTicketApiRequestType:
+    properties:
+        counterTicketNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CounterTicketNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCounterTicketNumber
+                setter: setCounterTicketNumber
+            type: string
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int

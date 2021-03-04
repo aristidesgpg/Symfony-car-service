@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderType:
+    properties:
+        attributes:
+            -
+                Valid: null
+        references:
+            -
+                Valid: null

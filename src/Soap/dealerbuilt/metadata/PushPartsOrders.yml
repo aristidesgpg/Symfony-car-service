@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PushPartsOrders:
+    xml_root_name: PushPartsOrders
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        partsOrders:
+            expose: true
+            access_type: public_method
+            serialized_name: partsOrders
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPartsOrders
+                setter: setPartsOrders
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PartsOrderPushRequestType>
+            xml_list:
+                inline: false
+                entry_name: PartsOrderPushRequest
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

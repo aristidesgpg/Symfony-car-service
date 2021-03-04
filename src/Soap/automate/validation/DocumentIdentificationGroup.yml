@@ -1,0 +1,16 @@
+App\Soap\automate\src\DocumentIdentificationGroup:
+    properties:
+        documentIdentification:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        alternateDocumentIdentification:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

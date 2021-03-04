@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Twilio\Rest\Lookups\V1\PhoneNumberInstance;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=PhoneLookup::class)
  */
 class PhoneLookup
 {

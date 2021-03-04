@@ -1,0 +1,77 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerSearchCriteriaType:
+    properties:
+        activityStoreIds:
+            expose: true
+            access_type: public_method
+            serialized_name: ActivityStoreIds
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getActivityStoreIds
+                setter: setActivityStoreIds
+            type: array<int>
+            xml_list:
+                inline: false
+                entry_name: long
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+        customerNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerNumber
+                setter: setCustomerNumber
+            type: string
+        driverLicenseNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: DriverLicenseNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDriverLicenseNumber
+                setter: setDriverLicenseNumber
+            type: string
+        maximumUpdateStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumUpdateStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumUpdateStamp
+                setter: setMaximumUpdateStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumUpdateStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumUpdateStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumUpdateStamp
+                setter: setMinimumUpdateStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        partialName:
+            expose: true
+            access_type: public_method
+            serialized_name: PartialName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPartialName
+                setter: setPartialName
+            type: string
+        phone:
+            expose: true
+            access_type: public_method
+            serialized_name: Phone
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPhone
+                setter: setPhone
+            type: string

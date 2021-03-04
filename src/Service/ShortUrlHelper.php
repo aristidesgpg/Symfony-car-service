@@ -3,45 +3,21 @@
 namespace App\Service;
 
 use App\Controller\SettingsController;
+use RuntimeException;
 
 class ShortUrlHelper
 {
     public const MAX_SMS_MSG_LEN = SettingsController::SMS_EXTRA_MAX_LENGTH;
     private const ENDPOINT = 'http://isre.us/api/create-short-url';
-
-    /** @var string */
     private $accessToken;
-
-    /** @var TwilioHelper */
     private $twilio;
+    private $phoneValidator;
 
-    /**
-     * ShortcodeHelper constructor.
-     */
-    public function __construct(string $accessToken, TwilioHelper $twilio)
+    public function __construct(string $accessToken, TwilioHelper $twilio, PhoneValidator $phoneValidator)
     {
         $this->accessToken = $accessToken;
         $this->twilio = $twilio;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function sendShortenedLink(string $phone, string $msg, string $url, bool $urlIsShort = false): void
-    {
-        $msg = rtrim($msg);
-        if (strlen($msg) > self::MAX_SMS_MSG_LEN) {
-            throw new \InvalidArgumentException(sprintf('$msg too long. Must be <= %d', self::MAX_SMS_MSG_LEN));
-        }
-
-        if (true === $urlIsShort) {
-            $shortUrl = $url;
-        } else {
-            $shortUrl = $this->generateShortUrl($url);
-        }
-
-        $msg .= ' '.$shortUrl;
-        $this->twilio->sendSms($phone, $msg);
+        $this->phoneValidator = $phoneValidator;
     }
 
     public function generateShortUrl(string $url): string
@@ -54,7 +30,7 @@ class ShortUrlHelper
             'url' => $url,
         ]);
         if (!isset($response['url']) || empty($response['url'])) {
-            throw new \RuntimeException('Did not get short URL');
+            throw new RuntimeException('Did not get short URL');
         }
 
         return $response['url'];
@@ -70,9 +46,9 @@ class ShortUrlHelper
             CURLOPT_POSTFIELDS => $post,
         ]);
         $response = curl_exec($curl);
-        if (false === $response) {
+        if ($response === false) {
             $msg = sprintf('Encountered cURL error: (%d) %s', curl_errno($curl), curl_error($curl));
-            throw new \RuntimeException($msg);
+            throw new RuntimeException($msg);
         }
         curl_close($curl);
 

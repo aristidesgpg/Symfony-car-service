@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
+    properties:
+        serviceBulletinURI:
+            -
+                Valid: null

@@ -10,11 +10,7 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use InvalidArgumentException;
-use RuntimeException;
 
 class RepairOrderHelper
 {
@@ -42,6 +38,19 @@ class RepairOrderHelper
     }
 
     /**
+     * @param string $roNumber
+     *
+     * @return bool
+     */
+    public function isNumberUnique (string $roNumber): bool {
+        $ro = $this->repo->findByUID($roNumber);
+
+        return ($ro === null);
+    }
+
+    /**
+     * @param array $params
+     *
      * @return RepairOrder|array Array on validation failure
      */
     public function addRepairOrder(array $params)
@@ -79,6 +88,7 @@ class RepairOrderHelper
             }
             $ro->setPrimaryAdvisor($advisor);
         }
+
         if (is_null($ro->getPaymentStatus())) {
             $ro->setPaymentStatus('Not Started');
         }
@@ -234,13 +244,23 @@ class RepairOrderHelper
         return $errors;
     }
 
+    /**
+     * @param string $roNumber
+     *
+     * @return bool
+     */
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findByUID($roNumber);
 
-        return null === $ro;
+        return ($ro === null);
     }
 
+    /**
+     * @param string $dateCreated
+     *
+     * @return string
+     */
     private function generateLinkHash(string $dateCreated): string
     {
         try {
@@ -249,7 +269,7 @@ class RepairOrderHelper
             throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
         }
         $ro = $this->repo->findByHash($hash);
-        if (null !== $ro) { // Very unlikely
+        if ($ro !== null) { // Very unlikely
             $this->logger->warning('link hash collision');
 
             return $this->generateLinkHash($dateCreated);
@@ -270,9 +290,15 @@ class RepairOrderHelper
         }
     }
 
+    /**
+     * @param array       $params
+     * @param RepairOrder $ro
+     *
+     * @return array
+     */
     public function updateRepairOrder(array $params, RepairOrder $ro): array
     {
-        if (null === $ro->getId()) {
+        if ($ro->getId() === null) {
             throw new InvalidArgumentException('RO is missing ID');
         }
         $errors = $this->buildRO($params, $ro);
@@ -284,27 +310,36 @@ class RepairOrderHelper
         return [];
     }
 
+    /**
+     * @param RepairOrder $ro
+     */
     public function closeRepairOrder(RepairOrder $ro): void
     {
-        if (null !== $ro->getDateClosed()) {
+        if ($ro->getDateClosed() !== null) {
             throw new InvalidArgumentException('RO is already closed');
         }
         $ro->setDateClosed(new DateTime());
         $this->commitRepairOrder();
     }
 
+    /**
+     * @param RepairOrder $ro
+     */
     public function archiveRepairOrder(RepairOrder $ro): void
     {
-        if (true === $ro->isArchived()) {
+        if ($ro->isArchived() === true) {
             throw new InvalidArgumentException('RO is already archived');
         }
         $ro->setArchived(true);
         $this->commitRepairOrder();
     }
 
+    /**
+     * @param RepairOrder $ro
+     */
     public function deleteRepairOrder(RepairOrder $ro): void
     {
-        if (true === $ro->getDeleted()) {
+        if ($ro->getDeleted() === true) {
             throw new InvalidArgumentException('RO is already deleted');
         }
         $ro->setDeleted(true);

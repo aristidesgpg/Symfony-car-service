@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfLoggingType:
+    properties:
+        logging:
+            expose: true
+            access_type: public_method
+            serialized_name: Logging
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getLogging
+                setter: setLogging
+            xml_list:
+                inline: true
+                entry_name: Logging
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\LoggingType>

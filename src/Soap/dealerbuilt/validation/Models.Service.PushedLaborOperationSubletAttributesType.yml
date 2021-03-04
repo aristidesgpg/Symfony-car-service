@@ -1,0 +1,11 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedLaborOperationSubletAttributesType:
+    properties:
+        cost:
+            -
+                Valid: null
+        salePrice:
+            -
+                Valid: null
+        tax:
+            -
+                Valid: null

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullCustomerPartsPricing:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

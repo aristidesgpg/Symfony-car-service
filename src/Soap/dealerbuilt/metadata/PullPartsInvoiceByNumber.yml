@@ -1,0 +1,24 @@
+App\Soap\dealerbuilt\src\PullPartsInvoiceByNumber:
+    xml_root_name: PullPartsInvoiceByNumber
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: serviceLocationId
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int
+        partsInvoiceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: partsInvoiceNumber
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPartsInvoiceNumber
+                setter: setPartsInvoiceNumber
+            type: string

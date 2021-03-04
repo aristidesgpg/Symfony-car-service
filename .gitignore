@@ -13,6 +13,7 @@
 public/uploads
 !public/uploads/coupons/.gitkeep
 !public/uploads/settings/.gitkeep
+tests/Fixtures/uploads
 ###< custom ###
 
 ###> lexik/jwt-authentication-bundle ###
@@ -20,3 +21,4 @@ public/uploads
 ###< lexik/jwt-authentication-bundle ###
 /tools/
 /.php_cs.cache
+/bin/.phpunit

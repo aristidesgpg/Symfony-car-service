@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\PhoneNumberType:
+    properties:
+        numberType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Home
+                        - Work
+                        - Mobile
+                        - HomeFax
+                        - WorkFax
+                        - MobileFax
+                        - Other
+                    groups:
+                        - xsd_rules

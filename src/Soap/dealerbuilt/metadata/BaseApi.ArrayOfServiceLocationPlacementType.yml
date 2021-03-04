@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfServiceLocationPlacementType:
+    properties:
+        serviceLocationPlacement:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationPlacement
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getServiceLocationPlacement
+                setter: setServiceLocationPlacement
+            xml_list:
+                inline: true
+                entry_name: ServiceLocationPlacement
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType>

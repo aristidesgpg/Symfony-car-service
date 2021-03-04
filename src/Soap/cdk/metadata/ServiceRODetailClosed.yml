@@ -1,0 +1,38 @@
+App\Soap\cdk\src\ServiceRODetailClosed:
+    xml_root_name: ServiceRODetailClosed
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+    properties:
+        serviceRepairOrderClosed:
+            expose: true
+            access_type: public_method
+            serialized_name: service-repair-order-closed
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getServiceRepairOrderClosed
+                setter: setServiceRepairOrderClosed
+            xml_list:
+                inline: true
+                entry_name: service-repair-order-closed
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            type: array<App\Soap\cdk\src\ServiceRepairOrderClosed>
+        errorCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getErrorCode
+                setter: setErrorCode
+            type: int
+        errorMessage:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorMessage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getErrorMessage
+                setter: setErrorMessage
+            type: App\Soap\cdk\src\ErrorMessage

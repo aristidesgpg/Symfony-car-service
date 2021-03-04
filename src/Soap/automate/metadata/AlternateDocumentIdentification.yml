@@ -1,0 +1,3 @@
+App\Soap\automate\src\AlternateDocumentIdentification:
+    xml_root_name: AlternateDocumentIdentification
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ServiceLocationJobCodesType:
+    properties:
+        jobs:
+            -
+                Valid: null

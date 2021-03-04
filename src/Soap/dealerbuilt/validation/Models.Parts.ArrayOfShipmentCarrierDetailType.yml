@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Parts\ArrayOfShipmentCarrierDetailType:
+    properties:
+        shipmentCarrierDetail:
+            -
+                Valid: null

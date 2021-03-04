@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\InventoryPartType:
+    properties:
+        attributes:
+            -
+                Valid: null

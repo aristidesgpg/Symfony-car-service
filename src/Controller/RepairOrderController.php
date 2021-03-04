@@ -21,6 +21,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -137,22 +138,22 @@ class RepairOrderController extends AbstractFOSRestController
         UserRepository $userRepo,
         EntityManagerInterface $em
     ): Response {
-        $page          = $request->query->getInt('page', 1);
-        $startDate     = $request->query->get('startDate');
-        $endDate       = $request->query->get('endDate');
-        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
-        $errors        = [];
-        $sortField     = $sortDirection = $searchTerm = null;
-        $inputFields   = ['open', 'waiter', 'internal', 'needsVideo'];
-        $fields        = [];
+        $errors = [];
+        $sortField = $sortDirection = $searchTerm = null;
+        $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
+        $fields = [];
 
         foreach ($inputFields as $field) {
             if ($request->query->has($field)) {
-                $fields[$field]        = $this->paramToBool($request->query->get($field));
+                $fields[$field] = $this->paramToBool($request->query->get($field));
                 $urlParameters[$field] = $fields[$field];
             } else {
-                $fields[$field]        = null;
+                $fields[$field] = null;
             }
         }
 
@@ -163,18 +164,17 @@ class RepairOrderController extends AbstractFOSRestController
         $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField                      = $request->query->get('sortField');
+            $sortField = $request->query->get('sortField');
 
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
-                $errors['sortField']        = 'Invalid sort field name';
+                $errors['sortField'] = 'Invalid sort field name';
             }
 
             $sortDirection = $request->query->get('sortDirection');
             $urlParameters['sortDirection'] = $sortDirection;
-            $urlParameters['sortField']     = $sortField;
+            $urlParameters['sortField'] = $sortField;
         }
-
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
@@ -184,7 +184,7 @@ class RepairOrderController extends AbstractFOSRestController
             $searchTerm = $request->query->get('searchTerm');
         }
 
-        $user      = $this->getUser();
+        $user = $this->getUser();
 
         if ($request->get('needsVideo')) {
             $items = $repairOrderRepo->findByNeedsVideo($user, $sortField, $sortDirection, $searchTerm);
@@ -201,22 +201,22 @@ class RepairOrderController extends AbstractFOSRestController
             );
         }
 
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($searchTerm) {
             $urlParameters['searchTerm'] = $searchTerm;
         }
-        $pager      = $paginator->paginate($items, $page, $pageLimit);
+        $pager = $paginator->paginate($items, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view       = $this->view(
+        $view = $this->view(
             [
-                'results'      => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages'   => $pagination->totalPages,
-                'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
-                'currentPage'  => $pagination->currentPage,
-                'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
             ]
         );
 
@@ -329,26 +329,28 @@ class RepairOrderController extends AbstractFOSRestController
             return new ValidationResponse($ro);
         }
 
-        if (!$waiverActivateAuthMessage) {
+        // Send waiver or intro message
+        try {
             // waiver disabled so send regular text
-            $twilioHelper->sendSms($ro->getPrimaryCustomer()->getPhone(), $welcomeMessage);
-        } else {
-            // waiver enabled
-            $url = $customerURL.$ro->getLinkHash();
-            $shortUrl = $shortUrlHelper->generateShortUrl($url);
-            try {
-                $phone = $ro->getPrimaryCustomer()->getPhone();
-                $shortUrlHelper->sendShortenedLink($phone, $waiverIntroText, $shortUrl, true);
-            } catch (Exception $e) {
-                throw new Exception($e);
-            }
+            if (!$waiverActivateAuthMessage) {
+                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
+            } else {
+                // waiver enabled
+                $url = $customerURL.$ro->getLinkHash();
+                $shortUrl = $shortUrlHelper->generateShortUrl($url);
+                $waiverMessage = $waiverIntroText .' '.$shortUrl;
 
-            $roInteraction = new RepairOrderInteraction();
-            $roInteraction->setRepairOrder($ro)
-                          ->setUser($this->getUser())
-                          ->setType('Waiver Sent');
-            $em->persist($roInteraction);
-            $em->flush();
+                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
+
+                $roInteraction = new RepairOrderInteraction();
+                $roInteraction->setRepairOrder($ro)
+                              ->setUser($this->getUser())
+                              ->setType('Waiver Sent');
+                $em->persist($roInteraction);
+                $em->flush();
+            }
+        } catch (Exception $e) {
+            throw new InternalErrorException($e);
         }
 
         $view = $this->view($ro);
@@ -496,5 +498,30 @@ class RepairOrderController extends AbstractFOSRestController
                 ]
             )
         );
+    }
+
+    /**
+     * @Rest\Get("/repair-order-numbers/suggested")
+     *
+     * @SWG\Tag(name="Repair Order")
+     * @SWG\Get(description="Get suggested RepairOrder numbers based on the current naming convention")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return suggested numbers",
+     *     @SWG\Items(
+     *         type="array",
+     *         @SWG\Items(type="integer", description="suggested"),
+     *
+     *     )
+     * )
+     */
+    public function suggestedRepairOrderNumbers(RepairOrderHelper $repairOrderHelper): Response
+    {
+        $result = $repairOrderHelper->getSuggestedRoNumbers();
+
+        $view = $this->view($result);
+
+        return $this->handleView($view);
     }
 }

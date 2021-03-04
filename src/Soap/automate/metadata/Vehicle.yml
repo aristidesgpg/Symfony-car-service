@@ -1,0 +1,54 @@
+App\Soap\automate\src\Vehicle:
+    xml_root_name: Vehicle
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        model:
+            expose: true
+            access_type: public_method
+            serialized_name: Model
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getModel
+                setter: setModel
+            type: string
+        modelYear:
+            expose: true
+            access_type: public_method
+            serialized_name: ModelYear
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getModelYear
+                setter: setModelYear
+            type: int
+        colorGroup:
+            expose: true
+            access_type: public_method
+            serialized_name: ColorGroup
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getColorGroup
+                setter: setColorGroup
+            type: App\Soap\automate\src\ColorGroup
+        vehicleID:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getVehicleID
+                setter: setVehicleID
+            type: string
+        manufacturerName:
+            expose: true
+            access_type: public_method
+            serialized_name: ManufacturerName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getManufacturerName
+                setter: setManufacturerName
+            type: string

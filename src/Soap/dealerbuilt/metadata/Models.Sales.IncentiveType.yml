@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\Models\Sales\IncentiveType:
+    properties:
+        deleteFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: DeleteFlag
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getDeleteFlag
+                setter: setDeleteFlag
+            type: bool
+        department:
+            expose: true
+            access_type: public_method
+            serialized_name: Department
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getDepartment
+                setter: setDepartment
+            type: string
+        incentiveAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: IncentiveAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getIncentiveAmount
+                setter: setIncentiveAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        itemizationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ItemizationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getItemizationId
+                setter: setItemizationId
+            type: int
+        name:
+            expose: true
+            access_type: public_method
+            serialized_name: Name
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getName
+                setter: setName
+            type: string
+        note:
+            expose: true
+            access_type: public_method
+            serialized_name: Note
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getNote
+                setter: setNote
+            type: string
+        residual:
+            expose: true
+            access_type: public_method
+            serialized_name: Residual
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getResidual
+                setter: setResidual
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

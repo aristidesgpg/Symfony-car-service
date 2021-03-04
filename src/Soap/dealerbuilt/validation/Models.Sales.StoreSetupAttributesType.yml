@@ -1,0 +1,17 @@
+App\Soap\dealerbuilt\src\Models\Sales\StoreSetupAttributesType:
+    properties:
+        address:
+            -
+                Valid: null
+        faxNumber:
+            -
+                Valid: null
+        phoneNumber:
+            -
+                Valid: null
+        prospectAdvertisingSources:
+            -
+                Valid: null
+        prospectSources:
+            -
+                Valid: null

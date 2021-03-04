@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfCustomerSummaryType:
+    properties:
+        customerSummary:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerSummary
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerSummary
+                setter: setCustomerSummary
+            xml_list:
+                inline: true
+                entry_name: CustomerSummary
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType>

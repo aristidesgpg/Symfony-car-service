@@ -1,0 +1,18 @@
+App\Soap\automate\src\AuthenticationTokenType:
+    properties:
+        userName:
+            expose: true
+            access_type: public_method
+            serialized_name: userName
+            accessor:
+                getter: getUserName
+                setter: setUserName
+            type: string
+        password:
+            expose: true
+            access_type: public_method
+            serialized_name: password
+            accessor:
+                getter: getPassword
+                setter: setPassword
+            type: string

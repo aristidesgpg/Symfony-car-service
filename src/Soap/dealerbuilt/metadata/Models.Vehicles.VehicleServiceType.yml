@@ -1,0 +1,102 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
+    properties:
+        ownerInformation:
+            expose: true
+            access_type: public_method
+            serialized_name: OwnerInformation
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getOwnerInformation
+                setter: setOwnerInformation
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceOwnerDataType
+        repairOrderHistory:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderHistory
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getRepairOrderHistory
+                setter: setRepairOrderHistory
+            type: array<App\Soap\dealerbuilt\src\Models\Service\RepairOrderType>
+            xml_list:
+                inline: false
+                entry_name: RepairOrder
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+        serviceCampaigns:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceCampaigns
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getServiceCampaigns
+                setter: setServiceCampaigns
+            type: array<App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType>
+            xml_list:
+                inline: false
+                entry_name: ServiceCampaign
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+        serviceContracts:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContracts
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getServiceContracts
+                setter: setServiceContracts
+            type: array<App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType>
+            xml_list:
+                inline: false
+                entry_name: ServiceContract
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceContracts'
+        vehicleInformation:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleInformation
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getVehicleInformation
+                setter: setVehicleInformation
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceVehicleDataType
+        vehicleSeller:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleSeller
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getVehicleSeller
+                setter: setVehicleSeller
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceSoldByDealerType
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: Vin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string
+        warranties:
+            expose: true
+            access_type: public_method
+            serialized_name: Warranties
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getWarranties
+                setter: setWarranties
+            type: array<App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType>
+            xml_list:
+                inline: false
+                entry_name: Warranty
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'

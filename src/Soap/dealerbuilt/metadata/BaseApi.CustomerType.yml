@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Customers\CustomerAttributesType
+        customerId:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerId
+                setter: setCustomerId
+            type: string
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string

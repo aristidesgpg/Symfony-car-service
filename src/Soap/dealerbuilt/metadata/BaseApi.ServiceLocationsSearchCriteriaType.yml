@@ -1,0 +1,17 @@
+App\Soap\dealerbuilt\src\BaseApi\ServiceLocationsSearchCriteriaType:
+    properties:
+        serviceLocationIds:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationIds
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getServiceLocationIds
+                setter: setServiceLocationIds
+            type: array<int>
+            xml_list:
+                inline: false
+                entry_name: long
+                skip_when_empty: false
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

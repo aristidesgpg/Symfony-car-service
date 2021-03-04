@@ -1,0 +1,68 @@
+App\Soap\automate\src\OwnerParty:
+    xml_root_name: OwnerParty
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        partyID:
+            expose: true
+            access_type: public_method
+            serialized_name: PartyID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPartyID
+                setter: setPartyID
+            type: int
+        dealerManagementSystemID:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerManagementSystemID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDealerManagementSystemID
+                setter: setDealerManagementSystemID
+            type: string
+        alternatePartyDocument:
+            expose: true
+            access_type: public_method
+            serialized_name: AlternatePartyDocument
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getAlternatePartyDocument
+                setter: setAlternatePartyDocument
+            xml_list:
+                inline: true
+                entry_name: AlternatePartyDocument
+                namespace: 'http://www.starstandard.org/STAR/5'
+            type: array<App\Soap\automate\src\AlternatePartyDocument>
+        specifiedPerson:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecifiedPerson
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getSpecifiedPerson
+                setter: setSpecifiedPerson
+            type: App\Soap\automate\src\SpecifiedPerson
+        specifiedOrganization:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecifiedOrganization
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getSpecifiedOrganization
+                setter: setSpecifiedOrganization
+            type: App\Soap\automate\src\SpecifiedOrganization
+        privacy:
+            expose: true
+            access_type: public_method
+            serialized_name: Privacy
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPrivacy
+                setter: setPrivacy
+            type: App\Soap\automate\src\Privacy

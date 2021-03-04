@@ -1,0 +1,9 @@
+App\Soap\cdk\src\TotLaborSalePostDed\TotLaborSalePostDedAType:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

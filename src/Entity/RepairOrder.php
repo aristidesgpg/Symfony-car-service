@@ -24,6 +24,7 @@ class RepairOrder
         'operation_code_list',
         'rov_list',
         'ror_list',
+        'roc_list'
     ];
 
     /**
@@ -242,6 +243,12 @@ class RepairOrder
     private $repairOrderReview;
 
     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderCustomer::class, mappedBy="repairOrder", orphanRemoval=true)
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $repairOrderCustomers;
+
+    /**
      * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="repairOrder", orphanRemoval=true)
      * @Serializer\Groups(groups={"ro_list"})
      */
@@ -262,6 +269,7 @@ class RepairOrder
         $this->repairOrderInteractions = new ArrayCollection();
         $this->repairOrderTeam = new ArrayCollection();
         $this->payments = new ArrayCollection();
+        $this->repairOrderCustomers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -715,6 +723,24 @@ class RepairOrder
         return $this;
     }
 
+    /**
+     * @return Collection|RepairOrderCustomer[]
+     */
+    public function getRepairOrderCustomers(): Collection
+    {
+        return $this->repairOrderCustomers;
+    }
+
+    public function addRepairOrderCustomer(RepairOrderCustomer $repairOrderCustomer): self
+    {
+        if (!$this->repairOrderCustomers->contains($repairOrderCustomer)) {
+            $this->repairOrderCustomers[] = $repairOrderCustomer;
+            $repairOrderCustomer->setRepairOrder($this);
+        }
+
+        return $this;
+    }
+
     public function getNotes(): array
     {
         return $this->notes->toArray();
@@ -749,6 +775,19 @@ class RepairOrder
             // set the owning side to null (unless already changed)
             if ($repairOrderInteraction->getRepairOrder() === $this) {
                 $repairOrderInteraction->setRepairOrder(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderCustomer(RepairOrderCustomer $repairOrderCustomer): self
+    {
+        if ($this->repairOrderCustomers->contains($repairOrderCustomer)) {
+            $this->repairOrderCustomers->removeElement($repairOrderCustomer);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderCustomer->getRepairOrder() === $this) {
+                $repairOrderCustomer->setRepairOrder(null);
             }
         }
 
