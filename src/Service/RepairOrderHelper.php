@@ -10,7 +10,11 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 
 class RepairOrderHelper
 {
@@ -38,20 +42,9 @@ class RepairOrderHelper
     }
 
     /**
-     * @param string $roNumber
-     *
-     * @return bool
-     */
-    public function isNumberUnique (string $roNumber): bool {
-        $ro = $this->repo->findByUID($roNumber);
-
-        return ($ro === null);
-    }
-
-    /**
-     * @param array $params
-     *
      * @return RepairOrder|array Array on validation failure
+     *
+     * @throws Exception
      */
     public function addRepairOrder(array $params)
     {
@@ -84,7 +77,7 @@ class RepairOrderHelper
             $advisors = $this->users->getUserByRole('ROLE_SERVICE_ADVISOR');
             $advisor = $advisors[0] ?? null;
             if (!$advisor instanceof User) {
-                throw new RuntimeException('Could not find advisor');
+                throw new Exception('Could not find advisor');
             }
             $ro->setPrimaryAdvisor($advisor);
         }
@@ -229,8 +222,8 @@ class RepairOrderHelper
             $ro->setDmsKey($params['dmsKey']);
         }
 
-        if (isset($params['waiver'])) {
-            $ro->setWaiver($params['waiver']);
+        if (isset($params['waiverSignature'])) {
+            $ro->setWaiverSignature($params['waiverSignature']);
         }
 
         if (isset($params['waiverVerbiage'])) {
@@ -244,11 +237,6 @@ class RepairOrderHelper
         return $errors;
     }
 
-    /**
-     * @param string $roNumber
-     *
-     * @return bool
-     */
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findByUID($roNumber);
@@ -256,11 +244,6 @@ class RepairOrderHelper
         return ($ro === null);
     }
 
-    /**
-     * @param string $dateCreated
-     *
-     * @return string
-     */
     private function generateLinkHash(string $dateCreated): string
     {
         try {
@@ -290,12 +273,6 @@ class RepairOrderHelper
         }
     }
 
-    /**
-     * @param array       $params
-     * @param RepairOrder $ro
-     *
-     * @return array
-     */
     public function updateRepairOrder(array $params, RepairOrder $ro): array
     {
         if ($ro->getId() === null) {
@@ -310,9 +287,6 @@ class RepairOrderHelper
         return [];
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function closeRepairOrder(RepairOrder $ro): void
     {
         if ($ro->getDateClosed() !== null) {
@@ -322,9 +296,6 @@ class RepairOrderHelper
         $this->commitRepairOrder();
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function archiveRepairOrder(RepairOrder $ro): void
     {
         if ($ro->isArchived() === true) {
@@ -334,9 +305,6 @@ class RepairOrderHelper
         $this->commitRepairOrder();
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function deleteRepairOrder(RepairOrder $ro): void
     {
         if ($ro->getDeleted() === true) {
