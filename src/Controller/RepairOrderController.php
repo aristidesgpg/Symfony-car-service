@@ -139,10 +139,10 @@ class RepairOrderController extends AbstractFOSRestController
      */
     public function getAll(
         Request $request,
-        RepairOrderRepository $repairOrderRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderHelper $helper
     ): Response {
         $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
@@ -151,7 +151,7 @@ class RepairOrderController extends AbstractFOSRestController
         $urlParameters = [];
         $errors = [];
         $sortField = $sortDirection = $searchTerm = null;
-        $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
+        $inputFields = ['open', 'waiter', 'internal'];
         $fields = [];
 
         foreach ($inputFields as $field) {
@@ -195,9 +195,18 @@ class RepairOrderController extends AbstractFOSRestController
         $user = $this->getUser();
 
         if ($request->get('needsVideo')) {
-            $items = $repairOrderRepo->findByNeedsVideo($user, $sortField, $sortDirection, $searchTerm);
+            $urlParameters['needsVideo'] = true;
+            $items = $helper->findByNeedsVideo(
+                $user,
+                $startDate,
+                $endDate,
+                $sortField,
+                $sortDirection,
+                $searchTerm,
+                $fields
+            );
         } else {
-            $items = $repairOrderRepo->getAllItems(
+            $items = $helper->getAllItems(
                 $user,
                 $startDate,
                 $endDate,
