@@ -64,7 +64,8 @@ class RepairOrderRepository extends ServiceEntityRepository
                         }
                     } else{
                         if ($name === 'dateClosedStart' || $name === 'dateClosedEnd'){
-                            if( !$fields['open'] ){
+                            // if( !$fields['open'] )
+                            {
                                 try {
                                     $value = new DateTime($value);
                                 } catch (Exception $e) {
