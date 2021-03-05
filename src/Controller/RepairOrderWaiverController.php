@@ -6,6 +6,7 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
+use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
@@ -55,7 +56,8 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         RepairOrderRepository $roRepo,
         SettingsHelper $settingsHelper,
         TwilioHelper $twilioHelper,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderHelper $repairOrderHelper
     ) {
         $signature = $req->get('signature');
         $repairOrderId = $req->get('repairOrderId');
@@ -79,9 +81,10 @@ class RepairOrderWaiverController extends AbstractFOSRestController
             return $this->handleView($this->view('Invalid base64 image', Response::HTTP_BAD_REQUEST));
         }
 
-        $ro->setWaiverSignature($signature);
-        $em->persist($ro);
-        $em->flush();
+        $params = [
+            'waiverSignature' => $signature,
+        ];
+        $errors = $repairOrderHelper->updateRepairOrder($params, $ro);
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);

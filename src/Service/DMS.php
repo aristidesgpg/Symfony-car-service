@@ -147,7 +147,7 @@ class DMS {
         $this->settingsHelper         = $settingsHelper;
         $this->repairOrderHelper      = $repairOrderHelper;
         $this->parameterBag           = $parameterBag;
-        $this->customerURL            = $this->settingsHelper->getSetting('customerURL');
+        $this->customerURL            = $parameterBag->get('customer_url');
         $this->dmsFilter              = $this->settingsHelper->getSetting('dmsFilter');
         $this->usingAutomate          = $this->settingsHelper->getSetting('usingAutomate') === 'true';
         $this->usingDealerTrack       = $this->settingsHelper->getSetting('usingDealerTrack') === 'true';
@@ -341,6 +341,7 @@ class DMS {
             } catch (Exception $e) {
                 continue;
             }
+
             // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
             if ($this->settingsHelper->getSetting('waiverEstimateText') && $this->settingsHelper->getSetting('waiverActivateAuthMessage')) {
                 $introMessage = "Welcome to " . $settings->getName() . '. Click the link below to begin your visit. ';

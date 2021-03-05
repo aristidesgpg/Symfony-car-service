@@ -38,6 +38,8 @@ class PaymentHelper
         'Refunded',
     ];
 
+    private $hasPayments = false;
+
     /**
      * PaymentHelper constructor.
      */
@@ -57,6 +59,11 @@ class PaymentHelper
         $this->mailer = $mailer;
         $this->twilio = $twilio;
         $this->customerUrl = $parameterBag->get('customer_url');
+
+        //TODO Find out what we should do if they don't have payments, Return null or exception?
+        if ($this->settings->find('hasPayments')->getValue()) {
+            $this->hasPayments = true;
+        }
     }
 
     public function addPayment(RepairOrder $ro, Money $amount): RepairOrderPayment
@@ -90,86 +97,6 @@ class PaymentHelper
         }
 
         return $currentStatus;
-    }
-
-    /**
-     * @return string[]
-     */
-    public function getValidStatusesInOrder(): array
-    {
-        return $this->validStatusesInOrder;
-    }
-
-    /**
-     * @param string[] $validStatusesInOrder
-     */
-    public function setValidStatusesInOrder(array $validStatusesInOrder): void
-    {
-        $this->validStatusesInOrder = $validStatusesInOrder;
-    }
-
-    private function createInteraction(RepairOrderPayment $payment, string $type): RepairOrderPaymentInteraction
-    {
-        $interaction = new RepairOrderPaymentInteraction();
-        $interaction->setPayment($payment)
-                    ->setType($type);
-        $payment->addInteraction($interaction);
-
-        return $interaction;
-    }
-
-    private function commitPayment(RepairOrderPayment $payment): void
-    {
-        if (null === $payment->getId()) {
-            $this->em->persist($payment);
-        }
-
-        $this->em->beginTransaction();
-        try {
-            $this->em->flush();
-            $this->em->commit();
-        } catch (Exception $e) {
-            $this->em->rollback();
-            throw new RuntimeException('Caught exception during flush', 0, $e);
-        }
-
-        $this->updateRepairOrderStatus($payment);
-    }
-
-    public function updateRepairOrderStatus(RepairOrderPayment $payment)
-    {
-        $repairOrder = $payment->getRepairOrder();
-        $rops = $repairOrder->getPayments();
-        $currentPaymentRank = array_search($payment->getStatus(), $this->getValidStatusesInOrder());
-
-        foreach ($rops as $rop) {
-            if ($rop->isDeleted()) {
-                continue;
-            }
-
-            if (!$rop->getStatus()) {
-                continue;
-            }
-            if ($rop->getId() == $payment->getId()) {
-                continue;
-            }
-            $ropStatusRank = array_search($rop->getStatus(), $this->getValidStatusesInOrder());
-            if ($ropStatusRank < $currentPaymentRank) {
-                $currentPaymentRank = $ropStatusRank;
-            }
-        }
-
-        $repairOrder->setPaymentStatus($this->getValidStatusesInOrder()[$currentPaymentRank]);
-        $this->em->persist($repairOrder);
-
-        $this->em->beginTransaction();
-        try {
-            $this->em->flush();
-            $this->em->commit();
-        } catch (Exception $e) {
-            $this->em->rollback();
-            throw new RuntimeException('Caught exception during flush', 0, $e);
-        }
     }
 
     /**
@@ -244,41 +171,7 @@ class PaymentHelper
     }
 
     /**
-     * @throws Throwable
-     */
-    public function sendReceipt(RepairOrderPayment $payment, string $toAddress): void
-    {
-        $date = $payment->getDatePaid();
-        if (null === $date) {
-            throw new InvalidArgumentException('Cannot send receipt for unpaid payment');
-        }
-
-        $dealerName = $this->settings->find('generalName')->getValue();
-
-        $sent = $this->mailer->sendMailFromTemplate(
-            "iService Auto {$dealerName} Payment Receipt",
-            $toAddress,
-            'email-payment-receipt.html.twig',
-            [
-                'dealer_name' => $dealerName,
-                'customer_phone' => $payment->getRepairOrder()->getPrimaryCustomer()->getPhone(),
-                'transaction_id' => $payment->getTransactionId(),
-                'ro_number' => $payment->getRepairOrder()->getNumber(),
-                'date' => $date,
-                'amount' => $payment->getAmountString(),
-            ]
-        );
-
-        if (!$sent) {
-            throw new RuntimeException('Could not send email');
-        }
-
-        $this->createInteraction($payment, 'Receipt sent');
-        $this->commitPayment($payment);
-    }
-
-    /**
-     * @throws Exception|PaymentException
+     * @throws \Exception|PaymentException
      */
     public function refundPayment(RepairOrderPayment $payment, Money $amount): void
     {
@@ -326,6 +219,107 @@ class PaymentHelper
         $payment->setDateDeleted(new DateTime());
         $this->createInteraction($payment, 'Deleted');
         $this->commitPayment($payment);
+    }
+
+    /**
+     * @throws \Throwable
+     */
+    public function sendReceipt(RepairOrderPayment $payment, string $toAddress): void
+    {
+        $date = $payment->getDatePaid();
+        if (null === $date) {
+            throw new \InvalidArgumentException('Cannot send receipt for unpaid payment');
+        }
+
+        $dealerName = $this->settings->find('generalName')->getValue();
+
+        $sent = $this->mailer->sendMailFromTemplate(
+            "iService Auto {$dealerName} Payment Receipt",
+            $toAddress,
+            'email-payment-receipt.html.twig',
+            [
+                'dealer_name' => $dealerName,
+                'customer_phone' => $payment->getRepairOrder()->getPrimaryCustomer()->getPhone(),
+                'transaction_id' => $payment->getTransactionId(),
+                'ro_number' => $payment->getRepairOrder()->getNumber(),
+                'date' => $date,
+                'amount' => $payment->getAmountString(),
+            ]
+        );
+
+        if (!$sent) {
+            throw new \RuntimeException('Could not send email');
+        }
+
+        $this->createInteraction($payment, 'Receipt sent');
+        $this->commitPayment($payment);
+    }
+
+    private function createInteraction(RepairOrderPayment $payment, string $type): RepairOrderPaymentInteraction
+    {
+        $interaction = new RepairOrderPaymentInteraction();
+        $interaction->setPayment($payment)
+                    ->setType($type);
+        $payment->addInteraction($interaction);
+
+        return $interaction;
+    }
+
+    private function commitPayment(RepairOrderPayment $payment): void
+    {
+        if (null === $payment->getId()) {
+            $this->em->persist($payment);
+        }
+
+        $this->em->beginTransaction();
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            throw new \RuntimeException('Caught exception during flush', 0, $e);
+        }
+
+        $this->updateRepairOrderStatus($payment);
+    }
+
+    /**
+     * @param RepairOrderPayment $payment
+     */
+    public function updateRepairOrderStatus(RepairOrderPayment $payment)
+    {
+        $repairOrder = $payment->getRepairOrder();
+        $rops = $repairOrder->getPayments();
+        $currentPaymentRank = array_search($payment->getStatus(), $this->getValidStatusesInOrder());
+
+        foreach ($rops as $rop) {
+            if($rop->isDeleted()){
+                continue;
+            }
+
+            if (!$rop->getStatus()) {
+                continue;
+            }
+            if ($rop->getId() == $payment->getId()) {
+                continue;
+            }
+            $ropStatusRank = array_search($rop->getStatus(), $this->getValidStatusesInOrder());
+            if ($ropStatusRank < $currentPaymentRank) {
+                $currentPaymentRank = $ropStatusRank;
+            }
+        }
+
+        $repairOrder->setPaymentStatus($this->getValidStatusesInOrder()[$currentPaymentRank]);
+        $this->em->persist($repairOrder);
+
+        $this->em->beginTransaction();
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (\Exception $e) {
+            $this->em->rollback();
+            throw new \RuntimeException('Caught exception during flush', 0, $e);
+        }
     }
 
     public function getEm(): EntityManagerInterface
@@ -376,5 +370,21 @@ class PaymentHelper
     public function setMailer(MailerHelper $mailer): void
     {
         $this->mailer = $mailer;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getValidStatusesInOrder(): array
+    {
+        return $this->validStatusesInOrder;
+    }
+
+    /**
+     * @param string[] $validStatusesInOrder
+     */
+    public function setValidStatusesInOrder(array $validStatusesInOrder): void
+    {
+        $this->validStatusesInOrder = $validStatusesInOrder;
     }
 }

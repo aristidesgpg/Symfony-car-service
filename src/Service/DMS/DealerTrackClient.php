@@ -3,11 +3,14 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\dealertrack\src\DealerTrackClosedSoapEnvelope;
+use App\Soap\dealertrack\src\DealerTrackPartsEnvelope;
 use App\Soap\dealertrack\src\DealerTrackSoapEnvelope;
+use App\Soap\dealertrack\src\PartsResult;
 use App\Soap\dealertrack\src\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -52,6 +55,11 @@ class DealerTrackClient extends AbstractDMSClient
      * @var string
      */
     private $company;
+
+    /**
+     * @var string
+     */
+    private $partsWsdl = '../src/Soap/dealertrack/dealertrack_parts.wsdl';
 
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
@@ -161,10 +169,6 @@ class DealerTrackClient extends AbstractDMSClient
         return $repairOrders;
     }
 
-    /**
-     * @param array $openRepairOrders
-     * @return array
-     */
     public function getClosedRoDetails(array $openRepairOrders): array
     {
         $closedRepairOrders = [];
@@ -238,68 +242,89 @@ class DealerTrackClient extends AbstractDMSClient
 
     public function getParts(): array
     {
-        // TODO: Implement getParts() method.
+        $this->initializeSoapClient($this->getPartsWsdl());
+        $parts = [];
+
+        if ($this->getSoapClient()) {
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+
+            $monthAgo = (new \DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
+            $monthAhead = (new \DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
+            $sixYearAgo = (new \DateTime())->modify('-6 year')->format('Y-m-d\TH:i:s\Z');
+            $oneYearAgo = (new \DateTime())->modify('-1 year')->format('Y-m-d\TH:i:s\Z');
+
+            $request = [
+                'Dealer' => [
+                    'CompanyNumber' => $this->getCompany(),
+                    'EnterpriseCode' => $this->getEnterprise(),
+                    'ServerName' => $this->getServer(),
+                ],
+                'InventoryParms' => [
+                    'DateInInventoryStart' => $oneYearAgo,
+                    'DateInInventoryEnd' => $monthAhead,
+                ],
+            ];
+
+            $soapResult = $this->sendSoapCall('PartsInventory', [$request], true);
+            if (!$soapResult) {
+                return $parts;
+            }
+            $response = $this->getSerializer()->deserialize($soapResult, DealerTrackPartsEnvelope::class, 'xml');
+            if (!$response) {
+                return $parts;
+            }
+
+            /**
+             * @var PartsResult $result
+             */
+            foreach ($response->getBody()->getPartsInventoryResult()->getResult() as $result) {
+                $part = (new Part())
+                    ->setNumber($result->getPartNumber())
+                    ->setName($result->getPartDescription())
+                    ->setBin($result->getBinLocation())
+                    ->setAvailable($result->getQuantity());
+
+                $parts[] = $part;
+            }
+        }
+        return $parts;
     }
 
-    /**
-     * @return string
-     */
     public function getEventServiceUrl(): string
     {
         return $this->eventServiceUrl;
     }
 
-    /**
-     * @param string $eventServiceUrl
-     */
     public function setEventServiceUrl(string $eventServiceUrl): void
     {
         $this->eventServiceUrl = $eventServiceUrl;
     }
 
-    /**
-     * @return string
-     */
     public function getWsdl(): string
     {
         return $this->wsdl;
     }
 
-    /**
-     * @param string $wsdl
-     */
     public function setWsdl(string $wsdl): void
     {
         $this->wsdl = $wsdl;
     }
 
-    /**
-     * @return string
-     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $username
-     */
     public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
     public function setPassword(string $password): void
     {
         $this->password = $password;
@@ -321,45 +346,38 @@ class DealerTrackClient extends AbstractDMSClient
         $this->server = $server;
     }
 
-    /**
-     * @return string
-     */
     public function getEnterprise(): string
     {
         return $this->enterprise;
     }
 
-    /**
-     * @param string $enterprise
-     */
     public function setEnterprise(string $enterprise): void
     {
         $this->enterprise = $enterprise;
     }
 
-    /**
-     * @return string
-     */
     public function getCompany(): string
     {
         return $this->company;
     }
 
-    /**
-     * @param string $company
-     */
     public function setCompany(string $company): void
     {
         $this->company = $company;
     }
 
-    /**
-     * @return string
-     */
     public static function getDefaultIndexName(): string
     {
         return 'usingDealerTrack';
     }
 
+    public function getPartsWsdl(): string
+    {
+        return $this->partsWsdl;
+    }
 
+    public function setPartsWsdl(string $partsWsdl): void
+    {
+        $this->partsWsdl = $partsWsdl;
+    }
 }
