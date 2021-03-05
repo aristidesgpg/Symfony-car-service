@@ -503,7 +503,7 @@ class RepairOrderHelper
         $sortField = 'dateCreated',
         $sortDirection = 'DESC',
         $searchTerm = null,
-        $needsVideo,
+        $needsVideo = false,
         $fields = []
     ) {
         try {
