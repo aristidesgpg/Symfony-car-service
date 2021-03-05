@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\ProspectSearchCriteriaType:
+    properties:
+        driverLicenseNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: DriverLicenseNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDriverLicenseNumber
+                setter: setDriverLicenseNumber
+            type: string
+        partialName:
+            expose: true
+            access_type: public_method
+            serialized_name: PartialName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPartialName
+                setter: setPartialName
+            type: string
+        phone:
+            expose: true
+            access_type: public_method
+            serialized_name: Phone
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPhone
+                setter: setPhone
+            type: string

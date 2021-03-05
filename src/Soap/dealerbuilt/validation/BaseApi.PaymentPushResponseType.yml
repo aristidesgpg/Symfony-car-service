@@ -1,0 +1,30 @@
+App\Soap\dealerbuilt\src\BaseApi\PaymentPushResponseType:
+    properties:
+        balance:
+            -
+                Valid: null
+        eventType:
+            -
+                Choice:
+                    choices:
+                        - RepairOrder
+                        - CounterTicket
+                    groups:
+                        - xsd_rules
+        payTypeStatuses:
+            -
+                Valid: null
+        payments:
+            -
+                Valid: null
+        serviceLocationId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules

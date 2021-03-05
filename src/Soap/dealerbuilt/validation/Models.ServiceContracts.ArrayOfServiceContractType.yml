@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\ServiceContracts\ArrayOfServiceContractType:
+    properties:
+        serviceContract:
+            -
+                Valid: null

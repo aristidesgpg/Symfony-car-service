@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\EstimateSearchCriteriaType:
+    properties:
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        maximumUpdateStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumUpdateStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumUpdateStamp
+                setter: setMaximumUpdateStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumUpdateStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumUpdateStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumUpdateStamp
+                setter: setMinimumUpdateStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: Vin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string

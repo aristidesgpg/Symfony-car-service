@@ -1,0 +1,92 @@
+App\Soap\dealerbuilt\src\BaseApi\PartSearchCriteriaType:
+    properties:
+        maximumAddedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumAddedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumAddedDate
+                setter: setMaximumAddedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        maximumFirstSoldDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumFirstSoldDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumFirstSoldDate
+                setter: setMaximumFirstSoldDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        maximumLastReceiptDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumLastReceiptDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumLastReceiptDate
+                setter: setMaximumLastReceiptDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumAddedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumAddedDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumAddedDate
+                setter: setMinimumAddedDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumFirstSoldDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumFirstSoldDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumFirstSoldDate
+                setter: setMinimumFirstSoldDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumLastReceiptDate:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumLastReceiptDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumLastReceiptDate
+                setter: setMinimumLastReceiptDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        onHandScope:
+            expose: true
+            access_type: public_method
+            serialized_name: OnHandScope
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getOnHandScope
+                setter: setOnHandScope
+            type: string
+        partialPartNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PartialPartNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPartialPartNumber
+                setter: setPartialPartNumber
+            type: string
+        vendor:
+            expose: true
+            access_type: public_method
+            serialized_name: Vendor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getVendor
+                setter: setVendor
+            type: string

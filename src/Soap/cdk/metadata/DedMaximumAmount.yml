@@ -1,0 +1,4 @@
+App\Soap\cdk\src\DedMaximumAmount:
+    xml_root_name: dedMaximumAmount
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

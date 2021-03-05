@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPartsInvoiceType:
+    properties:
+        partsInvoice:
+            -
+                Valid: null

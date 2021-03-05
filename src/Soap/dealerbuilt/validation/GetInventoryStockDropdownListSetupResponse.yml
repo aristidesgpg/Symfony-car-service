@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetInventoryStockDropdownListSetupResponse:
+    properties:
+        getInventoryStockDropdownListSetupResult:
+            -
+                Valid: null

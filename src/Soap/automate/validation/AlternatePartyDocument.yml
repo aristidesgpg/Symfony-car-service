@@ -1,0 +1,17 @@
+App\Soap\automate\src\AlternatePartyDocument:
+    properties:
+        documentType:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+        effectivePeriod:
+            -
+                Valid: null
+        issuingName:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules

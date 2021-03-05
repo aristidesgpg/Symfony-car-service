@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushInventoryStock:
+    properties:
+        inventoryItems:
+            -
+                Valid: null

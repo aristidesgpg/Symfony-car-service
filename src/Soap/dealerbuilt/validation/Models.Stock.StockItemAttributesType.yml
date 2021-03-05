@@ -1,0 +1,178 @@
+App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType:
+    properties:
+        accumulatedBalance:
+            -
+                Valid: null
+        advertisedSalePrice:
+            -
+                Valid: null
+        advertisingCost:
+            -
+                Valid: null
+        availability:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Available
+                        - Sold
+                        - Pending
+                        - Ordered
+                        - NotAvailable
+                        - Freight
+                        - Hold
+                        - Transit
+                    groups:
+                        - xsd_rules
+        baseMsrp:
+            -
+                Valid: null
+        baseRetailPrice:
+            -
+                Valid: null
+        cost:
+            -
+                Valid: null
+        dealerInventoryBalance:
+            -
+                Valid: null
+        dealerOptionsTotal:
+            -
+                Valid: null
+        deliveryMileage:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        downPayment:
+            -
+                Valid: null
+        floorAmount:
+            -
+                Valid: null
+        fuelType:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Gas
+                        - Diesel
+                        - Hybrid
+                        - Electric
+                        - Hydrogen
+                        - NaturalGas
+                    groups:
+                        - xsd_rules
+        generalJournalAdjustments:
+            -
+                Valid: null
+        holdback:
+            -
+                Valid: null
+        iMilesExceedMechLimit:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        iMilesExempt:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        internalROCost:
+            -
+                Valid: null
+        invoiceBalance:
+            -
+                Valid: null
+        licensingFee:
+            -
+                Valid: null
+        msrp:
+            -
+                Valid: null
+        msrpe:
+            -
+                Valid: null
+        numberOfAxles:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        options:
+            -
+                Valid: null
+        pDITechnician:
+            -
+                Valid: null
+        packageDiscount:
+            -
+                Valid: null
+        price:
+            -
+                Valid: null
+        rebates:
+            -
+                Valid: null
+        regularPrice:
+            -
+                Valid: null
+        status:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Ground
+                        - Coming
+                    groups:
+                        - xsd_rules
+        stockDataAttributes:
+            -
+                Valid: null
+        totalFacOptsRetail:
+            -
+                Valid: null
+        type:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Car
+                        - Truck
+                        - Van
+                        - Suv
+                    groups:
+                        - xsd_rules
+        vehicleOptions:
+            -
+                Valid: null
+        wholesalePrice:
+            -
+                Valid: null
+        writeDown:
+            -
+                Valid: null

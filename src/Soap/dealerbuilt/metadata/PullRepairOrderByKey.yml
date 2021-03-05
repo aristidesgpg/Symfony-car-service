@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\PullRepairOrderByKey:
+    xml_root_name: PullRepairOrderByKey
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        repairOrderKey:
+            expose: true
+            access_type: public_method
+            serialized_name: repairOrderKey
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getRepairOrderKey
+                setter: setRepairOrderKey
+            type: string

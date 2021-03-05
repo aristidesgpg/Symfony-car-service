@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullInventoryStockResponse:
+    properties:
+        pullInventoryStockResult:
+            -
+                Valid: null

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushEstimates:
+    properties:
+        apiEstimates:
+            -
+                Valid: null

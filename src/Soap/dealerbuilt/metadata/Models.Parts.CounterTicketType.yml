@@ -1,0 +1,147 @@
+App\Soap\dealerbuilt\src\Models\Parts\CounterTicketType:
+    properties:
+        correlationId:
+            expose: true
+            access_type: public_method
+            serialized_name: CorrelationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getCorrelationId
+                setter: setCorrelationId
+            type: string
+        counterTicketNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CounterTicketNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getCounterTicketNumber
+                setter: setCounterTicketNumber
+            type: string
+        customer:
+            expose: true
+            access_type: public_method
+            serialized_name: Customer
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getCustomer
+                setter: setCustomer
+            type: App\Soap\dealerbuilt\src\Models\Parts\CounterTicketCustomerType
+        customerId:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getCustomerId
+                setter: setCustomerId
+            type: string
+        isEstimate:
+            expose: true
+            access_type: public_method
+            serialized_name: IsEstimate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getIsEstimate
+                setter: setIsEstimate
+            type: bool
+        notes:
+            expose: true
+            access_type: public_method
+            serialized_name: Notes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getNotes
+                setter: setNotes
+            type: string
+        pONumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PONumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getPONumber
+                setter: setPONumber
+            type: string
+        parts:
+            expose: true
+            access_type: public_method
+            serialized_name: Parts
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getParts
+                setter: setParts
+            type: array<App\Soap\dealerbuilt\src\Models\Parts\PartType>
+            xml_list:
+                inline: false
+                entry_name: Part
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+        paymentMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: PaymentMethod
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getPaymentMethod
+                setter: setPaymentMethod
+            type: string
+        salesPerson1:
+            expose: true
+            access_type: public_method
+            serialized_name: SalesPerson1
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getSalesPerson1
+                setter: setSalesPerson1
+            type: string
+        salesPerson2:
+            expose: true
+            access_type: public_method
+            serialized_name: SalesPerson2
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getSalesPerson2
+                setter: setSalesPerson2
+            type: string
+        shippingAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: ShippingAddress
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getShippingAddress
+                setter: setShippingAddress
+            type: App\Soap\dealerbuilt\src\Models\Parts\AddressType
+        shippingCost:
+            expose: true
+            access_type: public_method
+            serialized_name: ShippingCost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getShippingCost
+                setter: setShippingCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        shippingMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: ShippingMethod
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getShippingMethod
+                setter: setShippingMethod
+            type: string

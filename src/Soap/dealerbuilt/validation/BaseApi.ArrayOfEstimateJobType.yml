@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfEstimateJobType:
+    properties:
+        estimateJob:
+            -
+                Valid: null

@@ -1,0 +1,9 @@
+App\Soap\dealerbuilt\src\BaseApi\CompaniesSearchCriteriaType:
+    properties:
+        companyIds:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

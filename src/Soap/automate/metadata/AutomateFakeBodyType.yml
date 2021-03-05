@@ -1,0 +1,18 @@
+App\Soap\automate\src\AutomateFakeBodyType:
+    xml_root_name: Body
+    properties:
+        repairOrder:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrder
+            xml_element:
+                namespace: 'http://openmate.automate-webservices.com/'
+            accessor:
+                getter: getRepairOrder
+                setter: setRepairOrder
+            type: array<App\Soap\automate\src\RepairOrder>
+            xml_list:
+                inline: true
+                entry_name: RepairOrder
+                namespace: 'http://www.starstandard.org/STAR/5'
+##                namespace: 'http://openmate.automate-webservices.com/'

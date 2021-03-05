@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\RepairOrderJobPushRequestType:
+    properties:
+        job:
+            expose: true
+            access_type: public_method
+            serialized_name: Job
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getJob
+                setter: setJob
+            type: App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType
+        jobNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: JobNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getJobNumber
+                setter: setJobNumber
+            type: int
+        repairOrderKey:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getRepairOrderKey
+                setter: setRepairOrderKey
+            type: string
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int

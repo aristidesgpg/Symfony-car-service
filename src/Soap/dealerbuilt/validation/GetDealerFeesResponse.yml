@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetDealerFeesResponse:
+    properties:
+        getDealerFeesResult:
+            -
+                Valid: null

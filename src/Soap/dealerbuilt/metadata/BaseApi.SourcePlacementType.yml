@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\BaseApi\SourcePlacementType:
+    properties:
+        dealerId:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDealerId
+                setter: setDealerId
+            type: int
+        sourceId:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getSourceId
+                setter: setSourceId
+            type: int

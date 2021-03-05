@@ -12,7 +12,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  */
-class Customer implements UserInterface {
+class Customer implements UserInterface
+{
     public const GROUPS = ['customer_list'];
 
     /**
@@ -30,7 +31,7 @@ class Customer implements UserInterface {
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", nullable=true, length=10)
      * @Serializer\Groups({"customer_list"})
      */
     private $phone;
@@ -79,114 +80,120 @@ class Customer implements UserInterface {
     private $repairOrderMPIInteractions;
 
     /**
-     * Customer constructor.
+     * @ORM\OneToMany(targetEntity=RepairOrderInteraction::class, mappedBy="customer")
      */
-    public function __construct () {
-        $this->primaryRepairOrders = new ArrayCollection();
-        $this->repairOrderMPIInteractions = new ArrayCollection();
-    }
+    private $repairOrderInteractions;
 
     /**
-     * @return int|null
+     * @ORM\OneToMany(targetEntity=ServiceSMS::class, mappedBy="customer")
      */
-    public function getId (): ?int {
+    private $serviceSMS;
+
+    /*
+     * @ORM\OneToMany(targetEntity=RepairOrderReviewInteractions::class, mappedBy="customer")
+     */
+    private $repairOrderReviewInteractions;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderCustomer::class, mappedBy="customer", orphanRemoval=true)
+     */
+    private $repairOrderCustomers;
+
+    /**
+     * Customer constructor.
+     */
+    public function __construct()
+    {
+        $this->primaryRepairOrders = new ArrayCollection();
+        $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->repairOrderInteractions = new ArrayCollection();
+        $this->serviceSMS = new ArrayCollection();
+        $this->repairOrderReviewInteractions = new ArrayCollection();
+        $this->repairOrderCustomers = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getName (): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
     /**
-     * @param string $name
-     *
      * @return $this
      */
-    public function setName (string $name): self {
+    public function setName(string $name): self
+    {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getPhone (): ?int {
+    public function getPhone(): ?int
+    {
         return $this->phone;
     }
 
     /**
-     * @param string $phone
-     *
      * @return $this
      */
-    public function setPhone (string $phone): self {
+    public function setPhone(string $phone): self
+    {
         $this->phone = $phone;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getMobileConfirmed (): ?bool {
+    public function getMobileConfirmed(): ?bool
+    {
         return $this->mobileConfirmed;
     }
 
     /**
-     * @param bool $mobileConfirmed
-     *
      * @return $this
      */
-    public function setMobileConfirmed (bool $mobileConfirmed): self {
+    public function setMobileConfirmed(bool $mobileConfirmed): self
+    {
         $this->mobileConfirmed = $mobileConfirmed;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getEmail (): ?string {
+    public function getEmail(): ?string
+    {
         return $this->email;
     }
 
     /**
-     * @param string|null $email
-     *
      * @return $this
      */
-    public function setEmail (?string $email): self {
+    public function setEmail(?string $email): self
+    {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDoNotContact (): bool {
+    public function isDoNotContact(): bool
+    {
         return $this->doNotContact;
     }
 
     /**
-     * @param bool $doNotContact
-     *
      * @return Customer
      */
-    public function setDoNotContact (bool $doNotContact): self {
+    public function setDoNotContact(bool $doNotContact): self
+    {
         $this->doNotContact = $doNotContact;
 
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
-    public function getAddedBy (): ?User {
+    public function getAddedBy(): ?User
+    {
         return $this->addedBy;
     }
 
@@ -195,54 +202,61 @@ class Customer implements UserInterface {
      *
      * @return $this
      */
-    public function setAddedBy (User $addedBy): self {
+    public function setAddedBy(User $addedBy): self
+    {
         $this->addedBy = $addedBy;
 
         return $this;
     }
 
     /**
-     * @param bool $deleted
-     *
      * @return $this
      */
-    public function setDeleted(bool $deleted): self {
+    public function setDeleted(bool $deleted): self
+    {
         $this->deleted = $deleted;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isDeleted(): bool {
+    public function isDeleted(): bool
+    {
         return $this->deleted;
     }
 
     /**
      * @return RepairOrder[]
      */
-    public function getPrimaryRepairOrders (): array {
+    public function getPrimaryRepairOrders(): array
+    {
         return $this->primaryRepairOrders->toArray();
     }
 
-    public function getRoles () {
+    public function getRoles()
+    {
         return ['ROLE_CUSTOMER'];
     }
 
-    public function getPassword () {
+    public function getPassword()
+    {
         // TODO: Implement getPassword() method.
     }
 
-    public function getSalt () {
+    public function getSalt()
+    {
         // TODO: Implement getSalt() method.
     }
 
-    public function getUsername () {
+    public function getUsername()
+    {
         return $this->getName();
     }
 
-    public function eraseCredentials () {
+    /**
+     * @return void
+     */
+    public function eraseCredentials()
+    {
         // TODO: Implement eraseCredentials() method.
     }
 
@@ -271,6 +285,128 @@ class Customer implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderMPIInteraction->getCustomer() === $this) {
                 $repairOrderMPIInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderInteraction[]
+     */
+    public function getRepairOrderInteractions(): Collection
+    {
+        return $this->repairOrderInteractions;
+    }
+
+    public function addRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if (!$this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions[] = $repairOrderInteraction;
+            $repairOrderInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderInteraction(RepairOrderInteraction $repairOrderInteraction): self
+    {
+        if ($this->repairOrderInteractions->contains($repairOrderInteraction)) {
+            $this->repairOrderInteractions->removeElement($repairOrderInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderInteraction->getCustomer() === $this) {
+                $repairOrderInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ServiceSMS[]
+     */
+    public function getServiceSMS(): Collection
+    {
+        return $this->serviceSMS;
+    }
+
+    public function addServiceSM(ServiceSMS $serviceSM): self
+    {
+        if (!$this->serviceSMS->contains($serviceSM)) {
+            $this->serviceSMS[] = $serviceSM;
+            $serviceSM->setCustomer($this);
+        }
+
+        return $this;
+    }
+    /*
+     * @return Collection|RepairOrderReviewInteractions[]
+     */
+    public function getRepairOrderReviewInteractions(): Collection
+    {
+        return $this->repairOrderReviewInteractions;
+    }
+
+    public function addRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if (!$this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions[] = $repairOrderReviewInteraction;
+            $repairOrderReviewInteraction->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServiceSM(ServiceSMS $serviceSM): self
+    {
+        if ($this->serviceSMS->removeElement($serviceSM)) {
+            // set the owning side to null (unless already changed)
+            if ($serviceSM->getCustomer() === $this) {
+                $serviceSM->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderReviewInteraction(RepairOrderReviewInteractions $repairOrderReviewInteraction): self
+    {
+        if ($this->repairOrderReviewInteractions->contains($repairOrderReviewInteraction)) {
+            $this->repairOrderReviewInteractions->removeElement($repairOrderReviewInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderReviewInteraction->getCustomer() === $this) {
+                $repairOrderReviewInteraction->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderCustomer[]
+     */
+    public function getRepairOrderCustomers(): Collection
+    {
+        return $this->repairOrderCustomers;
+    }
+
+    public function addRepairOrderCustomer(RepairOrderCustomer $repairOrderCustomer): self
+    {
+        if (!$this->repairOrderCustomers->contains($repairOrderCustomer)) {
+            $this->repairOrderCustomers[] = $repairOrderCustomer;
+            $repairOrderCustomer->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderCustomer(RepairOrderCustomer $repairOrderCustomer): self
+    {
+        if ($this->repairOrderCustomers->contains($repairOrderCustomer)) {
+            $this->repairOrderCustomers->removeElement($repairOrderCustomer);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderCustomer->getCustomer() === $this) {
+                $repairOrderCustomer->setCustomer(null);
             }
         }
 

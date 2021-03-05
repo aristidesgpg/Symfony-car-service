@@ -1,0 +1,60 @@
+App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType:
+    properties:
+        agent:
+            -
+                Valid: null
+        cost:
+            -
+                Valid: null
+        department:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Sales
+                        - Finance
+                    groups:
+                        - xsd_rules
+        disabilityCost:
+            -
+                Valid: null
+        disabilityPremium:
+            -
+                Valid: null
+        insuranceType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Gap
+                        - DebtCancellation
+                        - CreditLife
+                        - ExcessWear
+                        - PhysicalDamage
+                    groups:
+                        - xsd_rules
+        itemizationId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        price:
+            -
+                Valid: null
+        termMonths:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules

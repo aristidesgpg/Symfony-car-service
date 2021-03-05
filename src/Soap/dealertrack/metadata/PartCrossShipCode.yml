@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\PartCrossShipCode:
+    xml_root_name: PartCrossShipCode
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

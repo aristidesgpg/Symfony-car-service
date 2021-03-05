@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\CorrLaborOpCode:
+    xml_root_name: CorrLaborOpCode
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetRepairOrderJobCodes:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

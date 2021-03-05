@@ -1,0 +1,5 @@
+App\Soap\automate\src\ProcessEventResponseType:
+    properties:
+        processEventResult:
+            -
+                Valid: null

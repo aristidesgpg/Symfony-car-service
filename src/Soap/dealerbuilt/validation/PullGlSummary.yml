@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullGlSummary:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

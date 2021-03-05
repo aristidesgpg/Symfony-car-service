@@ -1,0 +1,27 @@
+{% extends 'email-base.html.twig' %}
+
+{% block body %}
+<table class="row">
+    <tr>
+        <th class="columns first last">
+            <table>
+                <tr>
+                    <th>
+                        {% block text %}
+                        <h4>{{ dealer_name }} Payment Receipt</h4>
+                        <p>
+                            Customer Phone: {{ customer_phone }}<br />
+                            Transaction ID: {{ transaction_id }}<br />
+                            Repair Order: #{{ ro_number }}<br/>
+                            Date: {{ date.format('m/d/Y h:i a') }}<br />
+                            Amount: ${{ amount }}
+                        </p>
+                        {% endblock %}
+                    </th>
+                    <th class="expander"></th>
+                </tr>
+            </table>
+        </th>
+    </tr>
+</table>
+{% endblock %}

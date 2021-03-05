@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullReceipts:
+    properties:
+        apiSearchCriteria:
+            -
+                Valid: null

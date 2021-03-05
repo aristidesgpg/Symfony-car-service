@@ -1,0 +1,642 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType:
+    properties:
+        bodyStyle:
+            expose: true
+            access_type: public_method
+            serialized_name: BodyStyle
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getBodyStyle
+                setter: setBodyStyle
+            type: string
+        certificationNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CertificationNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getCertificationNumber
+                setter: setCertificationNumber
+            type: string
+        color:
+            expose: true
+            access_type: public_method
+            serialized_name: Color
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getColor
+                setter: setColor
+            type: string
+        colorCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ColorCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getColorCode
+                setter: setColorCode
+            type: string
+        colorDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: ColorDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getColorDescription
+                setter: setColorDescription
+            type: string
+        comments:
+            expose: true
+            access_type: public_method
+            serialized_name: Comments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getComments
+                setter: setComments
+            type: string
+        contractCompanyName:
+            expose: true
+            access_type: public_method
+            serialized_name: ContractCompanyName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getContractCompanyName
+                setter: setContractCompanyName
+            type: string
+        contractID:
+            expose: true
+            access_type: public_method
+            serialized_name: ContractID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getContractID
+                setter: setContractID
+            type: string
+        contractStartDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ContractStartDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getContractStartDate
+                setter: setContractStartDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        contractStartDistanceMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: ContractStartDistanceMeasure
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getContractStartDistanceMeasure
+                setter: setContractStartDistanceMeasure
+            type: float
+        cylinderCount:
+            expose: true
+            access_type: public_method
+            serialized_name: CylinderCount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getCylinderCount
+                setter: setCylinderCount
+            type: int
+        detailedEngineDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: DetailedEngineDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getDetailedEngineDescription
+                setter: setDetailedEngineDescription
+            type: string
+        doorCount:
+            expose: true
+            access_type: public_method
+            serialized_name: DoorCount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getDoorCount
+                setter: setDoorCount
+            type: int
+        engine:
+            expose: true
+            access_type: public_method
+            serialized_name: Engine
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getEngine
+                setter: setEngine
+            type: string
+        engineSerialNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: EngineSerialNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getEngineSerialNumber
+                setter: setEngineSerialNumber
+            type: string
+        factoryExteriorColor:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryExteriorColor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getFactoryExteriorColor
+                setter: setFactoryExteriorColor
+            type: string
+        factoryTrimDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryTrimDesc
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getFactoryTrimDesc
+                setter: setFactoryTrimDesc
+            type: string
+        fleetID:
+            expose: true
+            access_type: public_method
+            serialized_name: FleetID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getFleetID
+                setter: setFleetID
+            type: string
+        fuelType:
+            expose: true
+            access_type: public_method
+            serialized_name: FuelType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getFuelType
+                setter: setFuelType
+            type: string
+        fuelTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FuelTypeCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getFuelTypeCode
+                setter: setFuelTypeCode
+            type: string
+        ignitionKeyNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: IgnitionKeyNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getIgnitionKeyNumber
+                setter: setIgnitionKeyNumber
+            type: string
+        interiorColor:
+            expose: true
+            access_type: public_method
+            serialized_name: InteriorColor
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getInteriorColor
+                setter: setInteriorColor
+            type: string
+        interiorColorCode:
+            expose: true
+            access_type: public_method
+            serialized_name: InteriorColorCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getInteriorColorCode
+                setter: setInteriorColorCode
+            type: string
+        interiorColorDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: InteriorColorDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getInteriorColorDescription
+                setter: setInteriorColorDescription
+            type: string
+        isCertifiedPreOwned:
+            expose: true
+            access_type: public_method
+            serialized_name: IsCertifiedPreOwned
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getIsCertifiedPreOwned
+                setter: setIsCertifiedPreOwned
+            type: bool
+        isNonUsMarket:
+            expose: true
+            access_type: public_method
+            serialized_name: IsNonUsMarket
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getIsNonUsMarket
+                setter: setIsNonUsMarket
+            type: bool
+        licensePlateExpirationDate:
+            expose: true
+            access_type: public_method
+            serialized_name: LicensePlateExpirationDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getLicensePlateExpirationDate
+                setter: setLicensePlateExpirationDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        licensePlateNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: LicensePlateNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getLicensePlateNumber
+                setter: setLicensePlateNumber
+            type: string
+        lystockAvailability:
+            expose: true
+            access_type: public_method
+            serialized_name: LystockAvailability
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getLystockAvailability
+                setter: setLystockAvailability
+            type: string
+        make:
+            expose: true
+            access_type: public_method
+            serialized_name: Make
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getMake
+                setter: setMake
+            type: string
+        manufacturer:
+            expose: true
+            access_type: public_method
+            serialized_name: Manufacturer
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getManufacturer
+                setter: setManufacturer
+            type: string
+        mileage:
+            expose: true
+            access_type: public_method
+            serialized_name: Mileage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getMileage
+                setter: setMileage
+            type: int
+        mnCodeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: MnCodeDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getMnCodeDescription
+                setter: setMnCodeDescription
+            type: string
+        model:
+            expose: true
+            access_type: public_method
+            serialized_name: Model
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getModel
+                setter: setModel
+            type: string
+        modelNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ModelNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getModelNumber
+                setter: setModelNumber
+            type: string
+        modifiedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getModifiedStamp
+                setter: setModifiedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        numberOfEngineCylindersNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: NumberOfEngineCylindersNumeric
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getNumberOfEngineCylindersNumeric
+                setter: setNumberOfEngineCylindersNumeric
+            type: float
+        optionString:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionString
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getOptionString
+                setter: setOptionString
+            type: string
+        purchaseComments:
+            expose: true
+            access_type: public_method
+            serialized_name: PurchaseComments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getPurchaseComments
+                setter: setPurchaseComments
+            type: string
+        registrationID:
+            expose: true
+            access_type: public_method
+            serialized_name: RegistrationID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getRegistrationID
+                setter: setRegistrationID
+            type: string
+        saleDate:
+            expose: true
+            access_type: public_method
+            serialized_name: SaleDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getSaleDate
+                setter: setSaleDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        saleType:
+            expose: true
+            access_type: public_method
+            serialized_name: SaleType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getSaleType
+                setter: setSaleType
+            type: string
+        series:
+            expose: true
+            access_type: public_method
+            serialized_name: Series
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getSeries
+                setter: setSeries
+            type: string
+        serviceContractCompanyName:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractCompanyName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getServiceContractCompanyName
+                setter: setServiceContractCompanyName
+            type: string
+        serviceContractExpirationDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractExpirationDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getServiceContractExpirationDate
+                setter: setServiceContractExpirationDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        serviceContractExpirationMileage:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractExpirationMileage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getServiceContractExpirationMileage
+                setter: setServiceContractExpirationMileage
+            type: int
+        serviceContractSartDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractSartDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getServiceContractSartDate
+                setter: setServiceContractSartDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        serviceContractStartDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractStartDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getServiceContractStartDate
+                setter: setServiceContractStartDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        serviceContractStartMileage:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceContractStartMileage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getServiceContractStartMileage
+                setter: setServiceContractStartMileage
+            type: int
+        transmission:
+            expose: true
+            access_type: public_method
+            serialized_name: Transmission
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getTransmission
+                setter: setTransmission
+            type: string
+        transmissionDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: TransmissionDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getTransmissionDescription
+                setter: setTransmissionDescription
+            type: string
+        trimCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TrimCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getTrimCode
+                setter: setTrimCode
+            type: string
+        vehicleBuildDate:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleBuildDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getVehicleBuildDate
+                setter: setVehicleBuildDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        vehicleNote:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleNote
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getVehicleNote
+                setter: setVehicleNote
+            type: string
+        vehicleType:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getVehicleType
+                setter: setVehicleType
+            type: string
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: Vin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string
+        warrantyEndDistanceMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyEndDistanceMeasure
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getWarrantyEndDistanceMeasure
+                setter: setWarrantyEndDistanceMeasure
+            type: float
+        warrantyExpirationDate:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyExpirationDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getWarrantyExpirationDate
+                setter: setWarrantyExpirationDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        warrantyNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getWarrantyNotes
+                setter: setWarrantyNotes
+            type: string
+        warrantyStartDate:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyStartDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getWarrantyStartDate
+                setter: setWarrantyStartDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        warrantyStartDistanceMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyStartDistanceMeasure
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getWarrantyStartDistanceMeasure
+                setter: setWarrantyStartDistanceMeasure
+            type: float
+        warrantyTypeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyTypeDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getWarrantyTypeDescription
+                setter: setWarrantyTypeDescription
+            type: string
+        weight:
+            expose: true
+            access_type: public_method
+            serialized_name: Weight
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getWeight
+                setter: setWeight
+            type: float
+        year:
+            expose: true
+            access_type: public_method
+            serialized_name: Year
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles'
+            accessor:
+                getter: getYear
+                setter: setYear
+            type: int

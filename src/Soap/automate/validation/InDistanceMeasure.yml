@@ -1,0 +1,12 @@
+App\Soap\automate\src\InDistanceMeasure:
+    properties:
+        unitCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

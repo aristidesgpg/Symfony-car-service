@@ -1,0 +1,2954 @@
+App\Soap\cdk\src\ServiceRepairOrderClosed:
+    xml_root_name: service-repair-order-closed
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+    properties:
+        postedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: PostedDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPostedDate
+                setter: setPostedDate
+            type: App\Soap\cdk\src\PostedDate
+        specialCustFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialCustFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getSpecialCustFlag
+                setter: setSpecialCustFlag
+            type: string
+        vIN:
+            expose: true
+            access_type: public_method
+            serialized_name: VIN
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getVIN
+                setter: setVIN
+            type: string
+        disDebitAccountNo:
+            expose: true
+            access_type: public_method
+            serialized_name: disDebitAccountNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisDebitAccountNo
+                setter: setDisDebitAccountNo
+            type: App\Soap\cdk\src\DisDebitAccountNo
+        disUserID:
+            expose: true
+            access_type: public_method
+            serialized_name: disUserID
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisUserID
+                setter: setDisUserID
+            type: App\Soap\cdk\src\DisUserID
+        feeOpCodeDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: feeOpCodeDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeOpCodeDesc
+                setter: setFeeOpCodeDesc
+            type: App\Soap\cdk\src\FeeOpCodeDesc
+        hrsActualHours:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsActualHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsActualHours
+                setter: setHrsActualHours
+            type: App\Soap\cdk\src\HrsActualHours
+        prtBin1:
+            expose: true
+            access_type: public_method
+            serialized_name: prtBin1
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtBin1
+                setter: setPrtBin1
+            type: App\Soap\cdk\src\PrtBin1
+        prtClass:
+            expose: true
+            access_type: public_method
+            serialized_name: prtClass
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtClass
+                setter: setPrtClass
+            type: App\Soap\cdk\src\PrtClass
+        purchaseOrderNo:
+            expose: true
+            access_type: public_method
+            serialized_name: PurchaseOrderNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPurchaseOrderNo
+                setter: setPurchaseOrderNo
+            type: App\Soap\cdk\src\PurchaseOrderNo
+        prtDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: prtDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtDesc
+                setter: setPrtDesc
+            type: App\Soap\cdk\src\PrtDesc
+        lbrCost:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrCost
+                setter: setLbrCost
+            type: App\Soap\cdk\src\LbrCost
+        waiterFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: WaiterFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWaiterFlag
+                setter: setWaiterFlag
+            type: string
+        linCause:
+            expose: true
+            access_type: public_method
+            serialized_name: linCause
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinCause
+                setter: setLinCause
+            type: App\Soap\cdk\src\LinCause
+        prtSource:
+            expose: true
+            access_type: public_method
+            serialized_name: prtSource
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtSource
+                setter: setPrtSource
+            type: App\Soap\cdk\src\PrtSource
+        prtCoreSale:
+            expose: true
+            access_type: public_method
+            serialized_name: prtCoreSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtCoreSale
+                setter: setPrtCoreSale
+            type: App\Soap\cdk\src\PrtCoreSale
+        totLocalTax:
+            expose: true
+            access_type: public_method
+            serialized_name: totLocalTax
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLocalTax
+                setter: setTotLocalTax
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        apptTime:
+            expose: true
+            access_type: public_method
+            serialized_name: ApptTime
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getApptTime
+                setter: setApptTime
+            type: App\Soap\cdk\src\ApptTime
+        lbrLaborType:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrLaborType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrLaborType
+                setter: setLbrLaborType
+            type: App\Soap\cdk\src\LbrLaborType
+        cityStateZip:
+            expose: true
+            access_type: public_method
+            serialized_name: CityStateZip
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getCityStateZip
+                setter: setCityStateZip
+            type: string
+        comments:
+            expose: true
+            access_type: public_method
+            serialized_name: Comments
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getComments
+                setter: setComments
+            type: App\Soap\cdk\src\Comments
+        contactEmailAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: ContactEmailAddress
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getContactEmailAddress
+                setter: setContactEmailAddress
+            type: App\Soap\cdk\src\ContactEmailAddress
+        origPromisedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: OrigPromisedDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getOrigPromisedDate
+                setter: setOrigPromisedDate
+            type: string
+        rONumber:
+            expose: true
+            access_type: public_method
+            serialized_name: RONumber
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getRONumber
+                setter: setRONumber
+            type: int
+        serviceAdvisor:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceAdvisor
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getServiceAdvisor
+                setter: setServiceAdvisor
+            type: int
+        disDebitTargetCo:
+            expose: true
+            access_type: public_method
+            serialized_name: disDebitTargetCo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisDebitTargetCo
+                setter: setDisDebitTargetCo
+            type: App\Soap\cdk\src\DisDebitTargetCo
+        feeOpCode:
+            expose: true
+            access_type: public_method
+            serialized_name: feeOpCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeOpCode
+                setter: setFeeOpCode
+            type: App\Soap\cdk\src\FeeOpCode
+        hrsCost:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsCost
+                setter: setHrsCost
+            type: App\Soap\cdk\src\HrsCost
+        hrsPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsPercentage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsPercentage
+                setter: setHrsPercentage
+            type: App\Soap\cdk\src\HrsPercentage
+        lbrSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrSequenceNo
+                setter: setLbrSequenceNo
+            type: App\Soap\cdk\src\LbrSequenceNo
+        linServiceRequest:
+            expose: true
+            access_type: public_method
+            serialized_name: linServiceRequest
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinServiceRequest
+                setter: setLinServiceRequest
+            type: App\Soap\cdk\src\LinServiceRequest
+        prtSpecialStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: prtSpecialStatus
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtSpecialStatus
+                setter: setPrtSpecialStatus
+            type: App\Soap\cdk\src\PrtSpecialStatus
+        rapApptID:
+            expose: true
+            access_type: public_method
+            serialized_name: rapApptID
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getRapApptID
+                setter: setRapApptID
+            type: App\Soap\cdk\src\RapApptID
+        totLubeSale:
+            expose: true
+            access_type: public_method
+            serialized_name: totLubeSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLubeSale
+                setter: setTotLubeSale
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totSoldHours:
+            expose: true
+            access_type: public_method
+            serialized_name: totSoldHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotSoldHours
+                setter: setTotSoldHours
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        payInsuranceFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: payInsuranceFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPayInsuranceFlag
+                setter: setPayInsuranceFlag
+            type: App\Soap\cdk\src\PayInsuranceFlag
+        lbrOpCode:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrOpCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrOpCode
+                setter: setLbrOpCode
+            type: App\Soap\cdk\src\LbrOpCode
+        closedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ClosedDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getClosedDate
+                setter: setClosedDate
+            type: App\Soap\cdk\src\ClosedDate
+        errorLevel:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorLevel
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getErrorLevel
+                setter: setErrorLevel
+            type: App\Soap\cdk\src\ErrorLevel
+        name2:
+            expose: true
+            access_type: public_method
+            serialized_name: Name2
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getName2
+                setter: setName2
+            type: App\Soap\cdk\src\Name2
+        openDate:
+            expose: true
+            access_type: public_method
+            serialized_name: OpenDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getOpenDate
+                setter: setOpenDate
+            type: string
+        vehID:
+            expose: true
+            access_type: public_method
+            serialized_name: VehID
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getVehID
+                setter: setVehID
+            type: int
+        hrsHourType:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsHourType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsHourType
+                setter: setHrsHourType
+            type: App\Soap\cdk\src\HrsHourType
+        hrsLaborType:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsLaborType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsLaborType
+                setter: setHrsLaborType
+            type: App\Soap\cdk\src\HrsLaborType
+        hrsTechNo:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsTechNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsTechNo
+                setter: setHrsTechNo
+            type: App\Soap\cdk\src\HrsTechNo
+        lbrTechNo:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrTechNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrTechNo
+                setter: setLbrTechNo
+            type: App\Soap\cdk\src\LbrTechNo
+        lbrTimeCardHours:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrTimeCardHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrTimeCardHours
+                setter: setLbrTimeCardHours
+            type: App\Soap\cdk\src\LbrTimeCardHours
+        linEstDuration:
+            expose: true
+            access_type: public_method
+            serialized_name: linEstDuration
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinEstDuration
+                setter: setLinEstDuration
+            type: App\Soap\cdk\src\LinEstDuration
+        prtUnitServiceCharge:
+            expose: true
+            access_type: public_method
+            serialized_name: prtUnitServiceCharge
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtUnitServiceCharge
+                setter: setPrtUnitServiceCharge
+            type: App\Soap\cdk\src\PrtUnitServiceCharge
+        totPartsSale:
+            expose: true
+            access_type: public_method
+            serialized_name: totPartsSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotPartsSale
+                setter: setTotPartsSale
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totShopChargeSale:
+            expose: true
+            access_type: public_method
+            serialized_name: totShopChargeSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotShopChargeSale
+                setter: setTotShopChargeSale
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totSupp4Tax:
+            expose: true
+            access_type: public_method
+            serialized_name: totSupp4Tax
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotSupp4Tax
+                setter: setTotSupp4Tax
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        warFailureCode:
+            expose: true
+            access_type: public_method
+            serialized_name: warFailureCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarFailureCode
+                setter: setWarFailureCode
+            type: App\Soap\cdk\src\WarFailureCode
+        prtComp:
+            expose: true
+            access_type: public_method
+            serialized_name: prtComp
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtComp
+                setter: setPrtComp
+            type: App\Soap\cdk\src\PrtComp
+        prtCoreCost:
+            expose: true
+            access_type: public_method
+            serialized_name: prtCoreCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtCoreCost
+                setter: setPrtCoreCost
+            type: App\Soap\cdk\src\PrtCoreCost
+        mileage:
+            expose: true
+            access_type: public_method
+            serialized_name: Mileage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMileage
+                setter: setMileage
+            type: int
+        address:
+            expose: true
+            access_type: public_method
+            serialized_name: Address
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getAddress
+                setter: setAddress
+            type: string
+        comebackFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: ComebackFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getComebackFlag
+                setter: setComebackFlag
+            type: string
+        contactPhoneNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ContactPhoneNumber
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getContactPhoneNumber
+                setter: setContactPhoneNumber
+            type: int
+        estComplDate:
+            expose: true
+            access_type: public_method
+            serialized_name: EstComplDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getEstComplDate
+                setter: setEstComplDate
+            type: string
+        makeDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: MakeDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMakeDesc
+                setter: setMakeDesc
+            type: string
+        origPromisedTime:
+            expose: true
+            access_type: public_method
+            serialized_name: OrigPromisedTime
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getOrigPromisedTime
+                setter: setOrigPromisedTime
+            type: App\Soap\cdk\src\OrigPromisedTime
+        remarks:
+            expose: true
+            access_type: public_method
+            serialized_name: Remarks
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getRemarks
+                setter: setRemarks
+            type: App\Soap\cdk\src\Remarks
+        vehicleColor:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleColor
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getVehicleColor
+                setter: setVehicleColor
+            type: string
+        feeFeeID:
+            expose: true
+            access_type: public_method
+            serialized_name: feeFeeID
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeFeeID
+                setter: setFeeFeeID
+            type: App\Soap\cdk\src\FeeFeeID
+        hrsLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsLineCode
+                setter: setHrsLineCode
+            type: App\Soap\cdk\src\HrsLineCode
+        hrsOtherHours:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsOtherHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsOtherHours
+                setter: setHrsOtherHours
+            type: App\Soap\cdk\src\HrsOtherHours
+        lbrOpCodeDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrOpCodeDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrOpCodeDesc
+                setter: setLbrOpCodeDesc
+            type: App\Soap\cdk\src\LbrOpCodeDesc
+        prtOutsideSalesmanNo:
+            expose: true
+            access_type: public_method
+            serialized_name: prtOutsideSalesmanNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtOutsideSalesmanNo
+                setter: setPrtOutsideSalesmanNo
+            type: App\Soap\cdk\src\PrtOutsideSalesmanNo
+        prtSale:
+            expose: true
+            access_type: public_method
+            serialized_name: prtSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtSale
+                setter: setPrtSale
+            type: App\Soap\cdk\src\PrtSale
+        prtCompLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: prtCompLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtCompLineCode
+                setter: setPrtCompLineCode
+            type: App\Soap\cdk\src\PrtCompLineCode
+        bookedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: BookedDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getBookedDate
+                setter: setBookedDate
+            type: App\Soap\cdk\src\BookedDate
+        estComplTime:
+            expose: true
+            access_type: public_method
+            serialized_name: EstComplTime
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getEstComplTime
+                setter: setEstComplTime
+            type: string
+        mileageOut:
+            expose: true
+            access_type: public_method
+            serialized_name: MileageOut
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMileageOut
+                setter: setMileageOut
+            type: App\Soap\cdk\src\MileageOut
+        model:
+            expose: true
+            access_type: public_method
+            serialized_name: Model
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getModel
+                setter: setModel
+            type: string
+        soldByDealerFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: SoldByDealerFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getSoldByDealerFlag
+                setter: setSoldByDealerFlag
+            type: string
+        tagNo:
+            expose: true
+            access_type: public_method
+            serialized_name: TagNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTagNo
+                setter: setTagNo
+            type: string
+        feeLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: feeLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeLineCode
+                setter: setFeeLineCode
+            type: App\Soap\cdk\src\FeeLineCode
+        linComplaintCode:
+            expose: true
+            access_type: public_method
+            serialized_name: linComplaintCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinComplaintCode
+                setter: setLinComplaintCode
+            type: App\Soap\cdk\src\LinComplaintCode
+        prtEmployeeNo:
+            expose: true
+            access_type: public_method
+            serialized_name: prtEmployeeNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtEmployeeNo
+                setter: setPrtEmployeeNo
+            type: App\Soap\cdk\src\PrtEmployeeNo
+        prtLaborType:
+            expose: true
+            access_type: public_method
+            serialized_name: prtLaborType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtLaborType
+                setter: setPrtLaborType
+            type: App\Soap\cdk\src\PrtLaborType
+        prtPartNo:
+            expose: true
+            access_type: public_method
+            serialized_name: prtPartNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtPartNo
+                setter: setPrtPartNo
+            type: App\Soap\cdk\src\PrtPartNo
+        totRoSale:
+            expose: true
+            access_type: public_method
+            serialized_name: totRoSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotRoSale
+                setter: setTotRoSale
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        linStoryEmployeeNo:
+            expose: true
+            access_type: public_method
+            serialized_name: linStoryEmployeeNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinStoryEmployeeNo
+                setter: setLinStoryEmployeeNo
+            type: App\Soap\cdk\src\LinStoryEmployeeNo
+        addOnFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: AddOnFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getAddOnFlag
+                setter: setAddOnFlag
+            type: string
+        apptFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: ApptFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getApptFlag
+                setter: setApptFlag
+            type: string
+        lbrMcdPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrMcdPercentage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrMcdPercentage
+                setter: setLbrMcdPercentage
+            type: App\Soap\cdk\src\LbrMcdPercentage
+        lastServiceDate:
+            expose: true
+            access_type: public_method
+            serialized_name: LastServiceDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLastServiceDate
+                setter: setLastServiceDate
+            type: string
+        origWaiterFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: OrigWaiterFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getOrigWaiterFlag
+                setter: setOrigWaiterFlag
+            type: string
+        priorityValue:
+            expose: true
+            access_type: public_method
+            serialized_name: PriorityValue
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPriorityValue
+                setter: setPriorityValue
+            type: int
+        rentalFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: RentalFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getRentalFlag
+                setter: setRentalFlag
+            type: string
+        year:
+            expose: true
+            access_type: public_method
+            serialized_name: Year
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getYear
+                setter: setYear
+            type: int
+        disDebitControlNo:
+            expose: true
+            access_type: public_method
+            serialized_name: disDebitControlNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisDebitControlNo
+                setter: setDisDebitControlNo
+            type: App\Soap\cdk\src\DisDebitControlNo
+        lbrSale:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrSale
+                setter: setLbrSale
+            type: App\Soap\cdk\src\LbrSale
+        linComebackFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: linComebackFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinComebackFlag
+                setter: setLinComebackFlag
+            type: App\Soap\cdk\src\LinComebackFlag
+        linDispatchCode:
+            expose: true
+            access_type: public_method
+            serialized_name: linDispatchCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinDispatchCode
+                setter: setLinDispatchCode
+            type: App\Soap\cdk\src\LinDispatchCode
+        totLaborSale:
+            expose: true
+            access_type: public_method
+            serialized_name: totLaborSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLaborSale
+                setter: setTotLaborSale
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totMiscSale:
+            expose: true
+            access_type: public_method
+            serialized_name: totMiscSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotMiscSale
+                setter: setTotMiscSale
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        apptDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ApptDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getApptDate
+                setter: setApptDate
+            type: App\Soap\cdk\src\ApptDate
+        deliveryDate:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveryDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDeliveryDate
+                setter: setDeliveryDate
+            type: string
+        errorMessage:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorMessage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getErrorMessage
+                setter: setErrorMessage
+            type: App\Soap\cdk\src\ErrorMessage
+        make:
+            expose: true
+            access_type: public_method
+            serialized_name: Make
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMake
+                setter: setMake
+            type: string
+        mileageLastVisit:
+            expose: true
+            access_type: public_method
+            serialized_name: MileageLastVisit
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMileageLastVisit
+                setter: setMileageLastVisit
+            type: int
+        promisedTime:
+            expose: true
+            access_type: public_method
+            serialized_name: PromisedTime
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPromisedTime
+                setter: setPromisedTime
+            type: string
+        voidedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: VoidedDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getVoidedDate
+                setter: setVoidedDate
+            type: App\Soap\cdk\src\VoidedDate
+        feeCost:
+            expose: true
+            access_type: public_method
+            serialized_name: feeCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeCost
+                setter: setFeeCost
+            type: App\Soap\cdk\src\FeeCost
+        hrsSoldHours:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsSoldHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsSoldHours
+                setter: setHrsSoldHours
+            type: App\Soap\cdk\src\HrsSoldHours
+        linCampaignCode:
+            expose: true
+            access_type: public_method
+            serialized_name: linCampaignCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinCampaignCode
+                setter: setLinCampaignCode
+            type: App\Soap\cdk\src\LinCampaignCode
+        linStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: linStatusCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinStatusCode
+                setter: setLinStatusCode
+            type: App\Soap\cdk\src\LinStatusCode
+        linStatusDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: linStatusDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinStatusDesc
+                setter: setLinStatusDesc
+            type: App\Soap\cdk\src\LinStatusDesc
+        prtQtyOrdered:
+            expose: true
+            access_type: public_method
+            serialized_name: prtQtyOrdered
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtQtyOrdered
+                setter: setPrtQtyOrdered
+            type: App\Soap\cdk\src\PrtQtyOrdered
+        prtQtySold:
+            expose: true
+            access_type: public_method
+            serialized_name: prtQtySold
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtQtySold
+                setter: setPrtQtySold
+            type: App\Soap\cdk\src\PrtQtySold
+        totLaborCost:
+            expose: true
+            access_type: public_method
+            serialized_name: totLaborCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLaborCost
+                setter: setTotLaborCost
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totMiscCost:
+            expose: true
+            access_type: public_method
+            serialized_name: totMiscCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotMiscCost
+                setter: setTotMiscCost
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totPartsCost:
+            expose: true
+            access_type: public_method
+            serialized_name: totPartsCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotPartsCost
+                setter: setTotPartsCost
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totSubletSale:
+            expose: true
+            access_type: public_method
+            serialized_name: totSubletSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotSubletSale
+                setter: setTotSubletSale
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totSupp3Tax:
+            expose: true
+            access_type: public_method
+            serialized_name: totSupp3Tax
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotSupp3Tax
+                setter: setTotSupp3Tax
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        bookerNo:
+            expose: true
+            access_type: public_method
+            serialized_name: BookerNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getBookerNo
+                setter: setBookerNo
+            type: App\Soap\cdk\src\BookerNo
+        cashier:
+            expose: true
+            access_type: public_method
+            serialized_name: Cashier
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getCashier
+                setter: setCashier
+            type: App\Soap\cdk\src\Cashier
+        custNo:
+            expose: true
+            access_type: public_method
+            serialized_name: CustNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getCustNo
+                setter: setCustNo
+            type: int
+        hostItemID:
+            expose: true
+            access_type: public_method
+            serialized_name: HostItemID
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHostItemID
+                setter: setHostItemID
+            type: string
+        name1:
+            expose: true
+            access_type: public_method
+            serialized_name: Name1
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getName1
+                setter: setName1
+            type: string
+        promisedDate:
+            expose: true
+            access_type: public_method
+            serialized_name: PromisedDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPromisedDate
+                setter: setPromisedDate
+            type: string
+        feeLaborType:
+            expose: true
+            access_type: public_method
+            serialized_name: feeLaborType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeLaborType
+                setter: setFeeLaborType
+            type: App\Soap\cdk\src\FeeLaborType
+        hrsSale:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsSale
+                setter: setHrsSale
+            type: App\Soap\cdk\src\HrsSale
+        linLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: linLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinLineCode
+                setter: setLinLineCode
+            type: App\Soap\cdk\src\LinLineCode
+        prtCost:
+            expose: true
+            access_type: public_method
+            serialized_name: prtCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtCost
+                setter: setPrtCost
+            type: App\Soap\cdk\src\PrtCost
+        prtList:
+            expose: true
+            access_type: public_method
+            serialized_name: prtList
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtList
+                setter: setPrtList
+            type: App\Soap\cdk\src\PrtList
+        prtMcdPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: prtMcdPercentage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtMcdPercentage
+                setter: setPrtMcdPercentage
+            type: App\Soap\cdk\src\PrtMcdPercentage
+        totStateTax:
+            expose: true
+            access_type: public_method
+            serialized_name: totStateTax
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotStateTax
+                setter: setTotStateTax
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totSupp2Tax:
+            expose: true
+            access_type: public_method
+            serialized_name: totSupp2Tax
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotSupp2Tax
+                setter: setTotSupp2Tax
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        mlsType:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsType
+                setter: setMlsType
+            type: App\Soap\cdk\src\MlsType
+        punWorkType:
+            expose: true
+            access_type: public_method
+            serialized_name: punWorkType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunWorkType
+                setter: setPunWorkType
+            type: App\Soap\cdk\src\PunWorkType
+        punMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: punMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunMultivalueCount
+                setter: setPunMultivalueCount
+            type: int
+        punTechNo:
+            expose: true
+            access_type: public_method
+            serialized_name: punTechNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunTechNo
+                setter: setPunTechNo
+            type: App\Soap\cdk\src\PunTechNo
+        punTimeOn:
+            expose: true
+            access_type: public_method
+            serialized_name: punTimeOn
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunTimeOn
+                setter: setPunTimeOn
+            type: App\Soap\cdk\src\PunTimeOn
+        punWorkDate:
+            expose: true
+            access_type: public_method
+            serialized_name: punWorkDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunWorkDate
+                setter: setPunWorkDate
+            type: App\Soap\cdk\src\PunWorkDate
+        punTimeOff:
+            expose: true
+            access_type: public_method
+            serialized_name: punTimeOff
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunTimeOff
+                setter: setPunTimeOff
+            type: App\Soap\cdk\src\PunTimeOff
+        punDuration:
+            expose: true
+            access_type: public_method
+            serialized_name: punDuration
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunDuration
+                setter: setPunDuration
+            type: App\Soap\cdk\src\PunDuration
+        punLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: punLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunLineCode
+                setter: setPunLineCode
+            type: App\Soap\cdk\src\PunLineCode
+        bookedTime:
+            expose: true
+            access_type: public_method
+            serialized_name: BookedTime
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getBookedTime
+                setter: setBookedTime
+            type: App\Soap\cdk\src\BookedTime
+        disLevel:
+            expose: true
+            access_type: public_method
+            serialized_name: disLevel
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisLevel
+                setter: setDisLevel
+            type: App\Soap\cdk\src\DisLevel
+        disMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: disMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisMultivalueCount
+                setter: setDisMultivalueCount
+            type: int
+        feeType:
+            expose: true
+            access_type: public_method
+            serialized_name: feeType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeType
+                setter: setFeeType
+            type: App\Soap\cdk\src\FeeType
+        totLaborCount:
+            expose: true
+            access_type: public_method
+            serialized_name: totLaborCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLaborCount
+                setter: setTotLaborCount
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        dedMaximumAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: dedMaximumAmount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDedMaximumAmount
+                setter: setDedMaximumAmount
+            type: App\Soap\cdk\src\DedMaximumAmount
+        disLaborDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: disLaborDiscount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisLaborDiscount
+                setter: setDisLaborDiscount
+            type: App\Soap\cdk\src\DisLaborDiscount
+        feeSale:
+            expose: true
+            access_type: public_method
+            serialized_name: feeSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeSale
+                setter: setFeeSale
+            type: App\Soap\cdk\src\FeeSale
+        linStoryText:
+            expose: true
+            access_type: public_method
+            serialized_name: linStoryText
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinStoryText
+                setter: setLinStoryText
+            type: App\Soap\cdk\src\LinStoryText
+        mlsMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsMultivalueCount
+                setter: setMlsMultivalueCount
+            type: int
+        phoneDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: PhoneDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPhoneDesc
+                setter: setPhoneDesc
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        phoneExt:
+            expose: true
+            access_type: public_method
+            serialized_name: PhoneExt
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPhoneExt
+                setter: setPhoneExt
+            type: App\Soap\cdk\src\PhoneExt
+        punAlteredFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: punAlteredFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPunAlteredFlag
+                setter: setPunAlteredFlag
+            type: App\Soap\cdk\src\PunAlteredFlag
+        statusDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: StatusDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getStatusDesc
+                setter: setStatusDesc
+            type: string
+        blockAutoMsg:
+            expose: true
+            access_type: public_method
+            serialized_name: BlockAutoMsg
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getBlockAutoMsg
+                setter: setBlockAutoMsg
+            type: App\Soap\cdk\src\BlockAutoMsg
+        disClassOrType:
+            expose: true
+            access_type: public_method
+            serialized_name: disClassOrType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisClassOrType
+                setter: setDisClassOrType
+            type: App\Soap\cdk\src\DisClassOrType
+        lbrFlagHours:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrFlagHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrFlagHours
+                setter: setLbrFlagHours
+            type: App\Soap\cdk\src\LbrFlagHours
+        lbrComebackTech:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrComebackTech
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrComebackTech
+                setter: setLbrComebackTech
+            type: App\Soap\cdk\src\LbrComebackTech
+        totCoreCost:
+            expose: true
+            access_type: public_method
+            serialized_name: totCoreCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotCoreCost
+                setter: setTotCoreCost
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        feeLOPorPartSeqNo:
+            expose: true
+            access_type: public_method
+            serialized_name: feeLOPorPartSeqNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeLOPorPartSeqNo
+                setter: setFeeLOPorPartSeqNo
+            type: App\Soap\cdk\src\FeeLOPorPartSeqNo
+        payPaymentsMade:
+            expose: true
+            access_type: public_method
+            serialized_name: payPaymentsMade
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPayPaymentsMade
+                setter: setPayPaymentsMade
+            type: float
+        totPayType:
+            expose: true
+            access_type: public_method
+            serialized_name: totPayType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotPayType
+                setter: setTotPayType
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        mlsOpCode:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsOpCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsOpCode
+                setter: setMlsOpCode
+            type: App\Soap\cdk\src\MlsOpCode
+        warLaborSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: warLaborSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarLaborSequenceNo
+                setter: setWarLaborSequenceNo
+            type: App\Soap\cdk\src\WarLaborSequenceNo
+        dedMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: dedMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDedMultivalueCount
+                setter: setDedMultivalueCount
+            type: int
+        hrsMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsMultivalueCount
+                setter: setHrsMultivalueCount
+            type: int
+        lbrOperationType:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrOperationType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrOperationType
+                setter: setLbrOperationType
+            type: App\Soap\cdk\src\LbrOperationType
+        disTotalDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: disTotalDiscount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisTotalDiscount
+                setter: setDisTotalDiscount
+            type: App\Soap\cdk\src\DisTotalDiscount
+        modelDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: ModelDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getModelDesc
+                setter: setModelDesc
+            type: string
+        totLubeCost:
+            expose: true
+            access_type: public_method
+            serialized_name: totLubeCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLubeCost
+                setter: setTotLubeCost
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        payPaymentAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: payPaymentAmount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPayPaymentAmount
+                setter: setPayPaymentAmount
+            type: App\Soap\cdk\src\PayPaymentAmount
+        totActualHours:
+            expose: true
+            access_type: public_method
+            serialized_name: totActualHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotActualHours
+                setter: setTotActualHours
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        hasIntPayFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: HasIntPayFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHasIntPayFlag
+                setter: setHasIntPayFlag
+            type: string
+        licenseNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: LicenseNumber
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLicenseNumber
+                setter: setLicenseNumber
+            type: App\Soap\cdk\src\LicenseNumber
+        mlsLaborType:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsLaborType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsLaborType
+                setter: setMlsLaborType
+            type: App\Soap\cdk\src\MlsLaborType
+        mlsSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsSequenceNo
+                setter: setMlsSequenceNo
+            type: App\Soap\cdk\src\MlsSequenceNo
+        payMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: payMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPayMultivalueCount
+                setter: setPayMultivalueCount
+            type: int
+        prtExtendedSale:
+            expose: true
+            access_type: public_method
+            serialized_name: prtExtendedSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtExtendedSale
+                setter: setPrtExtendedSale
+            type: App\Soap\cdk\src\PrtExtendedSale
+        prtLaborSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: prtLaborSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtLaborSequenceNo
+                setter: setPrtLaborSequenceNo
+            type: App\Soap\cdk\src\PrtLaborSequenceNo
+        statusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: StatusCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getStatusCode
+                setter: setStatusCode
+            type: string
+        totLaborDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: totLaborDiscount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLaborDiscount
+                setter: setTotLaborDiscount
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totOtherHours:
+            expose: true
+            access_type: public_method
+            serialized_name: totOtherHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotOtherHours
+                setter: setTotOtherHours
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totTimeCardHours:
+            expose: true
+            access_type: public_method
+            serialized_name: totTimeCardHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotTimeCardHours
+                setter: setTotTimeCardHours
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        dedLineCodes:
+            expose: true
+            access_type: public_method
+            serialized_name: dedLineCodes
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDedLineCodes
+                setter: setDedLineCodes
+            type: App\Soap\cdk\src\DedLineCodes
+        disDiscountID:
+            expose: true
+            access_type: public_method
+            serialized_name: disDiscountID
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisDiscountID
+                setter: setDisDiscountID
+            type: App\Soap\cdk\src\DisDiscountID
+        disOverridePercent:
+            expose: true
+            access_type: public_method
+            serialized_name: disOverridePercent
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisOverridePercent
+                setter: setDisOverridePercent
+            type: App\Soap\cdk\src\DisOverridePercent
+        emailAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: EmailAddress
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getEmailAddress
+                setter: setEmailAddress
+            type: App\Soap\cdk\src\EmailAddress
+        hrsFlagHours:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsFlagHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsFlagHours
+                setter: setHrsFlagHours
+            type: App\Soap\cdk\src\HrsFlagHours
+        hrsTimeCardHours:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsTimeCardHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsTimeCardHours
+                setter: setHrsTimeCardHours
+            type: App\Soap\cdk\src\HrsTimeCardHours
+        lbrLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrLineCode
+                setter: setLbrLineCode
+            type: App\Soap\cdk\src\LbrLineCode
+        lbrSoldHours:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrSoldHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrSoldHours
+                setter: setLbrSoldHours
+            type: App\Soap\cdk\src\LbrSoldHours
+        linBookerNo:
+            expose: true
+            access_type: public_method
+            serialized_name: linBookerNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinBookerNo
+                setter: setLinBookerNo
+            type: App\Soap\cdk\src\LinBookerNo
+        lotLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: LotLocation
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLotLocation
+                setter: setLotLocation
+            type: App\Soap\cdk\src\LotLocation
+        mlsOpCodeDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsOpCodeDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsOpCodeDesc
+                setter: setMlsOpCodeDesc
+            type: App\Soap\cdk\src\MlsOpCodeDesc
+        openTime:
+            expose: true
+            access_type: public_method
+            serialized_name: OpenTime
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getOpenTime
+                setter: setOpenTime
+            type: string
+        phoneNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PhoneNumber
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPhoneNumber
+                setter: setPhoneNumber
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        warFailedPartsCount:
+            expose: true
+            access_type: public_method
+            serialized_name: warFailedPartsCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarFailedPartsCount
+                setter: setWarFailedPartsCount
+            type: App\Soap\cdk\src\WarFailedPartsCount
+        dedSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: dedSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDedSequenceNo
+                setter: setDedSequenceNo
+            type: App\Soap\cdk\src\DedSequenceNo
+        disLopSeqNo:
+            expose: true
+            access_type: public_method
+            serialized_name: disLopSeqNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisLopSeqNo
+                setter: setDisLopSeqNo
+            type: App\Soap\cdk\src\DisLopSeqNo
+        disOverrideTarget:
+            expose: true
+            access_type: public_method
+            serialized_name: disOverrideTarget
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisOverrideTarget
+                setter: setDisOverrideTarget
+            type: App\Soap\cdk\src\DisOverrideTarget
+        feeLOPorPartFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: feeLOPorPartFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeLOPorPartFlag
+                setter: setFeeLOPorPartFlag
+            type: App\Soap\cdk\src\FeeLOPorPartFlag
+        feeMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: feeMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeMultivalueCount
+                setter: setFeeMultivalueCount
+            type: int
+        hasCustPayFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: HasCustPayFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHasCustPayFlag
+                setter: setHasCustPayFlag
+            type: string
+        lbrComebackRO:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrComebackRO
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrComebackRO
+                setter: setLbrComebackRO
+            type: App\Soap\cdk\src\LbrComebackRO
+        lbrComebackSA:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrComebackSA
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrComebackSA
+                setter: setLbrComebackSA
+            type: App\Soap\cdk\src\LbrComebackSA
+        lbrForcedShopCharge:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrForcedShopCharge
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrForcedShopCharge
+                setter: setLbrForcedShopCharge
+            type: App\Soap\cdk\src\LbrForcedShopCharge
+        totFlagHours:
+            expose: true
+            access_type: public_method
+            serialized_name: totFlagHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotFlagHours
+                setter: setTotFlagHours
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: totMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotMultivalueCount
+                setter: setTotMultivalueCount
+            type: int
+        totShopChargeCost:
+            expose: true
+            access_type: public_method
+            serialized_name: totShopChargeCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotShopChargeCost
+                setter: setTotShopChargeCost
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totSubletCount:
+            expose: true
+            access_type: public_method
+            serialized_name: totSubletCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotSubletCount
+                setter: setTotSubletCount
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        warAuthorizationCode:
+            expose: true
+            access_type: public_method
+            serialized_name: warAuthorizationCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarAuthorizationCode
+                setter: setWarAuthorizationCode
+            type: App\Soap\cdk\src\WarAuthorizationCode
+        warClaimType:
+            expose: true
+            access_type: public_method
+            serialized_name: warClaimType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarClaimType
+                setter: setWarClaimType
+            type: App\Soap\cdk\src\WarClaimType
+        warConditionCode:
+            expose: true
+            access_type: public_method
+            serialized_name: warConditionCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarConditionCode
+                setter: setWarConditionCode
+            type: App\Soap\cdk\src\WarConditionCode
+        warLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: warLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarLineCode
+                setter: setWarLineCode
+            type: App\Soap\cdk\src\WarLineCode
+        warMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: warMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarMultivalueCount
+                setter: setWarMultivalueCount
+            type: int
+        dedActualAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: dedActualAmount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDedActualAmount
+                setter: setDedActualAmount
+            type: App\Soap\cdk\src\DedActualAmount
+        dedLaborType:
+            expose: true
+            access_type: public_method
+            serialized_name: dedLaborType
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDedLaborType
+                setter: setDedLaborType
+            type: App\Soap\cdk\src\DedLaborType
+        disAppliedBy:
+            expose: true
+            access_type: public_method
+            serialized_name: disAppliedBy
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisAppliedBy
+                setter: setDisAppliedBy
+            type: App\Soap\cdk\src\DisAppliedBy
+        disDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: disDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisDesc
+                setter: setDisDesc
+            type: App\Soap\cdk\src\DisDesc
+        disManagerOverride:
+            expose: true
+            access_type: public_method
+            serialized_name: disManagerOverride
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisManagerOverride
+                setter: setDisManagerOverride
+            type: App\Soap\cdk\src\DisManagerOverride
+        disOverrideGPPercent:
+            expose: true
+            access_type: public_method
+            serialized_name: disOverrideGPPercent
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisOverrideGPPercent
+                setter: setDisOverrideGPPercent
+            type: App\Soap\cdk\src\DisOverrideGPPercent
+        hrsMcdPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsMcdPercentage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsMcdPercentage
+                setter: setHrsMcdPercentage
+            type: App\Soap\cdk\src\HrsMcdPercentage
+        lbrOtherHours:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrOtherHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrOtherHours
+                setter: setLbrOtherHours
+            type: App\Soap\cdk\src\LbrOtherHours
+        mlsMcdPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsMcdPercentage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsMcdPercentage
+                setter: setMlsMcdPercentage
+            type: App\Soap\cdk\src\MlsMcdPercentage
+        payCPTotal:
+            expose: true
+            access_type: public_method
+            serialized_name: payCPTotal
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPayCPTotal
+                setter: setPayCPTotal
+            type: float
+        payPaymentCode:
+            expose: true
+            access_type: public_method
+            serialized_name: payPaymentCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPayPaymentCode
+                setter: setPayPaymentCode
+            type: App\Soap\cdk\src\PayPaymentCode
+        phoneMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: PhoneMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPhoneMultivalueCount
+                setter: setPhoneMultivalueCount
+            type: int
+        prtExtendedCost:
+            expose: true
+            access_type: public_method
+            serialized_name: prtExtendedCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtExtendedCost
+                setter: setPrtExtendedCost
+            type: App\Soap\cdk\src\PrtExtendedCost
+        totDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: totDiscount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotDiscount
+                setter: setTotDiscount
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totPartsDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: totPartsDiscount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotPartsDiscount
+                setter: setTotPartsDiscount
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totRoSalePostDed:
+            expose: true
+            access_type: public_method
+            serialized_name: totRoSalePostDed
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotRoSalePostDed
+                setter: setTotRoSalePostDed
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        dedPartsAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: dedPartsAmount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDedPartsAmount
+                setter: setDedPartsAmount
+            type: App\Soap\cdk\src\DedPartsAmount
+        disOverrideAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: disOverrideAmount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisOverrideAmount
+                setter: setDisOverrideAmount
+            type: App\Soap\cdk\src\DisOverrideAmount
+        disSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: disSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisSequenceNo
+                setter: setDisSequenceNo
+            type: App\Soap\cdk\src\DisSequenceNo
+        emailDesc:
+            expose: true
+            access_type: public_method
+            serialized_name: EmailDesc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getEmailDesc
+                setter: setEmailDesc
+            type: App\Soap\cdk\src\EmailDesc
+        feeSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: feeSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeSequenceNo
+                setter: setFeeSequenceNo
+            type: App\Soap\cdk\src\FeeSequenceNo
+        linMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: linMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinMultivalueCount
+                setter: setLinMultivalueCount
+            type: int
+        linStorySequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: linStorySequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinStorySequenceNo
+                setter: setLinStorySequenceNo
+            type: App\Soap\cdk\src\LinStorySequenceNo
+        prtLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: prtLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtLineCode
+                setter: setPrtLineCode
+            type: App\Soap\cdk\src\PrtLineCode
+        prtMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: prtMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtMultivalueCount
+                setter: setPrtMultivalueCount
+            type: int
+        prtSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: prtSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtSequenceNo
+                setter: setPrtSequenceNo
+            type: App\Soap\cdk\src\PrtSequenceNo
+        rapMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: rapMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getRapMultivalueCount
+                setter: setRapMultivalueCount
+            type: int
+        totLaborSalePostDed:
+            expose: true
+            access_type: public_method
+            serialized_name: totLaborSalePostDed
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLaborSalePostDed
+                setter: setTotLaborSalePostDed
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totLubeCount:
+            expose: true
+            access_type: public_method
+            serialized_name: totLubeCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotLubeCount
+                setter: setTotLubeCount
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totPartsSalePostDed:
+            expose: true
+            access_type: public_method
+            serialized_name: totPartsSalePostDed
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotPartsSalePostDed
+                setter: setTotPartsSalePostDed
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totRoCost:
+            expose: true
+            access_type: public_method
+            serialized_name: totRoCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotRoCost
+                setter: setTotRoCost
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totRoTax:
+            expose: true
+            access_type: public_method
+            serialized_name: totRoTax
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotRoTax
+                setter: setTotRoTax
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totSubletCost:
+            expose: true
+            access_type: public_method
+            serialized_name: totSubletCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotSubletCost
+                setter: setTotSubletCost
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        dedLaborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: dedLaborAmount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDedLaborAmount
+                setter: setDedLaborAmount
+            type: App\Soap\cdk\src\DedLaborAmount
+        disLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: disLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisLineCode
+                setter: setDisLineCode
+            type: App\Soap\cdk\src\DisLineCode
+        disOriginalDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: disOriginalDiscount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisOriginalDiscount
+                setter: setDisOriginalDiscount
+            type: App\Soap\cdk\src\DisOriginalDiscount
+        disOverrideGPAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: disOverrideGPAmount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisOverrideGPAmount
+                setter: setDisOverrideGPAmount
+            type: App\Soap\cdk\src\DisOverrideGPAmount
+        disPartsDiscount:
+            expose: true
+            access_type: public_method
+            serialized_name: disPartsDiscount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getDisPartsDiscount
+                setter: setDisPartsDiscount
+            type: App\Soap\cdk\src\DisPartsDiscount
+        emailMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: EmailMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getEmailMultivalueCount
+                setter: setEmailMultivalueCount
+            type: int
+        feeMcdPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: feeMcdPercentage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getFeeMcdPercentage
+                setter: setFeeMcdPercentage
+            type: App\Soap\cdk\src\FeeMcdPercentage
+        hasWarrPayFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: HasWarrPayFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHasWarrPayFlag
+                setter: setHasWarrPayFlag
+            type: string
+        hrsSequenceNo:
+            expose: true
+            access_type: public_method
+            serialized_name: hrsSequenceNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getHrsSequenceNo
+                setter: setHrsSequenceNo
+            type: App\Soap\cdk\src\HrsSequenceNo
+        lbrActualHours:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrActualHours
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrActualHours
+                setter: setLbrActualHours
+            type: App\Soap\cdk\src\LbrActualHours
+        lbrComebackFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrComebackFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrComebackFlag
+                setter: setLbrComebackFlag
+            type: App\Soap\cdk\src\LbrComebackFlag
+        lbrMultivalueCount:
+            expose: true
+            access_type: public_method
+            serialized_name: lbrMultivalueCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLbrMultivalueCount
+                setter: setLbrMultivalueCount
+            type: int
+        linActualWork:
+            expose: true
+            access_type: public_method
+            serialized_name: linActualWork
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinActualWork
+                setter: setLinActualWork
+            type: App\Soap\cdk\src\LinActualWork
+        linAddOnFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: linAddOnFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getLinAddOnFlag
+                setter: setLinAddOnFlag
+            type: App\Soap\cdk\src\LinAddOnFlag
+        mlsCost:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsCost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsCost
+                setter: setMlsCost
+            type: App\Soap\cdk\src\MlsCost
+        mlsLineCode:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsLineCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsLineCode
+                setter: setMlsLineCode
+            type: App\Soap\cdk\src\MlsLineCode
+        mlsSale:
+            expose: true
+            access_type: public_method
+            serialized_name: mlsSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getMlsSale
+                setter: setMlsSale
+            type: App\Soap\cdk\src\MlsSale
+        totCoreSale:
+            expose: true
+            access_type: public_method
+            serialized_name: totCoreSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotCoreSale
+                setter: setTotCoreSale
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totForcedShopCharge:
+            expose: true
+            access_type: public_method
+            serialized_name: totForcedShopCharge
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotForcedShopCharge
+                setter: setTotForcedShopCharge
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totMiscCount:
+            expose: true
+            access_type: public_method
+            serialized_name: totMiscCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotMiscCount
+                setter: setTotMiscCount
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        totPartsCount:
+            expose: true
+            access_type: public_method
+            serialized_name: totPartsCount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getTotPartsCount
+                setter: setTotPartsCount
+            type: array<App\Soap\cdk\src\V>
+            xml_list:
+                inline: false
+                entry_name: V
+                skip_when_empty: false
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+        warFailedPartNo:
+            expose: true
+            access_type: public_method
+            serialized_name: warFailedPartNo
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getWarFailedPartNo
+                setter: setWarFailedPartNo
+            type: App\Soap\cdk\src\WarFailedPartNo
+        zip:
+            expose: true
+            access_type: public_method
+            serialized_name: Zip
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getZip
+                setter: setZip
+            type: int
+        prtQtyOnHand:
+            expose: true
+            access_type: public_method
+            serialized_name: prtQtyOnHand
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtQtyOnHand
+                setter: setPrtQtyOnHand
+            type: App\Soap\cdk\src\PrtQtyOnHand
+        prtQtyBackordered:
+            expose: true
+            access_type: public_method
+            serialized_name: prtQtyBackordered
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtQtyBackordered
+                setter: setPrtQtyBackordered
+            type: App\Soap\cdk\src\PrtQtyBackordered
+        prtQtyFilled:
+            expose: true
+            access_type: public_method
+            serialized_name: prtQtyFilled
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-closed'
+            accessor:
+                getter: getPrtQtyFilled
+                setter: setPrtQtyFilled
+            type: App\Soap\cdk\src\PrtQtyFilled

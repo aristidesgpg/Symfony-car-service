@@ -1,0 +1,28 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealerTaxType:
+    properties:
+        amount:
+            -
+                Valid: null
+        taxType:
+            -
+                Choice:
+                    choices:
+                        - StateSalesTax
+                        - StateCityTax
+                        - StateTaxOnCapReduction
+                        - MonthlyUseTax
+                        - LocalOtherTax
+                        - LocalSalesTax
+                        - LocalTaxOnDocumentationFee
+                        - VehicleInventoryTax
+                        - ServiceContractTax
+                        - LuxuryTax
+                        - TaxOnUpfrontFees
+                        - TireTax
+                        - CountyFlatTax
+                        - TaxOnDownPayment
+                        - VSCProPkgTax
+                        - TaxOnSecurityDeposit
+                        - Other
+                    groups:
+                        - xsd_rules

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullEstimates:
+    properties:
+        apiSearchCriteria:
+            -
+                Valid: null

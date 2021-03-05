@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushCustomerVehicleOwners:
+    properties:
+        vehicleOwners:
+            -
+                Valid: null

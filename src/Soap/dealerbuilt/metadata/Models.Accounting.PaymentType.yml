@@ -1,0 +1,92 @@
+App\Soap\dealerbuilt\src\Models\Accounting\PaymentType:
+    properties:
+        amount:
+            expose: true
+            access_type: public_method
+            serialized_name: Amount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getAmount
+                setter: setAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        createdStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: CreatedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getCreatedStamp
+                setter: setCreatedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        glAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: GlAccount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getGlAccount
+                setter: setGlAccount
+            type: string
+        includedInBalance:
+            expose: true
+            access_type: public_method
+            serialized_name: IncludedInBalance
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getIncludedInBalance
+                setter: setIncludedInBalance
+            type: bool
+        payType:
+            expose: true
+            access_type: public_method
+            serialized_name: PayType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getPayType
+                setter: setPayType
+            type: string
+        paymentId:
+            expose: true
+            access_type: public_method
+            serialized_name: PaymentId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getPaymentId
+                setter: setPaymentId
+            type: int
+        paymentMethodCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PaymentMethodCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getPaymentMethodCode
+                setter: setPaymentMethodCode
+            type: string
+        username:
+            expose: true
+            access_type: public_method
+            serialized_name: Username
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getUsername
+                setter: setUsername
+            type: string

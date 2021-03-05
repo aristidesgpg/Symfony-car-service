@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -9,8 +11,11 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * @ORM\Entity
  */
-class RepairOrderVideo {
-    public const GROUPS   = ['rov_list'];
+class RepairOrderVideo
+{
+    public const GROUPS = ['rov_list'];
+
+    public const STATUSES = ['Not Started', 'Uploaded', 'Sent', 'Viewed'];
 
     /**
      * @ORM\Id
@@ -41,18 +46,12 @@ class RepairOrderVideo {
      * @ORM\Column(type="string", length=255)
      * @Serializer\Groups(groups={"rov_list"})
      */
-    private $status = 'Created';
+    private $status = 'Not Started';
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $shortUrl;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @Serializer\Groups(groups={"rov_list"})
-     */
-    private $dateCreated;
 
     /**
      * @ORM\Column(type="boolean")
@@ -66,164 +65,206 @@ class RepairOrderVideo {
      *     cascade={"PERSIST"}
      * )
      * @ORM\OrderBy({"date"="DESC"})
+     * @Serializer\Groups(groups={"rov_list"})
      */
     private $interactions;
 
-    public function __construct () {
-        $this->dateCreated  = new \DateTime();
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateUploaded;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateSent;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $dateViewed;
+
+    public function __construct()
+    {
+        $this->dateUploaded = new DateTime();
         $this->interactions = new ArrayCollection();
     }
 
-    /**
-     * @return int|null
-     */
-    public function getId (): ?int {
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    /**
-     * @return RepairOrder|null
-     */
-    public function getRepairOrder (): ?RepairOrder {
-        return $this->repairOrder;
-    }
-
-    /**
-     * @param RepairOrder $repairOrder
-     *
-     * @return $this
-     */
-    public function setRepairOrder (RepairOrder $repairOrder): self {
-        $this->repairOrder = $repairOrder;
-
-        return $this;
-    }
-
-    /**
-     * @return User|null
-     */
-    public function getTechnician (): ?User {
+    public function getTechnician(): ?User
+    {
         return $this->technician;
     }
 
-    /**
-     * @param User $technician
-     *
-     * @return $this
-     */
-    public function setTechnician (User $technician): self {
+    public function setTechnician(User $technician): self
+    {
         $this->technician = $technician;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPath (): ?string {
+    public function getPath(): ?string
+    {
         return $this->path;
     }
 
-    /**
-     * @param string $path
-     *
-     * @return $this
-     */
-    public function setPath (string $path): self {
+    public function setPath(string $path): self
+    {
         $this->path = $path;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getStatus (): string {
-        return $this->status;
-    }
-
-    /**
-     * @param string $status
-     *
-     * @return $this
-     */
-    public function setStatus (string $status): self {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getShortUrl (): ?string {
+    public function getShortUrl(): ?string
+    {
         return $this->shortUrl;
     }
 
-    /**
-     * @param string $shortUrl
-     *
-     * @return $this
-     */
-    public function setShortUrl (string $shortUrl): self {
+    public function setShortUrl(string $shortUrl): self
+    {
         $this->shortUrl = $shortUrl;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreated (): \DateTime {
-        return $this->dateCreated;
-    }
-
-    /**
-     * @param \DateTime $dateCreated
-     *
-     * @return $this
-     */
-    public function setDateCreated (\DateTime $dateCreated): self {
-        $this->dateCreated = $dateCreated;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isDeleted (): bool {
+    public function isDeleted(): bool
+    {
         return $this->deleted;
     }
 
-    /**
-     * @param bool $deleted
-     *
-     * @return $this
-     */
-    public function setDeleted (bool $deleted): self {
+    public function setDeleted(bool $deleted): self
+    {
         $this->deleted = $deleted;
+        $this->updateRepairOrderVideoStatus();
 
         return $this;
     }
 
-    /**
-     * @return RepairOrderVideoInteraction[]
-     */
-    public function getInteractions (): array {
+    public function updateRepairOrderVideoStatus(): self
+    {
+        $repairVideos = $this->getRepairOrder()->getVideos();
+        $repairOrderVideoStatus = null;
+
+        // No videos
+        if (!$repairVideos) {
+            $this->getRepairOrder()->setVideoStatus(self::STATUSES[0]);
+
+            return $this;
+        }
+
+        foreach ($repairVideos as $repairOrderVideo) {
+            if ($repairOrderVideo->isDeleted()) {
+                continue;
+            }
+
+            // If null, default to the first video we find
+            if ($repairOrderVideoStatus === null) {
+                $repairOrderVideoStatus = $repairOrderVideo->getStatus();
+                continue;
+            }
+
+            $videoKey = array_search($repairOrderVideo->getStatus(), self::STATUSES);
+            $roVideoKey = array_search($repairOrderVideoStatus, self::STATUSES);
+
+            if ($videoKey < $roVideoKey) {
+                $repairOrderVideoStatus = $repairOrderVideo->getStatus();
+            }
+        }
+
+        if ($repairOrderVideoStatus === null) {
+            $repairOrderVideoStatus = self::STATUSES[0];
+        }
+
+        $this->getRepairOrder()->setVideoStatus($repairOrderVideoStatus);
+
+        return $this;
+    }
+
+    public function getRepairOrder(): ?RepairOrder
+    {
+        return $this->repairOrder;
+    }
+
+    public function setRepairOrder(RepairOrder $repairOrder): self
+    {
+        $this->repairOrder = $repairOrder;
+
+        return $this;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getInteractions(): array
+    {
         return $this->interactions->toArray();
     }
 
-    /**
-     * @param RepairOrderVideoInteraction $interaction
-     *
-     * @return $this
-     */
-    public function addInteraction (RepairOrderVideoInteraction $interaction): self {
+    public function addInteraction(RepairOrderVideoInteraction $interaction): self
+    {
         $status = $interaction->getType();
         $this->setStatus($status);
-        $this->getRepairOrder()->setVideoStatus($status);
+        $this->updateRepairOrderVideoStatus();
+
+        $videoStatus = $this->getRepairOrder()->getVideoStatus();
+
+        if ($videoStatus == 'Not Started' || array_search($status, self::STATUSES) < array_search(
+                $videoStatus,
+                self::STATUSES
+            )) {
+            $this->getRepairOrder()->setVideoStatus($status);
+        }
+
         $this->interactions->add($interaction);
+
+        return $this;
+    }
+
+    public function getDateUploaded(): ?DateTimeInterface
+    {
+        return $this->dateUploaded;
+    }
+
+    public function setDateUploaded(?DateTimeInterface $dateUploaded): self
+    {
+        $this->dateUploaded = $dateUploaded;
+
+        return $this;
+    }
+
+    public function getDateSent(): ?DateTimeInterface
+    {
+        return $this->dateSent;
+    }
+
+    public function setDateSent(?DateTimeInterface $dateSent): self
+    {
+        $this->dateSent = $dateSent;
+
+        return $this;
+    }
+
+    public function getDateViewed(): ?DateTimeInterface
+    {
+        return $this->dateViewed;
+    }
+
+    public function setDateViewed(?DateTimeInterface $dateViewed): self
+    {
+        $this->dateViewed = $dateViewed;
 
         return $this;
     }

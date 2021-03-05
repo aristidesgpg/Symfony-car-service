@@ -1,0 +1,77 @@
+App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType:
+    properties:
+        campaignDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: CampaignDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            accessor:
+                getter: getCampaignDescription
+                setter: setCampaignDescription
+            type: string
+        campaignDispositionCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CampaignDispositionCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            accessor:
+                getter: getCampaignDispositionCode
+                setter: setCampaignDispositionCode
+            type: string
+        campaignNotes:
+            expose: true
+            access_type: public_method
+            serialized_name: CampaignNotes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            accessor:
+                getter: getCampaignNotes
+                setter: setCampaignNotes
+            type: string
+        campaignNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CampaignNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            accessor:
+                getter: getCampaignNumber
+                setter: setCampaignNumber
+            type: string
+        customerMemo:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerMemo
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            accessor:
+                getter: getCustomerMemo
+                setter: setCustomerMemo
+            type: string
+        repairStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairStatusCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            accessor:
+                getter: getRepairStatusCode
+                setter: setRepairStatusCode
+            type: string
+        serviceBulletinURI:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceBulletinURI
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            accessor:
+                getter: getServiceBulletinURI
+                setter: setServiceBulletinURI
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

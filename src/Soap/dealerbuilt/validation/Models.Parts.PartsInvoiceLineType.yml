@@ -1,0 +1,55 @@
+App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType:
+    properties:
+        actualWholesaleAmount:
+            -
+                Valid: null
+        coreAmount:
+            -
+                Valid: null
+        coreUnitAmount:
+            -
+                Valid: null
+        dealerDiscountAmount:
+            -
+                Valid: null
+        extendedAmount:
+            -
+                Valid: null
+        extendedCoreAmount:
+            -
+                Valid: null
+        grossDiscountAmount:
+            -
+                Valid: null
+        linenumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        miscChargeTotal:
+            -
+                Valid: null
+        partsInvoiceItemNetAmount:
+            -
+                Valid: null
+        retailAmount:
+            -
+                Valid: null
+        soldAmount:
+            -
+                Valid: null
+        submittedAmount:
+            -
+                Valid: null
+        taxAmount:
+            -
+                Valid: null
+        tradeInAmount:
+            -
+                Valid: null

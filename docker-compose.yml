@@ -16,11 +16,16 @@ services:
         - db
 
     db:
-      image: mysql:5.7     # use mysql5.7 image from docker hub
+      # image: mysql:5.7     # use mysql5.7 image from docker hub
+      build:
+        context: .
+        dockerfile: docker/mysql/Dockerfile # Dockerfile path
       environment:           # database config
         - MYSQL_HOST=db       # set database alias
         - MYSQL_ROOT_PASSWORD=password
         - MYSQL_PASSWORD=password
         - MYSQL_DATABASE=iservice3
+      # volumes:
+        # - ./docker/my.cnf:/etc/mysql/my.cnf # copy my.cnf
       ports:
         - "3307:3306" #bind port

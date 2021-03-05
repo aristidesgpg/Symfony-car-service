@@ -1,0 +1,67 @@
+App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType:
+    properties:
+        acquisition:
+            expose: true
+            access_type: public_method
+            serialized_name: Acquisition
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getAcquisition
+                setter: setAcquisition
+            type: App\Soap\dealerbuilt\src\Models\Sales\AcquisitionFeeType
+        dealerFees:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerFees
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getDealerFees
+                setter: setDealerFees
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType>
+            xml_list:
+                inline: false
+                entry_name: DealerFee
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+        disposition:
+            expose: true
+            access_type: public_method
+            serialized_name: Disposition
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getDisposition
+                setter: setDisposition
+            type: App\Soap\dealerbuilt\src\Models\Sales\StandardFeeType
+        licensing:
+            expose: true
+            access_type: public_method
+            serialized_name: Licensing
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getLicensing
+                setter: setLicensing
+            type: App\Soap\dealerbuilt\src\Models\Sales\LeaseLicensingFeeType
+        proratedLicensing:
+            expose: true
+            access_type: public_method
+            serialized_name: ProratedLicensing
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getProratedLicensing
+                setter: setProratedLicensing
+            type: App\Soap\dealerbuilt\src\Models\Sales\LeaseLicensingFeeType
+        tradeLicensing:
+            expose: true
+            access_type: public_method
+            serialized_name: TradeLicensing
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getTradeLicensing
+                setter: setTradeLicensing
+            type: App\Soap\dealerbuilt\src\Models\Sales\LeaseLicensingFeeType
