@@ -19,7 +19,7 @@ class PhoneLookupController extends AbstractFOSRestController
      * @SWG\Tag(name="Phone Lookup")
      * @SWG\Post(description="Check if mobile number is validate")
      *
-     * @SWG\Parameter(name="phone", type="string", in="formData")
+     * @SWG\Parameter(name="phone", type="string", in="formData", required=true)
      *
      * @SWG\Response(
      *      response="200",
@@ -34,7 +34,7 @@ class PhoneLookupController extends AbstractFOSRestController
      */
     public function isMobile(Request $request, PhoneValidator $phoneValidator): Response
     {
-        $mobileNumber = $request->get('mobileNumber');
+        $mobileNumber = $request->get('phone');
 
         if (!$mobileNumber) {
             return $this->handleView($this->view('Input mobile number', Response::HTTP_BAD_REQUEST));
