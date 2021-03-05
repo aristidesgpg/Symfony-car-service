@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\RepairOrder;
 use App\Entity\User;
+use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
@@ -20,14 +21,18 @@ use Exception;
 class RepairOrderRepository extends ServiceEntityRepository
 {
 
+     /** @var UserRepository */
+     private $userRepo;
+
     /**
      * RepairOrderRepository constructor.
      *
      * @param ManagerRegistry $registry
      */
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, UserRepository $userRepo)
     {
         parent::__construct($registry, RepairOrder::class);
+        $this->userRepo = $userRepo;
     }
 
     /**
@@ -42,7 +47,6 @@ class RepairOrderRepository extends ServiceEntityRepository
      */
     public function getAllItems(
         $user,
-        $userRepo,
         $startDate = null,
         $endDate = null,
         $sortField = 'dateCreated',
@@ -137,7 +141,7 @@ class RepairOrderRepository extends ServiceEntityRepository
                     if ($user->getShareRepairOrders()) {
                         $qb->andWhere('ro.primaryAdvisor IN (:users)')
                            ->setParameter('users', $user);
-                        $queryParameters['users'] = $userRepo->getSharedUsers();
+                        $queryParameters['users'] = $this->userRepo->getSharedUsers();
                     } else {
                         $qb->andWhere('ro.primaryAdvisor = :user')
                            ->setParameter('user', $user);

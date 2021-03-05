@@ -6,7 +6,6 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Helper\FalsyTrait;
 use App\Repository\RepairOrderRepository;
-use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\MyReviewHelper;
 use App\Service\Pagination;
@@ -143,7 +142,6 @@ class RepairOrderController extends AbstractFOSRestController
         RepairOrderRepository $repairOrderRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
-        UserRepository $userRepo,
         EntityManagerInterface $em
     ): Response {
         $page = $request->query->getInt('page', 1);
@@ -201,7 +199,6 @@ class RepairOrderController extends AbstractFOSRestController
         } else {
             $items = $repairOrderRepo->getAllItems(
                 $user,
-                $userRepo,
                 $startDate,
                 $endDate,
                 $sortField,
