@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullRepairOrderDocumentsResponse:
+    properties:
+        pullRepairOrderDocumentsResult:
+            -
+                Valid: null

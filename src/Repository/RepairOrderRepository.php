@@ -30,6 +30,22 @@ class RepairOrderRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return array
+     */
+    public function getOpenRepairOrders(): array
+    {
+        //Set the number as the key to make it faster for finding.
+        $results = $this->findBy(['dateClosed' => null, 'deleted' => 0]);
+        $result = [];
+        foreach ($results as $r) {
+            $result[$r->getNumber()] = $r;
+        }
+
+        return $result;
+    }
+
+
+    /**
      * @param null   $start
      * @param null   $end
      * @param string $sortField

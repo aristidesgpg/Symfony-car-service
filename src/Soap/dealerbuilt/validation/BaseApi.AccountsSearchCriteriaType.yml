@@ -1,0 +1,17 @@
+App\Soap\dealerbuilt\src\BaseApi\AccountsSearchCriteriaType:
+    properties:
+        accountClassGroup:
+            -
+                Choice:
+                    choices:
+                        - AllAccounts
+                        - BalanceSheetAccounts
+                        - ProfitAndLossAccounts
+                    groups:
+                        - xsd_rules
+        accountClasses:
+            -
+                Valid: null
+        accounts:
+            -
+                Valid: null

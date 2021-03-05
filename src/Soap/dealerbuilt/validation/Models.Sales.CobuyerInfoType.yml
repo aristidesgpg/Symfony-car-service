@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Sales\CobuyerInfoType:
+    properties:
+        identity:
+            -
+                Valid: null
+        license:
+            -
+                Valid: null
+        relationshipType:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Spouse
+                    groups:
+                        - xsd_rules

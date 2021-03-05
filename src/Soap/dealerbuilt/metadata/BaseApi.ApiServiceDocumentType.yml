@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType:
+    properties:
+        document:
+            expose: true
+            access_type: public_method
+            serialized_name: Document
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDocument
+                setter: setDocument
+            type: string
+        documentKey:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDocumentKey
+                setter: setDocumentKey
+            type: string
+        documentType:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDocumentType
+                setter: setDocumentType
+            type: string
+        format:
+            expose: true
+            access_type: public_method
+            serialized_name: Format
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getFormat
+                setter: setFormat
+            type: string

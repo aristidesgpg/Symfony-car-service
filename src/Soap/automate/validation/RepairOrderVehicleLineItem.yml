@@ -1,0 +1,27 @@
+App\Soap\automate\src\RepairOrderVehicleLineItem:
+    properties:
+        licenseNumberString:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+        vehicle:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        originalSoldDate:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+        deliveryDistanceMeasure:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules

@@ -1,0 +1,12 @@
+App\Soap\automate\src\IssuingName:
+    xml_root_name: IssuingName
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: string

@@ -1,0 +1,13 @@
+App\Soap\dealerbuilt\src\Models\Logging\LogAttributesType:
+    properties:
+        loggingSeq:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules

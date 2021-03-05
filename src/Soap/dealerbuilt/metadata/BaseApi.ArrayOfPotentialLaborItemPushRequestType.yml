@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPotentialLaborItemPushRequestType:
+    properties:
+        potentialLaborItemPushRequest:
+            expose: true
+            access_type: public_method
+            serialized_name: PotentialLaborItemPushRequest
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPotentialLaborItemPushRequest
+                setter: setPotentialLaborItemPushRequest
+            xml_list:
+                inline: true
+                entry_name: PotentialLaborItemPushRequest
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushRequestType>

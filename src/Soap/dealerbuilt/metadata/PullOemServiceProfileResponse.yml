@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\PullOemServiceProfileResponse:
+    xml_root_name: PullOemServiceProfileResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullOemServiceProfileResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullOemServiceProfileResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullOemServiceProfileResult
+                setter: setPullOemServiceProfileResult
+            type: App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\AppointmentSearchCriteriaType:
+    properties:
+        statuses:
+            -
+                Valid: null

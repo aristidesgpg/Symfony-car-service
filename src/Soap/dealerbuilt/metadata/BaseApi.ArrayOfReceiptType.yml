@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfReceiptType:
+    properties:
+        receipt:
+            expose: true
+            access_type: public_method
+            serialized_name: Receipt
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getReceipt
+                setter: setReceipt
+            xml_list:
+                inline: true
+                entry_name: Receipt
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\ReceiptType>

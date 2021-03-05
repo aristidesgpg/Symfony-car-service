@@ -1,0 +1,25 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType:
+    properties:
+        laborAmount:
+            -
+                Valid: null
+        laborRate:
+            -
+                Valid: null
+        laborTax:
+            -
+                Valid: null
+        lineNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        sublets:
+            -
+                Valid: null

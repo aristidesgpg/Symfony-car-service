@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullCustomersByKey:
+    xml_root_name: PullCustomersByKey
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        customerKeys:
+            expose: true
+            access_type: public_method
+            serialized_name: customerKeys
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getCustomerKeys
+                setter: setCustomerKeys
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

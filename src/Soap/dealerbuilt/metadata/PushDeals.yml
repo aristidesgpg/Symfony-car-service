@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PushDeals:
+    xml_root_name: PushDeals
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        deals:
+            expose: true
+            access_type: public_method
+            serialized_name: deals
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getDeals
+                setter: setDeals
+            type: array<App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType>
+            xml_list:
+                inline: false
+                entry_name: DealPushRequest
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

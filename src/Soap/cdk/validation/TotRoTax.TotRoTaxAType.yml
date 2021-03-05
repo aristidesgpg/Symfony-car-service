@@ -1,0 +1,9 @@
+App\Soap\cdk\src\TotRoTax\TotRoTaxAType:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

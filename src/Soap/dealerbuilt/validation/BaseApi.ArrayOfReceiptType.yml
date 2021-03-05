@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfReceiptType:
+    properties:
+        receipt:
+            -
+                Valid: null

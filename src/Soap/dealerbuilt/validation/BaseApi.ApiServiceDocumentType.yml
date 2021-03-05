@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\BaseApi\ApiServiceDocumentType:
+    properties:
+        documentType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - WorkOrder
+                        - Invoice
+                    groups:
+                        - xsd_rules
+        format:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Html
+                    groups:
+                        - xsd_rules

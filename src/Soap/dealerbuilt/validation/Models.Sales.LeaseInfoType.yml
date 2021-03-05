@@ -1,0 +1,112 @@
+App\Soap\dealerbuilt\src\Models\Sales\LeaseInfoType:
+    properties:
+        baseResidualAmount:
+            -
+                Valid: null
+        capCostReduction:
+            -
+                Valid: null
+        cashCapReductionAmount:
+            -
+                Valid: null
+        cashRequired:
+            -
+                Valid: null
+        estimatedOfficialFeeTax:
+            -
+                Valid: null
+        feeAmount:
+            -
+                Valid: null
+        fees:
+            -
+                Valid: null
+        grossCapCost:
+            -
+                Valid: null
+        hardAddsResidualAmount:
+            -
+                Valid: null
+        mileageActual:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        mileageAllowance:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        mileageDollarsPerMileLeaseEnd:
+            -
+                Valid: null
+        mileageDollarsPerMileUpFront:
+            -
+                Valid: null
+        mileageEstimate:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        milesUpFront:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        monthlyDepreciationAmount:
+            -
+                Valid: null
+        monthlyServiceCharge:
+            -
+                Valid: null
+        netCapCost:
+            -
+                Valid: null
+        otherMonthlyCharges:
+            -
+                Valid: null
+        packageDiscounts:
+            -
+                Valid: null
+        rebateCapReductionAmount:
+            -
+                Valid: null
+        residualAmount:
+            -
+                Valid: null
+        securityDeposit:
+            -
+                Valid: null
+        taxes:
+            -
+                Valid: null
+        totalDueAtSigning:
+            -
+                Valid: null
+        tradeTaxCredit:
+            -
+                Valid: null

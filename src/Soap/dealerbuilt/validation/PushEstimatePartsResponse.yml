@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushEstimatePartsResponse:
+    properties:
+        pushEstimatePartsResult:
+            -
+                Valid: null

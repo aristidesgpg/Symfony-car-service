@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\Models\CounterTicketPartPushResponseType:
+    properties:
+        partNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PartNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getPartNumber
+                setter: setPartNumber
+            type: string

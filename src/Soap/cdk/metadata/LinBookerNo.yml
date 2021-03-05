@@ -1,0 +1,4 @@
+App\Soap\cdk\src\LinBookerNo:
+    xml_root_name: linBookerNo
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

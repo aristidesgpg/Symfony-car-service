@@ -1,0 +1,48 @@
+App\Soap\automate\src\Sublet:
+    xml_root_name: Sublet
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        pricing:
+            expose: true
+            access_type: public_method
+            serialized_name: Pricing
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPricing
+                setter: setPricing
+            xml_list:
+                inline: true
+                entry_name: Pricing
+                namespace: 'http://www.starstandard.org/STAR/5'
+            type: array<App\Soap\automate\src\Pricing>
+        subletCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SubletCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getSubletCode
+                setter: setSubletCode
+            type: App\Soap\automate\src\SubletCode
+        subletWorkDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: SubletWorkDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getSubletWorkDescription
+                setter: setSubletWorkDescription
+            type: string
+        providerName:
+            expose: true
+            access_type: public_method
+            serialized_name: ProviderName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getProviderName
+                setter: setProviderName
+            type: string

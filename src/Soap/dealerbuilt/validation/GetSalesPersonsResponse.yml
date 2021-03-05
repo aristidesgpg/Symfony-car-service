@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetSalesPersonsResponse:
+    properties:
+        getSalesPersonsResult:
+            -
+                Valid: null

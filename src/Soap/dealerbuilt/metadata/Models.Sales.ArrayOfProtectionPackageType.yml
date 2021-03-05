@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfProtectionPackageType:
+    properties:
+        protectionPackage:
+            expose: true
+            access_type: public_method
+            serialized_name: ProtectionPackage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getProtectionPackage
+                setter: setProtectionPackage
+            xml_list:
+                inline: true
+                entry_name: ProtectionPackage
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\ProtectionPackageType>

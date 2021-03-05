@@ -1,0 +1,112 @@
+App\Soap\dealerbuilt\src\Models\Appointments\ConcernType:
+    properties:
+        campaignDispositionCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CampaignDispositionCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getCampaignDispositionCode
+                setter: setCampaignDispositionCode
+            type: string
+        campaignNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CampaignNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getCampaignNumber
+                setter: setCampaignNumber
+            type: string
+        causeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: CauseDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getCauseDescription
+                setter: setCauseDescription
+            type: string
+        correction:
+            expose: true
+            access_type: public_method
+            serialized_name: Correction
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getCorrection
+                setter: setCorrection
+            type: string
+        customerStatement:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerStatement
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getCustomerStatement
+                setter: setCustomerStatement
+            type: string
+        departmentDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: DepartmentDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getDepartmentDescription
+                setter: setDepartmentDescription
+            type: string
+        departmentId:
+            expose: true
+            access_type: public_method
+            serialized_name: DepartmentId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getDepartmentId
+                setter: setDepartmentId
+            type: int
+        jobCode:
+            expose: true
+            access_type: public_method
+            serialized_name: JobCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getJobCode
+                setter: setJobCode
+            type: string
+        minutesEstimated:
+            expose: true
+            access_type: public_method
+            serialized_name: MinutesEstimated
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getMinutesEstimated
+                setter: setMinutesEstimated
+            type: int
+        payType:
+            expose: true
+            access_type: public_method
+            serialized_name: PayType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getPayType
+                setter: setPayType
+            type: string
+        seq:
+            expose: true
+            access_type: public_method
+            serialized_name: Seq
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments'
+            accessor:
+                getter: getSeq
+                setter: setSeq
+            type: int

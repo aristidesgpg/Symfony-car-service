@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushDeferredPartsResponse:
+    properties:
+        pushDeferredPartsResult:
+            -
+                Valid: null

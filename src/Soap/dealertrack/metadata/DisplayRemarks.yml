@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\DisplayRemarks:
+    xml_root_name: DisplayRemarks
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

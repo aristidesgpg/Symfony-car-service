@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Parts\ArrayOfPartsInvoiceLineType:
+    properties:
+        partsInvoiceLine:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsInvoiceLine
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getPartsInvoiceLine
+                setter: setPartsInvoiceLine
+            xml_list:
+                inline: true
+                entry_name: PartsInvoiceLine
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            type: array<App\Soap\dealerbuilt\src\Models\Parts\PartsInvoiceLineType>
