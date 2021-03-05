@@ -381,12 +381,12 @@ class RepairOrderHelper
 
     public function addFilters(
         $queryBuilder,
-        $startDate = null,
-        $endDate = null,
-        $sortField = 'dateCreated',
-        $sortDirection = 'DESC',
-        $searchTerm = null,
-        $fields = []
+        $startDate,
+        $endDate,
+        $sortField,
+        $sortDirection,
+        $searchTerm,
+        $fields
     ) {
         try {
             $qb = $queryBuilder;
@@ -401,8 +401,6 @@ class RepairOrderHelper
                         }
                     } else{
                         if ($name === 'dateClosedStart' || $name === 'dateClosedEnd'){
-                            // if( !$fields['open'] )
-                            {
                                 try {
                                     $value = new DateTime($value);
                                 } catch (Exception $e) {
@@ -413,24 +411,19 @@ class RepairOrderHelper
                                 else
                                     $qb->andWhere("ro.dateClosed <= :$name");
                                 $qb->setParameter($name, $value);
-                            }
-                            
                         }                        
                         else {
                             $qb->andWhere("ro.$name = :$name")
                                ->setParameter($name, $value);
                         }
-                        
-                        
                     }
-                     
                 }
             }
 
             if ($startDate && $endDate) {
                 try {
                     $startDate = new DateTime($startDate);
-                    $endDate = new DateTime($endDate);
+                    $endDate   = new DateTime($endDate);
 
                     $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate')
                        ->setParameter('startDate', $startDate)
@@ -442,14 +435,15 @@ class RepairOrderHelper
 
             if ($searchTerm) {
                 $query = '';
+
                 $qb->leftJoin('ro.primaryCustomer', 'ro_customer')
                    ->leftJoin('ro.primaryTechnician', 'ro_technician')
                    ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
 
                 $searchFields = [
-                    'ro' => ['number', 'year', 'model', 'miles', 'vin'],
-                    'ro_customer' => ['name', 'phone', 'email'],
-                    'ro_advisor' => ['combine_name', 'phone', 'email'],
+                    'ro'            => ['number', 'year', 'model', 'miles', 'vin'],
+                    'ro_customer'   => ['name', 'phone', 'email'],
+                    'ro_advisor'    => ['combine_name', 'phone', 'email'],
                     'ro_technician' => ['combine_name', 'phone', 'email'],
                 ];
 
@@ -472,7 +466,7 @@ class RepairOrderHelper
             if ($sortDirection) {
                 $qb->orderBy('ro.'.$sortField, $sortDirection);
 
-                $urlParameters['sortField'] = $sortField;
+                $urlParameters['sortField']     = $sortField;
                 $urlParameters['sortDirection'] = $sortDirection;
             } else {
                 $qb->orderBy('ro.dateCreated', 'DESC');
@@ -498,13 +492,13 @@ class RepairOrderHelper
      */
     public function getAllItems(
         $user,
-        $startDate = null,
-        $endDate = null,
-        $sortField = 'dateCreated',
+        $startDate     = null,
+        $endDate       = null,
+        $sortField     = 'dateCreated',
         $sortDirection = 'DESC',
-        $searchTerm = null,
-        $needsVideo = false,
-        $fields = []
+        $searchTerm    = null,
+        $needsVideo    = false,
+        $fields        = []
     ) {
         try {
             $qb = $this->repo->createQueryBuilder('ro');
@@ -516,16 +510,19 @@ class RepairOrderHelper
                         if ($user->getShareRepairOrders()) {
                             $qb->andWhere('ro.primaryAdvisor IN (:users)')
                                ->setParameter('users', $user);
+
                             $queryParameters['users'] = $this->userRepo->getSharedUsers();
                         } else {
                             $qb->andWhere('ro.primaryAdvisor = :user')
                                ->setParameter('user', $user);
+
                             $queryParameters['user'] = $user;
                         }
                     }                    
                 } elseif ($user->isTechnician()) {
                     $qb->andWhere('ro.primaryTechnician = :user  OR ro.primaryTechnician is NULL')
                        ->setParameter('user', $user);
+                       
                     $queryParameters['user'] = $user;
                 }
             } else{

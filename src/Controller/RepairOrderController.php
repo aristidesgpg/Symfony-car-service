@@ -144,27 +144,27 @@ class RepairOrderController extends AbstractFOSRestController
         EntityManagerInterface $em,
         RepairOrderHelper $helper
     ): Response {
-        $page = $request->query->getInt('page', 1);
-        $startDate = $request->query->get('startDate');
-        $endDate = $request->query->get('endDate');
-        $needsVideo = $request->get('needsVideo');
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $page          = $request->query->getInt('page', 1);
+        $startDate     = $request->query->get('startDate');
+        $endDate       = $request->query->get('endDate');
+        $needsVideo    = $request->get('needsVideo');
+        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
-        $errors = [];
-        $sortField = $sortDirection = $searchTerm = null;
-        $inputFields = ['open', 'waiter', 'internal'];
-        $fields = [];
+        $errors        = [];
+        $sortField     =$sortDirection = $searchTerm = null;
+        $inputFields   = ['open', 'waiter', 'internal'];
+        $fields        = [];
 
         foreach ($inputFields as $field) {
             if ($request->query->has($field)) {
-                $fields[$field] = $this->paramToBool($request->query->get($field));
+                $fields[$field]        = $this->paramToBool($request->query->get($field));
                 $urlParameters[$field] = $fields[$field];
             } else {
-                $fields[$field] = null;
+                $fields[$field]        = null;
             }
         }
         $fields['dateClosedStart'] = $request->query->get('dateClosedStart');
-        $fields['dateClosedEnd'] = $request->query->get('dateClosedEnd');
+        $fields['dateClosedEnd']   = $request->query->get('dateClosedEnd');
         
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -173,7 +173,7 @@ class RepairOrderController extends AbstractFOSRestController
         $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField = $request->query->get('sortField');
+            $sortField     = $request->query->get('sortField');
 
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
@@ -182,7 +182,7 @@ class RepairOrderController extends AbstractFOSRestController
 
             $sortDirection = $request->query->get('sortDirection');
             $urlParameters['sortDirection'] = $sortDirection;
-            $urlParameters['sortField'] = $sortField;
+            $urlParameters['sortField']     = $sortField;
         }
 
         if (!empty($errors)) {
@@ -215,17 +215,17 @@ class RepairOrderController extends AbstractFOSRestController
         if ($searchTerm) {
             $urlParameters['searchTerm'] = $searchTerm;
         }
-        $pager = $paginator->paginate($items, $page, $pageLimit);
+        $pager      = $paginator->paginate($items, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view(
             [
-                'results' => $pager->getItems(),
+                'results'      => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
-                'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
+                'totalPages'   => $pagination->totalPages,
+                'previous'     => $pagination->getPreviousPageURL('getRepairOrders', $urlParameters),
+                'currentPage'  => $pagination->currentPage,
+                'next'         => $pagination->getNextPageURL('getRepairOrders', $urlParameters),
             ]
         );
 
