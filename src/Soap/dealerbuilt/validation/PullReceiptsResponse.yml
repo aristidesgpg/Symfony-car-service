@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullReceiptsResponse:
+    properties:
+        pullReceiptsResult:
+            -
+                Valid: null

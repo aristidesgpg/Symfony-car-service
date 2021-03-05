@@ -1,0 +1,82 @@
+App\Soap\dealerbuilt\src\BaseApi\DealSearchCriteriaType:
+    properties:
+        exactVin:
+            expose: true
+            access_type: public_method
+            serialized_name: ExactVin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getExactVin
+                setter: setExactVin
+            type: string
+        includeUnstockedTrades:
+            expose: true
+            access_type: public_method
+            serialized_name: IncludeUnstockedTrades
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getIncludeUnstockedTrades
+                setter: setIncludeUnstockedTrades
+            type: bool
+        maxDateSold:
+            expose: true
+            access_type: public_method
+            serialized_name: MaxDateSold
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaxDateSold
+                setter: setMaxDateSold
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        maximumUpdateStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumUpdateStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumUpdateStamp
+                setter: setMaximumUpdateStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minDateSold:
+            expose: true
+            access_type: public_method
+            serialized_name: MinDateSold
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinDateSold
+                setter: setMinDateSold
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumUpdateStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumUpdateStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumUpdateStamp
+                setter: setMinimumUpdateStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        partialVin:
+            expose: true
+            access_type: public_method
+            serialized_name: PartialVin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPartialVin
+                setter: setPartialVin
+            type: string
+        stockNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: StockNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getStockNumber
+                setter: setStockNumber
+            type: string

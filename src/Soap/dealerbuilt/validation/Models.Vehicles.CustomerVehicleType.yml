@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\CustomerVehicleType:
+    properties:
+        attributes:
+            -
+                Valid: null
+        references:
+            -
+                Valid: null
+        stockAttributes:
+            -
+                Valid: null
+        vehicleId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules

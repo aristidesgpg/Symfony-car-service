@@ -1,0 +1,9 @@
+App\Soap\dealertrack\src\Fees:
+    properties:
+        repairOrderFee:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

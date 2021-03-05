@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfRebateType:
+    properties:
+        rebate:
+            -
+                Valid: null

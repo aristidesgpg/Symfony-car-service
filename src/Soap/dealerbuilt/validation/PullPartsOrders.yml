@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullPartsOrders:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\KitPart:
+    xml_root_name: KitPart
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

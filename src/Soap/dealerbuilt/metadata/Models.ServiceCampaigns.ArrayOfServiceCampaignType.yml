@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ArrayOfServiceCampaignType:
+    properties:
+        serviceCampaign:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceCampaign
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            accessor:
+                getter: getServiceCampaign
+                setter: setServiceCampaign
+            xml_list:
+                inline: true
+                entry_name: ServiceCampaign
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns'
+            type: array<App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ServiceCampaignType>

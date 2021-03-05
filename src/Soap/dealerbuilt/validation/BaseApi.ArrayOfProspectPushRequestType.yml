@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfProspectPushRequestType:
+    properties:
+        prospectPushRequest:
+            -
+                Valid: null

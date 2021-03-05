@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceReferencesType:
+    properties:
+        payments:
+            -
+                Valid: null
+        soldToCustomer:
+            -
+                Valid: null

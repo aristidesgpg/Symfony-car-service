@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType:
+    properties:
+        persons:
+            -
+                Valid: null

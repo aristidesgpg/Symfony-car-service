@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PushCustomerVehicleOwners:
+    xml_root_name: PushCustomerVehicleOwners
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        vehicleOwners:
+            expose: true
+            access_type: public_method
+            serialized_name: vehicleOwners
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getVehicleOwners
+                setter: setVehicleOwners
+            type: array<App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleOwnerPushRequestType>
+            xml_list:
+                inline: false
+                entry_name: CustomerVehicleOwnerPushRequest
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

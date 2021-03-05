@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetDeferredJobCodesResponse:
+    properties:
+        getDeferredJobCodesResult:
+            -
+                Valid: null

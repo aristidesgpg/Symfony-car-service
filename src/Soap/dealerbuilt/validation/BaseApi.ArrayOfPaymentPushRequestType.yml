@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPaymentPushRequestType:
+    properties:
+        paymentPushRequest:
+            -
+                Valid: null

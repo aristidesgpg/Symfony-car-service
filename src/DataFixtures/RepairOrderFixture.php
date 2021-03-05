@@ -11,16 +11,14 @@ use Exception;
 use Faker\Factory;
 
 /**
- * Class RepairOrderFixture
- *
- * @package App\DataFixtures
+ * Class RepairOrderFixture.
  */
 class RepairOrderFixture extends Fixture implements DependentFixtureInterface
 {
     /**
-     * @param ObjectManager $manager
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function load(ObjectManager $manager)
     {
@@ -49,11 +47,12 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
         ];
         $paymentOptions = [
             'Not Started',
+            'Created',
             'Sent',
             'Viewed',
             'Paid',
-            'Complete',
             'Confirmed',
+            'Refunded',
         ];
 
         // @TODO: Make this better w/ optional completions/values/cars/etc.
@@ -67,10 +66,10 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                     ->setPrimaryCustomer($this->getReference('customer_'.$customerReference))
                     ->setPrimaryTechnician($this->getReference('user_'.$userReference))
                     ->setPrimaryAdvisor($this->getReference('user_'.$advisorReference))
-                    ->setVideoStatus($videoOptions[$faker->numberBetween(0, 3)])
-                    ->setMPIStatus($mpiOptions[$faker->numberBetween(0, 3)])
-                    ->setPaymentStatus($paymentOptions[$faker->numberBetween(0, 5)])
-                    ->setQuoteStatus($quoteOptions[$faker->numberBetween(0, 7)])
+                    ->setVideoStatus('Not Started')
+                    ->setMPIStatus('Not Started')
+                    ->setPaymentStatus($faker->randomElement($paymentOptions))
+                    ->setQuoteStatus($faker->randomElement($quoteOptions))
                     ->setWaiter($faker->boolean(25))
                     ->setLinkHash(sha1('test'))
                     ->setDeleted($faker->boolean(2))
@@ -80,7 +79,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         // Now make 150 more
-        for ($i = 1; $i <= 150; $i++) {
+        for ($i = 1; $i <= 150; ++$i) {
             $repairOrder = new RepairOrder();
             $userReference = $faker->numberBetween(1, 50);
             $customerReference = $faker->numberBetween(1, 50);
@@ -125,13 +124,13 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                         ->setPrimaryCustomer($this->getReference('customer_'.$customerReference))
                         ->setPrimaryTechnician($this->getReference('user_'.$userReference))
                         ->setPrimaryAdvisor($this->getReference('user_'.$advisorReference))
-                        ->setVideoStatus($videoOptions[$faker->numberBetween(0, 3)])
-                        ->setMPIStatus($mpiOptions[$faker->numberBetween(0, 3)])
-                        ->setPaymentStatus($paymentOptions[$faker->numberBetween(0, 5)])
-                        ->setQuoteStatus($quoteOptions[$faker->numberBetween(0, 7)])
+                        ->setVideoStatus('Not Started')
+                        ->setMPIStatus('Not Started')
+                        ->setPaymentStatus($faker->randomElement($paymentOptions))
+                        ->setQuoteStatus($faker->randomElement($quoteOptions))
                         ->setWaiter($waiter)
                         ->setPickupDate($pickupDate)
-                        ->setLinkHash(sha1($faker->unique(true)->randomAscii))
+                        ->setLinkHash(sha1($faker->unique()->randomAscii.$i))
                         ->setDeleted($faker->boolean(2))
                         ->setArchived($faker->boolean(5))
                         ->setDateCreated($dateCreated)
@@ -141,7 +140,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                         ->setMake('Toyota')
                         ->setModel('Corolla')
                         ->setMiles($faker->numberBetween(1000, 250000))
-                        ->setVin(sha1($faker->unique(true)->randomAscii))
+                        ->setVin(sha1($faker->unique()->randomAscii.$i))
                         ->setStartValue($startValue)
                         ->setApprovedValue($approvedValue)
                         ->setFinalValue($finalValue);
@@ -155,7 +154,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
             $noteCount = $faker->numberBetween(0, 3);
 
             if ($noteCount > 0) {
-                for ($x = 1; $x <= $noteCount; $x++) {
+                for ($x = 1; $x <= $noteCount; ++$x) {
                     $dateCreated = $faker->dateTimeBetween($dateCreated, $dateClosed);
                     $note = new RepairOrderNote();
                     $note->setRepairOrder($repairOrder)
@@ -170,7 +169,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
     }
 
     /**
-     * @return string[]
+     * @return array<array-key, class-string>
      */
     public function getDependencies(): array
     {

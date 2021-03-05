@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfServicePayType:
+    properties:
+        servicePayType:
+            expose: true
+            access_type: public_method
+            serialized_name: ServicePayType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getServicePayType
+                setter: setServicePayType
+            xml_list:
+                inline: true
+                entry_name: ServicePayType
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            type: array<string>

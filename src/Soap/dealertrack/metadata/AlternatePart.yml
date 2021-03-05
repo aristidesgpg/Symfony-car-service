@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\AlternatePart:
+    xml_root_name: AlternatePart
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

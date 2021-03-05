@@ -1,0 +1,45 @@
+App\Soap\dealerbuilt\src\BaseApi\RepairOrderJobPushResponseType:
+    properties:
+        jobNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-32768'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '32767'
+                    groups:
+                        - xsd_rules
+        laborItemPushResponses:
+            -
+                Valid: null
+        partPushResponses:
+            -
+                Valid: null
+        result:
+            -
+                Choice:
+                    choices:
+                        - Unprocessed
+                        - Error
+                        - Created
+                        - Updated
+                        - Deleted
+                        - Processed
+                    groups:
+                        - xsd_rules
+        serviceLocationId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        technicianPushResponses:
+            -
+                Valid: null

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfCustomerVehicleType:
+    properties:
+        customerVehicle:
+            -
+                Valid: null

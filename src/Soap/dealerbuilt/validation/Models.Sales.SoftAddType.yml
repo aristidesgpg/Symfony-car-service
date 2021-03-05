@@ -1,0 +1,31 @@
+App\Soap\dealerbuilt\src\Models\Sales\SoftAddType:
+    properties:
+        cost:
+            -
+                Valid: null
+        department:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Sales
+                        - Finance
+                    groups:
+                        - xsd_rules
+        itemizationId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        price:
+            -
+                Valid: null
+        residual:
+            -
+                Valid: null

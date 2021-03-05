@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetPartsCounterEmployeesResponse:
+    properties:
+        getPartsCounterEmployeesResult:
+            -
+                Valid: null

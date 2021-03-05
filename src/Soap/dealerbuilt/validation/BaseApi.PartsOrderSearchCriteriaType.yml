@@ -1,0 +1,31 @@
+App\Soap\dealerbuilt\src\BaseApi\PartsOrderSearchCriteriaType:
+    properties:
+        openScope:
+            -
+                Choice:
+                    choices:
+                        - All
+                        - Open
+                        - Closed
+                    groups:
+                        - xsd_rules
+        orderTransmissionScope:
+            -
+                Choice:
+                    choices:
+                        - Transmitted
+                        - NotTransmitted
+                    groups:
+                        - xsd_rules
+        specialOrderScope:
+            -
+                Choice:
+                    choices:
+                        - All
+                        - SpecialOrders
+                        - StockOrders
+                    groups:
+                        - xsd_rules
+        vendorCodes:
+            -
+                Valid: null

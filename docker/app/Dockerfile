@@ -6,7 +6,9 @@ RUN apt-get update \
     && apt-get install -y vim nano git zlib1g-dev libzip-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev ffmpeg\
     && docker-php-ext-configure gd --with-freetype-dir=/usr --with-jpeg-dir=/usr --with-png-dir=/usr \
     && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install zip mysqli pdo_mysql \ 
+    && docker-php-ext-install zip mysqli pdo_mysql \
+    && apt-get install -y libxml2-dev \
+    && docker-php-ext-install soap \
     # && pecl install xdebug \
     # && docker-php-ext-enable xdebug \
     # && echo 'xdebug.remote_enable = on' >> /usr/local/etc/php/conf.d/xdebug.ini \

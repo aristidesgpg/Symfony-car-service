@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderReferencesType:
+    properties:
+        appointmentId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        payments:
+            -
+                Valid: null
+        rOCustomer:
+            -
+                Valid: null
+        rOVehicle:
+            -
+                Valid: null

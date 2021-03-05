@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Stock\ArrayOfCodeTypeDetailType:
+    properties:
+        codeTypeDetail:
+            -
+                Valid: null

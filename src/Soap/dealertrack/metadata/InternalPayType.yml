@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\InternalPayType:
+    xml_root_name: InternalPayType
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

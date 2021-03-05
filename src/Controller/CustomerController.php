@@ -42,14 +42,14 @@ class CustomerController extends AbstractFOSRestController
      *     description="Page Limit",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="sortField",
      *     type="string",
      *     description="The name of sort field",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="sortDirection",
      *     type="string",
@@ -57,18 +57,11 @@ class CustomerController extends AbstractFOSRestController
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
-     * 
-     * @SWG\Parameter(
-     *     name="searchField",
-     *     type="string",
-     *     description="The name of search field",
-     *     in="query"
-     * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search",
+     *     description="The value of search. The available fields are name, phone, and email",
      *     in="query"
      * )
      *
@@ -110,7 +103,6 @@ class CustomerController extends AbstractFOSRestController
         $errors = [];
         $sortField = '';
         $sortDirection = '';
-        $searchField = '';
         $searchTerm = '';
 
         // Invalid page
@@ -135,17 +127,10 @@ class CustomerController extends AbstractFOSRestController
             $urlParameters['sortField'] = $sortField;
         }
 
-        if ($request->query->has('searchField') && $request->query->has('searchTerm')) {
-            $searchField = $request->query->get('searchField');
-
-            //check if the searchfield exist
-            if (!in_array($searchField, $columns)) {
-                $errors['searchField'] = 'Invalid search field name';
-            }
+        if ($request->query->has('searchTerm')) {
 
             $searchTerm = $request->query->get('searchTerm');
 
-            $urlParameters['searchField'] = $searchField;
             $urlParameters['searchTerm'] = $searchTerm;
         }
 
@@ -158,7 +143,6 @@ class CustomerController extends AbstractFOSRestController
             null,
             $sortField,
             $sortDirection,
-            $searchField,
             $searchTerm
         );
 
@@ -174,7 +158,7 @@ class CustomerController extends AbstractFOSRestController
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
-            'customers' => $pager->getItems(),
+            'results' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
             'totalPages' => $pagination->totalPages,
             'previous' => $pagination->getPreviousPageURL('getCustomers', $urlParameters),
@@ -222,12 +206,23 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
+     *
+     * @param Request            $req
+     * @param CustomerHelper     $helper
+     * @param CustomerRepository $customerRepository
+     *
+     * @return Response
      */
-    public function addCustomer(Request $req, CustomerHelper $helper): Response
+    public function addCustomer(Request $req, CustomerHelper $helper, CustomerRepository $customerRepository): Response
     {
         $validation = $helper->validateParams($req->request->all(), true);
         if (!empty($validation)) {
             return new ValidationResponse($validation);
+        }
+
+        $customer = $customerRepository->findByPhone($req->get('phone'));
+        if ($customer) {
+            return new ValidationResponse(['phone' => 'Phone number already exist']);
         }
 
         $customer = new Customer();
@@ -259,15 +254,31 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
+     *
+     * @param Customer           $customer
+     * @param Request            $req
+     * @param CustomerHelper     $helper
+     * @param CustomerRepository $customerRepository
+     *
+     * @return Response
      */
-    public function updateCustomer(Customer $customer, Request $req, CustomerHelper $helper): Response
-    {
+    public function updateCustomer(
+        Customer $customer,
+        Request $req,
+        CustomerHelper $helper,
+        CustomerRepository $customerRepository
+    ): Response {
         if ($customer->isDeleted()) {
             throw new NotFoundHttpException();
         }
         $validation = $helper->validateParams($req->request->all());
         if (!empty($validation)) {
             return new ValidationResponse($validation);
+        }
+
+        $ct = $customerRepository->findByPhone($req->get('phone'));
+        if ($ct && ($ct->getId() !== $customer->getId())) {
+            return new ValidationResponse(['phone' => 'Phone number already exist']);
         }
 
         $helper->commitCustomer($customer, $req->request->all());
@@ -281,7 +292,12 @@ class CustomerController extends AbstractFOSRestController
     /**
      * @Rest\Delete("/{id}")
      *
-     * @SWG\Response(response="200", description="Success!")
+     * @SWG\Response(
+     *      response="200",
+     *      description="Return deleted customer",
+     *      @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
+     * )
+     *
      * @SWG\Response(response="404", description="Customer does not exist")
      */
     public function deleteCustomer(Customer $customer, CustomerHelper $helper): Response

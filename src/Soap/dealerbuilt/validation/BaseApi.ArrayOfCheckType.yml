@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfCheckType:
+    properties:
+        check:
+            -
+                Valid: null

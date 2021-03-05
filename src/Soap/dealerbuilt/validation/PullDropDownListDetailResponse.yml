@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullDropDownListDetailResponse:
+    properties:
+        pullDropDownListDetailResult:
+            -
+                Valid: null

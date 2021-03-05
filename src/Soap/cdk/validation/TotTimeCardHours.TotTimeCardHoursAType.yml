@@ -1,0 +1,9 @@
+App\Soap\cdk\src\TotTimeCardHours\TotTimeCardHoursAType:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

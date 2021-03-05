@@ -1,0 +1,57 @@
+App\Soap\dealerbuilt\src\Models\Appointments\AppointmentAttributesType:
+    properties:
+        appointmentNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        appointmentScenario:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - NeedRide
+                        - Waiter
+                        - Rental
+                        - EarlyBird
+                        - Valet
+                        - CadillacPremiumConceirge
+                        - Loaner
+                        - PremiumConceirge
+                    groups:
+                        - xsd_rules
+        concerns:
+            -
+                Valid: null
+        mileage:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        serviceAdvisor:
+            -
+                Valid: null
+        status:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - Confirmed
+                        - Cancelled
+                        - Postponed
+                        - UnconfirmedFuture
+                        - DealerDefined
+                    groups:
+                        - xsd_rules

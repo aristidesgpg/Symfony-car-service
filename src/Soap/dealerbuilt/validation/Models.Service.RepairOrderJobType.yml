@@ -1,0 +1,107 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType:
+    properties:
+        freightTotal:
+            -
+                Valid: null
+        hazmatTotal:
+            -
+                Valid: null
+        jobCost:
+            -
+                Valid: null
+        jobLaborRate:
+            -
+                Valid: null
+        jobNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-32768'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '32767'
+                    groups:
+                        - xsd_rules
+        jobTax:
+            -
+                Valid: null
+        jobTotal:
+            -
+                Valid: null
+        laborCost:
+            -
+                Valid: null
+        laborItems:
+            -
+                Valid: null
+        laborTotal:
+            -
+                Valid: null
+        menuPartsPrice:
+            -
+                Valid: null
+        miscFees:
+            -
+                Valid: null
+        parts:
+            -
+                Valid: null
+        partsCost:
+            -
+                Valid: null
+        partsTotal:
+            -
+                Valid: null
+        payType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - CustomerCounterTicket
+                        - Customer
+                        - Internal
+                        - ServiceContract
+                        - Warranty
+                    groups:
+                        - xsd_rules
+        rentalTotal:
+            -
+                Valid: null
+        rentalVehicles:
+            -
+                Valid: null
+        serviceComponents:
+            -
+                Valid: null
+        status:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Open
+                        - InProgress
+                        - PartsRequested
+                        - PartsOrdered
+                        - PartsBackOrdered
+                        - OutForTestDrive
+                        - WaitingInformation
+                        - WaitingApproval
+                        - Completed
+                        - Declined
+                        - Preassigned
+                        - Working
+                        - ColdStart
+                        - Hold
+                        - PartsReceived
+                    groups:
+                        - xsd_rules
+        subletCost:
+            -
+                Valid: null
+        subletTotal:
+            -
+                Valid: null
+        techs:
+            -
+                Valid: null

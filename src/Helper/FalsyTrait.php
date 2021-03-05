@@ -2,13 +2,13 @@
 
 namespace App\Helper;
 
-trait FalsyTrait {
+trait FalsyTrait
+{
     /**
      * @param $param
-     *
-     * @return bool
      */
-    private function paramToBool ($param): bool {
-        return ($param !== 'false' && $param == true);
+    private function paramToBool($param): bool
+    {
+        return 'false' !== $param && true == $param;
     }
 }

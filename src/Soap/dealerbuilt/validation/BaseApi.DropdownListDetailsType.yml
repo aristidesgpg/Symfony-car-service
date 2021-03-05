@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType:
+    properties:
+        dropdownListDetailsResponse:
+            -
+                Valid: null

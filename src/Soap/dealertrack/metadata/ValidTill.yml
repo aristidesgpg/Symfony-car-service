@@ -1,0 +1,12 @@
+App\Soap\dealertrack\src\ValidTill:
+    xml_root_name: ValidTill
+    xml_root_namespace: opentrack.dealertrack.com
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: string

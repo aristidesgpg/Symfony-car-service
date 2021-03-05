@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfEstimatePushRequestType:
+    properties:
+        estimatePushRequest:
+            -
+                Valid: null
