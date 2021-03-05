@@ -147,6 +147,7 @@ class RepairOrderController extends AbstractFOSRestController
         $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
+        $needsVideo = $request->get('needsVideo');
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
         $errors = [];
@@ -193,30 +194,22 @@ class RepairOrderController extends AbstractFOSRestController
         }
 
         $user = $this->getUser();
-
-        if ($request->get('needsVideo')) {
+ 
+        if ($needsVideo) {
             $urlParameters['needsVideo'] = true;
-            $items = $helper->findByNeedsVideo(
-                $user,
-                $startDate,
-                $endDate,
-                $sortField,
-                $sortDirection,
-                $searchTerm,
-                $fields
-            );
-        } else {
-            $items = $helper->getAllItems(
-                $user,
-                $startDate,
-                $endDate,
-                $sortField,
-                $sortDirection,
-                $searchTerm,
-                $fields
-            );
         }
 
+        $items = $helper->getAllItems(
+            $user,
+            $startDate,
+            $endDate,
+            $sortField,
+            $sortDirection,
+            $searchTerm,
+            $needsVideo,
+            $fields
+        );
+    
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($searchTerm) {

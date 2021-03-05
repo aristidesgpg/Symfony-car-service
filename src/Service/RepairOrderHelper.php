@@ -503,6 +503,7 @@ class RepairOrderHelper
         $sortField = 'dateCreated',
         $sortDirection = 'DESC',
         $searchTerm = null,
+        $needsVideo,
         $fields = []
     ) {
         try {
@@ -511,16 +512,18 @@ class RepairOrderHelper
 
             if ($user instanceof User) {
                 if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
-                    if ($user->getShareRepairOrders()) {
-                        $qb->andWhere('ro.primaryAdvisor IN (:users)')
-                           ->setParameter('users', $user);
-                        $queryParameters['users'] = $this->userRepo->getSharedUsers();
-                    } else {
-                        $qb->andWhere('ro.primaryAdvisor = :user')
-                           ->setParameter('user', $user);
-                        $queryParameters['user'] = $user;
-                    }
-                } elseif (in_array('ROLE_TECHNICIAN', $user->getRoles())) {
+                    if(!$needsVideo){
+                        if ($user->getShareRepairOrders()) {
+                            $qb->andWhere('ro.primaryAdvisor IN (:users)')
+                               ->setParameter('users', $user);
+                            $queryParameters['users'] = $this->userRepo->getSharedUsers();
+                        } else {
+                            $qb->andWhere('ro.primaryAdvisor = :user')
+                               ->setParameter('user', $user);
+                            $queryParameters['user'] = $user;
+                        }
+                    }                    
+                } elseif ($user->isTechnician()) {
                     $qb->andWhere('ro.primaryTechnician = :user  OR ro.primaryTechnician is NULL')
                        ->setParameter('user', $user);
                     $queryParameters['user'] = $user;
@@ -529,59 +532,9 @@ class RepairOrderHelper
                 throw new BadRequestHttpException("Invalid User");
             }
             
-            $qb = $this->addFilters(
-                $qb,
-                $startDate,
-                $endDate,
-                $sortField,
-                $sortDirection,
-                $searchTerm,
-                $fields
-            );
-
-            return $qb->getQuery()->getResult();
-        } catch (NonUniqueResultException $e) {
-            return null;
-        }
-    }
-
-    /**
-     * @param string   $start
-     * @param User     $user
-     * @param string   $end
-     * @param string   $sortField
-     * @param string   $sortDirection
-     * @param string   $searchTerm
-     * @param array    $fields
-     * @return Query|null
-     * @throws Exception
-     */
-    public function findByNeedsVideo(
-        $user,
-        $startDate = null,
-        $endDate = null,
-        $sortField = 'dateCreated',
-        $sortDirection = 'DESC',
-        $searchTerm = null,
-        $fields = []
-    )
-    {
-        try{
-            $qb = $this->repo->createQueryBuilder('ro');
-            
-            // If tech, only get theirs or others where tech is null
-            if(!$user instanceof User){
-                throw new BadRequestHttpException("Invalid User");
+            if(filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)){
+                $qb->andWhere('ro.dateClosed IS NULL');
             }
-
-            if ($user->isTechnician()) {
-                $qb->andWhere('ro.primaryTechnician IS NULL OR ro.primaryTechnician = :primaryTechnician')
-                            ->setParameter('primaryTechnician', $user);
-            }
-
-            // Only non-deleted, non-closed repair orders matter
-            $qb->andWhere('ro.deleted = 0')
-               ->andWhere('ro.dateClosed IS NULL');
 
             $qb = $this->addFilters(
                 $qb,
