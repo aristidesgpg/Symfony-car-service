@@ -97,9 +97,9 @@ class RepairOrderHelper
      */
     private function handleCustomer(array $params)
     {
-        $customer = $this->customers->findByPhone($params['customerPhone']);
+        $customer   = $this->customers->findByPhone($params['customerPhone']);
         $translated = $this->translateCustomerParams($params);
-        $errors = $this->customerHelper->validateParams($translated);
+        $errors     = $this->customerHelper->validateParams($translated);
         if (!empty($errors)) {
             return $this->translateCustomerParams($errors, true);
         }
