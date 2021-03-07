@@ -82,7 +82,7 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="needsVideo",
      *     type="boolean",
-     *     description="Only return ROs that do not have a video. NOTE: Will ignore all other filters",
+     *     description="Only return ROs that do not have a video.",
      *     in="query"
      * )
      * @SWG\Parameter(
