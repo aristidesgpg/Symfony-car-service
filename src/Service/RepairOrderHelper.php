@@ -98,18 +98,13 @@ class RepairOrderHelper
     private function handleCustomer(array $params)
     {
         $customer = $this->customers->findByPhone($params['customerPhone']);
-        if (null !== $customer) {
-            $customer->setName($params['customerName']);
-            $this->customerHelper->commitCustomer($customer);
-
-            return $customer;
-        }
         $translated = $this->translateCustomerParams($params);
         $errors = $this->customerHelper->validateParams($translated);
         if (!empty($errors)) {
             return $this->translateCustomerParams($errors, true);
         }
-        $customer = new Customer();
+        if(!$customer)
+            $customer = new Customer();
         $this->customerHelper->commitCustomer($customer, $translated);
 
         return $customer;
@@ -120,6 +115,7 @@ class RepairOrderHelper
         $map = [
             'customerName' => 'name',
             'customerPhone' => 'phone',
+            'customerEmail' => 'email',
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
