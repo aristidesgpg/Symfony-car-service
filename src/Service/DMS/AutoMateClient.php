@@ -65,7 +65,7 @@ class AutoMateClient extends AbstractDMSClient
      */
     public function init(): void
     {
-        $this->buildSerializer('../src/Soap/automate/metadata', 'App\Soap\automate\src');
+        $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/automate/metadata', 'App\Soap\automate\src');
         $this->initializeSoapClient($this->getWsdl());
 
         //Class specific init.

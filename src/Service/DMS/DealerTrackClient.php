@@ -59,7 +59,7 @@ class DealerTrackClient extends AbstractDMSClient
     /**
      * @var string
      */
-    private $partsWsdl = '../src/Soap/dealertrack/dealertrack_parts.wsdl';
+    private $partsWsdl;
 
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
@@ -79,8 +79,9 @@ class DealerTrackClient extends AbstractDMSClient
 
     public function init(): void
     {
-        $this->buildSerializer('../src/Soap/dealertrack/metadata', 'App\Soap\dealertrack\src');
+        $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealertrack/metadata', 'App\Soap\dealertrack\src');
         $this->initializeSoapClient($this->getWsdl());
+        $this->setPartsWsdl($this->getParameterBag()->get('soap_directory').'/dealertrack/dealertrack_parts.wsdl');
     }
 
     public function getOpenRepairOrders(): array
@@ -266,6 +267,7 @@ class DealerTrackClient extends AbstractDMSClient
         $parts = [];
 
         if ($this->getSoapClient()) {
+
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
             $request = [
@@ -280,6 +282,7 @@ class DealerTrackClient extends AbstractDMSClient
             ];
 
             $soapResult = $this->sendSoapCall('PartsInventory', [$request], true);
+
             if (!$soapResult) {
                 return $parts;
             }
