@@ -242,16 +242,31 @@ class DealerTrackClient extends AbstractDMSClient
 
     public function getParts(): array
     {
+        $parts = [];
+        $partStatuses = [
+            'A', //Active
+            'C', //Core
+            'P', //Phase Out
+            'N', //Non Stock
+            'R', //Replaced
+            'O', //Obsolete
+        ];
+
         $this->initializeSoapClient($this->getPartsWsdl());
+
+        foreach ($partStatuses as $status) {
+            $parts = array_merge($parts, $this->getPartsByStatus($status));
+        }
+
+        return $parts;
+    }
+
+    public function getPartsByStatus(string $status): array
+    {
         $parts = [];
 
         if ($this->getSoapClient()) {
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
-
-            $monthAgo = (new \DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
-            $monthAhead = (new \DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
-            $sixYearAgo = (new \DateTime())->modify('-6 year')->format('Y-m-d\TH:i:s\Z');
-            $oneYearAgo = (new \DateTime())->modify('-1 year')->format('Y-m-d\TH:i:s\Z');
 
             $request = [
                 'Dealer' => [
@@ -260,8 +275,7 @@ class DealerTrackClient extends AbstractDMSClient
                     'ServerName' => $this->getServer(),
                 ],
                 'InventoryParms' => [
-                    'DateInInventoryStart' => $oneYearAgo,
-                    'DateInInventoryEnd' => $monthAhead,
+                    'Status' => $status,
                 ],
             ];
 
@@ -287,6 +301,7 @@ class DealerTrackClient extends AbstractDMSClient
                 $parts[] = $part;
             }
         }
+
         return $parts;
     }
 
