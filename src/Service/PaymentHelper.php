@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
 use Money\Money;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Throwable;
 use Twilio\Exceptions\TwilioException;
@@ -185,13 +184,7 @@ class PaymentHelper
             $overflow = $totalRefunded->greaterThan($payment->getAmount());
         }
         if (true === $overflow) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Refund amount "%s" exceeds total amount "%s"',
-                    MoneyHelper::getFormatter()->format($amount),
-                    MoneyHelper::getFormatter()->format($payment->getAmount())
-                )
-            );
+            throw new InvalidArgumentException(sprintf('Refund amount "%s" exceeds total amount "%s"', MoneyHelper::getFormatter()->format($amount), MoneyHelper::getFormatter()->format($payment->getAmount())));
         }
 
         $this->nmi->makeRefund($transactionId, MoneyHelper::getFormatter()->format($amount));
@@ -283,33 +276,42 @@ class PaymentHelper
         $this->updateRepairOrderStatus($payment);
     }
 
-    /**
-     * @param RepairOrderPayment $payment
-     */
     public function updateRepairOrderStatus(RepairOrderPayment $payment)
     {
         $repairOrder = $payment->getRepairOrder();
         $rops = $repairOrder->getPayments();
         $currentPaymentRank = array_search($payment->getStatus(), $this->getValidStatusesInOrder());
 
+        //If it doesn't have a rank, then it's a deleted payment or invalid, so set the currentPaymentRank higher than all ranks.
+        if (!$currentPaymentRank) {
+            $currentPaymentRank = 10000;
+        }
+
         foreach ($rops as $rop) {
-            if($rop->isDeleted()){
+            if ($rop->isDeleted()) {
                 continue;
             }
 
             if (!$rop->getStatus()) {
                 continue;
             }
+
             if ($rop->getId() == $payment->getId()) {
                 continue;
             }
+
             $ropStatusRank = array_search($rop->getStatus(), $this->getValidStatusesInOrder());
             if ($ropStatusRank < $currentPaymentRank) {
                 $currentPaymentRank = $ropStatusRank;
             }
         }
 
-        $repairOrder->setPaymentStatus($this->getValidStatusesInOrder()[$currentPaymentRank]);
+        if (10000 == $currentPaymentRank) {
+            $repairOrder->setPaymentStatus('Not Started');
+        } else {
+            $repairOrder->setPaymentStatus($this->getValidStatusesInOrder()[$currentPaymentRank]);
+        }
+
         $this->em->persist($repairOrder);
 
         $this->em->beginTransaction();
