@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\OEMReplacementFlag:
+    xml_root_name: OEMReplacementFlag
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

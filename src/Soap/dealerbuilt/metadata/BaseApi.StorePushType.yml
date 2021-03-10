@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\StorePushType:
+    properties:
+        storeId:
+            expose: true
+            access_type: public_method
+            serialized_name: StoreId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getStoreId
+                setter: setStoreId
+            type: int
+        operationCode:
+            expose: true
+            access_type: public_method
+            serialized_name: OperationCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getOperationCode
+                setter: setOperationCode
+            type: bool
+        isWarrantyPayment:
+            expose: true
+            access_type: public_method
+            serialized_name: IsWarrantyPayment
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getIsWarrantyPayment
+                setter: setIsWarrantyPayment
+            type: bool
+        element:
+            expose: true
+            access_type: public_method
+            serialized_name: Element
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getElement
+                setter: setElement
+            type: App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionPushRequestType

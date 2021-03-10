@@ -1,0 +1,4 @@
+App\Soap\cdk\src\LbrComebackRO:
+    xml_root_name: lbrComebackRO
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

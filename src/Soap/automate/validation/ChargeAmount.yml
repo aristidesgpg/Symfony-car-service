@@ -1,0 +1,12 @@
+App\Soap\automate\src\ChargeAmount:
+    properties:
+        currencyID:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

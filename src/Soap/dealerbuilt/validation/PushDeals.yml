@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushDeals:
+    properties:
+        deals:
+            -
+                Valid: null

@@ -1,0 +1,3 @@
+App\Soap\dealerbuilt\src\Models\Service\PotentialJobAttributes:
+    xml_root_name: PotentialJobAttributes
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'

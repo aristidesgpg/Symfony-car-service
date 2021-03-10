@@ -1,0 +1,30 @@
+App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestV2Type:
+    properties:
+        attributes:
+            -
+                Valid: null
+        stockAttributes:
+            -
+                Valid: null
+        storeId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        uniqueId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules

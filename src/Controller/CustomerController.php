@@ -206,12 +206,23 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
+     *
+     * @param Request            $req
+     * @param CustomerHelper     $helper
+     * @param CustomerRepository $customerRepository
+     *
+     * @return Response
      */
-    public function addCustomer(Request $req, CustomerHelper $helper): Response
+    public function addCustomer(Request $req, CustomerHelper $helper, CustomerRepository $customerRepository): Response
     {
         $validation = $helper->validateParams($req->request->all(), true);
         if (!empty($validation)) {
             return new ValidationResponse($validation);
+        }
+
+        $customer = $customerRepository->findByPhone($req->get('phone'));
+        if ($customer) {
+            return new ValidationResponse(['phone' => 'Phone number already exist']);
         }
 
         $customer = new Customer();
@@ -243,15 +254,31 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
+     *
+     * @param Customer           $customer
+     * @param Request            $req
+     * @param CustomerHelper     $helper
+     * @param CustomerRepository $customerRepository
+     *
+     * @return Response
      */
-    public function updateCustomer(Customer $customer, Request $req, CustomerHelper $helper): Response
-    {
+    public function updateCustomer(
+        Customer $customer,
+        Request $req,
+        CustomerHelper $helper,
+        CustomerRepository $customerRepository
+    ): Response {
         if ($customer->isDeleted()) {
             throw new NotFoundHttpException();
         }
         $validation = $helper->validateParams($req->request->all());
         if (!empty($validation)) {
             return new ValidationResponse($validation);
+        }
+
+        $ct = $customerRepository->findByPhone($req->get('phone'));
+        if ($ct && ($ct->getId() !== $customer->getId())) {
+            return new ValidationResponse(['phone' => 'Phone number already exist']);
         }
 
         $helper->commitCustomer($customer, $req->request->all());
@@ -265,7 +292,12 @@ class CustomerController extends AbstractFOSRestController
     /**
      * @Rest\Delete("/{id}")
      *
-     * @SWG\Response(response="200", description="Success!")
+     * @SWG\Response(
+     *      response="200",
+     *      description="Return deleted customer",
+     *      @SWG\Schema(type="object", ref=@Model(type=Customer::class, groups=Customer::GROUPS))
+     * )
+     *
      * @SWG\Response(response="404", description="Customer does not exist")
      */
     public function deleteCustomer(Customer $customer, CustomerHelper $helper): Response

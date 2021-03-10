@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfGlLineType:
+    properties:
+        glLine:
+            -
+                Valid: null

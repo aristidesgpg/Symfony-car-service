@@ -1,0 +1,4 @@
+App\Soap\cdk\src\LbrOpCodeDesc:
+    xml_root_name: lbrOpCodeDesc
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

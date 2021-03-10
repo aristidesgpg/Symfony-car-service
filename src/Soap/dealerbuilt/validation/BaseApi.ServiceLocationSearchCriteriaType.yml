@@ -1,0 +1,17 @@
+App\Soap\dealerbuilt\src\BaseApi\ServiceLocationSearchCriteriaType:
+    properties:
+        serviceLocationId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

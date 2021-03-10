@@ -1,0 +1,9 @@
+App\Soap\cdk\src\TotShopChargeCost\TotShopChargeCostAType:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

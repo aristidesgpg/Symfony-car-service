@@ -1,0 +1,21 @@
+App\Soap\automate\src\Sublet:
+    properties:
+        pricing:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        subletCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        providerName:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

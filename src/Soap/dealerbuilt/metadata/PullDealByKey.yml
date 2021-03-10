@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\PullDealByKey:
+    xml_root_name: PullDealByKey
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        dealKey:
+            expose: true
+            access_type: public_method
+            serialized_name: dealKey
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getDealKey
+                setter: setDealKey
+            type: string

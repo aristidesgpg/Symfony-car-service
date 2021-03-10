@@ -1,0 +1,34 @@
+App\Soap\automate\src\SpecifiedOrganization:
+    xml_root_name: SpecifiedOrganization
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        companyName:
+            expose: true
+            access_type: public_method
+            serialized_name: CompanyName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getCompanyName
+                setter: setCompanyName
+            type: string
+        primaryContact:
+            expose: true
+            access_type: public_method
+            serialized_name: PrimaryContact
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPrimaryContact
+                setter: setPrimaryContact
+            type: App\Soap\automate\src\PrimaryContact
+        postalAddress:
+            expose: true
+            access_type: public_method
+            serialized_name: PostalAddress
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPostalAddress
+                setter: setPostalAddress
+            type: App\Soap\automate\src\PostalAddress

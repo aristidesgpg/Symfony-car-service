@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerSummaryType:
+    properties:
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        modifiedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getModifiedStamp
+                setter: setModifiedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime

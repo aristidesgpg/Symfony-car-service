@@ -1,0 +1,3 @@
+App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacement:
+    xml_root_name: ServiceLocationPlacement
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

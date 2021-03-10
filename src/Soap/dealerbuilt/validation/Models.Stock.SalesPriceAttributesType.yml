@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\Models\Stock\SalesPriceAttributesType:
+    properties:
+        advertisedSalePrice:
+            -
+                Valid: null
+        stockDataAttributes:
+            -
+                Valid: null

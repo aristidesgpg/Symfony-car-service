@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetTechnicians:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

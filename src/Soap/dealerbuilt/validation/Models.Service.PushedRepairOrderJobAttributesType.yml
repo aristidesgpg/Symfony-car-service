@@ -1,0 +1,37 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType:
+    properties:
+        jobNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-32768'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '32767'
+                    groups:
+                        - xsd_rules
+        laborItems:
+            -
+                Valid: null
+        menuPartsPrice:
+            -
+                Valid: null
+        parts:
+            -
+                Valid: null
+        payType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - CustomerCounterTicket
+                        - Customer
+                        - Internal
+                        - ServiceContract
+                        - Warranty
+                    groups:
+                        - xsd_rules
+        techs:
+            -
+                Valid: null

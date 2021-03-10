@@ -1,0 +1,24 @@
+App\Soap\dealerbuilt\src\Models\IdentityProfileType:
+    properties:
+        personalName:
+            -
+                Valid: null
+        phoneNumbers:
+            -
+                Valid: null
+        sex:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Male
+                        - Female
+                        - Private
+                    groups:
+                        - xsd_rules
+        spouseName:
+            -
+                Valid: null
+        spousePhoneNumbers:
+            -
+                Valid: null

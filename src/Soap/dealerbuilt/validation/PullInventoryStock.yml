@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullInventoryStock:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

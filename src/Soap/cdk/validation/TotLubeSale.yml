@@ -1,0 +1,9 @@
+App\Soap\cdk\src\TotLubeSale:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

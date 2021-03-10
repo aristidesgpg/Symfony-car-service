@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullDealsResponse:
+    properties:
+        pullDealsResult:
+            -
+                Valid: null

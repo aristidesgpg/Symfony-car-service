@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PushSalesPriceResponse:
+    xml_root_name: PushSalesPriceResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pushSalesPriceResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PushSalesPriceResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPushSalesPriceResult
+                setter: setPushSalesPriceResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\StockItemPushResponseType>
+            xml_list:
+                inline: false
+                entry_name: StockItemPushResponse
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

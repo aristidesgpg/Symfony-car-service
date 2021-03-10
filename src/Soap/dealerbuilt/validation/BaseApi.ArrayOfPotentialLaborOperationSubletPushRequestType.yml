@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPotentialLaborOperationSubletPushRequestType:
+    properties:
+        potentialLaborOperationSubletPushRequest:
+            -
+                Valid: null

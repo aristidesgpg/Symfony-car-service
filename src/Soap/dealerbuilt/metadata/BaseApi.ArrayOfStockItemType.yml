@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfStockItemType:
+    properties:
+        stockItem:
+            expose: true
+            access_type: public_method
+            serialized_name: StockItem
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getStockItem
+                setter: setStockItem
+            xml_list:
+                inline: true
+                entry_name: StockItem
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\StockItemType>

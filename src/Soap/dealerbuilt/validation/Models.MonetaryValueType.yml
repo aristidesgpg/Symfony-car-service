@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\Models\MonetaryValueType:
+    properties:
+        currency:
+            -
+                Choice:
+                    choices:
+                        - UsDollar
+                        - Euro
+                        - EnglishPound
+                        - CanadianDollar
+                    groups:
+                        - xsd_rules

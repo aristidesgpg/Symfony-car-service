@@ -1,0 +1,4 @@
+App\Soap\cdk\src\LotLocation:
+    xml_root_name: LotLocation
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

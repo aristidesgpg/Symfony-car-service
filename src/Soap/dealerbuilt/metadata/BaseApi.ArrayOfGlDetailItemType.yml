@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfGlDetailItemType:
+    properties:
+        glDetailItem:
+            expose: true
+            access_type: public_method
+            serialized_name: GlDetailItem
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getGlDetailItem
+                setter: setGlDetailItem
+            xml_list:
+                inline: true
+                entry_name: GlDetailItem
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\GlDetailItemType>

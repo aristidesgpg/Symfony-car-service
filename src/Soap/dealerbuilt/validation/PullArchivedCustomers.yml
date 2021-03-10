@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullArchivedCustomers:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

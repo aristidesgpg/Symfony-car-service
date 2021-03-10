@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\Comments:
+    xml_root_name: Comments
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

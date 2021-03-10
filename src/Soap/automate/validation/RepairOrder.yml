@@ -1,0 +1,16 @@
+App\Soap\automate\src\RepairOrder:
+    properties:
+        repairOrderHeader:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        job:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

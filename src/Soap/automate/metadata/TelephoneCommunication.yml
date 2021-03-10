@@ -1,0 +1,58 @@
+App\Soap\automate\src\TelephoneCommunication:
+    xml_root_name: TelephoneCommunication
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        channelCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ChannelCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getChannelCode
+                setter: setChannelCode
+            type: string
+        completeNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CompleteNumber
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getCompleteNumber
+                setter: setCompleteNumber
+            type: int
+        extensionNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ExtensionNumber
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getExtensionNumber
+                setter: setExtensionNumber
+            type: string
+        useCode:
+            expose: true
+            access_type: public_method
+            serialized_name: UseCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getUseCode
+                setter: setUseCode
+            type: string
+        privacy:
+            expose: true
+            access_type: public_method
+            serialized_name: Privacy
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPrivacy
+                setter: setPrivacy
+            xml_list:
+                inline: true
+                entry_name: Privacy
+                namespace: 'http://www.starstandard.org/STAR/5'
+            type: array<App\Soap\automate\src\Privacy>

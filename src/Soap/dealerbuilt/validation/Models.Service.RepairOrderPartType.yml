@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderPartType:
+    properties:
+        attributes:
+            -
+                Valid: null
+        backOrderQty:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        cost:
+            -
+                Valid: null
+        laborItemLineNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        partFreight:
+            -
+                Valid: null
+        price:
+            -
+                Valid: null
+        serialNumbers:
+            -
+                Valid: null
+        taxAmount:
+            -
+                Valid: null

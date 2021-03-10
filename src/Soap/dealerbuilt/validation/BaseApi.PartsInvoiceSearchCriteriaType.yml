@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\PartsInvoiceSearchCriteriaType:
+    properties:
+        closedScope:
+            -
+                Choice:
+                    choices:
+                        - All
+                        - Open
+                        - Closed
+                    groups:
+                        - xsd_rules
+        deliveredScope:
+            -
+                Choice:
+                    choices:
+                        - All
+                        - Delivered
+                        - NotDelivered
+                    groups:
+                        - xsd_rules
+        deliveryScope:
+            -
+                Choice:
+                    choices:
+                        - All
+                        - Deliveries
+                        - NonDeliveries
+                    groups:
+                        - xsd_rules
+        partsInvoiceNumbers:
+            -
+                Valid: null

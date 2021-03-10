@@ -1,0 +1,4 @@
+App\Soap\cdk\src\WarFailedPartNo:
+    xml_root_name: warFailedPartNo
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

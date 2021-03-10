@@ -1,0 +1,25 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType:
+    properties:
+        cost:
+            -
+                Valid: null
+        laborOperationNumber:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        price:
+            -
+                Valid: null
+        serialNumbers:
+            -
+                Valid: null
+        taxAmount:
+            -
+                Valid: null

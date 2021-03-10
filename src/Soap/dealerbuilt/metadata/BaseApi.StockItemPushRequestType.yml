@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\BaseApi\StockItemPushRequestType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Vehicles\VehicleAttributesType
+        externalVehicleId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalVehicleId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getExternalVehicleId
+                setter: setExternalVehicleId
+            type: string
+        inventoryKey:
+            expose: true
+            access_type: public_method
+            serialized_name: InventoryKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getInventoryKey
+                setter: setInventoryKey
+            type: string
+        stockAttributes:
+            expose: true
+            access_type: public_method
+            serialized_name: StockAttributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getStockAttributes
+                setter: setStockAttributes
+            type: App\Soap\dealerbuilt\src\Models\Stock\StockItemAttributesType
+        stockNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: StockNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getStockNumber
+                setter: setStockNumber
+            type: string
+        storeId:
+            expose: true
+            access_type: public_method
+            serialized_name: StoreId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getStoreId
+                setter: setStoreId
+            type: int
+        uniqueId:
+            expose: true
+            access_type: public_method
+            serialized_name: UniqueId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getUniqueId
+                setter: setUniqueId
+            type: int

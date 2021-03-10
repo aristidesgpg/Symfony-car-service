@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\AuthorizeCounterPersonID:
+    xml_root_name: AuthorizeCounterPersonID
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

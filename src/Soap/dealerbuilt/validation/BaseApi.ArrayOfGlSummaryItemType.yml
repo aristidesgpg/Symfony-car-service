@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfGlSummaryItemType:
+    properties:
+        glSummaryItem:
+            -
+                Valid: null

@@ -1,0 +1,4 @@
+App\Soap\cdk\src\ApptDate:
+    xml_root_name: ApptDate
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

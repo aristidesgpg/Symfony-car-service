@@ -1,0 +1,4 @@
+App\Soap\cdk\src\HrsTechNo:
+    xml_root_name: hrsTechNo
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

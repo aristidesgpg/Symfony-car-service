@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Service\EstimateAttributesType:
+    properties:
+        serviceAdvisor:
+            -
+                Valid: null

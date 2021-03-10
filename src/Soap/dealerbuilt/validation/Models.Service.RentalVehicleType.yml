@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType:
+    properties:
+        dailyRate:
+            -
+                Valid: null
+        totalAmountCharged:
+            -
+                Valid: null

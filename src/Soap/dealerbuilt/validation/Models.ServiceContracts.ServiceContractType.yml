@@ -1,0 +1,114 @@
+App\Soap\dealerbuilt\src\Models\ServiceContracts\ServiceContractType:
+    properties:
+        companyIdentity:
+            -
+                Valid: null
+        contractRemaining:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        contractStatusType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Active
+                        - Inactive
+                        - Cancel
+                    groups:
+                        - xsd_rules
+        contractTermMileage:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        contractTermMonths:
+            -
+                GreaterThanOrEqual:
+                    value: '-32768'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '32767'
+                    groups:
+                        - xsd_rules
+        customerSalePrice:
+            -
+                Valid: null
+        dealerCost:
+            -
+                Valid: null
+        deductible:
+            -
+                Valid: null
+        department:
+            -
+                Choice:
+                    choices:
+                        - Other
+                        - Sales
+                        - Finance
+                    groups:
+                        - xsd_rules
+        inServiceMiles:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        itemType:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - SvcCont
+                        - GAPDCA
+                    groups:
+                        - xsd_rules
+        ownerIdentity:
+            -
+                Valid: null
+        serviceContractId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        totalContractAmount:
+            -
+                Valid: null
+        type:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - Vsc
+                        - Cuc
+                        - Tac
+                        - Vsa
+                    groups:
+                        - xsd_rules

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullInventoryByVinResponse:
+    properties:
+        pullInventoryByVinResult:
+            -
+                Valid: null
