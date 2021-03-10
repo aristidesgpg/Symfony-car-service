@@ -1,0 +1,28 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerPartType:
+    properties:
+        customerCost:
+            -
+                Valid: null
+        customerListPrice:
+            -
+                Valid: null
+        customerNetPrice:
+            -
+                Valid: null
+        customerSalePrice:
+            -
+                Valid: null
+        customerSell:
+            -
+                Valid: null
+        discountLocationId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules

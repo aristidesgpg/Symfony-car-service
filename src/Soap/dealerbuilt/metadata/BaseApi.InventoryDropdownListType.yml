@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\BaseApi\InventoryDropdownListType:
+    properties:
+        inventoryDropdownListResponse:
+            expose: true
+            access_type: public_method
+            serialized_name: InventoryDropdownListResponse
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getInventoryDropdownListResponse
+                setter: setInventoryDropdownListResponse
+            type: App\Soap\dealerbuilt\src\Models\Stock\InventoryDropdownListResponseType

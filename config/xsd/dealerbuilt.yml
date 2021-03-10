@@ -1,0 +1,34 @@
+# config.yml
+# Linux Users: PHP Namespaces use back slash \ rather than a forward slash /
+# So for destinations_php, the namespace would be App\Model
+
+xsd2php:
+  namespaces:
+    'http://cdx.dealerbuilt.com/Api/0.99/': 'App\Soap\dealerbuilt\src'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi': 'App\Soap\dealerbuilt\src\BaseApi'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models': 'App\Soap\dealerbuilt\src\Models'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Customers': 'App\Soap\dealerbuilt\src\Models\Customers'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Vehicles': 'App\Soap\dealerbuilt\src\Models\Vehicles'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock': 'App\Soap\dealerbuilt\src\Models\Stock'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts': 'App\Soap\dealerbuilt\src\Models\Parts'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales': 'App\Soap\dealerbuilt\src\Models\Sales'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service': 'App\Soap\dealerbuilt\src\Models\Service'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Appointments': 'App\Soap\dealerbuilt\src\Models\Appointments'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting': 'App\Soap\dealerbuilt\src\Models\Accounting'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceCampaigns': 'App\Soap\dealerbuilt\src\Models\ServiceCampaigns'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.ServiceContracts': 'App\Soap\dealerbuilt\src\Models\ServiceContracts'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty': 'App\Soap\dealerbuilt\src\Models\Warranty'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Logging': 'App\Soap\dealerbuilt\src\Models\Logging'
+    'http://schemas.datacontract.org/2004/07/DealerBuilt.Utility': 'App\Soap\dealerbuilt\src\Utility'
+    'http://schemas.microsoft.com/2003/10/Serialization/': 'App\Soap\dealerbuilt\src'
+    'http://schemas.microsoft.com/2003/10/Serialization/Arrays': 'App\Soap\dealerbuilt\src'
+
+  destinations_php:
+    'App\Soap\dealerbuilt\src': src\Soap\dealerbuilt\src  #  on Windows
+
+  destinations_jms:
+    'App\Soap\dealerbuilt\src': src\Soap\dealerbuilt\metadata  #  on Windows
+
+  # symfony/validator metadata to be generated from XSD
+  destinations_validation:
+    'App\Soap\dealerbuilt\src': src\Soap\dealerbuilt\validation  #  on Windows

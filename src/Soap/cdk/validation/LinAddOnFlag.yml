@@ -1,0 +1,9 @@
+App\Soap\cdk\src\LinAddOnFlag:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

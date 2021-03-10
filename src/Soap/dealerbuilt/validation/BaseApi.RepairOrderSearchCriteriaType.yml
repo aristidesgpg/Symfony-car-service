@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\BaseApi\RepairOrderSearchCriteriaType:
+    properties:
+        closedPayTypes:
+            -
+                Valid: null
+        statuses:
+            -
+                Valid: null

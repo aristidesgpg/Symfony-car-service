@@ -1,0 +1,19 @@
+App\Soap\dealertrack\src\DealerTrackClosedSoapEnvelopeBody:
+  xml_root_name: Body
+  xml_root_namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+  properties:
+    getClosedRepairOrderDetailsResponse:
+      expose: true
+      access_type: public_method
+      serialized_name: GetClosedRepairOrderDetailsResponse
+#      xml_element:
+#        namespace: opentrack.dealertrack.com/transitional
+      accessor:
+        getter: getGetClosedRepairOrderDetailsResponse
+        setter: setGetClosedRepairOrderDetailsResponse
+      type: App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResponse
+      xml_list:
+        inline: false
+        entry_name: GetClosedRepairOrderDetailsResult
+        skip_when_empty: true
+        namespace: opentrack.dealertrack.com/transitional

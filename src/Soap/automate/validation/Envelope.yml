@@ -1,0 +1,9 @@
+App\Soap\automate\src\Envelope:
+    properties:
+        body:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

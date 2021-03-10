@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="opentrack.dealertrack.com/transitional" xmlns:t="opentrack.dealertrack.com/transitional">
+    <xs:element name="PartsInventoryResult">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="t:Result"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Result">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="t:CompanyNumber"/>
+                <xs:element ref="t:Manufacturer"/>
+                <xs:element ref="t:PartNumber"/>
+                <xs:element ref="t:PartDescription"/>
+                <xs:element ref="t:StockingGroup"/>
+                <xs:element ref="t:Status"/>
+                <xs:element ref="t:Obsolete"/>
+                <xs:element ref="t:ReturnCode"/>
+                <xs:element ref="t:ArrivalCode"/>
+                <xs:element ref="t:StockPromoCode"/>
+                <xs:element ref="t:SpecialOrderCode"/>
+                <xs:element ref="t:PriceUpdate"/>
+                <xs:element ref="t:KitPart"/>
+                <xs:element ref="t:ComponentPart"/>
+                <xs:element ref="t:AssociateWithPart"/>
+                <xs:element ref="t:AlternatePart"/>
+                <xs:element ref="t:CorePart"/>
+                <xs:element ref="t:MerchCode"/>
+                <xs:element ref="t:PriceSymbol"/>
+                <xs:element ref="t:ProdCodeClass"/>
+                <xs:element ref="t:FleetAllowance"/>
+                <xs:element ref="t:GroupCode"/>
+                <xs:element ref="t:BinLocation"/>
+                <xs:element ref="t:ShelfLocation"/>
+                <xs:element ref="t:QuantityOnHand"/>
+                <xs:element ref="t:QuantityReserved"/>
+                <xs:element ref="t:QuantityOnOrder"/>
+                <xs:element ref="t:QuantityOnBackOrder"/>
+                <xs:element ref="t:QuantityOnSpecialOrder"/>
+                <xs:element ref="t:PlaceOnOrder"/>
+                <xs:element ref="t:PlaceOnSpecialOrder"/>
+                <xs:element ref="t:PackQuantity"/>
+                <xs:element ref="t:MinSalesQuantity"/>
+                <xs:element ref="t:Cost"/>
+                <xs:element ref="t:ListPrice"/>
+                <xs:element ref="t:TradePrice"/>
+                <xs:element ref="t:WholesaleComp"/>
+                <xs:element ref="t:WholesaleCompFleet"/>
+                <xs:element ref="t:FlatPrice"/>
+                <xs:element ref="t:MinMaxPackAdj"/>
+                <xs:element ref="t:DynamDaysSupply"/>
+                <xs:element ref="t:MinimumOnHand"/>
+                <xs:element ref="t:MaximumOnHand"/>
+                <xs:element ref="t:LowModelYear"/>
+                <xs:element ref="t:HighModelYear"/>
+                <xs:element ref="t:DateInInventory"/>
+                <xs:element ref="t:DatePhasedOut"/>
+                <xs:element ref="t:DateLastSold"/>
+                <xs:element ref="t:InventoryTurns"/>
+                <xs:element ref="t:BestStockLevel"/>
+                <xs:element ref="t:StockStatus"/>
+                <xs:element ref="t:RecentDemand"/>
+                <xs:element ref="t:PriorDemand"/>
+                <xs:element ref="t:RecentWorkDays"/>
+                <xs:element ref="t:PriorWorkDays"/>
+                <xs:element ref="t:WeightedDailyAverage"/>
+                <xs:element ref="t:SalesDemand"/>
+                <xs:element ref="t:LostSalesDemand"/>
+                <xs:element ref="t:SpecOrderDemand"/>
+                <xs:element ref="t:NonStockDemand"/>
+                <xs:element ref="t:ReturnDemand"/>
+                <xs:element ref="t:InventoryValue"/>
+                <xs:element ref="t:TotalQuantitySold"/>
+                <xs:element ref="t:TotalCostSales"/>
+                <xs:element ref="t:StockPurchases"/>
+                <xs:element ref="t:DisplayPartNumber"/>
+                <xs:element ref="t:SortPartNumber"/>
+                <xs:element ref="t:OldPartNumber"/>
+                <xs:element ref="t:NewPartNumber"/>
+                <xs:element ref="t:CorePartNumber"/>
+                <xs:element ref="t:Remarks"/>
+                <xs:element ref="t:DisplayRemarks"/>
+                <xs:element ref="t:BulkItemActualWeight"/>
+                <xs:element ref="t:SecondaryBinLocation"/>
+                <xs:element ref="t:ClassCode"/>
+                <xs:element ref="t:PartDealerToDealerPrice"/>
+                <xs:element ref="t:PartSubsidiaryPrice"/>
+                <xs:element ref="t:PartDealerToDealerCode"/>
+                <xs:element ref="t:EmergencyRepairPackage"/>
+                <xs:element ref="t:PartLsgCode"/>
+                <xs:element ref="t:BrandCode"/>
+                <xs:element ref="t:Partcommondcode"/>
+                <xs:element ref="t:PartCrossShipCode"/>
+                <xs:element ref="t:PartDiscountCode"/>
+                <xs:element ref="t:PartDirectshipCode"/>
+                <xs:element ref="t:PartHazardCode"/>
+                <xs:element ref="t:PartInterchangeSubstitute"/>
+                <xs:element ref="t:PartLargeQuantityCode"/>
+                <xs:element ref="t:PartMaximumOrderQuantity"/>
+                <xs:element ref="t:PartMinimumOrderQuantity"/>
+                <xs:element ref="t:PartObsoleteStatus"/>
+                <xs:element ref="t:ProgramPartAllowanceCode"/>
+                <xs:element ref="t:PartPricingDiscountPer"/>
+                <xs:element ref="t:ProgramPartReturnableCode"/>
+                <xs:element ref="t:PartSizeCode"/>
+                <xs:element ref="t:PartType"/>
+                <xs:element ref="t:PartVolumeDiscountFlag"/>
+                <xs:element ref="t:SecondaryShelf"/>
+                <xs:element ref="t:WeightCode"/>
+                <xs:element ref="t:UnitOfMeasure"/>
+                <xs:element minOccurs="0" ref="t:StockCode"/>
+                <xs:element ref="t:Quantity"/>
+                <xs:element ref="t:LastUpdated"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CompanyNumber" type="xs:NCName"/>
+    <xs:element name="Manufacturer" type="xs:NCName"/>
+    <xs:element name="PartNumber" type="xs:NMTOKEN"/>
+    <xs:element name="PartDescription" type="xs:string"/>
+    <xs:element name="StockingGroup" type="xs:integer"/>
+    <xs:element name="Status" type="xs:NCName"/>
+    <xs:element name="Obsolete">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ReturnCode" type="xs:string"/>
+    <xs:element name="ArrivalCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="StockPromoCode" type="xs:string"/>
+    <xs:element name="SpecialOrderCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PriceUpdate" type="xs:NCName"/>
+    <xs:element name="KitPart">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ComponentPart">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="AssociateWithPart">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="AlternatePart">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="CorePart" type="xs:string"/>
+    <xs:element name="MerchCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PriceSymbol" type="xs:string"/>
+    <xs:element name="ProdCodeClass" type="xs:string"/>
+    <xs:element name="FleetAllowance">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="GroupCode" type="xs:string"/>
+    <xs:element name="BinLocation" type="xs:string"/>
+    <xs:element name="ShelfLocation">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="QuantityOnHand" type="xs:integer"/>
+    <xs:element name="QuantityReserved" type="xs:integer"/>
+    <xs:element name="QuantityOnOrder" type="xs:integer"/>
+    <xs:element name="QuantityOnBackOrder" type="xs:integer"/>
+    <xs:element name="QuantityOnSpecialOrder" type="xs:integer"/>
+    <xs:element name="PlaceOnOrder" type="xs:integer"/>
+    <xs:element name="PlaceOnSpecialOrder" type="xs:integer"/>
+    <xs:element name="PackQuantity" type="xs:integer"/>
+    <xs:element name="MinSalesQuantity" type="xs:integer"/>
+    <xs:element name="Cost" type="xs:decimal"/>
+    <xs:element name="ListPrice" type="xs:decimal"/>
+    <xs:element name="TradePrice" type="xs:decimal"/>
+    <xs:element name="WholesaleComp" type="xs:decimal"/>
+    <xs:element name="WholesaleCompFleet" type="xs:decimal"/>
+    <xs:element name="FlatPrice" type="xs:decimal"/>
+    <xs:element name="MinMaxPackAdj" type="xs:integer"/>
+    <xs:element name="DynamDaysSupply" type="xs:integer"/>
+    <xs:element name="MinimumOnHand" type="xs:integer"/>
+    <xs:element name="MaximumOnHand" type="xs:integer"/>
+    <xs:element name="LowModelYear" type="xs:integer"/>
+    <xs:element name="HighModelYear" type="xs:integer"/>
+    <xs:element name="DateInInventory" type="xs:integer"/>
+    <xs:element name="DatePhasedOut" type="xs:integer"/>
+    <xs:element name="DateLastSold" type="xs:integer"/>
+    <xs:element name="InventoryTurns" type="xs:decimal"/>
+    <xs:element name="BestStockLevel" type="xs:integer"/>
+    <xs:element name="StockStatus" type="xs:integer"/>
+    <xs:element name="RecentDemand" type="xs:integer"/>
+    <xs:element name="PriorDemand" type="xs:integer"/>
+    <xs:element name="RecentWorkDays" type="xs:decimal"/>
+    <xs:element name="PriorWorkDays" type="xs:decimal"/>
+    <xs:element name="WeightedDailyAverage" type="xs:decimal"/>
+    <xs:element name="SalesDemand" type="xs:integer"/>
+    <xs:element name="LostSalesDemand" type="xs:integer"/>
+    <xs:element name="SpecOrderDemand" type="xs:integer"/>
+    <xs:element name="NonStockDemand" type="xs:integer"/>
+    <xs:element name="ReturnDemand" type="xs:integer"/>
+    <xs:element name="InventoryValue" type="xs:decimal"/>
+    <xs:element name="TotalQuantitySold" type="xs:integer"/>
+    <xs:element name="TotalCostSales" type="xs:decimal"/>
+    <xs:element name="StockPurchases" type="xs:decimal"/>
+    <xs:element name="DisplayPartNumber" type="xs:NMTOKEN"/>
+    <xs:element name="SortPartNumber" type="xs:string"/>
+    <xs:element name="OldPartNumber" type="xs:string"/>
+    <xs:element name="NewPartNumber" type="xs:string"/>
+    <xs:element name="CorePartNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="Remarks">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="DisplayRemarks">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="BulkItemActualWeight" type="xs:integer"/>
+    <xs:element name="SecondaryBinLocation">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ClassCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartDealerToDealerPrice" type="xs:decimal"/>
+    <xs:element name="PartSubsidiaryPrice" type="xs:decimal"/>
+    <xs:element name="PartDealerToDealerCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="EmergencyRepairPackage" type="xs:integer"/>
+    <xs:element name="PartLsgCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="BrandCode" type="xs:NCName"/>
+    <xs:element name="Partcommondcode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartCrossShipCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartDiscountCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartDirectshipCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartHazardCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartInterchangeSubstitute">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartLargeQuantityCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartMaximumOrderQuantity" type="xs:integer"/>
+    <xs:element name="PartMinimumOrderQuantity" type="xs:integer"/>
+    <xs:element name="PartObsoleteStatus">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ProgramPartAllowanceCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartPricingDiscountPer" type="xs:decimal"/>
+    <xs:element name="ProgramPartReturnableCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartSizeCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartType">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartVolumeDiscountFlag">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="SecondaryShelf">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="WeightCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="UnitOfMeasure" type="xs:decimal"/>
+    <xs:element name="StockCode" type="xs:string"/>
+    <xs:element name="Quantity" type="xs:integer"/>
+    <xs:element name="LastUpdated" type="xs:NMTOKEN"/>
+</xs:schema>

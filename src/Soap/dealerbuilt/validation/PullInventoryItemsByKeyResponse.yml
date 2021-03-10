@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullInventoryItemsByKeyResponse:
+    properties:
+        pullInventoryItemsByKeyResult:
+            -
+                Valid: null

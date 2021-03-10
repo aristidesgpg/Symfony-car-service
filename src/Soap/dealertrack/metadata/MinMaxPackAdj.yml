@@ -1,0 +1,12 @@
+App\Soap\dealertrack\src\MinMaxPackAdj:
+    xml_root_name: MinMaxPackAdj
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: int

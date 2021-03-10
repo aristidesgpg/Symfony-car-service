@@ -31,6 +31,10 @@ use Twilio\Exceptions\TwilioException;
  *     response="404",
  *     description="Repair Order or Payment does not exist"
  * )
+ * @SWG\Response(
+ *     response="401",
+ *     description="Not Authorized."
+ * )
  */
 class RepairOrderPaymentController extends AbstractFOSRestController
 {
@@ -354,7 +358,13 @@ class RepairOrderPaymentController extends AbstractFOSRestController
      *     in="formData",
      *     required=true
      * )
-     * @SWG\Parameter(name="paymentToken", type="string", in="formData", required=true)
+     * @SWG\Parameter(
+     *     name="paymentToken",
+     *     description="The token from Collect.js (use: 00000000-000000-000000-000000000000 for testing)",
+     *     type="string",
+     *     in="formData",
+     *     required=true
+     * )
      *
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(
@@ -567,5 +577,4 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             )
         );
     }
-
 }

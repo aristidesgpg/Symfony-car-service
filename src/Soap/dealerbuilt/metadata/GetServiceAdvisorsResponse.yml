@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\GetServiceAdvisorsResponse:
+    xml_root_name: GetServiceAdvisorsResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        getServiceAdvisorsResult:
+            expose: true
+            access_type: public_method
+            serialized_name: GetServiceAdvisorsResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getGetServiceAdvisorsResult
+                setter: setGetServiceAdvisorsResult
+            type: App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType

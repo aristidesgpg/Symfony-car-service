@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PushRepairOrderLaborItemsResponse:
+    xml_root_name: PushRepairOrderLaborItemsResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pushRepairOrderLaborItemsResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PushRepairOrderLaborItemsResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPushRepairOrderLaborItemsResult
+                setter: setPushRepairOrderLaborItemsResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType>
+            xml_list:
+                inline: false
+                entry_name: LaborItemPushResponse
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

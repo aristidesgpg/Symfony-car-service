@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\Models\AddressType:
+    properties:
+        city:
+            expose: true
+            access_type: public_method
+            serialized_name: City
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getCity
+                setter: setCity
+            type: string
+        country:
+            expose: true
+            access_type: public_method
+            serialized_name: Country
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getCountry
+                setter: setCountry
+            type: string
+        county:
+            expose: true
+            access_type: public_method
+            serialized_name: County
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getCounty
+                setter: setCounty
+            type: string
+        line1:
+            expose: true
+            access_type: public_method
+            serialized_name: Line1
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getLine1
+                setter: setLine1
+            type: string
+        line2:
+            expose: true
+            access_type: public_method
+            serialized_name: Line2
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getLine2
+                setter: setLine2
+            type: string
+        state:
+            expose: true
+            access_type: public_method
+            serialized_name: State
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getState
+                setter: setState
+            type: string
+        zip:
+            expose: true
+            access_type: public_method
+            serialized_name: Zip
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getZip
+                setter: setZip
+            type: string

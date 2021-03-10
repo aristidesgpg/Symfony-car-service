@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\BaseApi\ApiCompanyItemType:
+    properties:
+        placement:
+            expose: true
+            access_type: public_method
+            serialized_name: Placement
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPlacement
+                setter: setPlacement
+            type: App\Soap\dealerbuilt\src\BaseApi\CompanyPlacementType

@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullDealerLocationsResponse:
+    xml_root_name: PullDealerLocationsResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullDealerLocationsResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullDealerLocationsResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullDealerLocationsResult
+                setter: setPullDealerLocationsResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType>
+            xml_list:
+                inline: false
+                entry_name: ServiceLocationPlacement
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

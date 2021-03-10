@@ -1,0 +1,52 @@
+App\Soap\dealerbuilt\src\BaseApi\AccountsSearchCriteriaType:
+    properties:
+        accountClassGroup:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountClassGroup
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAccountClassGroup
+                setter: setAccountClassGroup
+            type: string
+        accountClasses:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountClasses
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAccountClasses
+                setter: setAccountClasses
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: AccountClassType
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+        accounts:
+            expose: true
+            access_type: public_method
+            serialized_name: Accounts
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAccounts
+                setter: setAccounts
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+        omitAccountsWithNoActivity:
+            expose: true
+            access_type: public_method
+            serialized_name: OmitAccountsWithNoActivity
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getOmitAccountsWithNoActivity
+                setter: setOmitAccountsWithNoActivity
+            type: bool

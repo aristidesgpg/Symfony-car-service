@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfRepairOrderSummaryType:
+    properties:
+        repairOrderSummary:
+            -
+                Valid: null

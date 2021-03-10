@@ -1,0 +1,7 @@
+App\Soap\automate\src\DocumentIDType:
+    properties:
+        documentID:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

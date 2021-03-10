@@ -1,0 +1,18 @@
+App\Soap\automate\src\AutomateBodyType:
+    xml_root_name: AutomateBodyType
+    properties:
+        processEventResponse:
+            expose: true
+            access_type: public_method
+            serialized_name: processEventResponse
+            xml_element:
+                namespace: 'http://openmate.automate-webservices.com/'
+            accessor:
+                getter: getProcessEventResponse
+                setter: setProcessEventResponse
+            type: App\Soap\automate\src\ProcessEventResponseType
+            xml_list:
+                inline: false
+                entry_name: ProcessEventResultType
+                skip_when_empty: true
+#                namespace: 'http://openmate.automate-webservices.com/'

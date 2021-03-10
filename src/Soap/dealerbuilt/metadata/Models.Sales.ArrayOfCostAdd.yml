@@ -1,0 +1,3 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfCostAdd:
+    xml_root_name: ArrayOfCostAdd
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'

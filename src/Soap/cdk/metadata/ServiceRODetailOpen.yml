@@ -1,0 +1,38 @@
+App\Soap\cdk\src\ServiceRODetailOpen:
+    xml_root_name: ServiceRODetailOpen
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties:
+        serviceRepairOrderOpen:
+            expose: true
+            access_type: public_method
+            serialized_name: service-repair-order-open
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+            accessor:
+                getter: getServiceRepairOrderOpen
+                setter: setServiceRepairOrderOpen
+            xml_list:
+                inline: true
+                entry_name: service-repair-order-open
+                namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+            type: array<App\Soap\cdk\src\ServiceRepairOrderOpen>
+        errorCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+            accessor:
+                getter: getErrorCode
+                setter: setErrorCode
+            type: int
+        errorMessage:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorMessage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+            accessor:
+                getter: getErrorMessage
+                setter: setErrorMessage
+            type: App\Soap\cdk\src\ErrorMessage

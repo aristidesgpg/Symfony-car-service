@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\AppointmentReferencesType:
+    properties:
+        appointmentCustomer:
+            expose: true
+            access_type: public_method
+            serialized_name: AppointmentCustomer
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAppointmentCustomer
+                setter: setAppointmentCustomer
+            type: App\Soap\dealerbuilt\src\BaseApi\CustomerType
+        appointmentVehicle:
+            expose: true
+            access_type: public_method
+            serialized_name: AppointmentVehicle
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAppointmentVehicle
+                setter: setAppointmentVehicle
+            type: App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
+        rO:
+            expose: true
+            access_type: public_method
+            serialized_name: RO
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getRO
+                setter: setRO
+            type: App\Soap\dealerbuilt\src\BaseApi\RepairOrderType

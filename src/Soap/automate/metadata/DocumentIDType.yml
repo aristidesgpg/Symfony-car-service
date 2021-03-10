@@ -1,0 +1,12 @@
+App\Soap\automate\src\DocumentIDType:
+    properties:
+        documentID:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDocumentID
+                setter: setDocumentID
+            type: string

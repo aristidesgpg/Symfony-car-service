@@ -1,0 +1,21 @@
+App\Soap\dealerbuilt\src\Models\NameType:
+    properties:
+        title:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - Mr
+                        - Mrs
+                        - Miss
+                        - Ms
+                        - Prof
+                        - Dr
+                        - Gen
+                        - Rep
+                        - Sen
+                        - St
+                        - Rev
+                        - Private
+                    groups:
+                        - xsd_rules

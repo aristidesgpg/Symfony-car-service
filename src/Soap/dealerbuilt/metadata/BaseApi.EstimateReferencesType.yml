@@ -1,0 +1,37 @@
+App\Soap\dealerbuilt\src\BaseApi\EstimateReferencesType:
+    properties:
+        estimateCustomer:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimateCustomer
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getEstimateCustomer
+                setter: setEstimateCustomer
+            type: App\Soap\dealerbuilt\src\BaseApi\CustomerType
+        estimateVehicle:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimateVehicle
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getEstimateVehicle
+                setter: setEstimateVehicle
+            type: App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleType
+        jobs:
+            expose: true
+            access_type: public_method
+            serialized_name: Jobs
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getJobs
+                setter: setJobs
+            type: array<App\Soap\dealerbuilt\src\BaseApi\EstimateJobType>
+            xml_list:
+                inline: false
+                entry_name: EstimateJob
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

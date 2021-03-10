@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPlacementType:
+    properties:
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int
+        serviceLocationName:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getServiceLocationName
+                setter: setServiceLocationName
+            type: string

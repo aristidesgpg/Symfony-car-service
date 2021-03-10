@@ -1,0 +1,4 @@
+App\Soap\cdk\src\HrsActualHours:
+    xml_root_name: hrsActualHours
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }
