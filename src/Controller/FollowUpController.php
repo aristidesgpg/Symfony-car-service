@@ -183,7 +183,7 @@ class FollowUpController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Patch("/api/follow-up/{id}/view")
+     * @Rest\Post("/api/follow-up/view")
      *
      * @SWG\Tag(name="FollowUp")
      * @SWG\Patch(description="Update a Followup and create a new FollowupInteraction")
