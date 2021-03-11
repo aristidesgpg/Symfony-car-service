@@ -34,11 +34,11 @@ class RepairOrderHelper
         UserRepository $users,
         CustomerHelper $customerHelper
     ) {
-        $this->em = $em;
-        $this->repo = $repo;
-        $this->customers = $customers;
-        $this->users = $users;
-        $this->customerHelper = $customerHelper;
+        $this->em              = $em;
+        $this->repo            = $repo;
+        $this->customers       = $customers;
+        $this->users           = $users;
+        $this->customerHelper  = $customerHelper;
     }
 
     /**
@@ -308,5 +308,5 @@ class RepairOrderHelper
         }
         $ro->setDeleted(true);
         $this->commitRepairOrder();
-    }
+    }    
 }
