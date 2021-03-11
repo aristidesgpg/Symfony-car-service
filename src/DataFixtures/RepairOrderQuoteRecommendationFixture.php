@@ -26,13 +26,13 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
             $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
                                            ->setOperationCode($operationCode)
-                                           ->setDescription($faker->sentence($nbWords = 5, $variableNbWords = true))
+                                           ->setDescription($faker->sentence(5, true))
                                            ->setPreApproved($faker->boolean(70))
                                            ->setApproved($faker->boolean(50))
-                                           ->setPartsPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
-                                           ->setSuppliesPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
-                                           ->setLaborPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
-                                           ->setNotes($faker->sentence($nbWords = 3, $variableNbWords = true));
+                                           ->setPartsPrice($faker->randomFloat(2, 1, 2000))
+                                           ->setSuppliesPrice($faker->randomFloat(2, 1, 500))
+                                           ->setLaborPrice($faker->randomFloat(2, 1, 1000))
+                                           ->setNotes($faker->sentence(3, true));
 
             $manager->persist($repairOrderQuote);
             $manager->flush();
