@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\FollowUp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method FollowUp|null find($id, $lockMode = null, $lockVersion = null)
@@ -138,6 +139,7 @@ class FollowUpRepository extends ServiceEntityRepository
 
             $qb->andWhere(":now >= DATE_ADD(fu.dateCreated, :delay , 'day')")
                 ->andWhere("fu.dateSent is NULL")
+                ->andWhere("fu.status <> 'Not Delivered'")
                 ->setParameter("now", new \DateTime())
                 ->setParameter("delay", $delay);
 
