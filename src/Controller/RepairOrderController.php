@@ -10,11 +10,11 @@ use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\MyReviewHelper;
 use App\Service\Pagination;
+use App\Service\PhoneValidator;
 use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
-use App\Service\PhoneValidator;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -36,9 +36,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class RepairOrderController extends AbstractFOSRestController
 {
-    private const PAGE_LIMIT = 50;
-
     use FalsyTrait;
+    private const PAGE_LIMIT = 50;
 
     /**
      * @Rest\Get(name="getRepairOrders")
@@ -339,7 +338,7 @@ class RepairOrderController extends AbstractFOSRestController
                 // waiver enabled
                 $url = $customerURL.$ro->getLinkHash();
                 $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                $waiverMessage = $waiverIntroText .' '.$shortUrl;
+                $waiverMessage = $waiverIntroText.' '.$shortUrl;
 
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
@@ -378,13 +377,15 @@ class RepairOrderController extends AbstractFOSRestController
      *
      * @throws Exception
      */
-    public function phoneValidate(Request $req, PhoneValidator $validator): Response {
-        $phone       = $req->get('phone');
+    public function phoneValidate(Request $req, PhoneValidator $validator): Response
+    {
+        $phone = $req->get('phone');
         $cleanNumber = $validator->clean($phone);
-        $isValid     = $validator->isMobile($cleanNumber);
+        $isValid = $validator->isMobile($cleanNumber);
 
-        if(!$isValid)
+        if (!$isValid) {
             throw new BadRequestHttpException('Phone is invalid');
+        }
 
         return $this->handleView($this->view(['status' => 'Phone is valid'], Response::HTTP_OK));
     }
@@ -413,8 +414,6 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     *
-     * @return Response
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
     {
@@ -465,7 +464,7 @@ class RepairOrderController extends AbstractFOSRestController
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        if ($ro->isArchived() === true) {
+        if (true === $ro->isArchived()) {
             return $this->handleView(
                 $this->view(
                     [
@@ -502,7 +501,7 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        if ($ro->isClosed() === true) {
+        if (true === $ro->isClosed()) {
             return $this->handleView(
                 $this->view(
                     [
