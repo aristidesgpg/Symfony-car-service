@@ -118,8 +118,9 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
                         }
                     }
                 } else {
-                    $status = "Not Delivered";
+                    $status              = "Not Delivered";
                     $followUpInteraction = new FollowUpInteraction();
+                    
                     $followUpInteraction->setFollowUp($followUp)
                                         ->setUser($repairOrder->getPrimaryTechnician())
                                         ->setCustomer($repairOrder->getPrimaryCustomer())

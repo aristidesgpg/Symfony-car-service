@@ -12,6 +12,7 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Class FollowUpHelper
@@ -23,6 +24,9 @@ class FollowUpHelper {
     /** @var EntityManagerInterface */
     private $em;
 
+    /** @var User */
+    private $user;
+
     /**
      * FollowUpHelper constructor.
      *
@@ -31,12 +35,13 @@ class FollowUpHelper {
      * @param SettingsHelper         $settings
      * @param ParameterBagInterface  $params
      */
-    public function __construct (EntityManagerInterface $em,  ShortUrlHelper $urlHelper, 
+    public function __construct (EntityManagerInterface $em,  ShortUrlHelper $urlHelper, Security $security,
                                  SettingsHelper $settings, ParameterBagInterface $params) {
         $this->em     = $em;
         $this->urlHelper          = $urlHelper;
         $this->settingsHelper     = $settings;
         $this->params             = $params;
+        $this->user               = $security->getUser();
     }
 
     /**
@@ -126,6 +131,10 @@ class FollowUpHelper {
                          ->setDateSent(new \DateTime());
                
                 break;
+            case 'Not Delivered':
+                $followup->setStatus('Not Delivered');
+               
+                break;
         }
 
         $this->em->persist($followup);
@@ -149,6 +158,7 @@ class FollowUpHelper {
             $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent');
             
         } catch (\Exception $e) {
+            $this->updateFollowUp($followUp, $this->user, 'Not Delivered');
             return;
         }
     }
