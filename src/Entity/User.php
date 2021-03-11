@@ -653,27 +653,6 @@ class User implements UserInterface
         return $this;
     }
 
-<<<<<<< HEAD
-=======
-    /**
-     * @return Collection|RepairOrderQuoteInteraction[]
-     */
-    public function getRepairOrderQuoteInteractions(): Collection
-    {
-        return $this->repairOrderQuoteInteractions;
-    }
-
-    public function addRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
-    {
-        if (!$this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
-            $this->repairOrderQuoteInteractions[] = $repairOrderQuoteInteraction;
-            $repairOrderQuoteInteraction->setUser($this);
-        }
-
-        return $this;
-    }
-
->>>>>>> 2391a9cf4cde55633c7f075a823cc16eb53d71b1
     public function removeRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
     {
         if ($this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
@@ -686,8 +665,4 @@ class User implements UserInterface
 
         return $this;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> 2391a9cf4cde55633c7f075a823cc16eb53d71b1
 }
