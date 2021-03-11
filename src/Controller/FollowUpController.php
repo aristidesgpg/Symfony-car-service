@@ -16,8 +16,8 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -186,27 +186,43 @@ class FollowUpController extends AbstractFOSRestController
      * @Rest\Post("/api/follow-up/view")
      *
      * @SWG\Tag(name="FollowUp")
-     * @SWG\Patch(description="Update a Followup and create a new FollowupInteraction")
+     * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
      *
+     * @SWG\Parameter(
+     *     name="followUpId",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The Follow Up Id",
+     * )
      * @SWG\Response(response="200", description="Success!")
      *
      *
-     * @param FollowUp                $followup
      * @param FollowUpHelper          $helper
      * @param EntityManagerInterface  $em
      *
      * @return Response
      */
 
-    public function viewed(Followup $followup, FollowUpHelper $helper)
+    public function viewed(Request $request, FollowUpHelper $followUpHelper, FollowUpRepository $followUpRepository)
     {
+        $followUpId  = $request->get("followUpId");
+        if(!$followUpId){
+            throw new BadRequestHttpException('Please input followUpId');
+        }
+
+        $followUp = $followUpRepository->findOneBy(['id' => $followUpId ]);
+        if(!$followUp){
+            throw new NotFoundHttpException();
+        }
+
         $user    = $this->getUser();
 
         if (!$user instanceof Customer) {
             return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
         }
 
-        $helper->updateFollowUp($followup, $user, 'Viewed');
+        $followUpHelper->updateFollowUp($followUp, $user, 'Viewed');
 
         return $this->handleView($this->view([
             'message' => 'Success'
@@ -214,30 +230,46 @@ class FollowUpController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Patch("/api/follow-up/{id}/converted")
+     * @Rest\Post("/api/follow-up/converted")
      *
      * @SWG\Tag(name="FollowUp")
-     * @SWG\Patch(description="Update a Followup and create a new FollowupInteraction")
+     * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
      *
+     * @SWG\Parameter(
+     *     name="followUpId",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The Follow Up Id",
+     * )
      * @SWG\Response(response="200", description="Success!")
      *
      *
-     * @param FollowUp                $followup
      * @param FollowUpHelper          $helper
      * @param EntityManagerInterface  $em
      *
      * @return Response
      */
 
-    public function converted(Followup $followup, FollowUpHelper $helper)
+    public function converted(Request $request, FollowUpHelper $followUpHelper, FollowUpRepository $followUpRepository)
     {
+        $followUpId  = $request->get("followUpId");
+        if(!$followUpId){
+            throw new BadRequestHttpException('Please input followUpId');
+        }
+
+        $followUp = $followUpRepository->findOneBy(['id' => $followUpId ]);
+        if(!$followUp){
+            throw new NotFoundHttpException();
+        }
+
         $user    = $this->getUser();
 
         if (!$user instanceof Customer) {
-            throw new NotAcceptableHttpException('The type of user should be Customer.');
+            throw new BadRequestHttpException('The type of user should be Customer.');
         }
 
-        $helper->updateFollowUp($followup, $user, 'Converted');
+        $followUpHelper->updateFollowUp($followUp, $user, 'Converted');
 
         return $this->handleView($this->view([
             'message' => 'Success'
