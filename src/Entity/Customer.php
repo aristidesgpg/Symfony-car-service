@@ -89,7 +89,7 @@ class Customer implements UserInterface
      */
     private $serviceSMS;
 
-    /*
+    /**
      * @ORM\OneToMany(targetEntity=RepairOrderReviewInteractions::class, mappedBy="customer")
      */
     private $repairOrderReviewInteractions;

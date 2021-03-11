@@ -8,9 +8,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-/**
- * Class RepairOrderQuoteRecommendationFixture.
- */
 class RepairOrderQuoteRecommendationFixture extends Fixture implements DependentFixtureInterface
 {
     /**
