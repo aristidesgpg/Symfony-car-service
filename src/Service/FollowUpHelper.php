@@ -7,6 +7,7 @@ use App\Entity\FollowUpInteraction;
 use App\Entity\RepairOrder;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -153,14 +154,17 @@ class FollowUpHelper
 
         $url = rtrim($this->params->get('customer_url'), '/').'/'.$linkhash.'/followUp';
         $shortUrl = $this->urlHelper->generateShortUrl($url);
+
         try {
-            $this->twilioHelper->sendSms($customer, $followUpTextMessage.' '.$shortUrl);
+            $res = $this->twilioHelper->sendSms($customer, $followUpTextMessage.' '.$shortUrl);
 
-            $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent');
-        } catch (\Exception $e) {
+            if ($res) {
+                $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent');
+            } else {
+                $this->updateFollowUp($followUp, $this->user, 'Not Delivered');
+            }
+        } catch (Exception $e) {
             $this->updateFollowUp($followUp, $this->user, 'Not Delivered');
-
-            return;
         }
     }
 }
