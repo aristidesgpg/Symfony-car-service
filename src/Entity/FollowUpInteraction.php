@@ -39,7 +39,7 @@ class FollowUpInteraction
     private $user;
 
     /**
-     * @ORM\Column(type="string", length=12)
+     * @ORM\Column(type="string", length=20)
      * @Serializer\Groups(groups={"fui_list"})
      */
     private $type;

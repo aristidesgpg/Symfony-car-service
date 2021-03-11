@@ -55,7 +55,7 @@ class FollowUpController extends AbstractFOSRestController
      *     type="string",
      *     description="Get ROs created before supplied date-time",
      *     in="query",
-     *     enum={"Created", "Sent", "Viewed", "Converted"}
+     *     enum={"Not Delivered", "Created", "Sent", "Viewed", "Converted"}
      * )
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(

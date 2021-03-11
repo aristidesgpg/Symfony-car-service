@@ -49,7 +49,7 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
             $followUp = new FollowUp();
             $followUp->setRepairOrder($repairOrder)
                      ->setDateCreated($dateCreated);
-            $manager->persist($followUp);
+            // $manager->persist($followUp);
             //create FollowUp interaction
             $followUpInteraction = new FollowUpInteraction();
             $followUpInteraction->setFollowUp($followUp)
@@ -59,63 +59,75 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
                                 ->setDate($dateCreated);
             $manager->persist($followUpInteraction);
             if($faker->boolean(70)){
-                //Sent
-                $dateSent       = clone $dateCreated;
-                $dateSentModify = random_int(1, 12);
-                $dateSent       = $dateSent->modify('+' . $dateSentModify . ' hours');
-                $status         = "Sent";
-                //update FollowUp sent date
-                $followUp->setDateSent($dateSent);
-                $manager->persist($followUp);
-                //create FollowUp interaction
-                $followUpInteraction = new FollowUpInteraction();
-                $followUpInteraction->setFollowUp($followUp)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType($status)
-                                    ->setDate($dateSent);
-                $manager->persist($followUpInteraction);
-
-                if($faker->boolean(70)){
-                    //Viewed
-                    $viewCount  = $faker->numberBetween(1, 5);
-                    $dateViewed = clone $dateSent;
-                    for($j = 0; $j < $viewCount; $j++){
-                        $dateViewed       = clone $dateViewed;
-                        $dateViewedModify = random_int(1, 12);
-                        $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
-                        $status           = "Viewed";
-                        //create FollowUp interaction
-                        $followUpInteraction = new FollowUpInteraction();
-                        $followUpInteraction->setFollowUp($followUp)
-                                            ->setUser($repairOrder->getPrimaryTechnician())
-                                            ->setCustomer($repairOrder->getPrimaryCustomer())
-                                            ->setType($status)
-                                            ->setDate($dateViewed);
-                        $manager->persist($followUpInteraction);
-                        //update FollowUp sent date
-                        $followUp->setDateViewed($dateViewed);
-                    }
+                if($faker->boolean(90)) {
+                    //Sent
+                    $dateSent       = clone $dateCreated;
+                    $dateSentModify = random_int(1, 12);
+                    $dateSent       = $dateSent->modify('+' . $dateSentModify . ' hours');
+                    $status         = "Sent";
+                    //update FollowUp sent date
+                    $followUp->setDateSent($dateSent);
+                    // $manager->persist($followUp);
+                    //create FollowUp interaction
+                    $followUpInteraction = new FollowUpInteraction();
+                    $followUpInteraction->setFollowUp($followUp)
+                                        ->setUser($repairOrder->getPrimaryTechnician())
+                                        ->setCustomer($repairOrder->getPrimaryCustomer())
+                                        ->setType($status)
+                                        ->setDate($dateSent);
+                    $manager->persist($followUpInteraction);
 
                     if($faker->boolean(70)){
-                        //Converted
-                        $dateConverted       = clone $dateViewed;
-                        $dateConvertedModify = random_int(1, 12);
-                        $dateConverted       = $dateConverted->modify('+' . $dateConvertedModify . ' hours');
-                        $status              = "Converted";
-                        //update FollowUp converted date
-                        $followUp->setDateConverted($dateConverted);
-                        $manager->persist($followUp);
-                        //create FollowUp interaction
-                        $followUpInteraction = new FollowUpInteraction();
-                        $followUpInteraction->setFollowUp($followUp)
-                                            ->setUser($repairOrder->getPrimaryTechnician())
-                                            ->setCustomer($repairOrder->getPrimaryCustomer())
-                                            ->setType($status)
-                                            ->setDate($dateConverted);
-                        $manager->persist($followUpInteraction);
+                        //Viewed
+                        $viewCount  = $faker->numberBetween(1, 5);
+                        $dateViewed = clone $dateSent;
+                        for($j = 0; $j < $viewCount; $j++){
+                            $dateViewed       = clone $dateViewed;
+                            $dateViewedModify = random_int(1, 12);
+                            $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
+                            $status           = "Viewed";
+                            //create FollowUp interaction
+                            $followUpInteraction = new FollowUpInteraction();
+                            $followUpInteraction->setFollowUp($followUp)
+                                                ->setUser($repairOrder->getPrimaryTechnician())
+                                                ->setCustomer($repairOrder->getPrimaryCustomer())
+                                                ->setType($status)
+                                                ->setDate($dateViewed);
+                            $manager->persist($followUpInteraction);
+                            //update FollowUp sent date
+                            $followUp->setDateViewed($dateViewed);
+                        }
+
+                        if($faker->boolean(70)){
+                            //Converted
+                            $dateConverted       = clone $dateViewed;
+                            $dateConvertedModify = random_int(1, 12);
+                            $dateConverted       = $dateConverted->modify('+' . $dateConvertedModify . ' hours');
+                            $status              = "Converted";
+                            //update FollowUp converted date
+                            $followUp->setDateConverted($dateConverted);
+                            // $manager->persist($followUp);
+                            //create FollowUp interaction
+                            $followUpInteraction = new FollowUpInteraction();
+                            $followUpInteraction->setFollowUp($followUp)
+                                                ->setUser($repairOrder->getPrimaryTechnician())
+                                                ->setCustomer($repairOrder->getPrimaryCustomer())
+                                                ->setType($status)
+                                                ->setDate($dateConverted);
+                            $manager->persist($followUpInteraction);
+                        }
                     }
+                } else {
+                    $status = "Not Delivered";
+                    $followUpInteraction = new FollowUpInteraction();
+                    $followUpInteraction->setFollowUp($followUp)
+                                        ->setUser($repairOrder->getPrimaryTechnician())
+                                        ->setCustomer($repairOrder->getPrimaryCustomer())
+                                        ->setType($status)
+                                        ->setDate($dateCreated);
+                    $manager->persist($followUpInteraction);
                 }
+                
             }
             //update followUp status
             $followUp->setStatus($status);

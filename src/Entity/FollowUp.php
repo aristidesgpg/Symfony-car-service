@@ -54,7 +54,7 @@ class FollowUp
     private $dateConverted;
 
     /**
-     * @ORM\Column(type="string", length=12)
+     * @ORM\Column(type="string", length=20)
      * @Serializer\Groups(groups={"fu_list"})
      */
     private $status;
