@@ -7,49 +7,36 @@ use App\Entity\FollowUpInteraction;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 use Faker\Factory;
 
 /**
- * Class FollowUpFixture
- *
- * @package App\DataFixtures
+ * Class FollowUpFixture.
  */
-class FollowUpFixture extends Fixture implements DependentFixtureInterface {
-
+class FollowUpFixture extends Fixture implements DependentFixtureInterface
+{
     /**
-     * @var Container
+     * FollowUpFixtures constructor.
      */
-    private $container;
-
-    /**
-     * CouponFixtures constructor.
-     *
-     * @param Container $container
-     */
-    public function __construct (Container $container) {
-        $this->container = $container;
+    public function __construct()
+    {
     }
 
-    /**
-     * @param ObjectManager $manager
-     */
-    public function load (ObjectManager $manager) {
+    public function load(ObjectManager $manager)
+    {
         $faker = Factory::create();
-        
-        //create FollowUp
-        for($i = 0; $i < 50 ; $i++){
 
+        //create FollowUp
+        for ($i = 0; $i < 50; ++$i) {
             $repairOrderReference = $faker->unique()->numberBetween(1, 150);
-            $repairOrder = $this->getReference('repairOrder_' . $repairOrderReference);
+            $repairOrder = $this->getReference('repairOrder_'.$repairOrderReference);
             //Created
-            $status      = "Created";
+            $status = 'Created';
             $dateCreated = $faker->dateTimeBetween('-1 year');
 
             $followUp = new FollowUp();
             $followUp->setRepairOrder($repairOrder)
                      ->setDateCreated($dateCreated);
-            // $manager->persist($followUp);
+
             //create FollowUp interaction
             $followUpInteraction = new FollowUpInteraction();
             $followUpInteraction->setFollowUp($followUp)
@@ -58,16 +45,15 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
                                 ->setType($status)
                                 ->setDate($dateCreated);
             $manager->persist($followUpInteraction);
-            if($faker->boolean(70)){
-                if($faker->boolean(90)) {
+            if ($faker->boolean(70)) {
+                if ($faker->boolean(90)) {
                     //Sent
-                    $dateSent       = clone $dateCreated;
+                    $dateSent = clone $dateCreated;
                     $dateSentModify = random_int(1, 12);
-                    $dateSent       = $dateSent->modify('+' . $dateSentModify . ' hours');
-                    $status         = "Sent";
-                    //update FollowUp sent date
+                    $dateSent = $dateSent->modify('+'.$dateSentModify.' hours');
+                    $status = 'Sent';
                     $followUp->setDateSent($dateSent);
-                    // $manager->persist($followUp);
+
                     //create FollowUp interaction
                     $followUpInteraction = new FollowUpInteraction();
                     $followUpInteraction->setFollowUp($followUp)
@@ -77,15 +63,16 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
                                         ->setDate($dateSent);
                     $manager->persist($followUpInteraction);
 
-                    if($faker->boolean(70)){
+                    if ($faker->boolean(70)) {
                         //Viewed
-                        $viewCount  = $faker->numberBetween(1, 5);
+                        $viewCount = $faker->numberBetween(1, 5);
                         $dateViewed = clone $dateSent;
-                        for($j = 0; $j < $viewCount; $j++){
-                            $dateViewed       = clone $dateViewed;
+                        for ($j = 0; $j < $viewCount; ++$j) {
+                            $dateViewed = clone $dateViewed;
                             $dateViewedModify = random_int(1, 12);
-                            $dateViewed       = $dateViewed->modify('+' . $dateViewedModify . ' hours');
-                            $status           = "Viewed";
+                            $dateViewed = $dateViewed->modify('+'.$dateViewedModify.' hours');
+                            $status = 'Viewed';
+
                             //create FollowUp interaction
                             $followUpInteraction = new FollowUpInteraction();
                             $followUpInteraction->setFollowUp($followUp)
@@ -98,14 +85,15 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
                             $followUp->setDateViewed($dateViewed);
                         }
 
-                        if($faker->boolean(70)){
+                        if ($faker->boolean(70)) {
                             //Converted
-                            $dateConverted       = clone $dateViewed;
+                            $dateConverted = clone $dateViewed;
                             $dateConvertedModify = random_int(1, 12);
-                            $dateConverted       = $dateConverted->modify('+' . $dateConvertedModify . ' hours');
-                            $status              = "Converted";
+                            $dateConverted = $dateConverted->modify('+'.$dateConvertedModify.' hours');
+                            $status = 'Converted';
                             //update FollowUp converted date
                             $followUp->setDateConverted($dateConverted);
+
                             //create FollowUp interaction
                             $followUpInteraction = new FollowUpInteraction();
                             $followUpInteraction->setFollowUp($followUp)
@@ -117,9 +105,9 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
                         }
                     }
                 } else {
-                    $status              = "Not Delivered";
+                    $status = 'Not Delivered';
                     $followUpInteraction = new FollowUpInteraction();
-                    
+
                     $followUpInteraction->setFollowUp($followUp)
                                         ->setUser($repairOrder->getPrimaryTechnician())
                                         ->setCustomer($repairOrder->getPrimaryCustomer())
@@ -127,23 +115,23 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
                                         ->setDate($dateCreated);
                     $manager->persist($followUpInteraction);
                 }
-                
             }
             //update followUp status
             $followUp->setStatus($status);
             $manager->persist($followUp);
             $manager->flush();
 
-            $this->addReference('followUp_' . $i, $followUp);
+            $this->addReference('followUp_'.$i, $followUp);
         }
     }
 
     /**
      * @return string[]
      */
-    public function getDependencies () {
+    public function getDependencies()
+    {
         return [
-            RepairOrderFixture::class
+            RepairOrderFixture::class,
         ];
     }
 }

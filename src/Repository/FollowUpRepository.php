@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\FollowUp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method FollowUp|null find($id, $lockMode = null, $lockVersion = null)
@@ -50,23 +50,30 @@ class FollowUpRepository extends ServiceEntityRepository
     */
 
     /**
-     * @param 
-     * 
+     * @param
+     *
      * @return FollowUp[] Returns array of FolloUp ojbects
      */
-    public function getAllItems($start = null, $end = null, $status = null, $sortField = 'date_crated', $sortDirection = 'DESC', $searchTerm = null)
-    {
+    public function getAllItems(
+        $start = null,
+        $end = null,
+        $status = null,
+        $sortField = 'date_crated',
+        $sortDirection = 'DESC',
+        $searchTerm = null
+    ) {
         if (is_null($end)) {
-            $end   = new \DateTime();
+            $end = new \DateTime();
         } else {
-            $end   = new \DateTime($end);
+            $end = new \DateTime($end);
         }
 
-        if ($start)
+        if ($start) {
             $start = new \DateTime($start);
+        }
 
         try {
-            $qb    = $this->createQueryBuilder('fu');
+            $qb = $this->createQueryBuilder('fu');
 
             $qb->leftJoin('fu.repairOrder', 'ro');
             $qb->leftJoin('ro.primaryCustomer', 'ro_customer');
@@ -83,35 +90,33 @@ class FollowUpRepository extends ServiceEntityRepository
                     ->setParameter('end', $end->format('Y-m-d H:i'));
             }
             if ($searchTerm) {
-                $query          = "";
-
+                $query = '';
 
                 $searchFields = [
-                    "ro"             => ["number", "year", "model", "miles", "vin"],
-                    "ro_customer"    => ["name", "phone", "email"],
-                    "ro_advisor"     => ["combine_name", "phone", "email"],
-                    "ro_technician"  => ["combine_name", "phone", "email"],
-
-
+                    'ro' => ['number', 'year', 'model', 'miles', 'vin'],
+                    'ro_customer' => ['name', 'phone', 'email'],
+                    'ro_advisor' => ['combine_name', 'phone', 'email'],
+                    'ro_technician' => ['combine_name', 'phone', 'email'],
                 ];
 
                 foreach ($searchFields as $class => $fields) {
                     foreach ($fields as $field) {
-                        if ($field === "combine_name")
+                        if ('combine_name' === $field) {
                             $query .= "CONCAT($class.firstName,' ',$class.lastName) LIKE :searchTerm OR ";
-                        else
+                        } else {
                             $query .= "$class.$field LIKE :searchTerm OR ";
+                        }
                     }
                 }
 
                 $query = substr($query, 0, strlen($query) - 4);
 
                 $qb->andWhere($query)
-                    ->setParameter('searchTerm', '%' . $searchTerm . '%');
+                    ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 
             if ($sortDirection) {
-                $qb->orderBy('fu.' . $sortField, $sortDirection);
+                $qb->orderBy('fu.'.$sortField, $sortDirection);
             } else {
                 $qb->orderBy('fu.dateCreated', 'DESC');
             }
@@ -129,19 +134,19 @@ class FollowUpRepository extends ServiceEntityRepository
 
     /**
      * @param $delay
-     * 
-     * @return FollowUp[] Returns array of FolloUp ojbects
+     *
+     * @return FollowUp[] Returns array of FollowUp objects
      */
     public function getAllDelayedItems($delay)
     {
         try {
-            $qb = $this->createQueryBuilder("fu");
+            $qb = $this->createQueryBuilder('fu');
 
             $qb->andWhere(":now >= DATE_ADD(fu.dateCreated, :delay , 'day')")
-                ->andWhere("fu.dateSent is NULL")
+                ->andWhere('fu.dateSent is NULL')
                 ->andWhere("fu.status <> 'Not Delivered'")
-                ->setParameter("now", new \DateTime())
-                ->setParameter("delay", $delay);
+                ->setParameter('now', new \DateTime())
+                ->setParameter('delay', $delay);
 
             return $qb->getQuery()->getResult();
         } catch (NonUniqueResultException $e) {

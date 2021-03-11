@@ -2,12 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\FollowUp;
 use App\Entity\Customer;
+use App\Entity\FollowUp;
 use App\Repository\FollowUpRepository;
 use App\Response\ValidationResponse;
-use App\Service\Pagination;
 use App\Service\FollowUpHelper;
+use App\Service\Pagination;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
@@ -18,13 +19,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Doctrine\ORM\EntityManagerInterface;
 
 /**
- * Class FollowUpController
- *
- * @package App\Controller
- *
+ * Class FollowUpController.
  */
 class FollowUpController extends AbstractFOSRestController
 {
@@ -39,22 +36,22 @@ class FollowUpController extends AbstractFOSRestController
      *     name="startDate",
      *     type="string",
      *     format="date-time",
-     *     description="Get ROs created after supplied date-time",
+     *     description="Get FollowUps created after supplied date-time",
      *     in="query"
      * )
      * @SWG\Parameter(
      *     name="endDate",
      *     type="string",
      *     format="date-time",
-     *     description="Get ROs created before supplied date-time",
+     *     description="Get FollowUps created before supplied date-time",
      *     in="query"
      * )
      * @SWG\Parameter(
      *     name="status",
      *     type="string",
-     *     description="Get ROs created before supplied date-time",
+     *     description="Get FollowUps which has the supplied status",
      *     in="query",
-     *     enum={"Not Delivered", "Created", "Sent", "Viewed", "Converted"}
+     *     enum={"Created", "Not Delivered", "Sent", "Viewed", "Converted"}
      * )
      * @SWG\Parameter(name="page", type="integer", in="query")
      * @SWG\Parameter(
@@ -82,7 +79,7 @@ class FollowUpController extends AbstractFOSRestController
      *     description="The available fields are [number, year, make, model, miles, vin] of RepairOrder, [name, phone, email] of primaryCustomer, [name, email, phone] of primaryAdvisor and primaryTechnician",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -104,14 +101,6 @@ class FollowUpController extends AbstractFOSRestController
      *     response="404",
      *     description="Invalid page parameter"
      * )
-     *
-     * @param Request                $request
-     * @param FollowUpRepository     $followUpRepository
-     * @param PaginatorInterface     $paginator
-     * @param UrlGeneratorInterface  $urlGenerator
-     * @param EntityManagerInterface $em
-     *
-     * @return Response
      */
     public function list(
         Request $request,
@@ -120,15 +109,15 @@ class FollowUpController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ): Response {
-        $page          = $request->query->getInt('page', 1);
-        $status        = $request->query->getInt('status');
-        $startDate     = $request->query->get('startDate');
-        $endDate       = $request->query->get('endDate');
+        $page = $request->query->getInt('page', 1);
+        $status = $request->query->getInt('status');
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
         $urlParameters = [];
-        $sortField     = "";
-        $sortDirection = "";
-        $searchTerm    = "";
-        $errors        = [];
+        $sortField = '';
+        $sortDirection = '';
+        $searchTerm = '';
+        $errors = [];
 
         // Invalid page
         if ($page < 1) {
@@ -138,40 +127,41 @@ class FollowUpController extends AbstractFOSRestController
         $columns = $em->getClassMetadata('App\Entity\FollowUp')->getFieldNames();
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField                      = $request->query->get('sortField');
+            $sortField = $request->query->get('sortField');
 
             //check if the sortfield exist
-            if (!in_array($sortField, $columns))
+            if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
+            }
 
-            $sortDirection                  = $request->query->get('sortDirection');
+            $sortDirection = $request->query->get('sortDirection');
 
             $urlParameters['sortDirection'] = $sortDirection;
-            $urlParameters['sortField']     = $sortField;
+            $urlParameters['sortField'] = $sortField;
         }
 
         if ($request->query->has('searchTerm')) {
-            $searchTerm                     = $request->query->get('searchTerm');
+            $searchTerm = $request->query->get('searchTerm');
 
-            $urlParameters['searchTerm']    = $searchTerm;
+            $urlParameters['searchTerm'] = $searchTerm;
         }
 
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }
 
-        $followUpQuery = $followUpRepository->getAllItems($startDate, $endDate, $status,  $sortField, $sortDirection, $searchTerm);
-        $pageLimit    = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $pager        = $paginator->paginate($followUpQuery, $page, $pageLimit);
-        $pagination   = new Pagination($pager, $pageLimit, $urlGenerator);
+        $followUpQuery = $followUpRepository->getAllItems($startDate, $endDate, $status, $sortField, $sortDirection, $searchTerm);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $pager = $paginator->paginate($followUpQuery, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
-            'followUps'    => $pager->getItems(),
+            'followUps' => $pager->getItems(),
             'totalResults' => $pagination->totalResults,
-            'totalPages'   => $pagination->totalPages,
-            'previous'     => $pagination->getPreviousPageURL('app_followup_list', $urlParameters),
-            'currentPage'  => $pagination->currentPage,
-            'next'         => $pagination->getNextPageURL('app_followup_list', $urlParameters)
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('app_followup_list', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('app_followup_list', $urlParameters),
         ];
 
         $view = $this->view($json);
@@ -185,37 +175,35 @@ class FollowUpController extends AbstractFOSRestController
      * @Rest\Post("/api/follow-up/view")
      *
      * @SWG\Tag(name="Follow Up")
-     * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
+     * @SWG\Post(description="Update a FollowUp and create a new FollowUpInteraction")
      *
      * @SWG\Parameter(
      *     name="followUpId",
      *     in="formData",
      *     required=true,
      *     type="integer",
-     *     description="The Follow Up Id",
+     *     description="The Id of FollowUp",
      * )
      * @SWG\Response(response="200", description="Success!")
      *
-     *
-     * @param FollowUpHelper          $helper
-     * @param EntityManagerInterface  $em
+     * @param FollowUpHelper         $helper
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
-
     public function viewed(Request $request, FollowUpHelper $followUpHelper, FollowUpRepository $followUpRepository)
     {
-        $followUpId  = $request->get("followUpId");
-        if(!$followUpId){
-            throw new BadRequestHttpException('Please input followUpId');
+        $followUpId = $request->get('followUpId');
+        if (!$followUpId) {
+            throw new BadRequestHttpException('You should input followUpId');
         }
 
-        $followUp = $followUpRepository->findOneBy(['id' => $followUpId ]);
-        if(!$followUp){
+        $followUp = $followUpRepository->findOneBy(['id' => $followUpId]);
+        if (!$followUp) {
             throw new NotFoundHttpException();
         }
 
-        $user    = $this->getUser();
+        $user = $this->getUser();
 
         if (!$user instanceof Customer) {
             return $this->handleView($this->view('The type of user should be Customer.', Response::HTTP_BAD_REQUEST));
@@ -224,7 +212,7 @@ class FollowUpController extends AbstractFOSRestController
         $followUpHelper->updateFollowUp($followUp, $user, 'Viewed');
 
         return $this->handleView($this->view([
-            'message' => 'Success'
+            'message' => 'Success',
         ], Response::HTTP_OK));
     }
 
@@ -232,37 +220,36 @@ class FollowUpController extends AbstractFOSRestController
      * @Rest\Post("/api/follow-up/converted")
      *
      * @SWG\Tag(name="Follow Up")
-     * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
+     * @SWG\Post(description="Update a FollowUp and create a new FollowUpInteraction")
      *
      * @SWG\Parameter(
      *     name="followUpId",
      *     in="formData",
      *     required=true,
      *     type="integer",
-     *     description="The Follow Up Id",
+     *     description="The Id of FollowUp",
      * )
      * @SWG\Response(response="200", description="Success!")
      *
-     *
-     * @param FollowUpHelper          $helper
-     * @param EntityManagerInterface  $em
+     * @param FollowUpHelper         $helper
+     * @param EntityManagerInterface $em
      *
      * @return Response
      */
-
     public function converted(Request $request, FollowUpHelper $followUpHelper, FollowUpRepository $followUpRepository)
     {
-        $followUpId  = $request->get("followUpId");
-        if(!$followUpId){
-            throw new BadRequestHttpException('Please input followUpId');
+        $followUpId = $request->get('followUpId');
+
+        if (!$followUpId) {
+            throw new BadRequestHttpException('You should input followUpId');
         }
 
-        $followUp = $followUpRepository->findOneBy(['id' => $followUpId ]);
-        if(!$followUp){
+        $followUp = $followUpRepository->findOneBy(['id' => $followUpId]);
+        if (!$followUp) {
             throw new NotFoundHttpException();
         }
 
-        $user    = $this->getUser();
+        $user = $this->getUser();
 
         if (!$user instanceof Customer) {
             throw new BadRequestHttpException('The type of user should be Customer.');
@@ -271,7 +258,7 @@ class FollowUpController extends AbstractFOSRestController
         $followUpHelper->updateFollowUp($followUp, $user, 'Converted');
 
         return $this->handleView($this->view([
-            'message' => 'Success'
+            'message' => 'Success',
         ], Response::HTTP_OK));
     }
 }
