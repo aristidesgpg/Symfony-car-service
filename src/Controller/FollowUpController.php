@@ -34,7 +34,7 @@ class FollowUpController extends AbstractFOSRestController
     /**
      * @Rest\Get("/api/follow-up")
      *
-     * @SWG\Tag(name="FollowUp")
+     * @SWG\Tag(name="Follow Up")
      * @SWG\Get(description="Get followups")
      * @SWG\Parameter(
      *     name="startDate",
@@ -185,7 +185,7 @@ class FollowUpController extends AbstractFOSRestController
     /**
      * @Rest\Post("/api/follow-up/view")
      *
-     * @SWG\Tag(name="FollowUp")
+     * @SWG\Tag(name="Follow Up")
      * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
      *
      * @SWG\Parameter(
@@ -232,7 +232,7 @@ class FollowUpController extends AbstractFOSRestController
     /**
      * @Rest\Post("/api/follow-up/converted")
      *
-     * @SWG\Tag(name="FollowUp")
+     * @SWG\Tag(name="Follow Up")
      * @SWG\Post(description="Update a Followup and create a new FollowupInteraction")
      *
      * @SWG\Parameter(
