@@ -4,10 +4,7 @@ namespace App\Command;
 
 use Exception;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use App\Repository\FollowUpRepository;
@@ -20,7 +17,7 @@ use App\Service\SettingsHelper;
  *
  * @package App\Command
  */
-class FollowUpCommand extends ContainerAwareCommand {
+class FollowUpCommand extends Command {
     /**
      * @var string
      */

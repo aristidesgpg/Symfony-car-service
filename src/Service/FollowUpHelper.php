@@ -5,12 +5,9 @@ namespace App\Service;
 use App\Entity\FollowUp;
 use App\Entity\FollowUpInteraction;
 use App\Entity\User;
-use App\Entity\Customer;
 use App\Entity\RepairOrder;
+use App\Service\SettingsHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
-use InvalidArgumentException;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -26,6 +23,9 @@ class FollowUpHelper {
 
     /** @var User */
     private $user;
+    
+    /** @var SettingsHelper */
+    private $settingsHelper;
 
     /**
      * FollowUpHelper constructor.
@@ -36,74 +36,75 @@ class FollowUpHelper {
      * @param ParameterBagInterface  $params
      */
     public function __construct (EntityManagerInterface $em,  ShortUrlHelper $urlHelper, Security $security,
-                                 SettingsHelper $settings, ParameterBagInterface $params) {
+                                 SettingsHelper $settings, ParameterBagInterface $params, SettingsHelper $settingsHelper) {
         $this->em     = $em;
         $this->urlHelper          = $urlHelper;
         $this->settingsHelper     = $settings;
         $this->params             = $params;
         $this->user               = $security->getUser();
+        $this->settingsHelper     = $settingsHelper;
     }
 
     /**
      * @param RepairOrder $repairOrder
      */
     public function new (RepairOrder $repairOrder): void {
-       $followup = new FollowUp();
-       $followup->setRepairOrder($repairOrder)
+       $followUp = new FollowUp();
+       $followUp->setRepairOrder($repairOrder)
                 ->setDateCreated( new \DateTime )
                 ->setStatus('Created');
 
-       $this->em->persist($followup);
+       $this->em->persist($followUp);
        $this->em->flush();
 
-        $this->sendMessage($followup);
+        $this->sendMessage($followUp);
 
     }
     
-    private function createFollowupInteraction(FollowUp $followup, $user, string $status){
-        $followupInteraction = new FollowUpInteraction();
+    private function createFollowupInteraction(FollowUp $followUp, $user, string $status){
+        $followUpInteraction = new FollowUpInteraction();
 
-        $followupInteraction->setFollowUp($followup)
+        $followUpInteraction->setFollowUp($followUp)
                             ->setType($status)
                             ->setDate(new \DateTime());
         
         if($status === 'Sent'){
-            $followupInteraction->setUser($user);
+            $followUpInteraction->setUser($user);
         }
         else {
-            $followupInteraction->setCustomer($user);
+            $followUpInteraction->setCustomer($user);
         }
 
-        $this->em->persist($followupInteraction);
+        $this->em->persist($followUpInteraction);
         $this->em->flush();
     }
 
     /**
-     * @param FollowUp $followup
+     * @param FollowUp $followUp
      * @param User/Customer     $user
      * @param string $status
      * 
      */
-    public function updateFollowUp (FollowUp $followup, $user, string $status): void {
-        $this->createFollowupInteraction( $followup, $user, $status);
+    public function updateFollowUp (FollowUp $followUp, $user, string $status): void {
+        $this->createFollowupInteraction( $followUp, $user, $status);
 
         switch ($status){
             case 'Viewed':
-                $currStatus = $followup->getStatus();
+                $currStatus = $followUp->getStatus();
                 if($currStatus !== 'Converted')
                 {
                     if($currStatus === 'Viewed'){
-                        $followup->setStatus('Sent');    
+                        $followUp->setStatus('Sent');    
 
                         // If the Follow Up 'date_sent' is null, set it to today's date
-                        if(!$followup->getDateSent()){
-                            $followup->setDateSent(new \DateTime());
+                        if(!$followUp->getDateSent()){
+                            $followUp->setDateSent(new \DateTime());
                         }
 
                         // create a FollowUpIneraction of 'sent' with the user_id of the primaryAdvisor for the repair order
-                        $repairOrder = $followup->getRepairOrder();
+                        $repairOrder = $followUp->getRepairOrder();
                         $newUser     = $repairOrder->getPrimaryAdvisor();
-                        $this->createFollowupInteraction( $followup, $newUser, 'Sent');
+                        $this->createFollowupInteraction( $followUp, $newUser, 'Sent');
 
                         // if the customer's phone number 'phone_validated' is false, set it to true
                         $customer    = $repairOrder->getPrimaryCustomer();
@@ -115,29 +116,29 @@ class FollowUpHelper {
                         }
                     }
                     else{
-                        $followup->setStatus('Viewed')    
+                        $followUp->setStatus('Viewed')    
                                  ->setDateViewed(new \DateTime());
                     }
 
                 }
                 break;
             case 'Converted':
-                $followup->setStatus('Converted')
+                $followUp->setStatus('Converted')
                          ->setDateConverted(new \DateTime());
                
                 break;
             case 'Sent':
-                $followup->setStatus('Sent')
+                $followUp->setStatus('Sent')
                          ->setDateSent(new \DateTime());
                
                 break;
             case 'Not Delivered':
-                $followup->setStatus('Not Delivered');
+                $followUp->setStatus('Not Delivered');
                
                 break;
         }
 
-        $this->em->persist($followup);
+        $this->em->persist($followUp);
         $this->em->flush();    
        
     }
@@ -146,14 +147,17 @@ class FollowUpHelper {
      * @param FollowUp $followUp
      */
     public function sendMessage(FollowUp $followUp){
-        $repairOrder  = $followUp->getRepairOrder();
-        $phone        = $repairOrder->getPrimaryCustomer()->getPhone();
-        $linkhash     = $repairOrder->getLinkHash();
+        $repairOrder         = $followUp->getRepairOrder();
+        $phone               = $repairOrder->getPrimaryCustomer()->getPhone();
+        $linkhash            = $repairOrder->getLinkHash();
+        $followUpTextMessage = $this->settingsHelper->getSetting('followUpTextMessage');
+        $followUpScheduleURL = $this->settingsHelper->getSetting('followUpScheduleURL');
         
-        $url          = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash . "/followup";
+        $url          = rtrim($this->params->get('customer_url'), '/') . '/' . $linkhash . "/followUp";
         $shortUrl     = $this->urlHelper->generateShortUrl($url);
         try {
-            $this->urlHelper->sendShortenedLink($phone, "Please check your declined work", $shortUrl, true);
+            // $this->urlHelper->sendShortenedLink($phone, "Please check your declined work", $shortUrl, true);
+            $this->urlHelper->sendShortenedLink($phone, $followUpTextMessage, $shortUrl, true);
 
             $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent');
             

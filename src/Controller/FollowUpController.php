@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\FollowUp;
-use App\Entity\User;
 use App\Entity\Customer;
 use App\Repository\FollowUpRepository;
 use App\Response\ValidationResponse;
@@ -35,7 +34,7 @@ class FollowUpController extends AbstractFOSRestController
      * @Rest\Get("/api/follow-up")
      *
      * @SWG\Tag(name="Follow Up")
-     * @SWG\Get(description="Get followups")
+     * @SWG\Get(description="Get FollowUps")
      * @SWG\Parameter(
      *     name="startDate",
      *     type="string",
@@ -106,10 +105,10 @@ class FollowUpController extends AbstractFOSRestController
      *     description="Invalid page parameter"
      * )
      *
-     * @param Request               $request
+     * @param Request                $request
      * @param FollowUpRepository     $followUpRepository
-     * @param PaginatorInterface    $paginator
-     * @param UrlGeneratorInterface $urlGenerator
+     * @param PaginatorInterface     $paginator
+     * @param UrlGeneratorInterface  $urlGenerator
      * @param EntityManagerInterface $em
      *
      * @return Response

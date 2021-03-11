@@ -106,7 +106,6 @@ class FollowUpFixture extends Fixture implements DependentFixtureInterface {
                             $status              = "Converted";
                             //update FollowUp converted date
                             $followUp->setDateConverted($dateConverted);
-                            // $manager->persist($followUp);
                             //create FollowUp interaction
                             $followUpInteraction = new FollowUpInteraction();
                             $followUpInteraction->setFollowUp($followUp)
