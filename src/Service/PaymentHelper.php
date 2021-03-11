@@ -17,6 +17,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Throwable;
 use Twilio\Exceptions\TwilioException;
 
+/**
+ * Class PaymentHelper.
+ */
 class PaymentHelper
 {
     private $em;
@@ -74,6 +77,7 @@ class PaymentHelper
                 ->setStatus($this->statusCalculator('Created', $payment->getStatus()));
         $this->createInteraction($payment, 'Created');
         $this->commitPayment($payment);
+        $this->updateRepairOrderStatus($payment);
 
         return $payment;
     }
@@ -283,10 +287,9 @@ class PaymentHelper
         $currentPaymentRank = array_search($payment->getStatus(), $this->getValidStatusesInOrder());
 
         //If it doesn't have a rank, then it's a deleted payment or invalid, so set the currentPaymentRank higher than all ranks.
-        if (!$currentPaymentRank) {
+        if (false === $currentPaymentRank || $payment->isDeleted()) {
             $currentPaymentRank = 10000;
         }
-
         foreach ($rops as $rop) {
             if ($rop->isDeleted()) {
                 continue;
