@@ -24,6 +24,15 @@ class FollowUpHelper
     /** @var SettingsHelper */
     private $settingsHelper;
 
+    /** @var ParameterBagInterface */
+    private $params;
+
+    /** @var ShortUrlHelper */
+    private $urlHelper;
+
+    /** @var TwilioHelper */
+    private $twilioHelper;
+
     /**
      * FollowUpHelper constructor.
      */
@@ -33,7 +42,8 @@ class FollowUpHelper
         Security $security,
         SettingsHelper $settings,
         ParameterBagInterface $params,
-        SettingsHelper $settingsHelper
+        SettingsHelper $settingsHelper,
+        TwilioHelper $twilioHelper
     ) {
         $this->em = $em;
         $this->urlHelper = $urlHelper;
@@ -41,6 +51,7 @@ class FollowUpHelper
         $this->params = $params;
         $this->user = $security->getUser();
         $this->settingsHelper = $settingsHelper;
+        $this->twilioHelper = $twilioHelper;
     }
 
     public function new(RepairOrder $repairOrder): void
@@ -136,16 +147,14 @@ class FollowUpHelper
     public function sendMessage(FollowUp $followUp)
     {
         $repairOrder = $followUp->getRepairOrder();
-        $phone = $repairOrder->getPrimaryCustomer()->getPhone();
+        $customer = $repairOrder->getPrimaryCustomer();
         $linkhash = $repairOrder->getLinkHash();
         $followUpTextMessage = $this->settingsHelper->getSetting('followUpTextMessage');
-        $followUpScheduleURL = $this->settingsHelper->getSetting('followUpScheduleURL');
 
         $url = rtrim($this->params->get('customer_url'), '/').'/'.$linkhash.'/followUp';
         $shortUrl = $this->urlHelper->generateShortUrl($url);
         try {
-            // $this->urlHelper->sendShortenedLink($phone, "Please check your declined work", $shortUrl, true);
-            $this->urlHelper->sendShortenedLink($phone, $followUpTextMessage, $shortUrl, true);
+            $this->twilioHelper->sendSms($customer, $followUpTextMessage.' '.$shortUrl);
 
             $this->updateFollowUp($followUp, $repairOrder->getPrimaryAdvisor(), 'Sent');
         } catch (\Exception $e) {
