@@ -7,14 +7,11 @@ use App\Entity\RepairOrderQuoteRecommendation;
 use App\Repository\OperationCodeRepository;
 use App\Repository\PriceMatrixRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
-use Symfony\Component\Security\Core\Security;
 use Exception;
+use Symfony\Component\Security\Core\Security;
 
 /**
- * Class RepairOrderQuoteHelper
- *
- * @package App\Service
+ * Class RepairOrderQuoteHelper.
  */
 class RepairOrderQuoteHelper
 {
@@ -39,22 +36,25 @@ class RepairOrderQuoteHelper
     private $pricingLaborRate;
     private $isPricingMatrix;
     private $pricingLaborTax;
-    private $pricingPartsTax; 
+    private $pricingPartsTax;
     private $priceRepository;
-    
 
-    public function __construct( EntityManagerInterface $em, OperationCodeRepository $operationCodeRepository, 
-                                SettingsHelper $settingsHelper, PriceMatrixRepository $priceRepository , Security $security)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        OperationCodeRepository $operationCodeRepository,
+        SettingsHelper $settingsHelper,
+        PriceMatrixRepository $priceRepository,
+        Security $security
+    ) {
         $this->em = $em;
         $this->operationCodeRepository = $operationCodeRepository;
         $this->security = $security;
-        $this->priceRepository  = $priceRepository;
+        $this->priceRepository = $priceRepository;
 
-        $this->pricingLaborRate = $settingsHelper->getSetting("pricingLaborRate");
-        $this->isPricingMatrix  = $settingsHelper->getSetting('pricingUseMatrix') * 0.01;
-        $this->pricingLaborTax  = $settingsHelper->getSetting("pricingLaborTax") * 0.01;
-        $this->pricingPartsTax  = $settingsHelper->getSetting("pricingPartsTax") * 0.01;
+        $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
+        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix') * 0.01;
+        $this->pricingLaborTax = $settingsHelper->getSetting('pricingLaborTax') * 0.01;
+        $this->pricingPartsTax = $settingsHelper->getSetting('pricingPartsTax') * 0.01;
     }
 
     /**
@@ -77,11 +77,11 @@ class RepairOrderQuoteHelper
                 if (!isset($fields[$field])) {
                     throw new Exception($field.' is missing in recommendations json');
                 } else {
-                    if ($fields[$field] === '') {
+                    if ('' === $fields[$field]) {
                         throw new Exception($field.' has no value in recommendations json');
                     }
 
-                    if ($field == 'partsPrice' || $field == 'suppliesPrice') {
+                    if ('partsPrice' == $field || 'suppliesPrice' == $field) {
                         if (!is_numeric($fields[$field])) {
                             throw new Exception($field.' has invalid value in recommendations json');
                         }
@@ -131,12 +131,12 @@ class RepairOrderQuoteHelper
                                            ->setPartsPrice($recommendation->partsPrice)
                                            ->setSuppliesPrice($recommendation->suppliesPrice)
                                            ->setNotes($recommendation->notes);
-                                           
-            if ( $this->security->isGranted('ROLE_CUSTOMER') ){
-                $partsPrice    = $recommendation->partsPrice;
+
+            if ($this->security->isGranted('ROLE_CUSTOMER')) {
+                $partsPrice = $recommendation->partsPrice;
                 $suppliesPrice = $recommendation->suppliesPrice;
-                $laborAndTax   = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
-               
+                $laborAndTax = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
+
                 $repairOrderQuoteRecommendation->setLaborPrice($laborAndTax['laborPrice'])
                                                ->setLaborTax($laborAndTax['laborTax'])
                                                ->setPartsTax($laborAndTax['partsTax'])
@@ -149,7 +149,7 @@ class RepairOrderQuoteHelper
             try {
                 $this->em->flush();
                 $this->em->commit();
-            } catch (ORMException | Exception $e) {
+            } catch (Exception $e) {
                 $this->em->rollback();
 
                 throw new Exception($e->getMessage());
@@ -157,59 +157,56 @@ class RepairOrderQuoteHelper
         }
     }
 
-    public function getLaborAndTax($partsPrice, $suppliesPrice, $operationCode){
-        $laborPrice        = null;
-        $laborTax          = 0;
-        $partsTax          = 0;
-        $suppliesTax       = 0;
-        $hours             = $operationCode->getLaborHours();
+    public function getLaborAndTax($partsPrice, $suppliesPrice, $operationCode): array
+    {
+        $laborPrice = null;
+        $laborTax = 0;
+        $partsTax = 0;
+        $suppliesTax = 0;
+        $hours = $operationCode->getLaborHours();
 
-        if($this->isPricingMatrix){
-            $laborPrice    = $this->priceRepository->getPrice($hours);
+        if ($this->isPricingMatrix) {
+            $laborPrice = $this->priceRepository->getPrice($hours);
         }
 
-        if( is_null( $laborPrice) ) {
-            $laborPrice    = $hours * $this->pricingLaborRate;
+        if (is_null($laborPrice)) {
+            $laborPrice = $hours * $this->pricingLaborRate;
         }
 
-        if($operationCode->getLaborTaxable()){
-            $laborTax       = $laborPrice * $this->pricingLaborTax;  
+        if ($operationCode->getLaborTaxable()) {
+            $laborTax = $laborPrice * $this->pricingLaborTax;
         }
 
-        if($operationCode->getPartsTaxable()){
-            $partsTax      = $partsPrice * $this->pricingPartsTax;
+        if ($operationCode->getPartsTaxable()) {
+            $partsTax = $partsPrice * $this->pricingPartsTax;
         }
 
-        if($operationCode->getSuppliesTaxable()){
-            $suppliesTax   = $suppliesPrice * $this->pricingPartsTax;
+        if ($operationCode->getSuppliesTaxable()) {
+            $suppliesTax = $suppliesPrice * $this->pricingPartsTax;
         }
 
         return [
-            'laborPrice'  => $laborPrice,
-            'laborTax'    => $laborTax,
-            'partsTax'    => $partsTax,
-            'suppliesTax' => $suppliesTax
+            'laborPrice' => round($laborPrice, 2),
+            'laborTax' => round($laborTax, 2),
+            'partsTax' => round($partsTax, 2),
+            'suppliesTax' => round($suppliesTax, 2),
         ];
     }
 
-    /**
-     * @param RepairOrderQuote $quote
-     */
-    public function calculateLaborAndTax(RepairOrderQuote $quote)
+    public function calculateLaborAndTax(RepairOrderQuote $quote): RepairOrderQuote
     {
         $newQuote = $quote;
 
-        if($quote && $quote->getRepairOrderQuoteRecommendations() && $quote->getRepairOrderQuoteRecommendations()){
-            $recommendations       = $quote->getRepairOrderQuoteRecommendations();
-            
-            if(count($recommendations) > 0)
-            {
-                foreach($recommendations as $index =>$recommendation){
+        if ($quote && $quote->getRepairOrderQuoteRecommendations() && $quote->getRepairOrderQuoteRecommendations()) {
+            $recommendations = $quote->getRepairOrderQuoteRecommendations();
+
+            if (count($recommendations) > 0) {
+                foreach ($recommendations as $index => $recommendation) {
                     $operationCode = $recommendation->getOperationCode();
-                    $partsPrice    = $recommendation->getPartsPrice();
+                    $partsPrice = $recommendation->getPartsPrice();
                     $suppliesPrice = $recommendation->getSuppliesPrice();
-                    $laborAndTax   = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode );
-                    
+                    $laborAndTax = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
+
                     $newQuote->getRepairOrderQuoteRecommendations()[$index]->setLaborPrice($laborAndTax['laborPrice'])
                                                                            ->setLaborTax($laborAndTax['laborTax'])
                                                                            ->setPartsTax($laborAndTax['partsTax'])
