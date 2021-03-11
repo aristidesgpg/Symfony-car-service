@@ -22,4 +22,3 @@ tests/Fixtures/uploads
 /tools/
 /.php_cs.cache
 /bin/.phpunit
-/composer.lock

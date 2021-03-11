@@ -15,6 +15,8 @@ parameters:
   dealerbuilt_location_id: '%env(DEALERBUILT_LOCATION_ID)%'
   dealertrack_company: '%env(DEALERTRACK_COMPANY)%'
   dealertrack_enterprise: '%env(DEALERTRACK_ENTERPRISE)%'
+  nmi_username: '%env(NMI_USERNAME)%'
+  nmi_password: '%env(NMI_PASSWORD)%'
 services:
   # default configuration for services in *this* file
   _defaults:
