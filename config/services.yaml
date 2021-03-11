@@ -16,6 +16,8 @@ parameters:
   dealertrack_company: '%env(DEALERTRACK_COMPANY)%'
   dealertrack_enterprise: '%env(DEALERTRACK_ENTERPRISE)%'
   soap_directory: '%kernel.project_dir%/src/Soap/'
+  nmi_username: '%env(NMI_USERNAME)%'
+  nmi_password: '%env(NMI_PASSWORD)%'
 services:
   # default configuration for services in *this* file
   _defaults:

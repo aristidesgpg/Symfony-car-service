@@ -30,9 +30,8 @@ class SettingsHelper
         'upgradeIntroText', 'upgradeOfferText', 'upgradeCashOfferCopy', 'upgradeDisclaimer',
         'generalName', 'generalEmail', 'generalWebsiteUrl', 'generalInventoryUrl', 'generaAddress',
         'generalAddress2', 'generalCity', 'generalState', 'generalZip', 'generalPhone',
-        'reviewGoogleUrl', 'reviewFacebookUrl', 'reviewText',
+        'myReviewActivated', 'myReviewGoogleUrl', 'myReviewFacebookUrl', 'myReviewText',
         'usingAutomate', 'usingDealerBuilt', 'usingDealerTrack', 'usingCdk', 'dmsFilter', 'offHoursIntegration', 'customerURL',
-        'myReviewActivated'
     ];
 
     const VALID_FILE_SETTINGS = ['custAppPostInspectionVideo', 'generalLogo', 'reviewLogo'];
@@ -89,8 +88,6 @@ class SettingsHelper
 
     /**
      * @param $key
-     *
-     * @return string|null
      *
      * @throws Exception
      */
