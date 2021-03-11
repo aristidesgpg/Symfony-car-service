@@ -27,9 +27,14 @@ class FollowUpHelper
     /**
      * FollowUpHelper constructor.
      */
-    public function __construct(EntityManagerInterface $em,  ShortUrlHelper $urlHelper, Security $security,
-                                 SettingsHelper $settings, ParameterBagInterface $params, SettingsHelper $settingsHelper)
-    {
+    public function __construct(
+        EntityManagerInterface $em,
+        ShortUrlHelper $urlHelper,
+        Security $security,
+        SettingsHelper $settings,
+        ParameterBagInterface $params,
+        SettingsHelper $settingsHelper
+    ) {
         $this->em = $em;
         $this->urlHelper = $urlHelper;
         $this->settingsHelper = $settings;
@@ -43,8 +48,8 @@ class FollowUpHelper
         $followUp = new FollowUp();
 
         $followUp->setRepairOrder($repairOrder)
-                ->setDateCreated(new \DateTime())
-                ->setStatus('Created');
+            ->setDateCreated(new \DateTime())
+            ->setStatus('Created');
 
         $this->em->persist($followUp);
         $this->em->flush();
@@ -57,8 +62,8 @@ class FollowUpHelper
         $followUpInteraction = new FollowUpInteraction();
 
         $followUpInteraction->setFollowUp($followUp)
-                            ->setType($status)
-                            ->setDate(new \DateTime());
+            ->setType($status)
+            ->setDate(new \DateTime());
 
         if ('Sent' === $status) {
             $followUpInteraction->setUser($user);
@@ -104,18 +109,18 @@ class FollowUpHelper
                         }
                     } else {
                         $followUp->setStatus('Viewed')
-                                 ->setDateViewed(new \DateTime());
+                            ->setDateViewed(new \DateTime());
                     }
                 }
                 break;
             case 'Converted':
                 $followUp->setStatus('Converted')
-                         ->setDateConverted(new \DateTime());
+                    ->setDateConverted(new \DateTime());
 
                 break;
             case 'Sent':
                 $followUp->setStatus('Sent')
-                         ->setDateSent(new \DateTime());
+                    ->setDateSent(new \DateTime());
 
                 break;
             case 'Not Delivered':
