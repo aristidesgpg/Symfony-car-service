@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="opentrack.dealertrack.com/transitional" xmlns:t="opentrack.dealertrack.com/transitional" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+    <xs:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" />
+    <xs:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"/>
+    <xs:import namespace="http://schemas.xmlsoap.org/soap/envelope/"/>
+    <xs:import namespace="http://schemas.xmlsoap.org/ws/2004/08/addressing"/>
+    <xs:element name="OpenRepairOrderLookupResult">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="t:Result"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="GetClosedRepairOrderDetailsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="t:Result"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Result">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="t:CompanyNumber"/>
+                <xs:element ref="t:InternalKey"/>
+                <xs:element ref="t:CounterPersonID"/>
+                <xs:element ref="t:RecordStatus"/>
+                <xs:element ref="t:DocumentType"/>
+                <xs:element ref="t:TransactionType"/>
+                <xs:element ref="t:OpenTransactionDate"/>
+                <xs:element ref="t:RepairOrderNumber"/>
+                <xs:element ref="t:CustomerNumber"/>
+                <xs:element ref="t:CustomerKey"/>
+                <xs:element ref="t:CustomerName"/>
+                <xs:element ref="t:CustomerPhoneNumber"/>
+                <xs:element ref="t:CustomerAddress1"/>
+                <xs:element ref="t:CustomerAddress2"/>
+                <xs:element ref="t:CustomerCity"/>
+                <xs:element ref="t:CustomerState"/>
+                <xs:element ref="t:CustomerZipCode"/>
+                <xs:element ref="t:CustomerEmail"/>
+                <xs:element ref="t:ShipToKey"/>
+                <xs:element ref="t:PaymentMethod"/>
+                <xs:element ref="t:SaleType"/>
+                <xs:element ref="t:PriceLevel"/>
+                <xs:element ref="t:TaxExempt"/>
+                <xs:element ref="t:PartsTotal"/>
+                <xs:element ref="t:ShippingTotal"/>
+                <xs:element ref="t:SpecialOrderDeposit"/>
+                <xs:element ref="t:SpecialOrderDepositCR"/>
+                <xs:element ref="t:SpecialOrderDepositPercent"/>
+                <xs:element ref="t:SpecialOrderDepositOverride"/>
+                <xs:element ref="t:SpecialOrderOnHold"/>
+                <xs:element ref="t:PartsSalesTax1"/>
+                <xs:element ref="t:PartsSalesTax2"/>
+                <xs:element ref="t:PartsSalesTax3"/>
+                <xs:element ref="t:PartsSalesTax4"/>
+                <xs:element ref="t:CounterPersonName"/>
+                <xs:element ref="t:SortKey"/>
+                <xs:element ref="t:AuthorizeCounterPersonID"/>
+                <xs:element ref="t:CreditCardARCustomerNumber"/>
+                <xs:element ref="t:PurchaseOrderNumber"/>
+                <xs:element ref="t:ReceiptNumber"/>
+                <xs:element ref="t:OriginalDocNumber"/>
+                <xs:element ref="t:InternalAccountNumber"/>
+                <xs:element ref="t:ROType"/>
+                <xs:element ref="t:ROStatus"/>
+                <xs:element ref="t:WarrantyRO"/>
+                <xs:element ref="t:PartsApproved"/>
+                <xs:element ref="t:ServiceApproved"/>
+                <xs:element ref="t:ServiceWriterID"/>
+                <xs:element ref="t:ROTechnicianID"/>
+                <xs:element ref="t:TotalEstimate"/>
+                <xs:element ref="t:ServiceContractComp"/>
+                <xs:element ref="t:ServiceContractComp2"/>
+                <xs:element ref="t:ServiceContractDeduct"/>
+                <xs:element ref="t:ServiceContractDeduct2"/>
+                <xs:element ref="t:WarrantyDeduct"/>
+                <xs:element ref="t:VIN"/>
+                <xs:element ref="t:StockNumber"/>
+                <xs:element ref="t:Make"/>
+                <xs:element ref="t:Model"/>
+                <xs:element ref="t:ModelYear"/>
+                <xs:element ref="t:Truck"/>
+                <xs:element ref="t:FranchiseCode"/>
+                <xs:element ref="t:OdometerIn"/>
+                <xs:element ref="t:OdometerOut"/>
+                <xs:element ref="t:TimeIn"/>
+                <xs:element ref="t:PromisedDateTime"/>
+                <xs:element ref="t:RemainingTime"/>
+                <xs:element ref="t:TagNumber"/>
+                <xs:element ref="t:CheckNumber"/>
+                <xs:element ref="t:HeaderComments"/>
+                <xs:element ref="t:ShopSupplyOverride"/>
+                <xs:element ref="t:HazardousMaterialOverride"/>
+                <xs:element ref="t:LaborTotal"/>
+                <xs:element ref="t:SubletTotal"/>
+                <xs:element ref="t:SCDeductPaid"/>
+                <xs:element ref="t:CustomerPayHazardousMaterial"/>
+                <xs:element ref="t:CustomerPayTax1"/>
+                <xs:element ref="t:CustomerPayTax2"/>
+                <xs:element ref="t:CustomerPayTax3"/>
+                <xs:element ref="t:CustomerPayTax4"/>
+                <xs:element ref="t:WarrantyTax1"/>
+                <xs:element ref="t:WarrantyTax2"/>
+                <xs:element ref="t:WarrantyTax3"/>
+                <xs:element ref="t:WarrantyTax4"/>
+                <xs:element ref="t:InternalTax1"/>
+                <xs:element ref="t:InternalTax2"/>
+                <xs:element ref="t:InternalTax3"/>
+                <xs:element ref="t:InternalTax4"/>
+                <xs:element ref="t:ServiceContractTax1"/>
+                <xs:element ref="t:ServiceContractTax2"/>
+                <xs:element ref="t:ServiceContractTax3"/>
+                <xs:element ref="t:ServiceContractTax4"/>
+                <xs:element ref="t:CustomerPayShopSup"/>
+                <xs:element ref="t:WarrantyShopSup"/>
+                <xs:element ref="t:InternalShopSup"/>
+                <xs:element ref="t:ServiceContractShopSup"/>
+                <xs:element ref="t:CouponNumber"/>
+                <xs:element ref="t:CouponDiscount"/>
+                <xs:element ref="t:TotalCouponDiscount"/>
+                <xs:element ref="t:PaidByManufacturer"/>
+                <xs:element ref="t:PaidByDealer"/>
+                <xs:element ref="t:CustomerPayTotalDue"/>
+                <xs:element ref="t:OrderStatus"/>
+                <xs:element ref="t:DateToArrive"/>
+                <xs:element ref="t:ARCustomerKey"/>
+                <xs:element ref="t:WarrantyRONumber"/>
+                <xs:element ref="t:WorkStationID"/>
+                <xs:element ref="t:InternalAuthorizedBy"/>
+                <xs:element ref="t:AppointmentDateTime"/>
+                <xs:element ref="t:DateTimeLastLineComplete"/>
+                <xs:element ref="t:DateTimePreInvoiced"/>
+                <xs:element ref="t:InternalPayType"/>
+                <xs:element ref="t:RepairOrderPriority"/>
+                <xs:element ref="t:DailyRentalAgreementNumber"/>
+                <xs:element ref="t:TowedInIndicator"/>
+                <xs:element ref="t:AppointmentId"/>
+                <xs:element ref="t:Details"/>
+                <xs:element ref="t:LastModified"/>
+                <xs:element ref="t:Fees"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="CompanyNumber" type="xs:NCName"/>
+    <xs:element name="InternalKey" type="xs:integer"/>
+    <xs:element name="RecordStatus">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="DocumentType" type="xs:NCName"/>
+    <xs:element name="TransactionType" type="xs:integer"/>
+    <xs:element name="OpenTransactionDate" type="xs:integer"/>
+    <xs:element name="RepairOrderNumber" type="xs:integer"/>
+    <xs:element name="CustomerNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="CustomerKey" type="xs:integer"/>
+    <xs:element name="CustomerName" type="xs:string"/>
+    <xs:element name="CustomerPhoneNumber" type="xs:integer"/>
+    <xs:element name="CustomerAddress1" type="xs:string"/>
+    <xs:element name="CustomerAddress2">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="CustomerCity" type="xs:NCName"/>
+    <xs:element name="CustomerState" type="xs:NCName"/>
+    <xs:element name="CustomerZipCode" type="xs:integer"/>
+    <xs:element name="CustomerEmail" type="xs:string"/>
+    <xs:element name="ShipToKey" type="xs:integer"/>
+    <xs:element name="PaymentMethod">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="SaleType">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="TaxExempt">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartsTotal" type="xs:decimal"/>
+    <xs:element name="ShippingTotal" type="xs:decimal"/>
+    <xs:element name="SpecialOrderDeposit" type="xs:decimal"/>
+    <xs:element name="SpecialOrderDepositCR" type="xs:decimal"/>
+    <xs:element name="SpecialOrderDepositPercent" type="xs:integer"/>
+    <xs:element name="SpecialOrderDepositOverride">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="SpecialOrderOnHold">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartsSalesTax1" type="xs:decimal"/>
+    <xs:element name="PartsSalesTax2" type="xs:decimal"/>
+    <xs:element name="PartsSalesTax3" type="xs:decimal"/>
+    <xs:element name="PartsSalesTax4" type="xs:decimal"/>
+    <xs:element name="CounterPersonName">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="SortKey" type="xs:integer"/>
+    <xs:element name="AuthorizeCounterPersonID">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="CreditCardARCustomerNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PurchaseOrderNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ReceiptNumber" type="xs:integer"/>
+    <xs:element name="OriginalDocNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="InternalAccountNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ROType">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ROStatus" type="xs:integer"/>
+    <xs:element name="WarrantyRO">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartsApproved" type="xs:NCName"/>
+    <xs:element name="ServiceApproved">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ServiceWriterID" type="xs:NCName"/>
+    <xs:element name="ROTechnicianID">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="TotalEstimate" type="xs:decimal"/>
+    <xs:element name="ServiceContractComp" type="xs:integer"/>
+    <xs:element name="ServiceContractComp2" type="xs:integer"/>
+    <xs:element name="ServiceContractDeduct" type="xs:decimal"/>
+    <xs:element name="ServiceContractDeduct2" type="xs:decimal"/>
+    <xs:element name="WarrantyDeduct" type="xs:decimal"/>
+    <xs:element name="VIN" type="xs:NMTOKEN"/>
+    <xs:element name="StockNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="Make" type="xs:NCName"/>
+    <xs:element name="Model" type="xs:NCName"/>
+    <xs:element name="ModelYear" type="xs:integer"/>
+    <xs:element name="Truck">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="FranchiseCode" type="xs:NCName"/>
+    <xs:element name="OdometerIn" type="xs:integer"/>
+    <xs:element name="OdometerOut" type="xs:integer"/>
+    <xs:element name="TimeIn" type="xs:integer"/>
+    <xs:element name="PromisedDateTime" type="xs:integer"/>
+    <xs:element name="RemainingTime" type="xs:decimal"/>
+    <xs:element name="TagNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="CheckNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="HeaderComments">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ShopSupplyOverride">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="HazardousMaterialOverride">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="LaborTotal" type="xs:decimal"/>
+    <xs:element name="SubletTotal" type="xs:decimal"/>
+    <xs:element name="SCDeductPaid" type="xs:decimal"/>
+    <xs:element name="CustomerPayHazardousMaterial" type="xs:decimal"/>
+    <xs:element name="CustomerPayTax1" type="xs:decimal"/>
+    <xs:element name="CustomerPayTax2" type="xs:decimal"/>
+    <xs:element name="CustomerPayTax3" type="xs:decimal"/>
+    <xs:element name="CustomerPayTax4" type="xs:decimal"/>
+    <xs:element name="WarrantyTax1" type="xs:decimal"/>
+    <xs:element name="WarrantyTax2" type="xs:decimal"/>
+    <xs:element name="WarrantyTax3" type="xs:decimal"/>
+    <xs:element name="WarrantyTax4" type="xs:decimal"/>
+    <xs:element name="InternalTax1" type="xs:decimal"/>
+    <xs:element name="InternalTax2" type="xs:decimal"/>
+    <xs:element name="InternalTax3" type="xs:decimal"/>
+    <xs:element name="InternalTax4" type="xs:decimal"/>
+    <xs:element name="ServiceContractTax1" type="xs:decimal"/>
+    <xs:element name="ServiceContractTax2" type="xs:decimal"/>
+    <xs:element name="ServiceContractTax3" type="xs:decimal"/>
+    <xs:element name="ServiceContractTax4" type="xs:decimal"/>
+    <xs:element name="CustomerPayShopSup" type="xs:decimal"/>
+    <xs:element name="WarrantyShopSup" type="xs:decimal"/>
+    <xs:element name="InternalShopSup" type="xs:decimal"/>
+    <xs:element name="ServiceContractShopSup" type="xs:decimal"/>
+    <xs:element name="CouponDiscount" type="xs:decimal"/>
+    <xs:element name="TotalCouponDiscount" type="xs:decimal"/>
+    <xs:element name="PaidByManufacturer" type="xs:decimal"/>
+    <xs:element name="PaidByDealer" type="xs:decimal"/>
+    <xs:element name="CustomerPayTotalDue" type="xs:decimal"/>
+    <xs:element name="OrderStatus">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="DateToArrive" type="xs:integer"/>
+    <xs:element name="ARCustomerKey" type="xs:integer"/>
+    <xs:element name="WarrantyRONumber" type="xs:integer"/>
+    <xs:element name="WorkStationID">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="InternalAuthorizedBy">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="AppointmentDateTime" type="xs:integer"/>
+    <xs:element name="DateTimeLastLineComplete" type="xs:integer"/>
+    <xs:element name="DateTimePreInvoiced" type="xs:integer"/>
+    <xs:element name="InternalPayType">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="RepairOrderPriority">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="DailyRentalAgreementNumber" type="xs:integer"/>
+    <xs:element name="TowedInIndicator">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="AppointmentId">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="Details">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="t:OpenRepairOrderDetail"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="OpenRepairOrderDetail">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="t:ServiceLineNumber"/>
+                <xs:element ref="t:LineType"/>
+                <xs:element ref="t:SequenceNumber"/>
+                <xs:element ref="t:CounterPersonID"/>
+                <xs:element ref="t:TransCode"/>
+                <xs:element ref="t:SpecialOrderEmergencyPurchase"/>
+                <xs:element ref="t:TransDate"/>
+                <xs:element ref="t:Manufacturer"/>
+                <xs:element ref="t:PartNumber"/>
+                <xs:element ref="t:PartNoLength"/>
+                <xs:element ref="t:StockGroup"/>
+                <xs:element ref="t:BinLocation"/>
+                <xs:element ref="t:Quantity"/>
+                <xs:element ref="t:Cost"/>
+                <xs:element ref="t:ListPrice"/>
+                <xs:element ref="t:TradePrice"/>
+                <xs:element ref="t:FlatPrice"/>
+                <xs:element ref="t:NetPrice"/>
+                <xs:element ref="t:BookList"/>
+                <xs:element ref="t:PriceMethod"/>
+                <xs:element ref="t:PricePercent"/>
+                <xs:element ref="t:PriceBase"/>
+                <xs:element ref="t:SpecialCode"/>
+                <xs:element ref="t:PriceOverride"/>
+                <xs:element ref="t:GroupPrice"/>
+                <xs:element ref="t:IsCorePart"/>
+                <xs:element ref="t:AddNSPart"/>
+                <xs:element ref="t:SpecialOrderPriority"/>
+                <xs:element ref="t:OriginalSpecialOrder"/>
+                <xs:element ref="t:ExcludeFromHistory"/>
+                <xs:element ref="t:Comments"/>
+                <xs:element ref="t:LineStatus"/>
+                <xs:element ref="t:ServiceType"/>
+                <xs:element ref="t:LinePaymentMethod"/>
+                <xs:element ref="t:PolicyAdjustment"/>
+                <xs:element ref="t:TechnicianID"/>
+                <xs:element ref="t:LaborOpCode"/>
+                <xs:element ref="t:CorrectionLaborOpCode"/>
+                <xs:element ref="t:LaborHours"/>
+                <xs:element ref="t:LaborCostHours"/>
+                <xs:element ref="t:ActualRetailAmount"/>
+                <xs:element ref="t:FailureCode"/>
+                <xs:element ref="t:PriceLevel"/>
+                <xs:element ref="t:PriceStrategyAssignment"/>
+                <xs:element ref="t:SubletVendorNumber"/>
+                <xs:element ref="t:SubletInvoiceNumber"/>
+                <xs:element ref="t:CouponNumber"/>
+                <xs:element ref="t:FactoryLaborHours"/>
+                <xs:element ref="t:AuthorizationCode"/>
+                <xs:element ref="t:BatteryWarrantyCode"/>
+                <xs:element ref="t:DateTimeLineCompleted"/>
+                <xs:element ref="t:InternalAccount"/>
+                <xs:element ref="t:Authorizer"/>
+                <xs:element ref="t:NetItemTotal"/>
+                <xs:element ref="t:AdministrativeLaborAmount"/>
+                <xs:element ref="t:AdministrativeHours"/>
+                <xs:element ref="t:PaintAndMaterialsCost"/>
+                <xs:element ref="t:PaintAndMaterialsRetail"/>
+                <xs:element ref="t:RepeatRepairFlag"/>
+                <xs:element ref="t:TaxableInternalLine"/>
+                <xs:element ref="t:UpsellFlag"/>
+                <xs:element ref="t:WarrantyClaimType"/>
+                <xs:element ref="t:VATCode"/>
+                <xs:element ref="t:VATAmount"/>
+                <xs:element ref="t:ReturnToInventoryFlag"/>
+                <xs:element ref="t:SkillLevel"/>
+                <xs:element ref="t:OEMReplacementFlag"/>
+                <xs:element ref="t:CostDifferential"/>
+                <xs:element ref="t:OptionSequenceNumber"/>
+                <xs:element ref="t:DispatchStartTime"/>
+                <xs:element ref="t:TotalDiscountLabor"/>
+                <xs:element ref="t:TotalDiscountParts"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="LineType" type="xs:NCName"/>
+    <xs:element name="SequenceNumber" type="xs:integer"/>
+    <xs:element name="TransCode" type="xs:NCName"/>
+    <xs:element name="SpecialOrderEmergencyPurchase">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="TransDate" type="xs:integer"/>
+    <xs:element name="Manufacturer">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartNoLength" type="xs:integer"/>
+    <xs:element name="StockGroup">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="BinLocation">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="Quantity" type="xs:integer"/>
+    <xs:element name="Cost" type="xs:decimal"/>
+    <xs:element name="ListPrice" type="xs:decimal"/>
+    <xs:element name="TradePrice" type="xs:decimal"/>
+    <xs:element name="FlatPrice" type="xs:decimal"/>
+    <xs:element name="NetPrice" type="xs:decimal"/>
+    <xs:element name="BookList" type="xs:decimal"/>
+    <xs:element name="PriceMethod">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PricePercent" type="xs:integer"/>
+    <xs:element name="PriceBase">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="SpecialCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PriceOverride">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="GroupPrice">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="IsCorePart">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="AddNSPart">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="SpecialOrderPriority" type="xs:integer"/>
+    <xs:element name="OriginalSpecialOrder">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="ExcludeFromHistory">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="Comments" type="xs:string"/>
+    <xs:element name="LineStatus" type="xs:string"/>
+    <xs:element name="ServiceType" type="xs:string"/>
+    <xs:element name="PolicyAdjustment">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="TechnicianID">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="LaborOpCode" type="xs:string"/>
+    <xs:element name="CorrectionLaborOpCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="LaborHours" type="xs:decimal"/>
+    <xs:element name="LaborCostHours" type="xs:decimal"/>
+    <xs:element name="ActualRetailAmount" type="xs:decimal"/>
+    <xs:element name="FailureCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PriceStrategyAssignment" type="xs:integer"/>
+    <xs:element name="SubletVendorNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="SubletInvoiceNumber">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="FactoryLaborHours" type="xs:decimal"/>
+    <xs:element name="AuthorizationCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="BatteryWarrantyCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="DateTimeLineCompleted" type="xs:integer"/>
+    <xs:element name="InternalAccount">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="Authorizer">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="NetItemTotal" type="xs:decimal"/>
+    <xs:element name="AdministrativeLaborAmount" type="xs:decimal"/>
+    <xs:element name="AdministrativeHours" type="xs:decimal"/>
+    <xs:element name="PaintAndMaterialsCost" type="xs:decimal"/>
+    <xs:element name="PaintAndMaterialsRetail" type="xs:decimal"/>
+    <xs:element name="RepeatRepairFlag">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="TaxableInternalLine">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="UpsellFlag">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="WarrantyClaimType">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="VATCode">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="VATAmount" type="xs:decimal"/>
+    <xs:element name="ReturnToInventoryFlag">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="SkillLevel">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="OEMReplacementFlag">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="CostDifferential" type="xs:decimal"/>
+    <xs:element name="OptionSequenceNumber" type="xs:integer"/>
+    <xs:element name="DispatchStartTime" type="xs:string"/>
+    <xs:element name="TotalDiscountLabor" type="xs:decimal"/>
+    <xs:element name="TotalDiscountParts" type="xs:decimal"/>
+    <xs:element name="LastModified" type="xs:NMTOKEN"/>
+    <xs:element name="Fees">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="t:RepairOrderFee"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="RepairOrderFee">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="t:ServiceLineNumber"/>
+                <xs:element ref="t:FeeCode"/>
+                <xs:element ref="t:LinePaymentMethod"/>
+                <xs:element ref="t:TotalFeesAmount"/>
+                <xs:element ref="t:CustomerFeesAmount"/>
+                <xs:element ref="t:CustomerPartsAmount"/>
+                <xs:element ref="t:CustomerLaborAmount"/>
+                <xs:element ref="t:InternalFeesAmount"/>
+                <xs:element ref="t:InternalPartsAmount"/>
+                <xs:element ref="t:InternalLaborAmount"/>
+                <xs:element ref="t:ServiceFeesAmount"/>
+                <xs:element ref="t:ServicePartsAmount"/>
+                <xs:element ref="t:ServiceLaborAmount"/>
+                <xs:element ref="t:WarrantyFeesAmount"/>
+                <xs:element ref="t:WarrantyPartsAmount"/>
+                <xs:element ref="t:WarrantyLaborAmount"/>
+                <xs:element ref="t:FeeDescription"/>
+                <xs:element ref="t:FeeType"/>
+                <xs:element ref="t:ValidFrom"/>
+                <xs:element ref="t:ValidTill"/>
+                <xs:element ref="t:PaymentMethods"/>
+                <xs:element ref="t:AmountType"/>
+                <xs:element ref="t:MinimumAmount"/>
+                <xs:element ref="t:MaximumAmount"/>
+                <xs:element ref="t:CalculationBasis"/>
+                <xs:element ref="t:PartsAccount"/>
+                <xs:element ref="t:PartsPercentage"/>
+                <xs:element ref="t:LaborAccount"/>
+                <xs:element ref="t:LaborPercentage"/>
+                <xs:element ref="t:Taxable"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="FeeCode" type="xs:NCName"/>
+    <xs:element name="TotalFeesAmount" type="xs:decimal"/>
+    <xs:element name="CustomerFeesAmount" type="xs:decimal"/>
+    <xs:element name="CustomerPartsAmount" type="xs:decimal"/>
+    <xs:element name="CustomerLaborAmount" type="xs:decimal"/>
+    <xs:element name="InternalFeesAmount" type="xs:decimal"/>
+    <xs:element name="InternalPartsAmount" type="xs:decimal"/>
+    <xs:element name="InternalLaborAmount" type="xs:decimal"/>
+    <xs:element name="ServiceFeesAmount" type="xs:decimal"/>
+    <xs:element name="ServicePartsAmount" type="xs:decimal"/>
+    <xs:element name="ServiceLaborAmount" type="xs:decimal"/>
+    <xs:element name="WarrantyFeesAmount" type="xs:decimal"/>
+    <xs:element name="WarrantyPartsAmount" type="xs:decimal"/>
+    <xs:element name="WarrantyLaborAmount" type="xs:decimal"/>
+    <xs:element name="FeeDescription" type="xs:string"/>
+    <xs:element name="FeeType" type="xs:NCName"/>
+    <xs:element name="ValidFrom" type="xs:NMTOKEN"/>
+    <xs:element name="ValidTill" type="xs:NMTOKEN"/>
+    <xs:element name="PaymentMethods" type="xs:NCName"/>
+    <xs:element name="AmountType" type="xs:NCName"/>
+    <xs:element name="MinimumAmount" type="xs:decimal"/>
+    <xs:element name="MaximumAmount" type="xs:decimal"/>
+    <xs:element name="CalculationBasis">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PartsAccount" type="xs:NCName"/>
+    <xs:element name="PartsPercentage" type="xs:decimal"/>
+    <xs:element name="LaborAccount">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="LaborPercentage" type="xs:decimal"/>
+    <xs:element name="Taxable" type="xs:NCName"/>
+    <xs:element name="CounterPersonID">
+        <xs:complexType/>
+    </xs:element>
+    <xs:element name="PriceLevel" type="xs:integer"/>
+    <xs:element name="CouponNumber" type="xs:integer"/>
+    <xs:element name="ServiceLineNumber" type="xs:integer"/>
+    <xs:element name="LinePaymentMethod" type="xs:string"/>
+</xs:schema>

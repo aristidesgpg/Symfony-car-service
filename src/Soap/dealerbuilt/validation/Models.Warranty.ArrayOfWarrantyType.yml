@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Warranty\ArrayOfWarrantyType:
+    properties:
+        warranty:
+            -
+                Valid: null

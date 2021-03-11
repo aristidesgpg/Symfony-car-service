@@ -1,0 +1,9 @@
+App\Soap\cdk\src\LbrComebackFlag:
+    properties:
+        v:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

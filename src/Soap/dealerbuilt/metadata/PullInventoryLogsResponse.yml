@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullInventoryLogsResponse:
+    xml_root_name: PullInventoryLogsResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullInventoryLogsResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullInventoryLogsResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullInventoryLogsResult
+                setter: setPullInventoryLogsResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\LoggingType>
+            xml_list:
+                inline: false
+                entry_name: Logging
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

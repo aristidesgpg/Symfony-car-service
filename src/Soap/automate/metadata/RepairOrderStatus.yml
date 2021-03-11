@@ -1,0 +1,14 @@
+App\Soap\automate\src\RepairOrderStatus:
+    xml_root_name: RepairOrderStatus
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        statusText:
+            expose: true
+            access_type: public_method
+            serialized_name: StatusText
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getStatusText
+                setter: setStatusText
+            type: string

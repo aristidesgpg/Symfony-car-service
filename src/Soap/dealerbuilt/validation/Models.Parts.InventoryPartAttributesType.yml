@@ -1,0 +1,54 @@
+App\Soap\dealerbuilt\src\Models\Parts\InventoryPartAttributesType:
+    properties:
+        bins:
+            -
+                Valid: null
+        coreCost:
+            -
+                Valid: null
+        cost:
+            -
+                Valid: null
+        dealerPartId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        inventorySupercessionChain:
+            -
+                Valid: null
+        listPrice:
+            -
+                Valid: null
+        monthsWithoutSale:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        quantityLostPerMonth:
+            -
+                Valid: null
+        quantitySoldPerMonth:
+            -
+                Valid: null
+        retailPrice:
+            -
+                Valid: null
+        tradePrice:
+            -
+                Valid: null
+        vendorSupercessionChain:
+            -
+                Valid: null

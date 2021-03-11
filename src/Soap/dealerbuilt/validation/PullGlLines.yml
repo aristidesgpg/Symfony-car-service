@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullGlLines:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

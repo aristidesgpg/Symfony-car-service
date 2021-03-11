@@ -1,0 +1,15 @@
+App\Soap\automate\src\Pricing:
+    properties:
+        priceSourceCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+        price:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

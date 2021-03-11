@@ -57,8 +57,40 @@ class InternalMessageHelper {
      * 
      * @return array
      */
-    public function getThreads ($userId) {
-        $sql = $this->em->getRepository(InternalMessage::class)->getThreads($userId);
+    public function getThreads () {
+        $userId = $this->user->getId();
+
+        $sql    = "SELECT  u.*, i.id AS im_id, i.from_id, i.to_id, i.message, i.date, i.is_read, (CASE WHEN kk.unreads is null THEN 0 ELSE kk.unreads END) AS unreads 
+                    FROM internal_message i
+                    INNER JOIN 
+                    (
+                        SELECT id, MAX(date) MaxDate
+                        FROM 
+                        (
+                            SELECT id, date, to_id, from_id, is_read
+                            FROM  
+                            internal_message
+                            WHERE from_id = {$userId} OR to_id = {$userId}
+                        ) jj
+                        GROUP BY case when jj.to_id = {$userId} then jj.from_id when jj.from_id = {$userId} then jj.to_id END
+                    ) im
+                    ON i.date = im.MaxDate
+                    Left JOIN user u
+                    ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END
+                    Left Join 
+                        (
+                        SELECT id, COUNT(CASE WHEN is_read = 0 THEN 1 END) AS unreads
+                            FROM 
+                            (
+                                SELECT id, to_id, from_id, is_read
+                                FROM  
+                                internal_message
+                                WHERE to_id = {$userId}
+                            ) ii
+                            GROUP BY ii.from_id 
+                        ) kk
+                    ON kk.id = im.id
+                    ORDER BY unreads DESC, i.date DESC";
 
         try {
             $query = $this->em->getConnection()->prepare($sql);
@@ -83,6 +115,7 @@ class InternalMessageHelper {
      */
     public function getThreadsFromArray ($threads) {
         $return = [];
+        
         foreach ($threads as &$thread) {
             $return[] = [
                 "user"    => [

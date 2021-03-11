@@ -98,14 +98,15 @@ class UserController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $page       = $request->query->getInt('page', 1);
-        $role       = $request->query->get('role');
+        $page = $request->query->getInt('page', 1);
+        $role = $request->query->get('role');
         $urlParameters = [];
-        $errors     = [];
-        $sortField  = '';
+        $errors = [];
+        $sortField = '';
         $sortDirection = '';
+        $searchField = '';
         $searchTerm = '';
-        $columns    = $em->getClassMetadata('App\Entity\User')->getFieldNames();
+        $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -115,7 +116,7 @@ class UserController extends AbstractFOSRestController
             $users = $userRepo->getActiveUsers();
         }
         else if (!$userHelper->isValidRole($role)) {
-            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_NOT_ACCEPTABLE));
         }else{
             $users = $userRepo->getUserByRole($role);
         }
@@ -123,7 +124,6 @@ class UserController extends AbstractFOSRestController
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
             $sortField  = $request->query->get('sortField');
 
-            //check if the sortField exist
             if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
             }
@@ -144,6 +144,12 @@ class UserController extends AbstractFOSRestController
 
         $users      = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchTerm);
         $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        if ($pageLimit < 1) {
+            return $this->handleView(
+                $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
+            );
+        }
+
         $pager      = $paginator->paginate($users, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 

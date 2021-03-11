@@ -1,0 +1,38 @@
+App\Soap\automate\src\SpecifiedPerson:
+    properties:
+        givenName:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        middleName:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+        familyName:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        birthDate:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+        residenceAddress:
+            -
+                Valid: null
+        telephoneCommunication:
+            -
+                Valid: null
+        postalAddress:
+            -
+                Valid: null

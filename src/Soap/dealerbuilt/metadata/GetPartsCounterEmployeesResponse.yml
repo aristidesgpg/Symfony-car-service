@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\GetPartsCounterEmployeesResponse:
+    xml_root_name: GetPartsCounterEmployeesResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        getPartsCounterEmployeesResult:
+            expose: true
+            access_type: public_method
+            serialized_name: GetPartsCounterEmployeesResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getGetPartsCounterEmployeesResult
+                setter: setGetPartsCounterEmployeesResult
+            type: App\Soap\dealerbuilt\src\BaseApi\ServiceLocationPersonsType

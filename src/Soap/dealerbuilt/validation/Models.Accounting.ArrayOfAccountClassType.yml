@@ -1,0 +1,20 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfAccountClassType:
+    properties:
+        accountClassType:
+            -
+                All:
+                    constraints:
+                        -
+                            Choice:
+                                choices:
+                                    - Unknown
+                                    - Asset
+                                    - CostOfSales
+                                    - Equity
+                                    - Expense
+                                    - Liabilities
+                                    - OtherDeductions
+                                    - OtherIncome
+                                    - Sales
+                    groups:
+                        - xsd_rules

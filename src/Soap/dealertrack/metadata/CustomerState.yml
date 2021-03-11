@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\CustomerState:
+    xml_root_name: CustomerState
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\ArrayOflongType:
+    properties:
+        long:
+            -
+                All:
+                    constraints:
+                        -
+                            GreaterThanOrEqual:
+                                value: '-9223372036854775808'
+                        -
+                            LessThanOrEqual:
+                                value: '9223372036854775807'
+                    groups:
+                        - xsd_rules

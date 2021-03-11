@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\ServiceCampaigns\ArrayOfServiceCampaignType:
+    properties:
+        serviceCampaign:
+            -
+                Valid: null

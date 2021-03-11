@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetSalesPersons:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

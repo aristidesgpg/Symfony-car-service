@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ScheduleClassType:
+    xml_root_name: ScheduleClassType
+    xml_root_namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: string

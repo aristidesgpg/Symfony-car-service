@@ -1,0 +1,4 @@
+App\Soap\cdk\src\PrtUnitServiceCharge:
+    xml_root_name: prtUnitServiceCharge
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\PullProspectByDealNumberResponse:
+    xml_root_name: PullProspectByDealNumberResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullProspectByDealNumberResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullProspectByDealNumberResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullProspectByDealNumberResult
+                setter: setPullProspectByDealNumberResult
+            type: App\Soap\dealerbuilt\src\BaseApi\ProspectType

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\ArrayOfPullProductType:
+    properties:
+        pullProduct:
+            -
+                Valid: null

@@ -1,0 +1,18 @@
+App\Soap\dealertrack\src\LaborDetails:
+    xml_root_name: LaborDetails
+    xml_root_namespace: opentrack.dealertrack.com
+    properties:
+        labor:
+            expose: true
+            access_type: public_method
+            serialized_name: Labor
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLabor
+                setter: setLabor
+            xml_list:
+                inline: true
+                entry_name: Labor
+                namespace: opentrack.dealertrack.com
+            type: array<App\Soap\dealertrack\src\Labor>

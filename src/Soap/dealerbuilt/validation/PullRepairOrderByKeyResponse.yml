@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullRepairOrderByKeyResponse:
+    properties:
+        pullRepairOrderByKeyResult:
+            -
+                Valid: null

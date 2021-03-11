@@ -1,0 +1,24 @@
+App\Soap\automate\src\ServiceAdvisorParty:
+    xml_root_name: ServiceAdvisorParty
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        dealerManagementSystemID:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerManagementSystemID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDealerManagementSystemID
+                setter: setDealerManagementSystemID
+            type: string
+        specifiedPerson:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecifiedPerson
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getSpecifiedPerson
+                setter: setSpecifiedPerson
+            type: App\Soap\automate\src\SpecifiedPerson

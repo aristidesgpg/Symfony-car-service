@@ -2,21 +2,24 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+use App\Helper\iServiceLoggerTrait;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 /**
- * Class MailerHelper
- *
- * @package App\Service
+ * Class MailerHelper.
  */
-class MailerHelper {
+class MailerHelper
+{
+    use iServiceLoggerTrait;
 
     /**
-     * @var Container
+     * @var ParameterBagInterface
      */
-    private $container;
+    private $parameterBag;
 
     /**
      * @var \Swift_Mailer
@@ -24,37 +27,80 @@ class MailerHelper {
     private $mailer;
 
     /**
-     * @var String
+     * @var string
      */
     private $sender;
 
-    public function __construct (Container $container, \Swift_Mailer $mailer) {
-        $this->container = $container;
-        $this->sender    = $this->container->getParameter('sender');
-        $this->mailer    = $mailer;
+    public function __construct(ParameterBagInterface $parameterBag, MailerInterface $mailer)
+    {
+        $this->parameterBag = $parameterBag;
+        $this->sender = $this->parameterBag->get('sender');
+        $this->mailer = $mailer;
+    }
+
+    public function sendMail(string $title, string $email, string $body): bool
+    {
+        $email = (new Email())
+            ->from($this->sender)
+            ->to($email)
+            ->subject($title)
+            ->text($body);
+
+        return $this->send($email);
     }
 
     /**
-     * @param  String $title
-     * @param  String $email
-     * @param  String $body
-     * 
-     * @return Boolean
+     * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop).
      */
-    public function sendMail($title, $email, $body)
+    public function sendBulkMail(string $title, array $emails, string $body)
     {
-        $message = (new \Swift_Message($title))
-            ->setFrom($this->sender)
-            ->setTo($email)
-            ->setBody(
-                $body,
-                'text/plain'
-            );
-    
-        if (!$this->mailer->send($message)) {
+        if (!is_array($emails)) {
             return false;
-        } 
-        
+        }
+
+        foreach ($emails as $email) {
+            $this->sendMail($title, $email, $body);
+        }
+    }
+
+    public function sendMailFromTemplate(string $title, string $email, string $templatePath, array $templateContext = []): bool
+    {
+        $email = (new TemplatedEmail())
+            ->from($this->sender)
+            ->to($email)
+            ->subject($title)
+            ->htmlTemplate($templatePath)
+            ->context($templateContext)
+        ;
+
+        return $this->send($email);
+    }
+
+    /**
+     * This sends bulk emails. It doesn't fail or error on a bad address. (If your sending thousands you don't want it to stop).
+     */
+    public function sendBulkMailFromTemplate(string $title, array $emails, string $templatePath, array $templateContext = [])
+    {
+        if (!is_array($emails)) {
+            return false;
+        }
+
+        foreach ($emails as $email) {
+            $this->sendMailFromTemplate($title, $email, $templatePath, $templateContext);
+        }
+    }
+
+    private function send(Email $email): bool
+    {
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            $this->logger->critical('Email unsuccessfully sent.'.$e->getMessage());
+            dd($e->getMessage());
+
+            return false;
+        }
+
         return true;
     }
 }

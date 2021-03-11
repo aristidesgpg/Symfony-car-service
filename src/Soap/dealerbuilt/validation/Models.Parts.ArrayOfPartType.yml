@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Parts\ArrayOfPartType:
+    properties:
+        part:
+            -
+                Valid: null

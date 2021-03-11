@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\InventorySearchCriteriaType:
+    properties:
+        availability:
+            -
+                Valid: null
+        year:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules

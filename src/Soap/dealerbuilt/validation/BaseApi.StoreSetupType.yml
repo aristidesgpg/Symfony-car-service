@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\StoreSetupType:
+    properties:
+        attributes:
+            -
+                Valid: null

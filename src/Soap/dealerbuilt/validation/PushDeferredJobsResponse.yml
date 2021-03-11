@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushDeferredJobsResponse:
+    properties:
+        pushDeferredJobsResult:
+            -
+                Valid: null

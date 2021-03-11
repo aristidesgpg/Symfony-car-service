@@ -1,0 +1,4 @@
+App\Soap\cdk\src\DisDebitControlNo:
+    xml_root_name: disDebitControlNo
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

@@ -1,0 +1,207 @@
+App\Soap\dealerbuilt\src\Models\Parts\PartsOrderAttributesType:
+    properties:
+        allowCrossShipmentIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowCrossShipmentIndicator
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getAllowCrossShipmentIndicator
+                setter: setAllowCrossShipmentIndicator
+            type: bool
+        alternateShipPriority:
+            expose: true
+            access_type: public_method
+            serialized_name: AlternateShipPriority
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getAlternateShipPriority
+                setter: setAlternateShipPriority
+            type: string
+        alternateShipTo:
+            expose: true
+            access_type: public_method
+            serialized_name: AlternateShipTo
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getAlternateShipTo
+                setter: setAlternateShipTo
+            type: App\Soap\dealerbuilt\src\Models\IdentityProfileType
+        comments:
+            expose: true
+            access_type: public_method
+            serialized_name: Comments
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getComments
+                setter: setComments
+            type: string
+        completedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: CompletedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getCompletedStamp
+                setter: setCompletedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        factoryCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getFactoryCode
+                setter: setFactoryCode
+            type: string
+        factoryOrderReferenceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryOrderReferenceNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getFactoryOrderReferenceNumber
+                setter: setFactoryOrderReferenceNumber
+            type: string
+        isAlternateShipTo:
+            expose: true
+            access_type: public_method
+            serialized_name: IsAlternateShipTo
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getIsAlternateShipTo
+                setter: setIsAlternateShipTo
+            type: bool
+        isTransmitted:
+            expose: true
+            access_type: public_method
+            serialized_name: IsTransmitted
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getIsTransmitted
+                setter: setIsTransmitted
+            type: bool
+        lastModifiedBy:
+            expose: true
+            access_type: public_method
+            serialized_name: LastModifiedBy
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getLastModifiedBy
+                setter: setLastModifiedBy
+            type: string
+        lines:
+            expose: true
+            access_type: public_method
+            serialized_name: Lines
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getLines
+                setter: setLines
+            type: array<App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType>
+            xml_list:
+                inline: false
+                entry_name: PartsOrderLine
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+        orderStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getOrderStamp
+                setter: setOrderStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        orderType:
+            expose: true
+            access_type: public_method
+            serialized_name: OrderType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getOrderType
+                setter: setOrderType
+            type: string
+        partsOrderNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsOrderNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getPartsOrderNumber
+                setter: setPartsOrderNumber
+            type: string
+        placedBy:
+            expose: true
+            access_type: public_method
+            serialized_name: PlacedBy
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getPlacedBy
+                setter: setPlacedBy
+            type: App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType
+        promotionCode:
+            expose: true
+            access_type: public_method
+            serialized_name: PromotionCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getPromotionCode
+                setter: setPromotionCode
+            type: string
+        shipPriority:
+            expose: true
+            access_type: public_method
+            serialized_name: ShipPriority
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getShipPriority
+                setter: setShipPriority
+            type: string
+        specialInstructions:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialInstructions
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getSpecialInstructions
+                setter: setSpecialInstructions
+            type: string
+        vendorCode:
+            expose: true
+            access_type: public_method
+            serialized_name: VendorCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getVendorCode
+                setter: setVendorCode
+            type: string
+        vendorName:
+            expose: true
+            access_type: public_method
+            serialized_name: VendorName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getVendorName
+                setter: setVendorName
+            type: string

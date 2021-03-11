@@ -153,11 +153,16 @@ class User implements UserInterface {
      * @ORM\OneToMany(targetEntity=RepairOrderTeam::class, mappedBy="user")
      */
     private $repairOrderTeams;
-    
+
     /**
      * @ORM\OneToMany(targetEntity=InternalMessage::class, mappedBy="from")
      */
     private $internalMessages;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ServiceSMS::class, mappedBy="user")
+     */
+    private $serviceSMS;
 
     /**
      * User constructor.
@@ -168,6 +173,7 @@ class User implements UserInterface {
         $this->repairOrderInteractions    = new ArrayCollection();
         $this->repairOrderTeams           = new ArrayCollection();
         $this->internalMessages           = new ArrayCollection();
+        $this->serviceSMS = new ArrayCollection();
     }
 
     /**
@@ -286,7 +292,7 @@ class User implements UserInterface {
     }
 
     /**
-     * @return array
+     * @return array (Role|string)[]
      */
     public function getRoles () {
         return [$this->role];
@@ -615,6 +621,36 @@ class User implements UserInterface {
             // set the owning side to null (unless already changed)
             if ($repairOrderTeam->getUser() === $this) {
                 $repairOrderTeam->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ServiceSMS[]
+     */
+    public function getServiceSMS(): Collection
+    {
+        return $this->serviceSMS;
+    }
+
+    public function addServiceSM(ServiceSMS $serviceSM): self
+    {
+        if (!$this->serviceSMS->contains($serviceSM)) {
+            $this->serviceSMS[] = $serviceSM;
+            $serviceSM->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeServiceSM(ServiceSMS $serviceSM): self
+    {
+        if ($this->serviceSMS->removeElement($serviceSM)) {
+            // set the owning side to null (unless already changed)
+            if ($serviceSM->getUser() === $this) {
+                $serviceSM->setUser(null);
             }
         }
 

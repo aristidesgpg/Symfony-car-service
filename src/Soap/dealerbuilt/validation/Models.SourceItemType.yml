@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\SourceItemType:
+    properties:
+        placement:
+            -
+                Valid: null

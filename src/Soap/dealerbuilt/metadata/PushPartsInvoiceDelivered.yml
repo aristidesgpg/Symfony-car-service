@@ -1,0 +1,29 @@
+App\Soap\dealerbuilt\src\PushPartsInvoiceDelivered:
+    xml_root_name: PushPartsInvoiceDelivered
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        partsInvoiceKeys:
+            expose: true
+            access_type: public_method
+            serialized_name: partsInvoiceKeys
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPartsInvoiceKeys
+                setter: setPartsInvoiceKeys
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'
+        isDelivered:
+            expose: true
+            access_type: public_method
+            serialized_name: isDelivered
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getIsDelivered
+                setter: setIsDelivered
+            type: bool

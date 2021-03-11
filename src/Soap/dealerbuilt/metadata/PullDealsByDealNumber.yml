@@ -1,0 +1,29 @@
+App\Soap\dealerbuilt\src\PullDealsByDealNumber:
+    xml_root_name: PullDealsByDealNumber
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        storeId:
+            expose: true
+            access_type: public_method
+            serialized_name: storeId
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getStoreId
+                setter: setStoreId
+            type: int
+        dealNumbers:
+            expose: true
+            access_type: public_method
+            serialized_name: dealNumbers
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getDealNumbers
+                setter: setDealNumbers
+            type: array<int>
+            xml_list:
+                inline: false
+                entry_name: long
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

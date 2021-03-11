@@ -1,0 +1,21 @@
+App\Soap\automate\src\SpecifiedOrganization:
+    properties:
+        companyName:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        primaryContact:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        postalAddress:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

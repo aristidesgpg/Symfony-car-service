@@ -5,14 +5,13 @@ namespace App\Entity;
 use App\Repository\RepairOrderQuoteRecommendationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderQuoteRecommendationRepository::class)
  */
 class RepairOrderQuoteRecommendation
 {
-    public const GROUPS = ['roqs_list', 'roq_list'];
+    public const GROUPS = ['roqs_list', 'roq_list', 'operation_code_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

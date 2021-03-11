@@ -1,0 +1,27 @@
+App\Soap\automate\src\Envelope\BodyAType\ProcessEventResponseAType\ProcessEventResultAType:
+    properties:
+        response:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        businessError:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        systemError:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        retryable:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        statusCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

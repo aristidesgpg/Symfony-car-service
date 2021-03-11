@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullPurchaseOrdersResponse:
+    xml_root_name: PullPurchaseOrdersResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullPurchaseOrdersResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullPurchaseOrdersResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullPurchaseOrdersResult
+                setter: setPullPurchaseOrdersResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PurchaseOrderType>
+            xml_list:
+                inline: false
+                entry_name: PurchaseOrder
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

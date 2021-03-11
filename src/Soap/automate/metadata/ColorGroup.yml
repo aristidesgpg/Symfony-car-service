@@ -1,0 +1,24 @@
+App\Soap\automate\src\ColorGroup:
+    xml_root_name: ColorGroup
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        colorItemCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ColorItemCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getColorItemCode
+                setter: setColorItemCode
+            type: string
+        colorDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: ColorDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getColorDescription
+                setter: setColorDescription
+            type: string

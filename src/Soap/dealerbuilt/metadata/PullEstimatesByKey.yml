@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullEstimatesByKey:
+    xml_root_name: PullEstimatesByKey
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        estimateKeys:
+            expose: true
+            access_type: public_method
+            serialized_name: estimateKeys
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getEstimateKeys
+                setter: setEstimateKeys
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

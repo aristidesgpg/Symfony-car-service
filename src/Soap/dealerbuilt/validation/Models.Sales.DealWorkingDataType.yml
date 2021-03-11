@@ -1,0 +1,11 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealWorkingDataType:
+    properties:
+        gapPremium:
+            -
+                Valid: null
+        totalTradeAcv:
+            -
+                Valid: null
+        totalTradePayoff:
+            -
+                Valid: null

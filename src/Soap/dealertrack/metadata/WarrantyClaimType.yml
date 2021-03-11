@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\WarrantyClaimType:
+    xml_root_name: WarrantyClaimType
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

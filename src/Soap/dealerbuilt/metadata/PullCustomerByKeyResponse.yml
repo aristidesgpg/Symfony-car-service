@@ -1,0 +1,14 @@
+App\Soap\dealerbuilt\src\PullCustomerByKeyResponse:
+    xml_root_name: PullCustomerByKeyResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullCustomerByKeyResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullCustomerByKeyResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullCustomerByKeyResult
+                setter: setPullCustomerByKeyResult
+            type: App\Soap\dealerbuilt\src\BaseApi\CustomerType
