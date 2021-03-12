@@ -119,6 +119,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
+            $em->remove($repairOrderQuote);
+            $em->flush();
+
             throw new BadRequestHttpException('Recommendations data is invalid');
         }
 
@@ -126,6 +129,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $helper->validateRecommendationsJson($recommendations);
             $helper->buildRecommendations($repairOrderQuote, $recommendations);
         } catch (Exception $e) {
+            $em->remove($repairOrderQuote);
+            $em->flush();
+
             throw new BadRequestHttpException($e->getMessage());
         }
 
@@ -207,7 +213,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     in="formData",
      *     type="string",
      *     description="The Status for Progress",
-     *     enum={"Tech In Progress", "Parts In Progress", "Advisor In Progress"}
+     *     enum={"Technician In Progress", "Parts In Progress", "Advisor In Progress"}
      * )
      *
      * @SWG\Response(
@@ -227,7 +233,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $status = $request->get('status');
-        $statses = ['Tech In Progress', 'Parts In Progress', 'Advisor In Progress'];
+        $statses = ['Technician In Progress', 'Parts In Progress', 'Advisor In Progress'];
 
         // Check if param is valid
         if (!$repairOrderQuoteID || !$status) {
