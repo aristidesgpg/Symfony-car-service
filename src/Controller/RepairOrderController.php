@@ -34,9 +34,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class RepairOrderController extends AbstractFOSRestController
 {
-    private const PAGE_LIMIT = 50;
-
     use FalsyTrait;
+    private const PAGE_LIMIT = 50;
 
     /**
      * @Rest\Get(name="getRepairOrders")
@@ -339,7 +338,7 @@ class RepairOrderController extends AbstractFOSRestController
                 // waiver enabled
                 $url = $customerURL.$ro->getLinkHash();
                 $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                $waiverMessage = $waiverIntroText .' '.$shortUrl;
+                $waiverMessage = $waiverIntroText.' '.$shortUrl;
 
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
@@ -384,8 +383,6 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     *
-     * @return Response
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
     {
@@ -436,7 +433,7 @@ class RepairOrderController extends AbstractFOSRestController
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
-        if ($ro->isArchived() === true) {
+        if (true === $ro->isArchived()) {
             return $this->handleView(
                 $this->view(
                     [
@@ -473,7 +470,7 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        if ($ro->isClosed() === true) {
+        if (true === $ro->isClosed()) {
             return $this->handleView(
                 $this->view(
                     [
@@ -502,7 +499,7 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/repair-order-numbers/suggested")
+     * @Rest\Get("/suggested-numbers/list")
      *
      * @SWG\Tag(name="Repair Order")
      * @SWG\Get(description="Get suggested RepairOrder numbers based on the current naming convention")
