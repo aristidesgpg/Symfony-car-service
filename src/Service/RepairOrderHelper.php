@@ -115,11 +115,13 @@ class RepairOrderHelper
         $map = [
             'customerName' => 'name',
             'customerPhone' => 'phone',
-            'customerEmail' => 'email',
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
-
+        if(array_key_exists('customerEmail', $params)){
+            $map['customerEmail'] = 'email';
+        }
+        
         foreach ($map as $from => $to) {
             if ($reverse && isset($params[$to])) {
                 $return[$from] = $params[$to];
