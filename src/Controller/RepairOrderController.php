@@ -499,7 +499,7 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/repair-order-numbers/suggested-numbers/list")
+     * @Rest\Get("/suggested-numbers/list")
      *
      * @SWG\Tag(name="Repair Order")
      * @SWG\Get(description="Get suggested RepairOrder numbers based on the current naming convention")
