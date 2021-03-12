@@ -1,0 +1,4 @@
+App\Soap\cdk\src\LinComplaintCode:
+    xml_root_name: linComplaintCode
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

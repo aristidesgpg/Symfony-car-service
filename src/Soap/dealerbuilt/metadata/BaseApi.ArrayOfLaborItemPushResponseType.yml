@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfLaborItemPushResponseType:
+    properties:
+        laborItemPushResponse:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborItemPushResponse
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getLaborItemPushResponse
+                setter: setLaborItemPushResponse
+            xml_list:
+                inline: true
+                entry_name: LaborItemPushResponse
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\LaborItemPushResponseType>

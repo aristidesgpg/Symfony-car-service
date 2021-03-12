@@ -11,17 +11,20 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Class UnleashTheKrakenCommand
- *
- * @package App\Command
+ * Class UnleashTheKrakenCommand.
  */
-class UnleashTheKrakenCommand extends Command {
+class UnleashTheKrakenCommand extends Command
+{
     /**
      * @var string
      */
     protected static $defaultName = 'app:unleash-the-kraken';
 
-    protected function configure () {
+    /**
+     * @return void
+     */
+    protected function configure()
+    {
         $this
             ->setDescription('AHHHHHAHHHHHHHHHHHHHHHHGGHHHHHHHHHHAAAAAAAAAAAAAAAAAAAAA')
             ->addArgument('slug', InputArgument::OPTIONAL, 'Gooey')
@@ -29,18 +32,15 @@ class UnleashTheKrakenCommand extends Command {
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int
      * @throws Exception
      */
-    protected function execute (InputInterface $input, OutputInterface $output): int {
-        $io   = new SymfonyStyle($input, $output);
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $io = new SymfonyStyle($input, $output);
         $slug = $input->getArgument('slug');
         $data = [
-            'slug'   => $slug,
-            'hearts' => rand(10, 100)
+            'slug' => $slug,
+            'hearts' => rand(10, 100),
         ];
 
         $format = $input->getOption('format');

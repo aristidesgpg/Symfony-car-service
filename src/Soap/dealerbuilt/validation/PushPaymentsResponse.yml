@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushPaymentsResponse:
+    properties:
+        pushPaymentsResult:
+            -
+                Valid: null

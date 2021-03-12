@@ -1,0 +1,172 @@
+App\Soap\dealerbuilt\src\BaseApi\ChartEntryType:
+    properties:
+        accountClass:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountClass
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAccountClass
+                setter: setAccountClass
+            type: string
+        accountDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAccountDescription
+                setter: setAccountDescription
+            type: string
+        accountDescriptionAbbreviated:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountDescriptionAbbreviated
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAccountDescriptionAbbreviated
+                setter: setAccountDescriptionAbbreviated
+            type: string
+        accountNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getAccountNumber
+                setter: setAccountNumber
+            type: string
+        chainAccountNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ChainAccountNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getChainAccountNumber
+                setter: setChainAccountNumber
+            type: string
+        control1Type:
+            expose: true
+            access_type: public_method
+            serialized_name: Control1Type
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getControl1Type
+                setter: setControl1Type
+            type: string
+        control2Type:
+            expose: true
+            access_type: public_method
+            serialized_name: Control2Type
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getControl2Type
+                setter: setControl2Type
+            type: string
+        departmentCode:
+            expose: true
+            access_type: public_method
+            serialized_name: DepartmentCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDepartmentCode
+                setter: setDepartmentCode
+            type: string
+        factoryAccountNumbers:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryAccountNumbers
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getFactoryAccountNumbers
+                setter: setFactoryAccountNumbers
+            type: array<App\Soap\dealerbuilt\src\Models\Accounting\FactoryAccountNumbersType>
+            xml_list:
+                inline: false
+                entry_name: FactoryAccountNumbersType
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+        forwardType:
+            expose: true
+            access_type: public_method
+            serialized_name: ForwardType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getForwardType
+                setter: setForwardType
+            type: string
+        isActive:
+            expose: true
+            access_type: public_method
+            serialized_name: IsActive
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getIsActive
+                setter: setIsActive
+            type: bool
+        scheduleClass:
+            expose: true
+            access_type: public_method
+            serialized_name: ScheduleClass
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getScheduleClass
+                setter: setScheduleClass
+            type: string
+        scheduleCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ScheduleCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getScheduleCode
+                setter: setScheduleCode
+            type: string
+        scheduleStartDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ScheduleStartDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getScheduleStartDate
+                setter: setScheduleStartDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        scheduleType:
+            expose: true
+            access_type: public_method
+            serialized_name: ScheduleType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getScheduleType
+                setter: setScheduleType
+            type: string
+        spreadAccountNumbers:
+            expose: true
+            access_type: public_method
+            serialized_name: SpreadAccountNumbers
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getSpreadAccountNumbers
+                setter: setSpreadAccountNumbers
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: string
+                skip_when_empty: true
+                namespace: 'http://schemas.microsoft.com/2003/10/Serialization/Arrays'

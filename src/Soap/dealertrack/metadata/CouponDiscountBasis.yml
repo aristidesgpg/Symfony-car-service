@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\CouponDiscountBasis:
+    xml_root_name: CouponDiscountBasis
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

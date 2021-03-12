@@ -7,44 +7,40 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
-use App\Repository\SettingsRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class VideoHelper
 {
-    /** @var EntityManagerInterface */
     private $em;
-
-    /** @var UploadHelper */
     private $upload;
-
-    /** @var ShortUrlHelper */
     private $urlHelper;
-
-    /** @var SettingsRepository */
-    private $settings;
-
-    /** @var UserInterface|null */
+    private $settingsHelper;
     private $user;
+    private $twilioHelper;
+    private $parameterBag;
 
     public function __construct(
         EntityManagerInterface $em,
         UploadHelper $upload,
         ShortUrlHelper $urlHelper,
-        SettingsRepository $settings,
-        Security $security
+        SettingsHelper $settingsHelper,
+        Security $security,
+        TwilioHelper $twilioHelper,
+        ParameterBagInterface $parameterBag
     ) {
         $this->em = $em;
         $this->upload = $upload;
         $this->urlHelper = $urlHelper;
-        $this->settings = $settings;
+        $this->settingsHelper = $settingsHelper;
         $this->user = $security->getUser();
+        $this->twilioHelper = $twilioHelper;
+        $this->parameterBag = $parameterBag;
     }
 
     public function uploadVideo(RepairOrder $ro, UploadedFile $file, ?User $tech = null): RepairOrderVideo
@@ -78,12 +74,14 @@ class VideoHelper
 
     public function sendVideo(RepairOrderVideo $video): void
     {
-        $phone = $video->getRepairOrder()->getPrimaryCustomer()->getPhone();
-        $message = $this->settings->find('serviceTextVideo')->getValue();
-        $url = $_SERVER['CUSTOMER_URL'].$video->getRepairOrder()->getLinkHash();
+        $customer = $video->getRepairOrder()->getPrimaryCustomer();
+        $message = $this->settingsHelper->getSetting('serviceTextVideo');
+        $url = $this->parameterBag->get('customer_url').$video->getRepairOrder()->getLinkHash();
         $shortUrl = $this->urlHelper->generateShortUrl($url);
+        $message = $message.' '.$shortUrl;
+
         try {
-            $this->urlHelper->sendShortenedLink($phone, $message, $shortUrl, true);
+            $this->twilioHelper->sendSms($customer, $message);
         } catch (Exception $e) {
             return;
         }

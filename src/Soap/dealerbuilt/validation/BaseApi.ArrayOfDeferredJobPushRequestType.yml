@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfDeferredJobPushRequestType:
+    properties:
+        deferredJobPushRequest:
+            -
+                Valid: null

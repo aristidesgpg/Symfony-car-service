@@ -1,0 +1,20 @@
+App\Soap\dealerbuilt\src\Models\Sales\LeaseFeeCollectionType:
+    properties:
+        acquisition:
+            -
+                Valid: null
+        dealerFees:
+            -
+                Valid: null
+        disposition:
+            -
+                Valid: null
+        licensing:
+            -
+                Valid: null
+        proratedLicensing:
+            -
+                Valid: null
+        tradeLicensing:
+            -
+                Valid: null

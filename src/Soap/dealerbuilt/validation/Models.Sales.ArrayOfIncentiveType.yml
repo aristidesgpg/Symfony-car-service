@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfIncentiveType:
+    properties:
+        incentive:
+            -
+                Valid: null

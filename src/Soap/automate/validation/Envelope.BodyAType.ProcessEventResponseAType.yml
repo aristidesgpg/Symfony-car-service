@@ -1,0 +1,9 @@
+App\Soap\automate\src\Envelope\BodyAType\ProcessEventResponseAType:
+    properties:
+        processEventResult:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullDropDownListDetailResponse:
+    xml_root_name: PullDropDownListDetailResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullDropDownListDetailResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullDropDownListDetailResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullDropDownListDetailResult
+                setter: setPullDropDownListDetailResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\DropdownListDetailsType>
+            xml_list:
+                inline: false
+                entry_name: DropdownListDetails
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

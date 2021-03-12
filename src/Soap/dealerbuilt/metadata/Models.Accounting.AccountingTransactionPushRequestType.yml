@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionPushRequestType:
+    properties:
+        accountingAttributes:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingAttributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getAccountingAttributes
+                setter: setAccountingAttributes
+            type: App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionAttributesType

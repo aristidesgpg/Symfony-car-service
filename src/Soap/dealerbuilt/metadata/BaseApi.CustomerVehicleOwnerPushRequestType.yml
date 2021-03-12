@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleOwnerPushRequestType:
+    properties:
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        externalVehicleId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalVehicleId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getExternalVehicleId
+                setter: setExternalVehicleId
+            type: string
+        sourceId:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getSourceId
+                setter: setSourceId
+            type: int
+        vehicleKey:
+            expose: true
+            access_type: public_method
+            serialized_name: VehicleKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getVehicleKey
+                setter: setVehicleKey
+            type: string

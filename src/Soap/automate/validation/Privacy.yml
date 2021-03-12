@@ -1,0 +1,12 @@
+App\Soap\automate\src\Privacy:
+    properties:
+        privacyIndicator:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        privacyTypeString:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

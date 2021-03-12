@@ -1,0 +1,24 @@
+App\Soap\dealerbuilt\src\GetLenderByCode:
+    xml_root_name: GetLenderByCode
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        sourceId:
+            expose: true
+            access_type: public_method
+            serialized_name: sourceId
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getSourceId
+                setter: setSourceId
+            type: int
+        lenderCode:
+            expose: true
+            access_type: public_method
+            serialized_name: lenderCode
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getLenderCode
+                setter: setLenderCode
+            type: string

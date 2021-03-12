@@ -1,0 +1,9 @@
+App\Soap\dealertrack\src\GetClosedRepairOrderDetailsResponse:
+    properties:
+        getClosedRepairOrderDetailsResult:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

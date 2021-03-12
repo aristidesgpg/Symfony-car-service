@@ -98,14 +98,15 @@ class UserController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ) {
-        $page       = $request->query->getInt('page', 1);
-        $role       = $request->query->get('role');
+        $page = $request->query->getInt('page', 1);
+        $role = $request->query->get('role');
         $urlParameters = [];
-        $errors     = [];
-        $sortField  = '';
+        $errors = [];
+        $sortField = '';
         $sortDirection = '';
+        $searchField = '';
         $searchTerm = '';
-        $columns    = $em->getClassMetadata('App\Entity\User')->getFieldNames();
+        $columns = $em->getClassMetadata('App\Entity\User')->getFieldNames();
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -123,7 +124,6 @@ class UserController extends AbstractFOSRestController
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
             $sortField  = $request->query->get('sortField');
 
-            //check if the sortField exist
             if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
             }

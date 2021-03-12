@@ -1,0 +1,10 @@
+App\Soap\dealerbuilt\src\BaseApi\TransactionResponseType:
+    properties:
+        result:
+            -
+                Choice:
+                    choices:
+                        - Failure
+                        - Success
+                    groups:
+                        - xsd_rules

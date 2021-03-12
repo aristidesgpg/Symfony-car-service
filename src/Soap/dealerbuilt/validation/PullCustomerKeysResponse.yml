@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullCustomerKeysResponse:
+    properties:
+        pullCustomerKeysResult:
+            -
+                Valid: null

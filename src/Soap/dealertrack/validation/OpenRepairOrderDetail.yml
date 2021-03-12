@@ -1,0 +1,498 @@
+App\Soap\dealertrack\src\OpenRepairOrderDetail:
+    properties:
+        serviceLineNumber:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        lineType:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        sequenceNumber:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        counterPersonID:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        transCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        specialOrderEmergencyPurchase:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        transDate:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        manufacturer:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        partNumber:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        partNoLength:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        stockGroup:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        binLocation:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        quantity:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        cost:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        listPrice:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        tradePrice:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        flatPrice:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        netPrice:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        bookList:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        priceMethod:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        pricePercent:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        priceBase:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        specialCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        priceOverride:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        groupPrice:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        isCorePart:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        addNSPart:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        specialOrderPriority:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        originalSpecialOrder:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        excludeFromHistory:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        comments:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        lineStatus:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        serviceType:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        linePaymentMethod:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        policyAdjustment:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        technicianID:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        laborOpCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        correctionLaborOpCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        laborHours:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        laborCostHours:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        actualRetailAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        failureCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        priceLevel:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        priceStrategyAssignment:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        subletVendorNumber:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        subletInvoiceNumber:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        couponNumber:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        factoryLaborHours:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        authorizationCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        batteryWarrantyCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        dateTimeLineCompleted:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        internalAccount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        authorizer:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        netItemTotal:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        administrativeLaborAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        administrativeHours:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        paintAndMaterialsCost:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        paintAndMaterialsRetail:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        repeatRepairFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        taxableInternalLine:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        upsellFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        warrantyClaimType:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        vATCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        vATAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        returnToInventoryFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        skillLevel:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        oEMReplacementFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        costDifferential:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        optionSequenceNumber:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        dispatchStartTime:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        totalDiscountLabor:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        totalDiscountParts:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

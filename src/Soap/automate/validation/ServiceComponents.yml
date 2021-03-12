@@ -1,0 +1,29 @@
+App\Soap\automate\src\ServiceComponents:
+    properties:
+        componentTypeCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        serviceDescription:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        pricing:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        itemQuantity:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

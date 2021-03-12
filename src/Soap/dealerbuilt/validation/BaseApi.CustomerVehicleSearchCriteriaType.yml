@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\CustomerVehicleSearchCriteriaType:
+    properties:
+        activityStoreIds:
+            -
+                Valid: null

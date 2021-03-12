@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfRepairOrderPartType:
+    properties:
+        repairOrderPart:
+            -
+                Valid: null

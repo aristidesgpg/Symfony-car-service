@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfOemServiceProfileType:
+    properties:
+        oemServiceProfile:
+            expose: true
+            access_type: public_method
+            serialized_name: OemServiceProfile
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getOemServiceProfile
+                setter: setOemServiceProfile
+            xml_list:
+                inline: true
+                entry_name: OemServiceProfile
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\OemServiceProfileType>

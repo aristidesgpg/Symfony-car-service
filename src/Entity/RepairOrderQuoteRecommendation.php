@@ -5,14 +5,13 @@ namespace App\Entity;
 use App\Repository\RepairOrderQuoteRecommendationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use DateTime;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderQuoteRecommendationRepository::class)
  */
 class RepairOrderQuoteRecommendation
 {
-    public const GROUPS = ['roqs_list', 'roq_list'];
+    public const GROUPS = ['roqs_list', 'roq_list', 'operation_code_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -69,7 +68,25 @@ class RepairOrderQuoteRecommendation
      * @ORM\Column(type="float", nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
-    private $laborPrice;
+   
+     private $laborPrice;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+   
+     private $laborTax;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+   
+     private $partsTax;
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $suppliesTax;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -189,4 +206,27 @@ class RepairOrderQuoteRecommendation
 
         return $this;
     }
+
+    public function setLaborTax(?float $laborTax): self
+    {
+        $this->laborTax = $laborTax;
+
+        return $this;
+    }
+
+    public function setPartsTax(?float $partsTax): self
+    {
+        $this->partsTax = $partsTax;
+
+        return $this;
+    }
+
+    public function setSuppliesTax(?float $suppliesTax): self
+    {
+        $this->suppliesTax = $suppliesTax;
+
+        return $this;
+    }
+
+
 }

@@ -1,0 +1,17 @@
+App\Soap\automate\src\ColorGroup:
+    properties:
+        colorItemCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        colorDescription:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

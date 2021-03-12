@@ -1,0 +1,50 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealerFeeType:
+    properties:
+        feeAmount:
+            -
+                Valid: null
+        feeHandlingType:
+            -
+                Choice:
+                    choices:
+                        - Undefined
+                        - AddedToPayment
+                        - PaidUpFront
+                        - Capitalized
+                    groups:
+                        - xsd_rules
+        feeType:
+            -
+                Choice:
+                    choices:
+                        - StateDmvCountyFees
+                        - StateDmvPlateTransferFee
+                        - StateDmvWeightFee
+                        - StateDmvTitleRegFee
+                        - StateMiscFees
+                        - LocalDmvElectronicFee
+                        - LocalDocFee
+                        - LocalSmogFeeToSeller
+                        - LocalSmogCertFee
+                        - LocalTireFee
+                        - LocalLeaseTermFee
+                        - LocalMiscFees
+                        - InspectionFee
+                        - ETagFee
+                        - RoadAndBridgeFee
+                        - AdministrationFee
+                        - TemporaryTagFee
+                        - GreenhouseGasFee
+                        - FilingFee
+                        - PurchaseOptionFee
+                        - TransactionFee
+                        - GovernmentDocStamp
+                        - OnlineFee
+                        - NewPlateFee
+                        - LocalFundFee
+                        - InfrastructureMaintenanceFee
+                        - LienFee
+                        - CountyFee
+                        - Other
+                    groups:
+                        - xsd_rules

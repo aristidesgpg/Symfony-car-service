@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullPartsInvoicesByKeyResponse:
+    properties:
+        pullPartsInvoicesByKeyResult:
+            -
+                Valid: null

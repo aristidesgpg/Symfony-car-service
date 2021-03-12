@@ -1,0 +1,144 @@
+App\Soap\dealertrack\src\Labor:
+    properties:
+        lineType:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        lineSeqNumber:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        transactionCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        transactionDate:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        linePaymentMethod:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        serviceType:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        policyAdjustment:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        technicianID:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        laborOpCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        corrLaborOpCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        laborHours:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        laborAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        laborCost:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        actualRetailFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        failureCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        subletVendorNumber:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        subletInvoiceNumber:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        couponNumber:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        couponDiscountBasis:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        vATCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        vATAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

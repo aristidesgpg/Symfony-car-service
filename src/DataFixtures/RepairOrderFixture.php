@@ -11,16 +11,14 @@ use Exception;
 use Faker\Factory;
 
 /**
- * Class RepairOrderFixture
- *
- * @package App\DataFixtures
+ * Class RepairOrderFixture.
  */
 class RepairOrderFixture extends Fixture implements DependentFixtureInterface
 {
     /**
-     * @param ObjectManager $manager
-     *
      * @throws Exception
+     *
+     * @return void
      */
     public function load(ObjectManager $manager)
     {
@@ -49,10 +47,12 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
         ];
         $paymentOptions = [
             'Not Started',
+            'Created',
             'Sent',
             'Viewed',
             'Paid',
             'Confirmed',
+            'Refunded',
         ];
 
         // @TODO: Make this better w/ optional completions/values/cars/etc.
@@ -63,9 +63,9 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
         $advisorReference = $faker->numberBetween(1, 30);
 
         $repairOrder->setNumber(1234567)
-                    ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
-                    ->setPrimaryTechnician($this->getReference('user_' . $userReference))
-                    ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
+                    ->setPrimaryCustomer($this->getReference('customer_'.$customerReference))
+                    ->setPrimaryTechnician($this->getReference('user_'.$userReference))
+                    ->setPrimaryAdvisor($this->getReference('user_'.$advisorReference))
                     ->setVideoStatus('Not Started')
                     ->setMPIStatus('Not Started')
                     ->setPaymentStatus($faker->randomElement($paymentOptions))
@@ -79,7 +79,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
         $manager->flush();
 
         // Now make 150 more
-        for ($i = 1; $i <= 150; $i++) {
+        for ($i = 1; $i <= 150; ++$i) {
             $repairOrder = new RepairOrder();
             $userReference = $faker->numberBetween(1, 50);
             $customerReference = $faker->numberBetween(1, 50);
@@ -121,9 +121,9 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
             }
 
             $repairOrder->setNumber($faker->unique(true)->numberBetween(100000, 999999))
-                        ->setPrimaryCustomer($this->getReference('customer_' . $customerReference))
-                        ->setPrimaryTechnician($this->getReference('user_' . $userReference))
-                        ->setPrimaryAdvisor($this->getReference('user_' . $advisorReference))
+                        ->setPrimaryCustomer($this->getReference('customer_'.$customerReference))
+                        ->setPrimaryTechnician($this->getReference('user_'.$userReference))
+                        ->setPrimaryAdvisor($this->getReference('user_'.$advisorReference))
                         ->setVideoStatus('Not Started')
                         ->setMPIStatus('Not Started')
                         ->setPaymentStatus($faker->randomElement($paymentOptions))
@@ -154,7 +154,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
             $noteCount = $faker->numberBetween(0, 3);
 
             if ($noteCount > 0) {
-                for ($x = 1; $x <= $noteCount; $x++) {
+                for ($x = 1; $x <= $noteCount; ++$x) {
                     $dateCreated = $faker->dateTimeBetween($dateCreated, $dateClosed);
                     $note = new RepairOrderNote();
                     $note->setRepairOrder($repairOrder)
@@ -169,7 +169,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
     }
 
     /**
-     * @return string[]
+     * @return array<array-key, class-string>
      */
     public function getDependencies(): array
     {

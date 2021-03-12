@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfLaborOperationSubletType:
+    properties:
+        laborOperationSublet:
+            -
+                Valid: null

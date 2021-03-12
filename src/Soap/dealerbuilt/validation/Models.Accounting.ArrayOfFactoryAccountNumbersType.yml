@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfFactoryAccountNumbersType:
+    properties:
+        factoryAccountNumbersType:
+            -
+                Valid: null

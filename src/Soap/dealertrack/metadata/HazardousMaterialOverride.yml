@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\HazardousMaterialOverride:
+    xml_root_name: HazardousMaterialOverride
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

@@ -18,7 +18,8 @@ use RuntimeException;
 
 class RepairOrderHelper
 {
-    use iServiceLoggerTrait, FalsyTrait;
+    use iServiceLoggerTrait;
+    use FalsyTrait;
 
     private $em;
     private $repo;
@@ -33,22 +34,24 @@ class RepairOrderHelper
         UserRepository $users,
         CustomerHelper $customerHelper
     ) {
-        $this->em = $em;
-        $this->repo = $repo;
-        $this->customers = $customers;
-        $this->users = $users;
-        $this->customerHelper = $customerHelper;
+        $this->em              = $em;
+        $this->repo            = $repo;
+        $this->customers       = $customers;
+        $this->users           = $users;
+        $this->customerHelper  = $customerHelper;
     }
 
     /**
      * @return RepairOrder|array Array on validation failure
+     *
+     * @throws Exception
      */
     public function addRepairOrder(array $params)
     {
         $errors = [];
         $required = ['customerName', 'customerPhone', 'number'];
         foreach ($required as $k) {
-            if (!isset($params[$k]) || strlen($params[$k]) === 0) {
+            if (!isset($params[$k]) || 0 === strlen($params[$k])) {
                 $errors[$k] = 'Required field missing';
             }
         }
@@ -74,10 +77,15 @@ class RepairOrderHelper
             $advisors = $this->users->getUserByRole('ROLE_SERVICE_ADVISOR');
             $advisor = $advisors[0] ?? null;
             if (!$advisor instanceof User) {
-                throw new RuntimeException('Could not find advisor');
+                throw new Exception('Could not find advisor');
             }
             $ro->setPrimaryAdvisor($advisor);
         }
+
+        if (is_null($ro->getPaymentStatus())) {
+            $ro->setPaymentStatus('Not Started');
+        }
+
         $this->em->persist($ro);
         $this->commitRepairOrder();
 
@@ -85,25 +93,18 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array $params
-     *
      * @return Customer|array Array on validation failure
      */
     private function handleCustomer(array $params)
     {
-        $customer = $this->customers->findByPhone($params['customerPhone']);
-        if ($customer !== null) {
-            $customer->setName($params['customerName']);
-            $this->customerHelper->commitCustomer($customer);
-
-            return $customer;
-        }
+        $customer   = $this->customers->findByPhone($params['customerPhone']);
         $translated = $this->translateCustomerParams($params);
-        $errors = $this->customerHelper->validateParams($translated);
+        $errors     = $this->customerHelper->validateParams($translated);
         if (!empty($errors)) {
             return $this->translateCustomerParams($errors, true);
         }
-        $customer = new Customer();
+        if(!$customer)
+            $customer = new Customer();
         $this->customerHelper->commitCustomer($customer, $translated);
 
         return $customer;
@@ -114,6 +115,7 @@ class RepairOrderHelper
         $map = [
             'customerName' => 'name',
             'customerPhone' => 'phone',
+            'customerEmail' => 'email',
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
@@ -130,9 +132,6 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array       $params
-     * @param RepairOrder $ro
-     *
      * @return array Array on validation failure
      */
     private function buildRO(array $params, RepairOrder $ro): array
@@ -142,16 +141,16 @@ class RepairOrderHelper
             if (!isset($params[$k]) || empty($params[$k])) {
                 continue;
             }
-            $role = ($k === 'advisor') ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
+            $role = ('advisor' === $k) ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
             $user = $this->users->find($params[$k]);
-            if ($user === null) {
+            if (null === $user) {
                 $errors[$k] = ucfirst($k).' not found';
                 continue;
             } elseif (!in_array($role, $user->getRoles())) {
                 $errors[$k] = ucfirst($k).' does not have role '.$role;
                 continue;
             }
-            if ($k === 'advisor') {
+            if ('advisor' === $k) {
                 $ro->setPrimaryAdvisor($user);
             } else {
                 $ro->setPrimaryTechnician($user);
@@ -219,8 +218,8 @@ class RepairOrderHelper
             $ro->setDmsKey($params['dmsKey']);
         }
 
-        if (isset($params['waiver'])) {
-            $ro->setWaiver($params['waiver']);
+        if (isset($params['waiverSignature'])) {
+            $ro->setWaiverSignature($params['waiverSignature']);
         }
 
         if (isset($params['waiverVerbiage'])) {
@@ -234,11 +233,6 @@ class RepairOrderHelper
         return $errors;
     }
 
-    /**
-     * @param string $roNumber
-     *
-     * @return bool
-     */
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findByUID($roNumber);
@@ -246,12 +240,7 @@ class RepairOrderHelper
         return ($ro === null);
     }
 
-    /**
-     * @param string $dateCreated
-     *
-     * @return string
-     */
-    private function generateLinkHash(string $dateCreated): string
+    public function generateLinkHash(string $dateCreated): string
     {
         try {
             $hash = sha1($dateCreated.random_bytes(32));
@@ -280,12 +269,6 @@ class RepairOrderHelper
         }
     }
 
-    /**
-     * @param array       $params
-     * @param RepairOrder $ro
-     *
-     * @return array
-     */
     public function updateRepairOrder(array $params, RepairOrder $ro): array
     {
         if ($ro->getId() === null) {
@@ -300,9 +283,6 @@ class RepairOrderHelper
         return [];
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function closeRepairOrder(RepairOrder $ro): void
     {
         if ($ro->getDateClosed() !== null) {
@@ -312,9 +292,6 @@ class RepairOrderHelper
         $this->commitRepairOrder();
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function archiveRepairOrder(RepairOrder $ro): void
     {
         if ($ro->isArchived() === true) {
@@ -324,9 +301,6 @@ class RepairOrderHelper
         $this->commitRepairOrder();
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function deleteRepairOrder(RepairOrder $ro): void
     {
         if ($ro->getDeleted() === true) {
@@ -334,58 +308,5 @@ class RepairOrderHelper
         }
         $ro->setDeleted(true);
         $this->commitRepairOrder();
-    }
-
-    /**
-     * @return array
-     */
-    public function getSuggestedRoNumbers () {
-        $suggestedRoNumbers = [];
-        // Get the latest RO number that is JUST a number in the last 20 ros entered
-        $query = $this->em
-            ->getConnection()
-            ->prepare("
-                SELECT MAX(r.number) number
-                FROM (
-                    SELECT *
-                    FROM repair_order
-                    WHERE number NOT REGEXP '[[:alpha:]]'
-                    ORDER BY id DESC
-                    LIMIT 20
-                ) r 
-            ");
-        $query->execute();
-        $latestRO = $query->fetchAll();
-
-        if (!$latestRO) {
-            return [];
-        }
-        $latestRO = array_shift($latestRO);
-        if (!isset($latestRO)) {
-            return [];
-        }
-        $latestRO = $latestRO['number'];
-        $start    = $latestRO - 20;
-        $end      = $latestRO + 20;
-        foreach (range($latestRO - 1, $start, -1) as $possibleRONumber) {
-            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
-            if (!$exists) {
-                $suggestedRoNumbers[] = $possibleRONumber;
-            }
-            if (count($suggestedRoNumbers) >= 10) {
-                break;
-            }
-        }
-        foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
-            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
-            if (!$exists) {
-                $suggestedRoNumbers[] = $possibleRONumber;
-            }
-            if (count($suggestedRoNumbers) >= 20) {
-                break;
-            }
-        }
-        sort($suggestedRoNumbers);
-        return $suggestedRoNumbers;
-    }
+    }    
 }

@@ -1,0 +1,7 @@
+App\Soap\dealerbuilt\src\BaseApi\GlDetailSearchCriteriaType:
+    properties:
+        startDate:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

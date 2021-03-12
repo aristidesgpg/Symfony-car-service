@@ -1,0 +1,34 @@
+App\Soap\automate\src\AlternatePartyDocument:
+    xml_root_name: AlternatePartyDocument
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        documentType:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentType
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDocumentType
+                setter: setDocumentType
+            type: string
+        effectivePeriod:
+            expose: true
+            access_type: public_method
+            serialized_name: EffectivePeriod
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getEffectivePeriod
+                setter: setEffectivePeriod
+            type: App\Soap\automate\src\EffectivePeriod
+        issuingName:
+            expose: true
+            access_type: public_method
+            serialized_name: IssuingName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getIssuingName
+                setter: setIssuingName
+            type: string
