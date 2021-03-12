@@ -88,7 +88,7 @@ class RepairOrderHelper
         if (is_null($ro->getPaymentStatus())) {
             $ro->setPaymentStatus('Not Started');
         }
-        // check mobile validation
+
         $phone = $params['customerPhone'];
         $cleanNumber = $this->phoneValidator->clean($phone);
         $isValid = $this->phoneValidator->isMobile($cleanNumber);
