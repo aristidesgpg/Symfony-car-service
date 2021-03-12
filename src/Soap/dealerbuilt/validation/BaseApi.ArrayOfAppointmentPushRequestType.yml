@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfAppointmentPushRequestType:
+    properties:
+        appointmentPushRequest:
+            -
+                Valid: null

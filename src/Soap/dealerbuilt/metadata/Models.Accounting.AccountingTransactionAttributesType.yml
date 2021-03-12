@@ -1,0 +1,317 @@
+App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionAttributesType:
+    properties:
+        accountingDate:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getAccountingDate
+                setter: setAccountingDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        balance:
+            expose: true
+            access_type: public_method
+            serialized_name: Balance
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getBalance
+                setter: setBalance
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        dealNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: DealNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDealNumber
+                setter: setDealNumber
+            type: int
+        dealerID:
+            expose: true
+            access_type: public_method
+            serialized_name: DealerID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDealerID
+                setter: setDealerID
+            type: int
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        division:
+            expose: true
+            access_type: public_method
+            serialized_name: Division
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDivision
+                setter: setDivision
+            type: int
+        documentDate:
+            expose: true
+            access_type: public_method
+            serialized_name: DocumentDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getDocumentDate
+                setter: setDocumentDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        fieldCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FieldCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getFieldCode
+                setter: setFieldCode
+            type: int
+        gLEntryDate:
+            expose: true
+            access_type: public_method
+            serialized_name: GLEntryDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getGLEntryDate
+                setter: setGLEntryDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        gLVouch:
+            expose: true
+            access_type: public_method
+            serialized_name: GLVouch
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getGLVouch
+                setter: setGLVouch
+            type: string
+        groupDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: GroupDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getGroupDescription
+                setter: setGroupDescription
+            type: string
+        groupUnique:
+            expose: true
+            access_type: public_method
+            serialized_name: GroupUnique
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getGroupUnique
+                setter: setGroupUnique
+            type: string
+        groupUserID:
+            expose: true
+            access_type: public_method
+            serialized_name: GroupUserID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getGroupUserID
+                setter: setGroupUserID
+            type: string
+        journal:
+            expose: true
+            access_type: public_method
+            serialized_name: Journal
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getJournal
+                setter: setJournal
+            type: string
+        lineItems:
+            expose: true
+            access_type: public_method
+            serialized_name: LineItems
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getLineItems
+                setter: setLineItems
+            type: array<App\Soap\dealerbuilt\src\Models\Accounting\AccountingTransactionLineItemType>
+            xml_list:
+                inline: false
+                entry_name: AccountingTransactionLineItem
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+        locationID:
+            expose: true
+            access_type: public_method
+            serialized_name: LocationID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getLocationID
+                setter: setLocationID
+            type: int
+        modifiedBy:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedBy
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getModifiedBy
+                setter: setModifiedBy
+            type: string
+        omnisName:
+            expose: true
+            access_type: public_method
+            serialized_name: OmnisName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getOmnisName
+                setter: setOmnisName
+            type: string
+        paymentAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: PaymentAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getPaymentAmount
+                setter: setPaymentAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        period:
+            expose: true
+            access_type: public_method
+            serialized_name: Period
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getPeriod
+                setter: setPeriod
+            type: int
+        postTime:
+            expose: true
+            access_type: public_method
+            serialized_name: PostTime
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getPostTime
+                setter: setPostTime
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        posted:
+            expose: true
+            access_type: public_method
+            serialized_name: Posted
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getPosted
+                setter: setPosted
+            type: int
+        refJrnl:
+            expose: true
+            access_type: public_method
+            serialized_name: RefJrnl
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getRefJrnl
+                setter: setRefJrnl
+            type: string
+        reference:
+            expose: true
+            access_type: public_method
+            serialized_name: Reference
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getReference
+                setter: setReference
+            type: string
+        referenceDate:
+            expose: true
+            access_type: public_method
+            serialized_name: ReferenceDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getReferenceDate
+                setter: setReferenceDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        sourceLocationID:
+            expose: true
+            access_type: public_method
+            serialized_name: SourceLocationID
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getSourceLocationID
+                setter: setSourceLocationID
+            type: int
+        transType1:
+            expose: true
+            access_type: public_method
+            serialized_name: TransType1
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getTransType1
+                setter: setTransType1
+            type: string
+        userCode:
+            expose: true
+            access_type: public_method
+            serialized_name: UserCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getUserCode
+                setter: setUserCode
+            type: string
+        userName:
+            expose: true
+            access_type: public_method
+            serialized_name: UserName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getUserName
+                setter: setUserName
+            type: string
+        factory:
+            expose: true
+            access_type: public_method
+            serialized_name: factory
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getFactory
+                setter: setFactory
+            type: string
+        windowCode:
+            expose: true
+            access_type: public_method
+            serialized_name: windowCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Accounting'
+            accessor:
+                getter: getWindowCode
+                setter: setWindowCode
+            type: int

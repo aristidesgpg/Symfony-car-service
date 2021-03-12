@@ -1,0 +1,27 @@
+App\Soap\dealerbuilt\src\BaseApi\DocumentPushRequestType:
+    properties:
+        dealKey:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        document:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        storeId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

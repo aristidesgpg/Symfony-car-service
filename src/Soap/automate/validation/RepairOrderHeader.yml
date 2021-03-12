@@ -1,0 +1,97 @@
+App\Soap\automate\src\RepairOrderHeader:
+    properties:
+        documentDateTime:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        documentIdentificationGroup:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        dealerParty:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        ownerParty:
+            -
+                Valid: null
+        repairOrderVehicleLineItem:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        repairOrderOpenedDate:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        repairOrderCompletedDate:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        repairOrderInvoiceDate:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        serviceAdvisorParty:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        inDistanceMeasure:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        repairOrderStatus:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        promisedRepairCompletionDate:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+        repairOrderPriorityCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules

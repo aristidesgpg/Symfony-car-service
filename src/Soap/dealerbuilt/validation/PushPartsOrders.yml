@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushPartsOrders:
+    properties:
+        partsOrders:
+            -
+                Valid: null

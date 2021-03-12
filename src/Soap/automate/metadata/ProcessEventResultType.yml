@@ -1,0 +1,42 @@
+App\Soap\automate\src\ProcessEventResultType:
+    properties:
+        response:
+            expose: true
+            access_type: public_method
+            serialized_name: response
+            accessor:
+                getter: getResponse
+                setter: setResponse
+            type: string
+        businessError:
+            expose: true
+            access_type: public_method
+            serialized_name: businessError
+            accessor:
+                getter: getBusinessError
+                setter: setBusinessError
+            type: bool
+        systemError:
+            expose: true
+            access_type: public_method
+            serialized_name: systemError
+            accessor:
+                getter: getSystemError
+                setter: setSystemError
+            type: bool
+        retryable:
+            expose: true
+            access_type: public_method
+            serialized_name: retryable
+            accessor:
+                getter: getRetryable
+                setter: setRetryable
+            type: bool
+        statusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: statusCode
+            accessor:
+                getter: getStatusCode
+                setter: setStatusCode
+            type: string

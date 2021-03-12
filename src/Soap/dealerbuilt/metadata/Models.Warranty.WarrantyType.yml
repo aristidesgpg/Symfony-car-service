@@ -1,0 +1,142 @@
+App\Soap\dealerbuilt\src\Models\Warranty\WarrantyType:
+    properties:
+        factoryExtWarrantyCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryExtWarrantyCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getFactoryExtWarrantyCode
+                setter: setFactoryExtWarrantyCode
+            type: string
+        factoryExtWarrantyDate:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryExtWarrantyDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getFactoryExtWarrantyDate
+                setter: setFactoryExtWarrantyDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        factoryExtWarrantyMileage:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryExtWarrantyMileage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getFactoryExtWarrantyMileage
+                setter: setFactoryExtWarrantyMileage
+            type: int
+        factoryExtWarrantyMileageUOM:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryExtWarrantyMileageUOM
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getFactoryExtWarrantyMileageUOM
+                setter: setFactoryExtWarrantyMileageUOM
+            type: string
+        factoryExtWarrantyRemaining:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryExtWarrantyRemaining
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getFactoryExtWarrantyRemaining
+                setter: setFactoryExtWarrantyRemaining
+            type: int
+        termMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: TermMeasure
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getTermMeasure
+                setter: setTermMeasure
+            type: float
+        warrantyCancelCode:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyCancelCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getWarrantyCancelCode
+                setter: setWarrantyCancelCode
+            type: string
+        warrantyCancelDate:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyCancelDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getWarrantyCancelDate
+                setter: setWarrantyCancelDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        warrantyEndDistanceMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyEndDistanceMeasure
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getWarrantyEndDistanceMeasure
+                setter: setWarrantyEndDistanceMeasure
+            type: float
+        warrantyExpirationDate:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyExpirationDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getWarrantyExpirationDate
+                setter: setWarrantyExpirationDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        warrantyStartDate:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyStartDate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getWarrantyStartDate
+                setter: setWarrantyStartDate
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        warrantyStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyStatus
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getWarrantyStatus
+                setter: setWarrantyStatus
+            type: string
+        warrantyStatusType:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyStatusType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getWarrantyStatusType
+                setter: setWarrantyStatusType
+            type: string
+        warrantyTypeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyTypeDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Warranty'
+            accessor:
+                getter: getWarrantyTypeDescription
+                setter: setWarrantyTypeDescription
+            type: string

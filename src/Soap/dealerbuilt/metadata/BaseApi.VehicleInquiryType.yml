@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\VehicleInquiryType:
+    properties:
+        currentMileage:
+            expose: true
+            access_type: public_method
+            serialized_name: CurrentMileage
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCurrentMileage
+                setter: setCurrentMileage
+            type: int
+        ownerLastName:
+            expose: true
+            access_type: public_method
+            serialized_name: OwnerLastName
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getOwnerLastName
+                setter: setOwnerLastName
+            type: string
+        storeId:
+            expose: true
+            access_type: public_method
+            serialized_name: StoreId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getStoreId
+                setter: setStoreId
+            type: int
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: Vin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string

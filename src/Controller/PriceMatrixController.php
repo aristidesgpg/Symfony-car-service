@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PriceMatrix;
 use App\Repository\PriceMatrixRepository;
+use App\Service\PriceMatrixHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -46,7 +47,7 @@ class PriceMatrixController extends AbstractFOSRestController
      */
     public function list(PriceMatrixRepository $priceMatrixRepository): Response
     {
-        $priceMatrixes = $priceMatrixRepository->findAll();
+        $priceMatrixes = $priceMatrixRepository->getAllItems();
 
         return $this->handleView($this->view($priceMatrixes, Response::HTTP_OK));
     }
@@ -77,59 +78,25 @@ class PriceMatrixController extends AbstractFOSRestController
      *
      * @return Response
      */
-    public function new(Request $request, PriceMatrixRepository $priceMatrixRepository, EntityManagerInterface $em)
+    public function new(Request $request, PriceMatrixHelper $priceMatrixHelper)
     {
         $payload = $request->get('payload');
-        $obj = (array) json_decode($payload);
 
-        if (is_null($obj) || !is_array($obj) || count($obj) === 0) {
-            throw new BadRequestHttpException('Payload data is invalid');
+        try {
+            $priceMatrixHelper->createPriceMatrix($payload);
+           
+            return $this->handleView(
+                $this->view(
+                    [
+                        'message' => 'Successfully created',
+                    ],
+                    Response::HTTP_OK
+                )
+            );
+        } catch (BadRequestHttpException $e) {
+            throw new BadRequestHttpException($e->getMessage());
         }
 
-        //check parameter validation
-        foreach ($obj as $item) {
-            if (!is_object($item)) {
-                throw new BadRequestHttpException('Payload data is invalid');
-            }
-
-            $arr = get_object_vars($item);
-            $keys = array_keys($arr);
-            $requiredFields = ['hours', 'price'];
-
-            foreach ($requiredFields as $key) {
-                if (!in_array($key, $keys)) {
-                    throw new BadRequestHttpException("Missing $key parameter");
-                }
-
-                if (!is_numeric($arr[$key])) {
-                    throw new NotAcceptableHttpException("Invalid $key value");
-                }
-            }
-        }
-
-        $allItems = $priceMatrixRepository->getAllItems();
-
-        foreach ($allItems as $item) {
-            $em->remove($item);
-            $em->flush();
-        }
-
-        foreach ($obj as $item) {
-            $priceMatrix = new PriceMatrix();
-            $priceMatrix->setHours($item->hours)
-                        ->setPrice($item->price);
-
-            $em->persist($priceMatrix);
-            $em->flush();
-        }
-
-        return $this->handleView(
-            $this->view(
-                [
-                    'message' => 'Successfully created',
-                ],
-                Response::HTTP_OK
-            )
-        );
+        
     }
 }

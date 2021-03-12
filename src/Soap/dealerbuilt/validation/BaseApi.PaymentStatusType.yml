@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\BaseApi\PaymentStatusType:
+    properties:
+        balanceDue:
+            -
+                Valid: null
+        eventType:
+            -
+                Choice:
+                    choices:
+                        - RepairOrder
+                        - CounterTicket
+                    groups:
+                        - xsd_rules
+        payTypeStatuses:
+            -
+                Valid: null
+        payments:
+            -
+                Valid: null

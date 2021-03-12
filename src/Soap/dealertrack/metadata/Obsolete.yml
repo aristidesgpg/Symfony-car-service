@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\Obsolete:
+    xml_root_name: Obsolete
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

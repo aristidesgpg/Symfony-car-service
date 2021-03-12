@@ -1,0 +1,23 @@
+App\Soap\dealerbuilt\src\Models\Vehicles\VehicleServiceType:
+    properties:
+        ownerInformation:
+            -
+                Valid: null
+        repairOrderHistory:
+            -
+                Valid: null
+        serviceCampaigns:
+            -
+                Valid: null
+        serviceContracts:
+            -
+                Valid: null
+        vehicleInformation:
+            -
+                Valid: null
+        vehicleSeller:
+            -
+                Valid: null
+        warranties:
+            -
+                Valid: null

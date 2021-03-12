@@ -1,0 +1,24 @@
+App\Soap\dealerbuilt\src\PullInventoryByVin:
+    xml_root_name: PullInventoryByVin
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        storeId:
+            expose: true
+            access_type: public_method
+            serialized_name: storeId
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getStoreId
+                setter: setStoreId
+            type: int
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: vin
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string

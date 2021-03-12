@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\TaxableInternalLine:
+    xml_root_name: TaxableInternalLine
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

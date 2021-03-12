@@ -25,7 +25,7 @@ class OperationCodeRepository extends ServiceEntityRepository
      */
     public function getActiveOperationCodes($sortField = null, $sortDirection = null, $searchTerm = null)
     {
-        $qb = $this->createQueryBuilder('o');
+        $qb      = $this->createQueryBuilder('o');
         $qb->andWhere('o.deleted = 0');
         $columns = ['code', 'description'];
 
@@ -45,7 +45,7 @@ class OperationCodeRepository extends ServiceEntityRepository
         if ($sortDirection)
             $qb->orderBy('o.' . $sortField, $sortDirection);
 
-        return $qb->getQuery();
+        return $qb->getQuery()->getResult();
     }
 
     // /**

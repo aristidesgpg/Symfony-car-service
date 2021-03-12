@@ -1,0 +1,18 @@
+App\Soap\cdk\src\TotRoTax:
+    xml_root_name: totRoTax
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties:
+        v:
+            expose: true
+            access_type: public_method
+            serialized_name: V
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+            accessor:
+                getter: getV
+                setter: setV
+            xml_list:
+                inline: true
+                entry_name: V
+                namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+            type: array<App\Soap\cdk\src\V>

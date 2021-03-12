@@ -1,0 +1,24 @@
+App\Soap\automate\src\DealerParty:
+    xml_root_name: DealerParty
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        alternatePartyDocument:
+            expose: true
+            access_type: public_method
+            serialized_name: AlternatePartyDocument
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getAlternatePartyDocument
+                setter: setAlternatePartyDocument
+            type: App\Soap\automate\src\AlternatePartyDocument
+        partyActionEvent:
+            expose: true
+            access_type: public_method
+            serialized_name: PartyActionEvent
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPartyActionEvent
+                setter: setPartyActionEvent
+            type: App\Soap\automate\src\PartyActionEvent

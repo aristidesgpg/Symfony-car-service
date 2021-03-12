@@ -1,0 +1,12 @@
+App\Soap\automate\src\ProcessEventResponseType:
+    properties:
+        processEventResult:
+            expose: true
+            access_type: public_method
+            serialized_name: processEventResult
+            xml_element:
+                namespace: 'http://openmate.automate-webservices.com/'
+            accessor:
+                getter: getProcessEventResult
+                setter: setProcessEventResult
+            type: App\Soap\automate\src\ProcessEventResultType

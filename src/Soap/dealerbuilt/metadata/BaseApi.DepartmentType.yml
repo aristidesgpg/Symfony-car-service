@@ -1,0 +1,22 @@
+App\Soap\dealerbuilt\src\BaseApi\DepartmentType:
+    properties:
+        departmentCode:
+            expose: true
+            access_type: public_method
+            serialized_name: DepartmentCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDepartmentCode
+                setter: setDepartmentCode
+            type: string
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string

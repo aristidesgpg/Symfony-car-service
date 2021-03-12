@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\TagNumber:
+    xml_root_name: TagNumber
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

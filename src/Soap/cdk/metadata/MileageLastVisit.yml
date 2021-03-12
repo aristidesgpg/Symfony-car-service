@@ -1,0 +1,12 @@
+App\Soap\cdk\src\MileageLastVisit:
+    xml_root_name: MileageLastVisit
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties:
+        __value:
+            expose: true
+            xml_value: true
+            access_type: public_method
+            accessor:
+                getter: value
+                setter: value
+            type: int

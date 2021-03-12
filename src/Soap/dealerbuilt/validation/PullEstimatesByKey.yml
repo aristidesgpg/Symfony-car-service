@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullEstimatesByKey:
+    properties:
+        estimateKeys:
+            -
+                Valid: null

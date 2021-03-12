@@ -1,0 +1,65 @@
+App\Soap\dealerbuilt\src\BaseApi\RepairOrderPushRequestType:
+    properties:
+        jobs:
+            -
+                Valid: null
+        milesIn:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        milesOut:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        originalEstimate:
+            -
+                Valid: null
+        priority:
+            -
+                GreaterThanOrEqual:
+                    value: '-32768'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '32767'
+                    groups:
+                        - xsd_rules
+        serviceLocationId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        status:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - Open
+                        - ReadyForPickup
+                        - Closing
+                        - Closed
+                        - Posted
+                        - Cancelled
+                    groups:
+                        - xsd_rules

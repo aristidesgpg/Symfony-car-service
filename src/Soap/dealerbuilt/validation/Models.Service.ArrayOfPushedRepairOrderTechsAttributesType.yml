@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfPushedRepairOrderTechsAttributesType:
+    properties:
+        pushedRepairOrderTechsAttributes:
+            -
+                Valid: null

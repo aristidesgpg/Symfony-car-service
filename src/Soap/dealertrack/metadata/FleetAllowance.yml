@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\FleetAllowance:
+    xml_root_name: FleetAllowance
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

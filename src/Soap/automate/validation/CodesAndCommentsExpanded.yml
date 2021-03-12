@@ -1,0 +1,7 @@
+App\Soap\automate\src\CodesAndCommentsExpanded:
+    properties:
+        complaintDescription:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

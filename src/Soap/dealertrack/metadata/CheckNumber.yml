@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\CheckNumber:
+    xml_root_name: CheckNumber
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

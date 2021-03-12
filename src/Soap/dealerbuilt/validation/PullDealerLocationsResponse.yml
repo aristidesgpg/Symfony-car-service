@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullDealerLocationsResponse:
+    properties:
+        pullDealerLocationsResult:
+            -
+                Valid: null

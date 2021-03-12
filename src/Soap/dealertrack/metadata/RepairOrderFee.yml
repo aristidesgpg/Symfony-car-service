@@ -1,0 +1,304 @@
+App\Soap\dealertrack\src\RepairOrderFee:
+    xml_root_name: RepairOrderFee
+    xml_root_namespace: opentrack.dealertrack.com
+    properties:
+        serviceLineNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLineNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getServiceLineNumber
+                setter: setServiceLineNumber
+            type: int
+        feeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FeeCode
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getFeeCode
+                setter: setFeeCode
+            type: string
+        linePaymentMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: LinePaymentMethod
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLinePaymentMethod
+                setter: setLinePaymentMethod
+            type: string
+        totalFeesAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalFeesAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getTotalFeesAmount
+                setter: setTotalFeesAmount
+            type: float
+        customerFeesAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerFeesAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getCustomerFeesAmount
+                setter: setCustomerFeesAmount
+            type: float
+        customerPartsAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerPartsAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getCustomerPartsAmount
+                setter: setCustomerPartsAmount
+            type: float
+        customerLaborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerLaborAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getCustomerLaborAmount
+                setter: setCustomerLaborAmount
+            type: float
+        internalFeesAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalFeesAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getInternalFeesAmount
+                setter: setInternalFeesAmount
+            type: float
+        internalPartsAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalPartsAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getInternalPartsAmount
+                setter: setInternalPartsAmount
+            type: float
+        internalLaborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalLaborAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getInternalLaborAmount
+                setter: setInternalLaborAmount
+            type: float
+        serviceFeesAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceFeesAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getServiceFeesAmount
+                setter: setServiceFeesAmount
+            type: float
+        servicePartsAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ServicePartsAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getServicePartsAmount
+                setter: setServicePartsAmount
+            type: float
+        serviceLaborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLaborAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getServiceLaborAmount
+                setter: setServiceLaborAmount
+            type: float
+        warrantyFeesAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyFeesAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getWarrantyFeesAmount
+                setter: setWarrantyFeesAmount
+            type: float
+        warrantyPartsAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyPartsAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getWarrantyPartsAmount
+                setter: setWarrantyPartsAmount
+            type: float
+        warrantyLaborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyLaborAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getWarrantyLaborAmount
+                setter: setWarrantyLaborAmount
+            type: float
+        feeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: FeeDescription
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getFeeDescription
+                setter: setFeeDescription
+            type: string
+        feeType:
+            expose: true
+            access_type: public_method
+            serialized_name: FeeType
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getFeeType
+                setter: setFeeType
+            type: string
+        validFrom:
+            expose: true
+            access_type: public_method
+            serialized_name: ValidFrom
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getValidFrom
+                setter: setValidFrom
+            type: string
+        validTill:
+            expose: true
+            access_type: public_method
+            serialized_name: ValidTill
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getValidTill
+                setter: setValidTill
+            type: string
+        paymentMethods:
+            expose: true
+            access_type: public_method
+            serialized_name: PaymentMethods
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getPaymentMethods
+                setter: setPaymentMethods
+            type: string
+        amountType:
+            expose: true
+            access_type: public_method
+            serialized_name: AmountType
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getAmountType
+                setter: setAmountType
+            type: string
+        minimumAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getMinimumAmount
+                setter: setMinimumAmount
+            type: float
+        maximumAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getMaximumAmount
+                setter: setMaximumAmount
+            type: float
+        calculationBasis:
+            expose: true
+            access_type: public_method
+            serialized_name: CalculationBasis
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getCalculationBasis
+                setter: setCalculationBasis
+            type: App\Soap\dealertrack\src\CalculationBasis
+        partsAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsAccount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getPartsAccount
+                setter: setPartsAccount
+            type: string
+        partsPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsPercentage
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getPartsPercentage
+                setter: setPartsPercentage
+            type: float
+        laborAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborAccount
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLaborAccount
+                setter: setLaborAccount
+            type: App\Soap\dealertrack\src\LaborAccount
+        laborPercentage:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborPercentage
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLaborPercentage
+                setter: setLaborPercentage
+            type: float
+        taxable:
+            expose: true
+            access_type: public_method
+            serialized_name: Taxable
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getTaxable
+                setter: setTaxable
+            type: string

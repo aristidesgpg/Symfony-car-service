@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType:
+    properties:
+        amount:
+            -
+                Valid: null

@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullEstimatesResponse:
+    xml_root_name: PullEstimatesResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullEstimatesResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullEstimatesResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullEstimatesResult
+                setter: setPullEstimatesResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\EstimateType>
+            xml_list:
+                inline: false
+                entry_name: Estimate
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

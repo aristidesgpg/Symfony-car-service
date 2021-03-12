@@ -1,0 +1,17 @@
+App\Soap\dealerbuilt\src\Models\Stock\DropdownListDetailsResponseType:
+    properties:
+        codeTypeDetails:
+            expose: true
+            access_type: public_method
+            serialized_name: CodeTypeDetails
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getCodeTypeDetails
+                setter: setCodeTypeDetails
+            type: array<App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType>
+            xml_list:
+                inline: false
+                entry_name: MnCodeTypeDetail
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
