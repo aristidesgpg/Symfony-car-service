@@ -35,6 +35,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RepairOrderController extends AbstractFOSRestController
 {
     use FalsyTrait;
+
     private const PAGE_LIMIT = 50;
 
     /**
@@ -256,8 +257,11 @@ class RepairOrderController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function getByLinkHash(string $linkHash, RepairOrderRepository $repairOrderRepo): Response
-    {
+    public function getByLinkHash(
+        string $linkHash,
+        RepairOrderRepository $repairOrderRepo,
+        EntityManagerInterface $em
+    ): Response {
         if (!$linkHash) {
             throw new NotFoundHttpException();
         }
@@ -269,6 +273,17 @@ class RepairOrderController extends AbstractFOSRestController
 
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
+        }
+
+        // If customer, they must have a valid mobile number because they opened the link
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            $customer = $repairOrder->getPrimaryCustomer();
+
+            if (!$customer->getMobileConfirmed()) {
+                $customer->setMobileConfirmed(true);
+                $em->persist($customer);
+                $em->flush();
+            }
         }
 
         $view = $this->view($repairOrder);
