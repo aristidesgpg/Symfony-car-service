@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfDealStatusType:
+    properties:
+        dealStatus:
+            -
+                All:
+                    constraints:
+                        -
+                            Choice:
+                                choices:
+                                    - Open
+                                    - Closed
+                                    - Canceled
+                                    - New
+                                    - Sold
+                                    - Approved
+                                    - Processed
+                                    - Accounting
+                    groups:
+                        - xsd_rules

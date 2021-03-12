@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullGlLinesResponse:
+    properties:
+        pullGlLinesResult:
+            -
+                Valid: null

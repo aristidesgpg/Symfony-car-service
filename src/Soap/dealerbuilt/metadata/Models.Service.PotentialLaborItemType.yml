@@ -1,0 +1,107 @@
+App\Soap\dealerbuilt\src\Models\Service\PotentialLaborItemType:
+    properties:
+        allowanceHours:
+            expose: true
+            access_type: public_method
+            serialized_name: AllowanceHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getAllowanceHours
+                setter: setAllowanceHours
+            type: float
+        hours:
+            expose: true
+            access_type: public_method
+            serialized_name: Hours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getHours
+                setter: setHours
+            type: float
+        isApproved:
+            expose: true
+            access_type: public_method
+            serialized_name: IsApproved
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getIsApproved
+                setter: setIsApproved
+            type: bool
+        laborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborAmount
+                setter: setLaborAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        laborRate:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborRate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborRate
+                setter: setLaborRate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        laborType:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborType
+                setter: setLaborType
+            type: string
+        lineNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: LineNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLineNumber
+                setter: setLineNumber
+            type: int
+        operation:
+            expose: true
+            access_type: public_method
+            serialized_name: Operation
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getOperation
+                setter: setOperation
+            type: App\Soap\dealerbuilt\src\Models\Service\LaborOperationType
+        remark:
+            expose: true
+            access_type: public_method
+            serialized_name: Remark
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getRemark
+                setter: setRemark
+            type: string
+        sublets:
+            expose: true
+            access_type: public_method
+            serialized_name: Sublets
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getSublets
+                setter: setSublets
+            type: array<App\Soap\dealerbuilt\src\Models\Service\PotentialLaborOperationSubletType>
+            xml_list:
+                inline: false
+                entry_name: PotentialLaborOperationSublet
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'

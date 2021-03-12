@@ -1,0 +1,26 @@
+App\Soap\dealerbuilt\src\BaseApi\ProductListType:
+    properties:
+        costAdds:
+            -
+                Valid: null
+        hardAdds:
+            -
+                Valid: null
+        incentives:
+            -
+                Valid: null
+        insuranceProducts:
+            -
+                Valid: null
+        protectionPackages:
+            -
+                Valid: null
+        rebates:
+            -
+                Valid: null
+        serviceContracts:
+            -
+                Valid: null
+        softAdds:
+            -
+                Valid: null

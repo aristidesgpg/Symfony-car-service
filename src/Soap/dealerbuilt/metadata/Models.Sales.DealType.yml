@@ -1,0 +1,52 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealType:
+    properties:
+        attributes:
+            expose: true
+            access_type: public_method
+            serialized_name: Attributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getAttributes
+                setter: setAttributes
+            type: App\Soap\dealerbuilt\src\Models\Sales\DealAttributesType
+        dealId:
+            expose: true
+            access_type: public_method
+            serialized_name: DealId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getDealId
+                setter: setDealId
+            type: int
+        references:
+            expose: true
+            access_type: public_method
+            serialized_name: References
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getReferences
+                setter: setReferences
+            type: App\Soap\dealerbuilt\src\Models\Sales\DealReferencesType
+        taxState:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxState
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getTaxState
+                setter: setTaxState
+            type: string
+        workingData:
+            expose: true
+            access_type: public_method
+            serialized_name: WorkingData
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getWorkingData
+                setter: setWorkingData
+            type: App\Soap\dealerbuilt\src\Models\Sales\DealWorkingDataType

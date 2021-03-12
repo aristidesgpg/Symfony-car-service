@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushPartsInvoiceDeliveredResponse:
+    properties:
+        pushPartsInvoiceDeliveredResult:
+            -
+                Valid: null

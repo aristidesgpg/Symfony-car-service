@@ -1,0 +1,135 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderAttributesType:
+    properties:
+        balanceDue:
+            -
+                Valid: null
+        customerAmount:
+            -
+                Valid: null
+        customerLaborDiscount:
+            -
+                Valid: null
+        customerPartsDiscount:
+            -
+                Valid: null
+        customerPay:
+            -
+                Valid: null
+        customerSubletDiscount:
+            -
+                Valid: null
+        defaultCustomerPayRate:
+            -
+                Valid: null
+        inDistanceMeasure:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        internalAmount:
+            -
+                Valid: null
+        internalCustomerCopay:
+            -
+                Valid: null
+        internalPay:
+            -
+                Valid: null
+        jobs:
+            -
+                Valid: null
+        milesIn:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        milesOut:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+        originalEstimate:
+            -
+                Valid: null
+        payTypeStatuses:
+            -
+                Valid: null
+        priority:
+            -
+                GreaterThanOrEqual:
+                    value: '-32768'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '32767'
+                    groups:
+                        - xsd_rules
+        rentalVehicles:
+            -
+                Valid: null
+        serviceAdvisor:
+            -
+                Valid: null
+        serviceContractAmount:
+            -
+                Valid: null
+        serviceContractCustomerCopay:
+            -
+                Valid: null
+        serviceContractPay:
+            -
+                Valid: null
+        status:
+            -
+                Choice:
+                    choices:
+                        - None
+                        - Open
+                        - ReadyForPickup
+                        - Closing
+                        - Closed
+                        - Posted
+                        - Cancelled
+                    groups:
+                        - xsd_rules
+        totalAmount:
+            -
+                Valid: null
+        type:
+            -
+                Choice:
+                    choices:
+                        - Unknown
+                        - CustomerRepairOrder
+                        - InternalRepairOrder
+                        - EstimateOnly
+                    groups:
+                        - xsd_rules
+        warrantyAmount:
+            -
+                Valid: null
+        warrantyCustomerCopay:
+            -
+                Valid: null
+        warrantyPay:
+            -
+                Valid: null

@@ -1,0 +1,112 @@
+App\Soap\dealerbuilt\src\BaseApi\RepairOrderSearchCriteriaType:
+    properties:
+        closedPayTypes:
+            expose: true
+            access_type: public_method
+            serialized_name: ClosedPayTypes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getClosedPayTypes
+                setter: setClosedPayTypes
+            type: array<App\Soap\dealerbuilt\src\Models\Service\ArrayOfServicePayType>
+            xml_list:
+                inline: false
+                entry_name: ArrayOfServicePayType
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+        customerKey:
+            expose: true
+            access_type: public_method
+            serialized_name: CustomerKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getCustomerKey
+                setter: setCustomerKey
+            type: string
+        maximumClosedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumClosedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumClosedStamp
+                setter: setMaximumClosedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        maximumOpenedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumOpenedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumOpenedStamp
+                setter: setMaximumOpenedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        maximumUpdateStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MaximumUpdateStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaximumUpdateStamp
+                setter: setMaximumUpdateStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumClosedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumClosedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumClosedStamp
+                setter: setMinimumClosedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumOpenedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumOpenedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumOpenedStamp
+                setter: setMinimumOpenedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        minimumUpdateStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: MinimumUpdateStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMinimumUpdateStamp
+                setter: setMinimumUpdateStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        statuses:
+            expose: true
+            access_type: public_method
+            serialized_name: Statuses
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getStatuses
+                setter: setStatuses
+            type: array<string>
+            xml_list:
+                inline: false
+                entry_name: RepairOrderStatus
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: Vin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string

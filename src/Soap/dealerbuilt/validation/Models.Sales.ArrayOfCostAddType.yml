@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfCostAddType:
+    properties:
+        costAdd:
+            -
+                Valid: null

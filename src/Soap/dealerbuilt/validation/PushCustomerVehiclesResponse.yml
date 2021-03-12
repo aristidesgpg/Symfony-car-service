@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushCustomerVehiclesResponse:
+    properties:
+        pushCustomerVehiclesResult:
+            -
+                Valid: null

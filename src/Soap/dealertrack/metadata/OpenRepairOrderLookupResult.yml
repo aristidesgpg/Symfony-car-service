@@ -1,0 +1,18 @@
+App\Soap\dealertrack\src\OpenRepairOrderLookupResult:
+    xml_root_name: OpenRepairOrderLookupResult
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties:
+        result:
+            expose: true
+            access_type: public_method
+            serialized_name: Result
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getResult
+                setter: setResult
+            xml_list:
+                inline: true
+                entry_name: Result
+                namespace: opentrack.dealertrack.com/transitional
+            type: array<App\Soap\dealertrack\src\Result>

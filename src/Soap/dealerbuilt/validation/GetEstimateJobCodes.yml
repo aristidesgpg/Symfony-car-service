@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetEstimateJobCodes:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfHardAddType:
+    properties:
+        hardAdd:
+            -
+                Valid: null

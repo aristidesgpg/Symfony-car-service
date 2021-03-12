@@ -44,5 +44,20 @@ class PriceMatrixRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+    
+    public function getPrice($hours)
+    {
+        $item =  $this->createQueryBuilder('p')
+            ->select("p.price")
+            ->where("p.hours = :hours")
+            ->setParameter("hours", $hours)
+            ->getQuery()
+            ->getOneOrNullResult();
+        
+        if($item)
+            return $item['price'];
+        else
+            return null;
+    }
 
 }

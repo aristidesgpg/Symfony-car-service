@@ -1,0 +1,177 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderJobAttributesType:
+    properties:
+        campaignDispositionCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CampaignDispositionCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCampaignDispositionCode
+                setter: setCampaignDispositionCode
+            type: string
+        campaignNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CampaignNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCampaignNumber
+                setter: setCampaignNumber
+            type: string
+        causeDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: CauseDescription
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCauseDescription
+                setter: setCauseDescription
+            type: string
+        complaint:
+            expose: true
+            access_type: public_method
+            serialized_name: Complaint
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getComplaint
+                setter: setComplaint
+            type: string
+        correction:
+            expose: true
+            access_type: public_method
+            serialized_name: Correction
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCorrection
+                setter: setCorrection
+            type: string
+        estimatedHours:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getEstimatedHours
+                setter: setEstimatedHours
+            type: float
+        externalJobId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalJobId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getExternalJobId
+                setter: setExternalJobId
+            type: string
+        jobCodeGroup:
+            expose: true
+            access_type: public_method
+            serialized_name: JobCodeGroup
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getJobCodeGroup
+                setter: setJobCodeGroup
+            type: string
+        jobNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: JobNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getJobNumber
+                setter: setJobNumber
+            type: int
+        laborItems:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborItems
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborItems
+                setter: setLaborItems
+            type: array<App\Soap\dealerbuilt\src\Models\Service\PushedLaborItemAttributesType>
+            xml_list:
+                inline: false
+                entry_name: PushedLaborItemAttributes
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+        menuPartsPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: MenuPartsPrice
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getMenuPartsPrice
+                setter: setMenuPartsPrice
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        modifiedBy:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedBy
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getModifiedBy
+                setter: setModifiedBy
+            type: string
+        parts:
+            expose: true
+            access_type: public_method
+            serialized_name: Parts
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getParts
+                setter: setParts
+            type: array<App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderPartAttributesType>
+            xml_list:
+                inline: false
+                entry_name: PushedRepairOrderPartAttributes
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+        payType:
+            expose: true
+            access_type: public_method
+            serialized_name: PayType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getPayType
+                setter: setPayType
+            type: string
+        quickCode:
+            expose: true
+            access_type: public_method
+            serialized_name: QuickCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getQuickCode
+                setter: setQuickCode
+            type: string
+        techs:
+            expose: true
+            access_type: public_method
+            serialized_name: Techs
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getTechs
+                setter: setTechs
+            type: array<App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType>
+            xml_list:
+                inline: false
+                entry_name: PushedRepairOrderTechsAttributes
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'

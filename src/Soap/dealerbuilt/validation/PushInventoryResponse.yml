@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushInventoryResponse:
+    properties:
+        pushInventoryResult:
+            -
+                Valid: null

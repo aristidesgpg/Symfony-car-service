@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushDeferredLaborOperationSubletsResponse:
+    properties:
+        pushDeferredLaborOperationSubletsResult:
+            -
+                Valid: null

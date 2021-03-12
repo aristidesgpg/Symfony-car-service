@@ -1,0 +1,9 @@
+App\Soap\dealertrack\src\OpenRepairOrderLookupResult:
+    properties:
+        result:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

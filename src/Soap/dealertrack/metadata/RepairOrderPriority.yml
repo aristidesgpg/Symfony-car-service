@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\RepairOrderPriority:
+    xml_root_name: RepairOrderPriority
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

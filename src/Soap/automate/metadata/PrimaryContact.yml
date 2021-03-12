@@ -1,0 +1,24 @@
+App\Soap\automate\src\PrimaryContact:
+    xml_root_name: PrimaryContact
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        typeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TypeCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getTypeCode
+                setter: setTypeCode
+            type: string
+        telephoneCommunication:
+            expose: true
+            access_type: public_method
+            serialized_name: TelephoneCommunication
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getTelephoneCommunication
+                setter: setTelephoneCommunication
+            type: App\Soap\automate\src\TelephoneCommunication

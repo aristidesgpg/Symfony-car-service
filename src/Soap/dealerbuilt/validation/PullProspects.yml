@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullProspects:
+    properties:
+        searchCriteria:
+            -
+                Valid: null

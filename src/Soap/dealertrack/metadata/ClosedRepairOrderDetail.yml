@@ -1,0 +1,49 @@
+App\Soap\dealertrack\src\ClosedRepairOrderDetail:
+    xml_root_name: ClosedRepairOrderDetail
+    xml_root_namespace: opentrack.dealertrack.com
+    properties:
+        lineNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: LineNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLineNumber
+                setter: setLineNumber
+            type: int
+        laborDetails:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborDetails
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getLaborDetails
+                setter: setLaborDetails
+            type: array<App\Soap\dealertrack\src\Labor>
+            xml_list:
+                inline: false
+                entry_name: Labor
+                skip_when_empty: false
+                namespace: opentrack.dealertrack.com
+        parts:
+            expose: true
+            access_type: public_method
+            serialized_name: Parts
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getParts
+                setter: setParts
+            type: App\Soap\dealertrack\src\Parts
+        comments:
+            expose: true
+            access_type: public_method
+            serialized_name: Comments
+            xml_element:
+                namespace: opentrack.dealertrack.com
+            accessor:
+                getter: getComments
+                setter: setComments
+            type: App\Soap\dealertrack\src\Comments

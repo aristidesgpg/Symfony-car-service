@@ -1,0 +1,34 @@
+App\Soap\automate\src\ServiceLabor:
+    xml_root_name: ServiceLabor
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        laborOperationIdTypeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborOperationIdTypeCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getLaborOperationIdTypeCode
+                setter: setLaborOperationIdTypeCode
+            type: int
+        laborAdditionalHoursNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborAdditionalHoursNumeric
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getLaborAdditionalHoursNumeric
+                setter: setLaborAdditionalHoursNumeric
+            type: float
+        sublet:
+            expose: true
+            access_type: public_method
+            serialized_name: Sublet
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getSublet
+                setter: setSublet
+            type: App\Soap\automate\src\Sublet

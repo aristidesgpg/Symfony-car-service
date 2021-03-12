@@ -1,0 +1,201 @@
+App\Soap\dealertrack\src\RepairOrderFee:
+    properties:
+        serviceLineNumber:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        feeCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        linePaymentMethod:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        totalFeesAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        customerFeesAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        customerPartsAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        customerLaborAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        internalFeesAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        internalPartsAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        internalLaborAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        serviceFeesAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        servicePartsAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        serviceLaborAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        warrantyFeesAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        warrantyPartsAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        warrantyLaborAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        feeDescription:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        feeType:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        validFrom:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        validTill:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        paymentMethods:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        amountType:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        minimumAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        maximumAmount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        calculationBasis:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        partsAccount:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        partsPercentage:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        laborAccount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        laborPercentage:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        taxable:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

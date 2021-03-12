@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfVoidCounterTicketApiRequestType:
+    properties:
+        voidCounterTicketApiRequest:
+            -
+                Valid: null

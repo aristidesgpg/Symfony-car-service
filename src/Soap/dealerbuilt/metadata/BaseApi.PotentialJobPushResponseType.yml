@@ -1,0 +1,92 @@
+App\Soap\dealerbuilt\src\BaseApi\PotentialJobPushResponseType:
+    properties:
+        externalJobId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalJobId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getExternalJobId
+                setter: setExternalJobId
+            type: string
+        jobKey:
+            expose: true
+            access_type: public_method
+            serialized_name: JobKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getJobKey
+                setter: setJobKey
+            type: string
+        jobNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: JobNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getJobNumber
+                setter: setJobNumber
+            type: int
+        laborItemPushResponses:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborItemPushResponses
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getLaborItemPushResponses
+                setter: setLaborItemPushResponses
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PotentialLaborItemPushResponseType>
+            xml_list:
+                inline: false
+                entry_name: PotentialLaborItemPushResponse
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+        message:
+            expose: true
+            access_type: public_method
+            serialized_name: Message
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMessage
+                setter: setMessage
+            type: string
+        partPushResponses:
+            expose: true
+            access_type: public_method
+            serialized_name: PartPushResponses
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getPartPushResponses
+                setter: setPartPushResponses
+            type: array<App\Soap\dealerbuilt\src\BaseApi\PushResponseType>
+            xml_list:
+                inline: false
+                entry_name: PushResponse
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+        result:
+            expose: true
+            access_type: public_method
+            serialized_name: Result
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getResult
+                setter: setResult
+            type: string
+        serviceLocationId:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLocationId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getServiceLocationId
+                setter: setServiceLocationId
+            type: int

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullEstimateByKeyResponse:
+    properties:
+        pullEstimateByKeyResult:
+            -
+                Valid: null

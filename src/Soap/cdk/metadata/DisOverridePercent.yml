@@ -1,0 +1,4 @@
+App\Soap\cdk\src\DisOverridePercent:
+    xml_root_name: disOverridePercent
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

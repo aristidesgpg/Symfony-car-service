@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Stock\MnCodeTypeDetailType:
+    properties:
+        codeDetails:
+            -
+                Valid: null
