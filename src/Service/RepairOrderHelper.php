@@ -118,10 +118,10 @@ class RepairOrderHelper
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
-        if(array_key_exists('customerEmail', $params)){
+        if(array_key_exists('customerEmail', $params) || array_key_exists('email', $params)){
             $map['customerEmail'] = 'email';
         }
-        
+
         foreach ($map as $from => $to) {
             if ($reverse && isset($params[$to])) {
                 $return[$from] = $params[$to];
