@@ -132,54 +132,56 @@ class TwilioHelper
                 $response['message'] ?? 'Unknown'
             );
             $this->logInfo($error);
-
-            throw new Exception($error);
+            $lookup = $this->phoneValidator->lookupNumber($phone);
+            if (('mobile' === $lookup->getCarrierType())) {
+                throw new Exception($error);
+            }
         }
 
         return $response;
     }
 
     /**
-     * Encode emoji in text
+     * Encode emoji in text.
      *
      * @param string $text text to encode
      *
-     * @return null|string|string[]
+     * @return string|string[]|null
      */
     public function Encode($text)
     {
-        return $this->convertEmoji($text, "ENCODE");
+        return $this->convertEmoji($text, 'ENCODE');
     }
 
     /**
      * @param $text
      * @param $op
      *
-     * @return null|string|string[]
+     * @return string|string[]|null
      */
     public function convertEmoji($text, $op)
     {
-        if ($op == "ENCODE") {
+        if ('ENCODE' == $op) {
             return preg_replace_callback(
                 '/([0-9|#][\x{20E3}])|[\x{00ae}|\x{00a9}|\x{203C}|\x{2047}|\x{2048}|\x{2049}|\x{3030}|\x{303D}|\x{2139}|\x{2122}|\x{3297}|\x{3299}][\x{FE00}-\x{FEFF}]?|[\x{2190}-\x{21FF}][\x{FE00}-\x{FEFF}]?|[\x{2300}-\x{23FF}][\x{FE00}-\x{FEFF}]?|[\x{2460}-\x{24FF}][\x{FE00}-\x{FEFF}]?|[\x{25A0}-\x{25FF}][\x{FE00}-\x{FEFF}]?|[\x{2600}-\x{27BF}][\x{FE00}-\x{FEFF}]?|[\x{2600}-\x{27BF}][\x{1F000}-\x{1FEFF}]?|[\x{2900}-\x{297F}][\x{FE00}-\x{FEFF}]?|[\x{2B00}-\x{2BF0}][\x{FE00}-\x{FEFF}]?|[\x{1F000}-\x{1F9FF}][\x{FE00}-\x{FEFF}]?|[\x{1F000}-\x{1F9FF}][\x{1F000}-\x{1FEFF}]?/u',
-                ['self', "encodeEmoji"],
+                ['self', 'encodeEmoji'],
                 $text
             );
         } else {
-            return preg_replace_callback('/(\\\u[0-9a-f]{4})+/', ['self', "decodeEmoji"], $text);
+            return preg_replace_callback('/(\\\u[0-9a-f]{4})+/', ['self', 'decodeEmoji'], $text);
         }
     }
 
     /**
-     * Decode emoji in text
+     * Decode emoji in text.
      *
      * @param string $text text to decode
      *
-     * @return null|string|string[]
+     * @return string|string[]|null
      */
     public function Decode($text)
     {
-        return $this->convertEmoji($text, "DECODE");
+        return $this->convertEmoji($text, 'DECODE');
     }
 
     /**
@@ -197,7 +199,6 @@ class TwilioHelper
      *
      * @return mixed|string
      */
-
     private function decodeEmoji($text)
     {
         if (!$text) {
@@ -210,7 +211,7 @@ class TwilioHelper
         }
         $text = '["'.$text.'"]';
         $decode = json_decode($text);
-        if (count($decode) == 1) {
+        if (1 == count($decode)) {
             return $decode[0];
         }
 
