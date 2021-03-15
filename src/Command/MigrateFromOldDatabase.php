@@ -9,6 +9,8 @@ use App\Entity\Customer;
 use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
+use App\Entity\OperationCode;
+use Aws\Api\Operation;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -51,6 +53,7 @@ class MigrateFromOldDatabase extends Command
     protected $oldTechnicanIds;
     protected $oldRepairOrderIds;
     protected $oldCustomerIds;
+    protected $oldOperationCodeIds;
     /**
      * constructor.
      */
@@ -64,6 +67,7 @@ class MigrateFromOldDatabase extends Command
         $this->oldTechnicanIds = array();
         $this->oldRepairOrderIds = array();
         $this->oldCustomerIds = array();
+        $this->oldOperationCodeIds = array();
         parent::__construct();
     } 
 
@@ -83,17 +87,65 @@ class MigrateFromOldDatabase extends Command
     {
         
         // $statement->bindValue('emp', );
-        $this->admin();
-        $output->writeln("Admin done");
-        $this->advisor();
-        $output->writeln("Advisor done");
-        $this->customer();
-        $output->writeln("Customer done");
-        $this->technican();
-        $output->writeln("Technican done");
-        
+       
+        // $this->admin();
+        // $output->writeln("Admin done");
+        // $this->advisor();
+        // $output->writeln("Advisor done");
+        // $this->customer();
+        // $output->writeln("Customer done");
+        // $this->technican();
+        // $output->writeln("Technican done");
+        // $this->repairOrder();
+        // $output->writeln("RepairOrder done");
+            
+        $this->operationCode();
+        $output->writeln("OperactionCode done");
+
         $output->writeln(json_encode($this->oldCustomerIds));
         return "success";
+    }
+    
+    private function repairOrderQuote(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM repair_order_quote'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAll();
+
+        $repo = $this->em->getRepository(User::class);
+        
+        foreach($rows as $row){
+            $oldUser = $repo->findOneBy(['email' => $row['email']]);
+            array_push($this->oldAdminIds, $row['id']);
+
+            if($oldUser){
+                $this->oldAdminIds[ $row['id'] ] = $oldUser->getId();
+            } else {
+                $user = new User();
+                $name = $row['name'];
+                $spacePosition = strpos($name, " ");
+                if($row['app_password']){
+                    $password = $row['app_password'];
+                } else {
+                    $password = $this->passwordEncoder->encodePassword($user, 'test');
+                }
+
+                $user->setFirstName( substr($name, 0, $spacePosition) )
+                     ->setLastName( substr($name, $spacePosition) )
+                     ->setEmail( $row['email'] )
+                     ->setPhone( $row['phone'] )
+                     ->setPassword( $password )
+                     ->setPreviewDeviceTokens( $row['preview_tokens'] )
+                     ->setRole( 'ROLE_ADMIN' );
+                
+                $this->em->persist( $user );
+                $this->em->flush();
+                
+                $this->oldAdminIds[ $row['id'] ] = $user->getId();
+            }
+        }
     }
 
     private function admin(){
@@ -216,6 +268,43 @@ class MigrateFromOldDatabase extends Command
             }
         }
     }
+
+    private function operationCode(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM operation_code'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAllAssociative();
+
+        $operationRepo = $this->em->getRepository(OperationCode::class);
+        
+        foreach($rows as $row){
+            $oldOperationCode = $operationRepo->findOneBy(['code' => $row['code']]);
+            array_push($this->oldOperationCodeIds, $row['id']);
+
+            if($oldOperationCode){
+                $this->oldOperationCodeIds[ $row['id'] ] = $oldOperationCode->getId();
+            } else {
+                $operactionCode = new OperationCode();
+                $operactionCode->setCode( $row['code'] )
+                               ->setDescription( $row['description'] )
+                               ->setLaborHours( $row['labor_hours'] )
+                               ->setLaborTaxable( $row['taxable_labor'] )
+                               ->setPartsPrice( $row['parts'] )
+                               ->setPartsTaxable( $row['taxable_parts'] )
+                               ->setSuppliesPrice( $row['shop_supplies'] )
+                               ->setSuppliesTaxable( $row['taxable_shop_supplies'] )
+                               ->setSuppliesTaxable( $row['taxable_shop_supplies'] );
+                                     
+                $this->em->persist( $operactionCode );
+                $this->em->flush();
+                
+                $this->oldOperationCodeIds[ $row['id'] ] = $operactionCode->getId();
+            }
+        }
+    }
+
     private function CAQLog(){
         $statement = $this->connection->prepare(
             'SELECT * FROM c_a_q_log'
