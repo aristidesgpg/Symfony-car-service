@@ -235,6 +235,7 @@ class DMS
 
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
     {
+        //TODO In 3.0, you can have a null technician. This needs to be figured out.
         $defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
         $repairOrder = (new RepairOrder())
             ->setPrimaryCustomer($customer)
