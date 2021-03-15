@@ -271,6 +271,38 @@ class DMS
         return $repairOrder;
     }
 
+
+    /**
+     * Find currently open ROs and see if they've been closed in the DMS.
+     */
+    public function closeOpenRepairOrder(RepairOrder $repairOrder)
+    {
+        // Get open repair orders
+        $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
+
+        // if ($openRepairOrders) {
+        //     /** @var RepairOrder $openRepairOrder */
+        //     foreach ($openRepairOrders as $openRepairOrder) {
+        //         // Has a closed date so don't get the data again
+        //         if ($openRepairOrder->getDateClosed()) {
+        //             print_r($openRepairOrder);
+        //             echo PHP_EOL;
+        //             continue;
+        //         }
+
+        //         $checkRepairOrders[] = $openRepairOrder;
+        //     }
+        // }
+
+        if ($openRepairOrders) {
+            try {
+                $this->integration->getClosedRoDetails($openRepairOrders);
+            } catch (Exception $e) {
+                //do nothing.
+            }
+        }
+    }
+
     /**
      * Find currently open ROs and see if they've been closed in the DMS.
      */
