@@ -40,6 +40,8 @@ class DMSResult
 
     private $initialROValue;
 
+    private $closedROValue;
+
     public function __construct()
     {
         $this->customer = new DMSResultCustomer();
@@ -288,4 +290,22 @@ class DMSResult
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getClosedROValue()
+    {
+        return $this->closedROValue;
+    }
+
+    /**
+     * @param mixed $closedROValue
+     */
+    public function setClosedROValue($closedROValue): void
+    {
+        $this->closedROValue = $closedROValue;
+    }
+
+
 }
