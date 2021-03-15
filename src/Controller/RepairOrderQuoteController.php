@@ -317,7 +317,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status)
-                         ->setDateCustomerViewed(new DateTime());
+                         ->setDateSent(new DateTime());
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
         // send repair order link to the customer
