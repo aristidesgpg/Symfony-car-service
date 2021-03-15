@@ -89,10 +89,6 @@ class RepairOrderHelper
             $ro->setPaymentStatus('Not Started');
         }
 
-        $phone = $params['customerPhone'];
-        $cleanNumber = $this->phoneValidator->clean($phone);
-        $isValid = $this->phoneValidator->isMobile($cleanNumber);
-
         $this->em->persist($ro);
         $this->commitRepairOrder();
 

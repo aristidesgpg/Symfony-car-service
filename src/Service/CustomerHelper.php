@@ -99,8 +99,10 @@ class CustomerHelper
                     $customer->setName($v);
                     break;
                 case 'phone':
-                    $customer->setPhone($this->stripPhone($v));
-                    $customer->setMobileConfirmed(!$this->skipMobileVerification($params));
+                    $cleanNumber = $customer->setPhone($this->stripPhone($v));
+                    $customer->setPhone($cleanNumber);
+                    $isValid = $this->phoneValidator->isMobile($cleanNumber);
+                    $customer->setMobileConfirmed($isValid);
                     break;
                 case 'email':
                     $customer->setEmail($v);
