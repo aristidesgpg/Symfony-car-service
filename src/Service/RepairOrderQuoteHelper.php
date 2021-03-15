@@ -189,7 +189,7 @@ class RepairOrderQuoteHelper
         foreach ($parts as $part) {
             $recommendationPart = new RecommendationPart();
 
-            $recommendationPart->setRepairOrderRecommendationId($repairOrderQuoteRecommendation)
+            $recommendationPart->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
                                ->setNumber($part->number)
                                ->setDescription($part->description)
                                ->setprice($part->price)

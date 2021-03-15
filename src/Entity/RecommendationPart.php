@@ -24,7 +24,7 @@ class RecommendationPart
      * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups(groups={"rp_list"})
      */
-    private $repair_order_recommendation_id;
+    private $repairOrderRecommendation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -55,14 +55,14 @@ class RecommendationPart
         return $this->id;
     }
 
-    public function getRepairOrderRecommendationId(): ?RepairOrderQuoteRecommendation
+    public function getRepairOrderRecommendation(): ?RepairOrderQuoteRecommendation
     {
-        return $this->repair_order_recommendation_id;
+        return $this->repairOrderRecommendation;
     }
 
-    public function setRepairOrderRecommendationId(?RepairOrderQuoteRecommendation $repair_order_recommendation_id): self
+    public function setRepairOrderRecommendation(?RepairOrderQuoteRecommendation $repairOrderRecommendation): self
     {
-        $this->repair_order_recommendation_id = $repair_order_recommendation_id;
+        $this->repairOrderRecommendation = $repairOrderRecommendation;
 
         return $this;
     }

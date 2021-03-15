@@ -214,7 +214,7 @@ class RepairOrderQuoteRecommendation
     {
         if (!$this->recommendationParts->contains($recommendationPart)) {
             $this->recommendationParts[] = $recommendationPart;
-            $recommendationPart->setRepairOrderRecommendationId($this);
+            $recommendationPart->setRepairOrderRecommendation($this);
         }
 
         return $this;
@@ -225,8 +225,8 @@ class RepairOrderQuoteRecommendation
         if ($this->recommendationParts->contains($recommendationPart)) {
             $this->recommendationParts->removeElement($recommendationPart);
             // set the owning side to null (unless already changed)
-            if ($recommendationPart->getRepairOrderRecommendationId() === $this) {
-                $recommendationPart->setRepairOrderRecommendationId(null);
+            if ($recommendationPart->getRepairOrderRecommendation() === $this) {
+                $recommendationPart->setRepairOrderRecommendation(null);
             }
         }
 
