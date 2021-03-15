@@ -178,6 +178,9 @@ class DMS
         return true;
     }
 
+    /**
+     * @param DMSResult $dmsRepairOrder
+     */
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
         // First check if it exists already
@@ -249,7 +252,8 @@ class DMS
             ->setMiles($dmsResult->getMiles())
             ->setVin($dmsResult->getVin())
             ->setInternal(0)
-            ->setLinkHash($this->repairOrderHelper->generateLinkHash($dmsResult->getDate()->format('c')));
+            ->setLinkHash($this->repairOrderHelper->generateLinkHash($dmsResult->getDate()->format('c')))
+            ->setStartValue($dmsResult->getInitialROValue());
 
         // If the customer name has "INVENTORY" in it, skip as an internal
         if (false !== strpos($dmsResult->getCustomer()->getName(), 'INVENTORY')) {
