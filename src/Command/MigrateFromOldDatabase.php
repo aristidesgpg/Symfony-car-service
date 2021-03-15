@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use App\Entity\User;
 use App\Entity\RepairOrder;
 use App\Entity\Customer;
+use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use Exception;
@@ -147,7 +148,7 @@ class MigrateFromOldDatabase extends Command
         $userRepo = $this->em->getRepository(User::class);
         
         foreach($rows as $row){
-            $oldUser = $userRepo->findOneBy(['first_name' => $row['first_name', 'last_name' => $row['last_name' ] ] );
+            $oldUser = $userRepo->findOneBy(['first_name' => $row['first_name'], 'last_name' => $row['last_name' ] ] );
             array_push($this->oldTechnicanIds, $row['id']);
             $user = new User();
             if($oldUser){
@@ -255,81 +256,122 @@ class MigrateFromOldDatabase extends Command
         }
     }
 
+    private function getItem($rows, $field, $value){
+        $i = array_search($value, array_column($rows, $field));
+        return ($i !== false ? $rows[$i] : null);
+    }
+
     private function repairOrder(){
         $statement = $this->connection->prepare(
             'SELECT * FROM repair_order'
         );
-        
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
+        
+        $statement = $this->connection->prepare(
+            'SELECT repair_order_id, max(date) as latest_date FROM client_interaction where repair_order_id is Not Null and type ="video_view" Group by repair_order_id'
+        );
+        $statement->execute();
+        $clientInteractions = $statement->fetchAllAssociative();
+
         $userRepo = $this->em->getRepository(User::class);
         $customerRepo = $this->em->getRepository(Customer::class);
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
         foreach($rows as $row){
-            array_push($this->oldRepairOrderIds, $row['id']);
+            if(!$row['inactive']){
+                array_push($this->oldRepairOrderIds, $row['id']);
 
-            $oldRepairOrder = $repairOrderRepo->findOneBy(['number' => $row['number']]);
-            if($oldRepairOrder) {
-                $this->oldAdvisorIds[ $row['id'] ] = $oldRepairOrder->getId();
-            } else {
-                $customerId = $this->oldCustomerIds[ $row['primary_customer_id'] ];
-                $customer = $customerRepo->findOneBy(['id' => $customerId]);
-    
-                $technicanId = $this->oldTechnicanIds[ $row['technican_id' ] ];
-                $technican = $userRepo->findOneBy(['id' => $technicanId] );
-                
-                $advisorId = $this->oldAdvisorIds[ $row['advisor_id' ] ];
-                $advisor = $userRepo->findOneBy(['id' => $advisorId] );
-    
-                $repairOrder = new RepairOrder();
-                $repairOrder->setPrimaryCustomer( $customer )
-                            ->setPrimaryTechnician($technican)
-                            ->setPrimaryAdvisor($advisor)
-                            ->setNumber($row['number'])
-                            ->setStartValue($row['value'])
-                            ->setFinalValue($row['finalValue'])
-                            ->setApprovedValue($row['approvedValue'])
-                            ->setDateClosed($row['closed_date'])
-                            ->setDateCreated($row['date'])
-                            ->setWaiter($row['waiter'])
-                            ->setPickupDate($row['pickup_date')
-                            ->setLinkHash($row['link_hash'])
-                            ->setYear($row['year'])
-                            ->setMake($row['make'])
-                            ->setModel($row['model'])
-                            ->setVin($row['vin'])
-                            ->setDeleted($row['inactive'])
-                            ->setMiles($row['miles'])
-                            ->setWaiverSignature($row['waiver'])
-                            ->setWaiverVerbiage($row['waiverVerbiage'])
-                            ->setUpgradeQue($row['upgradeQueue']);
-                
-                $this->em->persist( $repairOrder );
-                $this->em->flush();
-                
-                if($row['video']) {
-                    $repairOrderVideo  = new RepairOrderVideo();
-                    $repairOrderVideoInteraction  = new RepairOrderVideoInteraction();
-                    $repairOrderVideo->setRepairOrder($repairOrder)
-                                     ->setTechnician($technican)
-                                     ->setPath($row['video'])
-                                     ->setStatus("Uploaded")
-                                     ->setDateUploaded($row['date']);
+                $oldRepairOrder = $repairOrderRepo->findOneBy(['number' => $row['number']]);
+                if($oldRepairOrder) {
+                    $this->oldRepairOrderIds[ $row['id'] ] = $oldRepairOrder->getId();
+                } else {
+                    $customerId = $this->oldCustomerIds[ $row['primary_customer_id'] ];
+                    $customer = $customerRepo->findOneBy(['id' => $customerId]);
+        
+                    $technicanId = $this->oldTechnicanIds[ $row['technican_id' ] ];
+                    $technican = $userRepo->findOneBy(['id' => $technicanId] );
+                    
+                    $advisorId = $this->oldAdvisorIds[ $row['advisor_id' ] ];
+                    $advisor = $userRepo->findOneBy(['id' => $advisorId] );
+        
+                    $repairOrder = new RepairOrder();
+                    $repairOrder->setPrimaryCustomer( $customer )
+                                ->setPrimaryTechnician($technican)
+                                ->setPrimaryAdvisor($advisor)
+                                ->setNumber($row['number'])
+                                ->setStartValue($row['value'])
+                                ->setFinalValue($row['finalValue'])
+                                ->setApprovedValue($row['approvedValue'])
+                                ->setDateClosed($row['closed_date'])
+                                ->setDateCreated($row['date'])
+                                ->setWaiter($row['waiter'])
+                                ->setPickupDate($row['pickup_date'])
+                                ->setLinkHash($row['link_hash'])
+                                ->setYear($row['year'])
+                                ->setMake($row['make'])
+                                ->setModel($row['model'])
+                                ->setVin($row['vin'])
+                                ->setDeleted($row['inactive'])
+                                ->setMiles($row['miles'])
+                                ->setWaiverSignature($row['waiver'])
+                                ->setWaiverVerbiage($row['waiverVerbiage'])
+                                ->setUpgradeQue($row['upgradeQueue']);
                     
                     $this->em->persist( $repairOrder );
                     $this->em->flush();
-    
-                    $repairOrderVideoInteraction->setRepairOrderVideo($repairOrderVideo)
-                                                ->setUser($technican)
-                                                ->setCustomer($customer)
-                                                ->setType("Uploaded")
-                                                ->setDate($row['date']);
-                    $this->em->persist( $repairOrder );
-                    $this->em->flush();
+                    
+                    if($row['video']) {
+                        // make full path for the video
+                        $videoPath = $row['video'];
+                        $http = substr($videoPath, 0, 4);
+                        $https = substr($videoPath, 0 , 5);
+
+                        if($http !=='http' && $https !=='https'){
+                            //need to change the domain in the future
+                            $videoPath = $_ENV['CUSTOMER_URL'] . "/videos/" . $videoPath;
+                        }
+                        
+                        $repairOrderVideo  = new RepairOrderVideo();
+                        $repairOrderVideoInteraction  = new RepairOrderVideoInteraction();
+                        
+                        $clientInteraction = $this->getItem($clientInteractions, 'repair_order_id', $row['id']);
+
+                        $repairOrderVideo->setRepairOrder($repairOrder)
+                                        ->setTechnician($technican)
+                                        ->setPath($videoPath)
+                                        ->setStatus("Uploaded")
+                                        ->setDateUploaded($row['date']);
+                        if($clientInteraction){
+                            $repairOrderVideo->setDateViewed($clientInteraction['date'])
+                                             ->setStatus("Viewed");
+                        }
+                        $this->em->persist( $repairOrderVideo );
+                        $this->em->flush();
+        
+                        $repairOrderVideoInteraction->setRepairOrderVideo($repairOrderVideo)
+                                                    ->setUser($technican)
+                                                    ->setCustomer($customer)
+                                                    ->setType("Uploaded")
+                                                    ->setDate($row['date']);
+                        $this->em->persist( $repairOrderVideoInteraction );
+                        
+                        if($clientInteraction){
+                            $repairOrderVideoInteractionViewed = new RepairOrderVideoInteraction();
+                            $repairOrderVideoInteractionViewed->setRepairOrderVideo($repairOrderVideo)
+                                                              ->setUser($technican)
+                                                              ->setCustomer($customer)
+                                                              ->setType("Viewed")
+                                                              ->setDate($clientInteraction['date']);
+                            
+                            $this->em->persist( $repairOrderVideoInteractionViewed );
+                        }
+                        $this->em->flush();
+                    }
+                    $this->oldRepairOrderIds[ $row['id'] ] = $repairOrder->getId();
                 }
-                $this->oldAdvisorIds[ $row['id'] ] = $repairOrder->getId();
             }
+            
         }
     }
     private function customer(){
