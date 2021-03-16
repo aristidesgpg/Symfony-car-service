@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\RepairOrderQuoteRecommendation;
+use App\Entity\RepairOrderQuoteRecommendationPart;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
@@ -34,8 +35,16 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
                                            ->setSuppliesPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
                                            ->setLaborPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
                                            ->setNotes($faker->sentence($nbWords = 3, $variableNbWords = true));
-
+            
+            $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
+            $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
+                                               ->setNumber($faker->unique(true)->numberBetween(100000, 999999))
+                                               ->setDescription($faker->sentence($nbWords = 5, $variableNbWords = true))
+                                               ->setPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
+                                               ->setQuantity($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null));
             $manager->persist($repairOrderQuoteRecommendation);
+            $manager->persist($repairOrderQuoteRecommendationPart);
+            
             $manager->flush();
 
             $this->addReference('repairOrderQuoteRecommendation_'.$i, $repairOrderQuoteRecommendation);
