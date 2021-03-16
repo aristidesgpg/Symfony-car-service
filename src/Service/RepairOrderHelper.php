@@ -115,7 +115,6 @@ class RepairOrderHelper
         $map = [
             'customerName' => 'name',
             'customerPhone' => 'phone',
-            'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
         if(array_key_exists('customerEmail', $params) || array_key_exists('email', $params)){
@@ -239,7 +238,7 @@ class RepairOrderHelper
     {
         $ro = $this->repo->findByUID($roNumber);
 
-        return ($ro === null);
+        return null === $ro;
     }
 
     public function generateLinkHash(string $dateCreated): string
@@ -250,7 +249,7 @@ class RepairOrderHelper
             throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
         }
         $ro = $this->repo->findByHash($hash);
-        if ($ro !== null) { // Very unlikely
+        if (null !== $ro) { // Very unlikely
             $this->logger->warning('link hash collision');
 
             return $this->generateLinkHash($dateCreated);
@@ -273,7 +272,7 @@ class RepairOrderHelper
 
     public function updateRepairOrder(array $params, RepairOrder $ro): array
     {
-        if ($ro->getId() === null) {
+        if (null === $ro->getId()) {
             throw new InvalidArgumentException('RO is missing ID');
         }
         $errors = $this->buildRO($params, $ro);
@@ -287,7 +286,7 @@ class RepairOrderHelper
 
     public function closeRepairOrder(RepairOrder $ro): void
     {
-        if ($ro->getDateClosed() !== null) {
+        if (null !== $ro->getDateClosed()) {
             throw new InvalidArgumentException('RO is already closed');
         }
         $ro->setDateClosed(new DateTime());
@@ -296,7 +295,7 @@ class RepairOrderHelper
 
     public function archiveRepairOrder(RepairOrder $ro): void
     {
-        if ($ro->isArchived() === true) {
+        if (true === $ro->isArchived()) {
             throw new InvalidArgumentException('RO is already archived');
         }
         $ro->setArchived(true);
@@ -305,10 +304,65 @@ class RepairOrderHelper
 
     public function deleteRepairOrder(RepairOrder $ro): void
     {
-        if ($ro->getDeleted() === true) {
+        if (true === $ro->getDeleted()) {
             throw new InvalidArgumentException('RO is already deleted');
         }
         $ro->setDeleted(true);
         $this->commitRepairOrder();
-    }    
+    }
+
+    /**
+     * @return array
+     */
+    public function getSuggestedRoNumbers()
+    {
+        $suggestedRoNumbers = [];
+        // Get the latest RO number that is JUST a number in the last 20 ros entered
+        $query = $this->em
+            ->getConnection()
+            ->prepare("
+                SELECT MAX(r.number) number
+                FROM (
+                    SELECT *
+                    FROM repair_order
+                    WHERE number NOT REGEXP '[[:alpha:]]'
+                    ORDER BY id DESC
+                    LIMIT 20
+                ) r 
+            ");
+        $query->execute();
+        $latestRO = $query->fetchAll();
+
+        if (!$latestRO) {
+            return [];
+        }
+        $latestRO = array_shift($latestRO);
+        if (!isset($latestRO)) {
+            return [];
+        }
+        $latestRO = $latestRO['number'];
+        $start = $latestRO - 20;
+        $end = $latestRO + 20;
+        foreach (range($latestRO - 1, $start, -1) as $possibleRONumber) {
+            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
+            if (!$exists) {
+                $suggestedRoNumbers[] = $possibleRONumber;
+            }
+            if (count($suggestedRoNumbers) >= 10) {
+                break;
+            }
+        }
+        foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
+            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
+            if (!$exists) {
+                $suggestedRoNumbers[] = $possibleRONumber;
+            }
+            if (count($suggestedRoNumbers) >= 20) {
+                break;
+            }
+        }
+        sort($suggestedRoNumbers);
+
+        return $suggestedRoNumbers;
+    }
 }
