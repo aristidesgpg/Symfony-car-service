@@ -111,7 +111,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote->setRepairOrder($repairOrder);
 
         $em->persist($repairOrderQuote);
-        
+
         $repairOrder->setRepairOrderQuote($repairOrderQuote);
         $em->persist($repairOrder);
 
@@ -119,7 +119,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
-        if (is_null($recommendations) || !is_array($recommendations) || count($recommendations) === 0) {
+        if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
             throw new BadRequestHttpException('Recommendations data is invalid');
         }
 
@@ -158,6 +158,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Updated" }),
      *         )
      * )
+     *
      * @throws Exception
      */
     public function updateRepairOrderQuote(
@@ -173,7 +174,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
-        if (is_null($recommendations) || !is_array($recommendations) || count($recommendations) === 0) {
+        if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
             throw new BadRequestHttpException('Recommendations data is invalid');
         }
 
@@ -205,9 +206,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *                                              "Successfully Deleted" }),
      *         )
      * )
-     *
-     * @param RepairOrderQuote       $repairOrderQuote
-     * @param EntityManagerInterface $em
      *
      * @return Response
      */

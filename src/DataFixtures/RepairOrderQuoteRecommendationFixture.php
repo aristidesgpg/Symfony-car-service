@@ -21,7 +21,7 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < 50; ++$i ) {
+        for ($i = 0; $i < 50; ++$i) {
             $repairOrderQuoteReference = $faker->numberBetween(1, 49);
             $operationCodeReference = $faker->numberBetween(2, 50);
 
@@ -35,7 +35,7 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
                                            ->setSuppliesPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
                                            ->setLaborPrice($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null))
                                            ->setNotes($faker->sentence($nbWords = 3, $variableNbWords = true));
-            
+
             $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
             $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
                                                ->setNumber($faker->unique(true)->numberBetween(100000, 999999))
@@ -44,7 +44,7 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
                                                ->setQuantity($faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null));
             $manager->persist($repairOrderQuoteRecommendation);
             $manager->persist($repairOrderQuoteRecommendationPart);
-            
+
             $manager->flush();
 
             $this->addReference('repairOrderQuoteRecommendation_'.$i, $repairOrderQuoteRecommendation);

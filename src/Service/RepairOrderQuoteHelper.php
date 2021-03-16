@@ -9,11 +9,9 @@ use App\Repository\OperationCodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Exception;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+
 /**
- * Class RepairOrderQuoteHelper
- *
- * @package App\Service
+ * Class RepairOrderQuoteHelper.
  */
 class RepairOrderQuoteHelper
 {
@@ -67,11 +65,11 @@ class RepairOrderQuoteHelper
                 if (!isset($fields[$field])) {
                     throw new Exception($field.' is missing in parts json');
                 } else {
-                    if ($fields[$field] === '') {
+                    if ('' === $fields[$field]) {
                         throw new Exception($field.' has no value in parts json');
                     }
 
-                    if ($field == 'price' || $field == 'quantity') {
+                    if ('price' == $field || 'quantity' == $field) {
                         if (!is_numeric($fields[$field])) {
                             throw new Exception($field.' has invalid value in parts json');
                         }
@@ -90,9 +88,10 @@ class RepairOrderQuoteHelper
             if (!is_object($recommendation)) {
                 throw new Exception('Recommendations data is invalid');
             }
-            
-            if(property_exists($recommendation, "parts"))
+
+            if (property_exists($recommendation, 'parts')) {
                 $this->validatePartsJson($recommendation->parts);
+            }
 
             $fields = [];
             foreach ($recommendation as $field => $value) {
@@ -104,11 +103,11 @@ class RepairOrderQuoteHelper
                 if (!isset($fields[$field])) {
                     throw new Exception($field.' is missing in recommendations json');
                 } else {
-                    if ($fields[$field] === '') {
+                    if ('' === $fields[$field]) {
                         throw new Exception($field.' has no value in recommendations json');
                     }
 
-                    if ($field == 'partsPrice' || $field == 'suppliesPrice' || $field == 'laborPrice') {
+                    if ('partsPrice' == $field || 'suppliesPrice' == $field || 'laborPrice' == $field) {
                         if (!is_numeric($fields[$field])) {
                             throw new Exception($field.' has invalid value in recommendations json');
                         }
@@ -169,20 +168,19 @@ class RepairOrderQuoteHelper
             try {
                 $this->em->flush();
                 $this->em->getConnection()->commit();
-                
             } catch (ORMException | Exception $e) {
                 $this->em->rollback();
 
                 throw new Exception($e->getMessage());
             }
-            
-            if(property_exists($recommendation, "parts")){
+
+            if (property_exists($recommendation, 'parts')) {
                 $this->buildParts($repairOrderQuoteRecommendation, $recommendation->parts);
             }
         }
     }
 
-        /**
+    /**
      * Ties parts to a recommendation then deletes the old ones.
      *
      * @throws Exception
