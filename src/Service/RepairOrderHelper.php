@@ -34,11 +34,11 @@ class RepairOrderHelper
         UserRepository $users,
         CustomerHelper $customerHelper
     ) {
-        $this->em = $em;
-        $this->repo = $repo;
-        $this->customers = $customers;
-        $this->users = $users;
-        $this->customerHelper = $customerHelper;
+        $this->em              = $em;
+        $this->repo            = $repo;
+        $this->customers       = $customers;
+        $this->users           = $users;
+        $this->customerHelper  = $customerHelper;
     }
 
     /**
@@ -97,19 +97,14 @@ class RepairOrderHelper
      */
     private function handleCustomer(array $params)
     {
-        $customer = $this->customers->findByPhone($params['customerPhone']);
-        if (null !== $customer) {
-            $customer->setName($params['customerName']);
-            $this->customerHelper->commitCustomer($customer);
-
-            return $customer;
-        }
+        $customer   = $this->customers->findByPhone($params['customerPhone']);
         $translated = $this->translateCustomerParams($params);
-        $errors = $this->customerHelper->validateParams($translated);
+        $errors     = $this->customerHelper->validateParams($translated);
         if (!empty($errors)) {
             return $this->translateCustomerParams($errors, true);
         }
-        $customer = new Customer();
+        if(!$customer)
+            $customer = new Customer();
         $this->customerHelper->commitCustomer($customer, $translated);
 
         return $customer;
@@ -123,6 +118,9 @@ class RepairOrderHelper
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
+        if(array_key_exists('customerEmail', $params) || array_key_exists('email', $params)){
+            $map['customerEmail'] = 'email';
+        }
 
         foreach ($map as $from => $to) {
             if ($reverse && isset($params[$to])) {
@@ -313,5 +311,5 @@ class RepairOrderHelper
 
         $ro->setDeleted(true);
         $this->commitRepairOrder();
-    }
+    }    
 }

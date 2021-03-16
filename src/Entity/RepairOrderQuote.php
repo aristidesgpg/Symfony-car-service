@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderQuote
 {
-    public const GROUPS = ['roq_list', 'ro_list', 'roqs_list'];
+    public const GROUPS = ['roq_list', 'ro_list', 'roqs_list', 'operation_code_list'];
 
     /**
      * @ORM\Id
@@ -28,7 +28,6 @@ class RepairOrderQuote
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderQuote")
      * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Groups(groups={"roq_list"})
      */
     private $repairOrder;
 
