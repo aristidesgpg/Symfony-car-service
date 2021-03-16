@@ -13,7 +13,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderQuoteRecommendation
 {
-    public const GROUPS = ['roqs_list', 'roq_list', 'rp_list'];
+    public const GROUPS = ['roqs_list', 'roq_list', 'roqp_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

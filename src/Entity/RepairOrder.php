@@ -25,7 +25,7 @@ class RepairOrder
         'rov_list',
         'ror_list',
         'roc_list',
-        'rp_list'
+        'roqp_list'
     ];
 
     /**

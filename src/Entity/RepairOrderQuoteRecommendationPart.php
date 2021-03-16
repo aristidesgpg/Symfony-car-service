@@ -11,7 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderQuoteRecommendationPart
 {
-    public const GROUPS = ['rp_list'];
+    public const GROUPS = ['roqp_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -22,31 +22,31 @@ class RepairOrderQuoteRecommendationPart
     /**
      * @ORM\ManyToOne(targetEntity=RepairOrderQuoteRecommendation::class, inversedBy="repairOrderQuoteRecommendationParts")
      * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Groups(groups={"rp_list"})
+     * @Serializer\Groups(groups={"roqp_list"})
      */
     private $repairOrderRecommendation;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Serializer\Groups(groups={"rp_list"})
+     * @Serializer\Groups(groups={"roqp_list"})
      */
     private $number;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Serializer\Groups(groups={"rp_list"})
+     * @Serializer\Groups(groups={"roqp_list"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Serializer\Groups(groups={"rp_list"})
+     * @Serializer\Groups(groups={"roqp_list"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Serializer\Groups(groups={"rp_list"})
+     * @Serializer\Groups(groups={"roqp_list"})
      */
     private $quantity;
 

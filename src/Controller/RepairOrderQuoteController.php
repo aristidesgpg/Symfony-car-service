@@ -127,7 +127,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
 
         $view = $this->view($repairOrderQuote);
-        $view->getContext()->setGroups(['roq_list', 'roqs_list', 'rp_list']);
+        $view->getContext()->setGroups(['roq_list', 'roqs_list', 'roqp_list']);
 
         return $this->handleView($view);
     }
@@ -181,7 +181,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
 
         $view = $this->view($repairOrderQuote);
-        $view->getContext()->setGroups(['roq_list', 'roqs_list', 'rp_list']);
+        $view->getContext()->setGroups(['roq_list', 'roqs_list', 'roqp_list']);
 
         return $this->handleView($view);
     }
