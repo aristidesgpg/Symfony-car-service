@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use App\Entity\RecommendationPart;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
+use App\Entity\RepairOrderQuoteRecommendationPart;
 use App\Repository\OperationCodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
@@ -187,15 +187,15 @@ class RepairOrderQuoteHelper
     public function buildParts(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation, array $parts)
     {
         foreach ($parts as $part) {
-            $recommendationPart = new RecommendationPart();
+            $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
 
-            $recommendationPart->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
+            $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
                                ->setNumber($part->number)
                                ->setDescription($part->description)
                                ->setprice($part->price)
                                ->setQuantity($part->quantity);
 
-            $this->em->persist($recommendationPart);
+            $this->em->persist($repairOrderQuoteRecommendationPart);
             $this->em->beginTransaction();
 
             try {

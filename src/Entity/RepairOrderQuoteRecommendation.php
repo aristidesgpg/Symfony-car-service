@@ -79,14 +79,14 @@ class RepairOrderQuoteRecommendation
     private $notes;
 
     /**
-     * @ORM\OneToMany(targetEntity=RecommendationPart::class, mappedBy="repair_order_recommendation_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendationPart::class, mappedBy="repair_order_recommendation_id", orphanRemoval=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
-    private $recommendationParts;
+    private $repairOrderQuoteRecommendationParts;
 
     public function __construct()
     {
-        $this->recommendationParts = new ArrayCollection();
+        $this->repairOrderQuoteRecommendationParts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -203,30 +203,30 @@ class RepairOrderQuoteRecommendation
     }
 
     /**
-     * @return Collection|RecommendationPart[]
+     * @return Collection|RepairOrderQuoteRecommendationParts[]
      */
-    public function getRecommendationParts(): Collection
+    public function getRepairOrderQuoteRecommendationParts(): Collection
     {
-        return $this->recommendationParts;
+        return $this->repairOrderQuoteRecommendationParts;
     }
 
-    public function addRecommendationPart(RecommendationPart $recommendationPart): self
+    public function addRepairOrderQuoteRecommendationPart(RepairOrderQuoteRecommendationPart $repairOrderQuoteRecommendationPart): self
     {
-        if (!$this->recommendationParts->contains($recommendationPart)) {
-            $this->recommendationParts[] = $recommendationPart;
-            $recommendationPart->setRepairOrderRecommendation($this);
+        if (!$this->repairOrderQuoteRecommendationParts->contains($repairOrderQuoteRecommendationPart)) {
+            $this->repairOrderQuoteRecommendationParts[] = $repairOrderQuoteRecommendationPart;
+            $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation($this);
         }
 
         return $this;
     }
 
-    public function removeRecommendationPart(RecommendationPart $recommendationPart): self
+    public function removeRepairOrderQuoteRecommendationPart(RepairOrderQuoteRecommendationPart $repairOrderQuoteRecommendationPart): self
     {
-        if ($this->recommendationParts->contains($recommendationPart)) {
-            $this->recommendationParts->removeElement($recommendationPart);
+        if ($this->repairOrderQuoteRecommendationParts->contains($repairOrderQuoteRecommendationPart)) {
+            $this->repairOrderQuoteRecommendationParts->removeElement($repairOrderQuoteRecommendationPart);
             // set the owning side to null (unless already changed)
-            if ($recommendationPart->getRepairOrderRecommendation() === $this) {
-                $recommendationPart->setRepairOrderRecommendation(null);
+            if ($repairOrderQuoteRecommendationPart->getRepairOrderRecommendation() === $this) {
+                $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation(null);
             }
         }
 

@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\RecommendationPartRepository;
+use App\Repository\RepairOrderQuoteRecommendationPartRepository;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @ORM\Entity(repositoryClass=RecommendationPartRepository::class)
+ * @ORM\Entity(repositoryClass=RepairOrderQuoteRecommendationPartRepository::class)
  */
-class RecommendationPart
+class RepairOrderQuoteRecommendationPart
 {
     public const GROUPS = ['rp_list'];
     /**
@@ -20,7 +20,7 @@ class RecommendationPart
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=RepairOrderQuoteRecommendation::class, inversedBy="recommendationParts")
+     * @ORM\ManyToOne(targetEntity=RepairOrderQuoteRecommendation::class, inversedBy="repairOrderQuoteRecommendationParts")
      * @ORM\JoinColumn(nullable=false)
      * @Serializer\Groups(groups={"rp_list"})
      */
