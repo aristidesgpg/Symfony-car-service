@@ -111,6 +111,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote->setRepairOrder($repairOrder);
 
         $em->persist($repairOrderQuote);
+        
+        $repairOrder->setRepairOrderQuote($repairOrderQuote);
+        $em->persist($repairOrder);
+
         $em->flush();
 
         // Validate recommendation json
