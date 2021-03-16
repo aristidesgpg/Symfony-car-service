@@ -10,6 +10,8 @@ use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\OperationCode;
+use App\Entity\RepairOrderQuote;
+use App\Entity\RepairOrderQuoteRecommendation;
 use Aws\Api\Operation;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -114,11 +116,10 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAll();
 
-        $repo = $this->em->getRepository(User::class);
+        $repairOrderQuoteRepo = $this->em->getRepository(RepairOrderQuote::class);
         
         foreach($rows as $row){
-            $oldUser = $repo->findOneBy(['email' => $row['email']]);
-            array_push($this->oldAdminIds, $row['id']);
+            $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['email' => $row['email']]);
 
             if($oldUser){
                 $this->oldAdminIds[ $row['id'] ] = $oldUser->getId();
