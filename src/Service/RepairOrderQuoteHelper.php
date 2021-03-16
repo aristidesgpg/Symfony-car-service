@@ -160,11 +160,14 @@ class RepairOrderQuoteHelper
                                            ->setNotes($recommendation->notes);
 
             $this->em->persist($repairOrderQuoteRecommendation);
+
+            $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
+            $this->em->persist($repairOrderQuote);
+
             $this->em->beginTransaction();
 
             try {
                 $this->em->flush();
-                // $this->em->commit();
                 $this->em->getConnection()->commit();
                 
             } catch (ORMException | Exception $e) {
@@ -196,10 +199,15 @@ class RepairOrderQuoteHelper
                                ->setQuantity($part->quantity);
 
             $this->em->persist($repairOrderQuoteRecommendationPart);
+
+            $repairOrderQuoteRecommendation->addRepairOrderQuoteRecommendationPart($repairOrderQuoteRecommendationPart);
+            $this->em->persist($repairOrderQuoteRecommendation);
+
             $this->em->beginTransaction();
 
             try {
                 $this->em->flush();
+
                 $this->em->commit();
             } catch (ORMException | Exception $e) {
                 $this->em->rollback();
