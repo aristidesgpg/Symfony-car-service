@@ -128,7 +128,6 @@ class CustomerController extends AbstractFOSRestController
         }
 
         if ($request->query->has('searchTerm')) {
-
             $searchTerm = $request->query->get('searchTerm');
 
             $urlParameters['searchTerm'] = $searchTerm;
@@ -205,13 +204,6 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="phone", type="string", in="formData", required=True, minLength=10, maxLength=10)
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
-     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
-     *
-     * @param Request            $req
-     * @param CustomerHelper     $helper
-     * @param CustomerRepository $customerRepository
-     *
-     * @return Response
      */
     public function addCustomer(Request $req, CustomerHelper $helper, CustomerRepository $customerRepository): Response
     {
@@ -253,14 +245,6 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="phone", type="string", in="formData")
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
-     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
-     *
-     * @param Customer           $customer
-     * @param Request            $req
-     * @param CustomerHelper     $helper
-     * @param CustomerRepository $customerRepository
-     *
-     * @return Response
      */
     public function updateCustomer(
         Customer $customer,

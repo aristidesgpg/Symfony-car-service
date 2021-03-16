@@ -118,7 +118,6 @@ class RepairOrderHelper
         $map = [
             'customerName' => 'name',
             'customerPhone' => 'phone',
-            'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
         if (array_key_exists('customerEmail', $params) || array_key_exists('email', $params)) {
@@ -347,6 +346,7 @@ class RepairOrderHelper
                 break;
             }
         }
+
         foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
             $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {
