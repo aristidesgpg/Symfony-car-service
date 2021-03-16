@@ -35,8 +35,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RepairOrderController extends AbstractFOSRestController
 {
     use FalsyTrait;
-    private const PAGE_LIMIT = 50;
-
+    
     private const PAGE_LIMIT = 50;
 
     /**

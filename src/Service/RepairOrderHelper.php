@@ -307,6 +307,7 @@ class RepairOrderHelper
         if (true === $ro->getDeleted()) {
             throw new InvalidArgumentException('RO is already deleted');
         }
+
         $ro->setDeleted(true);
         $this->commitRepairOrder();
     }
