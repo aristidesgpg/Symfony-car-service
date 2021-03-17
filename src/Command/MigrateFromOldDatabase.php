@@ -121,44 +121,66 @@ class MigrateFromOldDatabase extends Command
     private function repairOrderQuoteRecommendation(){
         // With client_interaction table
 
-        // $statement = $this->connection->prepare(
-        //     'SELECT * FROM repair_order_quote'
-        // );
+        $statement = $this->connection->prepare(
+            'SELECT * FROM repair_order_quote'
+        );
         
-        // $statement->execute();
-        // $rows = $statement->fetchAll();
+        $statement->execute();
+        $rows = $statement->fetchAllAssociative();
 
         // $repairOrderQuoteRepo = $this->em->getRepository(RepairOrderQuote::class);
-        
-        // foreach($rows as $row){
-        //     $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['email' => $row['email']]);
+        $repairOrderRepo = $this->em->getRepository(RepairOrder::class);    
 
-        //     if($oldUser){
-        //         $this->oldAdminIds[ $row['id'] ] = $oldUser->getId();
-        //     } else {
-        //         $user = new User();
-        //         $name = $row['name'];
-        //         $spacePosition = strpos($name, " ");
-        //         if($row['app_password']){
-        //             $password = $row['app_password'];
-        //         } else {
-        //             $password = $this->passwordEncoder->encodePassword($user, 'test');
-        //         }
+        $prev_repairOrderId = 0;
 
-        //         $user->setFirstName( substr($name, 0, $spacePosition) )
-        //              ->setLastName( substr($name, $spacePosition) )
-        //              ->setEmail( $row['email'] )
-        //              ->setPhone( $row['phone'] )
-        //              ->setPassword( $password )
-        //              ->setPreviewDeviceTokens( $row['preview_tokens'] )
-        //              ->setRole( 'ROLE_ADMIN' );
+        foreach($rows as $row){
+            // $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['email' => $row['email']]);
+            if($prev_repairOrderId !== $row['repair_order_id']){
+                $repairOrder = $repairOrderRepo->findOneBy( ['id' => $this->oldRepairOrder[$row['repair_order_id'] ] ] );
+                $repairOrderQuote = new RepairOrderQuote();
+
+                $repairOrderQuote->setRepairOrder($repairOrder)
+                                 ->setDateCreated( $row['date_sent'] )
+                                 ->setDateSent( $row['date_sent'] );
+               
+                                 $statement = $this->connection->prepare(
+                    "SELECT min(date) as date FROM client_interaction where type='quote_view' and repair_order_id = '".$row['repair_order_id']."' group by repair_order_id"
+                );
                 
-        //         $this->em->persist( $user );
-        //         $this->em->flush();
+                $statement->execute();
+                $clientInteraction = $statement->fetchAssociative();
+                if($clientInteraction){
+                    $repairOrderQuote->setDateCustomerViewed($clientInteraction['date']);
+                }
+
+                $statement = $this->connection->prepare(
+                    "SELECT max(date) as date FROM client_interaction where type='update_quote' and repair_order_id = '".$row['repair_order_id']."' group by repair_order_id"
+                );
                 
-        //         $this->oldAdminIds[ $row['id'] ] = $user->getId();
-        //     }
-        // }
+                $statement->execute();
+                $clientInteraction = $statement->fetchAssociative();
+
+                if($clientInteraction){
+                    $repairOrderQuote->setDateCustomerCompleted($clientInteraction['date'])
+                                     ->setDateCompletedViewed($clientInteraction['date']);
+                }
+
+                $this->em->persist( $repairOrderQuote );
+            }
+                $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
+                
+                $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
+                                               ->setOperationCode( $row['operation_code_id'] )
+                                               ->setPreApproved( $row['default_value'] )
+                                               ->setApproved( $row['approved'] )
+                                               ->setPartsPrice( $row['parts'] )
+                                               ->setSuppliesPrice( $row['shop_supplies'] )
+                                               ->setDescription($rows['description'])
+                                               ->setLaborPrice( $row['labor'] );
+                
+                $this->em->persist( $repairOrderQuoteRecommendation );
+        }
+        $this->em->flush();
     }
 
     private function checkIn(){
