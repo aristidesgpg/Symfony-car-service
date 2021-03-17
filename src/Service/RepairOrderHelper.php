@@ -461,17 +461,16 @@ class RepairOrderHelper
     }
 
     /**
-     * @param string $start
      * @param User   $user
-     * @param string $end
+     * @param null   $startDate
+     * @param null   $endDate
      * @param string $sortField
      * @param string $sortDirection
-     * @param string $searchTerm
+     * @param null   $searchTerm
+     * @param bool   $needsVideo
      * @param array  $fields
      *
-     * @return Query|null
-     *
-     * @throws Exception
+     * @return null
      */
     public function getAllItems(
         $user,
@@ -513,7 +512,7 @@ class RepairOrderHelper
             }
 
             if (filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)) {
-                $qb->andWhere('ro.dateClosed IS NULL')->andWhere('ro.videoStatus = "Not Started"');
+                $qb->andWhere('ro.dateClosed IS NULL')->andWhere("ro.videoStatus = 'Not Started'");
             }
 
             $qb = $this->addFilters(
