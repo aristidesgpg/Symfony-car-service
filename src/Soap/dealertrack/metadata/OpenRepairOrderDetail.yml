@@ -1,0 +1,724 @@
+App\Soap\dealertrack\src\OpenRepairOrderDetail:
+    xml_root_name: OpenRepairOrderDetail
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties:
+        serviceLineNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLineNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getServiceLineNumber
+                setter: setServiceLineNumber
+            type: int
+        lineType:
+            expose: true
+            access_type: public_method
+            serialized_name: LineType
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getLineType
+                setter: setLineType
+            type: string
+        sequenceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: SequenceNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getSequenceNumber
+                setter: setSequenceNumber
+            type: int
+        counterPersonID:
+            expose: true
+            access_type: public_method
+            serialized_name: CounterPersonID
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getCounterPersonID
+                setter: setCounterPersonID
+            type: App\Soap\dealertrack\src\CounterPersonID
+        transCode:
+            expose: true
+            access_type: public_method
+            serialized_name: TransCode
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getTransCode
+                setter: setTransCode
+            type: string
+        specialOrderEmergencyPurchase:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialOrderEmergencyPurchase
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getSpecialOrderEmergencyPurchase
+                setter: setSpecialOrderEmergencyPurchase
+            type: App\Soap\dealertrack\src\SpecialOrderEmergencyPurchase
+        transDate:
+            expose: true
+            access_type: public_method
+            serialized_name: TransDate
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getTransDate
+                setter: setTransDate
+            type: int
+        manufacturer:
+            expose: true
+            access_type: public_method
+            serialized_name: Manufacturer
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getManufacturer
+                setter: setManufacturer
+            type: App\Soap\dealertrack\src\Manufacturer
+        partNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PartNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPartNumber
+                setter: setPartNumber
+            type: App\Soap\dealertrack\src\PartNumber
+        partNoLength:
+            expose: true
+            access_type: public_method
+            serialized_name: PartNoLength
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPartNoLength
+                setter: setPartNoLength
+            type: int
+        stockGroup:
+            expose: true
+            access_type: public_method
+            serialized_name: StockGroup
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getStockGroup
+                setter: setStockGroup
+            type: App\Soap\dealertrack\src\StockGroup
+        binLocation:
+            expose: true
+            access_type: public_method
+            serialized_name: BinLocation
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getBinLocation
+                setter: setBinLocation
+            type: App\Soap\dealertrack\src\BinLocation
+        quantity:
+            expose: true
+            access_type: public_method
+            serialized_name: Quantity
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getQuantity
+                setter: setQuantity
+            type: int
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: Cost
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: float
+        listPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: ListPrice
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getListPrice
+                setter: setListPrice
+            type: float
+        tradePrice:
+            expose: true
+            access_type: public_method
+            serialized_name: TradePrice
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getTradePrice
+                setter: setTradePrice
+            type: float
+        flatPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: FlatPrice
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getFlatPrice
+                setter: setFlatPrice
+            type: float
+        netPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: NetPrice
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getNetPrice
+                setter: setNetPrice
+            type: float
+        bookList:
+            expose: true
+            access_type: public_method
+            serialized_name: BookList
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getBookList
+                setter: setBookList
+            type: float
+        priceMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceMethod
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPriceMethod
+                setter: setPriceMethod
+            type: App\Soap\dealertrack\src\PriceMethod
+        pricePercent:
+            expose: true
+            access_type: public_method
+            serialized_name: PricePercent
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPricePercent
+                setter: setPricePercent
+            type: int
+        priceBase:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceBase
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPriceBase
+                setter: setPriceBase
+            type: App\Soap\dealertrack\src\PriceBase
+        specialCode:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialCode
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getSpecialCode
+                setter: setSpecialCode
+            type: App\Soap\dealertrack\src\SpecialCode
+        priceOverride:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceOverride
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPriceOverride
+                setter: setPriceOverride
+            type: App\Soap\dealertrack\src\PriceOverride
+        groupPrice:
+            expose: true
+            access_type: public_method
+            serialized_name: GroupPrice
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getGroupPrice
+                setter: setGroupPrice
+            type: App\Soap\dealertrack\src\GroupPrice
+        isCorePart:
+            expose: true
+            access_type: public_method
+            serialized_name: IsCorePart
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getIsCorePart
+                setter: setIsCorePart
+            type: App\Soap\dealertrack\src\IsCorePart
+        addNSPart:
+            expose: true
+            access_type: public_method
+            serialized_name: AddNSPart
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getAddNSPart
+                setter: setAddNSPart
+            type: App\Soap\dealertrack\src\AddNSPart
+        specialOrderPriority:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialOrderPriority
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getSpecialOrderPriority
+                setter: setSpecialOrderPriority
+            type: int
+        originalSpecialOrder:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginalSpecialOrder
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getOriginalSpecialOrder
+                setter: setOriginalSpecialOrder
+            type: App\Soap\dealertrack\src\OriginalSpecialOrder
+        excludeFromHistory:
+            expose: true
+            access_type: public_method
+            serialized_name: ExcludeFromHistory
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getExcludeFromHistory
+                setter: setExcludeFromHistory
+            type: App\Soap\dealertrack\src\ExcludeFromHistory
+        comments:
+            expose: true
+            access_type: public_method
+            serialized_name: Comments
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getComments
+                setter: setComments
+            type: string
+        lineStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: LineStatus
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getLineStatus
+                setter: setLineStatus
+            type: string
+        serviceType:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceType
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getServiceType
+                setter: setServiceType
+            type: string
+        linePaymentMethod:
+            expose: true
+            access_type: public_method
+            serialized_name: LinePaymentMethod
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getLinePaymentMethod
+                setter: setLinePaymentMethod
+            type: string
+        policyAdjustment:
+            expose: true
+            access_type: public_method
+            serialized_name: PolicyAdjustment
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPolicyAdjustment
+                setter: setPolicyAdjustment
+            type: App\Soap\dealertrack\src\PolicyAdjustment
+        technicianID:
+            expose: true
+            access_type: public_method
+            serialized_name: TechnicianID
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getTechnicianID
+                setter: setTechnicianID
+            type: App\Soap\dealertrack\src\TechnicianID
+        laborOpCode:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborOpCode
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getLaborOpCode
+                setter: setLaborOpCode
+            type: string
+        correctionLaborOpCode:
+            expose: true
+            access_type: public_method
+            serialized_name: CorrectionLaborOpCode
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getCorrectionLaborOpCode
+                setter: setCorrectionLaborOpCode
+            type: App\Soap\dealertrack\src\CorrectionLaborOpCode
+        laborHours:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborHours
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getLaborHours
+                setter: setLaborHours
+            type: float
+        laborCostHours:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborCostHours
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getLaborCostHours
+                setter: setLaborCostHours
+            type: float
+        actualRetailAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualRetailAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getActualRetailAmount
+                setter: setActualRetailAmount
+            type: float
+        failureCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FailureCode
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getFailureCode
+                setter: setFailureCode
+            type: App\Soap\dealertrack\src\FailureCode
+        priceLevel:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceLevel
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPriceLevel
+                setter: setPriceLevel
+            type: int
+        priceStrategyAssignment:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceStrategyAssignment
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPriceStrategyAssignment
+                setter: setPriceStrategyAssignment
+            type: int
+        subletVendorNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: SubletVendorNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getSubletVendorNumber
+                setter: setSubletVendorNumber
+            type: App\Soap\dealertrack\src\SubletVendorNumber
+        subletInvoiceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: SubletInvoiceNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getSubletInvoiceNumber
+                setter: setSubletInvoiceNumber
+            type: App\Soap\dealertrack\src\SubletInvoiceNumber
+        couponNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: CouponNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getCouponNumber
+                setter: setCouponNumber
+            type: int
+        factoryLaborHours:
+            expose: true
+            access_type: public_method
+            serialized_name: FactoryLaborHours
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getFactoryLaborHours
+                setter: setFactoryLaborHours
+            type: float
+        authorizationCode:
+            expose: true
+            access_type: public_method
+            serialized_name: AuthorizationCode
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getAuthorizationCode
+                setter: setAuthorizationCode
+            type: App\Soap\dealertrack\src\AuthorizationCode
+        batteryWarrantyCode:
+            expose: true
+            access_type: public_method
+            serialized_name: BatteryWarrantyCode
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getBatteryWarrantyCode
+                setter: setBatteryWarrantyCode
+            type: App\Soap\dealertrack\src\BatteryWarrantyCode
+        dateTimeLineCompleted:
+            expose: true
+            access_type: public_method
+            serialized_name: DateTimeLineCompleted
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getDateTimeLineCompleted
+                setter: setDateTimeLineCompleted
+            type: int
+        internalAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: InternalAccount
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getInternalAccount
+                setter: setInternalAccount
+            type: App\Soap\dealertrack\src\InternalAccount
+        authorizer:
+            expose: true
+            access_type: public_method
+            serialized_name: Authorizer
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getAuthorizer
+                setter: setAuthorizer
+            type: App\Soap\dealertrack\src\Authorizer
+        netItemTotal:
+            expose: true
+            access_type: public_method
+            serialized_name: NetItemTotal
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getNetItemTotal
+                setter: setNetItemTotal
+            type: float
+        administrativeLaborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: AdministrativeLaborAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getAdministrativeLaborAmount
+                setter: setAdministrativeLaborAmount
+            type: float
+        administrativeHours:
+            expose: true
+            access_type: public_method
+            serialized_name: AdministrativeHours
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getAdministrativeHours
+                setter: setAdministrativeHours
+            type: float
+        paintAndMaterialsCost:
+            expose: true
+            access_type: public_method
+            serialized_name: PaintAndMaterialsCost
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPaintAndMaterialsCost
+                setter: setPaintAndMaterialsCost
+            type: float
+        paintAndMaterialsRetail:
+            expose: true
+            access_type: public_method
+            serialized_name: PaintAndMaterialsRetail
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getPaintAndMaterialsRetail
+                setter: setPaintAndMaterialsRetail
+            type: float
+        repeatRepairFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: RepeatRepairFlag
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getRepeatRepairFlag
+                setter: setRepeatRepairFlag
+            type: App\Soap\dealertrack\src\RepeatRepairFlag
+        taxableInternalLine:
+            expose: true
+            access_type: public_method
+            serialized_name: TaxableInternalLine
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getTaxableInternalLine
+                setter: setTaxableInternalLine
+            type: App\Soap\dealertrack\src\TaxableInternalLine
+        upsellFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: UpsellFlag
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getUpsellFlag
+                setter: setUpsellFlag
+            type: App\Soap\dealertrack\src\UpsellFlag
+        warrantyClaimType:
+            expose: true
+            access_type: public_method
+            serialized_name: WarrantyClaimType
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getWarrantyClaimType
+                setter: setWarrantyClaimType
+            type: App\Soap\dealertrack\src\WarrantyClaimType
+        vATCode:
+            expose: true
+            access_type: public_method
+            serialized_name: VATCode
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getVATCode
+                setter: setVATCode
+            type: App\Soap\dealertrack\src\VATCode
+        vATAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: VATAmount
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getVATAmount
+                setter: setVATAmount
+            type: float
+        returnToInventoryFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: ReturnToInventoryFlag
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getReturnToInventoryFlag
+                setter: setReturnToInventoryFlag
+            type: App\Soap\dealertrack\src\ReturnToInventoryFlag
+        skillLevel:
+            expose: true
+            access_type: public_method
+            serialized_name: SkillLevel
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getSkillLevel
+                setter: setSkillLevel
+            type: App\Soap\dealertrack\src\SkillLevel
+        oEMReplacementFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: OEMReplacementFlag
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getOEMReplacementFlag
+                setter: setOEMReplacementFlag
+            type: App\Soap\dealertrack\src\OEMReplacementFlag
+        costDifferential:
+            expose: true
+            access_type: public_method
+            serialized_name: CostDifferential
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getCostDifferential
+                setter: setCostDifferential
+            type: float
+        optionSequenceNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: OptionSequenceNumber
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getOptionSequenceNumber
+                setter: setOptionSequenceNumber
+            type: int
+        dispatchStartTime:
+            expose: true
+            access_type: public_method
+            serialized_name: DispatchStartTime
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getDispatchStartTime
+                setter: setDispatchStartTime
+            type: string
+        totalDiscountLabor:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalDiscountLabor
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getTotalDiscountLabor
+                setter: setTotalDiscountLabor
+            type: float
+        totalDiscountParts:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalDiscountParts
+            xml_element:
+                namespace: opentrack.dealertrack.com/transitional
+            accessor:
+                getter: getTotalDiscountParts
+                setter: setTotalDiscountParts
+            type: float

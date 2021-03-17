@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealWorkingDataType:
+    properties:
+        gapPremium:
+            expose: true
+            access_type: public_method
+            serialized_name: GapPremium
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getGapPremium
+                setter: setGapPremium
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        totalTradeAcv:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalTradeAcv
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getTotalTradeAcv
+                setter: setTotalTradeAcv
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        totalTradePayoff:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalTradePayoff
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getTotalTradePayoff
+                setter: setTotalTradePayoff
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType

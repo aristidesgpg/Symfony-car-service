@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\ClosePartsInvoices:
+    properties:
+        partsInvoiceKeys:
+            -
+                Valid: null

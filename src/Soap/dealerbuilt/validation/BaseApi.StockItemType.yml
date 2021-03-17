@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\BaseApi\StockItemType:
+    properties:
+        attributes:
+            -
+                Valid: null
+        unitAttributes:
+            -
+                Valid: null

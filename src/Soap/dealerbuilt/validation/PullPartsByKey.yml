@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullPartsByKey:
+    properties:
+        partKeys:
+            -
+                Valid: null

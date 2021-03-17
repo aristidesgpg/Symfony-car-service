@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\BaseApi\SearchCriteriaType:
+    properties:
+        changedPeriodEnd:
+            expose: true
+            access_type: public_method
+            serialized_name: ChangedPeriodEnd
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getChangedPeriodEnd
+                setter: setChangedPeriodEnd
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        changedPeriodStart:
+            expose: true
+            access_type: public_method
+            serialized_name: ChangedPeriodStart
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getChangedPeriodStart
+                setter: setChangedPeriodStart
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        maxElapsedSinceUpdate:
+            expose: true
+            access_type: public_method
+            serialized_name: MaxElapsedSinceUpdate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getMaxElapsedSinceUpdate
+                setter: setMaxElapsedSinceUpdate
+            type: DateInterval
+        suppressErrors:
+            expose: true
+            access_type: public_method
+            serialized_name: SuppressErrors
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getSuppressErrors
+                setter: setSuppressErrors
+            type: bool

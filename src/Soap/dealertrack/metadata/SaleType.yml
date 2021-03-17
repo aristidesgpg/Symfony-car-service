@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\SaleType:
+    xml_root_name: SaleType
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

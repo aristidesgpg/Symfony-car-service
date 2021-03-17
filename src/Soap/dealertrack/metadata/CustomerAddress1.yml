@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\CustomerAddress1:
+    xml_root_name: CustomerAddress1
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

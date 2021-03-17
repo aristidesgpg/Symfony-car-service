@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\ArrayOfPhoneNumberType:
+    properties:
+        phoneNumber:
+            -
+                Valid: null

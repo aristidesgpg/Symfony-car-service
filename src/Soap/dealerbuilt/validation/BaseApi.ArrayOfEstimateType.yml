@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfEstimateType:
+    properties:
+        estimate:
+            -
+                Valid: null

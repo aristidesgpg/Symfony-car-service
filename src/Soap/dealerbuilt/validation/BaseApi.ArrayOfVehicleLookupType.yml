@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfVehicleLookupType:
+    properties:
+        vehicleLookup:
+            -
+                Valid: null

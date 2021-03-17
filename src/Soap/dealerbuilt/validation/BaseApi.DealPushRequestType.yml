@@ -1,0 +1,140 @@
+App\Soap\dealerbuilt\src\BaseApi\DealPushRequestType:
+    properties:
+        baseResidualAmount:
+            -
+                Valid: null
+        cashDownPayment:
+            -
+                Valid: null
+        cobuyer:
+            -
+                Valid: null
+        customerDriverLicense:
+            -
+                Valid: null
+        daysToFirstPayment:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        dealKey:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        dealType:
+            -
+                Choice:
+                    choices:
+                        - Cash
+                        - Finance
+                        - Lease
+                        - FlexBuy
+                        - Balloon
+                        - Wholesale
+                        - DealerTrade
+                    groups:
+                        - xsd_rules
+        estimatedPayment:
+            -
+                Valid: null
+        finance:
+            -
+                Valid: null
+        financeCharge:
+            -
+                Valid: null
+        financeManagerNumbers:
+            -
+                Valid: null
+        hardAdds:
+            -
+                Valid: null
+        incentives:
+            -
+                Valid: null
+        insuranceProducts:
+            -
+                Valid: null
+        lease:
+            -
+                Valid: null
+        mrm:
+            -
+                Valid: null
+        msrp:
+            -
+                Valid: null
+        prepaidFinanceChargeAmount:
+            -
+                Valid: null
+        productDetails:
+            -
+                Valid: null
+        protectionPackages:
+            -
+                Valid: null
+        rebates:
+            -
+                Valid: null
+        residualAmount:
+            -
+                Valid: null
+        sellingPrice:
+            -
+                Valid: null
+        serviceContracts:
+            -
+                Valid: null
+        softAdds:
+            -
+                Valid: null
+        storeId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        taxableSalesAmount:
+            -
+                Valid: null
+        termMonths:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        tradeIns:
+            -
+                Valid: null
+        vehicleId:
+            -
+                GreaterThanOrEqual:
+                    value: '-9223372036854775808'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '9223372036854775807'
+                    groups:
+                        - xsd_rules

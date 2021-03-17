@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullPurchaseOrders:
+    properties:
+        apiSearchCriteria:
+            -
+                Valid: null

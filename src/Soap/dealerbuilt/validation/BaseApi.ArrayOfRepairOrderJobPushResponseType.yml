@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfRepairOrderJobPushResponseType:
+    properties:
+        repairOrderJobPushResponse:
+            -
+                Valid: null

@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Parts\ArrayOfPartType:
+    properties:
+        part:
+            expose: true
+            access_type: public_method
+            serialized_name: Part
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getPart
+                setter: setPart
+            xml_list:
+                inline: true
+                entry_name: Part
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            type: array<App\Soap\dealerbuilt\src\Models\Parts\PartType>

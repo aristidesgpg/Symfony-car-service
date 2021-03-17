@@ -1,0 +1,12 @@
+App\Soap\dealerbuilt\src\BaseApi\PartsOrderReferencesType:
+    properties:
+        lineCustomer:
+            expose: true
+            access_type: public_method
+            serialized_name: LineCustomer
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getLineCustomer
+                setter: setLineCustomer
+            type: App\Soap\dealerbuilt\src\BaseApi\CustomerType

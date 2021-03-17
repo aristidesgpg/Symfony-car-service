@@ -1,0 +1,64 @@
+App\Soap\automate\src\PostalAddress:
+    xml_root_name: PostalAddress
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        lineOne:
+            expose: true
+            access_type: public_method
+            serialized_name: LineOne
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getLineOne
+                setter: setLineOne
+            type: string
+        cityName:
+            expose: true
+            access_type: public_method
+            serialized_name: CityName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getCityName
+                setter: setCityName
+            type: string
+        countryID:
+            expose: true
+            access_type: public_method
+            serialized_name: CountryID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getCountryID
+                setter: setCountryID
+            type: string
+        postcode:
+            expose: true
+            access_type: public_method
+            serialized_name: Postcode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPostcode
+                setter: setPostcode
+            type: int
+        stateOrProvinceCountrySubDivisionID:
+            expose: true
+            access_type: public_method
+            serialized_name: StateOrProvinceCountrySub-DivisionID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getStateOrProvinceCountrySubDivisionID
+                setter: setStateOrProvinceCountrySubDivisionID
+            type: string
+        countyCountrySubDivision:
+            expose: true
+            access_type: public_method
+            serialized_name: CountyCountrySub-Division
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getCountyCountrySubDivision
+                setter: setCountyCountrySubDivision
+            type: string

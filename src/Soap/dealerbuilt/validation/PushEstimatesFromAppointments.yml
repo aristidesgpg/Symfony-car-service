@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushEstimatesFromAppointments:
+    properties:
+        appointmentKeys:
+            -
+                Valid: null

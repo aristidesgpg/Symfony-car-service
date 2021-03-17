@@ -1,0 +1,158 @@
+App\Soap\automate\src\Job:
+    xml_root_name: Job
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        jobNumberString:
+            expose: true
+            access_type: public_method
+            serialized_name: JobNumberString
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getJobNumberString
+                setter: setJobNumberString
+            type: string
+        operationID:
+            expose: true
+            access_type: public_method
+            serialized_name: OperationID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getOperationID
+                setter: setOperationID
+            type: string
+        operationName:
+            expose: true
+            access_type: public_method
+            serialized_name: OperationName
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getOperationName
+                setter: setOperationName
+            type: string
+        codesAndCommentsExpanded:
+            expose: true
+            access_type: public_method
+            serialized_name: CodesAndCommentsExpanded
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getCodesAndCommentsExpanded
+                setter: setCodesAndCommentsExpanded
+            type: App\Soap\automate\src\CodesAndCommentsExpanded
+        diagnostics:
+            expose: true
+            access_type: public_method
+            serialized_name: Diagnostics
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDiagnostics
+                setter: setDiagnostics
+            type: App\Soap\automate\src\Diagnostics
+        originCode:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getOriginCode
+                setter: setOriginCode
+            type: string
+        serviceParts:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceParts
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getServiceParts
+                setter: setServiceParts
+            xml_list:
+                inline: true
+                entry_name: ServiceParts
+                namespace: 'http://www.starstandard.org/STAR/5'
+            type: array<App\Soap\automate\src\ServiceParts>
+        serviceLabor:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceLabor
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getServiceLabor
+                setter: setServiceLabor
+            type: App\Soap\automate\src\ServiceLabor
+        pricing:
+            expose: true
+            access_type: public_method
+            serialized_name: Pricing
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPricing
+                setter: setPricing
+            type: App\Soap\automate\src\Pricing
+        laborAllowanceHoursNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborAllowanceHoursNumeric
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getLaborAllowanceHoursNumeric
+                setter: setLaborAllowanceHoursNumeric
+            type: float
+        laborActualHoursNumeric:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborActualHoursNumeric
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getLaborActualHoursNumeric
+                setter: setLaborActualHoursNumeric
+            type: float
+        jobStatusCode:
+            expose: true
+            access_type: public_method
+            serialized_name: JobStatusCode
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getJobStatusCode
+                setter: setJobStatusCode
+            type: string
+        jobTypeString:
+            expose: true
+            access_type: public_method
+            serialized_name: JobTypeString
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getJobTypeString
+                setter: setJobTypeString
+            type: string
+        serviceTechnicianParty:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceTechnicianParty
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getServiceTechnicianParty
+                setter: setServiceTechnicianParty
+            type: App\Soap\automate\src\ServiceTechnicianParty
+        serviceComponents:
+            expose: true
+            access_type: public_method
+            serialized_name: ServiceComponents
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getServiceComponents
+                setter: setServiceComponents
+            type: App\Soap\automate\src\ServiceComponents

@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\Parts:
+    xml_root_name: Parts
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

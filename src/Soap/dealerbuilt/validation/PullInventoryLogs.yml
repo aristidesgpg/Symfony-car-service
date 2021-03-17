@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullInventoryLogs:
+    properties:
+        apiSearchCriteria:
+            -
+                Valid: null

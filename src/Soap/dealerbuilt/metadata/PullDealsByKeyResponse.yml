@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\PullDealsByKeyResponse:
+    xml_root_name: PullDealsByKeyResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        pullDealsByKeyResult:
+            expose: true
+            access_type: public_method
+            serialized_name: PullDealsByKeyResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getPullDealsByKeyResult
+                setter: setPullDealsByKeyResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\DealType>
+            xml_list:
+                inline: false
+                entry_name: Deal
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

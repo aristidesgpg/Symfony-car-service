@@ -13,6 +13,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class OperationCode
 {
+    public const GROUPS = ['operation_code_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\GetDivisionsResponse:
+    xml_root_name: GetDivisionsResponse
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        getDivisionsResult:
+            expose: true
+            access_type: public_method
+            serialized_name: GetDivisionsResult
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getGetDivisionsResult
+                setter: setGetDivisionsResult
+            type: array<App\Soap\dealerbuilt\src\BaseApi\DivisionType>
+            xml_list:
+                inline: false
+                entry_name: Division
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'

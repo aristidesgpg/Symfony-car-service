@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfGlLineType:
+    properties:
+        glLine:
+            expose: true
+            access_type: public_method
+            serialized_name: GlLine
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getGlLine
+                setter: setGlLine
+            xml_list:
+                inline: true
+                entry_name: GlLine
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\GlLineType>

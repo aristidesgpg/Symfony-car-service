@@ -33,9 +33,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class RepairOrderController extends AbstractFOSRestController
 {
-    private const PAGE_LIMIT = 50;
-
     use FalsyTrait;
+
+    private const PAGE_LIMIT = 50;
 
     /**
      * @Rest\Get(name="getRepairOrders")
@@ -165,7 +165,7 @@ class RepairOrderController extends AbstractFOSRestController
         }
         $fields['dateClosedStart'] = $request->query->get('dateClosedStart');
         $fields['dateClosedEnd']   = $request->query->get('dateClosedEnd');
-        
+
         if ($page < 1) {
             throw new NotFoundHttpException();
         }
@@ -194,7 +194,7 @@ class RepairOrderController extends AbstractFOSRestController
         }
 
         $user = $this->getUser();
- 
+
         if ($needsVideo) {
             $urlParameters['needsVideo'] = true;
         }
@@ -209,7 +209,7 @@ class RepairOrderController extends AbstractFOSRestController
             $needsVideo,
             $fields
         );
-    
+
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($searchTerm) {
@@ -266,8 +266,11 @@ class RepairOrderController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function getByLinkHash(string $linkHash, RepairOrderRepository $repairOrderRepo): Response
-    {
+    public function getByLinkHash(
+        string $linkHash,
+        RepairOrderRepository $repairOrderRepo,
+        EntityManagerInterface $em
+    ): Response {
         if (!$linkHash) {
             throw new NotFoundHttpException();
         }
@@ -281,6 +284,17 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
+        // If customer, they must have a valid mobile number because they opened the link
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            $customer = $repairOrder->getPrimaryCustomer();
+
+            if (!$customer->getMobileConfirmed()) {
+                $customer->setMobileConfirmed(true);
+                $em->persist($customer);
+                $em->flush();
+            }
+        }
+
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -292,6 +306,7 @@ class RepairOrderController extends AbstractFOSRestController
      *
      * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
      * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="customerEmail", type="string", in="formData")
      * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
@@ -347,7 +362,7 @@ class RepairOrderController extends AbstractFOSRestController
                 // waiver enabled
                 $url = $customerURL.$ro->getLinkHash();
                 $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                $waiverMessage = $waiverIntroText .' '.$shortUrl;
+                $waiverMessage = $waiverIntroText.' '.$shortUrl;
 
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
@@ -392,8 +407,6 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     *
-     * @return Response
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
     {
@@ -449,7 +462,7 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        if ($ro->isClosed() === true) {
+        if (true === $ro->isClosed()) {
             return $this->handleView(
                 $this->view(
                     [
@@ -478,7 +491,7 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/repair-order-numbers/suggested")
+     * @Rest\Get("/suggested-numbers/list")
      *
      * @SWG\Tag(name="Repair Order")
      * @SWG\Get(description="Get suggested RepairOrder numbers based on the current naming convention")

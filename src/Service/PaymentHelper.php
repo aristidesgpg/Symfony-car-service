@@ -8,26 +8,25 @@ use App\Entity\RepairOrderPaymentInteraction;
 use App\Exception\PaymentException;
 use App\Money\MoneyHelper;
 use App\Repository\SettingsRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use InvalidArgumentException;
 use Money\Money;
+use RuntimeException;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Throwable;
 use Twilio\Exceptions\TwilioException;
 
 class PaymentHelper
 {
-    /** @var EntityManagerInterface */
     private $em;
-
-    /** @var NMI */
     private $nmi;
-
-    /** @var ShortUrlHelper */
     private $urlHelper;
-
-    /** @var SettingsRepository */
     private $settings;
-
-    /** @var MailerHelper */
     private $mailer;
+    private $twilio;
+    private $customerUrl;
 
     /** @var string[] */
     private $validStatusesInOrder = [
@@ -39,6 +38,8 @@ class PaymentHelper
         'Refunded',
     ];
 
+    private $hasPayments = false;
+
     /**
      * PaymentHelper constructor.
      */
@@ -47,22 +48,31 @@ class PaymentHelper
         NMI $nmi,
         ShortUrlHelper $urlHelper,
         SettingsRepository $settings,
-        MailerHelper $mailer
+        MailerHelper $mailer,
+        TwilioHelper $twilio,
+        ParameterBagInterface $parameterBag
     ) {
         $this->em = $em;
         $this->nmi = $nmi;
         $this->urlHelper = $urlHelper;
         $this->settings = $settings;
         $this->mailer = $mailer;
+        $this->twilio = $twilio;
+        $this->customerUrl = $parameterBag->get('customer_url');
+
+        //TODO Find out what we should do if they don't have payments, Return null or exception?
+        if ($this->settings->find('hasPayments')->getValue()) {
+            $this->hasPayments = true;
+        }
     }
 
     public function addPayment(RepairOrder $ro, Money $amount): RepairOrderPayment
     {
         $payment = new RepairOrderPayment();
         $payment->setRepairOrder($ro)
-            ->setAmount($amount)
-            ->setDateCreated(new \DateTime())
-            ->setStatus($this->statusCalculator('Created', $payment->getStatus()));
+                ->setAmount($amount)
+                ->setDateCreated(new DateTime())
+                ->setStatus($this->statusCalculator('Created', $payment->getStatus()));
         $this->createInteraction($payment, 'Created');
         $this->commitPayment($payment);
 
@@ -94,17 +104,14 @@ class PaymentHelper
      */
     public function sendPayment(RepairOrderPayment $payment): void
     {
-//        if (null !== $payment->getDateSent() && true !== $resend) {
-//            throw new \InvalidArgumentException('Payment already sent');
-//        }
+        $url = $this->customerUrl.$payment->getRepairOrder()->getLinkHash();
+        $url = $this->urlHelper->generateShortUrl($url);
+        $message = $this->settings->find('serviceTextPayment')->getValue().':'.$url;
+        $customer = $payment->getRepairOrder()->getPrimaryCustomer();
 
-        $url = $_ENV['CUSTOMER_URL'].$payment->getRepairOrder()->getLinkHash();
-        $message = $this->settings->find('serviceTextPayment')->getValue();
-        $phone = $payment->getRepairOrder()->getPrimaryCustomer()->getPhone();
+        $this->twilio->sendSms($customer, $message);
 
-        $this->urlHelper->sendShortenedLink($phone, $message, $url);
-
-        $payment->setDateSent(new \DateTime());
+        $payment->setDateSent(new DateTime());
         $payment->setStatus($this->statusCalculator('Sent', $payment->getStatus()));
         $this->createInteraction($payment, 'Sent');
         $this->commitPayment($payment);
@@ -112,7 +119,7 @@ class PaymentHelper
 
     public function viewPayment(RepairOrderPayment $payment, bool $paid = false): void
     {
-        $date = new \DateTime();
+        $date = new DateTime();
         if ($paid) {
             $payment->setDateConfirmed($date);
             $interaction = 'Paid Viewed';
@@ -134,22 +141,21 @@ class PaymentHelper
     }
 
     /**
-     * @throws \Exception|PaymentException
+     * @throws Exception|PaymentException
      */
     public function payPayment(RepairOrderPayment $payment, string $paymentToken): void
     {
         $response = $this->nmi->makePayment($paymentToken, $payment->getAmountString())->getParsedResponse();
-
         $transactionId = $response['transactionid'] ?? null;
         $payment->setTransactionId($transactionId);
-        $payment->setDatePaid(new \DateTime());
+        $payment->setDatePaid(new DateTime());
         $this->createInteraction($payment, 'Paid');
         $payment->setStatus($this->statusCalculator('Paid', $payment->getStatus()));
         try {
             $lookup = $this->nmi->lookupTransaction($transactionId);
             $payment->setCardType($lookup['transaction']['cc_type']);
             $payment->setCardNumber($lookup['transaction']['cc_number']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // TODO: Fail gracefully
         } finally {
             $this->commitPayment($payment);
@@ -157,7 +163,7 @@ class PaymentHelper
             if ($email) {
                 try {
                     $this->sendReceipt($payment, $email);
-                } catch (\Throwable $e) {
+                } catch (Throwable $e) {
                     //do nothing.
                 }
             }
@@ -171,7 +177,7 @@ class PaymentHelper
     {
         $transactionId = $payment->getTransactionId();
         if (null === $transactionId) {
-            throw new \InvalidArgumentException('Missing transactionId');
+            throw new InvalidArgumentException('Missing transactionId');
         }
         $overflow = $amount->greaterThan($payment->getAmount());
         if (null !== $payment->getRefundedAmount()) {
@@ -179,11 +185,17 @@ class PaymentHelper
             $overflow = $totalRefunded->greaterThan($payment->getAmount());
         }
         if (true === $overflow) {
-            throw new \InvalidArgumentException(sprintf('Refund amount "%s" exceeds total amount "%s"', MoneyHelper::getFormatter()->format($amount), MoneyHelper::getFormatter()->format($payment->getAmount())));
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Refund amount "%s" exceeds total amount "%s"',
+                    MoneyHelper::getFormatter()->format($amount),
+                    MoneyHelper::getFormatter()->format($payment->getAmount())
+                )
+            );
         }
 
         $this->nmi->makeRefund($transactionId, MoneyHelper::getFormatter()->format($amount));
-        $payment->setDateRefunded(new \DateTime())
+        $payment->setDateRefunded(new DateTime())
                 ->setRefundedAmount(isset($totalRefunded) ? $totalRefunded : $amount);
         $this->createInteraction($payment, 'Refunded');
         $payment->setStatus($this->statusCalculator('Refunded', $payment->getStatus()));
@@ -193,18 +205,18 @@ class PaymentHelper
     public function deletePayment(RepairOrderPayment $payment): void
     {
         if (null !== $payment->getDatePaid()) {
-            throw new \InvalidArgumentException('Paid payments cannot be deleted.');
+            throw new InvalidArgumentException('Paid payments cannot be deleted.');
         }
         if ($payment->isDeleted()) {
-            throw new \InvalidArgumentException('Payment already deleted.');
+            throw new InvalidArgumentException('Payment already deleted.');
         }
 
         if ($payment->getDateRefunded()) {
-            throw new \InvalidArgumentException('Payment has been refunded.');
+            throw new InvalidArgumentException('Payment has been refunded.');
         }
 
         $payment->setDeleted(true);
-        $payment->setDateDeleted(new \DateTime());
+        $payment->setDateDeleted(new DateTime());
         $this->createInteraction($payment, 'Deleted');
         $this->commitPayment($payment);
     }

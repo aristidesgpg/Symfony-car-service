@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Parts\ArrayOfPartsOrderLineType:
+    properties:
+        partsOrderLine:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsOrderLine
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            accessor:
+                getter: getPartsOrderLine
+                setter: setPartsOrderLine
+            xml_list:
+                inline: true
+                entry_name: PartsOrderLine
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Parts'
+            type: array<App\Soap\dealerbuilt\src\Models\Parts\PartsOrderLineType>

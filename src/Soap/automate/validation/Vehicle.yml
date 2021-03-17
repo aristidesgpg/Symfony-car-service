@@ -1,0 +1,40 @@
+App\Soap\automate\src\Vehicle:
+    properties:
+        model:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        modelYear:
+            -
+                Regex:
+                    pattern: '~[\-+]?[0-9]+~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        colorGroup:
+            -
+                Valid: null
+        vehicleID:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        manufacturerName:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

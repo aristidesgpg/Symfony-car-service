@@ -1,0 +1,44 @@
+App\Soap\automate\src\RepairOrderVehicleLineItem:
+    xml_root_name: RepairOrderVehicleLineItem
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        licenseNumberString:
+            expose: true
+            access_type: public_method
+            serialized_name: LicenseNumberString
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getLicenseNumberString
+                setter: setLicenseNumberString
+            type: string
+        vehicle:
+            expose: true
+            access_type: public_method
+            serialized_name: Vehicle
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getVehicle
+                setter: setVehicle
+            type: App\Soap\automate\src\Vehicle
+        originalSoldDate:
+            expose: true
+            access_type: public_method
+            serialized_name: OriginalSoldDate
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getOriginalSoldDate
+                setter: setOriginalSoldDate
+            type: string
+        deliveryDistanceMeasure:
+            expose: true
+            access_type: public_method
+            serialized_name: DeliveryDistanceMeasure
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getDeliveryDistanceMeasure
+                setter: setDeliveryDistanceMeasure
+            type: int

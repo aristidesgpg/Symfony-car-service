@@ -1,0 +1,4 @@
+App\Soap\cdk\src\WarAuthorizationCode:
+    xml_root_name: warAuthorizationCode
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

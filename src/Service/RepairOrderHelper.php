@@ -20,7 +20,8 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RepairOrderHelper
 {
-    use iServiceLoggerTrait, FalsyTrait;
+    use iServiceLoggerTrait;
+    use FalsyTrait;
 
     private $em;
     private $repo;
@@ -44,13 +45,15 @@ class RepairOrderHelper
 
     /**
      * @return RepairOrder|array Array on validation failure
+     *
+     * @throws Exception
      */
     public function addRepairOrder(array $params)
     {
         $errors = [];
         $required = ['customerName', 'customerPhone', 'number'];
         foreach ($required as $k) {
-            if (!isset($params[$k]) || strlen($params[$k]) === 0) {
+            if (!isset($params[$k]) || 0 === strlen($params[$k])) {
                 $errors[$k] = 'Required field missing';
             }
         }
@@ -76,10 +79,15 @@ class RepairOrderHelper
             $advisors = $this->users->getUserByRole('ROLE_SERVICE_ADVISOR');
             $advisor = $advisors[0] ?? null;
             if (!$advisor instanceof User) {
-                throw new RuntimeException('Could not find advisor');
+                throw new Exception('Could not find advisor');
             }
             $ro->setPrimaryAdvisor($advisor);
         }
+
+        if (is_null($ro->getPaymentStatus())) {
+            $ro->setPaymentStatus('Not Started');
+        }
+
         $this->em->persist($ro);
         $this->commitRepairOrder();
 
@@ -87,25 +95,18 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array $params
-     *
      * @return Customer|array Array on validation failure
      */
     private function handleCustomer(array $params)
     {
-        $customer = $this->customers->findByPhone($params['customerPhone']);
-        if ($customer !== null) {
-            $customer->setName($params['customerName']);
-            $this->customerHelper->commitCustomer($customer);
-
-            return $customer;
-        }
+        $customer   = $this->customers->findByPhone($params['customerPhone']);
         $translated = $this->translateCustomerParams($params);
-        $errors = $this->customerHelper->validateParams($translated);
+        $errors     = $this->customerHelper->validateParams($translated);
         if (!empty($errors)) {
             return $this->translateCustomerParams($errors, true);
         }
-        $customer = new Customer();
+        if(!$customer)
+            $customer = new Customer();
         $this->customerHelper->commitCustomer($customer, $translated);
 
         return $customer;
@@ -119,6 +120,9 @@ class RepairOrderHelper
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
+        if(array_key_exists('customerEmail', $params) || array_key_exists('email', $params)){
+            $map['customerEmail'] = 'email';
+        }
 
         foreach ($map as $from => $to) {
             if ($reverse && isset($params[$to])) {
@@ -132,9 +136,6 @@ class RepairOrderHelper
     }
 
     /**
-     * @param array       $params
-     * @param RepairOrder $ro
-     *
      * @return array Array on validation failure
      */
     private function buildRO(array $params, RepairOrder $ro): array
@@ -144,16 +145,16 @@ class RepairOrderHelper
             if (!isset($params[$k]) || empty($params[$k])) {
                 continue;
             }
-            $role = ($k === 'advisor') ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
+            $role = ('advisor' === $k) ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
             $user = $this->users->find($params[$k]);
-            if ($user === null) {
+            if (null === $user) {
                 $errors[$k] = ucfirst($k).' not found';
                 continue;
             } elseif (!in_array($role, $user->getRoles())) {
                 $errors[$k] = ucfirst($k).' does not have role '.$role;
                 continue;
             }
-            if ($k === 'advisor') {
+            if ('advisor' === $k) {
                 $ro->setPrimaryAdvisor($user);
             } else {
                 $ro->setPrimaryTechnician($user);
@@ -221,8 +222,8 @@ class RepairOrderHelper
             $ro->setDmsKey($params['dmsKey']);
         }
 
-        if (isset($params['waiver'])) {
-            $ro->setWaiver($params['waiver']);
+        if (isset($params['waiverSignature'])) {
+            $ro->setWaiverSignature($params['waiverSignature']);
         }
 
         if (isset($params['waiverVerbiage'])) {
@@ -236,11 +237,6 @@ class RepairOrderHelper
         return $errors;
     }
 
-    /**
-     * @param string $roNumber
-     *
-     * @return bool
-     */
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findByUID($roNumber);
@@ -248,12 +244,7 @@ class RepairOrderHelper
         return ($ro === null);
     }
 
-    /**
-     * @param string $dateCreated
-     *
-     * @return string
-     */
-    private function generateLinkHash(string $dateCreated): string
+    public function generateLinkHash(string $dateCreated): string
     {
         try {
             $hash = sha1($dateCreated.random_bytes(32));
@@ -282,12 +273,6 @@ class RepairOrderHelper
         }
     }
 
-    /**
-     * @param array       $params
-     * @param RepairOrder $ro
-     *
-     * @return array
-     */
     public function updateRepairOrder(array $params, RepairOrder $ro): array
     {
         if ($ro->getId() === null) {
@@ -302,9 +287,6 @@ class RepairOrderHelper
         return [];
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function closeRepairOrder(RepairOrder $ro): void
     {
         if ($ro->getDateClosed() !== null) {
@@ -314,9 +296,6 @@ class RepairOrderHelper
         $this->commitRepairOrder();
     }
 
-    /**
-     * @param RepairOrder $ro
-     */
     public function deleteRepairOrder(RepairOrder $ro): void
     {
         if ($ro->getDeleted() === true) {
@@ -411,7 +390,7 @@ class RepairOrderHelper
                                 else
                                     $qb->andWhere("ro.dateClosed <= :$name");
                                 $qb->setParameter($name, $value);
-                        }                        
+                        }
                         else {
                             $qb->andWhere("ro.$name = :$name")
                                ->setParameter($name, $value);
@@ -518,17 +497,17 @@ class RepairOrderHelper
 
                             $queryParameters['user'] = $user;
                         }
-                    }                    
+                    }
                 } elseif ($user->isTechnician()) {
                     $qb->andWhere('ro.primaryTechnician = :user  OR ro.primaryTechnician is NULL')
                        ->setParameter('user', $user);
-                       
+
                     $queryParameters['user'] = $user;
                 }
             } else{
                 throw new BadRequestHttpException("Invalid User");
             }
-            
+
             if(filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)){
                 $qb->andWhere('ro.dateClosed IS NULL');
             }

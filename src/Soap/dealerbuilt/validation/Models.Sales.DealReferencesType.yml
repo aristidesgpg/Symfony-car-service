@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Sales\DealReferencesType:
+    properties:
+        tradeIns:
+            -
+                Valid: null

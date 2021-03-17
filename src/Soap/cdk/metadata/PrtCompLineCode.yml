@@ -1,0 +1,4 @@
+App\Soap\cdk\src\PrtCompLineCode:
+    xml_root_name: prtCompLineCode
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

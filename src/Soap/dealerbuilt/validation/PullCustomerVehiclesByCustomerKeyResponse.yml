@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullCustomerVehiclesByCustomerKeyResponse:
+    properties:
+        pullCustomerVehiclesByCustomerKeyResult:
+            -
+                Valid: null

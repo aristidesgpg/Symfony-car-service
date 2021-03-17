@@ -1,0 +1,34 @@
+App\Soap\dealerbuilt\src\GetDealerFees:
+    xml_root_name: GetDealerFees
+    xml_root_namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+    properties:
+        storeId:
+            expose: true
+            access_type: public_method
+            serialized_name: storeId
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getStoreId
+                setter: setStoreId
+            type: int
+        guestState:
+            expose: true
+            access_type: public_method
+            serialized_name: guestState
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getGuestState
+                setter: setGuestState
+            type: string
+        dealType:
+            expose: true
+            access_type: public_method
+            serialized_name: dealType
+            xml_element:
+                namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+            accessor:
+                getter: getDealType
+                setter: setDealType
+            type: string

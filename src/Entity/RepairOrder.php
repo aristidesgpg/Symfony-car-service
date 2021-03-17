@@ -378,7 +378,7 @@ class RepairOrder
         return $this->paymentStatus;
     }
 
-    public function setPaymentStatus(string $paymentStatus): self
+    public function setPaymentStatus(?string $paymentStatus): self
     {
         $this->paymentStatus = $paymentStatus;
 

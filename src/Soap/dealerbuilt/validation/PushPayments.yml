@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushPayments:
+    properties:
+        request:
+            -
+                Valid: null

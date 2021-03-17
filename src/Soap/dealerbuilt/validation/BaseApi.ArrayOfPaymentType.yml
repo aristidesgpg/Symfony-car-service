@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfPaymentType:
+    properties:
+        payment:
+            -
+                Valid: null

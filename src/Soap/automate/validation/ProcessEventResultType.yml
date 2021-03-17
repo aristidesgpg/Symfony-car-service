@@ -1,0 +1,35 @@
+App\Soap\automate\src\ProcessEventResultType:
+    properties:
+        businessError:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        systemError:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        retryable:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        statusCode:
+            -
+                Choice:
+                    choices:
+                        - SUCCESS
+                        - PERMISSION_DENIED
+                        - UNKNOWN_SOURCE
+                        - UNKNOWN_DESTINATION
+                        - PARSE_FAILURE
+                        - VALIDATION_FAILURE
+                        - ENDPOINT_FAILURE
+                        - UNKNOWN_FAILURE
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

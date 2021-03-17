@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfPayTypeStatusType:
+    properties:
+        payTypeStatus:
+            -
+                Valid: null
