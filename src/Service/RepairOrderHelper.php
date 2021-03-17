@@ -99,14 +99,15 @@ class RepairOrderHelper
      */
     private function handleCustomer(array $params)
     {
-        $customer   = $this->customers->findByPhone($params['customerPhone']);
+        $customer = $this->customers->findByPhone($params['customerPhone']);
         $translated = $this->translateCustomerParams($params);
-        $errors     = $this->customerHelper->validateParams($translated);
+        $errors = $this->customerHelper->validateParams($translated);
         if (!empty($errors)) {
             return $this->translateCustomerParams($errors, true);
         }
-        if(!$customer)
+        if (!$customer) {
             $customer = new Customer();
+        }
         $this->customerHelper->commitCustomer($customer, $translated);
 
         return $customer;
@@ -120,7 +121,7 @@ class RepairOrderHelper
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
-        if(array_key_exists('customerEmail', $params) || array_key_exists('email', $params)){
+        if (array_key_exists('customerEmail', $params) || array_key_exists('email', $params)) {
             $map['customerEmail'] = 'email';
         }
 
@@ -241,7 +242,7 @@ class RepairOrderHelper
     {
         $ro = $this->repo->findByUID($roNumber);
 
-        return ($ro === null);
+        return null === $ro;
     }
 
     public function generateLinkHash(string $dateCreated): string
@@ -252,7 +253,7 @@ class RepairOrderHelper
             throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
         }
         $ro = $this->repo->findByHash($hash);
-        if ($ro !== null) { // Very unlikely
+        if (null !== $ro) { // Very unlikely
             $this->logger->warning('link hash collision');
 
             return $this->generateLinkHash($dateCreated);
@@ -275,7 +276,7 @@ class RepairOrderHelper
 
     public function updateRepairOrder(array $params, RepairOrder $ro): array
     {
-        if ($ro->getId() === null) {
+        if (null === $ro->getId()) {
             throw new InvalidArgumentException('RO is missing ID');
         }
         $errors = $this->buildRO($params, $ro);
@@ -289,7 +290,7 @@ class RepairOrderHelper
 
     public function closeRepairOrder(RepairOrder $ro): void
     {
-        if ($ro->getDateClosed() !== null) {
+        if (null !== $ro->getDateClosed()) {
             throw new InvalidArgumentException('RO is already closed');
         }
         $ro->setDateClosed(new DateTime());
@@ -298,7 +299,7 @@ class RepairOrderHelper
 
     public function deleteRepairOrder(RepairOrder $ro): void
     {
-        if ($ro->getDeleted() === true) {
+        if (true === $ro->getDeleted()) {
             throw new InvalidArgumentException('RO is already deleted');
         }
         $ro->setDeleted(true);
@@ -308,7 +309,8 @@ class RepairOrderHelper
     /**
      * @return array
      */
-    public function getSuggestedRoNumbers () {
+    public function getSuggestedRoNumbers()
+    {
         $suggestedRoNumbers = [];
         // Get the latest RO number that is JUST a number in the last 20 ros entered
         $query = $this->em
@@ -334,8 +336,8 @@ class RepairOrderHelper
             return [];
         }
         $latestRO = $latestRO['number'];
-        $start    = $latestRO - 20;
-        $end      = $latestRO + 20;
+        $start = $latestRO - 20;
+        $end = $latestRO + 20;
         foreach (range($latestRO - 1, $start, -1) as $possibleRONumber) {
             $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {
@@ -355,6 +357,7 @@ class RepairOrderHelper
             }
         }
         sort($suggestedRoNumbers);
+
         return $suggestedRoNumbers;
     }
 
@@ -371,27 +374,27 @@ class RepairOrderHelper
             $qb = $queryBuilder;
 
             foreach ($fields as $name => $value) {
-                if ($value !== null) {
-                    if ($name === 'open') {
+                if (null !== $value) {
+                    if ('open' === $name) {
                         if ($value) {
                             $qb->andWhere('ro.dateClosed IS NULL');
                         } else {
                             $qb->andWhere('ro.dateClosed IS NOT NULL');
                         }
-                    } else{
-                        if ($name === 'dateClosedStart' || $name === 'dateClosedEnd'){
-                                try {
-                                    $value = new DateTime($value);
-                                } catch (Exception $e) {
-                                    throw new BadRequestHttpException("$name is invalid date format".$value);
-                                }
-                                if ($name === 'dateClosedStart')
-                                    $qb->andWhere("ro.dateClosed >= :$name");
-                                else
-                                    $qb->andWhere("ro.dateClosed <= :$name");
-                                $qb->setParameter($name, $value);
-                        }
-                        else {
+                    } else {
+                        if ('dateClosedStart' === $name || 'dateClosedEnd' === $name) {
+                            try {
+                                $value = new DateTime($value);
+                            } catch (Exception $e) {
+                                throw new BadRequestHttpException("$name is invalid date format".$value);
+                            }
+                            if ('dateClosedStart' === $name) {
+                                $qb->andWhere("ro.dateClosed >= :$name");
+                            } else {
+                                $qb->andWhere("ro.dateClosed <= :$name");
+                            }
+                            $qb->setParameter($name, $value);
+                        } else {
                             $qb->andWhere("ro.$name = :$name")
                                ->setParameter($name, $value);
                         }
@@ -402,7 +405,7 @@ class RepairOrderHelper
             if ($startDate && $endDate) {
                 try {
                     $startDate = new DateTime($startDate);
-                    $endDate   = new DateTime($endDate);
+                    $endDate = new DateTime($endDate);
 
                     $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate')
                        ->setParameter('startDate', $startDate)
@@ -420,15 +423,15 @@ class RepairOrderHelper
                    ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
 
                 $searchFields = [
-                    'ro'            => ['number', 'year', 'model', 'miles', 'vin'],
-                    'ro_customer'   => ['name', 'phone', 'email'],
-                    'ro_advisor'    => ['combine_name', 'phone', 'email'],
+                    'ro' => ['number', 'year', 'model', 'miles', 'vin'],
+                    'ro_customer' => ['name', 'phone', 'email'],
+                    'ro_advisor' => ['combine_name', 'phone', 'email'],
                     'ro_technician' => ['combine_name', 'phone', 'email'],
                 ];
 
                 foreach ($searchFields as $class => $fields) {
                     foreach ($fields as $field) {
-                        if ($field === 'combine_name') {
+                        if ('combine_name' === $field) {
                             $query .= "CONCAT($class.firstName , ' ' , $class.lastName) LIKE :searchTerm OR ";
                         } else {
                             $query .= "$class.$field LIKE :searchTerm OR ";
@@ -445,7 +448,7 @@ class RepairOrderHelper
             if ($sortDirection) {
                 $qb->orderBy('ro.'.$sortField, $sortDirection);
 
-                $urlParameters['sortField']     = $sortField;
+                $urlParameters['sortField'] = $sortField;
                 $urlParameters['sortDirection'] = $sortDirection;
             } else {
                 $qb->orderBy('ro.dateCreated', 'DESC');
@@ -458,26 +461,27 @@ class RepairOrderHelper
     }
 
     /**
-     * @param string   $start
-     * @param User     $user
-     * @param string   $end
-     * @param string   $sortField
-     * @param string   $sortDirection
-     * @param string   $searchTerm
-     * @param array    $fields
+     * @param string $start
+     * @param User   $user
+     * @param string $end
+     * @param string $sortField
+     * @param string $sortDirection
+     * @param string $searchTerm
+     * @param array  $fields
      *
      * @return Query|null
+     *
      * @throws Exception
      */
     public function getAllItems(
         $user,
-        $startDate     = null,
-        $endDate       = null,
-        $sortField     = 'dateCreated',
+        $startDate = null,
+        $endDate = null,
+        $sortField = 'dateCreated',
         $sortDirection = 'DESC',
-        $searchTerm    = null,
-        $needsVideo    = false,
-        $fields        = []
+        $searchTerm = null,
+        $needsVideo = false,
+        $fields = []
     ) {
         try {
             $qb = $this->repo->createQueryBuilder('ro');
@@ -485,7 +489,7 @@ class RepairOrderHelper
 
             if ($user instanceof User) {
                 if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
-                    if(!$needsVideo){
+                    if (!$needsVideo) {
                         if ($user->getShareRepairOrders()) {
                             $qb->andWhere('ro.primaryAdvisor IN (:users)')
                                ->setParameter('users', $user);
@@ -499,17 +503,17 @@ class RepairOrderHelper
                         }
                     }
                 } elseif ($user->isTechnician()) {
-                    $qb->andWhere('ro.primaryTechnician = :user  OR ro.primaryTechnician is NULL')
+                    $qb->andWhere('ro.primaryTechnician = :user OR ro.primaryTechnician is NULL')
                        ->setParameter('user', $user);
 
                     $queryParameters['user'] = $user;
                 }
-            } else{
-                throw new BadRequestHttpException("Invalid User");
+            } else {
+                throw new BadRequestHttpException('Invalid User');
             }
 
-            if(filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)){
-                $qb->andWhere('ro.dateClosed IS NULL');
+            if (filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)) {
+                $qb->andWhere('ro.dateClosed IS NULL')->andWhere('ro.videoStatus = "Not Started"');
             }
 
             $qb = $this->addFilters(
