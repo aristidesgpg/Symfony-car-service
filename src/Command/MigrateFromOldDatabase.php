@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\CheckIn;
 use Doctrine\ORM\EntityManager;
 use App\Entity\User;
 use App\Entity\RepairOrder;
@@ -24,6 +25,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Twig\Node\WithNode;
+
 /**
  * 
  * Class MigrateFromOldDatabase.
@@ -92,61 +95,102 @@ class MigrateFromOldDatabase extends Command
        
         // $this->admin();
         // $output->writeln("Admin done");
+
         // $this->advisor();
         // $output->writeln("Advisor done");
+
         // $this->customer();
         // $output->writeln("Customer done");
+
         // $this->technican();
         // $output->writeln("Technican done");
+
         // $this->repairOrder();
         // $output->writeln("RepairOrder done");
-            
-        $this->operationCode();
-        $output->writeln("OperactionCode done");
+           
+        // $this->operationCode();
+        // $output->writeln("OperactionCode done");
+
+        $this->checkIn();
+        $output->writeln("CheckIn done");
 
         $output->writeln(json_encode($this->oldCustomerIds));
         return "success";
     }
     
-    private function repairOrderQuote(){
+    private function repairOrderQuoteRecommendation(){
+        // With client_interaction table
+
+        // $statement = $this->connection->prepare(
+        //     'SELECT * FROM repair_order_quote'
+        // );
+        
+        // $statement->execute();
+        // $rows = $statement->fetchAll();
+
+        // $repairOrderQuoteRepo = $this->em->getRepository(RepairOrderQuote::class);
+        
+        // foreach($rows as $row){
+        //     $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['email' => $row['email']]);
+
+        //     if($oldUser){
+        //         $this->oldAdminIds[ $row['id'] ] = $oldUser->getId();
+        //     } else {
+        //         $user = new User();
+        //         $name = $row['name'];
+        //         $spacePosition = strpos($name, " ");
+        //         if($row['app_password']){
+        //             $password = $row['app_password'];
+        //         } else {
+        //             $password = $this->passwordEncoder->encodePassword($user, 'test');
+        //         }
+
+        //         $user->setFirstName( substr($name, 0, $spacePosition) )
+        //              ->setLastName( substr($name, $spacePosition) )
+        //              ->setEmail( $row['email'] )
+        //              ->setPhone( $row['phone'] )
+        //              ->setPassword( $password )
+        //              ->setPreviewDeviceTokens( $row['preview_tokens'] )
+        //              ->setRole( 'ROLE_ADMIN' );
+                
+        //         $this->em->persist( $user );
+        //         $this->em->flush();
+                
+        //         $this->oldAdminIds[ $row['id'] ] = $user->getId();
+        //     }
+        // }
+    }
+
+    private function checkIn(){
         $statement = $this->connection->prepare(
-            'SELECT * FROM repair_order_quote'
+            'SELECT * FROM check_in'
         );
         
         $statement->execute();
         $rows = $statement->fetchAll();
 
-        $repairOrderQuoteRepo = $this->em->getRepository(RepairOrderQuote::class);
+        $checkInRepo = $this->em->getRepository(CheckIn::class);
         
         foreach($rows as $row){
-            $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['email' => $row['email']]);
+            $oldCheckin = $checkInRepo->findOneBy(['identification' => $row['Identifier']]);
 
-            if($oldUser){
-                $this->oldAdminIds[ $row['id'] ] = $oldUser->getId();
-            } else {
-                $user = new User();
-                $name = $row['name'];
-                $spacePosition = strpos($name, " ");
-                if($row['app_password']){
-                    $password = $row['app_password'];
+            if(!$oldCheckin && $row['Status']){
+                $checkIn = new CheckIn();
+
+                if($row['Video']){
+                    $video = $row['Video'];
                 } else {
-                    $password = $this->passwordEncoder->encodePassword($user, 'test');
+                    $video = "undefined";
                 }
 
-                $user->setFirstName( substr($name, 0, $spacePosition) )
-                     ->setLastName( substr($name, $spacePosition) )
-                     ->setEmail( $row['email'] )
-                     ->setPhone( $row['phone'] )
-                     ->setPassword( $password )
-                     ->setPreviewDeviceTokens( $row['preview_tokens'] )
-                     ->setRole( 'ROLE_ADMIN' );
+                $checkIn->setIdentification( $row['Identifier'])
+                        ->setVideo( $video )
+                        ->setDate( new \DateTime($row['Date'] ) );
                 
-                $this->em->persist( $user );
-                $this->em->flush();
-                
-                $this->oldAdminIds[ $row['id'] ] = $user->getId();
+                $this->em->persist( $checkIn );
             }
         }
+        $this->em->flush();
     }
 
     private function admin(){
@@ -307,43 +351,43 @@ class MigrateFromOldDatabase extends Command
     }
 
     private function CAQLog(){
-        $statement = $this->connection->prepare(
-            'SELECT * FROM c_a_q_log'
-        );
+        // $statement = $this->connection->prepare(
+        //     'SELECT * FROM c_a_q_log'
+        // );
         
-        $statement->execute();
-        $rows = $statement->fetchAllAssociative();
+        // $statement->execute();
+        // $rows = $statement->fetchAllAssociative();
 
-        $userRepo = $this->em->getRepository(User::class);
+        // $userRepo = $this->em->getRepository(User::class);
         
-        foreach($rows as $row){
-            $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
-            array_push($this->oldAdvisorIds, $row['id']);
+        // foreach($rows as $row){
+        //     $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
+        //     array_push($this->oldAdvisorIds, $row['id']);
 
-            if($oldUser){
-                $this->oldAdvisorIds[ $row['id'] ] = $oldUser->getId();
-            } else {
-                $user = new User();
-                $user->setFirstName( $row['first_name'] )
-                     ->setLastName( $row['last_name'] )
-                     ->setEmail( $row['email'] )
-                     ->setPhone( $row['phone'] )
-                     ->setPassword( $row['password'] )
-                     ->setExtension( $row['extension'] )
-                     ->setActive( $row['active'] )
-                     ->setSecurityQuestion( $row['security_question'] )
-                     ->setSecurityAnswer( $row['security_answer'] )
-                     ->setProcessRefund( $row['can_give_refund'])
-                     ->setShareRepairOrders( $row['express_advisor'])
-                     ->setPreviewDeviceTokens( $row['preview_tokens'] )
-                     ->setRole( 'ROLE_SERVICE_ADVISOR' );
+        //     if($oldUser){
+        //         $this->oldAdvisorIds[ $row['id'] ] = $oldUser->getId();
+        //     } else {
+        //         $user = new User();
+        //         $user->setFirstName( $row['first_name'] )
+        //              ->setLastName( $row['last_name'] )
+        //              ->setEmail( $row['email'] )
+        //              ->setPhone( $row['phone'] )
+        //              ->setPassword( $row['password'] )
+        //              ->setExtension( $row['extension'] )
+        //              ->setActive( $row['active'] )
+        //              ->setSecurityQuestion( $row['security_question'] )
+        //              ->setSecurityAnswer( $row['security_answer'] )
+        //              ->setProcessRefund( $row['can_give_refund'])
+        //              ->setShareRepairOrders( $row['express_advisor'])
+        //              ->setPreviewDeviceTokens( $row['preview_tokens'] )
+        //              ->setRole( 'ROLE_SERVICE_ADVISOR' );
                 
-                $this->em->persist( $user );
-                $this->em->flush();
+        //         $this->em->persist( $user );
+        //         $this->em->flush();
                 
-                $this->oldAdvisorIds[ $row['id'] ] = $user->getId();
-            }
-        }
+        //         $this->oldAdvisorIds[ $row['id'] ] = $user->getId();
+        //     }
+        // }
     }
 
     private function getItem($rows, $field, $value){
