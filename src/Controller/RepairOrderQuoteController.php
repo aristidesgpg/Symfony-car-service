@@ -113,7 +113,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new BadRequestHttpException('A quote already exists for this Repair Order');
         }
         // Get quote status according to the type of user
-        $status = $this->getProgressStatus();
+        $status = $helper->getProgressStatus();
         // store repairOrderQuote
         $repairOrderQuote = new RepairOrderQuote();
         $repairOrderQuote->setRepairOrder($repairOrder);
@@ -224,7 +224,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             // Update status as Completed
             $status = 'Completed';
         } else {
-            $status = $this->getProgressStatus();
+            $status = $helper->getProgressStatus();
         }
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
@@ -275,7 +275,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     public function inProgress(
         Request $request,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderQuoteHelper $helper
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
 
@@ -291,8 +292,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if (!in_array($status, $statses)) {
             throw new BadRequestHttpException('Status is Invalid');
         }
+        // Check if status update is allowed
+        if (!$helper->checkStatusUpdate($repairOrderQuote->getStatus(), 'In Progress')) {
+            return $this->handleView($this->view('Cannot update status', Response::HTTP_FORBIDDEN));
+        }
         // Get ProgressStatus
-        $status = $this->getProgressStatus();
+        $status = $helper->getProgressStatus();
         // Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
         // Create RepairOrderQuoteInteraction
@@ -343,7 +348,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         EntityManagerInterface $em,
         TwilioHelper $twilioHelper,
         SettingsHelper $settingsHelper,
-        ParameterBagInterface $parameterBag
+        ParameterBagInterface $parameterBag,
+        RepairOrderQuoteHelper $helper
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $status = 'Sent';
@@ -354,6 +360,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
         if (!$repairOrderQuote) {
             throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        // Check if status update is allowed
+        if (!$helper->checkStatusUpdate($repairOrderQuote->getStatus(), $status)) {
+            return $this->handleView($this->view('Cannot update status', Response::HTTP_FORBIDDEN));
         }
         //Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
@@ -408,7 +418,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     public function customerViewed(
         Request $request,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderQuoteHelper $helper
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $status = 'Viewed';
@@ -419,6 +430,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
         if (!$repairOrderQuote) {
             throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        // Check if status update is allowed
+        if (!$helper->checkStatusUpdate($repairOrderQuote->getStatus(), $status)) {
+            return $this->handleView($this->view('Cannot update status', Response::HTTP_FORBIDDEN));
         }
         //Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
@@ -440,23 +455,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $em->flush();
 
         return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
-    }
-
-    public function getProgressStatus()
-    {
-        $roles = $this->getUser()->getRoles();
-        $status = 'Not Started';
-        if ('ROLE_TECHNICIAN' == $roles[0]) {
-            $status = 'Technician In Progress';
-        } elseif ('ROLE_SERVICE_ADVISOR' == $roles[0]) {
-            $status = 'Advisor In Progress';
-        } elseif ('ROLE_PARTS_ADVISOR' == $roles[0]) {
-            $status = 'Parts In Progress';
-        } else {
-            $status = 'In Progress';
-        }
-
-        return $status;
     }
 
     /**
@@ -485,7 +483,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     public function customerCompleted(
         Request $request,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderQuoteHelper $helper
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $status = 'Completed';
@@ -496,6 +495,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
         if (!$repairOrderQuote) {
             throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        // Check if status update is allowed
+        if (!$helper->checkStatusUpdate($repairOrderQuote->getStatus(), $status)) {
+            return $this->handleView($this->view('Cannot update status', Response::HTTP_FORBIDDEN));
         }
         //Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
@@ -545,7 +548,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     public function customerConfirmed(
         Request $request,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderQuoteHelper $helper
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $status = 'Confirmed';
@@ -556,6 +560,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
         if (!$repairOrderQuote) {
             throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        // Check if status update is allowed
+        if (!$helper->checkStatusUpdate($repairOrderQuote->getStatus(), $status)) {
+            return $this->handleView($this->view('Cannot update status', Response::HTTP_FORBIDDEN));
         }
         //Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
