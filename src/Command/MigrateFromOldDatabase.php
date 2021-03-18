@@ -117,11 +117,46 @@ class MigrateFromOldDatabase extends Command
         // $output->writeln("CheckIn done");
         
         // $this->repairOrderQuoteRecommendation();
+        
+        // $this->followUp();
+        // $this->customerRepairOrder();
+
 
         $output->writeln(json_encode($this->oldCustomerIds));
         return "success";
     }
-    
+    private function customerRepairOrder(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM customer_repair_order'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAll();
+
+        $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
+        $customerRepo = $this->em->getRepository(Customer::class);
+        
+        foreach($rows as $row){
+            $repairOrder = $repairOrderRepo->findOneBy([
+                'id' => $this->oldRepairOrderIds[$row['repair_order_id'] ],
+                'primaryCustomer' => $this->oldCustomerIds[$row['customer_id'] ]
+            ] );
+
+            if(!$repairOrder ){
+                $oldRepairOrder = $repairOrderRepo->findOneBy([
+                    'id' => $this->oldRepairOrderIds[$row['repair_order_id'] ];
+                $customer = $customerRepo->findOneBy([
+                    'id' => $this->oldCustomerIds[$row['customer_id'] ]
+                ] );
+                if($oldRepairOrder) {
+                    $repairOrder = clone $oldRepairOrder;
+                    $repairOrder->setCustomer($customer);
+                    $this->em->persist( $repairOrder );
+                }
+            }
+        }
+        $this->em->flush();
+    }
     private function repairOrderQuoteRecommendation(){
         // With client_interaction table
 
@@ -222,29 +257,37 @@ class MigrateFromOldDatabase extends Command
             if(!$oldFollowUp){
                 $followUp = new FollowUp();
                 $repairOrder =  $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds['repair_order_id'] ]);  
+                $status = "Created";
                 $followUp->setRepairOrder($repairOrder)
                          ->setDateCreated(new \DateTime($row['date_created']))
                          ->setDateSent(new \DateTime($row['date_requested']));
+
                 if($row['date_created']){
                    $this->createFollowUpInteraction($repairOrder, $followUp, "Created", $row['date_created']);
                 }
 
                 if($row['date_requested']){
                    $this->createFollowUpInteraction($repairOrder, $followUp, "Sent", $row['date_requested']);
+                   $status = "Sent";
                 }
 
-                $phase1 = $this->getItem($followupPhases, ['followup_target_id', 'phase'], [$row['id'], 0]);
+                $phase1 = $this->getItem($followupPhases, ['followup_target_id', 'phase'], [$row['id'], 2]);
                 if($phase1){
                     $followUp->setDateViewed(new \DateTime($phase1['date']));
                     $this->createFollowUpInteraction($repairOrder, $followUp, "Viewed", $phase1['date']);
+                    $status = "Viewed";
                 }
 
-                $phase2 = $this->getItem($followupPhases, ['followup_target_id', 'phase'], [$row['id'], 0]);
+                $phase2 = $this->getItem($followupPhases, ['followup_target_id', 'phase'], [$row['id'], 3]);
+                if(!$phase2){
+                    $phase2 = $this->getItem($followupPhases, ['followup_target_id', 'phase'], [$row['id'], 100]);
+                }
                 if($phase2){
                     $followUp->setDateConverted(new \DateTime($phase1['date']));
-                    $this->createFollowUpInteraction($repairOrder, $followUp, "Converted", $phase2'date']);
+                    $this->createFollowUpInteraction($repairOrder, $followUp, "Converted", $phase2['date']);
+                    $status = "Converted";
                 }
-                
+                $followUp->setStatus($status);
                 $this->em->persist( $followUp );
             }
         }
