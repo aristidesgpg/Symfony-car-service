@@ -233,15 +233,11 @@ class RepairOrderQuoteHelper
     public function getProgressStatus($user)
     {
         $roles = $user->getRoles();
-        $status = 'Not Started';
+        $status = 'Advisor In Progress';
         if ('ROLE_TECHNICIAN' == $roles[0]) {
             $status = 'Technician In Progress';
-        } elseif ('ROLE_SERVICE_ADVISOR' == $roles[0]) {
-            $status = 'Advisor In Progress';
         } elseif ('ROLE_PARTS_ADVISOR' == $roles[0]) {
             $status = 'Parts In Progress';
-        } else {
-            $status = 'In Progress';
         }
 
         return $status;

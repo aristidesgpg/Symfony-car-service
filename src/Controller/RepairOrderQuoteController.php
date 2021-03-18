@@ -253,13 +253,21 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      * @Rest\Post("/api/repair-order-quote/in-progress")
      *
      * @SWG\Tag(name="Repair Order Quote")
-     * @SWG\Post(description="Set the RepairOrderQuote status as Technician In Progress")
+     * @SWG\Post(description="Set the RepairOrderQuote status as In Progress")
      * @SWG\Parameter(
      *     name="repairOrderQuoteID",
      *     type="integer",
      *     in="formData",
      *     description="ID for the RepairOrderQuote",
      *     required=true
+     * )
+     * @SWG\Parameter(
+     *     name="status",
+     *     type="string",
+     *     in="formData",
+     *     description="Status for Progress",
+     *     required=true,
+     *     enum={"Technician In Progress", "Advisor In Progress", "Parts In Progress"}
      * )
      *
      * @SWG\Response(
@@ -279,9 +287,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuoteHelper $helper
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
-
+        $status = $request->get('status');
+        $statusArray = ['Technician In Progress', 'Advisor In Progress', 'Parts In Progress'];
         // Check if param is valid
-        if (!$repairOrderQuoteID) {
+        if (!$repairOrderQuoteID || !$status) {
             throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
         }
         $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
@@ -292,8 +301,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if (!$helper->checkStatusUpdate($repairOrderQuote->getStatus(), 'In Progress')) {
             return $this->handleView($this->view('Cannot update status', Response::HTTP_FORBIDDEN));
         }
-        // Get ProgressStatus
-        $status = $helper->getProgressStatus($this->getUser());
+        // Check if Status is available
+        if (!in_array($status, $statusArray)) {
+            throw new BadRequestHttpException('Status is invalid');
+        }
         // Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
         // Create RepairOrderQuoteInteraction
