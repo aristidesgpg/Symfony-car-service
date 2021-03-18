@@ -9,6 +9,7 @@ use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderQuoteHelper;
 use App\Service\SettingsHelper;
+use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -356,7 +357,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         TwilioHelper $twilioHelper,
         SettingsHelper $settingsHelper,
         ParameterBagInterface $parameterBag,
-        RepairOrderQuoteHelper $helper
+        RepairOrderQuoteHelper $helper,
+        ShortUrlHelper $shortUrlHelper
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $status = 'Sent';
@@ -390,7 +392,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $serviceTextQuote = $settingsHelper->getSetting('serviceTextQuote');
         $customerURL = $parameterBag->get('customer_url');
         $repairOrderURL = $serviceTextQuote.$customerURL.$repairOrder->getLinkHash();
-        $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $repairOrderURL);
+        $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $shortUrlHelper->generateShortUrl($repairOrderURL));
 
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
