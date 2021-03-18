@@ -281,16 +281,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
 
         // Check if param is valid
-        if (!$repairOrderQuoteID || !$status) {
+        if (!$repairOrderQuoteID) {
             throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
         }
         $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
         if (!$repairOrderQuote) {
             throw new NotFoundHttpException('Repair Order Quote Not Found');
-        }
-        // Check if status is valid
-        if (!in_array($status, $statses)) {
-            throw new BadRequestHttpException('Status is Invalid');
         }
         // Check if status update is allowed
         if (!$helper->checkStatusUpdate($repairOrderQuote->getStatus(), 'In Progress')) {
