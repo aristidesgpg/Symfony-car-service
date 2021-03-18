@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Core\Security;
 
 class RepairOrderQuoteController extends AbstractFOSRestController
 {
@@ -189,7 +190,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     public function updateRepairOrderQuote(
         RepairOrderQuote $repairOrderQuote,
         Request $request,
-        RepairOrderQuoteHelper $repairOrderQuoteHelper
+        RepairOrderQuoteHelper $repairOrderQuoteHelper,
+        EntityManagerInterface $em,
+        Security $security
     ): Response {
         $recommendations = $request->get('recommendations');
 
@@ -197,6 +200,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new BadRequestHttpException('Missing Required Parameter: recommendations');
         }
 
+        // Check permission if quote status is Sent, Completed or Confirmed
+        $quoteStatus = $repairOrderQuote->getStatus();
+        if (('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) && !$security->isGranted('ROLE_CUSTOMER')) {
+            return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
+        }
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
@@ -209,6 +217,31 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
+        //Get RepairOrder
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        // Check User
+        if ($security->isGranted('ROLE_CUSTOMER')) {
+            // Update status as Completed
+            $status = 'Completed';
+        } else {
+            $status = $this->getProgressStatus();
+        }
+        //Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+        // Update repairOrderQuote Status
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status)
+                         ->setDateCustomerCompleted(new DateTime());
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(['roq_list', 'roqs_list']);

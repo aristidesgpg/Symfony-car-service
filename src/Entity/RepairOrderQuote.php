@@ -68,14 +68,14 @@ class RepairOrderQuote
     private $repairOrderQuoteRecommendations;
 
     /**
-     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="repairOrderQuote", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="repairOrderQuote", cascade={"persist", "remove"})
      */
     private $repairOrderQuoteInteractions;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status = "Not Started";
+    private $status = 'Not Started';
 
     public function __construct()
     {
