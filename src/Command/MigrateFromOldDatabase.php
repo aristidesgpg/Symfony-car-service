@@ -7,6 +7,8 @@ use Doctrine\ORM\EntityManager;
 use App\Entity\User;
 use App\Entity\RepairOrder;
 use App\Entity\Customer;
+use App\Entity\FollowUp;
+use App\Entity\FollowUpInteraction;
 use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
@@ -114,6 +116,7 @@ class MigrateFromOldDatabase extends Command
         // $this->checkIn();
         // $output->writeln("CheckIn done");
         
+        // $this->repairOrderQuoteRecommendation();
 
         $output->writeln(json_encode($this->oldCustomerIds));
         return "success";
@@ -180,6 +183,70 @@ class MigrateFromOldDatabase extends Command
                                                ->setLaborPrice( $row['labor'] );
                 
                 $this->em->persist( $repairOrderQuoteRecommendation );
+        }
+        $this->em->flush();
+    }
+
+    private function createFollowUpInteraction(RepairOrder $repairOrder, FollowUp $followUp, string $type, string $date){
+        $followUpInteraction = new FollowUpInteraction();
+        $followUpInteraction->setFollowUp($followUp)
+                            ->setCustomer($repairOrder->getPrimaryCustomer())
+                            ->setUser($repairOrder->getPrimaryTechnician())
+                            ->setType($type)
+                            ->setDate($date);
+        $this->em->persist( $followUp );
+        $this->em->flush();
+    }
+
+    private function followUp(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM follow_up_targets'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAll();
+        
+        $statement = $this->connection->prepare(
+            'SELECT * FROM follow_up_targets_phases'
+        );
+        
+        $statement->execute();
+        $followupPhases = $statement->fetchAll();
+
+        $followUpRepo = $this->em->getRepository(FollowUp::class);
+        $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
+        
+        foreach($rows as $row){
+            $oldFollowUp = $followUpRepo->findOneBy(['date_created' => $row['date_created']]);
+
+            if(!$oldFollowUp){
+                $followUp = new FollowUp();
+                $repairOrder =  $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds['repair_order_id'] ]);  
+                $followUp->setRepairOrder($repairOrder)
+                         ->setDateCreated(new \DateTime($row['date_created']))
+                         ->setDateSent(new \DateTime($row['date_requested']));
+                if($row['date_created']){
+                   $this->createFollowUpInteraction($repairOrder, $followUp, "Created", $row['date_created']);
+                }
+
+                if($row['date_requested']){
+                   $this->createFollowUpInteraction($repairOrder, $followUp, "Sent", $row['date_requested']);
+                }
+
+                $phase1 = $this->getItem($followupPhases, ['followup_target_id', 'phase'], [$row['id'], 0]);
+                if($phase1){
+                    $followUp->setDateViewed(new \DateTime($phase1['date']));
+                    $this->createFollowUpInteraction($repairOrder, $followUp, "Viewed", $phase1['date']);
+                }
+
+                $phase2 = $this->getItem($followupPhases, ['followup_target_id', 'phase'], [$row['id'], 0]);
+                if($phase2){
+                    $followUp->setDateConverted(new \DateTime($phase1['date']));
+                    $this->createFollowUpInteraction($repairOrder, $followUp, "Converted", $phase2'date']);
+                }
+                
+                $this->em->persist( $followUp );
+            }
         }
         $this->em->flush();
     }
@@ -413,9 +480,18 @@ class MigrateFromOldDatabase extends Command
         // }
     }
 
-    private function getItem($rows, $field, $value){
-        $i = array_search($value, array_column($rows, $field));
-        return ($i !== false ? $rows[$i] : null);
+    private function getItem($rows, $fields, $values){
+        foreach($rows as $row){
+            $flag = true;
+            foreach($fields as $index => $field){
+                if($row[$field] !== $values[$index])
+                    $flag = false;
+            }
+            if($flag){
+                return $row;
+            }
+        }
+        return null;
     }
 
     private function repairOrder(){
@@ -492,7 +568,7 @@ class MigrateFromOldDatabase extends Command
                         $repairOrderVideo  = new RepairOrderVideo();
                         $repairOrderVideoInteraction  = new RepairOrderVideoInteraction();
                         
-                        $clientInteraction = $this->getItem($clientInteractions, 'repair_order_id', $row['id']);
+                        $clientInteraction = $this->getItem($clientInteractions, ['repair_order_id'], [ $row['id'] ]);
 
                         $repairOrderVideo->setRepairOrder($repairOrder)
                                         ->setTechnician($technican)
