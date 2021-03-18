@@ -113,7 +113,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new BadRequestHttpException('A quote already exists for this Repair Order');
         }
         // Get quote status according to the type of user
-        $status = $helper->getProgressStatus($this->getUser());
+        $status = $helper->getProgressStatus();
         // store repairOrderQuote
         $repairOrderQuote = new RepairOrderQuote();
         $repairOrderQuote->setRepairOrder($repairOrder);
@@ -224,7 +224,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             // Update status as Completed
             $status = 'Completed';
         } else {
-            $status = $helper->getProgressStatus($this->getUser());
+            $status = $helper->getProgressStatus();
         }
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();

@@ -230,8 +230,9 @@ class RepairOrderQuoteHelper
         return $newQuote;
     }
 
-    public function getProgressStatus($user)
+    public function getProgressStatus()
     {
+        $user = $this->security->getUser();
         $roles = $user->getRoles();
         $status = 'Advisor In Progress';
         if ('ROLE_TECHNICIAN' == $roles[0]) {
