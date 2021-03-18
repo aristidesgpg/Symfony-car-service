@@ -111,6 +111,18 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if ($exists) {
             throw new BadRequestHttpException('A quote already exists for this Repair Order');
         }
+        // Get quote status according to the type of user
+        $roles = $this->getUser()->getRoles();
+        $status = 'Not Started';
+        if ('ROLE_TECHNICIAN' == $roles[0]) {
+            $status = 'Technician In Progress';
+        } elseif ('ROLE_SERVICE_ADVISOR' == $roles[0]) {
+            $status = 'Advisor In Progress';
+        } elseif ('ROLE_PARTS_ADVISOR' == $roles[0]) {
+            $status = 'Parts In Progress';
+        } else {
+            $status = 'In Progress';
+        }
 
         // store repairOrderQuote
         $repairOrderQuote = new RepairOrderQuote();
@@ -137,6 +149,22 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
             throw new BadRequestHttpException($e->getMessage());
         }
+
+        // Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                     ->setUser($repairOrder->getPrimaryTechnician())
+                                     ->setCustomer($repairOrder->getPrimaryCustomer())
+                                     ->setType($status);
+        // Update repairOrderQuote Status
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status);
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(['roq_list', 'roqs_list']);
