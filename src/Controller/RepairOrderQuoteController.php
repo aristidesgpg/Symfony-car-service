@@ -567,6 +567,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function deleteRepairOrderQuote(RepairOrderQuote $repairOrderQuote, EntityManagerInterface $em)
     {
+        // Update RepairOrder status
+        $status = 'Not Started';
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        $repairOrder->setQuoteStatus($status);
+
         //delete repairOrderQuote
         $em->remove($repairOrderQuote);
         $em->flush();
