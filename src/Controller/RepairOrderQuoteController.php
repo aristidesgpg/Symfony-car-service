@@ -112,18 +112,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new BadRequestHttpException('A quote already exists for this Repair Order');
         }
         // Get quote status according to the type of user
-        $roles = $this->getUser()->getRoles();
-        $status = 'Not Started';
-        if ('ROLE_TECHNICIAN' == $roles[0]) {
-            $status = 'Technician In Progress';
-        } elseif ('ROLE_SERVICE_ADVISOR' == $roles[0]) {
-            $status = 'Advisor In Progress';
-        } elseif ('ROLE_PARTS_ADVISOR' == $roles[0]) {
-            $status = 'Parts In Progress';
-        } else {
-            $status = 'In Progress';
-        }
-
+        $status = $this->getProgressStatus();
         // store repairOrderQuote
         $repairOrderQuote = new RepairOrderQuote();
         $repairOrderQuote->setRepairOrder($repairOrder);
@@ -239,13 +228,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     description="ID for the RepairOrderQuote",
      *     required=true
      * )
-     * @SWG\Parameter(
-     *     name="status",
-     *     in="formData",
-     *     type="string",
-     *     description="The Status for Progress",
-     *     enum={"Technician In Progress", "Parts In Progress", "Advisor In Progress"}
-     * )
      *
      * @SWG\Response(
      *     response=200,
@@ -263,8 +245,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         EntityManagerInterface $em
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
-        $status = $request->get('status');
-        $statses = ['Technician In Progress', 'Parts In Progress', 'Advisor In Progress'];
 
         // Check if param is valid
         if (!$repairOrderQuoteID || !$status) {
@@ -278,6 +258,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if (!in_array($status, $statses)) {
             throw new BadRequestHttpException('Status is Invalid');
         }
+        // Get ProgressStatus
+        $status = $this->getProgressStatus();
         // Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
         // Create RepairOrderQuoteInteraction
@@ -425,6 +407,23 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $em->flush();
 
         return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
+    }
+
+    public function getProgressStatus()
+    {
+        $roles = $this->getUser()->getRoles();
+        $status = 'Not Started';
+        if ('ROLE_TECHNICIAN' == $roles[0]) {
+            $status = 'Technician In Progress';
+        } elseif ('ROLE_SERVICE_ADVISOR' == $roles[0]) {
+            $status = 'Advisor In Progress';
+        } elseif ('ROLE_PARTS_ADVISOR' == $roles[0]) {
+            $status = 'Parts In Progress';
+        } else {
+            $status = 'In Progress';
+        }
+
+        return $status;
     }
 
     /**
