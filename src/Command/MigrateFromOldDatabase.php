@@ -111,8 +111,9 @@ class MigrateFromOldDatabase extends Command
         // $this->operationCode();
         // $output->writeln("OperactionCode done");
 
-        $this->checkIn();
-        $output->writeln("CheckIn done");
+        // $this->checkIn();
+        // $output->writeln("CheckIn done");
+        
 
         $output->writeln(json_encode($this->oldCustomerIds));
         return "success";
