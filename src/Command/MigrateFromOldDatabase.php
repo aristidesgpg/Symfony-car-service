@@ -61,6 +61,7 @@ class MigrateFromOldDatabase extends Command
     protected $oldRepairOrderIds;
     protected $oldCustomerIds;
     protected $oldOperationCodeIds;
+    protected $oldManagerIds;
     /**
      * constructor.
      */
@@ -75,6 +76,7 @@ class MigrateFromOldDatabase extends Command
         $this->oldRepairOrderIds = array();
         $this->oldCustomerIds = array();
         $this->oldOperationCodeIds = array();
+        $this->oldManagerIds = array();
         parent::__construct();
     } 
 
@@ -107,6 +109,9 @@ class MigrateFromOldDatabase extends Command
         // $this->technican();
         // $output->writeln("Technican done");
 
+        $this->manager();
+        $output->writeln("Manager done");
+
         // $this->repairOrder();
         // $output->writeln("RepairOrder done");
            
@@ -122,7 +127,8 @@ class MigrateFromOldDatabase extends Command
         // $this->customerRepairOrder();
 
 
-        $output->writeln(json_encode($this->oldCustomerIds));
+
+        $output->writeln(json_encode($this->oldManagerIds));
         return "success";
     }
     private function customerRepairOrder(){
@@ -144,7 +150,7 @@ class MigrateFromOldDatabase extends Command
 
             if(!$repairOrder ){
                 $oldRepairOrder = $repairOrderRepo->findOneBy([
-                    'id' => $this->oldRepairOrderIds[$row['repair_order_id'] ];
+                    'id' => $this->oldRepairOrderIds[$row['repair_order_id'] ] ] );
                 $customer = $customerRepo->findOneBy([
                     'id' => $this->oldCustomerIds[$row['customer_id'] ]
                 ] );
@@ -334,10 +340,10 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAll();
 
-        $repo = $this->em->getRepository(User::class);
+        $userRepo = $this->em->getRepository(User::class);
         
         foreach($rows as $row){
-            $oldUser = $repo->findOneBy(['email' => $row['email']]);
+            $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
             array_push($this->oldAdminIds, $row['id']);
 
             if($oldUser){
@@ -366,6 +372,44 @@ class MigrateFromOldDatabase extends Command
                 $this->oldAdminIds[ $row['id'] ] = $user->getId();
             }
         }
+    }
+    private function manager(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM manager'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAll();
+
+        $userRepo = $this->em->getRepository(User::class);
+        
+        foreach($rows as $row){
+            if($row['active']) {
+                $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
+                array_push($this->oldManagerIds, $row['id']);
+
+                if($oldUser){
+                    $this->oldManagerIds[ $row['id'] ] = $oldUser->getId();
+                } else {
+                    $user = new User();
+
+                    $user->setFirstName( $row['first_name'] )
+                        ->setLastName( $row['last_name'] )
+                        ->setEmail( $row['email'] )
+                        ->setPhone( $row['phone'] )
+                        ->setPassword( $row['password'] )
+                        ->setSecurityQuestion( $row['security_question'] )
+                        ->setSecurityAnswer( $row['security_answer'] )
+                        ->setRole( 'ROLE_SERVICE_MANAGER' );
+                    
+                    $this->em->persist( $user );
+                    $this->em->flush();
+                                
+                    $this->oldManagerIds[ $row['id'] ] = $user->getId();
+                }
+            }
+        }
+        
     }
     private function technican(){
         $statement = $this->connection->prepare(
