@@ -9,6 +9,9 @@ use App\Entity\RepairOrder;
 use App\Entity\Customer;
 use App\Entity\FollowUp;
 use App\Entity\FollowUpInteraction;
+use App\Entity\MPIGroup;
+use App\Entity\MPIItem;
+use App\Entity\MPITemplate;
 use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
@@ -62,6 +65,8 @@ class MigrateFromOldDatabase extends Command
     protected $oldCustomerIds;
     protected $oldOperationCodeIds;
     protected $oldManagerIds;
+    protected $oldMpiIds;
+    protected $oldMpiGroupIds;
     /**
      * constructor.
      */
@@ -77,6 +82,8 @@ class MigrateFromOldDatabase extends Command
         $this->oldCustomerIds = array();
         $this->oldOperationCodeIds = array();
         $this->oldManagerIds = array();
+        $this->oldMpiIds = array();
+        $this->oldMpiGroupIds = array();
         parent::__construct();
     } 
 
@@ -109,8 +116,8 @@ class MigrateFromOldDatabase extends Command
         // $this->technican();
         // $output->writeln("Technican done");
 
-        $this->manager();
-        $output->writeln("Manager done");
+        // $this->manager();
+        // $output->writeln("Manager done");
 
         // $this->repairOrder();
         // $output->writeln("RepairOrder done");
@@ -125,12 +132,108 @@ class MigrateFromOldDatabase extends Command
         
         // $this->followUp();
         // $this->customerRepairOrder();
+        
+        // $this->mpi();
+        // $output->writeln("MPI done");
+        
+        // $this->mpiGroup();
+        // $output->writeln("MPI Group done");
+        
+        // $this->mpiItems();
+        // $output->writeln("MPI Group done");
 
-
-
-        $output->writeln(json_encode($this->oldManagerIds));
+        $output->writeln(json_encode($this->oldMpiIds));
         return "success";
     }
+    private function mpiItems(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM mpi_items'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAll();
+
+        $mpiGroupRepo = $this->em->getRepository(MPIGroup::class);
+        
+        foreach($rows as $row){
+            if($row['active'] && $this->oldMpiGroupIds[ $row['mpi_group_id'] ] ) {
+                $mpiGroup = $mpiGroupRepo->findOneBy(['id' => $this->oldMpiGroupIds[ $row['mpi_group_id'] ] ] ) ;
+
+                if($mpiGroup){
+                    $mpiItem = new MPIItem();
+
+                    $mpiItem->setName( $row['name'])
+                             ->setMPIGroup($mpiGroup);
+                    
+                    $this->em->persist( $mpiItem );
+                    $this->em->flush();
+                }
+            }
+        }
+    }
+    private function mpiGroup(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM mpi_group'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAll();
+
+        $mpiTemplateRepo = $this->em->getRepository(MPITemplate::class);
+        
+        foreach($rows as $row){
+            if($row['active'] && $this->oldMpiIds[ $row['mpi_id'] ]) {
+                $mpiTempate = $mpiTemplateRepo->findOneBy(['id' => $this->oldMpiIds[ $row['mpi_id'] ] ] )    ;
+                if($mpiTempate){
+                    $mpiGroup = new MPIGroup();
+
+                    $mpiGroup->setName( $row['name'])
+                             ->setMPITemplate($mpiTempate);
+                    
+                    $this->em->persist( $mpiGroup );
+                    $this->em->flush();
+
+                    $this->oldMpiGroupIds[ $row['id'] ] = $mpiGroup->getId();
+                }
+            } else {
+                $this->oldMpiGroupIds[ $row['id'] ] = "";
+            }
+        }
+    }
+    private function mpi(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM mpi'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAll();
+
+        $mpiTemplateRepo = $this->em->getRepository(MPITemplate::class);
+        
+        foreach($rows as $row){
+            if($row['active']) {
+                $oldMpiTemplate = $mpiTemplateRepo->findOneBy(['name' => $row['name']]);
+
+                // array_push($this->oldMpiIds, $row['id']);
+
+                if($oldMpiTemplate){
+                    $this->oldMpiIds[ $row['id'] ] = $oldMpiTemplate->getId();
+                } else {
+                    $mpiTemplate = new MPITemplate();
+
+                    $mpiTemplate->setName( $row['name']);
+                    
+                    $this->em->persist( $mpiTemplate );
+                    $this->em->flush();
+
+                    $this->oldMpiIds[ $row['id'] ] = $mpiTemplate->getId();
+                }
+            } else {
+                $this->oldMpiIds[ $row['id'] ] = "";
+            }
+        }
+     }
+
     private function customerRepairOrder(){
         $statement = $this->connection->prepare(
             'SELECT * FROM customer_repair_order'
@@ -344,7 +447,6 @@ class MigrateFromOldDatabase extends Command
         
         foreach($rows as $row){
             $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
-            array_push($this->oldAdminIds, $row['id']);
 
             if($oldUser){
                 $this->oldAdminIds[ $row['id'] ] = $oldUser->getId();
@@ -386,7 +488,6 @@ class MigrateFromOldDatabase extends Command
         foreach($rows as $row){
             if($row['active']) {
                 $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
-                array_push($this->oldManagerIds, $row['id']);
 
                 if($oldUser){
                     $this->oldManagerIds[ $row['id'] ] = $oldUser->getId();
@@ -404,7 +505,7 @@ class MigrateFromOldDatabase extends Command
                     
                     $this->em->persist( $user );
                     $this->em->flush();
-                                
+
                     $this->oldManagerIds[ $row['id'] ] = $user->getId();
                 }
             }
@@ -423,7 +524,6 @@ class MigrateFromOldDatabase extends Command
         
         foreach($rows as $row){
             $oldUser = $userRepo->findOneBy(['first_name' => $row['first_name'], 'last_name' => $row['last_name' ] ] );
-            array_push($this->oldTechnicanIds, $row['id']);
             $user = new User();
             if($oldUser){
                 $this->oldTechnicanIds[ $row['id'] ] = $oldUser->getId();
@@ -464,7 +564,6 @@ class MigrateFromOldDatabase extends Command
         
         foreach($rows as $row){
             $oldUser = $repo->findOneBy(['email' => $row['email']]);
-            array_push($this->oldAdvisorIds, $row['id']);
 
             if($oldUser){
                 $this->oldAdvisorIds[ $row['id'] ] = $oldUser->getId();
@@ -503,7 +602,6 @@ class MigrateFromOldDatabase extends Command
         
         foreach($rows as $row){
             $oldOperationCode = $operationRepo->findOneBy(['code' => $row['code']]);
-            array_push($this->oldOperationCodeIds, $row['id']);
 
             if($oldOperationCode){
                 $this->oldOperationCodeIds[ $row['id'] ] = $oldOperationCode->getId();
@@ -600,7 +698,6 @@ class MigrateFromOldDatabase extends Command
 
         foreach($rows as $row){
             if(!$row['inactive']){
-                array_push($this->oldRepairOrderIds, $row['id']);
 
                 $oldRepairOrder = $repairOrderRepo->findOneBy(['number' => $row['number']]);
                 if($oldRepairOrder) {
@@ -711,7 +808,6 @@ class MigrateFromOldDatabase extends Command
             }
 
             $oldCustomer = $customerRepo->findOneBy(['phone' => $cleanPhone]);
-            array_push($this->oldCustomerIds, $row['id']);
             
             if($oldCustomer){
                 $this->oldCustomerIds[ $row['id'] ] = $oldCustomer->getId();
