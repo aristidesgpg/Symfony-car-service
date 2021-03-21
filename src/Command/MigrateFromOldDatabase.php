@@ -4,21 +4,22 @@ namespace App\Command;
 
 use App\Entity\CheckIn;
 use Doctrine\ORM\EntityManager;
-use App\Entity\User;
-use App\Entity\RepairOrder;
 use App\Entity\Customer;
 use App\Entity\FollowUp;
 use App\Entity\FollowUpInteraction;
 use App\Entity\MPIGroup;
 use App\Entity\MPIItem;
 use App\Entity\MPITemplate;
-use App\Entity\RepairOrderInteraction;
-use App\Entity\RepairOrderVideo;
-use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\OperationCode;
+use App\Entity\PaymentResponse;
+use App\Entity\RepairOrder;
+use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderNote;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
+use App\Entity\RepairOrderVideo;
+use App\Entity\RepairOrderVideoInteraction;
+use App\Entity\User;
 use Aws\Api\Operation;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -148,8 +149,37 @@ class MigrateFromOldDatabase extends Command
         // $this->followUp();
         // $this->customerRepairOrder();
         
+        $this->payment();
+        $output->writeln("Payment done");
    
         return "success";
+    }
+    private function payment(){
+        $statement = $this->connection->prepare(
+            'SELECT payment_log.action, payment_log.amount, payment_log.`datetime` , payment_response_codes.code , payment_response_codes .response
+             FROM payment_log inner join payment_response_codes on payment_response_codes.id = payment_log.payment_id'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAllAssociative();
+
+        $paymentResponseRepo = $this->em->getRepository(PaymentResponse::class);
+        
+        foreach($rows as $index =>$row){           
+            $paymentResponse = $paymentResponseRepo->findOneBy( [
+                'type' => $row['action'], 
+                'created' => new \DateTime($row['datetime']),
+            ] ) ;
+
+            if(!$paymentResponse){
+                $rawResponse = 'response_code=' . $row['code'] . '&responsetext=' . $row['response'];
+                $paymentResponse = new PaymentResponse($row['action'], $rawResponse, new \DateTime($row['datetime']));
+
+                $this->em->persist( $paymentResponse );
+            }
+        }
+
+        $this->em->flush();
     }
     private function note(){
         $statement = $this->connection->prepare(

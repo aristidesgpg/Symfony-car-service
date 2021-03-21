@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -43,11 +44,11 @@ class PaymentResponse
 
     private $parsedResponse = [];
 
-    public function __construct(string $type, string $curlResponse)
+    public function __construct(string $type, string $curlResponse, DateTime  $created = null)
     {
         $this->type = $type;
         $this->rawResponse = $curlResponse;
-        $this->created = new \DateTime();
+        $this->created = $created? $created : new \DateTime();
 
         $parsed = $this->getParsedResponse();
         $this->code = (int) $parsed['response_code'] ?? -1;
