@@ -30,6 +30,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Twig\Node\WithNode;
 
 /**
@@ -103,7 +104,16 @@ class MigrateFromOldDatabase extends Command
     {
         
         // $statement->bindValue('emp', );
-       
+        
+        // $this->mpi();
+        // $output->writeln("MPI done");
+        
+        // $this->mpiGroup();
+        // $output->writeln("MPI Group done");
+        
+        // $this->mpiItems();
+        // $output->writeln("MPI Group done");
+
         // $this->admin();
         // $output->writeln("Admin done");
 
@@ -113,12 +123,12 @@ class MigrateFromOldDatabase extends Command
         // $this->customer();
         // $output->writeln("Customer done");
 
-        // $this->technican();
+        // $this->technician();
         // $output->writeln("Technican done");
 
         // $this->manager();
         // $output->writeln("Manager done");
-
+        
         // $this->repairOrder();
         // $output->writeln("RepairOrder done");
            
@@ -133,25 +143,17 @@ class MigrateFromOldDatabase extends Command
         // $this->followUp();
         // $this->customerRepairOrder();
         
-        // $this->mpi();
-        // $output->writeln("MPI done");
-        
-        // $this->mpiGroup();
-        // $output->writeln("MPI Group done");
-        
-        // $this->mpiItems();
-        // $output->writeln("MPI Group done");
-
-        $output->writeln(json_encode($this->oldMpiIds));
+   
         return "success";
     }
+   
     private function mpiItems(){
         $statement = $this->connection->prepare(
             'SELECT * FROM mpi_items'
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $mpiGroupRepo = $this->em->getRepository(MPIGroup::class);
         
@@ -177,7 +179,7 @@ class MigrateFromOldDatabase extends Command
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $mpiTemplateRepo = $this->em->getRepository(MPITemplate::class);
         
@@ -206,7 +208,7 @@ class MigrateFromOldDatabase extends Command
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $mpiTemplateRepo = $this->em->getRepository(MPITemplate::class);
         
@@ -240,7 +242,7 @@ class MigrateFromOldDatabase extends Command
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
         $customerRepo = $this->em->getRepository(Customer::class);
@@ -348,14 +350,14 @@ class MigrateFromOldDatabase extends Command
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
         
         $statement = $this->connection->prepare(
             'SELECT * FROM follow_up_targets_phases'
         );
         
         $statement->execute();
-        $followupPhases = $statement->fetchAll();
+        $followupPhases = $statement->fetchAllAssociative();
 
         $followUpRepo = $this->em->getRepository(FollowUp::class);
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
@@ -409,7 +411,7 @@ class MigrateFromOldDatabase extends Command
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $checkInRepo = $this->em->getRepository(CheckIn::class);
         
@@ -441,37 +443,56 @@ class MigrateFromOldDatabase extends Command
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $userRepo = $this->em->getRepository(User::class);
         
         foreach($rows as $row){
-            $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
+            if($row['name']) {
+                $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
 
-            if($oldUser){
-                $this->oldAdminIds[ $row['id'] ] = $oldUser->getId();
-            } else {
-                $user = new User();
-                $name = $row['name'];
-                $spacePosition = strpos($name, " ");
-                if($row['app_password']){
-                    $password = $row['app_password'];
+                if($oldUser){
+                    $this->oldAdminIds[ $row['id'] ] = $oldUser->getId();
                 } else {
-                    $password = $this->passwordEncoder->encodePassword($user, 'test');
-                }
+                    $user = new User();
+                    $name = $row['name'];
+                    $spacePosition = strpos($name, " ");
+                    if($row['app_password']){
+                        $password = $row['app_password'];
+                    } else {
+                        $password = $this->passwordEncoder->encodePassword($user, 'test');
+                    }
+                    if($spacePosition === false){
+                        $firstName = '';
+                    } else {
+                        $firstName = substr($name, 0, $spacePosition);
+                    }
+                    
+                    if($spacePosition ===false) {
+                        $lastName = substr($name, $spacePosition );  
+                    }
+                    else {
+                        $lastName = substr($name, $spacePosition + 1);  
+                    }
 
-                $user->setFirstName( substr($name, 0, $spacePosition) )
-                     ->setLastName( substr($name, $spacePosition) )
-                     ->setEmail( $row['email'] )
-                     ->setPhone( $row['phone'] )
-                     ->setPassword( $password )
-                     ->setPreviewDeviceTokens( $row['preview_tokens'] )
-                     ->setRole( 'ROLE_ADMIN' );
-                
-                $this->em->persist( $user );
-                $this->em->flush();
-                
-                $this->oldAdminIds[ $row['id'] ] = $user->getId();
+                    $firstName = $firstName ? $firstName : $lastName;
+                    $lastName = $lastName ? $lastName : $firstName;
+
+                    $user->setFirstName( $firstName )
+                        ->setLastName( $lastName )
+                        ->setEmail( $row['email'] )
+                        ->setPhone( $row['phone'] )
+                        ->setPassword( $password )
+                        ->setPreviewDeviceTokens( $row['preview_tokens'] )
+                        ->setRole( 'ROLE_ADMIN' );
+                    
+                    $this->em->persist( $user );
+                    $this->em->flush();
+                    
+                    $this->oldAdminIds[ $row['id'] ] = $user->getId();
+                }
+            } else {
+                $this->oldAdminIds[ $row['id'] ] = '';
             }
         }
     }
@@ -481,7 +502,7 @@ class MigrateFromOldDatabase extends Command
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $userRepo = $this->em->getRepository(User::class);
         
@@ -492,6 +513,15 @@ class MigrateFromOldDatabase extends Command
                 if($oldUser){
                     $this->oldManagerIds[ $row['id'] ] = $oldUser->getId();
                 } else {
+                    $statement = $this->connection->prepare(
+                        "SELECT MAX(date) as date FROM login_log where user_type = 'manager' and user_id = '" . $row['id'] . "'"
+                    );
+                    
+                    $statement->execute();
+                    $latestLog = $statement->fetchAssociative();
+                    if($latestLog)
+                        $date = new \DateTime($latestLog['date']);
+
                     $user = new User();
 
                     $user->setFirstName( $row['first_name'] )
@@ -503,6 +533,10 @@ class MigrateFromOldDatabase extends Command
                         ->setSecurityAnswer( $row['security_answer'] )
                         ->setRole( 'ROLE_SERVICE_MANAGER' );
                     
+                    if($date){
+                        $user->setLastLogin( $date );
+                    }
+                    
                     $this->em->persist( $user );
                     $this->em->flush();
 
@@ -512,18 +546,19 @@ class MigrateFromOldDatabase extends Command
         }
         
     }
-    private function technican(){
+    private function technician(){
         $statement = $this->connection->prepare(
-            'SELECT * FROM technican'
+            'SELECT * FROM technician'
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $userRepo = $this->em->getRepository(User::class);
-        
+
         foreach($rows as $row){
-            $oldUser = $userRepo->findOneBy(['first_name' => $row['first_name'], 'last_name' => $row['last_name' ] ] );
+            $oldUser = $userRepo->findOneBy(['firstName' => $row['first_name'], 'lastName' => $row['last_name' ] ] );
+
             $user = new User();
             if($oldUser){
                 $this->oldTechnicanIds[ $row['id'] ] = $oldUser->getId();
@@ -533,7 +568,7 @@ class MigrateFromOldDatabase extends Command
                 } else {
                     $password = $this->passwordEncoder->encodePassword($user, 'test');
                 }
-               
+                
                 $user->setFirstName( $row['first_name'] )
                      ->setLastName( $row['last_name'] )
                      ->setEmail( $row['email'] )
@@ -543,6 +578,7 @@ class MigrateFromOldDatabase extends Command
                      ->setPassword( $password )
                      ->setSecurityAnswer( $row['security_answer'] )
                      ->setSecurityQuestion( 'security_question' )
+                     ->setPhone("1234567890")
                      ->setRole( 'ROLE_TECHNICIAN' );
                 
                 $this->em->persist( $user );
@@ -558,7 +594,7 @@ class MigrateFromOldDatabase extends Command
         );
         
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         $repo = $this->em->getRepository(User::class);
         
@@ -568,6 +604,15 @@ class MigrateFromOldDatabase extends Command
             if($oldUser){
                 $this->oldAdvisorIds[ $row['id'] ] = $oldUser->getId();
             } else {
+                $statement = $this->connection->prepare(
+                    "SELECT MAX(date) as date FROM login_log where user_type = 'advisor' and user_id = '" . $row['id'] . "'"
+                );
+                
+                $statement->execute();
+                $latestLog = $statement->fetchAssociative();
+                if($latestLog)
+                    $date = new \DateTime($latestLog['date']);
+
                 $user = new User();
                 $user->setFirstName( $row['first_name'] )
                      ->setLastName( $row['last_name'] )
@@ -581,6 +626,10 @@ class MigrateFromOldDatabase extends Command
                      ->setProcessRefund( $row['can_give_refund'])
                      ->setShareRepairOrders( $row['express_advisor'])
                      ->setRole( 'ROLE_SERVICE_ADVISOR' );
+                
+                if($date) {
+                    $user->setLastLogin( $date );
+                }
                 
                 $this->em->persist( $user );
                 $this->em->flush();
@@ -798,7 +847,7 @@ class MigrateFromOldDatabase extends Command
         $userRepo = $this->em->getRepository(User::class);
         $customerRepo = $this->em->getRepository(Customer::class);
         $statement->execute();
-        $rows = $statement->fetchAll();
+        $rows = $statement->fetchAllAssociative();
 
         foreach($rows as $row){
             $phone = $row['phone'];
