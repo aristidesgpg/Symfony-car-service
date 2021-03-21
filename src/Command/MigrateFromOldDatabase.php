@@ -16,6 +16,7 @@ use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\OperationCode;
+use App\Entity\RepairOrderNote;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use Aws\Api\Operation;
@@ -73,6 +74,7 @@ class MigrateFromOldDatabase extends Command
      */
     public function __construct(ManagerRegistry $ri, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
+        ini_set('memory_limit', '3G');
         $this->passwordEncoder = $passwordEncoder;
         $this->connection = $ri->getConnection("iservice2");
         $this->em = $em;
@@ -131,6 +133,9 @@ class MigrateFromOldDatabase extends Command
         
         // $this->repairOrder();
         // $output->writeln("RepairOrder done");
+        
+        // $this->note();
+        // $output->writeln("Note done");
            
         // $this->operationCode();
         // $output->writeln("OperactionCode done");
@@ -146,7 +151,41 @@ class MigrateFromOldDatabase extends Command
    
         return "success";
     }
-   
+    private function note(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM note'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAllAssociative();
+
+        $repairOrderNoteRepo = $this->em->getRepository(RepairOrderNote::class);
+        $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
+        
+        foreach($rows as $row){           
+            $repairOrderNote = $repairOrderNoteRepo->findOneBy( [
+                'id' => $this->oldRepairOrderIds[ $row['repair_order_id'] ], 
+                'dateCreated' => $row['date'],
+                'note' => $row['note']
+            ] ) ;
+
+            if(!$repairOrderNote){
+                $repairOrderNote = new RepairOrderNote();
+
+                $repairOrder = $repairOrderRepo->findOneBy([ 'id' => $this->oldRepairOrderIds[$row['repair_order_id'] ] ] );
+                
+                if($repairOrder) {
+                    $repairOrderNote->setRepairOrder($repairOrder)
+                                    ->setNote( $row['note'] )
+                                    ->setDateCreated( new \DateTime($row['date']) );
+                
+                    $this->em->persist( $repairOrderNote );
+                }
+            }
+        }
+
+        $this->em->flush();
+    }
     private function mpiItems(){
         $statement = $this->connection->prepare(
             'SELECT * FROM mpi_items'
@@ -732,12 +771,14 @@ class MigrateFromOldDatabase extends Command
         $statement = $this->connection->prepare(
             'SELECT * FROM repair_order'
         );
+
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
-        
+  
         $statement = $this->connection->prepare(
             'SELECT repair_order_id, max(date) as latest_date FROM client_interaction where repair_order_id is Not Null and type ="video_view" Group by repair_order_id'
         );
+        
         $statement->execute();
         $clientInteractions = $statement->fetchAllAssociative();
 
@@ -747,7 +788,6 @@ class MigrateFromOldDatabase extends Command
 
         foreach($rows as $row){
             if(!$row['inactive']){
-
                 $oldRepairOrder = $repairOrderRepo->findOneBy(['number' => $row['number']]);
                 if($oldRepairOrder) {
                     $this->oldRepairOrderIds[ $row['id'] ] = $oldRepairOrder->getId();
@@ -832,10 +872,12 @@ class MigrateFromOldDatabase extends Command
                             
                             $this->em->persist( $repairOrderVideoInteractionViewed );
                         }
-                        $this->em->flush();
+                            $this->em->flush();
                     }
                     $this->oldRepairOrderIds[ $row['id'] ] = $repairOrder->getId();
                 }
+            } else {
+                $this->oldRepairOrderIds[ $row['id'] ] = '';
             }
             
         }
