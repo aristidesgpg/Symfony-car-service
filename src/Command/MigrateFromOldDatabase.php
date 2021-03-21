@@ -195,7 +195,7 @@ class MigrateFromOldDatabase extends Command
         foreach($rows as $row){           
             $repairOrderNote = $repairOrderNoteRepo->findOneBy( [
                 'id' => $this->oldRepairOrderIds[ $row['repair_order_id'] ], 
-                'dateCreated' => $row['date'],
+                'dateCreated' => new \DateTime($row['date']),
                 'note' => $row['note']
             ] ) ;
 
@@ -359,8 +359,8 @@ class MigrateFromOldDatabase extends Command
                 $repairOrderQuote = new RepairOrderQuote();
 
                 $repairOrderQuote->setRepairOrder($repairOrder)
-                                 ->setDateCreated( $row['date_sent'] )
-                                 ->setDateSent( $row['date_sent'] );
+                                 ->setDateCreated( new \DateTime($row['date_sent']) )
+                                 ->setDateSent( new \DateTime($row['date_sent']) );
                
                                  $statement = $this->connection->prepare(
                     "SELECT min(date) as date FROM client_interaction where type='quote_view' and repair_order_id = '".$row['repair_order_id']."' group by repair_order_id"
@@ -368,8 +368,9 @@ class MigrateFromOldDatabase extends Command
                 
                 $statement->execute();
                 $clientInteraction = $statement->fetchAssociative();
+                $clientInteractionDate = new \DateTime($clientInteraction['date']);
                 if($clientInteraction){
-                    $repairOrderQuote->setDateCustomerViewed($clientInteraction['date']);
+                    $repairOrderQuote->setDateCustomerViewed($clientInteractionDate);
                 }
 
                 $statement = $this->connection->prepare(
@@ -380,8 +381,8 @@ class MigrateFromOldDatabase extends Command
                 $clientInteraction = $statement->fetchAssociative();
 
                 if($clientInteraction){
-                    $repairOrderQuote->setDateCustomerCompleted($clientInteraction['date'])
-                                     ->setDateCompletedViewed($clientInteraction['date']);
+                    $repairOrderQuote->setDateCustomerCompleted($clientInteractionDate)
+                                     ->setDateCompletedViewed($clientInteractionDate);
                 }
 
                 $this->em->persist( $repairOrderQuote );
@@ -402,13 +403,13 @@ class MigrateFromOldDatabase extends Command
         $this->em->flush();
     }
 
-    private function createFollowUpInteraction(RepairOrder $repairOrder, FollowUp $followUp, string $type, string $date){
+    private function createFollowUpInteraction(RepairOrder $repairOrder, FollowUp $followUp, string $type, $date){
         $followUpInteraction = new FollowUpInteraction();
         $followUpInteraction->setFollowUp($followUp)
                             ->setCustomer($repairOrder->getPrimaryCustomer())
                             ->setUser($repairOrder->getPrimaryTechnician())
                             ->setType($type)
-                            ->setDate($date);
+                            ->setDate(new \DateTime($date) );
         $this->em->persist( $followUp );
         $this->em->flush();
     }
@@ -432,7 +433,7 @@ class MigrateFromOldDatabase extends Command
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
         
         foreach($rows as $row){
-            $oldFollowUp = $followUpRepo->findOneBy(['date_created' => $row['date_created']]);
+            $oldFollowUp = $followUpRepo->findOneBy(['date_created' => new \DateTime($row['date_created']) ] );
 
             if(!$oldFollowUp){
                 $followUp = new FollowUp();
@@ -443,11 +444,11 @@ class MigrateFromOldDatabase extends Command
                          ->setDateSent(new \DateTime($row['date_requested']));
 
                 if($row['date_created']){
-                   $this->createFollowUpInteraction($repairOrder, $followUp, "Created", $row['date_created']);
+                   $this->createFollowUpInteraction($repairOrder, $followUp, "Created", $row['date_created'] );
                 }
 
                 if($row['date_requested']){
-                   $this->createFollowUpInteraction($repairOrder, $followUp, "Sent", $row['date_requested']);
+                   $this->createFollowUpInteraction($repairOrder, $followUp, "Sent", $row['date_requested'] );
                    $status = "Sent";
                 }
 
@@ -806,7 +807,8 @@ class MigrateFromOldDatabase extends Command
         $rows = $statement->fetchAllAssociative();
   
         $statement = $this->connection->prepare(
-            'SELECT repair_order_id, max(date) as latest_date FROM client_interaction where repair_order_id is Not Null and type ="video_view" Group by repair_order_id'
+            "SELECT repair_order_id, max(date) as latest_date FROM client_interaction
+             where repair_order_id is Not Null and type ='video_view' Group by repair_order_id"
         );
         
         $statement->execute();
@@ -839,10 +841,10 @@ class MigrateFromOldDatabase extends Command
                                 ->setStartValue($row['value'])
                                 ->setFinalValue($row['finalValue'])
                                 ->setApprovedValue($row['approvedValue'])
-                                ->setDateClosed($row['closed_date'])
-                                ->setDateCreated($row['date'])
+                                ->setDateClosed( new \DateTime($row['closed_date']) )
+                                ->setDateCreated( new \DateTime($row['date']) )
                                 ->setWaiter($row['waiter'])
-                                ->setPickupDate($row['pickup_date'])
+                                ->setPickupDate( new \DateTime($row['pickup_date']) )
                                 ->setLinkHash($row['link_hash'])
                                 ->setYear($row['year'])
                                 ->setMake($row['make'])
@@ -877,9 +879,9 @@ class MigrateFromOldDatabase extends Command
                                         ->setTechnician($technican)
                                         ->setPath($videoPath)
                                         ->setStatus("Uploaded")
-                                        ->setDateUploaded($row['date']);
+                                        ->setDateUploaded(new \Datetime($row['date']) );
                         if($clientInteraction){
-                            $repairOrderVideo->setDateViewed($clientInteraction['date'])
+                            $repairOrderVideo->setDateViewed(new \DateTime($clientInteraction['date']) )
                                              ->setStatus("Viewed");
                         }
                         $this->em->persist( $repairOrderVideo );
@@ -889,7 +891,7 @@ class MigrateFromOldDatabase extends Command
                                                     ->setUser($technican)
                                                     ->setCustomer($customer)
                                                     ->setType("Uploaded")
-                                                    ->setDate($row['date']);
+                                                    ->setDate(new \DateTime($row['date']) );
                         $this->em->persist( $repairOrderVideoInteraction );
                         
                         if($clientInteraction){
@@ -898,7 +900,7 @@ class MigrateFromOldDatabase extends Command
                                                               ->setUser($technican)
                                                               ->setCustomer($customer)
                                                               ->setType("Viewed")
-                                                              ->setDate($clientInteraction['date']);
+                                                              ->setDate(new \DateTime($clientInteraction['date']) );
                             
                             $this->em->persist( $repairOrderVideoInteractionViewed );
                         }
