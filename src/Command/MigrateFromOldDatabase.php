@@ -14,6 +14,8 @@ use App\Entity\OperationCode;
 use App\Entity\PaymentResponse;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
+use App\Entity\RepairOrderMPI;
+use App\Entity\RepairOrderMPIInteraction;
 use App\Entity\RepairOrderNote;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
@@ -149,10 +151,68 @@ class MigrateFromOldDatabase extends Command
         // $this->followUp();
         // $this->customerRepairOrder();
         
-        $this->payment();
-        $output->writeln("Payment done");
+        // $this->payment();
+        // $output->writeln("Payment done");
+        
+        $this->repairOrderMpi();
+        $output->writeln("repairOrderMPI done");
    
         return "success";
+    }
+    private function createRepairOrderMpiInteraction(
+        RepairOrderMPI $repairOrderMpi, 
+        RepairOrder $repairOrder,
+        string $type, 
+        \DateTime $date
+    )
+    {
+        $repairOrderMpiInteraction = new RepairOrderMPIInteraction();
+        $repairOrderMpiInteraction->setRepairOrderMPI($repairOrderMpi)
+                                  ->setCustomer($repairOrder->getPrimaryCustomer())
+                                  ->setUser($repairOrder->getPrimaryTechnician())
+                                  ->setType($type)
+                                  ->setDate( $date );
+        $this->em->persist( $repairOrderMpiInteraction );
+        $this->em->flush();
+    }
+    private function repairOrderMpi(){
+        $statement = $this->connection->prepare(
+            'SELEC * from repair_order_mpi'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAllAssociative();
+
+        $repairOrderMpiRepo = $this->em->getRepository(RepairOrderMPI::class);
+        $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
+        
+        foreach($rows as $index =>$row){           
+            $repairOrderMpi = $repairOrderMpiRepo->findOneBy( [
+                'id' => $this->oldRepairOrderIds[ $row['repair_order_id'] ], 
+            ] ) ;
+
+            if(!$repairOrderMpi){
+                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[ $row['repair_order_id'] ]]);
+                $repairOrderMpi = new RepairOrderMPI();
+                
+                $date = new \DateTime($row['date']);
+
+                $repairOrderMpi->setRepairOrder($repairOrder)
+                               ->setResults($row['results'])
+                               ->setStatus('Complete')
+                               ->setDateViewed( $date )
+                               ->setDateSent( $date )
+                               ->setDateCompleted( $date );
+
+                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Sent", $date);
+                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Viewed", $date);
+                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Complete", $date);
+                
+                $this->em->persist( $repairOrderMpi );
+            }
+        }
+
+        $this->em->flush();
     }
     private function payment(){
         $statement = $this->connection->prepare(
