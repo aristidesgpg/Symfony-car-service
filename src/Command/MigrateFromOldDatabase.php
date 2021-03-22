@@ -159,7 +159,7 @@ class MigrateFromOldDatabase extends Command
    
         return "success";
     }
-    private function createRepairOrderMpiInteraction(
+    private function setRepairOrderMpiInteraction(
         RepairOrderMPI $repairOrderMpi, 
         RepairOrder $repairOrder,
         string $type, 
@@ -172,8 +172,7 @@ class MigrateFromOldDatabase extends Command
                                   ->setUser($repairOrder->getPrimaryTechnician())
                                   ->setType($type)
                                   ->setDate( $date );
-        $this->em->persist( $repairOrderMpiInteraction );
-        $this->em->flush();
+        return $repairOrderMpiInteraction;
     }
     private function repairOrderMpi(){
         $statement = $this->connection->prepare(
@@ -203,12 +202,16 @@ class MigrateFromOldDatabase extends Command
                                ->setDateViewed( $date )
                                ->setDateSent( $date )
                                ->setDateCompleted( $date );
-
-                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Sent", $date);
-                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Viewed", $date);
-                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Complete", $date);
-                
                 $this->em->persist( $repairOrderMpi );
+
+                $repairOrderMpiInteractionSent = $this->setRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Sent", $date);
+                $this->em->persist( $repairOrderMpiInteractionSent );
+                
+                $repairOrderMpiInteractionViewed = $this->setRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Viewed", $date);
+                $this->em->persist( $repairOrderMpiInteractionViewed );
+                
+                $repairOrderMpiInteractionComplete = $this->setRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Complete", $date);
+                $this->em->persist( $repairOrderMpiInteractionComplete );
             }
         }
 
