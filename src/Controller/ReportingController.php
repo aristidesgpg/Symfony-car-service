@@ -27,12 +27,14 @@ class ReportingController extends AbstractFOSRestController
      * @SWG\Parameter(
      *      name="startDate",
      *      type="string",
+     *      format="date-time",
      *      in="query"
      * )
      * 
      * @SWG\Parameter(
      *      name="endDate",
      *      type="string",
+     *      format="date-time",
      *      in="query"
      * )
      * 
@@ -97,11 +99,7 @@ class ReportingController extends AbstractFOSRestController
             $endDate
         );
 
-        try {
-            $result = $roArchiveQuery->getResult();
-        } catch (DoctrineException $e) {
-            throw $e;
-        }
+        $result = $roArchiveQuery->getResult();
 
         $sumOfStartValues = 0;
         $sumOfFinalValues = 0;

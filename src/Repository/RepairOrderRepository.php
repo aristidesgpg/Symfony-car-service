@@ -194,7 +194,7 @@ class RepairOrderRepository extends ServiceEntityRepository
 
         try {
             $qb = $this->createQueryBuilder('ro');
-            $qb->andWhere('ro.deleted = false')->andWhere('ro.archived = true');
+            $qb->andWhere('ro.deleted = false')->andWhere('ro.dateClosed IS NOT NULL');
 
             if ($start && $end) {
                 $qb->andWhere('ro.dateCreated BETWEEN :start AND :end')
