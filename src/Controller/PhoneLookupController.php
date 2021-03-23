@@ -38,7 +38,12 @@ class PhoneLookupController extends AbstractFOSRestController
             return $this->handleView($this->view('Input mobile number', Response::HTTP_BAD_REQUEST));
         }
 
-        $mobileNumber = $phoneValidator->clean($mobileNumber);
+        try {
+            $mobileNumber = $phoneValidator->clean($mobileNumber);
+        } catch (\Exception $exception) {
+            return $this->handleView($this->view('Invalid mobile number.', Response::HTTP_BAD_REQUEST));
+        }
+
         $isValid = $phoneValidator->isMobile($mobileNumber);
 
         return $this->json(['isMobile' => $isValid], Response::HTTP_OK);
