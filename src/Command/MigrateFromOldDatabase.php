@@ -23,6 +23,7 @@ use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
+use App\Entity\ServiceSMS;
 use App\Entity\User;
 use Aws\Api\Operation;
 use Exception;
@@ -72,6 +73,7 @@ class MigrateFromOldDatabase extends Command
     protected $oldCustomerIds;
     protected $oldOperationCodeIds;
     protected $oldManagerIds;
+    protected $oldSalesManagerIds;
     protected $oldMpiIds;
     protected $oldMpiGroupIds;
     /**
@@ -90,6 +92,7 @@ class MigrateFromOldDatabase extends Command
         $this->oldCustomerIds = array();
         $this->oldOperationCodeIds = array();
         $this->oldManagerIds = array();
+        $this->oldSalesManagerIds = array();
         $this->oldMpiIds = array();
         $this->oldMpiGroupIds = array();
         parent::__construct();
@@ -135,6 +138,9 @@ class MigrateFromOldDatabase extends Command
 
         // $this->manager();
         // $output->writeln("Manager done");
+       
+        //  $this->salesManager();
+        //  $output->writeln("SalesManager done");
         
         // $this->repairOrder();
         // $output->writeln("RepairOrder done");
@@ -161,8 +167,48 @@ class MigrateFromOldDatabase extends Command
        
         // $this->repairOrderPayment();
         // $output->writeln("repairOrderPayment done");
+       
+        $this->sms();
+        $output->writeln("SMS done");
    
         return "success";
+    }
+    private function sms(){
+        $statement = $this->connection->prepare(
+            'SELEC * from sms'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAllAssociative();
+
+        $smsRepo = $this->em->getRepository(ServiceSMS::class);
+        $userRepo = $this->em->getRepository(User::class);
+        $customerRepo = $this->em->getRepository(Customer::class);
+        
+        foreach($rows as $index =>$row){          
+                $sms = $smsRepo->findOneBy( [
+                    'phone' => $row['number'], 
+                    'date' => new \DateTime($row['date'])
+                ] ) ;
+                if(!$sms){
+                    $sms = new ServiceSMS();
+                    
+                    $user = $userRepo->findOneBy([ 'id' => $this->oldAdvisorIds[$row['user_id']] ]);
+                    $customer = $customerRepo->findOneBy(['phone' => $row['number']]);
+                    $date = new \DateTime($row['date']);
+
+                    $sms->setUser($user)
+                        ->setCustomer($customer)
+                        ->setDate($date)
+                        ->setMessage($row['message'])
+                        ->setIsRead($row['is_read'])
+                        ->setIncoming($row['type'] ==='incoming'? 1 : 0);
+
+                    $this->em->persist( $sms );
+                }
+            }
+
+        $this->em->flush();
     }
     private function createRepairOrderPaymentInteraction(
         RepairOrderPayment $repairOrderPayment, 
@@ -179,7 +225,7 @@ class MigrateFromOldDatabase extends Command
     }
     private function repairOrderPayment(){
         $statement = $this->connection->prepare(
-            'SELEC * from repair_order_payment'
+            'SELEC * from repair_order_payments'
         );
         
         $statement->execute();
@@ -719,6 +765,42 @@ class MigrateFromOldDatabase extends Command
             }
         }
     }
+    private function salesManager(){
+        $statement = $this->connection->prepare(
+            'SELECT * FROM sales_manager'
+        );
+        
+        $statement->execute();
+        $rows = $statement->fetchAllAssociative();
+
+        $userRepo = $this->em->getRepository(User::class);
+        
+        foreach($rows as $row){
+            if($row['active']) {
+                $oldUser = $userRepo->findOneBy(['email' => $row['email'], 'role' => 'ROLE_SALES_MANAGER']);
+
+                if($oldUser){
+                    $this->oldSalesManagerIds[ $row['id'] ] = $oldUser->getId();
+                } 
+                    $user = new User();
+
+                    $user->setFirstName( $row['first_name'] )
+                        ->setLastName( $row['last_name'] )
+                        ->setEmail( $row['email'] )
+                        ->setPhone( $row['phone'] )
+                        ->setPassword( $row['password'] )
+                        ->setSecurityQuestion( $row['security_question'] )
+                        ->setSecurityAnswer( $row['security_answer'] )
+                        ->setRole( 'ROLE_SERVICE_MANAGER' );
+                    
+                    $this->em->persist( $user );
+                    $this->em->flush();
+
+                    $this->oldSalesManagerIds[ $row['id'] ] = $user->getId();
+            }
+        }
+        
+    }
     private function manager(){
         $statement = $this->connection->prepare(
             'SELECT * FROM manager'
@@ -731,7 +813,7 @@ class MigrateFromOldDatabase extends Command
         
         foreach($rows as $row){
             if($row['active']) {
-                $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
+                $oldUser = $userRepo->findOneBy(['email' => $row['email'], 'role' => 'ROLE_SERVICE_MANAGER']);
 
                 if($oldUser){
                     $this->oldManagerIds[ $row['id'] ] = $oldUser->getId();
