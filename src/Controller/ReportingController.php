@@ -5,8 +5,6 @@ namespace App\Controller;
 use App\Entity\RepairOrder;
 use App\Repository\RepairOrderRepository;
 use App\Service\Pagination;
-use DateTime;
-use Doctrine\DBAL\Driver\Exception as DoctrineException;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -20,32 +18,33 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class ReportingController extends AbstractFOSRestController
 {
     private const PAGE_LIMIT = 100;
+
     /**
      * @Rest\Get("/api/reporting/archive")
      * @SWG\Tag(name="Reporting")
-     * 
+     *
      * @SWG\Parameter(
      *      name="startDate",
      *      type="string",
      *      format="date-time",
      *      in="query"
      * )
-     * 
+     *
      * @SWG\Parameter(
      *      name="endDate",
      *      type="string",
      *      format="date-time",
      *      in="query"
      * )
-     * 
+     *
      * @SWG\Parameter(name="page", type="integer", in="query")
-     * 
+     *
      * @SWG\Parameter(
      *     name="pageLimit",
      *     type="integer",
      *     in="query"
      * )
-     * 
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -66,7 +65,7 @@ class ReportingController extends AbstractFOSRestController
      *         @SWG\Property(property="next", type="string", description="URL for next page")
      *     )
      * )
-     * 
+     *
      * @SWG\Response(
      *     response="404",
      *     description="Invalid page parameter"
@@ -79,10 +78,10 @@ class ReportingController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
     ): Response {
-        $page          = $request->query->getInt('page', 1);
-        $startDate     = $request->query->get('startDate');
-        $endDate       = $request->query->get('endDate');
-        $pageLimit     = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
         // Invalid page
         if ($page < 1) {
@@ -114,15 +113,15 @@ class ReportingController extends AbstractFOSRestController
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
-            'results'          => $pager->getItems(),
+            'results' => $pager->getItems(),
             'sumOfStartValues' => round($sumOfStartValues, 2),
             'sumOfFinalValues' => round($sumOfFinalValues, 2),
-            'totalUpsell'      => $totalUpsell,
-            'totalResults'     => $pagination->totalResults,
-            'totalPages'       => $pagination->totalPages,
-            'previous'         => $pagination->getPreviousPageURL('app_reporting_archive', $urlParameters),
-            'currentPage'      => $pagination->currentPage,
-            'next'             => $pagination->getNextPageURL('app_reporting_archive', $urlParameters),
+            'totalUpsell' => $totalUpsell,
+            'totalResults' => $pagination->totalResults,
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('app_reporting_archive', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('app_reporting_archive', $urlParameters),
         ];
 
         $view = $this->view($json);

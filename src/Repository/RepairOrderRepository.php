@@ -4,12 +4,10 @@ namespace App\Repository;
 
 use App\Entity\RepairOrder;
 use App\Entity\User;
-use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Exception;
 
 /**
@@ -20,14 +18,11 @@ use Exception;
  */
 class RepairOrderRepository extends ServiceEntityRepository
 {
-
-     /** @var UserRepository */
-     private $userRepo;
+    /** @var UserRepository */
+    private $userRepo;
 
     /**
      * RepairOrderRepository constructor.
-     *
-     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry, UserRepository $userRepo)
     {
@@ -35,9 +30,6 @@ class RepairOrderRepository extends ServiceEntityRepository
         $this->userRepo = $userRepo;
     }
 
-    /**
-     * @return array
-     */
     public function getOpenRepairOrders(): array
     {
         //Set the number as the key to make it faster for finding.
@@ -50,11 +42,6 @@ class RepairOrderRepository extends ServiceEntityRepository
         return $result;
     }
 
-    /**
-     * @param string $uid
-     *
-     * @return RepairOrder|null
-     */
     public function findByUID(string $uid): ?RepairOrder
     {
         try {
@@ -77,11 +64,6 @@ class RepairOrderRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @param string $number
-     *
-     * @return RepairOrder|null
-     */
     public function findByNumber(string $number): ?RepairOrder
     {
         try {
@@ -95,11 +77,6 @@ class RepairOrderRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @param string $linkHash
-     *
-     * @return RepairOrder|null
-     */
     public function findByHash(string $linkHash): ?RepairOrder
     {
         try {
@@ -149,7 +126,7 @@ class RepairOrderRepository extends ServiceEntityRepository
 
             foreach ($searchFields as $class => $fields) {
                 foreach ($fields as $field) {
-                    if ($field === 'combine_name') {
+                    if ('combine_name' === $field) {
                         $query .= "CONCAT($class.firstName , ' ' , $class.lastName) LIKE :searchTerm OR ";
                     } else {
                         $query .= "$class.$field LIKE :searchTerm OR ";
@@ -175,13 +152,15 @@ class RepairOrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param null   $start
-     * @param null   $end
+     * @param null $start
+     * @param null $end
      *
      * @return Query|null
+     *
      * @throws Exception
      */
-    public function getAllArchives($start = null, $end = null) {
+    public function getAllArchives($start = null, $end = null)
+    {
         if (is_null($end)) {
             $end = new DateTime();
         } else {
@@ -204,8 +183,8 @@ class RepairOrderRepository extends ServiceEntityRepository
                 $qb->andWhere('ro.dateCreated < :end')
                     ->setParameter('end', $end->format('Y-m-d H:i'));
             }
-            
-            $qb->orderBy('ro.dateCreated', 'DESC');            
+
+            $qb->orderBy('ro.dateCreated', 'DESC');
 
             return $qb->getQuery();
         } catch (NonUniqueResultException $e) {
