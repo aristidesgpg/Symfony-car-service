@@ -9,6 +9,7 @@ use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
 use App\Service\MyReviewHelper;
 use App\Service\Pagination;
+use App\Service\PhoneValidator;
 use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
@@ -24,6 +25,7 @@ use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -34,7 +36,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RepairOrderController extends AbstractFOSRestController
 {
     use FalsyTrait;
-
     private const PAGE_LIMIT = 50;
 
     /**
@@ -377,6 +378,37 @@ class RepairOrderController extends AbstractFOSRestController
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
         return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/phone-validate")
+     *
+     * @SWG\Parameter(name="phone", type="string", in="formData", required=true)
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Phone is valid" }),
+     *         )
+     * )
+     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
+     *
+     * @throws Exception
+     */
+    public function phoneValidate(Request $req, PhoneValidator $validator): Response
+    {
+        $phone = $req->get('phone');
+        $cleanNumber = $validator->clean($phone);
+        $isValid = $validator->isMobile($cleanNumber);
+
+        if (!$isValid) {
+            throw new BadRequestHttpException('Phone is invalid');
+        }
+
+        return $this->handleView($this->view(['status' => 'Phone is valid'], Response::HTTP_OK));
     }
 
     /**
