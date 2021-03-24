@@ -115,58 +115,60 @@ class MigrateFromOldDatabase extends Command
         
         // $statement->bindValue('emp', );
         
-        // $this->mpi();
-        // $output->writeln("MPI done");
+        $this->mpi();
+        $output->writeln("MPI done");
         
-        // $this->mpiGroup();
-        // $output->writeln("MPI Group done");
+        $this->mpiGroup();
+        $output->writeln("MPI Group done");
         
-        // $this->mpiItems();
-        // $output->writeln("MPI Group done");
+        $this->mpiItems();
+        $output->writeln("MPI Group done");
 
-        // $this->admin();
-        // $output->writeln("Admin done");
+        $this->admin();
+        $output->writeln("Admin done");
 
-        // $this->advisor();
-        // $output->writeln("Advisor done");
+        $this->advisor();
+        $output->writeln("Advisor done");
 
-        // $this->customer();
-        // $output->writeln("Customer done");
+        $this->customer();
+        $output->writeln("Customer done");
+        
 
-        // $this->technician();
-        // $output->writeln("Technican done");
 
-        // $this->manager();
-        // $output->writeln("Manager done");
+        $this->technician();
+        $output->writeln("Technican done");
+
+        $this->manager();
+        $output->writeln("Manager done");
        
-        //  $this->salesManager();
-        //  $output->writeln("SalesManager done");
+         $this->salesManager();
+         $output->writeln("SalesManager done");
         
-        // $this->repairOrder();
-        // $output->writeln("RepairOrder done");
+        $this->repairOrder();
+        $output->writeln("RepairOrder done");
         
-        // $this->note();
-        // $output->writeln("Note done");
+        $this->note();
+        $output->writeln("Note done");
            
-        // $this->operationCode();
-        // $output->writeln("OperactionCode done");
+        $this->operationCode();
+        $output->writeln("OperactionCode done");
 
-        // $this->checkIn();
-        // $output->writeln("CheckIn done");
+        $this->checkIn();
+        $output->writeln("CheckIn done");
         
-        // $this->repairOrderQuoteRecommendation();
+        $this->repairOrderQuoteRecommendation();
         
-        // $this->followUp();
-        // $this->customerRepairOrder();
+        $this->followUp();
+        $this->customerRepairOrder();
         
-        // $this->payment();
-        // $output->writeln("Payment done");
+        $this->payment();
+        $output->writeln("Payment done");
         
-        // $this->repairOrderMpi();
-        // $output->writeln("repairOrderMPI done");
+        $this->repairOrderMpi();
+        $output->writeln("repairOrderMPI done");
        
-        // $this->repairOrderPayment();
-        // $output->writeln("repairOrderPayment done");
+        $this->repairOrderPayment();
+        $output->writeln("repairOrderPayment done");
        
         $this->sms();
         $output->writeln("SMS done");
@@ -901,10 +903,10 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $repo = $this->em->getRepository(User::class);
+        $userRepo = $this->em->getRepository(User::class);
         
         foreach($rows as $row){
-            $oldUser = $repo->findOneBy(['email' => $row['email']]);
+            $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
 
             if($oldUser){
                 $this->oldAdvisorIds[ $row['id'] ] = $oldUser->getId();
