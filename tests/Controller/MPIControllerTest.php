@@ -2,11 +2,11 @@
 
 namespace App\Tests;
 
-use App\Entity\User;
-use App\Service\Authentication;
 use App\Entity\MPIGroup;
 use App\Entity\MPIItem;
 use App\Entity\MPITemplate;
+use App\Entity\User;
+use App\Service\Authentication;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,8 +24,9 @@ class MPIControllerTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
-        $this->client        = static::createClient();
+    public function setUp()
+    {
+        $this->client = static::createClient();
 
         $user = self::$container->get('doctrine')
                                 ->getManager()
@@ -36,15 +37,17 @@ class MPIControllerTest extends WebTestCase
                                 ->getOneOrNullResult();
 
         $authentication = self::$container->get(Authentication::class);
-        $ttl            = 31536000;
-        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
+        $ttl = 31536000;
+        $this->token = $authentication->getJWT($user->getEmail(), $ttl);
 
         $this->entityManager = self::$container->get('doctrine')->getManager();
     }
 
-    public function testGetTemplates() {
+    public function testGetTemplates()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -67,20 +70,22 @@ class MPIControllerTest extends WebTestCase
 
         // sortField, sortDirection, searchField, searchTerm
         $params = [
-            'page'          => 1,
-            'pageLimit'     => 25,
-            'sortField'     => 'emal',
+            'page' => 1,
+            'pageLimit' => 25,
+            'sortField' => 'emal',
             'sortDirection' => 'ASC',
-            'searchField'   => 'name',
-            'searchTerm'    => 'Prof'
+            'searchField' => 'name',
+            'searchTerm' => 'Prof',
         ];
         $this->requestAction('GET', '/mpi-template', $params);
         $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testGetTemplate() {
+    public function testGetTemplate()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -89,7 +94,7 @@ class MPIControllerTest extends WebTestCase
                                    ->setMaxResults(1)
                                    ->getQuery()
                                    ->getOneOrNullResult();
-        
+
         if ($mpi && !$mpi->getDeleted()) { // Ok
             $id = $mpi->getId();
 
@@ -97,28 +102,29 @@ class MPIControllerTest extends WebTestCase
             $this->assertResponseIsSuccessful();
             $response = json_decode($this->client->getResponse()->getContent());
             $this->assertEquals($id, $response->id);
-        }
-        else if($mpi && $mpi->getDeleted()) { // Not found
+        } elseif ($mpi && $mpi->getDeleted()) { // Not found
             $id = $mpi->getId();
             $this->requestAction('GET', '/mpi-template/'.$id);
             $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
         } else {
             $this->assertEmpty($mpi, 'Mpi is null');
-        }    
+        }
     }
 
-    public function testCreateTemplate() {
+    public function testCreateTemplate()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
-        
+
         // Ok
-        $name     = 'MPI Template Name';
+        $name = 'MPI Template Name';
         $axleInfo = '[{"wheels":2,"brakesRangeMaximum":10,"tireRangeMaximum":6},{"wheels":4,"brakesRangeMaximum":12,"tireRangeMaximum":12},{"wheels":2,"brakesRangeMaximum":10,"tireRangeMaximum":6}]';
-        $params   = [
-            'name'     => $name,
-            'axleInfo' => $axleInfo
+        $params = [
+            'name' => $name,
+            'axleInfo' => $axleInfo,
         ];
         $this->requestAction('POST', '/mpi-template', $params);
         $this->assertResponseIsSuccessful();
@@ -134,9 +140,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testEditTemplate() {
+    public function testEditTemplate()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -148,10 +156,10 @@ class MPIControllerTest extends WebTestCase
                                    ->getOneOrNullResult();
         if ($mpi) {
             // Ok
-            $id     = $mpi->getId();
-            $name   = 'MPI template name for update';
+            $id = $mpi->getId();
+            $name = 'MPI template name for update';
             $params = [
-                'name' => $name
+                'name' => $name,
             ];
             $this->requestAction('PUT', '/mpi-template/'.$id, $params);
             $this->assertResponseIsSuccessful();
@@ -164,9 +172,11 @@ class MPIControllerTest extends WebTestCase
         }
     }
 
-    public function testDeactivateTemplate() {
+    public function testDeactivateTemplate()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -183,9 +193,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testReactivateTemplate() {
+    public function testReactivateTemplate()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -201,9 +213,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testDeleteTemplate() {
+    public function testDeleteTemplate()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -219,9 +233,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testCreateGroup() {
+    public function testCreateGroup()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -232,10 +248,10 @@ class MPIControllerTest extends WebTestCase
                                            ->getQuery()
                                            ->getOneOrNullResult();
         // Ok
-        $name   = 'New MPI group name';
+        $name = 'New MPI group name';
         $params = [
-            'id'   => $mpiTemplate->getId(), // MPI template ID
-            'name' => $name
+            'id' => $mpiTemplate->getId(), // MPI template ID
+            'name' => $name,
         ];
         $this->requestAction('POST', '/mpi-group', $params);
         $this->assertResponseIsSuccessful();
@@ -255,9 +271,11 @@ class MPIControllerTest extends WebTestCase
         // $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testEditGroup() {
+    public function testEditGroup()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -268,7 +286,7 @@ class MPIControllerTest extends WebTestCase
                                         ->getQuery()
                                         ->getOneOrNullResult();
         // Ok
-        $id   = $mpiGroup->getId();
+        $id = $mpiGroup->getId();
         $name = 'New name of MPI group';
         $this->requestAction('PUT', '/mpi-group/'.$id, ['name' => $name]);
         $this->assertResponseIsSuccessful();
@@ -280,9 +298,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testDeactivateGroup() {
+    public function testDeactivateGroup()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -298,9 +318,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testReactivateGroup() {
+    public function testReactivateGroup()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -315,9 +337,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testDeleteGroup() {
+    public function testDeleteGroup()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -332,9 +356,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    public function testCreateItem() {
+    public function testCreateItem()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -347,10 +373,10 @@ class MPIControllerTest extends WebTestCase
 
         $id = $mpiGroup->getId();
         // Ok
-        $name   = 'New MPI item name';
+        $name = 'New MPI item name';
         $params = [
-            'id'   => $id,
-            'name' => $name
+            'id' => 1, // MPI group ID
+            'name' => $name,
         ];
         $this->requestAction('POST', '/mpi-item', $params);
         $this->assertResponseIsSuccessful();
@@ -362,9 +388,11 @@ class MPIControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testEditItem() {
+    public function testEditItem()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -375,8 +403,7 @@ class MPIControllerTest extends WebTestCase
                                         ->setMaxResults(1)
                                         ->getQuery()
                                         ->getOneOrNullResult();
-        if ($mpiItem)
-        {
+        if ($mpiItem) {
             $id = $mpiItem->getId();
             $name = 'New name of MPI item';
             $this->requestAction('PUT', '/mpi-item/'.$id, ['name' => $name]);
@@ -392,9 +419,11 @@ class MPIControllerTest extends WebTestCase
         }
     }
 
-    public function testDeleteItem() {
+    public function testDeleteItem()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -404,8 +433,7 @@ class MPIControllerTest extends WebTestCase
                                         ->setMaxResults(1)
                                         ->getQuery()
                                         ->getOneOrNullResult();
-        if ($mpiItem)
-        {
+        if ($mpiItem) {
             $id = $mpiItem->getId();
             $this->requestAction('DELETE', '/mpi-item/'.$id);
             $this->assertResponseIsSuccessful();
@@ -414,21 +442,23 @@ class MPIControllerTest extends WebTestCase
         }
     }
 
-    private function requestAction($method, $endpoint='', $params=[]) {
-        $apiUrl = '/api' . $endpoint;
+    private function requestAction($method, $endpoint = '', $params = [])
+    {
+        $apiUrl = '/api'.$endpoint;
         $crawler = $this->client->request($method, $apiUrl, $params, [], [
             'HTTP_Authorization' => 'Bearer '.$this->token,
-            'HTTP_CONTENT_TYPE'  => 'application/json',
-            'HTTP_ACCEPT'        => 'application/json',
+            'HTTP_CONTENT_TYPE' => 'application/json',
+            'HTTP_ACCEPT' => 'application/json',
         ]);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
         parent::tearDown();
         $this->client = null;
-        $this->token  = null;
+        $this->token = null;
     }
 }
