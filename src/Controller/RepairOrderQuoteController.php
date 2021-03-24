@@ -225,7 +225,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             // Update status as Completed
             $status = 'Completed';
         } else {
-            $status = $helper->getProgressStatus();
+            $status = $repairOrderQuoteHelper->getProgressStatus();
         }
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
