@@ -6,13 +6,11 @@ use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
 use App\Repository\OperationCodeRepository;
+use App\Repository\PriceMatrixRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\ORMException;
 use Exception;
+use Symfony\Component\Security\Core\Security;
 
-/**
- * Class RepairOrderQuoteHelper.
- */
 class RepairOrderQuoteHelper
 {
     /** @var string[] */
@@ -23,7 +21,7 @@ class RepairOrderQuoteHelper
         'approved',
         'partsPrice',
         'suppliesPrice',
-        'laborPrice',
+        // 'laborPrice',
     ];
     private const PART_REQUIRED_FIELDS = [
         'number',
@@ -36,13 +34,43 @@ class RepairOrderQuoteHelper
         'notes',
     ];
 
-    private $em;
-    private $operationCodeRepository;
+    private const QUOTE_STATUSES = [
+        'Not Started' => 0,
+        'Advisor In Progress' => 1,
+        'Technician In Progress' => 1,
+        'Parts In Progress' => 1,
+        'In Progress' => 1,
+        'Sent' => 2,
+        'Viewed' => 3,
+        'Completed' => 4,
+        'Confirmed' => 5,
+    ];
 
-    public function __construct(EntityManagerInterface $em, OperationCodeRepository $operationCodeRepository)
-    {
+    private $em;
+    private $security;
+    private $operationCodeRepository;
+    private $pricingLaborRate;
+    private $isPricingMatrix;
+    private $pricingLaborTax;
+    private $pricingPartsTax;
+    private $priceRepository;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        OperationCodeRepository $operationCodeRepository,
+        SettingsHelper $settingsHelper,
+        PriceMatrixRepository $priceRepository,
+        Security $security
+    ) {
         $this->em = $em;
         $this->operationCodeRepository = $operationCodeRepository;
+        $this->security = $security;
+        $this->priceRepository = $priceRepository;
+
+        $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
+        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix') * 0.01;
+        $this->pricingLaborTax = $settingsHelper->getSetting('pricingLaborTax') * 0.01;
+        $this->pricingPartsTax = $settingsHelper->getSetting('pricingPartsTax') * 0.01;
     }
 
     /**
@@ -158,6 +186,17 @@ class RepairOrderQuoteHelper
                                            ->setSuppliesPrice($recommendation->suppliesPrice)
                                            ->setNotes($recommendation->notes);
 
+            if ($this->security->isGranted('ROLE_CUSTOMER')) {
+                $partsPrice = $recommendation->partsPrice;
+                $suppliesPrice = $recommendation->suppliesPrice;
+                $laborAndTax = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
+
+                $repairOrderQuoteRecommendation->setLaborPrice($laborAndTax['laborPrice'])
+                                               ->setLaborTax($laborAndTax['laborTax'])
+                                               ->setPartsTax($laborAndTax['partsTax'])
+                                               ->setSuppliesTax($laborAndTax['suppliesTax']);
+            }
+
             $this->em->persist($repairOrderQuoteRecommendation);
 
             $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
@@ -205,13 +244,98 @@ class RepairOrderQuoteHelper
 
             try {
                 $this->em->flush();
-
                 $this->em->commit();
-            } catch (ORMException | Exception $e) {
+            } catch (Exception $e) {
                 $this->em->rollback();
 
                 throw new Exception($e->getMessage());
             }
         }
+    }
+
+    public function getLaborAndTax($partsPrice, $suppliesPrice, $operationCode): array
+    {
+        $laborPrice = null;
+        $laborTax = 0;
+        $partsTax = 0;
+        $suppliesTax = 0;
+        $hours = $operationCode->getLaborHours();
+
+        if ($this->isPricingMatrix) {
+            $laborPrice = $this->priceRepository->getPrice($hours);
+        }
+
+        if (is_null($laborPrice)) {
+            $laborPrice = $hours * $this->pricingLaborRate;
+        }
+
+        if ($operationCode->getLaborTaxable()) {
+            $laborTax = $laborPrice * $this->pricingLaborTax;
+        }
+
+        if ($operationCode->getPartsTaxable()) {
+            $partsTax = $partsPrice * $this->pricingPartsTax;
+        }
+
+        if ($operationCode->getSuppliesTaxable()) {
+            $suppliesTax = $suppliesPrice * $this->pricingPartsTax;
+        }
+
+        return [
+            'laborPrice' => round($laborPrice, 2),
+            'laborTax' => round($laborTax, 2),
+            'partsTax' => round($partsTax, 2),
+            'suppliesTax' => round($suppliesTax, 2),
+        ];
+    }
+
+    public function calculateLaborAndTax(RepairOrderQuote $quote): RepairOrderQuote
+    {
+        $newQuote = $quote;
+
+        if ($quote && $quote->getRepairOrderQuoteRecommendations() && $quote->getRepairOrderQuoteRecommendations()) {
+            $recommendations = $quote->getRepairOrderQuoteRecommendations();
+
+            if (count($recommendations) > 0) {
+                foreach ($recommendations as $index => $recommendation) {
+                    $operationCode = $recommendation->getOperationCode();
+                    $partsPrice = $recommendation->getPartsPrice();
+                    $suppliesPrice = $recommendation->getSuppliesPrice();
+                    $laborAndTax = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
+
+                    $newQuote->getRepairOrderQuoteRecommendations()[$index]->setLaborPrice($laborAndTax['laborPrice'])
+                                                                           ->setLaborTax($laborAndTax['laborTax'])
+                                                                           ->setPartsTax($laborAndTax['partsTax'])
+                                                                           ->setSuppliesTax($laborAndTax['suppliesTax']);
+                }
+            }
+        }
+
+        return $newQuote;
+    }
+
+    public function getProgressStatus()
+    {
+        $user = $this->security->getUser();
+        $roles = $user->getRoles();
+        $status = 'Advisor In Progress';
+        if ('ROLE_TECHNICIAN' == $roles[0]) {
+            $status = 'Technician In Progress';
+        } elseif ('ROLE_PARTS_ADVISOR' == $roles[0]) {
+            $status = 'Parts In Progress';
+        }
+
+        return $status;
+    }
+
+    public function checkStatusUpdate($prevStatus, $newStatus)
+    {
+        if (self::QUOTE_STATUSES[$prevStatus] >= self::QUOTE_STATUSES['Sent']) {
+            if (self::QUOTE_STATUSES[$prevStatus] >= self::QUOTE_STATUSES[$newStatus]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

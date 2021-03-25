@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CouponsControllerTest extends WebTestCase
 {
     private $client = null;
-    
+
     private $token;
 
     /**
@@ -23,8 +23,9 @@ class CouponsControllerTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    public function setUp() {
-        $this->client        = static::createClient();
+    public function setUp()
+    {
+        $this->client = static::createClient();
 
         $user = self::$container->get('doctrine')
                                 ->getManager()
@@ -35,15 +36,17 @@ class CouponsControllerTest extends WebTestCase
                                 ->getOneOrNullResult();
 
         $authentication = self::$container->get(Authentication::class);
-        $ttl            = 31536000;
-        $this->token    = $authentication->getJWT($user->getEmail(), $ttl);
+        $ttl = 31536000;
+        $this->token = $authentication->getJWT($user->getEmail(), $ttl);
 
         $this->entityManager = self::$container->get('doctrine')->getManager();
     }
 
-    public function testList() {
+    public function testList()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
         $this->requestAction('GET', '');
@@ -53,9 +56,11 @@ class CouponsControllerTest extends WebTestCase
         $this->assertGreaterThanOrEqual(0, $response->totalResults);
     }
 
-    public function testNew() {
+    public function testNew()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -70,16 +75,18 @@ class CouponsControllerTest extends WebTestCase
         // );
         $crawler = $this->client->request('POST', '/api/coupons', ['title' => 'Qui neque veritatis omnis omnis.'], [], [
             'HTTP_Authorization' => 'Bearer '.$this->token,
-            'HTTP_CONTENT_TYPE'  => 'application/json',
-            'HTTP_ACCEPT'        => 'application/json',
+            'HTTP_CONTENT_TYPE' => 'application/json',
+            'HTTP_ACCEPT' => 'application/json',
         ]);
-        
+
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testEdit() {
+    public function testEdit()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
         $coupon = $this->entityManager->getRepository(Coupon::class)
@@ -104,9 +111,11 @@ class CouponsControllerTest extends WebTestCase
         }
     }
 
-    public function testDelete() {
+    public function testDelete()
+    {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
+
             return;
         }
 
@@ -127,21 +136,23 @@ class CouponsControllerTest extends WebTestCase
         }
     }
 
-    private function requestAction($method, $endpoint, $params=[]) {
-        $apiUrl = '/api/coupons' . $endpoint;
+    private function requestAction($method, $endpoint, $params = [])
+    {
+        $apiUrl = '/api/coupons'.$endpoint;
         $crawler = $this->client->request($method, $apiUrl, $params, [], [
             'HTTP_Authorization' => 'Bearer '.$this->token,
-            'HTTP_CONTENT_TYPE'  => 'application/json',
-            'HTTP_ACCEPT'        => 'application/json',
+            'HTTP_CONTENT_TYPE' => 'application/json',
+            'HTTP_ACCEPT' => 'application/json',
         ]);
     }
 
     /**
      * {@inheritDoc}
      */
-    protected function tearDown() {
+    protected function tearDown()
+    {
         parent::tearDown();
         $this->client = null;
-        $this->token  = null;
+        $this->token = null;
     }
 }

@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Appointments\ArrayOfConcernType:
+    properties:
+        concern:
+            -
+                Valid: null

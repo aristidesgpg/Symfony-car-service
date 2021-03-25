@@ -1,0 +1,4 @@
+App\Soap\cdk\src\FeeOpCodeDesc:
+    xml_root_name: feeOpCodeDesc
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

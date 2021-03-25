@@ -1,0 +1,11 @@
+App\Soap\dealerbuilt\src\Models\Sales\LeaseTaxCollectionType:
+    properties:
+        dealerTaxes:
+            -
+                Valid: null
+        monthlyUse:
+            -
+                Valid: null
+        property:
+            -
+                Valid: null

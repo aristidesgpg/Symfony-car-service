@@ -1,0 +1,4 @@
+App\Soap\automate\src\SubletCode:
+    xml_root_name: SubletCode
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties: {  }

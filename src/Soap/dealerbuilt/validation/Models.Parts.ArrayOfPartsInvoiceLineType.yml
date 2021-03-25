@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Parts\ArrayOfPartsInvoiceLineType:
+    properties:
+        partsInvoiceLine:
+            -
+                Valid: null

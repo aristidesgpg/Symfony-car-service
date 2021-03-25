@@ -1,0 +1,20 @@
+App\Soap\dealerbuilt\src\BaseApi\AppraisalPushRequestType:
+    properties:
+        acv:
+            -
+                Valid: null
+        allowance:
+            -
+                Valid: null
+        attributes:
+            -
+                Valid: null
+        payoff:
+            -
+                Valid: null
+        payoffAmount:
+            -
+                Valid: null
+        payoffPerDiem:
+            -
+                Valid: null

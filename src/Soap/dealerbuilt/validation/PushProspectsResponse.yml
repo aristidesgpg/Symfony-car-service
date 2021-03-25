@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PushProspectsResponse:
+    properties:
+        pushProspectsResult:
+            -
+                Valid: null

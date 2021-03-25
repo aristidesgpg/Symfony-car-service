@@ -1,0 +1,4 @@
+App\Soap\automate\src\Diagnostics:
+    xml_root_name: Diagnostics
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties: {  }

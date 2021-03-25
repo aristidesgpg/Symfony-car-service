@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\BaseApi\ProspectType:
+    properties:
+        attributes:
+            -
+                Valid: null
+        references:
+            -
+                Valid: null

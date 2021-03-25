@@ -1,0 +1,8 @@
+App\Soap\dealerbuilt\src\Models\Parts\PushCounterTicketResponseType:
+    properties:
+        partsResponses:
+            -
+                Valid: null
+        response:
+            -
+                Valid: null

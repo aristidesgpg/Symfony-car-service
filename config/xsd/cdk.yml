@@ -1,0 +1,20 @@
+# config.yml
+# Linux Users: PHP Namespaces use back slash \ rather than a forward slash /
+# So for destinations_php, the namespace would be App\Model
+
+xsd2php:
+  namespaces:
+    'http://www.dmotorworks.com/service-repair-order-open': 'App\Soap\cdk\src'
+
+  destinations_php:
+    #    'App\Model': App\cdk
+    'App\Soap\cdk\src': src\Soap\cdk\src  #  on Windows
+
+  destinations_jms:
+    #'App\Model': Model/metadata
+    'App\Soap\cdk\src': src\Soap\cdk\metadata  #  on Windows
+
+  # symfony/validator metadata to be generated from XSD
+  destinations_validation:
+    #    'App\Model': soap/validation
+    'App\Soap\cdk\src': src\Soap\cdk\validation  #  on Windows

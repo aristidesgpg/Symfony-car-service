@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\Models\Sales\TradeInType:
+    properties:
+        attributes:
+            -
+                Valid: null
+        tradeInSequence:
+            -
+                GreaterThanOrEqual:
+                    value: '-2147483648'
+                    groups:
+                        - xsd_rules
+            -
+                LessThanOrEqual:
+                    value: '2147483647'
+                    groups:
+                        - xsd_rules
+        vehicle:
+            -
+                Valid: null

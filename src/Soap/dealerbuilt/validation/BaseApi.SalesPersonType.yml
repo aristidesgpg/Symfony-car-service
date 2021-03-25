@@ -1,0 +1,15 @@
+App\Soap\dealerbuilt\src\BaseApi\SalesPersonType:
+    properties:
+        type:
+            -
+                Choice:
+                    choices:
+                        - Salesman
+                        - SecondarySalesman
+                        - FinanceManger
+                        - GeneralSalesManager
+                        - SalesManagerCloser
+                        - OtherManager
+                        - Other
+                    groups:
+                        - xsd_rules

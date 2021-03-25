@@ -1,0 +1,15 @@
+App\Soap\dealerbuilt\src\Models\Accounting\ArrayOfVoidStatusType:
+    properties:
+        voidStatusType:
+            -
+                All:
+                    constraints:
+                        -
+                            Choice:
+                                choices:
+                                    - None
+                                    - Void
+                                    - ReverseVoid
+                                    - Reverse
+                    groups:
+                        - xsd_rules

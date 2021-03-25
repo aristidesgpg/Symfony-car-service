@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\RepairOrderType:
+    xml_root_name: RepairOrderType
+    xml_root_namespace: opentrack.dealertrack.com
+    properties: {  }

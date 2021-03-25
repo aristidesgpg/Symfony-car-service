@@ -8,8 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -18,7 +18,8 @@ use JMS\Serializer\Annotation as Serializer;
  *        'composer require antishov/doctrine-extensions-bundle'
  *        'https://symfonycasts.com/screencast/symfony4-doctrine/sluggable#play'
  */
-class User implements UserInterface {
+class User implements UserInterface
+{
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -165,127 +166,114 @@ class User implements UserInterface {
     private $serviceSMS;
 
     /**
-     * User constructor.
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="user")
      */
-    public function __construct () {
-        $this->technicianRepairOrders     = new ArrayCollection();
-        $this->repairOrderMPIInteractions = new ArrayCollection();
-        $this->repairOrderInteractions    = new ArrayCollection();
-        $this->repairOrderTeams           = new ArrayCollection();
-        $this->internalMessages           = new ArrayCollection();
-        $this->serviceSMS = new ArrayCollection();
-    }
+    private $repairOrderQuoteInteractions;
 
     /**
-     * @return int|null
+     * User constructor.
      */
-    public function getId (): ?int {
+    public function __construct()
+    {
+        $this->technicianRepairOrders = new ArrayCollection();
+        $this->repairOrderMPIInteractions = new ArrayCollection();
+        $this->repairOrderInteractions = new ArrayCollection();
+        $this->repairOrderTeams = new ArrayCollection();
+        $this->internalMessages = new ArrayCollection();
+        $this->serviceSMS = new ArrayCollection();
+        $this->repairOrderQuoteInteractions = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFirstName (): ?string {
+    public function getFirstName(): ?string
+    {
         return $this->firstName;
     }
 
     /**
-     * @param string $firstName
-     *
      * @return $this
      */
-    public function setFirstName (string $firstName): self {
+    public function setFirstName(string $firstName): self
+    {
         $this->firstName = $firstName;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getLastName (): ?string {
+    public function getLastName(): ?string
+    {
         return $this->lastName;
     }
 
     /**
-     * @param string $lastName
-     *
      * @return $this
      */
-    public function setLastName (string $lastName): self {
+    public function setLastName(string $lastName): self
+    {
         $this->lastName = $lastName;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getEmail (): ?string {
+    public function getEmail(): ?string
+    {
         return $this->email;
     }
 
     /**
-     * @param string $email
-     *
      * @return $this
      */
-    public function setEmail (string $email): self {
+    public function setEmail(string $email): self
+    {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPhone (): ?string {
+    public function getPhone(): ?string
+    {
         return $this->phone;
     }
 
     /**
-     * @param string $phone
-     *
      * @return $this
      */
-    public function setPhone (string $phone): self {
+    public function setPhone(string $phone): self
+    {
         $this->phone = $phone;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getExtension (): ?string {
+    public function getExtension(): ?string
+    {
         return $this->extension;
     }
 
     /**
-     * @param string|null $extension
-     *
      * @return $this
      */
-    public function setExtension (?string $extension): self {
+    public function setExtension(?string $extension): self
+    {
         $this->extension = $extension;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPassword (): ?string {
+    public function getPassword(): ?string
+    {
         return $this->password;
     }
 
     /**
-     * @param string $password
-     *
      * @return $this
      */
-    public function setPassword (string $password): self {
+    public function setPassword(string $password): self
+    {
         $this->password = $password;
 
         return $this;
@@ -294,142 +282,121 @@ class User implements UserInterface {
     /**
      * @return array (Role|string)[]
      */
-    public function getRoles () {
+    public function getRoles()
+    {
         return [$this->role];
     }
 
     /**
-     * @param string $role
-     *
      * @return User
      */
-    public function setRole (string $role) {
+    public function setRole(string $role)
+    {
         $this->role = $role;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCertification (): ?string {
+    public function getCertification(): ?string
+    {
         return $this->certification;
     }
 
     /**
-     * @param string|null $certification
-     *
      * @return $this
      */
-    public function setCertification (?string $certification): self {
+    public function setCertification(?string $certification): self
+    {
         $this->certification = $certification;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getExperience (): ?string {
+    public function getExperience(): ?string
+    {
         return $this->experience;
     }
 
     /**
-     * @param string|null $experience
-     *
      * @return $this
      */
-    public function setExperience (?string $experience): self {
+    public function setExperience(?string $experience): self
+    {
         $this->experience = $experience;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSecurityQuestion (): ?string {
+    public function getSecurityQuestion(): ?string
+    {
         return $this->securityQuestion;
     }
 
     /**
-     * @param string|null $securityQuestion
-     *
      * @return $this
      */
-    public function setSecurityQuestion (?string $securityQuestion): self {
+    public function setSecurityQuestion(?string $securityQuestion): self
+    {
         $this->securityQuestion = $securityQuestion;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSecurityAnswer (): ?string {
+    public function getSecurityAnswer(): ?string
+    {
         return $this->securityAnswer;
     }
 
     /**
-     * @param string|null $securityAnswer
-     *
      * @return $this
      */
-    public function setSecurityAnswer (?string $securityAnswer): self {
+    public function setSecurityAnswer(?string $securityAnswer): self
+    {
         $this->securityAnswer = $securityAnswer;
 
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
-    public function getPreviewDeviceTokens (): ?array {
+    public function getPreviewDeviceTokens(): ?array
+    {
         return $this->previewDeviceTokens;
     }
 
     /**
-     * @param array|null $previewDeviceTokens
-     *
      * @return $this
      */
-    public function setPreviewDeviceTokens (?array $previewDeviceTokens): self {
+    public function setPreviewDeviceTokens(?array $previewDeviceTokens): self
+    {
         $this->previewDeviceTokens = $previewDeviceTokens;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getForceAuthentication (): ?bool {
+    public function getForceAuthentication(): ?bool
+    {
         return $this->forceAuthentication;
     }
 
     /**
-     * @param bool $forceAuthentication
-     *
      * @return $this
      */
-    public function setForceAuthentication (bool $forceAuthentication): self {
+    public function setForceAuthentication(bool $forceAuthentication): self
+    {
         $this->forceAuthentication = $forceAuthentication;
 
         return $this;
     }
 
-    /**
-     * @return DateTime
-     */
-    public function getLastLogin (): DateTime {
+    public function getLastLogin(): DateTime
+    {
         return $this->lastLogin;
     }
 
     /**
-     * @param DateTime $lastLogin
-     *
      * @return User
      */
-    public function setLastLogin (DateTime $lastLogin): self {
+    public function setLastLogin(DateTime $lastLogin): self
+    {
         $this->lastLogin = $lastLogin;
 
         return $this;
@@ -438,7 +405,8 @@ class User implements UserInterface {
     /**
      * @return mixed
      */
-    public function getPin () {
+    public function getPin()
+    {
         return $this->pin;
     }
 
@@ -447,45 +415,47 @@ class User implements UserInterface {
      *
      * @return $this
      */
-    public function setPin ($pin) {
+    public function setPin($pin)
+    {
         $this->pin = $pin;
 
         return $this;
     }
 
-    /**
-     * @return bool|null
-     */
-    public function getActive (): ?bool {
+    public function getActive(): ?bool
+    {
         return $this->active;
     }
 
     /**
-     * @param bool $active
-     *
      * @return $this
      */
-    public function setActive (bool $active): self {
+    public function setActive(bool $active): self
+    {
         $this->active = $active;
 
         return $this;
     }
 
-    public function getProcessRefund (): ?bool {
+    public function getProcessRefund(): ?bool
+    {
         return $this->processRefund;
     }
 
-    public function setProcessRefund (bool $processRefund): self {
+    public function setProcessRefund(bool $processRefund): self
+    {
         $this->processRefund = $processRefund;
 
         return $this;
     }
 
-    public function getShareRepairOrders (): ?bool {
+    public function getShareRepairOrders(): ?bool
+    {
         return $this->shareRepairOrders;
     }
 
-    public function setShareRepairOrders (bool $shareRepairOrders): self {
+    public function setShareRepairOrders(bool $shareRepairOrders): self
+    {
         $this->shareRepairOrders = $shareRepairOrders;
 
         return $this;
@@ -494,40 +464,47 @@ class User implements UserInterface {
     /**
      * @return Collection|RepairOrderMPIInteraction[]
      */
-    public function getRepairOrderMPIInteractions (): Collection {
+    public function getRepairOrderMPIInteractions(): Collection
+    {
         return $this->repairOrderMPIInteractions;
     }
 
     /**
      * @return Collection|InternalMessage[]
      */
-    public function getInternalMessages (): Collection {
+    public function getInternalMessages(): Collection
+    {
         return $this->internalMessages;
     }
 
-    public function getSalt () {
+    public function getSalt()
+    {
         // TODO: Implement getSalt() method.
     }
 
-    public function getUsername () {
+    public function getUsername()
+    {
         return $this->email;
     }
 
-    public function eraseCredentials () {
+    public function eraseCredentials()
+    {
         // TODO: Implement eraseCredentials() method.
     }
 
     /**
      * @return bool
      */
-    public function isTechnician () {
+    public function isTechnician()
+    {
         return in_array('ROLE_TECHNICIAN', $this->getRoles());
     }
 
     /**
      * @return mixed
      */
-    public function getTechnicianRepairOrders (): Collection {
+    public function getTechnicianRepairOrders(): Collection
+    {
         $criteria = Criteria::create()
                             ->andWhere(Criteria::expr()->eq('deleted', false))
                             ->orderBy(['dateCreated' => 'DESC']);
@@ -552,6 +529,7 @@ class User implements UserInterface {
 
         return $this;
     }
+
     /**
      * @return Collection|RepairOrderReviewInteractions[]
      */
@@ -645,6 +623,24 @@ class User implements UserInterface {
         return $this;
     }
 
+    /**
+     * @return Collection|RepairOrderQuoteInteraction[]
+     */
+    public function getRepairOrderQuoteInteractions(): Collection
+    {
+        return $this->repairOrderQuoteInteractions;
+    }
+
+    public function addRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
+    {
+        if (!$this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
+            $this->repairOrderQuoteInteractions[] = $repairOrderQuoteInteraction;
+            $repairOrderQuoteInteraction->setUser($this);
+        }
+
+        return $this;
+    }
+
     public function removeServiceSM(ServiceSMS $serviceSM): self
     {
         if ($this->serviceSMS->removeElement($serviceSM)) {
@@ -657,4 +653,16 @@ class User implements UserInterface {
         return $this;
     }
 
+    public function removeRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
+    {
+        if ($this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
+            $this->repairOrderQuoteInteractions->removeElement($repairOrderQuoteInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteInteraction->getUser() === $this) {
+                $repairOrderQuoteInteraction->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

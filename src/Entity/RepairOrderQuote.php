@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderQuote
 {
-    public const GROUPS = ['roq_list', 'ro_list', 'roqs_list', 'roqp_list'];
+    public const GROUPS = ['roq_list', 'ro_list', 'roqs_list', 'roqp_list', 'operation_code_list'];
 
     /**
      * @ORM\Id
@@ -28,7 +28,6 @@ class RepairOrderQuote
     /**
      * @ORM\OneToOne(targetEntity=RepairOrder::class, inversedBy="repairOrderQuote")
      * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Groups(groups={"roq_list"})
      */
     private $repairOrder;
 
@@ -60,7 +59,7 @@ class RepairOrderQuote
      * @ORM\Column(type="datetime", nullable=true)
      * @Serializer\Groups(groups={"roq_list"})
      */
-    private $dateCompletedViewed;
+    private $dateCustomerConfirmed;
 
     /**
      * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendation::class, mappedBy="repairOrderQuote", cascade={"persist", "remove"})
@@ -68,10 +67,21 @@ class RepairOrderQuote
      */
     private $repairOrderQuoteRecommendations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="repairOrderQuote", cascade={"persist", "remove"})
+     */
+    private $repairOrderQuoteInteractions;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status = 'Not Started';
+
     public function __construct()
     {
         $this->dateCreated = new DateTime();
         $this->repairOrderQuoteRecommendations = new ArrayCollection();
+        $this->repairOrderQuoteInteractions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -139,14 +149,14 @@ class RepairOrderQuote
         return $this;
     }
 
-    public function getDateCompletedViewed(): ?DateTimeInterface
+    public function getDateCustomerConfirmed(): ?DateTimeInterface
     {
-        return $this->dateCompletedViewed;
+        return $this->dateCustomerConfirmed;
     }
 
-    public function setDateCompletedViewed(?DateTimeInterface $dateCompletedViewed): self
+    public function setDateCustomerConfirmed(?DateTimeInterface $dateCustomerConfirmed): self
     {
-        $this->dateCompletedViewed = $dateCompletedViewed;
+        $this->dateCustomerConfirmed = $dateCustomerConfirmed;
 
         return $this;
     }
@@ -177,6 +187,49 @@ class RepairOrderQuote
                 $repairOrderQuoteRecommendation->setRepairOrderQuote(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderQuoteInteraction[]
+     */
+    public function getRepairOrderQuoteInteractions(): Collection
+    {
+        return $this->repairOrderQuoteInteractions;
+    }
+
+    public function addRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
+    {
+        if (!$this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
+            $this->repairOrderQuoteInteractions[] = $repairOrderQuoteInteraction;
+            $repairOrderQuoteInteraction->setRepairOrderQuote($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderQuoteInteraction(RepairOrderQuoteInteraction $repairOrderQuoteInteraction): self
+    {
+        if ($this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteraction)) {
+            $this->repairOrderQuoteInteractions->removeElement($repairOrderQuoteInteraction);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteInteraction->getRepairOrderQuote() === $this) {
+                $repairOrderQuoteInteraction->setRepairOrderQuote(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

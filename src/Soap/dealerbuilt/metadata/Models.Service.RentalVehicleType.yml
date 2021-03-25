@@ -1,0 +1,82 @@
+App\Soap\dealerbuilt\src\Models\Service\RentalVehicleType:
+    properties:
+        dailyRate:
+            expose: true
+            access_type: public_method
+            serialized_name: DailyRate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getDailyRate
+                setter: setDailyRate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        inStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: InStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getInStamp
+                setter: setInStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        licensePlate:
+            expose: true
+            access_type: public_method
+            serialized_name: LicensePlate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLicensePlate
+                setter: setLicensePlate
+            type: string
+        outStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: OutStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getOutStamp
+                setter: setOutStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        payType:
+            expose: true
+            access_type: public_method
+            serialized_name: PayType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getPayType
+                setter: setPayType
+            type: string
+        rentalDays:
+            expose: true
+            access_type: public_method
+            serialized_name: RentalDays
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getRentalDays
+                setter: setRentalDays
+            type: float
+        totalAmountCharged:
+            expose: true
+            access_type: public_method
+            serialized_name: TotalAmountCharged
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getTotalAmountCharged
+                setter: setTotalAmountCharged
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        vin:
+            expose: true
+            access_type: public_method
+            serialized_name: Vin
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getVin
+                setter: setVin
+            type: string

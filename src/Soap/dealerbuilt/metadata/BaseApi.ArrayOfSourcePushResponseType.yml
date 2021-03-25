@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfSourcePushResponseType:
+    properties:
+        sourcePushResponse:
+            expose: true
+            access_type: public_method
+            serialized_name: SourcePushResponse
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getSourcePushResponse
+                setter: setSourcePushResponse
+            xml_list:
+                inline: true
+                entry_name: SourcePushResponse
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\SourcePushResponseType>

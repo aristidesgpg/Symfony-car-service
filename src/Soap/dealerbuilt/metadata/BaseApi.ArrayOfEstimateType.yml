@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\BaseApi\ArrayOfEstimateType:
+    properties:
+        estimate:
+            expose: true
+            access_type: public_method
+            serialized_name: Estimate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getEstimate
+                setter: setEstimate
+            xml_list:
+                inline: true
+                entry_name: Estimate
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            type: array<App\Soap\dealerbuilt\src\BaseApi\EstimateType>

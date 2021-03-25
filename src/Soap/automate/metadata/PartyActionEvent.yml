@@ -1,0 +1,34 @@
+App\Soap\automate\src\PartyActionEvent:
+    xml_root_name: PartyActionEvent
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        eventID:
+            expose: true
+            access_type: public_method
+            serialized_name: EventID
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getEventID
+                setter: setEventID
+            type: string
+        eventDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: EventDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getEventDescription
+                setter: setEventDescription
+            type: string
+        eventOccurrenceDateTime:
+            expose: true
+            access_type: public_method
+            serialized_name: EventOccurrenceDateTime
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getEventOccurrenceDateTime
+                setter: setEventOccurrenceDateTime
+            type: string

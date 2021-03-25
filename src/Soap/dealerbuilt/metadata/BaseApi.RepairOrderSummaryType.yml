@@ -1,0 +1,32 @@
+App\Soap\dealerbuilt\src\BaseApi\RepairOrderSummaryType:
+    properties:
+        modifiedStamp:
+            expose: true
+            access_type: public_method
+            serialized_name: ModifiedStamp
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getModifiedStamp
+                setter: setModifiedStamp
+            type: GoetasWebservices\Xsd\XsdToPhp\XMLSchema\DateTime
+        rOKey:
+            expose: true
+            access_type: public_method
+            serialized_name: ROKey
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getROKey
+                setter: setROKey
+            type: string
+        repairOrderNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: RepairOrderNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.BaseApi'
+            accessor:
+                getter: getRepairOrderNumber
+                setter: setRepairOrderNumber
+            type: string

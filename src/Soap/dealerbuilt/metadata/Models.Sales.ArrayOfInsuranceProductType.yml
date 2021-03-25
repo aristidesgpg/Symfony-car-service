@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfInsuranceProductType:
+    properties:
+        insuranceProduct:
+            expose: true
+            access_type: public_method
+            serialized_name: InsuranceProduct
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getInsuranceProduct
+                setter: setInsuranceProduct
+            xml_list:
+                inline: true
+                entry_name: InsuranceProduct
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\InsuranceProductType>

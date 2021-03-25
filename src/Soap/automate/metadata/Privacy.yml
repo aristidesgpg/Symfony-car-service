@@ -1,0 +1,24 @@
+App\Soap\automate\src\Privacy:
+    xml_root_name: Privacy
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        privacyIndicator:
+            expose: true
+            access_type: public_method
+            serialized_name: PrivacyIndicator
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPrivacyIndicator
+                setter: setPrivacyIndicator
+            type: bool
+        privacyTypeString:
+            expose: true
+            access_type: public_method
+            serialized_name: PrivacyTypeString
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPrivacyTypeString
+                setter: setPrivacyTypeString
+            type: string

@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfPushedPotentialJobAttributesType:
+    properties:
+        pushedPotentialJobAttributes:
+            expose: true
+            access_type: public_method
+            serialized_name: PushedPotentialJobAttributes
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getPushedPotentialJobAttributes
+                setter: setPushedPotentialJobAttributes
+            xml_list:
+                inline: true
+                entry_name: PushedPotentialJobAttributes
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            type: array<App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType>

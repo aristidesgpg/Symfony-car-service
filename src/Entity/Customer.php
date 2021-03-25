@@ -31,7 +31,7 @@ class Customer implements UserInterface
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=10, nullable=true)
+     * @ORM\Column(type="string", nullable=true, length=10)
      * @Serializer\Groups({"customer_list"})
      */
     private $phone;
@@ -89,7 +89,7 @@ class Customer implements UserInterface
      */
     private $serviceSMS;
 
-    /*
+    /**
      * @ORM\OneToMany(targetEntity=RepairOrderReviewInteractions::class, mappedBy="customer")
      */
     private $repairOrderReviewInteractions;
@@ -98,6 +98,11 @@ class Customer implements UserInterface
      * @ORM\OneToMany(targetEntity=RepairOrderCustomer::class, mappedBy="customer", orphanRemoval=true)
      */
     private $repairOrderCustomers;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteInteraction::class, mappedBy="customer")
+     */
+    private $repairOrderQuoteInteractions;
 
     /**
      * Customer constructor.
@@ -110,6 +115,7 @@ class Customer implements UserInterface
         $this->serviceSMS = new ArrayCollection();
         $this->repairOrderReviewInteractions = new ArrayCollection();
         $this->repairOrderCustomers = new ArrayCollection();
+        $this->repairOrderQuoteInteractions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -339,6 +345,7 @@ class Customer implements UserInterface
 
         return $this;
     }
+
     /*
      * @return Collection|RepairOrderReviewInteractions[]
      */
@@ -382,9 +389,6 @@ class Customer implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|RepairOrderCustomer[]
-     */
     public function getRepairOrderCustomers(): Collection
     {
         return $this->repairOrderCustomers;
@@ -393,8 +397,24 @@ class Customer implements UserInterface
     public function addRepairOrderCustomer(RepairOrderCustomer $repairOrderCustomer): self
     {
         if (!$this->repairOrderCustomers->contains($repairOrderCustomer)) {
-            $this->repairOrderCustomers[] = $repairOrderCustomer;
             $repairOrderCustomer->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RepairOrderQuoteInteraction[]
+     */
+    public function getRepairOrderQuoteInteractions(): Collection
+    {
+        return $this->repairOrderQuoteInteractions;
+    }
+
+    public function addRepairOrderQuoteInteractions(RepairOrderQuoteInteraction $repairOrderQuoteInteractions): self
+    {
+        if (!$this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteractions)) {
+            $repairOrderQuoteInteractions->setCustomer($this);
         }
 
         return $this;
@@ -407,6 +427,19 @@ class Customer implements UserInterface
             // set the owning side to null (unless already changed)
             if ($repairOrderCustomer->getCustomer() === $this) {
                 $repairOrderCustomer->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderQuoteInteractions(RepairOrderQuoteInteraction $repairOrderQuoteInteractions): self
+    {
+        if ($this->repairOrderQuoteInteractions->contains($repairOrderQuoteInteractions)) {
+            $this->repairOrderQuoteInteractions->removeElement($repairOrderQuoteInteractions);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteInteractions->getCustomer() === $this) {
+                $repairOrderQuoteInteractions->setCustomer(null);
             }
         }
 

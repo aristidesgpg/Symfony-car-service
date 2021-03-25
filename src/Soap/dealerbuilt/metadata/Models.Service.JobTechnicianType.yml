@@ -1,0 +1,72 @@
+App\Soap\dealerbuilt\src\Models\Service\JobTechnicianType:
+    properties:
+        actualHours:
+            expose: true
+            access_type: public_method
+            serialized_name: ActualHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getActualHours
+                setter: setActualHours
+            type: float
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: Cost
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        estimatedHours:
+            expose: true
+            access_type: public_method
+            serialized_name: EstimatedHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getEstimatedHours
+                setter: setEstimatedHours
+            type: float
+        flatRateHours:
+            expose: true
+            access_type: public_method
+            serialized_name: FlatRateHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getFlatRateHours
+                setter: setFlatRateHours
+            type: float
+        laborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborAmount
+                setter: setLaborAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        payType:
+            expose: true
+            access_type: public_method
+            serialized_name: PayType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getPayType
+                setter: setPayType
+            type: string
+        tech:
+            expose: true
+            access_type: public_method
+            serialized_name: Tech
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getTech
+                setter: setTech
+            type: App\Soap\dealerbuilt\src\Models\NumberedPersonInfoType

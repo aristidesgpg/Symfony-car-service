@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\BaseApi\DealerAppointmentStatusListType:
+    properties:
+        statuses:
+            -
+                Valid: null

@@ -1,0 +1,4 @@
+App\Soap\dealertrack\src\WarrantyRO:
+    xml_root_name: WarrantyRO
+    xml_root_namespace: opentrack.dealertrack.com/transitional
+    properties: {  }

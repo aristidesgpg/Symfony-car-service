@@ -1,0 +1,17 @@
+App\Soap\dealerbuilt\src\Models\Appointments\ArrayOfAppointmentStatusType:
+    properties:
+        appointmentStatus:
+            -
+                All:
+                    constraints:
+                        -
+                            Choice:
+                                choices:
+                                    - None
+                                    - Confirmed
+                                    - Cancelled
+                                    - Postponed
+                                    - UnconfirmedFuture
+                                    - DealerDefined
+                    groups:
+                        - xsd_rules

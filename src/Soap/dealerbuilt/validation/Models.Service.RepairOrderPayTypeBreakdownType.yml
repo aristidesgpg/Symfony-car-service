@@ -1,0 +1,23 @@
+App\Soap\dealerbuilt\src\Models\Service\RepairOrderPayTypeBreakdownType:
+    properties:
+        freight:
+            -
+                Valid: null
+        hazmat:
+            -
+                Valid: null
+        labor:
+            -
+                Valid: null
+        misc:
+            -
+                Valid: null
+        parts:
+            -
+                Valid: null
+        sublet:
+            -
+                Valid: null
+        taxesFees:
+            -
+                Valid: null

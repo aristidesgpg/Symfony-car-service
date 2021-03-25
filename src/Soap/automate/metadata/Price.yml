@@ -1,0 +1,24 @@
+App\Soap\automate\src\Price:
+    xml_root_name: Price
+    xml_root_namespace: 'http://www.starstandard.org/STAR/5'
+    properties:
+        chargeAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: ChargeAmount
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getChargeAmount
+                setter: setChargeAmount
+            type: App\Soap\automate\src\ChargeAmount
+        priceDescription:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceDescription
+            xml_element:
+                namespace: 'http://www.starstandard.org/STAR/5'
+            accessor:
+                getter: getPriceDescription
+                setter: setPriceDescription
+            type: string

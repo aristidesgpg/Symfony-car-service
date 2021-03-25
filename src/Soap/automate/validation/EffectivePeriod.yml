@@ -1,0 +1,12 @@
+App\Soap\automate\src\EffectivePeriod:
+    properties:
+        startDateTime:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

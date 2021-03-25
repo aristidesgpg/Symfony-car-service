@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\GetEstimateJobCodesResponse:
+    properties:
+        getEstimateJobCodesResult:
+            -
+                Valid: null

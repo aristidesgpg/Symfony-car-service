@@ -1,0 +1,4 @@
+App\Soap\cdk\src\DisLevel:
+    xml_root_name: disLevel
+    xml_root_namespace: 'http://www.dmotorworks.com/service-repair-order-open'
+    properties: {  }

@@ -1,0 +1,42 @@
+App\Soap\dealerbuilt\src\Models\Stock\StockItemAvailabilityCriteriaType:
+    properties:
+        includeAvailable:
+            expose: true
+            access_type: public_method
+            serialized_name: IncludeAvailable
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getIncludeAvailable
+                setter: setIncludeAvailable
+            type: bool
+        includeOther:
+            expose: true
+            access_type: public_method
+            serialized_name: IncludeOther
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getIncludeOther
+                setter: setIncludeOther
+            type: bool
+        includePending:
+            expose: true
+            access_type: public_method
+            serialized_name: IncludePending
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getIncludePending
+                setter: setIncludePending
+            type: bool
+        includeSold:
+            expose: true
+            access_type: public_method
+            serialized_name: IncludeSold
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Stock'
+            accessor:
+                getter: getIncludeSold
+                setter: setIncludeSold
+            type: bool

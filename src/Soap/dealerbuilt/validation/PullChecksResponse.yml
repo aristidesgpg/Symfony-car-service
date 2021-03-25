@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\PullChecksResponse:
+    properties:
+        pullChecksResult:
+            -
+                Valid: null

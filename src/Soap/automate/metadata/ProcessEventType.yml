@@ -1,0 +1,50 @@
+App\Soap\automate\src\ProcessEventType:
+    properties:
+        authenticationToken:
+            expose: true
+            access_type: public_method
+            serialized_name: authenticationToken
+            accessor:
+                getter: getAuthenticationToken
+                setter: setAuthenticationToken
+            type: App\Soap\automate\src\AuthenticationTokenType
+        sourceThirdPartyId:
+            expose: true
+            access_type: public_method
+            serialized_name: sourceThirdPartyId
+            accessor:
+                getter: getSourceThirdPartyId
+                setter: setSourceThirdPartyId
+            type: int
+        dealerEndpointId:
+            expose: true
+            access_type: public_method
+            serialized_name: dealerEndpointId
+            accessor:
+                getter: getDealerEndpointId
+                setter: setDealerEndpointId
+            type: int
+        eventType:
+            expose: true
+            access_type: public_method
+            serialized_name: eventType
+            accessor:
+                getter: getEventType
+                setter: setEventType
+            type: string
+        payload:
+            expose: true
+            access_type: public_method
+            serialized_name: payload
+            accessor:
+                getter: getPayload
+                setter: setPayload
+            type: string
+        payloadVersion:
+            expose: true
+            access_type: public_method
+            serialized_name: payloadVersion
+            accessor:
+                getter: getPayloadVersion
+                setter: setPayloadVersion
+            type: string

@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\ArrayOfPhoneNumberType:
+    properties:
+        phoneNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PhoneNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            accessor:
+                getter: getPhoneNumber
+                setter: setPhoneNumber
+            xml_list:
+                inline: true
+                entry_name: PhoneNumber
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models'
+            type: array<App\Soap\dealerbuilt\src\Models\PhoneNumberType>

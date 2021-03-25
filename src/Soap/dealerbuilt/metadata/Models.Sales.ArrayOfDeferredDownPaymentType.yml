@@ -1,0 +1,16 @@
+App\Soap\dealerbuilt\src\Models\Sales\ArrayOfDeferredDownPaymentType:
+    properties:
+        deferredDownPayment:
+            expose: true
+            access_type: public_method
+            serialized_name: DeferredDownPayment
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            accessor:
+                getter: getDeferredDownPayment
+                setter: setDeferredDownPayment
+            xml_list:
+                inline: true
+                entry_name: DeferredDownPayment
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Sales'
+            type: array<App\Soap\dealerbuilt\src\Models\Sales\DeferredDownPaymentType>

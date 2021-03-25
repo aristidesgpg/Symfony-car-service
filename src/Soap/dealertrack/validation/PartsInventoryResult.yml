@@ -1,0 +1,9 @@
+App\Soap\dealertrack\src\PartsInventoryResult:
+    properties:
+        result:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null

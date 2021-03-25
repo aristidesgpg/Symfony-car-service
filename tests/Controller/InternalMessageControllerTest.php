@@ -43,7 +43,7 @@ class InternalMessageControllerTest extends WebTestCase {
         // Page Not Found
         $page = 0;
         $this->requestAction('GET', '/threads?page=' . $page );
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
         // Ok
         $page = 1;
@@ -118,7 +118,7 @@ class InternalMessageControllerTest extends WebTestCase {
             $message = "Hello World";
 
             $this->requestAction('POST', '?toId=' . $toId . '&message=' . $message);
-            $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
             // Parameter(s) Required
             $this->requestAction('POST', '');

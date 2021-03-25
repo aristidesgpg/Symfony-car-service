@@ -1,0 +1,109 @@
+App\Soap\automate\src\Job:
+    properties:
+        jobNumberString:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        operationID:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        operationName:
+            -
+                Regex:
+                    pattern: ~\c+~
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        codesAndCommentsExpanded:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        diagnostics:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        originCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        serviceParts:
+            -
+                Valid: null
+        serviceLabor:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        pricing:
+            -
+                Valid: null
+        laborAllowanceHoursNumeric:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        laborActualHoursNumeric:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        jobStatusCode:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        jobTypeString:
+            -
+                Regex:
+                    pattern: '~[\i-[:]][\c-[:]]*~'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        serviceTechnicianParty:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        serviceComponents:
+            -
+                Valid: null

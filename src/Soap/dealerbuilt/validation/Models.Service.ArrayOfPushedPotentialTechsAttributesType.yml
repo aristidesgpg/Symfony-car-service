@@ -1,0 +1,5 @@
+App\Soap\dealerbuilt\src\Models\Service\ArrayOfPushedPotentialTechsAttributesType:
+    properties:
+        pushedPotentialTechsAttributes:
+            -
+                Valid: null

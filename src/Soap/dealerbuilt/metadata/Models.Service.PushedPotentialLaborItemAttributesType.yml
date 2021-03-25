@@ -1,0 +1,177 @@
+App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType:
+    properties:
+        cause:
+            expose: true
+            access_type: public_method
+            serialized_name: Cause
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCause
+                setter: setCause
+            type: string
+        code:
+            expose: true
+            access_type: public_method
+            serialized_name: Code
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCode
+                setter: setCode
+            type: string
+        correction:
+            expose: true
+            access_type: public_method
+            serialized_name: Correction
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getCorrection
+                setter: setCorrection
+            type: string
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        externalLaborItemId:
+            expose: true
+            access_type: public_method
+            serialized_name: ExternalLaborItemId
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getExternalLaborItemId
+                setter: setExternalLaborItemId
+            type: string
+        failCode:
+            expose: true
+            access_type: public_method
+            serialized_name: FailCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getFailCode
+                setter: setFailCode
+            type: string
+        hours:
+            expose: true
+            access_type: public_method
+            serialized_name: Hours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getHours
+                setter: setHours
+            type: float
+        isApproved:
+            expose: true
+            access_type: public_method
+            serialized_name: IsApproved
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getIsApproved
+                setter: setIsApproved
+            type: bool
+        laborAmount:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborAmount
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborAmount
+                setter: setLaborAmount
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        laborPriceCode:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborPriceCode
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborPriceCode
+                setter: setLaborPriceCode
+            type: string
+        laborRate:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborRate
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborRate
+                setter: setLaborRate
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        laborTax:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborTax
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborTax
+                setter: setLaborTax
+            type: App\Soap\dealerbuilt\src\Models\MonetaryValueType
+        laborType:
+            expose: true
+            access_type: public_method
+            serialized_name: LaborType
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLaborType
+                setter: setLaborType
+            type: string
+        lineNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: LineNumber
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getLineNumber
+                setter: setLineNumber
+            type: int
+        otherLaborHours:
+            expose: true
+            access_type: public_method
+            serialized_name: OtherLaborHours
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getOtherLaborHours
+                setter: setOtherLaborHours
+            type: float
+        remark:
+            expose: true
+            access_type: public_method
+            serialized_name: Remark
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getRemark
+                setter: setRemark
+            type: string
+        sublets:
+            expose: true
+            access_type: public_method
+            serialized_name: Sublets
+            xml_element:
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
+            accessor:
+                getter: getSublets
+                setter: setSublets
+            type: array<App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborOperationSubletAttributesType>
+            xml_list:
+                inline: false
+                entry_name: PushedPotentialLaborOperationSubletAttributes
+                skip_when_empty: true
+                namespace: 'http://schemas.datacontract.org/2004/07/DealerBuilt.Models.Service'
