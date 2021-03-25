@@ -115,34 +115,32 @@ class MigrateFromOldDatabase extends Command
         
         // $statement->bindValue('emp', );
         
-        $this->mpi();
-        $output->writeln("MPI done");
+        // $this->mpi();
+        // $output->writeln("MPI done");
         
-        $this->mpiGroup();
-        $output->writeln("MPI Group done");
+        // $this->mpiGroup();
+        // $output->writeln("MPI Group done");
         
-        $this->mpiItems();
-        $output->writeln("MPI Group done");
+        // $this->mpiItems();
+        // $output->writeln("MPI Group done");
 
         $this->admin();
         $output->writeln("Admin done");
 
         $this->advisor();
         $output->writeln("Advisor done");
-
-        $this->customer();
-        $output->writeln("Customer done");
         
-
-
         $this->technician();
         $output->writeln("Technican done");
 
         $this->manager();
         $output->writeln("Manager done");
        
-         $this->salesManager();
-         $output->writeln("SalesManager done");
+        $this->salesManager();
+        $output->writeln("SalesManager done");
+
+        $this->customer();
+        $output->writeln("Customer done");
         
         $this->repairOrder();
         $output->writeln("RepairOrder done");
@@ -793,7 +791,7 @@ class MigrateFromOldDatabase extends Command
                         ->setPassword( $row['password'] )
                         ->setSecurityQuestion( $row['security_question'] )
                         ->setSecurityAnswer( $row['security_answer'] )
-                        ->setRole( 'ROLE_SERVICE_MANAGER' );
+                        ->setRole( 'ROLE_SALES_MANAGER' );
                     
                     $this->em->persist( $user );
                     $this->em->flush();
@@ -912,7 +910,7 @@ class MigrateFromOldDatabase extends Command
                 $this->oldAdvisorIds[ $row['id'] ] = $oldUser->getId();
             } else {
                 $statement = $this->connection->prepare(
-                    "SELECT MAX(date) as date FROM login_log where user_type = 'advisor' and user_id = '" . $row['id'] . "'"
+                    "SELECT MAX(date) as date FROM login_log where user_type = 'advisor' and user_id = " . $row['id']
                 );
                 
                 $statement->execute();
@@ -1058,6 +1056,7 @@ class MigrateFromOldDatabase extends Command
         foreach($rows as $row){
             if(!$row['inactive']){
                 $oldRepairOrder = $repairOrderRepo->findOneBy(['number' => $row['number']]);
+                
                 if($oldRepairOrder) {
                     $this->oldRepairOrderIds[ $row['id'] ] = $oldRepairOrder->getId();
                 } else {
