@@ -291,7 +291,9 @@ class MigrateFromOldDatabase extends Command
                     }
                     
                     $repairOrderPayment->setStatus($status);
+                    $repairOrder->setPaymentStatus($status);
                     $this->em->persist( $repairOrderPayment );
+                    $this->em->persist( $repairOrder );
                 }
             }
         }
@@ -1063,7 +1065,7 @@ class MigrateFromOldDatabase extends Command
                     $customerId = $this->oldCustomerIds[ $row['primary_customer_id'] ];
                     $customer = $customerRepo->findOneBy(['id' => $customerId]);
         
-                    $technicanId = $this->oldTechnicanIds[ $row['technican_id' ] ];
+                    $technicanId = $this->oldTechnicanIds[ $row['technician_id' ] ];
                     $technican = $userRepo->findOneBy(['id' => $technicanId] );
                     
                     $advisorId = $this->oldAdvisorIds[ $row['advisor_id' ] ];
@@ -1093,7 +1095,6 @@ class MigrateFromOldDatabase extends Command
                                 ->setUpgradeQue($row['upgradeQueue']);
                     
                     $this->em->persist( $repairOrder );
-                    $this->em->flush();
                     
                     if($row['video']) {
                         // make full path for the video
@@ -1117,11 +1118,10 @@ class MigrateFromOldDatabase extends Command
                                         ->setStatus("Uploaded")
                                         ->setDateUploaded(new \Datetime($row['date']) );
                         if($clientInteraction){
-                            $repairOrderVideo->setDateViewed(new \DateTime($clientInteraction['date']) )
+                            $repairOrderVideo->setDateViewed(new \DateTime($clientInteraction['latest_date']) )
                                              ->setStatus("Viewed");
                         }
                         $this->em->persist( $repairOrderVideo );
-                        $this->em->flush();
         
                         $repairOrderVideoInteraction->setRepairOrderVideo($repairOrderVideo)
                                                     ->setUser($technican)
@@ -1136,12 +1136,13 @@ class MigrateFromOldDatabase extends Command
                                                               ->setUser($technican)
                                                               ->setCustomer($customer)
                                                               ->setType("Viewed")
-                                                              ->setDate(new \DateTime($clientInteraction['date']) );
+                                                              ->setDate(new \DateTime($clientInteraction['latest_date']) );
                             
                             $this->em->persist( $repairOrderVideoInteractionViewed );
                         }
-                            $this->em->flush();
                     }
+
+                    $this->em->flush();
                     $this->oldRepairOrderIds[ $row['id'] ] = $repairOrder->getId();
                 }
             } else {
