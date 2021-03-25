@@ -237,8 +237,8 @@ class RepairOrderQuoteHelper
 
             $this->em->persist($repairOrderQuoteRecommendationPart);
 
-            $repairOrderQuoteRecommendation->addRepairOrderQuoteRecommendationPart($repairOrderQuoteRecommendationPart);
-            $this->em->persist($repairOrderQuoteRecommendation);
+            // $repairOrderQuoteRecommendation->addRepairOrderQuoteRecommendationPart($repairOrderQuoteRecommendationPart);
+            // $this->em->persist($repairOrderQuoteRecommendation);
 
             $this->em->beginTransaction();
 
