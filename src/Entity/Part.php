@@ -43,7 +43,12 @@ class Part
      * @Serializer\Groups(groups={"part_list"})
      */
     private $available;
-
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted = false;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -93,6 +98,18 @@ class Part
     public function setAvailable(?int $available): self
     {
         $this->available = $available;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }
