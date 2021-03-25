@@ -209,12 +209,6 @@ class RepairOrder
     private $repairOrderMPI;
 
     /**
-     * @ORM\Column(type="boolean")
-     * @Serializer\Groups(groups={"ro_list"})
-     */
-    private $archived = false;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderVideo", mappedBy="repairOrder")
      */
     private $videos;
@@ -620,18 +614,6 @@ class RepairOrder
     public function setDeleted(bool $deleted): self
     {
         $this->deleted = $deleted;
-
-        return $this;
-    }
-
-    public function isArchived(): bool
-    {
-        return $this->archived === true;
-    }
-
-    public function setArchived(bool $archived): self
-    {
-        $this->archived = $archived;
 
         return $this;
     }

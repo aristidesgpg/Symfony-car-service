@@ -18,7 +18,7 @@ class PriceMatrixFixture extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         // Load a Price Matrix
-        for ($hours = 0; $hours <= 1.9; $hours += 0.1) {
+        for ($hours = 0; $hours <= 9.9; $hours += 0.1) {
             $priceMatrix = new PriceMatrix();
 
             $priceMatrix->setHours($hours)

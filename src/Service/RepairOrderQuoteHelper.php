@@ -30,6 +30,18 @@ class RepairOrderQuoteHelper
         'notes',
     ];
 
+    private const QUOTE_STATUSES = [
+        'Not Started' => 0,
+        'Advisor In Progress' => 1,
+        'Technician In Progress' => 1,
+        'Parts In Progress' => 1,
+        'In Progress' => 1,
+        'Sent' => 2,
+        'Viewed' => 3,
+        'Completed' => 4,
+        'Confirmed' => 5,
+    ];
+
     private $em;
     private $security;
     private $operationCodeRepository;
@@ -216,5 +228,30 @@ class RepairOrderQuoteHelper
         }
 
         return $newQuote;
+    }
+
+    public function getProgressStatus()
+    {
+        $user = $this->security->getUser();
+        $roles = $user->getRoles();
+        $status = 'Advisor In Progress';
+        if ('ROLE_TECHNICIAN' == $roles[0]) {
+            $status = 'Technician In Progress';
+        } elseif ('ROLE_PARTS_ADVISOR' == $roles[0]) {
+            $status = 'Parts In Progress';
+        }
+
+        return $status;
+    }
+
+    public function checkStatusUpdate($prevStatus, $newStatus)
+    {
+        if (self::QUOTE_STATUSES[$prevStatus] >= self::QUOTE_STATUSES['Sent']) {
+            if (self::QUOTE_STATUSES[$prevStatus] >= self::QUOTE_STATUSES[$newStatus]) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

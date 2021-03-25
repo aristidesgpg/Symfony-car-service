@@ -74,10 +74,9 @@ class CustomerHelper
                     break;
                 case 'doNotContact':
                 case 'skipMobileVerification':
+                default:
                     // Do nothing
                     break;
-                default:
-                    $msg = 'Unknown key';
             }
             if (null !== $msg) {
                 $errors[$k] = $msg;

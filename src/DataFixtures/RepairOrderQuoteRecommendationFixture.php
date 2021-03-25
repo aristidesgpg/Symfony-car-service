@@ -8,9 +8,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 
-/**
- * Class RepairOrderQuoteRecommendationFixture.
- */
 class RepairOrderQuoteRecommendationFixture extends Fixture implements DependentFixtureInterface
 {
     /**
@@ -20,13 +17,15 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
     {
         $faker = Factory::create();
 
-        for ($i = 0; $i < 50; ++$i ) {
-            $repairOrderQuoteReference = $faker->numberBetween(1, 49);
+        for ($i = 1; $i <= 50; ++$i) {
+            $repairOrderQuoteReference = $faker->numberBetween(1, 100);
+            $repairOrderQuote = $this->getReference('repairOrderQuote_'.$repairOrderQuoteReference);
             $operationCodeReference = $faker->numberBetween(2, 50);
+            $operationCode = $this->getReference('operationCode_'.$operationCodeReference);
 
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
-            $repairOrderQuoteRecommendation->setRepairOrderQuote($this->getReference('repairOrderQuote_'.$repairOrderQuoteReference))
-                                           ->setOperationCode($this->getReference('operationCode_'.$operationCodeReference))
+            $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
+                                           ->setOperationCode($operationCode)
                                            ->setDescription($faker->sentence(5, true))
                                            ->setPreApproved($faker->boolean(70))
                                            ->setApproved($faker->boolean(50))
@@ -35,7 +34,7 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
                                            ->setLaborPrice($faker->randomFloat(2, 1, 1000))
                                            ->setNotes($faker->sentence(3, true));
 
-            $manager->persist($repairOrderQuoteRecommendation);
+            $manager->persist($repairOrderQuote);
             $manager->flush();
 
             $this->addReference('repairOrderQuoteRecommendation_'.$i, $repairOrderQuoteRecommendation);

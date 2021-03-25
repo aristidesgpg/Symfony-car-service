@@ -9,13 +9,10 @@ use Doctrine\Persistence\ObjectManager;
 use Exception;
 
 /**
- * Class SettingFixture
- *
- * @package App\DataFixtures
+ * Class SettingFixture.
  */
 class SettingsFixture extends Fixture
 {
-
     /**
      * @var PasswordHelper
      */
@@ -23,8 +20,6 @@ class SettingsFixture extends Fixture
 
     /**
      * SettingsFixture constructor.
-     *
-     * @param PasswordHelper $passwordHelper
      */
     public function __construct(PasswordHelper $passwordHelper)
     {
@@ -32,11 +27,9 @@ class SettingsFixture extends Fixture
     }
 
     /**
-     * @param ObjectManager $manager
-     *
      * @return void
-     * @throws Exception
      *
+     * @throws Exception
      */
     public function load(ObjectManager $manager)
     {
@@ -54,7 +47,7 @@ class SettingsFixture extends Fixture
             'serviceTextIntro' => 'Welcome to (dealer name) Please text this number for status updates. Your inspection video will be sent from a separate number',
             'serviceTextVideo' => 'Your vehicle inspection video is ready, please click the link:',
             'serviceTextVideoResend' => 'Friendly reminder from (dealer name), you have maintenance needed, please click the link:',
-            'serviceTextQuote' => null,
+            'serviceTextQuote' => 'Please click the link below to view your service quote: ',
             'serviceTextPayment' => null,
             'pricingLaborRate' => '110',
             'pricingUseMatrix' => '0',
@@ -101,7 +94,7 @@ class SettingsFixture extends Fixture
             'dmsFilter' => 'Internal',
             'offHoursIntegration' => 'false',
             'hasPayments' => 'true',
-            'tokenizationKey' => 'Qv593h-2PkH24-N2JKD8-Ze8NXU'
+            'tokenizationKey' => 'Qv593h-2PkH24-N2JKD8-Ze8NXU',
         ];
 
         foreach ($settings as $k => $v) {

@@ -131,9 +131,9 @@ class PartController extends AbstractFOSRestController
                 'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
                 'totalPages' => $pagination->totalPages,
-                'previous' => $pagination->getPreviousPageURL('app_parts_getparts', $urlParameters),
+                'previous' => $pagination->getPreviousPageURL('app_part_getparts', $urlParameters),
                 'currentPage' => $pagination->currentPage,
-                'next' => $pagination->getNextPageURL('app_parts_getparts', $urlParameters),
+                'next' => $pagination->getNextPageURL('app_part_getparts', $urlParameters),
             ]
         );
         $view->getContext()->setGroups(['part_list']);
