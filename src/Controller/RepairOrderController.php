@@ -10,6 +10,7 @@ use App\Response\ValidationResponse;
 use App\Service\MyReviewHelper;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
+use App\Service\RepairOrderQuoteHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
@@ -242,11 +243,18 @@ class RepairOrderController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function getOne(RepairOrder $repairOrder): Response
+    public function getOne(RepairOrder $repairOrder, RepairOrderQuoteHelper $repairOrderQuoteHelper): Response
     {
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
         }
+       
+        $repairOrderQuote = $repairOrder->getRepairOrderQuote();
+        if($repairOrderQuote) {
+            $newRepairOrderQuote = $repairOrderQuoteHelper->calculateLaborAndTax($repairOrder->getRepairOrderQuote());
+            $repairOrder->setRepairOrderQuote($newRepairOrderQuote);
+        }
+        
 
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
