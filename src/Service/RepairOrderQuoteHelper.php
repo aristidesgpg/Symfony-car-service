@@ -2,12 +2,15 @@
 
 namespace App\Service;
 
+use App\Entity\Part;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
 use App\Repository\OperationCodeRepository;
+use App\Repository\PartRepository;
 use App\Repository\PriceMatrixRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
 use Exception;
 use Symfony\Component\Security\Core\Security;
 
@@ -49,6 +52,7 @@ class RepairOrderQuoteHelper
     private $em;
     private $security;
     private $operationCodeRepository;
+    private $partRepository;
     private $pricingLaborRate;
     private $isPricingMatrix;
     private $pricingLaborTax;
@@ -60,12 +64,14 @@ class RepairOrderQuoteHelper
         OperationCodeRepository $operationCodeRepository,
         SettingsHelper $settingsHelper,
         PriceMatrixRepository $priceRepository,
+        partRepository $partRepository,
         Security $security
     ) {
         $this->em = $em;
         $this->operationCodeRepository = $operationCodeRepository;
         $this->security = $security;
         $this->priceRepository = $priceRepository;
+        $this->partRepository = $partRepository;
 
         $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
         $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix') * 0.01;
@@ -206,7 +212,7 @@ class RepairOrderQuoteHelper
 
             try {
                 $this->em->flush();
-                $this->em->getConnection()->commit();
+                $this->em->commit();
             } catch (ORMException | Exception $e) {
                 $this->em->rollback();
 
@@ -234,22 +240,28 @@ class RepairOrderQuoteHelper
                                ->setDescription($part->description)
                                ->setprice($part->price)
                                ->setQuantity($part->quantity);
+            
+            $partEntity = $this->partRepository->findOneBy(['number' => $part->number]);
+            if(!$partEntity) {
+                $partEntity = new Part();
 
-            $this->em->persist($repairOrderQuoteRecommendationPart);
-
-            // $repairOrderQuoteRecommendation->addRepairOrderQuoteRecommendationPart($repairOrderQuoteRecommendationPart);
-            // $this->em->persist($repairOrderQuoteRecommendation);
-
-            $this->em->beginTransaction();
-
-            try {
-                $this->em->flush();
-                $this->em->commit();
-            } catch (Exception $e) {
-                $this->em->rollback();
-
-                throw new Exception($e->getMessage());
+                $partEntity->setNumber($part->number)
+                           ->setName($part->description);
+                $this->em->persist($partEntity);    
             }
+            
+            $this->em->persist($repairOrderQuoteRecommendationPart);
+        }
+        
+        $this->em->beginTransaction();
+
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (Exception $e) {
+            $this->em->rollback();
+
+            throw new Exception($e->getMessage());
         }
     }
 
