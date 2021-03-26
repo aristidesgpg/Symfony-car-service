@@ -97,7 +97,7 @@ class RepairOrderQuoteRecommendation
     private $notes;
 
     /**
-     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendationPart::class, mappedBy="repair_order_recommendation_id", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendationPart::class, mappedBy="repairOrderRecommendation", orphanRemoval=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
     private $repairOrderQuoteRecommendationParts;
