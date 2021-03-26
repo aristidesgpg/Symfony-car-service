@@ -22,6 +22,7 @@ class PartFixture extends Fixture
             $part->setNumber($faker->unique(true)->numberBetween(10000, 99999))
                   ->setName($name)
                   ->setBin(substr($faker->regexify('[A-Za-z0-9]{20}'), 0, 5))
+                  ->setPrice($faker->randomFloat(2, 1, 2000))
                   ->setAvailable($faker->numberBetween(0, 20));
 
             $manager->persist($part);
