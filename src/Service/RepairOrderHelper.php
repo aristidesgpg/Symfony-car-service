@@ -28,19 +28,22 @@ class RepairOrderHelper
     private $customers;
     private $users;
     private $customerHelper;
+    private $repairOrderHelper;
 
     public function __construct(
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
         UserRepository $users,
-        CustomerHelper $customerHelper
+        CustomerHelper $customerHelper,
+        RepairOrderQuoteHelper $repairOrderQuoteHelper
     ) {
         $this->em = $em;
         $this->repo = $repo;
         $this->customers = $customers;
         $this->users = $users;
         $this->customerHelper = $customerHelper;
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
     }
 
     /**
@@ -525,7 +528,16 @@ class RepairOrderHelper
                 $fields
             );
 
-            return $qb->getQuery()->getResult();
+            $repairOrders = $qb->getQuery()->getResult();
+            foreach($repairOrders as $repairOrder) {
+                $repairOrderQuote = $repairOrder->getRepairOrderQuote();
+                
+                if($repairOrderQuote) {
+                    $newRepairOrderQuote = $this->repairOrderQuoteHelper->calculateLaborAndTax($repairOrder->getRepairOrderQuote());
+                    $repairOrder->setRepairOrderQuote($newRepairOrderQuote);
+                }
+            }
+            return $repairOrders;
         } catch (NonUniqueResultException $e) {
             return null;
         }
