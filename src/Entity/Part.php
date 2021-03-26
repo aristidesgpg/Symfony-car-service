@@ -45,6 +45,12 @@ class Part
     private $available;
     
     /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"part_list"})
+     */
+    private $price;
+    
+    /**
      * @ORM\Column(type="boolean")
      */
     private $deleted = false;
@@ -98,6 +104,18 @@ class Part
     public function setAvailable(?int $available): self
     {
         $this->available = $available;
+
+        return $this;
+    }
+    
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }
