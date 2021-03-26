@@ -64,7 +64,7 @@ class RepairOrderQuoteHelper
         $this->priceRepository = $priceRepository;
 
         $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
-        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix') * 0.01;
+        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix');
         $this->pricingLaborTax = $settingsHelper->getSetting('pricingLaborTax') * 0.01;
         $this->pricingPartsTax = $settingsHelper->getSetting('pricingPartsTax') * 0.01;
     }
