@@ -20,6 +20,11 @@ class Part
      */
     private $id;
 
+     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendationPart::class, mappedBy="part")
+     */
+    private $repairOrderQuoteRecommendationParts;
+
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      * @Serializer\Groups(groups={"part_list"})

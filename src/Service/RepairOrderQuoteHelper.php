@@ -24,11 +24,13 @@ class RepairOrderQuoteHelper
         'approved',
         'partsPrice',
         'suppliesPrice',
-        // 'laborPrice',
+        'laborTax',
+        'partsTax',
+        'suppliesTax',
     ];
     private const PART_REQUIRED_FIELDS = [
         'number',
-        'description',
+        'name',
         'price',
         'quantity',
     ];
@@ -165,6 +167,13 @@ class RepairOrderQuoteHelper
      */
     public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations)
     {
+        if(count($recommendations) > 0) {
+            // Remove previous recommendations
+            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+                $this->em->remove($oldRecommendation);
+            }
+        }
+
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
 
@@ -174,13 +183,7 @@ class RepairOrderQuoteHelper
                 throw new Exception('Invalid operationCode Parameter in recommendations JSON');
             }
 
-            // Remove previous recommendations
-            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
-                $this->em->remove($oldRecommendation);
-            }
-
-            $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                                           ->setOperationCode($operationCode)
+            $repairOrderQuoteRecommendation->setOperationCode($operationCode)
                                            ->setDescription($recommendation->description)
                                            ->setPreApproved(
                                                filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
@@ -202,26 +205,28 @@ class RepairOrderQuoteHelper
                                                ->setPartsTax($laborAndTax['partsTax'])
                                                ->setSuppliesTax($laborAndTax['suppliesTax']);
             }
-
-            $this->em->persist($repairOrderQuoteRecommendation);
-
             $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
-            $this->em->persist($repairOrderQuote);
-
-            $this->em->beginTransaction();
-
-            try {
-                $this->em->flush();
-                $this->em->commit();
-            } catch (ORMException | Exception $e) {
-                $this->em->rollback();
-
-                throw new Exception($e->getMessage());
-            }
-
+            
+            $this->em->persist($repairOrderQuoteRecommendation);
+            
             if (property_exists($recommendation, 'parts')) {
                 $this->buildParts($repairOrderQuoteRecommendation, $recommendation->parts);
             }
+        }
+
+        $this->em->persist($repairOrderQuote);
+
+        $this->em->beginTransaction();
+
+        try {
+            $this->em->flush();
+            $this->em->commit();
+
+           
+        } catch (ORMException | Exception $e) {
+            $this->em->rollback();
+
+            throw new Exception($e->getMessage());
         }
     }
 
@@ -231,28 +236,34 @@ class RepairOrderQuoteHelper
      * @throws Exception
      */
     public function buildParts(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation, array $parts)
-    {
+    { 
         foreach ($parts as $part) {
             $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
-
-            $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
+            $repairOrderQuoteRecommendation->addRepairOrderQuoteRecommendationPart($repairOrderQuoteRecommendationPart);
+            $repairOrderQuoteRecommendationPart//->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
                                ->setNumber($part->number)
-                               ->setDescription($part->description)
+                               ->setName($part->name)
                                ->setprice($part->price)
+                               ->setTotalPrice($part->quantity * $part->price)
                                ->setQuantity($part->quantity);
             
-            $partEntity = $this->partRepository->findOneBy(['number' => $part->number]);
-            if(!$partEntity) {
-                $partEntity = new Part();
+            $newPart = $this->partRepository->findOneBy(['number' => $part->number]);
+            if(!$newPart) {
+                $newPart = new Part();
 
-                $partEntity->setNumber($part->number)
-                           ->setName($part->description);
-                $this->em->persist($partEntity);    
+                $newPart->setNumber($part->number)
+                        ->setName($part->name)
+                        ->setPrice($part->price)
+                        ->setBin($part->bin);
+
+                $this->em->persist($newPart);
             }
             
+            $repairOrderQuoteRecommendationPart->setPart($newPart);
+
             $this->em->persist($repairOrderQuoteRecommendationPart);
         }
-        
+        $this->em->persist($repairOrderQuoteRecommendation);         
         $this->em->beginTransaction();
 
         try {

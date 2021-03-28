@@ -26,6 +26,13 @@ class RepairOrderQuoteRecommendationPart
      */
     private $repairOrderRecommendation;
 
+     /**
+     * @ORM\ManyToOne(targetEntity=Part::class, inversedBy="repairOrderQuoteRecommendationParts")
+     * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"roqp_list"})
+     */
+    private $part;
+
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Groups(groups={"roqp_list"})
@@ -36,7 +43,7 @@ class RepairOrderQuoteRecommendationPart
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Groups(groups={"roqp_list"})
      */
-    private $description;
+    private $name;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -49,6 +56,12 @@ class RepairOrderQuoteRecommendationPart
      * @Serializer\Groups(groups={"roqp_list"})
      */
     private $quantity;
+    
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqp_list"})
+     */
+    private $totalPrice;
 
     public function getId(): ?int
     {
@@ -79,14 +92,14 @@ class RepairOrderQuoteRecommendationPart
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getName(): ?string
     {
-        return $this->description;
+        return $this->name;
     }
 
-    public function setDescription(?string $description): self
+    public function setName(?string $name): self
     {
-        $this->description = $description;
+        $this->name = $name;
 
         return $this;
     }
@@ -111,6 +124,30 @@ class RepairOrderQuoteRecommendationPart
     public function setQuantity(?float $quantity): self
     {
         $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    public function getPart(): ?Part
+    {
+        return $this->part;
+    }
+
+    public function setPart(?Part $part): self
+    {
+        $this->part = $part;
+
+        return $this;
+    }
+
+    public function getTotalPrice(): ?float
+    {
+        return $this->totalPrice;
+    }
+
+    public function setTotalPrice(?float $totalPrice): self
+    {
+        $this->totalPrice = $totalPrice;
 
         return $this;
     }

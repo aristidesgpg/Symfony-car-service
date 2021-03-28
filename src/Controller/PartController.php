@@ -50,8 +50,9 @@ class PartController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
-     *     description="The value of search.  The available fields are code and description",
+     *     description="The value of search.  The available fields are number, name and bin",
      *     in="query"
+     * 
      * )
      *
      * @SWG\Response(
@@ -75,7 +76,7 @@ class PartController extends AbstractFOSRestController
      */
     public function getParts(
         Request $request,
-        PartRepository $repo,
+        PartRepository $partRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
@@ -115,7 +116,7 @@ class PartController extends AbstractFOSRestController
             throw new BadRequestHttpException('Invalid sort field name');
         }
 
-        $parts = $repo->getParts(
+        $parts = $partRepo->getParts(
             $sortField,
             $sortDirection,
             $searchTerm
