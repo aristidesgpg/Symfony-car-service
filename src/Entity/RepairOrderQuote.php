@@ -76,6 +76,25 @@ class RepairOrderQuote
      * @ORM\Column(type="string", length=255)
      */
     private $status = 'Not Started';
+    
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $subtotal;
+   
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $tax;
+    
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $total;
+
 
     public function __construct()
     {
@@ -232,5 +251,41 @@ class RepairOrderQuote
         $this->status = $status;
 
         return $this;
+    }
+
+    public function setSubtotal(?float $subtotal): self
+    {
+        $this->subtotal = $subtotal;
+
+        return $this;
+    }
+
+    public function getSubtotal(): ?float
+    {
+        return $this->subtotal;
+    }
+    
+    public function setTax(?float $tax): self
+    {
+        $this->tax = $tax;
+
+        return $this;
+    }
+
+    public function getTax(): ?float
+    {
+        return $this->tax;
+    }
+
+    public function setTotal(?float $total): self
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteInteraction;
 use App\Helper\iServiceLoggerTrait;
@@ -49,7 +50,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote, RepairOrderQuoteHelper $helper)
     {
-        $repairOrderQuote = $helper->calculateLaborAndTax($repairOrderQuote);
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
 
@@ -94,6 +94,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $helper
     ) {
+
+        $user  = $this->getUser();
+        if($user instanceof Customer) {
+            throw new BadRequestHttpException('The user should not be a customer');
+        }
+
         $repairOrderID = $request->get('repairOrderID');
         $recommendations = $request->get('recommendations');
 
