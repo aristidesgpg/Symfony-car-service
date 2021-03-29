@@ -238,7 +238,7 @@ class RepairOrderQuoteHelper
                     'operationCode' => $operationCode,
                 ]);
 
-                $repairOrderQuoteRecommendation->setApproved($recommendation->approved);
+                $repairOrderQuoteRecommendation->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN));
 
                 if($recommendation->approved) {
                     $subtotal += $recommendation->laborPrice + $recommendation->partsPrice + $recommendation->suppliesPrice;

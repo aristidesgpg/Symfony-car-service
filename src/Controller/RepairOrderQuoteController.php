@@ -137,7 +137,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
-        
+
         $status = $helper->getProgressStatus();
 
         // Create RepairOrderQuoteInteraction
