@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Helper\FalsyTrait;
+use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
 use App\Service\MyReviewHelper;
@@ -339,7 +340,8 @@ class RepairOrderController extends AbstractFOSRestController
         TwilioHelper $twilioHelper,
         ShortUrlHelper $shortUrlHelper,
         SettingsHelper $settingsHelper,
-        ParameterBagInterface $parameterBag
+        ParameterBagInterface $parameterBag,
+        CustomerRepository $customerRepo
     ): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
@@ -351,6 +353,9 @@ class RepairOrderController extends AbstractFOSRestController
             return new ValidationResponse($ro);
         }
 
+        $customerPhone = $req->request->get('customerPhone');
+        $customer = $customerRepo->findByPhone($customerPhone);
+
         // Send waiver or intro message
         try {
             // waiver disabled so send regular text
@@ -358,18 +363,20 @@ class RepairOrderController extends AbstractFOSRestController
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
             } else {
                 // waiver enabled
-                $url = $customerURL.$ro->getLinkHash();
-                $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                $waiverMessage = $waiverIntroText.' '.$shortUrl;
+                if ($customer->getMobileConfirmed() && !$customer->isDeleted()) {
+                    $url = $customerURL.$ro->getLinkHash();
+                    $shortUrl = $shortUrlHelper->generateShortUrl($url);
+                    $waiverMessage = $waiverIntroText.' '.$shortUrl;
 
-                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
+                    $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
-                $roInteraction = new RepairOrderInteraction();
-                $roInteraction->setRepairOrder($ro)
+                    $roInteraction = new RepairOrderInteraction();
+                    $roInteraction->setRepairOrder($ro)
                               ->setUser($this->getUser())
                               ->setType('Waiver Sent');
-                $em->persist($roInteraction);
-                $em->flush();
+                    $em->persist($roInteraction);
+                    $em->flush();
+                }
             }
         } catch (Exception $e) {
             throw new InternalErrorException($e);
