@@ -273,13 +273,14 @@ class RepairOrderQuoteHelper
     { 
         foreach ($parts as $part) {
             $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
+            
             $repairOrderQuoteRecommendation->addRepairOrderQuoteRecommendationPart($repairOrderQuoteRecommendationPart);
-            $repairOrderQuoteRecommendationPart//->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
-                               ->setNumber($part->number)
-                               ->setName($part->name)
-                               ->setprice($part->price)
-                               ->setTotalPrice($part->quantity * $part->price)
-                               ->setQuantity($part->quantity);
+            
+            $repairOrderQuoteRecommendationPart->setNumber($part->number)
+                                               ->setName($part->name)
+                                               ->setprice($part->price)
+                                               ->setTotalPrice($part->quantity * $part->price)          
+                                               ->setQuantity($part->quantity);      
             
             $newPart = $this->partRepository->findOneBy(['number' => $part->number]);
             if(!$newPart) {
