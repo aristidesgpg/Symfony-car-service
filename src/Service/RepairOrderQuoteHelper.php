@@ -124,6 +124,7 @@ class RepairOrderQuoteHelper
      */
     public function validateRecommendationsJson(array $params)
     {
+
         foreach ($params as $recommendation) {
             if (!is_object($recommendation)) {
                 throw new Exception('Recommendations data is invalid');
@@ -245,21 +246,17 @@ class RepairOrderQuoteHelper
                 }
                 
                 $this->em->persist($repairOrderQuoteRecommendation);
-                $repairOrderQuote->setSubtotal($subtotal);
-                $repairOrderQuote->setTax($tax);
-                $repairOrderQuote->setTotal($subtotal + $tax);
             }
+            $repairOrderQuote->setSubtotal($subtotal);
+            $repairOrderQuote->setTax($tax);
+            $repairOrderQuote->setTotal($subtotal + $tax);
         }
      
-        $this->em->persist($repairOrderQuote);
-
         $this->em->beginTransaction();
 
         try {
             $this->em->flush();
             $this->em->commit();
-
-           
         } catch (ORMException | Exception $e) {
             $this->em->rollback();
 

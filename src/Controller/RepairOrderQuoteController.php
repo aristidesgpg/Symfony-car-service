@@ -92,11 +92,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderRepository $repairOrderRepository,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
         EntityManagerInterface $em,
-        RepairOrderQuoteHelper $helper
+        RepairOrderQuoteHelper $helper,
+        Security $security
     ) {
-
-        $user  = $this->getUser();
-        if($user instanceof Customer) {
+        if ($security->isGranted('ROLE_CUSTOMER')) {
             throw new BadRequestHttpException('The user should not be a customer');
         }
 
@@ -119,52 +118,43 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if ($exists) {
             throw new BadRequestHttpException('A quote already exists for this Repair Order');
         }
-        // Get quote status according to the type of user
-        $status = $helper->getProgressStatus();
-        // store repairOrderQuote
-        $repairOrderQuote = new RepairOrderQuote();
-        $repairOrderQuote->setRepairOrder($repairOrder);
-
-        $em->persist($repairOrderQuote);
-
-        $repairOrder->setRepairOrderQuote($repairOrderQuote);
-        $em->persist($repairOrder);
-
-        $em->flush();
-
+       
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
-            $em->remove($repairOrderQuote);
-            $em->flush();
-
             throw new BadRequestHttpException('Recommendations data is invalid');
         }
 
+        // store repairOrderQuote
+        $repairOrderQuote = new RepairOrderQuote();
+
+        $repairOrder->setRepairOrderQuote($repairOrderQuote);
+
         try {
             $helper->validateRecommendationsJson($recommendations);
+
             $helper->buildRecommendations($repairOrderQuote, $recommendations);
         } catch (Exception $e) {
-            $em->remove($repairOrderQuote);
-            $em->flush();
-
             throw new BadRequestHttpException($e->getMessage());
         }
+        
+        $status = $helper->getProgressStatus();
 
         // Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
-        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                     ->setUser($repairOrder->getPrimaryTechnician())
-                                     ->setCustomer($repairOrder->getPrimaryCustomer())
-                                     ->setType($status);
+        $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status);
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
 
-        $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
+        $em->persist($repairOrder);
+
         $em->flush();
 
         $view = $this->view($repairOrderQuote);
@@ -224,6 +214,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         try {
             $repairOrderQuoteHelper->validateRecommendationsJson($recommendations);
+            
             $repairOrderQuoteHelper->buildRecommendations($repairOrderQuote, $recommendations);
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
@@ -239,10 +230,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
-        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
+        $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
                                     ->setCustomer($repairOrder->getPrimaryCustomer())
                                     ->setType($status);
+        
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status)
