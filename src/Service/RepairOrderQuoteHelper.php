@@ -308,67 +308,6 @@ class RepairOrderQuoteHelper
         }
     }
 
-    // public function getLaborAndTax($partsPrice, $suppliesPrice, $operationCode): array
-    // {
-    //     $laborPrice = null;
-    //     $laborTax = 0;
-    //     $partsTax = 0;
-    //     $suppliesTax = 0;
-    //     $hours = $operationCode->getLaborHours();
-
-    //     if ($this->isPricingMatrix) {
-    //         $laborPrice = $this->priceRepository->getPrice($hours);
-    //     }
-
-    //     if (is_null($laborPrice)) {
-    //         $laborPrice = $hours * $this->pricingLaborRate;
-    //     }
-
-    //     if ($operationCode->getLaborTaxable()) {
-    //         $laborTax = $laborPrice * $this->pricingLaborTax;
-    //     }
-
-    //     if ($operationCode->getPartsTaxable()) {
-    //         $partsTax = $partsPrice * $this->pricingPartsTax;
-    //     }
-
-    //     if ($operationCode->getSuppliesTaxable()) {
-    //         $suppliesTax = $suppliesPrice * $this->pricingPartsTax;
-    //     }
-
-    //     return [
-    //         'laborPrice' => round($laborPrice, 2),
-    //         'laborTax' => round($laborTax, 2),
-    //         'partsTax' => round($partsTax, 2),
-    //         'suppliesTax' => round($suppliesTax, 2),
-    //     ];
-    // }
-
-    // public function calculateLaborAndTax(RepairOrderQuote $quote): RepairOrderQuote
-    // {
-    //     $newQuote = $quote;
-
-    //     if ($quote && $quote->getRepairOrderQuoteRecommendations() && $quote->getRepairOrderQuoteRecommendations()) {
-    //         $recommendations = $quote->getRepairOrderQuoteRecommendations();
-
-    //         if (count($recommendations) > 0) {
-    //             foreach ($recommendations as $index => $recommendation) {
-    //                 $operationCode = $recommendation->getOperationCode();
-    //                 $partsPrice = $recommendation->getPartsPrice();
-    //                 $suppliesPrice = $recommendation->getSuppliesPrice();
-    //                 $laborAndTax = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
-
-    //                 $newQuote->getRepairOrderQuoteRecommendations()[$index]->setLaborPrice($laborAndTax['laborPrice'])
-    //                                                                        ->setLaborTax($laborAndTax['laborTax'])
-    //                                                                        ->setPartsTax($laborAndTax['partsTax'])
-    //                                                                        ->setSuppliesTax($laborAndTax['suppliesTax']);
-    //             }
-    //         }
-    //     }
-
-    //     return $newQuote;
-    // }
-
     public function getProgressStatus()
     {
         $user = $this->security->getUser();
