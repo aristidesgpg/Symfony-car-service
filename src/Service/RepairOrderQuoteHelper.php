@@ -232,21 +232,18 @@ class RepairOrderQuoteHelper
                 $repairOrderQuoteRecommendation->setApproved($recommendation->approved);
 
                 if($recommendation->approved) {
-                    if( ($repairOrderQuoteRecommendation->getLaborTax() === $recommendation->laborTax) &&
-                        ($repairOrderQuoteRecommendation->getPartsTax() === $recommendation->partsTax) &&
-                        ($repairOrderQuoteRecommendation->getSuppliesTax() === $recommendation->suppliesTax)
-                    ) {
-                        $subtotal += $recommendation->laborPrice + $recommendation->partsPrice + $recommendation->suppliesPrice;
-                        $tax +=  $recommendation->laborTax + $recommendation->partsTax + $recommendation->suppliesTax;
-                    } else {
+                    $subtotal += $recommendation->laborPrice + $recommendation->partsPrice + $recommendation->suppliesPrice;
+                    $tax +=  $recommendation->laborTax + $recommendation->partsTax + $recommendation->suppliesTax;
+                    
+                } else {
+                    if($repairOrderQuoteRecommendation->getPreApproved()) {
                         throw new Exception('Recommendations parameters are invalid');
                     }
-                } else {
-                    throw new Exception('Recommendations parameters are invalid');
                 }
                 
                 $this->em->persist($repairOrderQuoteRecommendation);
             }
+
             $repairOrderQuote->setSubtotal($subtotal);
             $repairOrderQuote->setTax($tax);
             $repairOrderQuote->setTotal($subtotal + $tax);
