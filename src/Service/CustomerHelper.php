@@ -76,9 +76,9 @@ class CustomerHelper
                     }
                     break;
                 case 'doNotContact':
-                    break;
                 default:
-                    $msg = 'Unknown key';
+                    // Do nothing
+                    break;
             }
             if (null !== $msg) {
                 $errors[$k] = $msg;
@@ -90,7 +90,7 @@ class CustomerHelper
 
     public function commitCustomer(Customer $customer, array $params = [])
     {
-        //$errors = $this->validateParams($params);
+        // $errors = $this->validateParams($params);
         $errors = [];
 
         if (true !== empty($errors)) {

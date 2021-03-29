@@ -274,7 +274,7 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        $repairOrder = $repairOrderRepo->findByUID($linkHash);
+        $repairOrder = $repairOrderRepo->findOneBy(['linkHash' => $linkHash]);
         if (!$repairOrder) {
             throw new NotFoundHttpException();
         }

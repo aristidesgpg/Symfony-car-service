@@ -86,7 +86,7 @@ class CDKClient extends AbstractDMSClient
 
     public function init(): void
     {
-        $this->buildSerializer('../src/Soap/cdk/metadata', 'App\Soap\cdk\src');
+        $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/cdk/metadata', 'App\Soap\cdk\src');
 
         $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
         $this->initializeGuzzleClient($this->getBaseURI(), $options);
