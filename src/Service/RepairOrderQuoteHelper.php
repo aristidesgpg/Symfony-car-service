@@ -25,6 +25,15 @@ class RepairOrderQuoteHelper
         'approved',
         'partsPrice',
         'suppliesPrice',
+        'laborPrice',
+        'laborTax',
+        'partsTax',
+        'suppliesTax',
+    ];
+    private const RECOMMENDATION_NUMBER_FIELDS = [
+        'partsPrice',
+        'suppliesPrice',
+        'laborPrice',
         'laborTax',
         'partsTax',
         'suppliesTax',
@@ -148,7 +157,7 @@ class RepairOrderQuoteHelper
                         throw new Exception($field.' has no value in recommendations json');
                     }
 
-                    if ('partsPrice' == $field || 'suppliesPrice' == $field || 'laborPrice' == $field) {
+                    if ( in_array($field, self::RECOMMENDATION_NUMBER_FIELDS) ) {
                         if (!is_numeric($fields[$field])) {
                             throw new Exception($field.' has invalid value in recommendations json');
                         }
