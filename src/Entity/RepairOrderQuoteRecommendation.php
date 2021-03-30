@@ -52,7 +52,7 @@ class RepairOrderQuoteRecommendation
      * @ORM\Column(type="boolean", nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
-    private $approved = false;
+    private $approved;
 
     /**
      * @ORM\Column(type="float", nullable=true)

@@ -22,7 +22,6 @@ class RepairOrderQuoteHelper
         'operationCode',
         'description',
         'preApproved',
-        'approved',
         'partsPrice',
         'suppliesPrice',
         'laborPrice',
@@ -149,7 +148,12 @@ class RepairOrderQuoteHelper
                 $fields[$field] = $value;
             }
 
-            foreach (self::RECOMMENDATION_REQUIRED_FIELDS as $field) {
+            $requiredFields = self::RECOMMENDATION_REQUIRED_FIELDS;
+            if ($this->security->isGranted('ROLE_CUSTOMER')) {
+                array_push($requiredFields, 'approved');
+            }
+
+            foreach ($requiredFields as $field) {
                 if (!isset($fields[$field])) {
                     throw new Exception($field.' is missing in recommendations json');
                 } else {
@@ -203,9 +207,6 @@ class RepairOrderQuoteHelper
                                                 ->setPreApproved(
                                                     filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
                                                 )
-                                                ->setApproved(
-                                                    filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
-                                                )
                                                 ->setLaborPrice($recommendation->laborPrice)                                
                                                 ->setPartsPrice($recommendation->partsPrice)
                                                 ->setSuppliesPrice($recommendation->suppliesPrice)
@@ -213,7 +214,7 @@ class RepairOrderQuoteHelper
                                                 ->setPartsTax($recommendation->partsTax)
                                                 ->setSuppliesTax($recommendation->suppliesTax)
                                                 ->setNotes($recommendation->notes);
-    
+                
                 $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
                 
                 $this->em->persist($repairOrderQuoteRecommendation);

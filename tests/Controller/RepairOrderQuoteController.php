@@ -63,7 +63,6 @@ class RepairOrderControllerTest extends WebTestCase {
         
         $authentication = self::$container->get(Authentication::class);
         $ttl            = 31536000;
-
         $this->serviceAdvisorToken = $authentication->getJWT($serviceAdvisor->getEmail(), $ttl);
         $this->partsAdvisorToken = $authentication->getJWT($partsAdvisor->getEmail(), $ttl);
         $this->technicanToken = $authentication->getJWT($technican->getEmail(), $ttl);
