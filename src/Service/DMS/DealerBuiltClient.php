@@ -4,7 +4,6 @@ namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
 use App\Entity\Part;
-use App\Entity\Parts;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
@@ -106,7 +105,6 @@ class DealerBuiltClient extends AbstractDMSClient
                 //init result objects
                 $dmsResult = new DMSResult();
                 $dmsResult->setRaw($repairOrder);
-
                 //All DealerBuilt have waiter set to false.
                 $dmsResult->setWaiter(false);
 
@@ -142,6 +140,15 @@ class DealerBuiltClient extends AbstractDMSClient
                 $advisor = $repairOrder->getAttributes()->getServiceAdvisor()->getPersonalName();
                 $dmsResult->getAdvisor()->setFirstName($advisor->getFirstName());
                 $dmsResult->getAdvisor()->setLastName($advisor->getLastName());
+
+                //technician
+                if ($repairOrder->getAttributes()->getJobs()) {
+                    $job = $repairOrder->getAttributes()->getJobs()[0];
+                    if ($job->getTechs()) {
+                        $dmsResult->getTechnician()->setFirstName($job->getTechs()[0]->getTech()->getPersonalName()->getFirstName());
+                        $dmsResult->getTechnician()->setLastName($job->getTechs()[0]->getTech()->getPersonalName()->getLastName());
+                    }
+                }
 
                 //The date is converted to a DateTime when its serialized.
                 $dmsResult->setDate($repairOrder->getAttributes()->getOpenedStamp());
@@ -241,12 +248,10 @@ class DealerBuiltClient extends AbstractDMSClient
                     'repairOrderNumber' => $ro->getNumber(),
                 ];
 
-                $result = $this->sendSoapCall('PullRepairOrderByNumber', [$searchCriteria], true);
+                $deserializedNode = $this->sendSoapCall('PullRepairOrderByNumber', [$searchCriteria], true);
 
-                if ($result) {
+                if ($deserializedNode) {
                     //Deserialize the soap result into objects.
-                    $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopeByNumber::class, 'xml');
-
                     /**
                      * @var RepairOrderType $repairOrder
                      */
@@ -292,8 +297,11 @@ class DealerBuiltClient extends AbstractDMSClient
                 $referenceRepairOrder = $repairOrders[$repairOrder->getAttributes()->getRepairOrderNumber()];
                 $referenceRepairOrder
                     ->setDateClosed($closedDate)
-                    ->setFinalValue($repairOrder->getAttributes()->getTotalAmount()->getAmount())
-                    ->setPrimaryTechnician($technicianRecord);
+                    ->setFinalValue($repairOrder->getAttributes()->getTotalAmount()->getAmount());
+                if (null == $referenceRepairOrder->getPrimaryTechnician() && null != $technicianRecord) {
+                    $referenceRepairOrder->setPrimaryTechnician($technicianRecord);
+                }
+
                 $this->getEntityManager()->persist($referenceRepairOrder);
                 $this->getEntityManager()->flush();
 
