@@ -9,6 +9,7 @@ use App\Entity\RepairOrder;
 use App\Entity\Settings;
 use App\Entity\User;
 use App\Service\CustomerHelper;
+use App\Service\PhoneValidator;
 use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
@@ -92,6 +93,10 @@ class DMS
      * @var string|null
      */
     private $activeDMS;
+    /**
+     * @var PhoneValidator
+     */
+    private $phoneValidator;
 
     public function __construct(ServiceLocator $serviceLocator,
                                 TwilioHelper $twilioHelper,
@@ -100,7 +105,8 @@ class DMS
                                 ShortUrlHelper $shortUrlHelper,
                                 SettingsHelper $settingsHelper,
                                 RepairOrderHelper $repairOrderHelper,
-                                ParameterBagInterface $parameterBag)
+                                ParameterBagInterface $parameterBag,
+                                PhoneValidator $phoneValidator)
     {
         $this->serviceLocator = $serviceLocator;
 
@@ -126,6 +132,7 @@ class DMS
         if ($this->getServiceLocator()->has($this->activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($this->activeDMS);
         }
+        $this->phoneValidator = $phoneValidator;
     }
 
     public function addOpenRepairOrders(): ?array
@@ -178,9 +185,6 @@ class DMS
         return true;
     }
 
-    /**
-     * @param DMSResult $dmsRepairOrder
-     */
     public function processRepairOrder(DMSResult $dmsRepairOrder)
     {
         // First check if it exists already
@@ -221,8 +225,8 @@ class DMS
         // Throws an error if it's not a mobile number
         //TODO, we are validating this upstream. Possibly redundant.
         try {
-            $this->twilioHelper->lookupNumber($customer->getPhone());
-        } catch (\Exception $e) {
+            $this->phoneValidator->isMobile($customer->getPhone());
+        } catch (Exception $e) {
             return;
         }
 
@@ -233,10 +237,26 @@ class DMS
         }
     }
 
+    /**
+     * @param $firstName
+     * @param $lastName
+     *
+     * @return User|object|null
+     */
+    public function technicianFinder($firstName, $lastName)
+    {
+        //$defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
+
+        $technicianRecord = $this->getEm()->getRepository('App:User')
+            ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
+
+        return $technicianRecord;
+    }
+
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
     {
-        //TODO In 3.0, you can have a null technician. This needs to be figured out.
-        $defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
+        $defaultTechnician = $this->technicianFinder($dmsResult->getTechnician()->getFirstName(), $dmsResult->getTechnician()->getLastName());
+
         $repairOrder = (new RepairOrder())
             ->setPrimaryCustomer($customer)
             ->setPrimaryTechnician($defaultTechnician)
@@ -272,35 +292,22 @@ class DMS
         return $repairOrder;
     }
 
-
     /**
-     * Find currently open ROs and see if they've been closed in the DMS.
+     * Close a single RepairOrder.
      */
     public function closeOpenRepairOrder(RepairOrder $repairOrder)
     {
-        // Get open repair orders
-        $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
+        // Not integrated, do nothing
+        if (!$this->integration) {
+            return null;
+        }
 
-        // if ($openRepairOrders) {
-        //     /** @var RepairOrder $openRepairOrder */
-        //     foreach ($openRepairOrders as $openRepairOrder) {
-        //         // Has a closed date so don't get the data again
-        //         if ($openRepairOrder->getDateClosed()) {
-        //             print_r($openRepairOrder);
-        //             echo PHP_EOL;
-        //             continue;
-        //         }
-
-        //         $checkRepairOrders[] = $openRepairOrder;
-        //     }
-        // }
-
-        if ($openRepairOrders) {
-            try {
-                $this->integration->getClosedRoDetails($openRepairOrders);
-            } catch (Exception $e) {
-                //do nothing.
-            }
+        //TODO This should be refactored to close an individual instead of passing an array.
+        $openRepairOrders[] = $repairOrder;
+        try {
+            $this->integration->getClosedRoDetails($openRepairOrders);
+        } catch (Exception $e) {
+            //do nothing.
         }
     }
 
@@ -309,6 +316,11 @@ class DMS
      */
     public function closeOpenRepairOrders()
     {
+        // Not integrated, do nothing
+        if (!$this->integration) {
+            return null;
+        }
+
         // Get open repair orders
         $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
 
@@ -446,7 +458,7 @@ class DMS
 
             // We want to skip validating the customer phone if production
             if ('prod' == $this->parameterBag->get('app_env')) {
-                $phoneValid = $this->twilioHelper->lookupNumber($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers());
+                $phoneValid = $this->phoneValidator->isMobile($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers());
             }
 
             if ($phoneValid) {
@@ -458,7 +470,7 @@ class DMS
                         ]
                     );
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Nothing for now
         }
 
@@ -679,10 +691,7 @@ class DMS
         $this->serviceLocator = $serviceLocator;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getActiveDMS()
+    public function getActiveDMS(): ?string
     {
         return $this->activeDMS;
     }

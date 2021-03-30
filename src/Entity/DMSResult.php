@@ -42,10 +42,16 @@ class DMSResult
 
     private $closedROValue;
 
+    /**
+     * @var DMSResultTechnician
+     */
+    private $technician;
+
     public function __construct()
     {
         $this->customer = new DMSResultCustomer();
         $this->advisor = new DMSResultAdvisor();
+        $this->technician = new DMSResultTechnician();
     }
 
     public function getCustomer(): DMSResultCustomer
@@ -306,6 +312,23 @@ class DMSResult
     {
         $this->closedROValue = $closedROValue;
     }
+
+    /**
+     * @return DMSResultTechnician
+     */
+    public function getTechnician(): DMSResultTechnician
+    {
+        return $this->technician;
+    }
+
+    /**
+     * @param DMSResultTechnician $technician
+     */
+    public function setTechnician(DMSResultTechnician $technician): void
+    {
+        $this->technician = $technician;
+    }
+
 
 
 }

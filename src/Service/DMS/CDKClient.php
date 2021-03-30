@@ -98,6 +98,7 @@ class CDKClient extends AbstractDMSClient
 
         if ($this->getGuzzleClient()) {
             $response = $this->sendRequest($this->getOpenROExtractURL(), ServiceRODetailOpen::class);
+
             if (!$response) {
                 return $repairOrders;
             }
@@ -215,6 +216,7 @@ class CDKClient extends AbstractDMSClient
     private function sendRequest($url, $deserializationClass)
     {
         $rawResponse = $this->sendGuzzleRequest($url);
+
         if ($rawResponse) {
             // Not an error, but logs the request/response for compliance
             // If there is an error, then we log when we do the guzzle request.
