@@ -288,7 +288,7 @@ class RepairOrder
         return $this->primaryTechnician;
     }
 
-    public function setPrimaryTechnician(User $primaryTechnician): self
+    public function setPrimaryTechnician(?User $primaryTechnician): self
     {
         $this->primaryTechnician = $primaryTechnician;
 
