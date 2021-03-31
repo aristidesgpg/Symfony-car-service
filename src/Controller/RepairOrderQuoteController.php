@@ -560,7 +560,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     @SWG\Items(
      *         type="object",
      *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Created" }),
+     *                                              "RepairOrderQuote Status Updated" }),
      *         )
      * )
      */
