@@ -136,14 +136,13 @@ class RepairOrderQuoteHelper
      */
     public function validateCompletedJson(array $params)
     {
-
-        foreach ($params as $recommendation) {
-            if (!is_object($recommendation)) {
+        foreach ($params as $complete) {
+            if (!is_object($complete)) {
                 throw new Exception('Completes data is invalid');
             }
 
             $fields = [];
-            foreach ($recommendation as $field => $value) {
+            foreach ($complete as $field => $value) {
                 array_push($fields, $field);
                 $fields[$field] = $value;
             }
@@ -181,11 +180,6 @@ class RepairOrderQuoteHelper
                 $fields[$field] = $value;
             }
 
-            // $requiredFields = self::RECOMMENDATION_REQUIRED_FIELDS;
-            // if ($this->security->isGranted('ROLE_CUSTOMER')) {
-            //     array_push($requiredFields, 'approved');
-            // }
-
             foreach (self::RECOMMENDATION_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
                     throw new Exception($field.' is missing in recommendations json');
@@ -218,7 +212,6 @@ class RepairOrderQuoteHelper
      */
     public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations)
     {
-        
         // Remove previous recommendations
         foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
             $this->em->remove($oldRecommendation);
@@ -283,6 +276,7 @@ class RepairOrderQuoteHelper
                 'id' => $complete->repairOrderQuoteRecommendationId,
                 'repairOrderQuote' => $repairOrderQuote
             ]);
+            
             if (!$repairOrderQuoteRecommendation) {
                 throw new Exception('Invalid repairOrderQuoteRecommendationId in completes JSON');
             }

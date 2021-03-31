@@ -595,7 +595,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             }
         }
         
-
         // Validate recommendation json
         $completes = json_decode($completes);
         if (is_null($completes) || !is_array($completes) || 0 === count($completes)) {
@@ -632,13 +631,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $em->persist($repairOrderQuote);
         $em->flush();
 
-        // return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
-        $view = $this->view($repairOrderQuote);
-        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-
-        return $this->handleView($view);
+        return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
     }
-
 
     /**
      * @Rest\Delete("/api/repair-order-quote/{id}")
