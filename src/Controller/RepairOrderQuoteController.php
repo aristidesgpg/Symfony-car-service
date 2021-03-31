@@ -223,7 +223,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrder = $repairOrderQuote->getRepairOrder();
         // Check User
         if ($security->isGranted('ROLE_CUSTOMER')) {
-            // Update status as Completed
             $status = 'Completed';
         } else {
             $status = $repairOrderQuoteHelper->getProgressStatus();
@@ -236,8 +235,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                         ->setStatus($status)
-                         ->setDateCustomerCompleted(new DateTime());
+                         ->setStatus($status);
+        if($status === 'Completed')
+            $repairOrderQuote->setDateCustomerCompleted(new DateTime());
+
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
 

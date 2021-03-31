@@ -244,7 +244,7 @@ class RepairOrderControllerTest extends WebTestCase {
 
         
     }
-  
+   
     public function testDeleteRepairOrderQuote() {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
