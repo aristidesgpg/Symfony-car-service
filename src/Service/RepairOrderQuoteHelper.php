@@ -29,6 +29,10 @@ class RepairOrderQuoteHelper
         'partsTax',
         'suppliesTax',
     ];
+    private const COMPLETE_REQUIRED_FIELDS = [
+        'repairOrderQuoteRecommendationId',
+        'approved',
+    ];
     private const RECOMMENDATION_NUMBER_FIELDS = [
         'partsPrice',
         'suppliesPrice',
@@ -127,6 +131,35 @@ class RepairOrderQuoteHelper
         }
     }
 
+     /**
+     * @throws Exception
+     */
+    public function validateCompletedJson(array $params)
+    {
+
+        foreach ($params as $recommendation) {
+            if (!is_object($recommendation)) {
+                throw new Exception('Completes data is invalid');
+            }
+
+            $fields = [];
+            foreach ($recommendation as $field => $value) {
+                array_push($fields, $field);
+                $fields[$field] = $value;
+            }
+
+            foreach (self::COMPLETE_REQUIRED_FIELDS as $field) {
+                if (!isset($fields[$field])) {
+                    throw new Exception($field.' is missing in completes json');
+                } else {
+                    if ('' === $fields[$field]) {
+                        throw new Exception($field.' has no value in completes json');
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * @throws Exception
      */
@@ -148,12 +181,12 @@ class RepairOrderQuoteHelper
                 $fields[$field] = $value;
             }
 
-            $requiredFields = self::RECOMMENDATION_REQUIRED_FIELDS;
-            if ($this->security->isGranted('ROLE_CUSTOMER')) {
-                array_push($requiredFields, 'approved');
-            }
+            // $requiredFields = self::RECOMMENDATION_REQUIRED_FIELDS;
+            // if ($this->security->isGranted('ROLE_CUSTOMER')) {
+            //     array_push($requiredFields, 'approved');
+            // }
 
-            foreach ($requiredFields as $field) {
+            foreach (self::RECOMMENDATION_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
                     throw new Exception($field.' is missing in recommendations json');
                 } else {
@@ -185,79 +218,97 @@ class RepairOrderQuoteHelper
      */
     public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations)
     {
-        if (!$this->security->isGranted('ROLE_CUSTOMER')) {
-            if(count($recommendations) > 0) {
-                // Remove previous recommendations
-                foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
-                    $this->em->remove($oldRecommendation);
-                }
-            }
-
-            foreach ($recommendations as $recommendation) {
-                $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
-    
-                // Check if Operation Code exists
-                $operationCode = $this->operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
-                if (!$operationCode) {
-                    throw new Exception('Invalid operationCode Parameter in recommendations JSON');
-                }
-    
-                $repairOrderQuoteRecommendation->setOperationCode($operationCode)
-                                                ->setDescription($recommendation->description)
-                                                ->setPreApproved(
-                                                    filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                                                )
-                                                ->setLaborPrice($recommendation->laborPrice)                                
-                                                ->setPartsPrice($recommendation->partsPrice)
-                                                ->setSuppliesPrice($recommendation->suppliesPrice)
-                                                ->setLaborTax($recommendation->laborTax)
-                                                ->setPartsTax($recommendation->partsTax)
-                                                ->setSuppliesTax($recommendation->suppliesTax)
-                                                ->setNotes($recommendation->notes);
-                
-                $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
-                
-                $this->em->persist($repairOrderQuoteRecommendation);
-                
-                if (property_exists($recommendation, 'parts')) {
-                    $this->buildParts($repairOrderQuoteRecommendation, $recommendation->parts);
-                }
-            }
-        } else {
-            $subtotal = 0;
-            $tax = 0;
-
-            foreach ($recommendations as $recommendation) {
-                // Check if Operation Code exists
-                $operationCode = $this->operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
-                if (!$operationCode) {
-                    throw new Exception('Invalid operationCode Parameter in recommendations JSON');
-                }
-
-                $repairOrderQuoteRecommendation = $this->repairOrderQuoteRecommendationRepository->findOneBy([
-                    'repairOrderQuote' => $repairOrderQuote,
-                    'operationCode' => $operationCode,
-                ]);
-
-                $repairOrderQuoteRecommendation->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN));
-
-                if($recommendation->approved) {
-                    $subtotal += $recommendation->laborPrice + $recommendation->partsPrice + $recommendation->suppliesPrice;
-                    $tax +=  $recommendation->laborTax + $recommendation->partsTax + $recommendation->suppliesTax;
-                    
-                } else {
-                    if($repairOrderQuoteRecommendation->getPreApproved()) {
-                        throw new Exception('Recommendations parameters are invalid');
-                    }
-                }
-                
-                $this->em->persist($repairOrderQuoteRecommendation);
-            }
-
-            $repairOrderQuote->setSubtotal($subtotal);
-            $repairOrderQuote->setTax($tax);
-            $repairOrderQuote->setTotal($subtotal + $tax);
+        
+        // Remove previous recommendations
+        foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+            $this->em->remove($oldRecommendation);
         }
+
+        foreach ($recommendations as $recommendation) {
+            $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
+
+            // Check if Operation Code exists
+            $operationCode = $this->operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
+            if (!$operationCode) {
+                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
+            }
+
+            $repairOrderQuoteRecommendation->setOperationCode($operationCode)
+                                            ->setDescription($recommendation->description)
+                                            ->setPreApproved(
+                                                filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                                            )
+                                            ->setLaborPrice($recommendation->laborPrice)                                
+                                            ->setPartsPrice($recommendation->partsPrice)
+                                            ->setSuppliesPrice($recommendation->suppliesPrice)
+                                            ->setLaborTax($recommendation->laborTax)
+                                            ->setPartsTax($recommendation->partsTax)
+                                            ->setSuppliesTax($recommendation->suppliesTax)
+                                            ->setNotes($recommendation->notes);
+            
+            $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
+            
+            $this->em->persist($repairOrderQuoteRecommendation);
+            
+            if (property_exists($recommendation, 'parts')) {
+                $this->buildParts($repairOrderQuoteRecommendation, $recommendation->parts);
+            }
+        }
+        
+        $this->em->beginTransaction();
+
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (ORMException | Exception $e) {
+            $this->em->rollback();
+
+            throw new Exception($e->getMessage());
+        }
+    }
+
+   /**
+     * complete the repairOrderQuote.
+     *
+     * @throws Exception
+     */
+    public function completeRepairOrderQuote(RepairOrderQuote $repairOrderQuote, array $completes)
+    {
+        $subtotal = 0;
+        $tax = 0;
+
+        foreach ($completes as $complete) {
+            // Check if recommendation exists
+            $repairOrderQuoteRecommendation = $this->repairOrderQuoteRecommendationRepository->findOneBy([
+                'id' => $complete->repairOrderQuoteRecommendationId,
+                'repairOrderQuote' => $repairOrderQuote
+            ]);
+            if (!$repairOrderQuoteRecommendation) {
+                throw new Exception('Invalid repairOrderQuoteRecommendationId in completes JSON');
+            }
+
+            $repairOrderQuoteRecommendation->setApproved(filter_var($complete->approved, FILTER_VALIDATE_BOOLEAN));
+
+            if($complete->approved) {
+                $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
+                            + $repairOrderQuoteRecommendation->getPartsPrice() 
+                            + $repairOrderQuoteRecommendation->getSuppliesPrice();
+                $tax +=  $repairOrderQuoteRecommendation->getLaborTax() 
+                        + $repairOrderQuoteRecommendation->getPartsTax() 
+                        + $repairOrderQuoteRecommendation->getSuppliesPrice();
+                
+            } else {
+                if($repairOrderQuoteRecommendation->getPreApproved()) {
+                    throw new Exception('Completes parameters are invalid');
+                }
+            }
+            $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
+            $this->em->persist($repairOrderQuoteRecommendation);
+        }
+
+        $repairOrderQuote->setSubtotal($subtotal);
+        $repairOrderQuote->setTax($tax);
+        $repairOrderQuote->setTotal($subtotal + $tax);
      
         $this->em->beginTransaction();
 

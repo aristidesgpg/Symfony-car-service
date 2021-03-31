@@ -30,6 +30,12 @@ class RepairOrderQuote
      * @ORM\JoinColumn(nullable=false)
      */
     private $repairOrder;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class )
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $completedUser;
 
     /**
      * @ORM\Column(type="datetime")
@@ -53,7 +59,7 @@ class RepairOrderQuote
      * @ORM\Column(type="datetime", nullable=true)
      * @Serializer\Groups(groups={"roq_list"})
      */
-    private $dateCustomerCompleted;
+    private $dateCompleted;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -156,14 +162,14 @@ class RepairOrderQuote
         return $this;
     }
 
-    public function getDateCustomerCompleted(): ?DateTimeInterface
+    public function getDateCompleted(): ?DateTimeInterface
     {
-        return $this->dateCustomerCompleted;
+        return $this->dateCompleted;
     }
 
-    public function setDateCustomerCompleted(?DateTimeInterface $dateCustomerCompleted): self
+    public function setDateCompleted(?DateTimeInterface $dateCompleted): self
     {
-        $this->dateCustomerCompleted = $dateCustomerCompleted;
+        $this->dateCompleted = $dateCompleted;
 
         return $this;
     }
@@ -287,5 +293,17 @@ class RepairOrderQuote
     public function getTotal(): ?float
     {
         return $this->total;
+    }
+
+    public function setCompletedUser(?User $user): self
+    {
+        $this->completedUser = $user;
+
+        return $this;
+    }
+
+    public function getCompletedUser(): ?User
+    {
+        return $this->completedUser;
     }
 }

@@ -20,6 +20,7 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -195,6 +196,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         EntityManagerInterface $em,
         Security $security
     ): Response {
+        if ($security->isGranted('ROLE_CUSTOMER')) {
+            throw new BadRequestHttpException('The user should be service user');
+        }
         $recommendations = $request->get('recommendations');
 
         if (!$recommendations) {
@@ -203,7 +207,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Check permission if quote status is Sent, Completed or Confirmed
         $quoteStatus = $repairOrderQuote->getStatus();
-        if (('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) && !$security->isGranted('ROLE_CUSTOMER')) {
+        if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus ) {
             return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
         }
         // Validate recommendation json
@@ -221,12 +225,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
         //Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
-        // Check User
-        if ($security->isGranted('ROLE_CUSTOMER')) {
-            $status = 'Completed';
-        } else {
-            $status = $repairOrderQuoteHelper->getProgressStatus();
-        }
+        $status = $repairOrderQuoteHelper->getProgressStatus();
+
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
@@ -236,8 +236,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status);
-        if($status === 'Completed')
-            $repairOrderQuote->setDateCustomerCompleted(new DateTime());
+        // if($status === 'Completed')
+        //     $repairOrderQuote->setDateCustomerCompleted(new DateTime());
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
@@ -532,6 +532,113 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
     }
+
+    /**
+     * @Rest\Post("/api/repair-order-quote/complete")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Post(description="Set the RepairOrderQuote status as Completed")
+     * @SWG\Parameter(
+     *     name="repairOrderQuoteID",
+     *     type="integer",
+     *     in="formData",
+     *     description="ID for the RepairOrderQuote",
+     *     required=true
+     * )
+     * 
+     * @SWG\Parameter(
+     *     name="completes",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="[{""repairOrderQuoteRecommendationId"": 1,""approved"": true}, {""repairOrderQuoteRecommendationId"": 2,""approved"": true}, {""repairOrderQuoteRecommendationId"": 3,""approved"": true}]",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Created" }),
+     *         )
+     * )
+     */
+    public function completed(
+        Request $request,
+        RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        EntityManagerInterface $em,
+        RepairOrderQuoteHelper $repairOrderQuoteHelper,
+        Security $security
+    ): Response {
+        $repairOrderQuoteID = $request->get('repairOrderQuoteID');
+        $completes = $request->get('completes');
+        
+         if (!$repairOrderQuoteID) {
+            throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
+        }
+        $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
+        if (!$repairOrderQuote) {
+            throw new NotFoundHttpException('Repair Order Quote Not Found');
+        }
+        
+        $repairOrder = $repairOrderQuote->getRepairOrder();
+        if ($security->isGranted('ROLE_CUSTOMER') ) {
+            if ($repairOrder->getPrimaryCustomer() !== $this->getUser()){
+                throw new BadRequestHttpException('This customer is not the owner of the repairOrder');
+            }
+        } else {
+            // Check permission if quote status is Sent, Completed or Confirmed
+            $quoteStatus = $repairOrderQuote->getStatus();
+            if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus ) {
+                return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
+            }
+        }
+        
+
+        // Validate recommendation json
+        $completes = json_decode($completes);
+        if (is_null($completes) || !is_array($completes) || 0 === count($completes)) {
+            throw new BadRequestHttpException('Completes data is invalid');
+        }
+
+        try {
+            $repairOrderQuoteHelper->validateCompletedJson($completes);
+            
+            $repairOrderQuoteHelper->completeRepairOrderQuote($repairOrderQuote, $completes);
+        } catch (Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        $status = 'Completed';
+        
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
+                                    ->setUser($repairOrder->getPrimaryTechnician())
+                                    ->setCustomer($repairOrder->getPrimaryCustomer())
+                                    ->setType($status);
+        
+        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                         ->setStatus($status)
+                         ->setDateCompleted(new DateTime());
+        
+        if (!$security->isGranted('ROLE_CUSTOMER')) {
+            $repairOrderQuote->setCompletedUser($this->getUser());
+        }
+        
+        $repairOrder->setQuoteStatus($status);
+
+        $em->persist($repairOrder);
+        $em->persist($repairOrderQuote);
+        $em->flush();
+
+        // return $this->handleView($this->view(['message' => 'RepairOrderQuote Status Updated'], Response::HTTP_OK));
+        $view = $this->view($repairOrderQuote);
+        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
+
+        return $this->handleView($view);
+    }
+
 
     /**
      * @Rest\Delete("/api/repair-order-quote/{id}")
