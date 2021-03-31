@@ -276,7 +276,7 @@ class RepairOrderQuoteHelper
                 'id' => $complete->repairOrderQuoteRecommendationId,
                 'repairOrderQuote' => $repairOrderQuote
             ]);
-            
+
             if (!$repairOrderQuoteRecommendation) {
                 throw new Exception('Invalid repairOrderQuoteRecommendationId in completes JSON');
             }
@@ -285,12 +285,11 @@ class RepairOrderQuoteHelper
 
             if($complete->approved) {
                 $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
-                            + $repairOrderQuoteRecommendation->getPartsPrice() 
-                            + $repairOrderQuoteRecommendation->getSuppliesPrice();
+                          + $repairOrderQuoteRecommendation->getPartsPrice() 
+                          + $repairOrderQuoteRecommendation->getSuppliesPrice();
                 $tax +=  $repairOrderQuoteRecommendation->getLaborTax() 
-                        + $repairOrderQuoteRecommendation->getPartsTax() 
-                        + $repairOrderQuoteRecommendation->getSuppliesPrice();
-                
+                     + $repairOrderQuoteRecommendation->getPartsTax() 
+                     + $repairOrderQuoteRecommendation->getSuppliesPrice();
             } else {
                 if($repairOrderQuoteRecommendation->getPreApproved()) {
                     throw new Exception('Completes parameters are invalid');
