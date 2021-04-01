@@ -65,7 +65,7 @@ class RepairOrderQuote
      * @ORM\Column(type="datetime", nullable=true)
      * @Serializer\Groups(groups={"roq_list"})
      */
-    private $dateCustomerConfirmed;
+    private $dateConfirmed;
 
     /**
      * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendation::class, mappedBy="repairOrderQuote", cascade={"persist", "remove"})
@@ -174,14 +174,14 @@ class RepairOrderQuote
         return $this;
     }
 
-    public function getDateCustomerConfirmed(): ?DateTimeInterface
+    public function getDateConfirmed(): ?DateTimeInterface
     {
-        return $this->dateCustomerConfirmed;
+        return $this->dateConfirmed;
     }
 
-    public function setDateCustomerConfirmed(?DateTimeInterface $dateCustomerConfirmed): self
+    public function setDateConfirmed(?DateTimeInterface $dateConfirmed): self
     {
-        $this->dateCustomerConfirmed = $dateCustomerConfirmed;
+        $this->dateConfirmed = $dateConfirmed;
 
         return $this;
     }

@@ -115,7 +115,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
                                 $dateConfirmed       = $dateConfirmed->modify('+' . $dateConfirmedModify . ' hours');
                                 $status              = "Confirmed";
                                 //update repairOrderQuote sent date
-                                $repairOrderQuote->setDateCustomerConfirmed($dateCompleted);
+                                $repairOrderQuote->setDateConfirmed($dateCompleted);
                                 //create repairOrderQuoteInteraction
                                 $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
                                 $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
