@@ -244,7 +244,79 @@ class RepairOrderControllerTest extends WebTestCase {
 
         
     }
+    public function testInProgress() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
 
+        $params = [
+            'repairOrderQuoteID' => 999,
+            'status' => 'Technician In Progress'
+        ];
+        $this->requestAction('PUT', "/in-progress", $params);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status = 'Sent' or roq.status = 'Viewed' or roq.status = 'Completed' or  roq.status = 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        
+        //the repairOrderQuote status is 'Sent', 'Viewed', 'Completed' or 'Confirmed'
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Technician In Progress'
+            ];
+            $this->requestAction('POST', "/in-progress", $params);
+            $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+
+
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status <> 'Sent'")
+                                                    ->andWhere("roq.status <> 'Viewed'")
+                                                    ->andWhere("roq.status <> 'Completed'")
+                                                    ->andWhere("roq.status <> 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        
+        //the repairOrderQuote status is not 'Technician In Progress', 'Advisor In Progress', or 'Parts In Progress'
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Sent'
+            ];
+            $this->requestAction('POST', "/in-progress", $params);
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+        
+        //update the repairOrderQuote as progress and check if the repairOrderQuote status is changed correctly
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Technician In Progress'
+            ];
+            $this->requestAction('POST', "/in-progress", $params);
+            $this->assertResponseIsSuccessful();
+            
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+        
+        //update the repairOrderQuote as progress and check if the repairOrderInteraction is created correctly
+
+        
+    }
     public function testDeleteRepairOrderQuote() {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
