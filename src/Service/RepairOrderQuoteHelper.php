@@ -136,23 +136,23 @@ class RepairOrderQuoteHelper
      */
     public function validateCompletedJson(array $params)
     {
-        foreach ($params as $complete) {
-            if (!is_object($complete)) {
-                throw new Exception('Completes data is invalid');
+        foreach ($params as $recommendation) {
+            if (!is_object($recommendation)) {
+                throw new Exception('Recommendation data is invalid');
             }
 
             $fields = [];
-            foreach ($complete as $field => $value) {
+            foreach ($recommendation as $field => $value) {
                 array_push($fields, $field);
                 $fields[$field] = $value;
             }
 
             foreach (self::COMPLETE_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field.' is missing in completes json');
+                    throw new Exception($field.' is missing in recommendations json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field.' has no value in completes json');
+                        throw new Exception($field.' has no value in recommendations json');
                     }
                 }
             }
@@ -265,37 +265,45 @@ class RepairOrderQuoteHelper
      *
      * @throws Exception
      */
-    public function completeRepairOrderQuote(RepairOrderQuote $repairOrderQuote, array $completes)
+    public function completeRepairOrderQuote(RepairOrderQuote $repairOrderQuote, array $recommendations)
     {
         $subtotal = 0;
         $tax = 0;
+        $repairOrderQuoteRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
 
-        foreach ($completes as $complete) {
-            // Check if recommendation exists
-            $repairOrderQuoteRecommendation = $this->repairOrderQuoteRecommendationRepository->findOneBy([
-                'id' => $complete->repairOrderQuoteRecommendationId,
-                'repairOrderQuote' => $repairOrderQuote
-            ]);
-
-            if (!$repairOrderQuoteRecommendation) {
-                throw new Exception('Invalid repairOrderQuoteRecommendationId in completes JSON');
+        foreach($repairOrderQuoteRecommendations as $repairOrderQuoteRecommendation) {
+            $currentRecommendation = "";
+            
+            foreach ($recommendations as $recommendation) {
+                if($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
+                    $currentRecommendation = $recommendation;
+                    break;
+                }
             }
 
-            $repairOrderQuoteRecommendation->setApproved(filter_var($complete->approved, FILTER_VALIDATE_BOOLEAN));
+            if ($repairOrderQuoteRecommendation->getPreApproved()) {
+                if ($currentRecommendation && !filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN)) {
+                    throw new Exception('Recommendations parameters are invalid');    
+                }
 
-            if($complete->approved) {
+                $repairOrderQuoteRecommendation->setApproved(true);
+            } else {
+                if (!$currentRecommendation) {
+                    throw new Exception("Recommendation ". $repairOrderQuoteRecommendation->getId()." was not pre-approved");    
+                }
+
+                $repairOrderQuoteRecommendation->setApproved(filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN));
+            }
+
+            if($repairOrderQuoteRecommendation->getApproved()) {
                 $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
                           + $repairOrderQuoteRecommendation->getPartsPrice() 
                           + $repairOrderQuoteRecommendation->getSuppliesPrice();
                 $tax +=  $repairOrderQuoteRecommendation->getLaborTax() 
                      + $repairOrderQuoteRecommendation->getPartsTax() 
                      + $repairOrderQuoteRecommendation->getSuppliesPrice();
-            } else {
-                if($repairOrderQuoteRecommendation->getPreApproved()) {
-                    throw new Exception('Completes parameters are invalid');
-                }
             }
-            $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
+            
             $this->em->persist($repairOrderQuoteRecommendation);
         }
 

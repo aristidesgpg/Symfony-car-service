@@ -547,7 +547,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      * )
      * 
      * @SWG\Parameter(
-     *     name="completes",
+     *     name="recommendations",
      *     in="formData",
      *     required=false,
      *     type="string",
@@ -572,7 +572,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         Security $security
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
-        $completes = $request->get('completes');
+        $recommendations = $request->get('recommendations');
         
          if (!$repairOrderQuoteID) {
             throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
@@ -596,15 +596,15 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
         
         // Validate recommendation json
-        $completes = json_decode($completes);
-        if (is_null($completes) || !is_array($completes) || 0 === count($completes)) {
-            throw new BadRequestHttpException('Completes data is invalid');
+        $recommendations = json_decode($recommendations);
+        if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
+            throw new BadRequestHttpException('Recommendation data is invalid');
         }
 
         try {
-            $repairOrderQuoteHelper->validateCompletedJson($completes);
+            $repairOrderQuoteHelper->validateCompletedJson($recommendations);
             
-            $repairOrderQuoteHelper->completeRepairOrderQuote($repairOrderQuote, $completes);
+            $repairOrderQuoteHelper->completeRepairOrderQuote($repairOrderQuote, $recommendations);
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
