@@ -283,13 +283,13 @@ class RepairOrderQuoteHelper
 
             if ($repairOrderQuoteRecommendation->getPreApproved()) {
                 if ($currentRecommendation && !filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN)) {
-                    throw new Exception('Recommendations parameters are invalid');    
+                    throw new Exception('The recommendation'. $repairOrderQuoteRecommendation->getId() .' was pre-approved');    
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(true);
             } else {
                 if (!$currentRecommendation) {
-                    throw new Exception("Recommendation ". $repairOrderQuoteRecommendation->getId()." was not pre-approved");    
+                    throw new Exception("Recommendation ". $repairOrderQuoteRecommendation->getId()." was not pre-approved, but it is missing");    
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN));
