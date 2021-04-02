@@ -2,28 +2,50 @@
 
 namespace App\Service;
 
+use App\Entity\Part;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
+use App\Entity\RepairOrderQuoteRecommendationPart;
 use App\Repository\OperationCodeRepository;
+use App\Repository\PartRepository;
 use App\Repository\PriceMatrixRepository;
+use App\Repository\RepairOrderQuoteRecommendationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\ORMException;
 use Exception;
 use Symfony\Component\Security\Core\Security;
 
-/**
- * Class RepairOrderQuoteHelper.
- */
 class RepairOrderQuoteHelper
 {
     /** @var string[] */
-    private const REQUIRED_FIELDS = [
+    private const RECOMMENDATION_REQUIRED_FIELDS = [
         'operationCode',
         'description',
         'preApproved',
-        'approved',
         'partsPrice',
         'suppliesPrice',
-        // 'laborPrice',
+        'laborPrice',
+        'laborTax',
+        'partsTax',
+        'suppliesTax',
+    ];
+    private const COMPLETE_REQUIRED_FIELDS = [
+        'repairOrderQuoteRecommendationId',
+        'approved',
+    ];
+    private const RECOMMENDATION_NUMBER_FIELDS = [
+        'partsPrice',
+        'suppliesPrice',
+        'laborPrice',
+        'laborTax',
+        'partsTax',
+        'suppliesTax',
+    ];
+    private const PART_REQUIRED_FIELDS = [
+        'number',
+        'name',
+        'price',
+        'quantity',
     ];
 
     private const NOT_REQUIRED_FIELDS = [
@@ -45,26 +67,32 @@ class RepairOrderQuoteHelper
     private $em;
     private $security;
     private $operationCodeRepository;
+    private $partRepository;
     private $pricingLaborRate;
     private $isPricingMatrix;
     private $pricingLaborTax;
     private $pricingPartsTax;
     private $priceRepository;
+    private $repairOrderQuoteRecommendationRepository;
 
     public function __construct(
         EntityManagerInterface $em,
         OperationCodeRepository $operationCodeRepository,
         SettingsHelper $settingsHelper,
         PriceMatrixRepository $priceRepository,
-        Security $security
+        partRepository $partRepository,
+        Security $security,
+        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository
     ) {
         $this->em = $em;
         $this->operationCodeRepository = $operationCodeRepository;
         $this->security = $security;
         $this->priceRepository = $priceRepository;
+        $this->partRepository = $partRepository;
+        $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
 
         $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
-        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix') * 0.01;
+        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix');
         $this->pricingLaborTax = $settingsHelper->getSetting('pricingLaborTax') * 0.01;
         $this->pricingPartsTax = $settingsHelper->getSetting('pricingPartsTax') * 0.01;
     }
@@ -72,11 +100,45 @@ class RepairOrderQuoteHelper
     /**
      * @throws Exception
      */
-    public function validateRecommendationsJson(array $params)
+    public function validatePartsJson(array $params)
+    {
+        foreach ($params as $part) {
+            if (!is_object($part)) {
+                throw new Exception('Part data is invalid');
+            }
+
+            $fields = [];
+            foreach ($part as $field => $value) {
+                array_push($fields, $field);
+                $fields[$field] = $value;
+            }
+
+            foreach (self::PART_REQUIRED_FIELDS as $field) {
+                if (!isset($fields[$field])) {
+                    throw new Exception($field.' is missing in parts json');
+                } else {
+                    if ('' === $fields[$field]) {
+                        throw new Exception($field.' has no value in parts json');
+                    }
+
+                    if ('price' == $field || 'quantity' == $field) {
+                        if (!is_numeric($fields[$field])) {
+                            throw new Exception($field.' has invalid value in parts json');
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+     /**
+     * @throws Exception
+     */
+    public function validateCompletedJson(array $params)
     {
         foreach ($params as $recommendation) {
             if (!is_object($recommendation)) {
-                throw new Exception('Recommendations data is invalid');
+                throw new Exception('Recommendation data is invalid');
             }
 
             $fields = [];
@@ -85,7 +147,40 @@ class RepairOrderQuoteHelper
                 $fields[$field] = $value;
             }
 
-            foreach (self::REQUIRED_FIELDS as $field) {
+            foreach (self::COMPLETE_REQUIRED_FIELDS as $field) {
+                if (!isset($fields[$field])) {
+                    throw new Exception($field.' is missing in recommendations json');
+                } else {
+                    if ('' === $fields[$field]) {
+                        throw new Exception($field.' has no value in recommendations json');
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function validateRecommendationsJson(array $params)
+    {
+
+        foreach ($params as $recommendation) {
+            if (!is_object($recommendation)) {
+                throw new Exception('Recommendations data is invalid');
+            }
+
+            if (property_exists($recommendation, 'parts')) {
+                $this->validatePartsJson($recommendation->parts);
+            }
+
+            $fields = [];
+            foreach ($recommendation as $field => $value) {
+                array_push($fields, $field);
+                $fields[$field] = $value;
+            }
+
+            foreach (self::RECOMMENDATION_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
                     throw new Exception($field.' is missing in recommendations json');
                 } else {
@@ -93,7 +188,7 @@ class RepairOrderQuoteHelper
                         throw new Exception($field.' has no value in recommendations json');
                     }
 
-                    if ('partsPrice' == $field || 'suppliesPrice' == $field) {
+                    if ( in_array($field, self::RECOMMENDATION_NUMBER_FIELDS) ) {
                         if (!is_numeric($fields[$field])) {
                             throw new Exception($field.' has invalid value in recommendations json');
                         }
@@ -117,6 +212,11 @@ class RepairOrderQuoteHelper
      */
     public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations)
     {
+        // Remove previous recommendations
+        foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+            $this->em->remove($oldRecommendation);
+        }
+
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
 
@@ -126,108 +226,148 @@ class RepairOrderQuoteHelper
                 throw new Exception('Invalid operationCode Parameter in recommendations JSON');
             }
 
-            // Remove previous recommendations
-            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
-                $this->em->remove($oldRecommendation);
-            }
-
-            $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                                           ->setOperationCode($operationCode)
-                                           ->setDescription($recommendation->description)
-                                           ->setPreApproved(
-                                               filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
-                                           )
-                                           ->setApproved(
-                                               filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
-                                           )
-                                           ->setPartsPrice($recommendation->partsPrice)
-                                           ->setSuppliesPrice($recommendation->suppliesPrice)
-                                           ->setNotes($recommendation->notes);
-
-            if ($this->security->isGranted('ROLE_CUSTOMER')) {
-                $partsPrice = $recommendation->partsPrice;
-                $suppliesPrice = $recommendation->suppliesPrice;
-                $laborAndTax = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
-
-                $repairOrderQuoteRecommendation->setLaborPrice($laborAndTax['laborPrice'])
-                                               ->setLaborTax($laborAndTax['laborTax'])
-                                               ->setPartsTax($laborAndTax['partsTax'])
-                                               ->setSuppliesTax($laborAndTax['suppliesTax']);
-            }
-
+            $repairOrderQuoteRecommendation->setOperationCode($operationCode)
+                                            ->setDescription($recommendation->description)
+                                            ->setPreApproved(
+                                                filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                                            )
+                                            ->setLaborPrice($recommendation->laborPrice)                                
+                                            ->setPartsPrice($recommendation->partsPrice)
+                                            ->setSuppliesPrice($recommendation->suppliesPrice)
+                                            ->setLaborTax($recommendation->laborTax)
+                                            ->setPartsTax($recommendation->partsTax)
+                                            ->setSuppliesTax($recommendation->suppliesTax)
+                                            ->setNotes($recommendation->notes);
+            
+            $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
+            
             $this->em->persist($repairOrderQuoteRecommendation);
-            $this->em->beginTransaction();
-
-            try {
-                $this->em->flush();
-                $this->em->commit();
-            } catch (Exception $e) {
-                $this->em->rollback();
-
-                throw new Exception($e->getMessage());
+            
+            if (property_exists($recommendation, 'parts')) {
+                $this->buildParts($repairOrderQuoteRecommendation, $recommendation->parts);
             }
         }
+        
+        $this->em->beginTransaction();
+
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (ORMException | Exception $e) {
+            $this->em->rollback();
+
+            throw new Exception($e->getMessage());
+        }
     }
 
-    public function getLaborAndTax($partsPrice, $suppliesPrice, $operationCode): array
+   /**
+     * complete the repairOrderQuote.
+     *
+     * @throws Exception
+     */
+    public function completeRepairOrderQuote(RepairOrderQuote $repairOrderQuote, array $recommendations)
     {
-        $laborPrice = null;
-        $laborTax = 0;
-        $partsTax = 0;
-        $suppliesTax = 0;
-        $hours = $operationCode->getLaborHours();
+        $subtotal = 0;
+        $tax = 0;
+        $repairOrderQuoteRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
 
-        if ($this->isPricingMatrix) {
-            $laborPrice = $this->priceRepository->getPrice($hours);
-        }
-
-        if (is_null($laborPrice)) {
-            $laborPrice = $hours * $this->pricingLaborRate;
-        }
-
-        if ($operationCode->getLaborTaxable()) {
-            $laborTax = $laborPrice * $this->pricingLaborTax;
-        }
-
-        if ($operationCode->getPartsTaxable()) {
-            $partsTax = $partsPrice * $this->pricingPartsTax;
-        }
-
-        if ($operationCode->getSuppliesTaxable()) {
-            $suppliesTax = $suppliesPrice * $this->pricingPartsTax;
-        }
-
-        return [
-            'laborPrice' => round($laborPrice, 2),
-            'laborTax' => round($laborTax, 2),
-            'partsTax' => round($partsTax, 2),
-            'suppliesTax' => round($suppliesTax, 2),
-        ];
-    }
-
-    public function calculateLaborAndTax(RepairOrderQuote $quote): RepairOrderQuote
-    {
-        $newQuote = $quote;
-
-        if ($quote && $quote->getRepairOrderQuoteRecommendations() && $quote->getRepairOrderQuoteRecommendations()) {
-            $recommendations = $quote->getRepairOrderQuoteRecommendations();
-
-            if (count($recommendations) > 0) {
-                foreach ($recommendations as $index => $recommendation) {
-                    $operationCode = $recommendation->getOperationCode();
-                    $partsPrice = $recommendation->getPartsPrice();
-                    $suppliesPrice = $recommendation->getSuppliesPrice();
-                    $laborAndTax = $this->getLaborAndTax($partsPrice, $suppliesPrice, $operationCode);
-
-                    $newQuote->getRepairOrderQuoteRecommendations()[$index]->setLaborPrice($laborAndTax['laborPrice'])
-                                                                           ->setLaborTax($laborAndTax['laborTax'])
-                                                                           ->setPartsTax($laborAndTax['partsTax'])
-                                                                           ->setSuppliesTax($laborAndTax['suppliesTax']);
+        foreach($repairOrderQuoteRecommendations as $repairOrderQuoteRecommendation) {
+            $currentRecommendation = "";
+            
+            foreach ($recommendations as $recommendation) {
+                if($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
+                    $currentRecommendation = $recommendation;
+                    break;
                 }
             }
+
+            if ($repairOrderQuoteRecommendation->getPreApproved()) {
+                if ($currentRecommendation && !filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN)) {
+                    throw new Exception('The recommendation'. $repairOrderQuoteRecommendation->getId() .' was pre-approved');    
+                }
+
+                $repairOrderQuoteRecommendation->setApproved(true);
+            } else {
+                if (!$currentRecommendation) {
+                    throw new Exception("Recommendation ". $repairOrderQuoteRecommendation->getId()." was not pre-approved, but it is missing");    
+                }
+
+                $repairOrderQuoteRecommendation->setApproved(filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN));
+            }
+
+            if($repairOrderQuoteRecommendation->getApproved()) {
+                $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
+                          + $repairOrderQuoteRecommendation->getPartsPrice() 
+                          + $repairOrderQuoteRecommendation->getSuppliesPrice();
+                $tax +=  $repairOrderQuoteRecommendation->getLaborTax() 
+                     + $repairOrderQuoteRecommendation->getPartsTax() 
+                     + $repairOrderQuoteRecommendation->getSuppliesPrice();
+            }
+            
+            $this->em->persist($repairOrderQuoteRecommendation);
         }
 
-        return $newQuote;
+        $repairOrderQuote->setSubtotal($subtotal);
+        $repairOrderQuote->setTax($tax);
+        $repairOrderQuote->setTotal($subtotal + $tax);
+     
+        $this->em->beginTransaction();
+
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (ORMException | Exception $e) {
+            $this->em->rollback();
+
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Ties parts to a recommendation then deletes the old ones.
+     *
+     * @throws Exception
+     */
+    public function buildParts(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation, array $parts)
+    { 
+        foreach ($parts as $part) {
+            $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
+            
+            $repairOrderQuoteRecommendation->addRepairOrderQuoteRecommendationPart($repairOrderQuoteRecommendationPart);
+            
+            $repairOrderQuoteRecommendationPart->setNumber($part->number)
+                                               ->setName($part->name)
+                                               ->setprice($part->price)
+                                               ->setTotalPrice($part->quantity * $part->price)          
+                                               ->setQuantity($part->quantity);      
+            
+            $newPart = $this->partRepository->findOneBy(['number' => $part->number]);
+            if(!$newPart) {
+                $newPart = new Part();
+
+                $newPart->setNumber($part->number)
+                        ->setName($part->name)
+                        ->setPrice($part->price)
+                        ->setBin($part->bin);
+
+                $this->em->persist($newPart);
+            }
+            
+            $repairOrderQuoteRecommendationPart->setPart($newPart);
+
+            $this->em->persist($repairOrderQuoteRecommendationPart);
+        }
+        $this->em->persist($repairOrderQuoteRecommendation);         
+        $this->em->beginTransaction();
+
+        try {
+            $this->em->flush();
+            $this->em->commit();
+        } catch (Exception $e) {
+            $this->em->rollback();
+
+            throw new Exception($e->getMessage());
+        }
     }
 
     public function getProgressStatus()

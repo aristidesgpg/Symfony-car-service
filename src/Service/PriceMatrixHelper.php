@@ -70,7 +70,7 @@ class PriceMatrixHelper
         if (is_numeric($lastHours)) {
             $decimal = $lastHours - floor($lastHours);
 
-            if (abs($decimal - 0.9) > PHP_FLOAT_EPSILON) {
+            if (abs($decimal - 0.9) > 0.00001) {
                 throw new BadRequestHttpException('The last hours should always be #.9');
             }
         }
@@ -82,7 +82,7 @@ class PriceMatrixHelper
                 throw new BadRequestHttpException('Payload data is invalid');
             }
 
-            if ($item->hours - $beforeHours != .1) {
+            if (abs($item->hours - $beforeHours) > .1 + 0.00001) {
                 throw new BadRequestHttpException("The interval between $beforeHours and ".$item->hours.' is not 0.1');
             }
 

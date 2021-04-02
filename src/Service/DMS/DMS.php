@@ -446,7 +446,6 @@ class DMS
         }
 
         $dmsParts = $this->integration->getParts();
-
         // Loop over found parts
         /**
          * @var Part $dmsPart
