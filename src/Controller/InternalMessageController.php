@@ -114,6 +114,7 @@ class InternalMessageController extends AbstractFOSRestController
     ) {
         $page = $request->query->getInt('page', 1);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $searchTerm = $request->query->get('searchTerm', '');
 
         if ($page < 1) {
             throw new BadRequestHttpException('Page number should be more than 1');
@@ -171,13 +172,6 @@ class InternalMessageController extends AbstractFOSRestController
      *     description="Page Limit",
      *     in="query"
      * )
-     * @SWG\Parameter(
-     *     name="searchTerm",
-     *     type="string",
-     *     description="Search Value",
-     *     in="query"
-     * )
-     *
      * @SWG\Parameter(
      *     name="otherUserId",
      *     required=true,
