@@ -104,7 +104,7 @@ class RepairOrderControllerTest extends WebTestCase {
                                         ->setMaxResults(1)
                                         ->getQuery()
                                         ->getOneOrNullResult();
-        //A quote already exist
+        //the case when a repairOrderQuote already exists
         if ($repairOrderQuote) {
             $params = [
                 'repairOrderID'  => $repairOrderQuote->getRepairOrder()->getId(),
@@ -117,7 +117,7 @@ class RepairOrderControllerTest extends WebTestCase {
             $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
         }
 
-        //create repairOrderQuote with valid JSON
+        //the case when the repairOrderQuote doesn't exist and the JSON Data is valid
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '[{"operationCode":14, "description":"Neque maxime ex dolorem ut.","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -127,7 +127,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertObjectHasAttribute('id', $response);
 
-        //missing repairOrder
+        //the case when the repairOrderQuote Id is missing
         $params = [
             'recommendations' => '["operationCode":14, "description":"Neque maxime ex dolorem ut.","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
         ];
@@ -136,7 +136,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $response = json_decode($this->client->getResponse()->getContent());
         $this->assertEquals('Missing Required Parameter', $response);
        
-        //repairOrder not found
+        //the case when the repairOrder doesn't exist
         $params = [
             'repairOrderID'  => 999,
             'recommendations' => '["operationCode":14, "description":"Neque maxime ex dolorem ut.","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -144,7 +144,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
         
-        //invalid JSON (missing '{')
+        //the case when the JSON Data is invalid with missing '{'
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '["operationCode":14, "description":"Neque maxime ex dolorem ut.","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -152,7 +152,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
   
-        //invalid JSON (missing '[')
+        //the case when the JSON Data is invalid with missing '['
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '"operationCode":14, "description":"Neque maxime ex dolorem ut.","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -160,7 +160,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
        
-        //empty json
+        //the case when the JSON Data is empty
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '[]'
@@ -168,7 +168,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
  
-        //each item of recommendation is not object
+        //the case when the each recommendation data is not object
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '[operationCode":14, "description":"Neque maxime ex dolorem ut."]'
@@ -176,7 +176,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
      
-        //discription field is missed
+        //the case when the JSON Data is invalid with missing 'description' field
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '["operationCode":14, "preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -184,7 +184,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
   
-        //discription field is empty
+        //the case when the JSON Data is invalid with empty 'description' value
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '[{"operationCode":14, "description":"","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -192,7 +192,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
-        //partsPrice is not number
+        //the case when the JSON Data is invalid with non-number partsPrice
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '[{"operationCode":14, "description":"","preApproved":true,"approved":true,"partsPrice":"string","suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -200,7 +200,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
-        //Part json is invalid
+        //the case when the JSON Data is invalid with invalid 'parts' json
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '[{"operationCode":14, "description":"","preApproved":true,"approved":true,"partsPrice":"string","suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":["number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -208,7 +208,7 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('POST', '', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 
-        //Invalid operation code
+        //the case when the JSON Data is invalid with invalid operation code
         $params = [
             'repairOrderID'  => 53,
             'recommendations' => '[{"operationCode":999, "description":"Neque maxime ex dolorem ut.","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
@@ -223,13 +223,13 @@ class RepairOrderControllerTest extends WebTestCase {
             return;
         }
         
+        //the case when the repairOrderQuote status is not allowed to be updated
         $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
                                                     ->createQueryBuilder('roq')
-                                                    ->andWhere("roq.status = 'Completed' or roq.status = 'Confirmed'")
+                                                    ->andWhere("roq.status = 'Sent' or roq.status = 'Completed' or roq.status = 'Confirmed'")
                                                     ->setMaxResults(1)
                                                     ->getQuery()
                                                     ->getOneOrNullResult();
-        //not customer, and the repairOrderQuote status is 'Completed' or 'Confirmed'
         if ($this->token !== $this->customerToken) {
             if ($repairOrderQuote) {
                 $params = [
@@ -242,7 +242,24 @@ class RepairOrderControllerTest extends WebTestCase {
             }
         }
 
-        
+        // the case when a repairOrderQuote status is allowed to be updated
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                ->createQueryBuilder('roq')
+                                                ->andWhere("roq.status <> 'Sent'")
+                                                ->andWhere("roq.status <> 'Completed'")
+                                                ->andWhere("roq.status <> 'Confirmed'")
+                                                ->setMaxResults(1)
+                                                ->getQuery()
+                                                ->getOneOrNullResult();
+        if ($repairOrderQuote) {
+            $params = [
+                'recommendations' => '[{"operationCode":14, "description":"Neque maxime ex dolorem ut.","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]'
+            ];
+            $this->requestAction('PUT', "/".$repairOrderQuote->getId(), $params);
+            $this->assertResponseIsSuccessful();
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
     }
     public function testInProgress() {
         if (!$this->token) {
@@ -250,6 +267,7 @@ class RepairOrderControllerTest extends WebTestCase {
             return;
         }
 
+        //the case when the repairOrderQuote doesn't exist
         $params = [
             'repairOrderQuoteID' => 999,
             'status' => 'Technician In Progress'
@@ -257,14 +275,13 @@ class RepairOrderControllerTest extends WebTestCase {
         $this->requestAction('PUT', "/in-progress", $params);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
+        //the case when a repairOrderQuote status is not allowed to be updated
         $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
-                                                    ->createQueryBuilder('roq')
-                                                    ->andWhere("roq.status = 'Sent' or roq.status = 'Viewed' or roq.status = 'Completed' or  roq.status = 'Confirmed'")
-                                                    ->setMaxResults(1)
-                                                    ->getQuery()
-                                                    ->getOneOrNullResult();
-        
-        //the repairOrderQuote status is 'Sent', 'Viewed', 'Completed' or 'Confirmed'
+                                                ->createQueryBuilder('roq')
+                                                ->andWhere("roq.status = 'Sent' or roq.status = 'Viewed' or roq.status = 'Completed' or  roq.status = 'Confirmed'")
+                                                ->setMaxResults(1)
+                                                ->getQuery()
+                                                ->getOneOrNullResult();
         if ($repairOrderQuote) {
             $params = [
                 'repairOrderQuoteID' => $repairOrderQuote->getId(),
@@ -276,18 +293,17 @@ class RepairOrderControllerTest extends WebTestCase {
             $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
         }
 
-
+        // the case when a repairOrderQuote status is not allowed to be updated, but the  status is invalid
         $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
-                                                    ->createQueryBuilder('roq')
-                                                    ->andWhere("roq.status <> 'Sent'")
-                                                    ->andWhere("roq.status <> 'Viewed'")
-                                                    ->andWhere("roq.status <> 'Completed'")
-                                                    ->andWhere("roq.status <> 'Confirmed'")
-                                                    ->setMaxResults(1)
-                                                    ->getQuery()
-                                                    ->getOneOrNullResult();
+                                                ->createQueryBuilder('roq')
+                                                ->andWhere("roq.status <> 'Sent'")
+                                                ->andWhere("roq.status <> 'Viewed'")
+                                                ->andWhere("roq.status <> 'Completed'")
+                                                ->andWhere("roq.status <> 'Confirmed'")
+                                                ->setMaxResults(1)
+                                                ->getQuery()
+                                                ->getOneOrNullResult();
         
-        //the repairOrderQuote status is not 'Technician In Progress', 'Advisor In Progress', or 'Parts In Progress'
         if ($repairOrderQuote) {
             $params = [
                 'repairOrderQuoteID' => $repairOrderQuote->getId(),
@@ -299,7 +315,16 @@ class RepairOrderControllerTest extends WebTestCase {
             $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
         }
         
-        //update the repairOrderQuote as progress and check if the repairOrderQuote status is changed correctly
+        // the case when a repairOrderQuote status is not allowed to be updated and the  status is valid
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status <> 'Sent'")
+                                                    ->andWhere("roq.status <> 'Viewed'")
+                                                    ->andWhere("roq.status <> 'Completed'")
+                                                    ->andWhere("roq.status <> 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
         if ($repairOrderQuote) {
             $params = [
                 'repairOrderQuoteID' => $repairOrderQuote->getId(),
@@ -307,16 +332,238 @@ class RepairOrderControllerTest extends WebTestCase {
             ];
             $this->requestAction('POST', "/in-progress", $params);
             $this->assertResponseIsSuccessful();
-            
-            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
         } else {
             $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
         }
+    }
+
+    public function testCustomerSend() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status = 'Sent' or roq.status = 'Viewed' or roq.status = 'Completed' or  roq.status = 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
         
-        //update the repairOrderQuote as progress and check if the repairOrderInteraction is created correctly
+        //the case when a repairOrderQuote status is not allowed to be updated
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Sent'
+            ];
+            $this->requestAction('POST', "/send", $params);
+            $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+
+        //the case when a repairOrderQuote status is allowed to be updated
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status <> 'Sent'")
+                                                    ->andWhere("roq.status <> 'Viewed'")
+                                                    ->andWhere("roq.status <> 'Completed'")
+                                                    ->andWhere("roq.status <> 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Sent'
+            ];
+            $this->requestAction('POST', "/send", $params);
+            $this->assertResponseIsSuccessful();
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+    }
+
+    public function testViewed() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+
+        //the case when a repairOrderQuote status is not allowed to be updated
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status = 'Viewed' or roq.status = 'Completed' or  roq.status = 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Viewed'
+            ];
+            $this->requestAction('POST', "/view", $params);
+            $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+
+        //the case when a repairOrderQuote status is allowed to be updated
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status <> 'Viewed'")
+                                                    ->andWhere("roq.status <> 'Completed'")
+                                                    ->andWhere("roq.status <> 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Viewed'
+            ];
+            $this->requestAction('POST', "/view", $params);
+            $this->assertResponseIsSuccessful();
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+    }
+
+    public function testCompleted() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status = 'Sent' or roq.status = 'Completed' or  roq.status = 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        
+        //the case when a repairOrderQuote is not allowed to be updated
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'recommendations' => '[{"repairOrderQuoteRecommendationId": 1,"approved": true}, {"repairOrderQuoteRecommendationId": 2,"approved": true}, {"repairOrderQuoteRecommendationId": 3,"approved": true}]'
+            ];
+            $this->requestAction('POST', "/complete", $params);
+            $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
 
         
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status <> 'Sent'")
+                                                    ->andWhere("roq.status <> 'Completed'")
+                                                    ->andWhere("roq.status <> 'Confirmed'")
+                                                    ->orderBy('roq.id', 'DESC')
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        
+        if ($repairOrderQuote) {
+            $recommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
+
+            //the case when a repairOrderQuote is allowed to be updated, and the recommendation data is valid
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'recommendations' => '[{"repairOrderQuoteRecommendationId": ' . $recommendations[0]->getId() . ',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[1]->getId() . ',"approved": true}, {"repairOrderQuoteRecommendationId": ' . $recommendations[2]->getId() . ',"approved": true}]'
+            ];
+            $this->requestAction('POST', "/complete", $params);
+            $this->assertResponseIsSuccessful();
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+
+        
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status <> 'Sent'")
+                                                    ->andWhere("roq.status <> 'Completed'")
+                                                    ->andWhere("roq.status <> 'Confirmed'")
+                                                    ->orderBy('roq.id', 'DESC')
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        //the case when one of the recommendations was pre-approved, but the recommendation json was not approved                                                 
+        if ( ($recommendations[0]->getPreApproved()) || ($recommendations[1]->getPreApproved()) || ($recommendations[2]->getPreApproved()) ) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'recommendations' => '[{"repairOrderQuoteRecommendationId": ' . $recommendations[0]->getId() . ',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[1]->getId() . ',"approved": false}, {"repairOrderQuoteRecommendationId": '.  1 .',"approved": false}]'
+            ];
+            $this->requestAction('POST', "/complete", $params);
+
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        }
+
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status <> 'Sent'")
+                                                    ->andWhere("roq.status <> 'Completed'")
+                                                    ->andWhere("roq.status <> 'Confirmed'")
+                                                    ->orderBy('roq.id', 'DESC')
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        //the case when one of the reommendations was not pre-approved, but that reommendation was missed
+        if ( ($recommendations[0]->getPreApproved()) || ($recommendations[1]->getPreApproved()) || ($recommendations[2]->getPreApproved()) ) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'recommendations' => '[{"repairOrderQuoteRecommendationId": 10001,"approved": false}, {"repairOrderQuoteRecommendationId": 10002,"approved": false}, {"repairOrderQuoteRecommendationId": 10003, "approved": false}]'
+            ];
+            $this->requestAction('POST', "/complete", $params);
+
+            $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
+        }
     }
+
+    public function testConfirmed() {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+            return;
+        }
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status = 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        
+        //the repairOrderQuote status is 'Confirmed'
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Confirmed'
+            ];
+            $this->requestAction('POST', "/confirm", $params);
+            $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+
+        //get a repairOrderQuote which is allowed to be updated
+        $repairOrderQuote = $this->entityManager->getRepository(RepairOrderQuote::class)
+                                                    ->createQueryBuilder('roq')
+                                                    ->andWhere("roq.status <> 'Confirmed'")
+                                                    ->setMaxResults(1)
+                                                    ->getQuery()
+                                                    ->getOneOrNullResult();
+        
+        if ($repairOrderQuote) {
+            $params = [
+                'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                'status' => 'Confirmed'
+            ];
+            $this->requestAction('POST', "/confirm", $params);
+            $this->assertResponseIsSuccessful();
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
+        }
+    }
+
     public function testDeleteRepairOrderQuote() {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
