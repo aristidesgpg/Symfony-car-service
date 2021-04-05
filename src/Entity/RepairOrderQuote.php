@@ -15,7 +15,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderQuote
 {
-    public const GROUPS = ['roq_list', 'ro_list', 'roqs_list', 'operation_code_list'];
+    public const GROUPS = ['roq_list', 'ro_list', 'roqs_list', 'roqp_list', 'operation_code_list', 'part_list'];
 
     /**
      * @ORM\Id
@@ -30,6 +30,12 @@ class RepairOrderQuote
      * @ORM\JoinColumn(nullable=false)
      */
     private $repairOrder;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class )
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $completedUser;
 
     /**
      * @ORM\Column(type="datetime")
@@ -53,13 +59,13 @@ class RepairOrderQuote
      * @ORM\Column(type="datetime", nullable=true)
      * @Serializer\Groups(groups={"roq_list"})
      */
-    private $dateCustomerCompleted;
+    private $dateCompleted;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Serializer\Groups(groups={"roq_list"})
      */
-    private $dateCustomerConfirmed;
+    private $dateConfirmed;
 
     /**
      * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendation::class, mappedBy="repairOrderQuote", cascade={"persist", "remove"})
@@ -76,6 +82,25 @@ class RepairOrderQuote
      * @ORM\Column(type="string", length=255)
      */
     private $status = 'Not Started';
+    
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $subtotal;
+   
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $tax;
+    
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $total;
+
 
     public function __construct()
     {
@@ -137,26 +162,26 @@ class RepairOrderQuote
         return $this;
     }
 
-    public function getDateCustomerCompleted(): ?DateTimeInterface
+    public function getDateCompleted(): ?DateTimeInterface
     {
-        return $this->dateCustomerCompleted;
+        return $this->dateCompleted;
     }
 
-    public function setDateCustomerCompleted(?DateTimeInterface $dateCustomerCompleted): self
+    public function setDateCompleted(?DateTimeInterface $dateCompleted): self
     {
-        $this->dateCustomerCompleted = $dateCustomerCompleted;
+        $this->dateCompleted = $dateCompleted;
 
         return $this;
     }
 
-    public function getDateCustomerConfirmed(): ?DateTimeInterface
+    public function getDateConfirmed(): ?DateTimeInterface
     {
-        return $this->dateCustomerConfirmed;
+        return $this->dateConfirmed;
     }
 
-    public function setDateCustomerConfirmed(?DateTimeInterface $dateCustomerConfirmed): self
+    public function setDateConfirmed(?DateTimeInterface $dateConfirmed): self
     {
-        $this->dateCustomerConfirmed = $dateCustomerConfirmed;
+        $this->dateConfirmed = $dateConfirmed;
 
         return $this;
     }
@@ -232,5 +257,53 @@ class RepairOrderQuote
         $this->status = $status;
 
         return $this;
+    }
+
+    public function setSubtotal(?float $subtotal): self
+    {
+        $this->subtotal = $subtotal;
+
+        return $this;
+    }
+
+    public function getSubtotal(): ?float
+    {
+        return $this->subtotal;
+    }
+    
+    public function setTax(?float $tax): self
+    {
+        $this->tax = $tax;
+
+        return $this;
+    }
+
+    public function getTax(): ?float
+    {
+        return $this->tax;
+    }
+
+    public function setTotal(?float $total): self
+    {
+        $this->total = $total;
+
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setCompletedUser(?User $user): self
+    {
+        $this->completedUser = $user;
+
+        return $this;
+    }
+
+    public function getCompletedUser(): ?User
+    {
+        return $this->completedUser;
     }
 }
