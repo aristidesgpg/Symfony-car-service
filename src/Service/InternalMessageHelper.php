@@ -75,7 +75,7 @@ class InternalMessageHelper
                 ON i.date = im.MaxDate
                 INNER JOIN user u
                 ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END AND CONCAT(u.first_name,' ', u.last_name) LIKE '%%'
-                INNER JOIN 
+                LEFT JOIN 
                     (
                     SELECT id,from_id, COUNT(id) AS unreads
                         FROM 
