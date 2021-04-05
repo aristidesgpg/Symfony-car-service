@@ -74,16 +74,16 @@ class InternalMessageHelper
                     ) im
                     ON i.date = im.MaxDate
                     INNER JOIN user u
-                    ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END AND CONCAT(u.first_name, u.last_name) LIKE '%{$searchTerm}%'
+                    ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END AND CONCAT(u.first_name,' ', u.last_name) LIKE '%{$searchTerm}%'
                     Left Join 
                         (
-                        SELECT id, COUNT(CASE WHEN is_read = 0 THEN 1 END) AS unreads
+                        SELECT id, COUNT(id) AS unreads
                             FROM 
                             (
                                 SELECT id, to_id, from_id, is_read
                                 FROM  
                                 internal_message
-                                WHERE to_id = {$userId}
+                                WHERE to_id = {$userId} AND is_read = 0
                             ) ii
                             GROUP BY ii.from_id 
                         ) kk

@@ -124,7 +124,7 @@ class InternalMessageController extends AbstractFOSRestController
             throw new BadRequestHttpException('Page limit must be a positive non-zero integer');
         }
 
-        $threads = $internalMessageHelper->getThreads();
+        $threads = $internalMessageHelper->getThreads($searchTerm);
 
         if (false === $threads) {
             return $this->handleView(
