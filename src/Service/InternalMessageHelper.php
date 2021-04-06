@@ -88,7 +88,7 @@ class InternalMessageHelper
                         GROUP BY ii.from_id 
                     ) kk
                 ON kk.from_id = u.id
-                ORDER BY unreads DESC, i.date DESC";
+                ORDER BY i.is_read ASC, i.date DESC";
 
         try {
             $query = $this->em->getConnection()->prepare($sql);
