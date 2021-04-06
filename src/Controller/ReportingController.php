@@ -159,14 +159,16 @@ class ReportingController extends AbstractFOSRestController
      *             type="array",
      *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      *         ),
-     *         @SWG\Property(property="sumOfStartValues", type="integer", description="Sum # of start values"),
-     *         @SWG\Property(property="sumOfFinalValues", type="integer", description="Sum # of final values"),
-     *         @SWG\Property(property="totalUpsell", type="integer", description="Total # of upsell"),
-     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
-     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
-     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
-     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
-     *         @SWG\Property(property="next", type="string", description="URL for next page")
+     *         @SWG\Property(property="advisor", type="integer", description="The advisor"),
+     *         @SWG\Property(property="totalUnreadMessages", type="integer", description="The current # of unread sms messages from customers where they are the primaryAdvisor"),
+     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="# of repair orders that were closed in the given date range"),
+     *         @SWG\Property(property="totalClosedVideos", type="integer", description="# of videos for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalClosedVideoViews", type="integer", description="# of video views for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalSentQuotes", type="integer", description="# of quotes sent for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalViewedQuotes", type="string", description="# of quotes that were viewed for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalCompletedQuotes", type="integer", description="# of quotes that were completed by the customer for repair orers that have closed in the given date range"),
+     *         @SWG\Property(property="totalInboundTxtMsgs", type="string", description="# of total inbound text messages for repair orders that were closed in the given date range"),
+     *         @SWG\Property(property="totalOutboundTxtMsgs", type="string", description="# of total outbound text messages for repair orders that were closed in the given date range"),
      *     )
      * )
      *
@@ -224,7 +226,7 @@ class ReportingController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/reporting/archive")
+     * @Rest\Get("/api/reporting/advisor")
      * @SWG\Tag(name="Reporting")
      *
      * @SWG\Parameter(
