@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
 use Money\Money;
-use RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Throwable;
 use Twilio\Exceptions\TwilioException;
@@ -137,6 +136,7 @@ class PaymentHelper
         $interaction = 'Confirmed';
         $payment->setStatus($this->statusCalculator($interaction, $payment->getStatus()));
         $this->createInteraction($payment, $interaction);
+        $payment->setDateConfirmed(new DateTime());
         $this->commitPayment($payment);
     }
 
@@ -185,13 +185,7 @@ class PaymentHelper
             $overflow = $totalRefunded->greaterThan($payment->getAmount());
         }
         if (true === $overflow) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Refund amount "%s" exceeds total amount "%s"',
-                    MoneyHelper::getFormatter()->format($amount),
-                    MoneyHelper::getFormatter()->format($payment->getAmount())
-                )
-            );
+            throw new InvalidArgumentException(sprintf('Refund amount "%s" exceeds total amount "%s"', MoneyHelper::getFormatter()->format($amount), MoneyHelper::getFormatter()->format($payment->getAmount())));
         }
 
         $this->nmi->makeRefund($transactionId, MoneyHelper::getFormatter()->format($amount));
@@ -283,9 +277,6 @@ class PaymentHelper
         $this->updateRepairOrderStatus($payment);
     }
 
-    /**
-     * @param RepairOrderPayment $payment
-     */
     public function updateRepairOrderStatus(RepairOrderPayment $payment)
     {
         $repairOrder = $payment->getRepairOrder();
@@ -293,7 +284,7 @@ class PaymentHelper
         $currentPaymentRank = array_search($payment->getStatus(), $this->getValidStatusesInOrder());
 
         foreach ($rops as $rop) {
-            if($rop->isDeleted()){
+            if ($rop->isDeleted()) {
                 continue;
             }
 

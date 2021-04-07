@@ -119,7 +119,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if ($exists) {
             throw new BadRequestHttpException('A quote already exists for this Repair Order');
         }
-       
+
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
@@ -218,7 +218,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         try {
             $repairOrderQuoteHelper->validateRecommendationsJson($recommendations);
-            
+
             $repairOrderQuoteHelper->buildRecommendations($repairOrderQuote, $recommendations);
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
@@ -232,7 +232,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
                                     ->setCustomer($repairOrder->getPrimaryCustomer())
                                     ->setType($status);
-        
+
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status);
@@ -393,8 +393,16 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // send repair order link to the customer
         $serviceTextQuote = $settingsHelper->getSetting('serviceTextQuote');
         $customerURL = $parameterBag->get('customer_url');
-        $repairOrderURL = $serviceTextQuote.$customerURL.$repairOrder->getLinkHash();
-        $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $shortUrlHelper->generateShortUrl($repairOrderURL));
+        $repairOrderURL = $customerURL.$repairOrder->getLinkHash();
+        $shortUrl = $shortUrlHelper->generateShortUrl($repairOrderURL);
+        $message = $serviceTextQuote.':'.$shortUrl;
+
+        try {
+            $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $message);
+        } catch (Exception $e) {
+            return $this->handleView($this->view('Failed to send quote to customer: '.$e->getMessage(),
+                Response::HTTP_BAD_GATEWAY));
+        }
 
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
@@ -523,7 +531,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status)
                          ->setDateConfirmed(new DateTime());
-         
+
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
 
@@ -546,7 +554,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     description="ID for the RepairOrderQuote",
      *     required=true
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="recommendations",
      *     in="formData",
@@ -574,7 +582,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $recommendations = $request->get('recommendations');
-        
+
          if (!$repairOrderQuoteID) {
             throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
         }
@@ -582,7 +590,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if (!$repairOrderQuote) {
             throw new NotFoundHttpException('Repair Order Quote Not Found');
         }
-        
+
         $repairOrder = $repairOrderQuote->getRepairOrder();
         if ($security->isGranted('ROLE_CUSTOMER') ) {
             if ($repairOrder->getPrimaryCustomer() !== $this->getUser()){
@@ -595,7 +603,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
                 return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
             }
         }
-        
+
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
@@ -604,28 +612,28 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         try {
             $repairOrderQuoteHelper->validateCompletedJson($recommendations);
-            
+
             $repairOrderQuoteHelper->completeRepairOrderQuote($repairOrderQuote, $recommendations);
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
 
         $status = 'Completed';
-        
+
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
                                     ->setUser($repairOrder->getPrimaryTechnician())
                                     ->setCustomer($repairOrder->getPrimaryCustomer())
                                     ->setType($status);
-        
+
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status)
                          ->setDateCompleted(new DateTime());
-        
+
         if (!$security->isGranted('ROLE_CUSTOMER')) {
             $repairOrderQuote->setCompletedUser($this->getUser());
         }
-        
+
         $repairOrder->setQuoteStatus($status);
 
         $em->persist($repairOrder);
