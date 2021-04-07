@@ -241,8 +241,11 @@ class RepairOrderHelper
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findBy(['number' => $roNumber]);
+        if ($ro){
+            return false;
+        }
 
-        return null === $ro;
+        return true;
     }
 
     public function generateLinkHash(string $dateCreated): string
