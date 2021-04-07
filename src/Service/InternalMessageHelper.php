@@ -58,7 +58,7 @@ class InternalMessageHelper
     {
         $userId = $this->user->getId();
 
-        $sql = "SELECT  u.*, i.id AS im_id,i.from_id , i.to_id, i.message, i.date, i.is_read, (CASE WHEN kk.unreads is null THEN 0 ELSE kk.unreads END) AS unreads 
+        $sql = "SELECT  u.*, i.id AS im_id,i.from_id , i.to_id, i.message, i.date, i.is_read, (CASE WHEN kk.unreads is null THEN 0 ELSE kk.unreads END) AS unreads, (CASE WHEN kk.unreads is null THEN 0 ELSE 1 END) AS thread_read 
                 FROM internal_message i
                 INNER JOIN 
                 (
@@ -88,7 +88,7 @@ class InternalMessageHelper
                         GROUP BY ii.from_id 
                     ) kk
                 ON kk.from_id = u.id
-                ORDER BY i.is_read ASC, i.date DESC";
+                ORDER BY thread_read DESC, i.date DESC";
 
         try {
             $query = $this->em->getConnection()->prepare($sql);
