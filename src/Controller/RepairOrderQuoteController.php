@@ -9,6 +9,7 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderQuoteHelper;
+use App\Service\RepairOrderQuoteLogHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
@@ -94,6 +95,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $helper,
+        RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper,
         Security $security
     ) {
         if ($security->isGranted('ROLE_CUSTOMER')) {
@@ -135,6 +137,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $helper->validateRecommendationsJson($recommendations);
 
             $helper->buildRecommendations($repairOrderQuote, $recommendations);
+
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
@@ -150,10 +153,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status);
+
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
 
         $em->persist($repairOrderQuote);
+
+        $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->getUser());
+        
         $em->persist($repairOrder);
 
         $em->flush();

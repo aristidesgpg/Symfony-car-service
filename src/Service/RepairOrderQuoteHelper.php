@@ -8,8 +8,6 @@ use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
 use App\Repository\OperationCodeRepository;
 use App\Repository\PartRepository;
-use App\Repository\PriceMatrixRepository;
-use App\Repository\RepairOrderQuoteRecommendationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Exception;
@@ -68,33 +66,17 @@ class RepairOrderQuoteHelper
     private $security;
     private $operationCodeRepository;
     private $partRepository;
-    private $pricingLaborRate;
-    private $isPricingMatrix;
-    private $pricingLaborTax;
-    private $pricingPartsTax;
-    private $priceRepository;
-    private $repairOrderQuoteRecommendationRepository;
 
     public function __construct(
         EntityManagerInterface $em,
         OperationCodeRepository $operationCodeRepository,
-        SettingsHelper $settingsHelper,
-        PriceMatrixRepository $priceRepository,
         partRepository $partRepository,
-        Security $security,
-        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository
+        Security $security
     ) {
         $this->em = $em;
         $this->operationCodeRepository = $operationCodeRepository;
         $this->security = $security;
-        $this->priceRepository = $priceRepository;
         $this->partRepository = $partRepository;
-        $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
-
-        $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
-        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix');
-        $this->pricingLaborTax = $settingsHelper->getSetting('pricingLaborTax') * 0.01;
-        $this->pricingPartsTax = $settingsHelper->getSetting('pricingPartsTax') * 0.01;
     }
 
     /**
@@ -240,7 +222,7 @@ class RepairOrderQuoteHelper
                                             ->setNotes($recommendation->notes);
             
             $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
-            
+                                                
             $this->em->persist($repairOrderQuoteRecommendation);
             
             if (property_exists($recommendation, 'parts')) {

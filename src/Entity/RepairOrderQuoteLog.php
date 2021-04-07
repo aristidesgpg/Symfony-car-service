@@ -39,9 +39,9 @@ class RepairOrderQuoteLog
     private $date;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $data = [];
+    private $data;
 
     public function getId(): ?int
     {
@@ -96,12 +96,12 @@ class RepairOrderQuoteLog
         return $this;
     }
 
-    public function getData(): ?array
+    public function getData(): ?string
     {
         return $this->data;
     }
 
-    public function setData(?array $data): self
+    public function setData(?string $data): self
     {
         $this->data = $data;
 
