@@ -243,14 +243,6 @@ class ReportingController extends AbstractFOSRestController
      *      in="query"
      * )
      *
-     * @SWG\Parameter(name="page", type="integer", in="query")
-     *
-     * @SWG\Parameter(
-     *     name="pageLimit",
-     *     type="integer",
-     *     in="query"
-     * )
-     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
@@ -261,13 +253,16 @@ class ReportingController extends AbstractFOSRestController
      *             type="array",
      *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      *         ),
-     *         @SWG\Property(property="sumOfStartValues", type="integer", description="Sum # of start values"),
-     *         @SWG\Property(property="sumOfFinalValues", type="integer", description="Sum # of final values"),
-     *         @SWG\Property(property="totalUpsell", type="integer", description="Total # of upsell"),
-     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
-     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
-     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
-     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="sumOfStartValues", type="integer", description="# of repair orders closed in the given date range"),
+     *         @SWG\Property(property="sumOfFinalValues", type="integer", description="# of appraise my car clicks (make 0 for now)"),
+     *         @SWG\Property(property="totalUpsell", type="integer", description="$ SUM of all the start values for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalResults", type="integer", description="$ SUM of all the final values for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalPages", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="previous", type="string", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
+     *         @SWG\Property(property="currentPage", type="integer", description="# of total videos created for repair orders closed in the given date range"),
+     *         @SWG\Property(property="next", type="string", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range")
+     *         @SWG\Property(property="next", type="string", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
+     *         @SWG\Property(property="next", type="string", description="URL for next page")
      *         @SWG\Property(property="next", type="string", description="URL for next page")
      *     )
      * )
