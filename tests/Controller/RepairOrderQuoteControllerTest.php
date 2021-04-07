@@ -130,9 +130,9 @@ class RepairOrderControllerTest extends WebTestCase
 
         //get a repairOrder which doesn't have repairOrderQuote
         $repairOrderQuotes = $this->entityManager->getRepository(RepairOrderQuote::class)
-                                                  ->createQueryBuilder('roq')
-                                                  ->getQuery()
-                                                  ->getResult();
+                                                 ->createQueryBuilder('roq')
+                                                 ->getQuery()
+                                                 ->getResult();
 
         $qb = $this->entityManager->getRepository(RepairOrder::class)
                                   ->createQueryBuilder('ro');
