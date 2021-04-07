@@ -39,7 +39,6 @@ class InternalMessageHelper
 
         $totalUnreadMessages = $internalMessageRepository->createQueryBuilder('im')
             ->where('im.to = :userId')
-            ->orWhere('im.from = :userId')
             ->setParameter('userId', $userId)
             ->andWhere('im.isRead = 0')
             ->select('count(im.id)')
