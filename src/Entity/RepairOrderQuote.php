@@ -101,12 +101,18 @@ class RepairOrderQuote
      */
     private $total;
 
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteLog::class, mappedBy="repairOrderQuote", orphanRemoval=true)
+     */
+    private $repairOrderQuoteLogs;
+
 
     public function __construct()
     {
         $this->dateCreated = new DateTime();
         $this->repairOrderQuoteRecommendations = new ArrayCollection();
         $this->repairOrderQuoteInteractions = new ArrayCollection();
+        $this->repairOrderQuoteLogs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -305,5 +311,35 @@ class RepairOrderQuote
     public function getCompletedUser(): ?User
     {
         return $this->completedUser;
+    }
+
+    /**
+     * @return Collection|RepairOrderQuoteLog[]
+     */
+    public function getRepairOrderQuoteLogs(): Collection
+    {
+        return $this->repairOrderQuoteLogs;
+    }
+
+    public function addRepairOrderQuoteLog(RepairOrderQuoteLog $repairOrderQuoteLog): self
+    {
+        if (!$this->repairOrderQuoteLogs->contains($repairOrderQuoteLog)) {
+            $this->repairOrderQuoteLogs[] = $repairOrderQuoteLog;
+            $repairOrderQuoteLog->setRepairOrderQuote($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderQuoteLog(RepairOrderQuoteLog $repairOrderQuoteLog): self
+    {
+        if ($this->repairOrderQuoteLogs->removeElement($repairOrderQuoteLog)) {
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteLog->getRepairOrderQuote() === $this) {
+                $repairOrderQuoteLog->setRepairOrderQuote(null);
+            }
+        }
+
+        return $this;
     }
 }
