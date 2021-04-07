@@ -260,9 +260,11 @@ class CustomerController extends AbstractFOSRestController
             return new ValidationResponse($validation);
         }
 
-        $ct = $customerRepository->findByPhone($req->get('phone'));
-        if ($ct && ($ct->getId() !== $customer->getId())) {
-            return new ValidationResponse(['phone' => 'Phone number already exist']);
+        if ($req->get('phone')) {
+            $ct = $customerRepository->findByPhone($req->get('phone'));
+            if ($ct && ($ct->getId() !== $customer->getId())) {
+                return new ValidationResponse(['phone' => 'Phone number already exist']);
+            }
         }
 
         $helper->commitCustomer($customer, $req->request->all());
