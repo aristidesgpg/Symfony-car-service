@@ -10,7 +10,7 @@ use App\Entity\Settings;
 use App\Entity\User;
 use App\Service\CustomerHelper;
 use App\Service\PhoneValidator;
-use App\Service\RepairOrderHelper;
+use App\Service\ROLinkHashHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
@@ -45,10 +45,7 @@ class DMS
      * @var SettingsHelper
      */
     private $settingsHelper;
-    /**
-     * @var RepairOrderHelper
-     */
-    private $repairOrderHelper;
+
     /**
      * @var ParameterBagInterface
      */
@@ -98,13 +95,18 @@ class DMS
      */
     private $phoneValidator;
 
+    /**
+     * @var ROLinkHashHelper
+     */
+    private $ROLinkHashHelper;
+
     public function __construct(ServiceLocator $serviceLocator,
                                 TwilioHelper $twilioHelper,
                                 CustomerHelper $customerHelper,
                                 EntityManagerInterface $em,
                                 ShortUrlHelper $shortUrlHelper,
                                 SettingsHelper $settingsHelper,
-                                RepairOrderHelper $repairOrderHelper,
+                                ROLinkHashHelper $ROLinkHashHelper,
                                 ParameterBagInterface $parameterBag,
                                 PhoneValidator $phoneValidator)
     {
@@ -115,7 +117,7 @@ class DMS
         $this->em = $em;
         $this->shortUrlHelper = $shortUrlHelper;
         $this->settingsHelper = $settingsHelper;
-        $this->repairOrderHelper = $repairOrderHelper;
+        $this->ROLinkHashHelper = $ROLinkHashHelper;
         $this->parameterBag = $parameterBag;
 
         $this->customerRepo = $em->getRepository(Customer::class);
@@ -273,7 +275,7 @@ class DMS
             ->setMiles($dmsResult->getMiles())
             ->setVin($dmsResult->getVin())
             ->setInternal(0)
-            ->setLinkHash($this->repairOrderHelper->generateLinkHash($dmsResult->getDate()->format('c')))
+            ->setLinkHash($this->ROLinkHashHelper->generate($dmsResult->getDate()->format('c')))
             ->setStartValue($dmsResult->getInitialROValue());
 
         // If the customer name has "INVENTORY" in it, skip as an internal
@@ -301,7 +303,6 @@ class DMS
         if (!$this->integration) {
             return null;
         }
-
         //TODO This should be refactored to close an individual instead of passing an array.
         $openRepairOrders[] = $repairOrder;
         try {
@@ -565,16 +566,6 @@ class DMS
     public function setSettingsHelper(SettingsHelper $settingsHelper): void
     {
         $this->settingsHelper = $settingsHelper;
-    }
-
-    public function getRepairOrderHelper(): RepairOrderHelper
-    {
-        return $this->repairOrderHelper;
-    }
-
-    public function setRepairOrderHelper(RepairOrderHelper $repairOrderHelper): void
-    {
-        $this->repairOrderHelper = $repairOrderHelper;
     }
 
     public function getParameterBag(): ParameterBagInterface
