@@ -58,7 +58,7 @@ class ServiceSMSHelper
         return $statement->fetchAllAssociative();
     }
 
-    private function getThreadsByAdvisor($userId, $searchTerm, $isShared)
+    public function getThreadsByAdvisor($userId, $searchTerm = null, $isShared = null)
     {
         $searchQuery = '';
 
@@ -169,6 +169,5 @@ class ServiceSMSHelper
         );
 
         return array_merge($result1, $result2);
-
     }
 }

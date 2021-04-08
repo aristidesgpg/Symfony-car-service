@@ -6,6 +6,7 @@ use App\Entity\RepairOrder;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
 use App\Service\Pagination;
+use App\Service\ServiceSMSHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -164,10 +165,10 @@ class ReportingController extends AbstractFOSRestController
      *         @SWG\Property(property="totalClosedVideos", type="integer", description="# of videos for repair orders that have closed in the given date range"),
      *         @SWG\Property(property="totalClosedVideoViews", type="integer", description="# of video views for repair orders that have closed in the given date range"),
      *         @SWG\Property(property="totalSentQuotes", type="integer", description="# of quotes sent for repair orders that have closed in the given date range"),
-     *         @SWG\Property(property="totalViewedQuotes", type="string", description="# of quotes that were viewed for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalViewedQuotes", type="integer", description="# of quotes that were viewed for repair orders that have closed in the given date range"),
      *         @SWG\Property(property="totalCompletedQuotes", type="integer", description="# of quotes that were completed by the customer for repair orers that have closed in the given date range"),
-     *         @SWG\Property(property="totalInboundTxtMsgs", type="string", description="# of total inbound text messages for repair orders that were closed in the given date range"),
-     *         @SWG\Property(property="totalOutboundTxtMsgs", type="string", description="# of total outbound text messages for repair orders that were closed in the given date range"),
+     *         @SWG\Property(property="totalInboundTxtMsgs", type="integer", description="# of total inbound text messages for repair orders that were closed in the given date range"),
+     *         @SWG\Property(property="totalOutboundTxtMsgs", type="integer", description="# of total outbound text messages for repair orders that were closed in the given date range"),
      *     )
      * )
      */
@@ -177,7 +178,8 @@ class ReportingController extends AbstractFOSRestController
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em,
-        UserRepository $userRepo
+        UserRepository $userRepo,
+        ServiceSMSHelper $smsHelper
     ): Response {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
@@ -189,31 +191,66 @@ class ReportingController extends AbstractFOSRestController
             $endDate
         );
 
-        $sumOfStartValues = 0;
-        $sumOfFinalValues = 0;
-        foreach ($result as $ro) {
-            $sumOfStartValues += $ro->getStartValue();
-            $sumOfFinalValues += $ro->getFinalValue();
+        $result = [];
+        foreach ($serviceAdvisors as $sa) {
+            $totalClosedRepairOrders = 0;
+            $totalClosedVideos = 0;
+            $totalClosedVideoViews = 0;
+            $totalSentQuotes = 0;
+            $totalViewedQuotes = 0;
+            $totalCompletedQuotes = 0;
+            $totalInboundTxtMsgs = 0;
+            $totalOutboundTxtMsgs = 0;
+
+            foreach ($closedRepairOrders as $ro) {
+                if ($sa->getId() === $ro->getPrimaryAdvisor()->getId()) {
+                    ++$totalClosedRepairOrders;
+
+                    $videos = $ro->getVideos();
+                    $totalClosedVideos = count($videos);
+
+                    foreach ($videos as $video) {
+                        if ($videos->getDateViewed()) {
+                            ++$totalClosedVideoViews;
+                        }
+                    }
+
+                    $quotes = $ro->getRepairOrderQuote();
+                    foreach ($quotes as $quote) {
+                        if ($quote->getDateSent()) {
+                            ++$totalSentQuotes;
+                        }
+                        if ($quote->getDateViewed()) {
+                            ++$totalViewedQuotes;
+                        }
+                        if ($quote->getDateCompleted()) {
+                            ++$totalCompletedQuotes;
+                        }
+                    }
+                }
+            }
+
+            $unread = 0;
+            $threads = $smsHelper->getThreadsByAdvisor($sa->getId());
+            foreach ($threads as $thread) {
+                $unread += $thread['unread'];
+            }
+
+            $result[] = [
+                'advisorId' => $sa->getId(),
+                'totalUnreadMessages' => $unread,
+                'totalClosedRepairOrders' => $totalClosedRepairOrders,
+                'totalClosedVideos' => $totalClosedVideos,
+                'totalClosedVideoViews' => $totalClosedVideoViews,
+                'totalSentQuotes' => $totalSentQuotes,
+                'totalViewedQuotes' => $totalViewedQuotes,
+                'totalCompletedQuotes' => $totalCompletedQuotes,
+                'totalInboundTxtMsgs' => $totalInboundTxtMsgs,
+                'totalOutboundTxtMsgs' => $totalOutboundTxtMsgs,
+            ];
         }
 
-        $totalUpsell = round($sumOfFinalValues - $sumOfStartValues, 2);
-
-        $pager = $paginator->paginate($result, $page, $pageLimit);
-        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
-
-        $json = [
-            'results' => $pager->getItems(),
-            'sumOfStartValues' => round($sumOfStartValues, 2),
-            'sumOfFinalValues' => round($sumOfFinalValues, 2),
-            'totalUpsell' => $totalUpsell,
-            'totalResults' => $pagination->totalResults,
-            'totalPages' => $pagination->totalPages,
-            'previous' => $pagination->getPreviousPageURL('app_reporting_archive', $urlParameters),
-            'currentPage' => $pagination->currentPage,
-            'next' => $pagination->getNextPageURL('app_reporting_archive', $urlParameters),
-        ];
-
-        $view = $this->view($json);
+        $view = $this->view($result);
 
         return $this->handleView($view);
     }
