@@ -111,6 +111,7 @@ class DealerTrackClient extends AbstractDMSClient
             $soapResult = $this->sendSoapCall('OpenRepairOrderLookup', [$request], true);
 
             $response = $this->getSerializer()->deserialize($soapResult, DealerTrackSoapEnvelope::class, 'xml');
+
             if (!$response) {
                 return $repairOrders;
             }
@@ -157,7 +158,10 @@ class DealerTrackClient extends AbstractDMSClient
                     ->setVin($result->getVIN())
                     ->setInitialROValue($result->getTotalEstimate());
 
-                //TODO, someitmes ServiceWriterId is a string. What should we do?
+                //Initial Technician
+                $dmsResult->getTechnician()->setFirstName($result->getROTechnicianID());
+
+                //TODO, sometimes ServiceWriterId is a string. What should we do?
                 //  -serviceWriterID: "MM"
                 if (is_int($result->getServiceWriterID())) {
                     $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
@@ -231,7 +235,17 @@ class DealerTrackClient extends AbstractDMSClient
                 } catch (\Exception $e) {
                     continue;
                 }
-                $repairOrder->setDateClosed($closedDate)->setFinalValue($closedRepairOrder->getTotalSale());
+
+                $firstName = $closedRepairOrder->getROTechnicianID();
+                $technicianRecord = $this->getEntityManager()->getRepository('App:User')
+                    ->findOneBy(['firstName' => $firstName]);
+                if ($technicianRecord) {
+                    $repairOrder->setPrimaryTechnician($technicianRecord);
+                }
+
+                $repairOrder
+                    ->setDateClosed($closedDate)
+                    ->setFinalValue($closedRepairOrder->getTotalSale());
                 $this->getEntityManager()->persist($repairOrder);
                 $this->getEntityManager()->flush();
                 $closedRepairOrders[] = $repairOrder;
@@ -267,7 +281,6 @@ class DealerTrackClient extends AbstractDMSClient
         $parts = [];
 
         if ($this->getSoapClient()) {
-
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
             $request = [
