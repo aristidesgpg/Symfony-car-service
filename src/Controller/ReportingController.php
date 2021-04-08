@@ -507,14 +507,14 @@ class ReportingController extends AbstractFOSRestController
      *     description="Success!",
      *     @SWG\Schema(
      *         type="object",
-     *         @SWG\Property(property="technician", type="integer", description="The technician"),
-     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="# of appraise my car clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalStartValues", type="integer", description="# of finance my repair clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalFinalValues", type="integer", description="# of unlock coupon clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalUpsellAmount", type="integer", description="# of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
-     *         @SWG\Property(property="totalUpsellPercentage", type="integer", description="# of inbound messages from customers for repair orders that have closed in a given date range. "),
-     *         @SWG\Property(property="totalVideos", type="integer", description="# of outbound messages from the advisor for repair orders that have closed in a given date range"),
-     *         @SWG\Property(property="sumFinalValues", type="integer", description="# of total messages (# of inbound + # of outbound)")
+     *         @SWG\Property(property="advisor", type="integer", description="The advisor"),
+     *         @SWG\Property(property="totalAppraiseClicks", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
+     *         @SWG\Property(property="totalFinanceClicks", type="integer", description="The # of finance my repair clicks (make 0 for now)"),
+     *         @SWG\Property(property="totalUnlockCouponClicks", type="integer", description="The # of unlock coupon clicks (make 0 for now)"),
+     *         @SWG\Property(property="totalVideos", type="integer", description="The # of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
+     *         @SWG\Property(property="totalInboundMessages", type="integer", description="The # of inbound messages from customers for repair orders that have closed in a given date range. "),
+     *         @SWG\Property(property="totalOutboundMessages", type="integer", description="The # of outbound messages from the advisor for repair orders that have closed in a given date range"),
+     *         @SWG\Property(property="totalMessages", type="integer", description="The # of total messages (# of inbound + # of outbound)")
      *     )
      * )
      */
@@ -527,7 +527,7 @@ class ReportingController extends AbstractFOSRestController
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
 
-        $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
+        $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
 
         $closedRepairOrders = $roRepo->getAllArchives(
             $startDate,
@@ -535,62 +535,34 @@ class ReportingController extends AbstractFOSRestController
         );
 
         $result = [];
-        foreach ($technicians as $technician) {
-            $totalClosedRepairOrders = 0;
-            $totalStartValues = 0;
-            $totalFinalValues = 0;
-            $totalUpsellPercentage = 0;
-
-            $sumFinalValues = 0;
-            $roCountWithVideo = 0;
-
-            $sumFinalValuesWithoutVideo = 0;
-            $roCountWithoutVideo = 0;
+        foreach ($serviceAdvisors as $serviceAdvisor) {
+            $totalAppraiseClicks = 0;
+            $totalFinanceClicks = 0;
+            $totalUnlockCouponClicks = 0;
+            $totalVideos = 0;
+            $totalInboundMessages = 0;
+            $totalOutboundMessages = 0;
 
             foreach ($closedRepairOrders as $ro) {
-                if ($technician->getId() === $ro->getPrimaryTechnician()->getId()) {
-                    ++$totalClosedRepairOrders;
-                    $totalStartValues += $ro->getStartValue();
-                    $totalFinalValues += $ro->getFinalValue();
-
+                if ($serviceAdvisor->getId() === $ro->getPrimaryAdvisor()->getId()) {
                     $videos = $ro->getVideos();
-                    $totalVideos = count($videos);
-
-                    if ($totalVideos) {
-                        $sumFinalValues += $ro->getFinalValue();
-                        ++$roCountWithVideo;
-                    } else {
-                        $sumFinalValuesWithoutVideo += $ro->getFinalValue();
-                        ++$roCountWithoutVideo;
+                    foreach ($videos as $video) {
+                        if ($video->getDateViewed()) {
+                            ++$totalVideos;
+                        }
                     }
                 }
             }
 
-            $totalUpsellAmount = round($totalFinalValues - $totalStartValues, 2);
-
-            if ($totalStartValues) {
-                $totalUpsellPercentage = round(($totalFinalValues / $totalStartValues) * 100);
-            }
-
-            if ($roCountWithVideo) {
-                $sumFinalValues = round($sumFinalValues / $roCountWithVideo, 2);
-            }
-
-            if ($roCountWithoutVideo) {
-                $sumFinalValuesWithoutVideo = round($sumFinalValuesWithoutVideo / $roCountWithoutVideo, 2);
-            }
-
             $result[] = [
-                'technicianId' => $technician->getId(),
-                'totalClosedRepairOrders' => $totalClosedRepairOrders,
-                'totalStartValues' => round($totalStartValues, 2),
-                'totalFinalValues' => round($totalFinalValues, 2),
-                'totalUpsellAmount' => $totalUpsellAmount,
-                'totalUpsellPercentage' => $totalUpsellPercentage,
+                'advisor' => $serviceAdvisor->getId(),
+                'totalAppraiseClicks' => $totalAppraiseClicks,
+                'totalFinanceClicks' => $totalFinanceClicks,
+                'totalUnlockCouponClicks' => $totalUnlockCouponClicks,
                 'totalVideos' => $totalVideos,
-                'sumFinalValues' => $sumFinalValues,
-                'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
-                'totalNoVideosRecorded' => $roCountWithoutVideo,
+                'totalInboundMessages' => $totalInboundMessages,
+                'totalOutboundMessages' => $totalOutboundMessages,
+                'totalMessages' => $totalInboundMessages + $totalOutboundMessages,
             ];
         }
 
