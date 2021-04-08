@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
 use App\Service\Pagination;
@@ -161,14 +162,14 @@ class ReportingController extends AbstractFOSRestController
      *         ),
      *         @SWG\Property(property="advisor", type="integer", description="The advisor"),
      *         @SWG\Property(property="totalUnreadMessages", type="integer", description="The current # of unread sms messages from customers where they are the primaryAdvisor"),
-     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="# of repair orders that were closed in the given date range"),
-     *         @SWG\Property(property="totalClosedVideos", type="integer", description="# of videos for repair orders that have closed in the given date range"),
-     *         @SWG\Property(property="totalClosedVideoViews", type="integer", description="# of video views for repair orders that have closed in the given date range"),
-     *         @SWG\Property(property="totalSentQuotes", type="integer", description="# of quotes sent for repair orders that have closed in the given date range"),
-     *         @SWG\Property(property="totalViewedQuotes", type="integer", description="# of quotes that were viewed for repair orders that have closed in the given date range"),
-     *         @SWG\Property(property="totalCompletedQuotes", type="integer", description="# of quotes that were completed by the customer for repair orers that have closed in the given date range"),
-     *         @SWG\Property(property="totalInboundTxtMsgs", type="integer", description="# of total inbound text messages for repair orders that were closed in the given date range"),
-     *         @SWG\Property(property="totalOutboundTxtMsgs", type="integer", description="# of total outbound text messages for repair orders that were closed in the given date range"),
+     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="A # of repair orders that were closed in the given date range"),
+     *         @SWG\Property(property="totalClosedVideos", type="integer", description="A # of videos for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalClosedVideoViews", type="integer", description="A # of video views for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalSentQuotes", type="integer", description="A # of quotes sent for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalViewedQuotes", type="integer", description="A # of quotes that were viewed for repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalCompletedQuotes", type="integer", description="A # of quotes that were completed by the customer for repair orers that have closed in the given date range"),
+     *         @SWG\Property(property="totalInboundTxtMsgs", type="integer", description="A # of total inbound text messages for repair orders that were closed in the given date range"),
+     *         @SWG\Property(property="totalOutboundTxtMsgs", type="integer", description="A # of total outbound text messages for repair orders that were closed in the given date range"),
      *     )
      * )
      */
@@ -179,7 +180,8 @@ class ReportingController extends AbstractFOSRestController
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em,
         UserRepository $userRepo,
-        ServiceSMSHelper $smsHelper
+        ServiceSMSHelper $smsHelper,
+        RepairOrderQuoteRepository $quoteRepo
     ): Response {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
@@ -210,17 +212,17 @@ class ReportingController extends AbstractFOSRestController
                     $totalClosedVideos = count($videos);
 
                     foreach ($videos as $video) {
-                        if ($videos->getDateViewed()) {
+                        if ($video->getDateViewed()) {
                             ++$totalClosedVideoViews;
                         }
                     }
 
-                    $quotes = $ro->getRepairOrderQuote();
+                    $quotes = $quoteRepo->findBy(['repairOrder' => $ro->getId()]);
                     foreach ($quotes as $quote) {
                         if ($quote->getDateSent()) {
                             ++$totalSentQuotes;
                         }
-                        if ($quote->getDateViewed()) {
+                        if ($quote->getDateCustomerViewed()) {
                             ++$totalViewedQuotes;
                         }
                         if ($quote->getDateCompleted()) {
