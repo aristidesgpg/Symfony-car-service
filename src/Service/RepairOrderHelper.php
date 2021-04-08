@@ -28,19 +28,31 @@ class RepairOrderHelper
     private $customers;
     private $users;
     private $customerHelper;
+    /**
+     * @var ROLinkHashHelper
+     */
+    private $ROLinkHashHelper;
+    /**
+     * @var DMS\DMS
+     */
+    private $dms;
 
     public function __construct(
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
         UserRepository $users,
-        CustomerHelper $customerHelper
+        CustomerHelper $customerHelper,
+        ROLinkHashHelper $ROLinkHash,
+        \App\Service\DMS\DMS $dms
     ) {
         $this->em = $em;
         $this->repo = $repo;
         $this->customers = $customers;
         $this->users = $users;
         $this->customerHelper = $customerHelper;
+        $this->ROLinkHashHelper = $ROLinkHash;
+        $this->dms = $dms;
     }
 
     /**
@@ -247,19 +259,22 @@ class RepairOrderHelper
 
     public function generateLinkHash(string $dateCreated): string
     {
-        try {
-            $hash = sha1($dateCreated.random_bytes(32));
-        } catch (Exception $e) { // Shouldn't ever happen
-            throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
-        }
-        $ro = $this->repo->findByHash($hash);
-        if (null !== $ro) { // Very unlikely
-            $this->logger->warning('link hash collision');
 
-            return $this->generateLinkHash($dateCreated);
-        }
+        return $this->getROLinkHashHelper()->generate($dateCreated);
 
-        return $hash;
+//        try {
+//            $hash = sha1($dateCreated.random_bytes(32));
+//        } catch (Exception $e) { // Shouldn't ever happen
+//            throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
+//        }
+//        $ro = $this->repo->findByHash($hash);
+//        if (null !== $ro) { // Very unlikely
+//            $this->logger->warning('link hash collision');
+//
+//            return $this->generateLinkHash($dateCreated);  //This is a never ending loop.
+//        }
+//
+//        return $hash;
     }
 
     private function commitRepairOrder(): void
@@ -294,6 +309,8 @@ class RepairOrderHelper
             throw new InvalidArgumentException('RO is already closed');
         }
         $ro->setDateClosed(new DateTime());
+        $this->getDms()->closeOpenRepairOrder($ro);
+
         $this->commitRepairOrder();
     }
 
@@ -530,4 +547,40 @@ class RepairOrderHelper
             return null;
         }
     }
+
+    /**
+     * @return ROLinkHashHelper
+     */
+    public function getROLinkHashHelper(): ROLinkHashHelper
+    {
+        return $this->ROLinkHashHelper;
+    }
+
+    /**
+     * @param ROLinkHashHelper $ROLinkHashHelper
+     */
+    public function setROLinkHashHelper(ROLinkHashHelper $ROLinkHashHelper): void
+    {
+        $this->ROLinkHashHelper = $ROLinkHashHelper;
+    }
+
+    /**
+     * @return DMS\DMS
+     */
+    public function getDms(): DMS\DMS
+    {
+        return $this->dms;
+    }
+
+    /**
+     * @param DMS\DMS $dms
+     */
+    public function setDms(DMS\DMS $dms): void
+    {
+        $this->dms = $dms;
+    }
+
+
+
+
 }
