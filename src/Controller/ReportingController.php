@@ -155,11 +155,6 @@ class ReportingController extends AbstractFOSRestController
      *     description="Success!",
      *     @SWG\Schema(
      *         type="object",
-     *         @SWG\Property(
-     *             property="results",
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
-     *         ),
      *         @SWG\Property(property="advisor", type="integer", description="The advisor"),
      *         @SWG\Property(property="totalUnreadMessages", type="integer", description="The current # of unread sms messages from customers where they are the primaryAdvisor"),
      *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="A # of repair orders that were closed in the given date range"),
@@ -176,9 +171,6 @@ class ReportingController extends AbstractFOSRestController
     public function advisorUsage(
         Request $request,
         RepairOrderRepository $roRepo,
-        PaginatorInterface $paginator,
-        UrlGeneratorInterface $urlGenerator,
-        EntityManagerInterface $em,
         UserRepository $userRepo,
         ServiceSMSHelper $smsHelper,
         RepairOrderQuoteRepository $quoteRepo
@@ -280,84 +272,98 @@ class ReportingController extends AbstractFOSRestController
      *     description="Success!",
      *     @SWG\Schema(
      *         type="object",
-     *         @SWG\Property(
-     *             property="results",
-     *             type="array",
-     *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
-     *         ),
-     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="# of repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalAppraise", type="integer", description="# of appraise my car clicks (make 0 for now)"),
+     *         @SWG\Property(property="advisor", type="integer", description="The advisor"),
+     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="The # of repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalAppraise", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
      *         @SWG\Property(property="totalStartValues", type="integer", description="$ SUM of all the start values for repair orders closed in the given date range"),
      *         @SWG\Property(property="totalFinalValues", type="integer", description="$ SUM of all the final values for repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalUpsellAmounts", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
      *         @SWG\Property(property="totalUpsellPercentage", type="string", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
-     *         @SWG\Property(property="totalVideos", type="integer", description="# of total videos created for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalVideos", type="integer", description="The # of total videos created for repair orders closed in the given date range"),
      *         @SWG\Property(property="sumFinalValues", type="string", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
      *         @SWG\Property(property="sumFinalValuesWithoutVideo", type="string", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
      *     )
-     * )
-     *
-     * @SWG\Response(
-     *     response="404",
-     *     description="Invalid page parameter"
      * )
      */
     public function advisor(
         Request $request,
         RepairOrderRepository $roRepo,
-        PaginatorInterface $paginator,
-        UrlGeneratorInterface $urlGenerator,
-        EntityManagerInterface $em
+        UserRepository $userRepo,
+        ServiceSMSHelper $smsHelper,
+        RepairOrderQuoteRepository $quoteRepo
     ): Response {
-        $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $urlParameters = [];
-        // Invalid page
-        if ($page < 1) {
-            throw new NotFoundHttpException();
-        }
 
-        // Invalid page limit
-        if ($pageLimit < 1) {
-            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
-        }
+        $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
 
-        $roArchiveQuery = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getAllArchives(
             $startDate,
             $endDate
         );
 
-        $result = $roArchiveQuery->getResult();
+        $result = [];
+        foreach ($serviceAdvisors as $sa) {
+            $totalClosedRepairOrders = 0;
+            $totalAppraise = 0;
+            $totalStartValues = 0;
+            $totalFinalValues = 0;
+            $totalUpsellPercentage = 0;
 
-        $sumOfStartValues = 0;
-        $sumOfFinalValues = 0;
-        foreach ($result as $ro) {
-            $sumOfStartValues += $ro->getStartValue();
-            $sumOfFinalValues += $ro->getFinalValue();
+            $sumFinalValues = 0;
+            $roCountWithVideo = 0;
+
+            $sumFinalValuesWithoutVideo = 0;
+            $roCountWithoutVideo = 0;
+
+            foreach ($closedRepairOrders as $ro) {
+                if ($sa->getId() === $ro->getPrimaryAdvisor()->getId()) {
+                    ++$totalClosedRepairOrders;
+                    $totalStartValues += $ro->getStartValue();
+                    $totalFinalValues += $ro->getFinalValue();
+
+                    $videos = $ro->getVideos();
+                    $totalVideos = count($videos);
+
+                    if ($totalVideos) {
+                        $sumFinalValues += $ro->getFinalValue();
+                        ++$roCountWithVideo;
+                    } else {
+                        $sumFinalValuesWithoutVideo += $ro->getFinalValue();
+                        ++$roCountWithoutVideo;
+                    }
+                }
+            }
+
+            $totalUpsellAmount = round($totalFinalValues - $totalStartValues, 2);
+
+            if ($totalStartValues) {
+                $totalUpsellPercentage = round(($totalFinalValues / $totalStartValues) * 100);
+            }
+
+            if ($roCountWithVideo) {
+                $sumFinalValues = round($sumFinalValues / $roCountWithVideo, 2);
+            }
+
+            if ($roCountWithoutVideo) {
+                $sumFinalValuesWithoutVideo = round($sumFinalValuesWithoutVideo / $roCountWithoutVideo, 2);
+            }
+
+            $result[] = [
+                'advisorId' => $sa->getId(),
+                'totalClosedRepairOrders' => $totalClosedRepairOrders,
+                'totalAppraise' => $totalAppraise,
+                'totalStartValues' => round($totalStartValues, 2),
+                'totalFinalValues' => round($totalFinalValues, 2),
+                'totalUpsellAmount' => $totalUpsellAmount,
+                'totalUpsellPercentage' => $totalUpsellPercentage,
+                'totalVideos' => $totalVideos,
+                'sumFinalValues' => $sumFinalValues,
+                'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
+            ];
         }
 
-        $totalUpsell = round($sumOfFinalValues - $sumOfStartValues, 2);
-
-        $pager = $paginator->paginate($result, $page, $pageLimit);
-        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
-
-        $json = [
-            'results' => $pager->getItems(),
-            'sumOfStartValues' => round($sumOfStartValues, 2),
-            'sumOfFinalValues' => round($sumOfFinalValues, 2),
-            'totalUpsell' => $totalUpsell,
-            'totalResults' => $pagination->totalResults,
-            'totalPages' => $pagination->totalPages,
-            'previous' => $pagination->getPreviousPageURL('app_reporting_archive', $urlParameters),
-            'currentPage' => $pagination->currentPage,
-            'next' => $pagination->getNextPageURL('app_reporting_archive', $urlParameters),
-        ];
-
-        $view = $this->view($json);
-
-        $view->getContext()->setGroups(RepairOrder::GROUPS);
+        $view = $this->view($result);
 
         return $this->handleView($view);
     }
