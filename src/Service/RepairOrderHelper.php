@@ -28,7 +28,6 @@ class RepairOrderHelper
     private $customers;
     private $userRepository;
     private $customerHelper;
-    private $phoneValidator;
     /**
      * @var ROLinkHashHelper
      */
@@ -378,7 +377,6 @@ class RepairOrderHelper
                 break;
             }
         }
-
         foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
             $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {
