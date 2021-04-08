@@ -105,10 +105,6 @@ class SettingsController extends AbstractFOSRestController
      *     )
      * )
      *
-     * Phase Settings
-     * @SWG\Parameter(name="phase1", type="integer", in="formData")
-     * @SWG\Parameter(name="phase2", type="integer", in="formData")
-     * @SWG\Parameter(name="phase3", type="integer", in="formData")
      *
      * Tech App Settings
      * @SWG\Parameter(name="techAppUsername", type="string", in="formData")
@@ -189,10 +185,11 @@ class SettingsController extends AbstractFOSRestController
         $settings = [];
         $errors = [];
         $files = [];
-
+        dump($parameterList);
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {
             // Doesn't exist, move along
+            dump($key);
             if (true !== $req->request->has($key)) {
                 continue;
             }
@@ -287,10 +284,10 @@ class SettingsController extends AbstractFOSRestController
                 return $this->errorResponse('Failed to upload file');
             }
         }
-
+        dd($settings);
         // Try to commit the settings
         try {
-            $helper->commitSettings($settings);
+            $helper->addSettings($settings);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
