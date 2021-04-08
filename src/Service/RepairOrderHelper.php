@@ -26,16 +26,8 @@ class RepairOrderHelper
     private $em;
     private $repo;
     private $customers;
-    private $userRepository;
+    private $users;
     private $customerHelper;
-    /**
-     * @var ROLinkHashHelper
-     */
-    private $ROLinkHashHelper;
-    /**
-     * @var DMS\DMS
-     */
-    private $dms;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -424,7 +416,7 @@ class RepairOrderHelper
                             $qb->andWhere('ro.primaryAdvisor IN (:users)')
                                ->setParameter('users', $user);
 
-                            $queryParameters['users'] = $this->userRepository->getSharedUsers();
+                            $queryParameters['users'] = $this->userRepo->getSharedUsers();
                         } else {
                             $qb->andWhere('ro.primaryAdvisor = :user')
                                ->setParameter('user', $user);
@@ -560,11 +552,6 @@ class RepairOrderHelper
             return null;
         }
     }
-
-    public function syncRepairOrderWithDMS(){
-
-    }
-
 
     /**
      * @return ROLinkHashHelper
