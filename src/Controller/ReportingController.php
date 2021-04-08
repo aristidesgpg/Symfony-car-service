@@ -689,12 +689,12 @@ class ReportingController extends AbstractFOSRestController
 
             $result[] = [
                 'roNumber' => $technician->getId(),
-                'customerName' => $totalClosedRepairOrders,
-                'customerPhone' => round($totalStartValues, 2),
-                'advisorName' => round($totalFinalValues, 2),
-                'technicianName' => $totalUpsellAmount,
-                'templateName' => $totalUpsellPercentage,
-                'roMPI' => $totalVideos,
+                'customerName' => '',
+                'customerPhone' => '',
+                'advisorName' => '',
+                'technicianName' => '',
+                'templateName' => '',
+                'roMPI' => '',
             ];
         }
 
