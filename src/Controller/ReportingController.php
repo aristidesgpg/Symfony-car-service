@@ -278,10 +278,10 @@ class ReportingController extends AbstractFOSRestController
      *         @SWG\Property(property="totalStartValues", type="integer", description="$ SUM of all the start values for repair orders closed in the given date range"),
      *         @SWG\Property(property="totalFinalValues", type="integer", description="$ SUM of all the final values for repair orders closed in the given date range"),
      *         @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalUpsellPercentage", type="string", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
+     *         @SWG\Property(property="totalUpsellPercentage", type="integer", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
      *         @SWG\Property(property="totalVideos", type="integer", description="The # of total videos created for repair orders closed in the given date range"),
-     *         @SWG\Property(property="sumFinalValues", type="string", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
-     *         @SWG\Property(property="sumFinalValuesWithoutVideo", type="string", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
+     *         @SWG\Property(property="sumFinalValues", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="sumFinalValuesWithoutVideo", type="integer", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
      *     )
      * )
      */
@@ -391,15 +391,15 @@ class ReportingController extends AbstractFOSRestController
      *     @SWG\Schema(
      *         type="object",
      *         @SWG\Property(property="technician", type="integer", description="The technician"),
-     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="# of repair orders where they are the primary technciain on repair orders that have been closed in the given date range"),
+     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="The # of repair orders where they are the primary technciain on repair orders that have been closed in the given date range"),
      *         @SWG\Property(property="totalStartValues", type="integer", description="$ SUM of all start values for repair orders closed in a given date range"),
      *         @SWG\Property(property="totalFinalValues", type="integer", description="$ SUM of all final values for repair orders closed in a given date range"),
      *         @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (SUM final values - SUM start values) for repair orders closed in the given date range"),
      *         @SWG\Property(property="totalUpsellPercentage", type="integer", description="% Upsell Percentage (sum final values / sum start values) < as a percentage"),
-     *         @SWG\Property(property="totalVideos", type="string", description="# total videos performed by this technician on repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="totalVideos", type="integer", description="The # total videos performed by this technician on repair orders that have closed in the given date range"),
      *         @SWG\Property(property="sumFinalValues", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
-     *         @SWG\Property(property="sumFinalValuesWithoutVideo", type="string", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalNoVideosRecorded", type="string", description="# of repair orders where no videos were recorded for repair orders that were closed in the given date range")
+     *         @SWG\Property(property="sumFinalValuesWithoutVideo", type="integer", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalNoVideosRecorded", type="integer", description="The # of repair orders where no videos were recorded for repair orders that were closed in the given date range")
      *     )
      * )
      */
@@ -475,6 +475,7 @@ class ReportingController extends AbstractFOSRestController
                 'totalVideos' => $totalVideos,
                 'sumFinalValues' => $sumFinalValues,
                 'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
+                'totalNoVideosRecorded' => $roCountWithoutVideo,
             ];
         }
 
