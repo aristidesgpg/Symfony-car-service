@@ -521,8 +521,7 @@ class ReportingController extends AbstractFOSRestController
     public function customerEngagements(
         Request $request,
         RepairOrderRepository $roRepo,
-        UserRepository $userRepo,
-        RepairOrderQuoteRepository $quoteRepo
+        UserRepository $userRepo
     ): Response {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
@@ -589,19 +588,49 @@ class ReportingController extends AbstractFOSRestController
      *      in="query"
      * )
      *
+     * @SWG\Parameter(
+     *      name="advisorId",
+     *      type="integer",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *      name="technicianId",
+     *      type="integer",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *      name="mpiTemplateId",
+     *      type="integer",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *      name="mpiItemId",
+     *      type="integer",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *      name="mpiItemStatus",
+     *      type="string",
+     *      in="query",
+     *      enum={"green", "yellow", "red", "grey"}
+     * )
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
      *     @SWG\Schema(
      *         type="object",
-     *         @SWG\Property(property="technician", type="integer", description="The technician"),
-     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="# of appraise my car clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalStartValues", type="integer", description="# of finance my repair clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalFinalValues", type="integer", description="# of unlock coupon clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalUpsellAmount", type="integer", description="# of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
-     *         @SWG\Property(property="totalUpsellPercentage", type="integer", description="# of inbound messages from customers for repair orders that have closed in a given date range. "),
-     *         @SWG\Property(property="totalVideos", type="integer", description="# of outbound messages from the advisor for repair orders that have closed in a given date range"),
-     *         @SWG\Property(property="sumFinalValues", type="integer", description="# of total messages (# of inbound + # of outbound)")
+     *         @SWG\Property(property="roNumber", type="integer", description="Repair Order Number"),
+     *         @SWG\Property(property="customerName", type="integer", description="customer name"),
+     *         @SWG\Property(property="customerPhone", type="integer", description="customer phone"),
+     *         @SWG\Property(property="advisorName", type="integer", description="advisor name"),
+     *         @SWG\Property(property="technicianName", type="integer", description="technician name"),
+     *         @SWG\Property(property="templateName", type="integer", description="template name"),
+     *         @SWG\Property(property="roMPI", type="integer", description="Repair Order MPI results")
      *     )
      * )
      */
@@ -613,6 +642,11 @@ class ReportingController extends AbstractFOSRestController
     ): Response {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
+        $advisorId = $request->query->get('advisorId');
+        $technicianId = $request->query->get('technicianId');
+        $mpiTemplateId = $request->query->get('mpiTemplateId');
+        $mpiItemId = $request->query->get('mpiItemId');
+        $mpiItemStatus = $request->query->get('mpiItemStatus');
 
         $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
 
@@ -653,31 +687,14 @@ class ReportingController extends AbstractFOSRestController
                 }
             }
 
-            $totalUpsellAmount = round($totalFinalValues - $totalStartValues, 2);
-
-            if ($totalStartValues) {
-                $totalUpsellPercentage = round(($totalFinalValues / $totalStartValues) * 100);
-            }
-
-            if ($roCountWithVideo) {
-                $sumFinalValues = round($sumFinalValues / $roCountWithVideo, 2);
-            }
-
-            if ($roCountWithoutVideo) {
-                $sumFinalValuesWithoutVideo = round($sumFinalValuesWithoutVideo / $roCountWithoutVideo, 2);
-            }
-
             $result[] = [
-                'technicianId' => $technician->getId(),
-                'totalClosedRepairOrders' => $totalClosedRepairOrders,
-                'totalStartValues' => round($totalStartValues, 2),
-                'totalFinalValues' => round($totalFinalValues, 2),
-                'totalUpsellAmount' => $totalUpsellAmount,
-                'totalUpsellPercentage' => $totalUpsellPercentage,
-                'totalVideos' => $totalVideos,
-                'sumFinalValues' => $sumFinalValues,
-                'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
-                'totalNoVideosRecorded' => $roCountWithoutVideo,
+                'roNumber' => $technician->getId(),
+                'customerName' => $totalClosedRepairOrders,
+                'customerPhone' => round($totalStartValues, 2),
+                'advisorName' => round($totalFinalValues, 2),
+                'technicianName' => $totalUpsellAmount,
+                'templateName' => $totalUpsellPercentage,
+                'roMPI' => $totalVideos,
             ];
         }
 
