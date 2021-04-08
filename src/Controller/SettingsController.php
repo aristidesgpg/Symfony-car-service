@@ -105,7 +105,6 @@ class SettingsController extends AbstractFOSRestController
      *     )
      * )
      *
-     *
      * Tech App Settings
      * @SWG\Parameter(name="techAppUsername", type="string", in="formData")
      * @SWG\Parameter(name="techAppPassword", type="string", format="password", in="formData")
@@ -185,11 +184,9 @@ class SettingsController extends AbstractFOSRestController
         $settings = [];
         $errors = [];
         $files = [];
-        dump($parameterList);
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {
             // Doesn't exist, move along
-            dump($key);
             if (true !== $req->request->has($key)) {
                 continue;
             }
@@ -264,7 +261,6 @@ class SettingsController extends AbstractFOSRestController
             $settings[$key] = $val;
         }
 
-
         // Don't commit any changes if there were errors
         if (!empty($errors)) {
             return $this->validationErrorResponse($errors);
@@ -284,10 +280,10 @@ class SettingsController extends AbstractFOSRestController
                 return $this->errorResponse('Failed to upload file');
             }
         }
-        dd($settings);
+
         // Try to commit the settings
         try {
-            $helper->addSettings($settings);
+            $helper->updateMultipleSettings($settings);
         } catch (Exception $e) {
             return $this->errorResponse($e->getMessage());
         }
