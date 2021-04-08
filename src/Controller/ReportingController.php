@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\RepairOrder;
 use App\Repository\RepairOrderRepository;
+use App\Repository\UserRepository;
 use App\Service\Pagination;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -93,12 +94,10 @@ class ReportingController extends AbstractFOSRestController
             return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
         }
 
-        $roArchiveQuery = $roRepo->getAllArchives(
+        $result = $roRepo->getAllArchives(
             $startDate,
             $endDate
         );
-
-        $result = $roArchiveQuery->getResult();
 
         $sumOfStartValues = 0;
         $sumOfFinalValues = 0;
@@ -171,28 +170,24 @@ class ReportingController extends AbstractFOSRestController
      *         @SWG\Property(property="totalOutboundTxtMsgs", type="string", description="# of total outbound text messages for repair orders that were closed in the given date range"),
      *     )
      * )
-     *
-     * @SWG\Response(
-     *     response="404",
-     *     description="Invalid page parameter"
-     * )
      */
     public function advisorUsage(
         Request $request,
         RepairOrderRepository $roRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        UserRepository $userRepo
     ): Response {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
 
-        $roArchiveQuery = $roRepo->getAllArchives(
+        $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
+
+        $closedRepairOrders = $roRepo->getAllArchives(
             $startDate,
             $endDate
         );
-
-        $result = $roArchiveQuery->getResult();
 
         $sumOfStartValues = 0;
         $sumOfFinalValues = 0;
@@ -219,8 +214,6 @@ class ReportingController extends AbstractFOSRestController
         ];
 
         $view = $this->view($json);
-
-        $view->getContext()->setGroups(RepairOrder::GROUPS);
 
         return $this->handleView($view);
     }
@@ -253,17 +246,15 @@ class ReportingController extends AbstractFOSRestController
      *             type="array",
      *             @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
      *         ),
-     *         @SWG\Property(property="sumOfStartValues", type="integer", description="# of repair orders closed in the given date range"),
-     *         @SWG\Property(property="sumOfFinalValues", type="integer", description="# of appraise my car clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalUpsell", type="integer", description="$ SUM of all the start values for repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalResults", type="integer", description="$ SUM of all the final values for repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalPages", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
-     *         @SWG\Property(property="previous", type="string", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
-     *         @SWG\Property(property="currentPage", type="integer", description="# of total videos created for repair orders closed in the given date range"),
-     *         @SWG\Property(property="next", type="string", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range")
-     *         @SWG\Property(property="next", type="string", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
-     *         @SWG\Property(property="next", type="string", description="URL for next page")
-     *         @SWG\Property(property="next", type="string", description="URL for next page")
+     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="# of repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalAppraise", type="integer", description="# of appraise my car clicks (make 0 for now)"),
+     *         @SWG\Property(property="totalStartValues", type="integer", description="$ SUM of all the start values for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalFinalValues", type="integer", description="$ SUM of all the final values for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalUpsellAmounts", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalUpsellPercentage", type="string", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
+     *         @SWG\Property(property="totalVideos", type="integer", description="# of total videos created for repair orders closed in the given date range"),
+     *         @SWG\Property(property="sumFinalValues", type="string", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="sumFinalValuesWithoutVideo", type="string", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
      *     )
      * )
      *

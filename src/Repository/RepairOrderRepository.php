@@ -186,7 +186,7 @@ class RepairOrderRepository extends ServiceEntityRepository
 
             $qb->orderBy('ro.dateCreated', 'DESC');
 
-            return $qb->getQuery();
+            return $qb->getQuery()->getResult();
         } catch (NonUniqueResultException $e) {
             return null;
         }
