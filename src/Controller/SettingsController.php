@@ -4,9 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Settings;
 use App\Helper\iServiceLoggerTrait;
+use App\Repository\SettingsRepository;
 use App\Service\PasswordHelper;
 use App\Service\SettingsHelper;
-use App\Repository\SettingsRepository;
 use App\Service\UploadHelper;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -20,9 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class SettingsController
+ * Class SettingsController.
  *
- * @package App\Controller
  * @Rest\Route("/api/settings")
  * @SWG\Tag(name="Settings")
  * @SWG\Response(
@@ -36,14 +35,13 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SettingsController extends AbstractFOSRestController
 {
-    public const  SMS_MAX_LENGTH       = 160;
-    public const  SMS_EXTRA_MAX_LENGTH = 109;
-    public const  ZIP_LENGTH           = 5;
-    public const  ZIP_P4_LENGTH        = 10;
-    public const  PHONE_LENGTH         = 10;
-    private const TOO_LONG_MSG         = 'Value cannot exceed %d characters';
-
     use iServiceLoggerTrait;
+    public const SMS_MAX_LENGTH = 160;
+    public const SMS_EXTRA_MAX_LENGTH = 109;
+    public const ZIP_LENGTH = 5;
+    public const ZIP_P4_LENGTH = 10;
+    public const PHONE_LENGTH = 10;
+    private const TOO_LONG_MSG = 'Value cannot exceed %d characters';
 
     /**
      * @Rest\Get
@@ -55,10 +53,6 @@ class SettingsController extends AbstractFOSRestController
      *         @SWG\Items(ref=@Model(type=Settings::class))
      *     )
      * )
-     *
-     * @param SettingsRepository $repo
-     *
-     * @return Response
      */
     public function getSettings(SettingsRepository $repo): Response
     {
@@ -71,13 +65,11 @@ class SettingsController extends AbstractFOSRestController
 
         foreach ($settings as $setting) {
             if (!$setting instanceof Settings) {
-                throw new InvalidArgumentException(
-                    sprintf('$settings must be array of "%s" instances', Settings::class)
-                );
+                throw new InvalidArgumentException(sprintf('$settings must be array of "%s" instances', Settings::class));
             }
 
             // Filter out password hash
-            if ($setting->getKey() === 'techAppPassword') {
+            if ('techAppPassword' === $setting->getKey()) {
                 $json[] = [
                     'key' => 'techAppPassword',
                     'value' => '',
@@ -87,7 +79,7 @@ class SettingsController extends AbstractFOSRestController
 
             $json[] = [
                 'key' => $setting->getKey(),
-                'value' => ($setting->getValue() === null) ? '' : $setting->getValue(),
+                'value' => (null === $setting->getValue()) ? '' : $setting->getValue(),
             ];
         }
 
@@ -190,24 +182,18 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="usingDealerTrack", type="string", in="formData")
      * @SWG\Parameter(name="usingCdk", type="string", in="formData")
      * @SWG\Parameter(name="offHoursIntegration", type="string", in="formData")
-     *
-     * @param Request        $req
-     * @param SettingsHelper $helper
-     * @param UploadHelper   $uploader
-     *
-     * @return Response
      */
     public function setSettings(Request $req, SettingsHelper $helper, UploadHelper $uploader): Response
     {
-        $parameterList = SettingsHelper::VALID_SETTINGS;
-        $fileList      = SettingsHelper::VALID_FILE_SETTINGS;
-        $settings      = [];
-        $errors        = [];
+        $parameterList = $helper->getValidSettings();
+        $settings = [];
+        $errors = [];
+        $files = [];
 
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {
             // Doesn't exist, move along
-            if ($req->request->has($key) !== true) {
+            if (true !== $req->request->has($key)) {
                 continue;
             }
 
@@ -251,40 +237,36 @@ class SettingsController extends AbstractFOSRestController
                     break;
                 case 'serviceTwilioFromNumber':
                 case 'generalPhone':
-                    if (strlen($val) !== self::PHONE_LENGTH) {
+                    if (self::PHONE_LENGTH !== strlen($val)) {
                         $errors[$key] = sprintf('Phone number must be %d digits', self::PHONE_LENGTH);
                     }
+                    break;
+                //File Uploads
+                case 'custAppPostInspectionVideo':
+                case 'generalLogo':
+                case 'reviewLogo':
+                    if (!$val instanceof UploadedFile) {
+                        $errors[$key] = 'File upload failed';
+                        break;
+                    } elseif (UPLOAD_ERR_OK !== $val->getError()) {
+                        $errors[$key] = $val->getErrorMessage();
+                        break;
+                    }
+
+                    $isValid = ('custAppPostInspectionVideo' === $key) ? $uploader->isValidVideo(
+                        $val
+                    ) : $uploader->isValidImage($val);
+                    if (true !== $isValid) {
+                        $errors[$key] = 'Invalid file type';
+                        break;
+                    }
+                    $files[$key] = $val; // Defer file processing in case of validation errors
                     break;
                 default:
             }
             $settings[$key] = $val;
         }
 
-
-        $files = [];
-        foreach ($fileList as $key) {
-            if ($req->files->has($key) !== true) {
-                continue;
-            }
-
-            $file = $req->files->get($key);
-            if (!$file instanceof UploadedFile) {
-                $errors[$key] = 'File upload failed';
-                continue;
-            } elseif ($file->getError() !== UPLOAD_ERR_OK) {
-                $errors[$key] = $file->getErrorMessage();
-                continue;
-            }
-
-            $isValid = ($key === 'custAppPostInspectionVideo') ? $uploader->isValidVideo(
-                $file
-            ) : $uploader->isValidImage($file);
-            if ($isValid !== true) {
-                $errors[$key] = 'Invalid file type';
-                continue;
-            }
-            $files[$key] = $file; // Defer file processing in case of validation errors
-        }
 
         // Don't commit any changes if there were errors
         if (!empty($errors)) {
@@ -316,11 +298,6 @@ class SettingsController extends AbstractFOSRestController
         return $this->handleView($this->view('Settings Updated', Response::HTTP_OK));
     }
 
-    /**
-     * @param array $errors
-     *
-     * @return JsonResponse
-     */
     private function validationErrorResponse(array $errors): JsonResponse
     {
         $json = [];
@@ -331,11 +308,6 @@ class SettingsController extends AbstractFOSRestController
         return $this->json($json, Response::HTTP_BAD_REQUEST);
     }
 
-    /**
-     * @param string $msg
-     *
-     * @return JsonResponse
-     */
     private function errorResponse(string $msg): JsonResponse
     {
         return $this->json(['error' => $msg], Response::HTTP_INTERNAL_SERVER_ERROR);
