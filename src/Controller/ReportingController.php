@@ -133,7 +133,7 @@ class ReportingController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/reporting/advisor-usage")
+     * @Rest\Get("/api/reporting/advisors-usage")
      * @SWG\Tag(name="Reporting")
      *
      * @SWG\Parameter(
@@ -250,7 +250,7 @@ class ReportingController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/reporting/advisor")
+     * @Rest\Get("/api/reporting/advisors")
      * @SWG\Tag(name="Reporting")
      *
      * @SWG\Parameter(
@@ -289,7 +289,6 @@ class ReportingController extends AbstractFOSRestController
         Request $request,
         RepairOrderRepository $roRepo,
         UserRepository $userRepo,
-        ServiceSMSHelper $smsHelper,
         RepairOrderQuoteRepository $quoteRepo
     ): Response {
         $startDate = $request->query->get('startDate');
@@ -353,6 +352,122 @@ class ReportingController extends AbstractFOSRestController
                 'advisorId' => $sa->getId(),
                 'totalClosedRepairOrders' => $totalClosedRepairOrders,
                 'totalAppraise' => $totalAppraise,
+                'totalStartValues' => round($totalStartValues, 2),
+                'totalFinalValues' => round($totalFinalValues, 2),
+                'totalUpsellAmount' => $totalUpsellAmount,
+                'totalUpsellPercentage' => $totalUpsellPercentage,
+                'totalVideos' => $totalVideos,
+                'sumFinalValues' => $sumFinalValues,
+                'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
+            ];
+        }
+
+        $view = $this->view($result);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Get("/api/reporting/technicians")
+     * @SWG\Tag(name="Reporting")
+     *
+     * @SWG\Parameter(
+     *      name="startDate",
+     *      type="string",
+     *      format="date-time",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *      name="endDate",
+     *      type="string",
+     *      format="date-time",
+     *      in="query"
+     * )
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="technician", type="integer", description="The technician"),
+     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="# of repair orders where they are the primary technciain on repair orders that have been closed in the given date range"),
+     *         @SWG\Property(property="totalStartValues", type="integer", description="$ SUM of all start values for repair orders closed in a given date range"),
+     *         @SWG\Property(property="totalFinalValues", type="integer", description="$ SUM of all final values for repair orders closed in a given date range"),
+     *         @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (SUM final values - SUM start values) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalUpsellPercentage", type="integer", description="% Upsell Percentage (sum final values / sum start values) < as a percentage"),
+     *         @SWG\Property(property="totalVideos", type="string", description="# total videos performed by this technician on repair orders that have closed in the given date range"),
+     *         @SWG\Property(property="sumFinalValues", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="sumFinalValuesWithoutVideo", type="string", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range"),
+     *         @SWG\Property(property="totalNoVideosRecorded", type="string", description="# of repair orders where no videos were recorded for repair orders that were closed in the given date range")
+     *     )
+     * )
+     */
+    public function technicians(
+        Request $request,
+        RepairOrderRepository $roRepo,
+        UserRepository $userRepo,
+        RepairOrderQuoteRepository $quoteRepo
+    ): Response {
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+
+        $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
+
+        $closedRepairOrders = $roRepo->getAllArchives(
+            $startDate,
+            $endDate
+        );
+
+        $result = [];
+        foreach ($technicians as $technician) {
+            $totalClosedRepairOrders = 0;
+            $totalStartValues = 0;
+            $totalFinalValues = 0;
+            $totalUpsellPercentage = 0;
+
+            $sumFinalValues = 0;
+            $roCountWithVideo = 0;
+
+            $sumFinalValuesWithoutVideo = 0;
+            $roCountWithoutVideo = 0;
+
+            foreach ($closedRepairOrders as $ro) {
+                if ($technician->getId() === $ro->getPrimaryTechnician()->getId()) {
+                    ++$totalClosedRepairOrders;
+                    $totalStartValues += $ro->getStartValue();
+                    $totalFinalValues += $ro->getFinalValue();
+
+                    $videos = $ro->getVideos();
+                    $totalVideos = count($videos);
+
+                    if ($totalVideos) {
+                        $sumFinalValues += $ro->getFinalValue();
+                        ++$roCountWithVideo;
+                    } else {
+                        $sumFinalValuesWithoutVideo += $ro->getFinalValue();
+                        ++$roCountWithoutVideo;
+                    }
+                }
+            }
+
+            $totalUpsellAmount = round($totalFinalValues - $totalStartValues, 2);
+
+            if ($totalStartValues) {
+                $totalUpsellPercentage = round(($totalFinalValues / $totalStartValues) * 100);
+            }
+
+            if ($roCountWithVideo) {
+                $sumFinalValues = round($sumFinalValues / $roCountWithVideo, 2);
+            }
+
+            if ($roCountWithoutVideo) {
+                $sumFinalValuesWithoutVideo = round($sumFinalValuesWithoutVideo / $roCountWithoutVideo, 2);
+            }
+
+            $result[] = [
+                'technicianId' => $technician->getId(),
+                'totalClosedRepairOrders' => $totalClosedRepairOrders,
                 'totalStartValues' => round($totalStartValues, 2),
                 'totalFinalValues' => round($totalFinalValues, 2),
                 'totalUpsellAmount' => $totalUpsellAmount,
