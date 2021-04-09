@@ -278,19 +278,26 @@ class ReportingController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response="200",
-     *     description="Success!",
+     *     description="Returns the list of Service Advisors and data relating to repair orders assigned to them that are closed",
      *     @SWG\Schema(
-     *         type="object",
-     *         @SWG\Property(property="advisor", type="integer", description="The advisor"),
-     *         @SWG\Property(property="totalClosedRepairOrders", type="integer", description="The # of repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalAppraise", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalStartValues", type="integer", description="$ SUM of all the start values for repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalFinalValues", type="integer", description="$ SUM of all the final values for repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
-     *         @SWG\Property(property="totalUpsellPercentage", type="integer", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
-     *         @SWG\Property(property="totalVideos", type="integer", description="The # of total videos created for repair orders closed in the given date range"),
-     *         @SWG\Property(property="sumFinalValues", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
-     *         @SWG\Property(property="sumFinalValuesWithoutVideo", type="integer", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
+     *         type="array",
+     *         @SWG\Items(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="serviceAdvisor",
+     *                  ref=@Model(type=User::class, groups={"user_list"}),
+     *                  description="The service advisor"
+     *              ),
+     *              @SWG\Property(property="totalClosedRepairOrders", type="integer", description="The # of repair orders closed in the given date range"),
+     *              @SWG\Property(property="totalAppraise", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
+     *              @SWG\Property(property="totalStartValues", type="integer", description="$ SUM of all the start values for repair orders closed in the given date range"),
+     *              @SWG\Property(property="totalFinalValues", type="integer", description="$ SUM of all the final values for repair orders closed in the given date range"),
+     *              @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
+     *              @SWG\Property(property="totalUpsellPercentage", type="integer", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
+     *              @SWG\Property(property="totalVideos", type="integer", description="The # of total videos created for repair orders closed in the given date range"),
+     *              @SWG\Property(property="sumFinalValues", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
+     *              @SWG\Property(property="sumFinalValuesWithoutVideo", type="integer", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
+     *         )
      *     )
      * )
      */
@@ -358,7 +365,7 @@ class ReportingController extends AbstractFOSRestController
             }
 
             $result[] = [
-                'advisorId' => $sa->getId(),
+                'serviceAdvisor' => $sa,
                 'totalClosedRepairOrders' => $totalClosedRepairOrders,
                 'totalAppraise' => $totalAppraise,
                 'totalStartValues' => round($totalStartValues, 2),
@@ -372,6 +379,7 @@ class ReportingController extends AbstractFOSRestController
         }
 
         $view = $this->view($result);
+        $view->getContext()->setGroups(['user_list']);
 
         return $this->handleView($view);
     }
