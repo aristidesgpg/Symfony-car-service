@@ -91,6 +91,12 @@ class RepairOrderQuoteRecommendation
     private $suppliesTax;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $laborHours;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
@@ -286,6 +292,18 @@ class RepairOrderQuoteRecommendation
     public function getSuppliesTax(): ?float
     {
         return $this->suppliesTax;
+    }
+
+    public function setLaborHours(?float $laborHours): self
+    {
+        $this->laborHours = $laborHours;
+
+        return $this;
+    }
+
+    public function getLaborHours(): ?float
+    {
+        return $this->laborHours;
     }
 
 

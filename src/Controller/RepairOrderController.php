@@ -37,6 +37,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RepairOrderController extends AbstractFOSRestController
 {
     use FalsyTrait;
+
     private const PAGE_LIMIT = 50;
 
     /**
@@ -306,6 +307,7 @@ class RepairOrderController extends AbstractFOSRestController
      *
      * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
      * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="customerEmail", type="string", in="formData")
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
      * @SWG\Parameter(name="number", type="string", in="formData", required=true)
@@ -362,20 +364,18 @@ class RepairOrderController extends AbstractFOSRestController
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
             } else {
                 // waiver enabled
-                if ($customer->getMobileConfirmed() && !$customer->isDeleted()) {
-                    $url = $customerURL.$ro->getLinkHash();
-                    $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                    $waiverMessage = $waiverIntroText.' '.$shortUrl;
+                $url = $customerURL.$ro->getLinkHash();
+                $shortUrl = $shortUrlHelper->generateShortUrl($url);
+                $waiverMessage = $waiverIntroText.' '.$shortUrl;
 
-                    $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
+                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
-                    $roInteraction = new RepairOrderInteraction();
-                    $roInteraction->setRepairOrder($ro)
+                $roInteraction = new RepairOrderInteraction();
+                $roInteraction->setRepairOrder($ro)
                               ->setUser($this->getUser())
                               ->setType('Waiver Sent');
-                    $em->persist($roInteraction);
-                    $em->flush();
-                }
+                $em->persist($roInteraction);
+                $em->flush();
             }
         } catch (Exception $e) {
             throw new InternalErrorException($e);
