@@ -1,0 +1,10 @@
+App\Soap\cdk\src\PartsPricingBatchResponseType:
+    properties:
+        return:
+            expose: true
+            access_type: public_method
+            serialized_name: return
+            accessor:
+                getter: getReturn
+                setter: setReturn
+            type: App\Soap\cdk\src\PartsInventoryPricingResultContainerType

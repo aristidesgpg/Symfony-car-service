@@ -1,0 +1,242 @@
+App\Soap\cdk\src\PartsInventoryPricingResultRecordType:
+    properties:
+        partNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: partNumber
+            accessor:
+                getter: getPartNumber
+                setter: setPartNumber
+            type: string
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: description
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        manufacturer1:
+            expose: true
+            access_type: public_method
+            serialized_name: manufacturer1
+            accessor:
+                getter: getManufacturer1
+                setter: setManufacturer1
+            type: string
+        source:
+            expose: true
+            access_type: public_method
+            serialized_name: source
+            accessor:
+                getter: getSource
+                setter: setSource
+            type: string
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: cost
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: string
+        list:
+            expose: true
+            access_type: public_method
+            serialized_name: list
+            accessor:
+                getter: getList
+                setter: setList
+            type: string
+        trade:
+            expose: true
+            access_type: public_method
+            serialized_name: trade
+            accessor:
+                getter: getTrade
+                setter: setTrade
+            type: string
+        comp:
+            expose: true
+            access_type: public_method
+            serialized_name: comp
+            accessor:
+                getter: getComp
+                setter: setComp
+            type: string
+        exchange:
+            expose: true
+            access_type: public_method
+            serialized_name: exchange
+            accessor:
+                getter: getExchange
+                setter: setExchange
+            type: string
+        unitPrice6:
+            expose: true
+            access_type: public_method
+            serialized_name: unitPrice6
+            accessor:
+                getter: getUnitPrice6
+                setter: setUnitPrice6
+            type: string
+        unitPrice7:
+            expose: true
+            access_type: public_method
+            serialized_name: unitPrice7
+            accessor:
+                getter: getUnitPrice7
+                setter: setUnitPrice7
+            type: string
+        unitPrice8:
+            expose: true
+            access_type: public_method
+            serialized_name: unitPrice8
+            accessor:
+                getter: getUnitPrice8
+                setter: setUnitPrice8
+            type: string
+        unitPrice9:
+            expose: true
+            access_type: public_method
+            serialized_name: unitPrice9
+            accessor:
+                getter: getUnitPrice9
+                setter: setUnitPrice9
+            type: string
+        unitPrice10:
+            expose: true
+            access_type: public_method
+            serialized_name: unitPrice10
+            accessor:
+                getter: getUnitPrice10
+                setter: setUnitPrice10
+            type: string
+        supersedePartNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: supersedePartNumber
+            accessor:
+                getter: getSupersedePartNumber
+                setter: setSupersedePartNumber
+            type: string
+        supersedeCode:
+            expose: true
+            access_type: public_method
+            serialized_name: supersedeCode
+            accessor:
+                getter: getSupersedeCode
+                setter: setSupersedeCode
+            type: string
+        bin1:
+            expose: true
+            access_type: public_method
+            serialized_name: bin1
+            accessor:
+                getter: getBin1
+                setter: setBin1
+            type: string
+        onHandQty:
+            expose: true
+            access_type: public_method
+            serialized_name: onHandQty
+            accessor:
+                getter: getOnHandQty
+                setter: setOnHandQty
+            type: string
+        specialStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: specialStatus
+            accessor:
+                getter: getSpecialStatus
+                setter: setSpecialStatus
+            type: string
+        onOrderQty:
+            expose: true
+            access_type: public_method
+            serialized_name: onOrderQty
+            accessor:
+                getter: getOnOrderQty
+                setter: setOnOrderQty
+            type: string
+        unitWeight:
+            expose: true
+            access_type: public_method
+            serialized_name: unitWeight
+            accessor:
+                getter: getUnitWeight
+                setter: setUnitWeight
+            type: string
+        olmNewPartNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: olmNewPartNumber
+            accessor:
+                getter: getOlmNewPartNumber
+                setter: setOlmNewPartNumber
+            type: string
+        presoldQty:
+            expose: true
+            access_type: public_method
+            serialized_name: presoldQty
+            accessor:
+                getter: getPresoldQty
+                setter: setPresoldQty
+            type: string
+        requestedQty:
+            expose: true
+            access_type: public_method
+            serialized_name: requestedQty
+            accessor:
+                getter: getRequestedQty
+                setter: setRequestedQty
+            type: string
+        originalPartNumberFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: originalPartNumberFlag
+            accessor:
+                getter: getOriginalPartNumberFlag
+                setter: setOriginalPartNumberFlag
+            type: string
+        salePrice:
+            expose: true
+            access_type: public_method
+            serialized_name: salePrice
+            accessor:
+                getter: getSalePrice
+                setter: setSalePrice
+            type: string
+        memoFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: memoFlag
+            accessor:
+                getter: getMemoFlag
+                setter: setMemoFlag
+            type: string
+        errorLevel:
+            expose: true
+            access_type: public_method
+            serialized_name: errorLevel
+            accessor:
+                getter: getErrorLevel
+                setter: setErrorLevel
+            type: string
+        errorMessage:
+            expose: true
+            access_type: public_method
+            serialized_name: errorMessage
+            accessor:
+                getter: getErrorMessage
+                setter: setErrorMessage
+            type: string
+        olmMfr:
+            expose: true
+            access_type: public_method
+            serialized_name: olmMfr
+            accessor:
+                getter: getOlmMfr
+                setter: setOlmMfr
+            type: string
