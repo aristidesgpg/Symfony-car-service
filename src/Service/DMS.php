@@ -369,7 +369,7 @@ class DMS {
                     $introMessage = $this->settingsHelper->getSetting('serviceTextIntro');
                 }
                 if ($this->activateIntegrationSms == true) {
-                    $this->twilioHelper->sendSms($customer->getPhone(), $introMessage);
+                    $this->twilioHelper->sendSms($customer, $introMessage);
                 }
             }
 
@@ -554,7 +554,7 @@ class DMS {
                     }
 
                     if ($this->activateIntegrationSms == true) {
-                        $this->twilioHelper->sendSms($customer->getPhone(), $introMessage);
+                        $this->twilioHelper->sendSms($customer, $introMessage);
                     }
                 }
             } catch (Exception $e) {
