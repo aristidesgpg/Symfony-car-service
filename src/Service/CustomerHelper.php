@@ -98,7 +98,7 @@ class CustomerHelper
                     $customer->setName($v);
                     break;
                 case 'phone':
-                    $cleanNumber = $customer->setPhone($this->stripPhone($v));
+                    $cleanNumber = $this->stripPhone($v);
                     $customer->setPhone($cleanNumber);
                     $isValid = $this->phoneValidator->isMobile($cleanNumber);
                     $customer->setMobileConfirmed($isValid);
