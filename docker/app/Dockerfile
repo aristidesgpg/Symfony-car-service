@@ -21,6 +21,8 @@ RUN apt-get update \
     | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony \
     && chmod a+x /usr/local/bin/symfony \
-    && echo "AllowEncodedSlashes On" >> /etc/apache2/apache2.conf
+    && echo "AllowEncodedSlashes On" >> /etc/apache2/apache2.conf \
+    && chown www-data:www-data -R /var/www/html/public/uploads \
+    && chmod 0755 -R /var/www/html/public/uploads
 
 WORKDIR /var/www/html
