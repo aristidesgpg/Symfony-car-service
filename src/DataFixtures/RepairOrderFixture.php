@@ -42,7 +42,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
             'Advisor In Progress',
             'Sent',
             'Viewed',
-            'Complete',
+            'Completed',
             'Confirmed',
         ];
         $paymentOptions = [
@@ -72,8 +72,7 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                     ->setQuoteStatus($faker->randomElement($quoteOptions))
                     ->setWaiter($faker->boolean(25))
                     ->setLinkHash(sha1('test'))
-                    ->setDeleted($faker->boolean(2))
-                    ->setArchived($faker->boolean(5));
+                    ->setDeleted($faker->boolean(2));
 
         $manager->persist($repairOrder);
         $manager->flush();
@@ -132,7 +131,6 @@ class RepairOrderFixture extends Fixture implements DependentFixtureInterface
                         ->setPickupDate($pickupDate)
                         ->setLinkHash(sha1($faker->unique()->randomAscii.$i))
                         ->setDeleted($faker->boolean(2))
-                        ->setArchived($faker->boolean(5))
                         ->setDateCreated($dateCreated)
                         ->setDateClosed($dateClosed)
                         ->setInternal($faker->boolean(1))

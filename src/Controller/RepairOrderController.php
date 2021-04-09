@@ -5,8 +5,8 @@ namespace App\Controller;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Helper\FalsyTrait;
+use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderRepository;
-use App\Repository\UserRepository;
 use App\Response\ValidationResponse;
 use App\Service\MyReviewHelper;
 use App\Service\Pagination;
@@ -37,6 +37,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RepairOrderController extends AbstractFOSRestController
 {
     use FalsyTrait;
+
     private const PAGE_LIMIT = 50;
 
     /**
@@ -68,15 +69,23 @@ class RepairOrderController extends AbstractFOSRestController
      *     in="query"
      * )
      * @SWG\Parameter(
-     *     name="archived",
-     *     type="boolean",
-     *     description="1=Archived, Omit for non-archived",
+     *     name="dateClosedStart",
+     *     type="string",
+     *     format="date-time",
+     *     description="Get ROs closed after supplied date-time",
+     *     in="query"
+     * )
+     * @SWG\Parameter(
+     *     name="dateClosedEnd",
+     *     type="string",
+     *     format="date-time",
+     *     description="Get ROs closed before supplied date-time",
      *     in="query"
      * )
      * @SWG\Parameter(
      *     name="needsVideo",
      *     type="boolean",
-     *     description="Only return ROs that do not have a video. NOTE: Will ignore all other filters",
+     *     description="Only return ROs that do not have a video.",
      *     in="query"
      * )
      * @SWG\Parameter(
@@ -133,20 +142,20 @@ class RepairOrderController extends AbstractFOSRestController
      */
     public function getAll(
         Request $request,
-        RepairOrderRepository $repairOrderRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
-        UserRepository $userRepo,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderHelper $helper
     ): Response {
         $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
+        $needsVideo = $request->get('needsVideo');
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
         $errors = [];
         $sortField = $sortDirection = $searchTerm = null;
-        $inputFields = ['open', 'waiter', 'internal', 'needsVideo'];
+        $inputFields = ['open', 'waiter', 'internal'];
         $fields = [];
 
         foreach ($inputFields as $field) {
@@ -157,6 +166,8 @@ class RepairOrderController extends AbstractFOSRestController
                 $fields[$field] = null;
             }
         }
+        $fields['dateClosedStart'] = $request->query->get('dateClosedStart');
+        $fields['dateClosedEnd'] = $request->query->get('dateClosedEnd');
 
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -187,22 +198,20 @@ class RepairOrderController extends AbstractFOSRestController
 
         $user = $this->getUser();
 
-        if ($request->get('needsVideo')) {
-            $items = $repairOrderRepo->findByNeedsVideo($user, $sortField, $sortDirection, $searchTerm);
-        } else {
-            $items = $repairOrderRepo->getAllItems(
-                $user,
-                $userRepo,
-                $startDate,
-                $endDate,
-                $sortField,
-                $sortDirection,
-                $searchTerm,
-                $fields
-            );
+        if ($needsVideo) {
+            $urlParameters['needsVideo'] = true;
         }
 
-        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $items = $helper->getAllItems(
+            $user,
+            $startDate,
+            $endDate,
+            $sortField,
+            $sortDirection,
+            $searchTerm,
+            $needsVideo,
+            $fields
+        );
 
         if ($searchTerm) {
             $urlParameters['searchTerm'] = $searchTerm;
@@ -258,19 +267,33 @@ class RepairOrderController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function getByLinkHash(string $linkHash, RepairOrderRepository $repairOrderRepo): Response
-    {
+    public function getByLinkHash(
+        string $linkHash,
+        RepairOrderRepository $repairOrderRepo,
+        EntityManagerInterface $em
+    ): Response {
         if (!$linkHash) {
             throw new NotFoundHttpException();
         }
 
-        $repairOrder = $repairOrderRepo->findByUID($linkHash);
+        $repairOrder = $repairOrderRepo->findOneBy(['linkHash' => $linkHash]);
         if (!$repairOrder) {
             throw new NotFoundHttpException();
         }
 
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
+        }
+
+        // If customer, they must have a valid mobile number because they opened the link
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            $customer = $repairOrder->getPrimaryCustomer();
+
+            if (!$customer->getMobileConfirmed()) {
+                $customer->setMobileConfirmed(true);
+                $em->persist($customer);
+                $em->flush();
+            }
         }
 
         $view = $this->view($repairOrder);
@@ -284,6 +307,7 @@ class RepairOrderController extends AbstractFOSRestController
      *
      * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
      * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="customerEmail", type="string", in="formData")
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
      * @SWG\Parameter(name="number", type="string", in="formData", required=true)
@@ -317,7 +341,8 @@ class RepairOrderController extends AbstractFOSRestController
         TwilioHelper $twilioHelper,
         ShortUrlHelper $shortUrlHelper,
         SettingsHelper $settingsHelper,
-        ParameterBagInterface $parameterBag
+        ParameterBagInterface $parameterBag,
+        CustomerRepository $customerRepo
     ): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
@@ -328,6 +353,9 @@ class RepairOrderController extends AbstractFOSRestController
         if (is_array($ro)) {
             return new ValidationResponse($ro);
         }
+
+        $customerPhone = $req->request->get('customerPhone');
+        $customer = $customerRepo->findByPhone($customerPhone);
 
         // Send waiver or intro message
         try {
@@ -454,38 +482,6 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Put("/{id}/archive")
-     * @SWG\Response(response="200", description="Success!")
-     * @SWG\Response(response="400", description="RO is already archived")
-     * @SWG\Response(response="404", description="RO does not exist")
-     */
-    public function archive(RepairOrder $ro, RepairOrderHelper $helper): Response
-    {
-        if ($ro->getDeleted()) {
-            throw new NotFoundHttpException();
-        }
-        if (true === $ro->isArchived()) {
-            return $this->handleView(
-                $this->view(
-                    [
-                        'message' => 'RO already archived',
-                    ],
-                    Response::HTTP_BAD_REQUEST
-                )
-            );
-        }
-        $helper->archiveRepairOrder($ro);
-
-        return $this->handleView(
-            $this->view(
-                [
-                    'message' => 'RO Archived',
-                ]
-            )
-        );
-    }
-
-    /**
      * @Rest\Put("/{id}/close")
      * @SWG\Response(response="200", description="Success!")
      * @SWG\Response(response="400", description="RO is already closed")
@@ -501,7 +497,7 @@ class RepairOrderController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        if (true === $ro->isClosed()) {
+        if ($ro->isClosed() === true) {
             return $this->handleView(
                 $this->view(
                     [
@@ -530,7 +526,7 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/repair-order-numbers/suggested")
+     * @Rest\Get("/suggested-numbers/list")
      *
      * @SWG\Tag(name="Repair Order")
      * @SWG\Get(description="Get suggested RepairOrder numbers based on the current naming convention")

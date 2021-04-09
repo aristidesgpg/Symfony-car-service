@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderQuoteRecommendationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -11,7 +13,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderQuoteRecommendation
 {
-    public const GROUPS = ['roqs_list', 'roq_list', 'operation_code_list'];
+    public const GROUPS = ['roqs_list', 'roq_list', 'roqp_list', 'operation_code_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -50,7 +52,7 @@ class RepairOrderQuoteRecommendation
      * @ORM\Column(type="boolean", nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
-    private $approved = false;
+    private $approved;
 
     /**
      * @ORM\Column(type="float", nullable=true)
@@ -71,10 +73,45 @@ class RepairOrderQuoteRecommendation
     private $laborPrice;
 
     /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $laborTax;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $partsTax;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $suppliesTax;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $laborHours;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
     private $notes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendationPart::class, mappedBy="repairOrderRecommendation", orphanRemoval=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $repairOrderQuoteRecommendationParts;
+
+    public function __construct()
+    {
+        $this->repairOrderQuoteRecommendationParts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -188,4 +225,86 @@ class RepairOrderQuoteRecommendation
 
         return $this;
     }
+
+    /**
+     * @return Collection|RepairOrderQuoteRecommendationParts[]
+     */
+    public function getRepairOrderQuoteRecommendationParts(): Collection
+    {
+        return $this->repairOrderQuoteRecommendationParts;
+    }
+
+    public function addRepairOrderQuoteRecommendationPart(RepairOrderQuoteRecommendationPart $repairOrderQuoteRecommendationPart): self
+    {
+        if (!$this->repairOrderQuoteRecommendationParts->contains($repairOrderQuoteRecommendationPart)) {
+            $this->repairOrderQuoteRecommendationParts[] = $repairOrderQuoteRecommendationPart;
+            $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepairOrderQuoteRecommendationPart(RepairOrderQuoteRecommendationPart $repairOrderQuoteRecommendationPart): self
+    {
+        if ($this->repairOrderQuoteRecommendationParts->contains($repairOrderQuoteRecommendationPart)) {
+            $this->repairOrderQuoteRecommendationParts->removeElement($repairOrderQuoteRecommendationPart);
+            // set the owning side to null (unless already changed)
+            if ($repairOrderQuoteRecommendationPart->getRepairOrderRecommendation() === $this) {
+                $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function setLaborTax(?float $laborTax): self
+    {
+        $this->laborTax = $laborTax;
+
+        return $this;
+    }
+    
+    public function getLaborTax(): ?float
+    {
+        return $this->laborTax;
+    }
+
+
+    public function setPartsTax(?float $partsTax): self
+    {
+        $this->partsTax = $partsTax;
+
+        return $this;
+    }
+
+    public function getPartsTax(): ?float
+    {
+        return $this->partsTax;
+    }
+
+    public function setSuppliesTax(?float $suppliesTax): self
+    {
+        $this->suppliesTax = $suppliesTax;
+
+        return $this;
+    }
+
+    public function getSuppliesTax(): ?float
+    {
+        return $this->suppliesTax;
+    }
+
+    public function setLaborHours(?float $laborHours): self
+    {
+        $this->laborHours = $laborHours;
+
+        return $this;
+    }
+
+    public function getLaborHours(): ?float
+    {
+        return $this->laborHours;
+    }
+
+
 }

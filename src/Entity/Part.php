@@ -20,6 +20,11 @@ class Part
      */
     private $id;
 
+     /**
+     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendationPart::class, mappedBy="part")
+     */
+    private $repairOrderQuoteRecommendationParts;
+
     /**
      * @ORM\Column(type="string", length=50, nullable=true)
      * @Serializer\Groups(groups={"part_list"})
@@ -43,7 +48,18 @@ class Part
      * @Serializer\Groups(groups={"part_list"})
      */
     private $available;
-
+    
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     * @Serializer\Groups(groups={"part_list"})
+     */
+    private $price;
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $deleted = false;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -93,6 +109,30 @@ class Part
     public function setAvailable(?int $available): self
     {
         $this->available = $available;
+
+        return $this;
+    }
+    
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): self
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }

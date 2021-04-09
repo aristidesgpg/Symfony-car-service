@@ -24,7 +24,8 @@ class RepairOrder
         'operation_code_list',
         'rov_list',
         'ror_list',
-        'roc_list'
+        'roc_list',
+        'roqp_list'
     ];
 
     /**
@@ -207,12 +208,6 @@ class RepairOrder
      * @Serializer\Groups(groups={"ro_list"})
      */
     private $repairOrderMPI;
-
-    /**
-     * @ORM\Column(type="boolean")
-     * @Serializer\Groups(groups={"ro_list"})
-     */
-    private $archived = false;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\RepairOrderVideo", mappedBy="repairOrder")
@@ -620,18 +615,6 @@ class RepairOrder
     public function setDeleted(bool $deleted): self
     {
         $this->deleted = $deleted;
-
-        return $this;
-    }
-
-    public function isArchived(): bool
-    {
-        return $this->archived === true;
-    }
-
-    public function setArchived(bool $archived): self
-    {
-        $this->archived = $archived;
 
         return $this;
     }

@@ -12,9 +12,11 @@ use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class RepairOrderHelper
 {
@@ -101,18 +103,14 @@ class RepairOrderHelper
     private function handleCustomer(array $params)
     {
         $customer = $this->customers->findByPhone($params['customerPhone']);
-        if (null !== $customer) {
-            $customer->setName($params['customerName']);
-            $this->customerHelper->commitCustomer($customer);
-
-            return $customer;
-        }
         $translated = $this->translateCustomerParams($params);
         $errors = $this->customerHelper->validateParams($translated);
         if (!empty($errors)) {
             return $this->translateCustomerParams($errors, true);
         }
-        $customer = new Customer();
+        if (!$customer) {
+            $customer = new Customer();
+        }
         $this->customerHelper->commitCustomer($customer, $translated);
 
         return $customer;
@@ -126,6 +124,9 @@ class RepairOrderHelper
             'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
+        if (array_key_exists('customerEmail', $params) || array_key_exists('email', $params)) {
+            $map['customerEmail'] = 'email';
+        }
 
         foreach ($map as $from => $to) {
             if ($reverse && isset($params[$to])) {
@@ -242,9 +243,12 @@ class RepairOrderHelper
 
     public function isNumberUnique(string $roNumber): bool
     {
-        $ro = $this->repo->findByUID($roNumber);
+        $ro = $this->repo->findBy(['number' => $roNumber]);
+        if ($ro){
+            return false;
+        }
 
-        return null === $ro;
+        return true;
     }
 
     public function generateLinkHash(string $dateCreated): string
@@ -299,15 +303,6 @@ class RepairOrderHelper
         $this->commitRepairOrder();
     }
 
-    public function archiveRepairOrder(RepairOrder $ro): void
-    {
-        if (true === $ro->isArchived()) {
-            throw new InvalidArgumentException('RO is already archived');
-        }
-        $ro->setArchived(true);
-        $this->commitRepairOrder();
-    }
-
     public function deleteRepairOrder(RepairOrder $ro): void
     {
         if (true === $ro->getDeleted()) {
@@ -315,5 +310,230 @@ class RepairOrderHelper
         }
         $ro->setDeleted(true);
         $this->commitRepairOrder();
+    }
+
+    /**
+     * @return array
+     */
+    public function getSuggestedRoNumbers()
+    {
+        $suggestedRoNumbers = [];
+        // Get the latest RO number that is JUST a number in the last 20 ros entered
+        $query = $this->em
+            ->getConnection()
+            ->prepare("
+                SELECT MAX(r.number) number
+                FROM (
+                    SELECT *
+                    FROM repair_order
+                    WHERE number NOT REGEXP '[[:alpha:]]'
+                    ORDER BY id DESC
+                    LIMIT 20
+                ) r 
+            ");
+        $query->execute();
+        $latestRO = $query->fetchAll();
+
+        if (!$latestRO) {
+            return [];
+        }
+        $latestRO = array_shift($latestRO);
+        if (!isset($latestRO)) {
+            return [];
+        }
+        $latestRO = $latestRO['number'];
+        $start = $latestRO - 20;
+        $end = $latestRO + 20;
+        foreach (range($latestRO - 1, $start, -1) as $possibleRONumber) {
+            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
+            if (!$exists) {
+                $suggestedRoNumbers[] = $possibleRONumber;
+            }
+            if (count($suggestedRoNumbers) >= 10) {
+                break;
+            }
+        }
+        foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
+            $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
+            if (!$exists) {
+                $suggestedRoNumbers[] = $possibleRONumber;
+            }
+            if (count($suggestedRoNumbers) >= 20) {
+                break;
+            }
+        }
+        sort($suggestedRoNumbers);
+
+        return $suggestedRoNumbers;
+    }
+
+    /**
+     * @param User   $user
+     * @param null   $startDate
+     * @param null   $endDate
+     * @param string $sortField
+     * @param string $sortDirection
+     * @param null   $searchTerm
+     * @param bool   $needsVideo
+     * @param array  $fields
+     *
+     * @return null
+     */
+    public function getAllItems(
+        $user,
+        $startDate = null,
+        $endDate = null,
+        $sortField = 'dateCreated',
+        $sortDirection = 'DESC',
+        $searchTerm = null,
+        $needsVideo = false,
+        $fields = []
+    ) {
+        try {
+            $qb = $this->repo->createQueryBuilder('ro');
+            $qb->andWhere('ro.deleted = 0');
+
+            if ($user instanceof User) {
+                if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
+                    if (!$needsVideo) {
+                        if ($user->getShareRepairOrders()) {
+                            $qb->andWhere('ro.primaryAdvisor IN (:users)')
+                               ->setParameter('users', $user);
+
+                            $queryParameters['users'] = $this->userRepo->getSharedUsers();
+                        } else {
+                            $qb->andWhere('ro.primaryAdvisor = :user')
+                               ->setParameter('user', $user);
+
+                            $queryParameters['user'] = $user;
+                        }
+                    }
+                } elseif ($user->isTechnician()) {
+                    $qb->andWhere('ro.primaryTechnician = :user OR ro.primaryTechnician is NULL')
+                       ->setParameter('user', $user);
+
+                    $queryParameters['user'] = $user;
+                }
+            } else {
+                throw new BadRequestHttpException('Invalid User');
+            }
+
+            if (filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)) {
+                $qb->andWhere('ro.dateClosed IS NULL')->andWhere("ro.videoStatus = 'Not Started'");
+            }
+
+            $qb = $this->addFilters(
+                $qb,
+                $startDate,
+                $endDate,
+                $sortField,
+                $sortDirection,
+                $searchTerm,
+                $fields
+            );
+
+            return $qb->getQuery()->getResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
+    public function addFilters(
+        $queryBuilder,
+        $startDate,
+        $endDate,
+        $sortField,
+        $sortDirection,
+        $searchTerm,
+        $fields
+    ) {
+        try {
+            $qb = $queryBuilder;
+
+            foreach ($fields as $name => $value) {
+                if (null !== $value) {
+                    if ('open' === $name) {
+                        if ($value) {
+                            $qb->andWhere('ro.dateClosed IS NULL');
+                        } else {
+                            $qb->andWhere('ro.dateClosed IS NOT NULL');
+                        }
+                    } else {
+                        if ('dateClosedStart' === $name || 'dateClosedEnd' === $name) {
+                            try {
+                                $value = new DateTime($value);
+                            } catch (Exception $e) {
+                                throw new BadRequestHttpException("$name is invalid date format".$value);
+                            }
+                            if ('dateClosedStart' === $name) {
+                                $qb->andWhere("ro.dateClosed >= :$name");
+                            } else {
+                                $qb->andWhere("ro.dateClosed <= :$name");
+                            }
+                            $qb->setParameter($name, $value);
+                        } else {
+                            $qb->andWhere("ro.$name = :$name")
+                               ->setParameter($name, $value);
+                        }
+                    }
+                }
+            }
+
+            if ($startDate && $endDate) {
+                try {
+                    $startDate = new DateTime($startDate);
+                    $endDate = new DateTime($endDate);
+
+                    $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate')
+                       ->setParameter('startDate', $startDate)
+                       ->setParameter('endDate', $endDate);
+                } catch (Exception $e) {
+                    throw new BadRequestHttpException('Invalid startDate or endDate format');
+                }
+            }
+
+            if ($searchTerm) {
+                $query = '';
+
+                $qb->leftJoin('ro.primaryCustomer', 'ro_customer')
+                   ->leftJoin('ro.primaryTechnician', 'ro_technician')
+                   ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
+
+                $searchFields = [
+                    'ro' => ['number', 'year', 'model', 'miles', 'vin'],
+                    'ro_customer' => ['name', 'phone', 'email'],
+                    'ro_advisor' => ['combine_name', 'phone', 'email'],
+                    'ro_technician' => ['combine_name', 'phone', 'email'],
+                ];
+
+                foreach ($searchFields as $class => $fields) {
+                    foreach ($fields as $field) {
+                        if ('combine_name' === $field) {
+                            $query .= "CONCAT($class.firstName , ' ' , $class.lastName) LIKE :searchTerm OR ";
+                        } else {
+                            $query .= "$class.$field LIKE :searchTerm OR ";
+                        }
+                    }
+                }
+
+                $query = substr($query, 0, strlen($query) - 4);
+
+                $qb->andWhere($query)
+                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
+            }
+
+            if ($sortDirection) {
+                $qb->orderBy('ro.'.$sortField, $sortDirection);
+
+                $urlParameters['sortField'] = $sortField;
+                $urlParameters['sortDirection'] = $sortDirection;
+            } else {
+                $qb->orderBy('ro.dateCreated', 'DESC');
+            }
+
+            return $qb;
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 }
