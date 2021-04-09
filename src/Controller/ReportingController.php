@@ -234,6 +234,10 @@ class ReportingController extends AbstractFOSRestController
 
             $unread = 0;
             $threads = $smsHelper->getThreadsByAdvisor($sa->getId());
+            $view = $this->view($threads);
+        $view->getContext()->setGroups(['user_list']);
+
+        return $this->handleView($view);
             foreach ($threads as $thread) {
                 $unread += $thread['unread'];
             }
@@ -529,17 +533,24 @@ class ReportingController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response="200",
-     *     description="Success!",
+     *     description="Returns a list of advisors with what customers have done on repair orders where they were the primary advisor",
      *     @SWG\Schema(
-     *         type="object",
-     *         @SWG\Property(property="advisor", type="integer", description="The advisor"),
-     *         @SWG\Property(property="totalAppraiseClicks", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalFinanceClicks", type="integer", description="The # of finance my repair clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalUnlockCouponClicks", type="integer", description="The # of unlock coupon clicks (make 0 for now)"),
-     *         @SWG\Property(property="totalVideos", type="integer", description="The # of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
-     *         @SWG\Property(property="totalInboundMessages", type="integer", description="The # of inbound messages from customers for repair orders that have closed in a given date range. "),
-     *         @SWG\Property(property="totalOutboundMessages", type="integer", description="The # of outbound messages from the advisor for repair orders that have closed in a given date range"),
-     *         @SWG\Property(property="totalMessages", type="integer", description="The # of total messages (# of inbound + # of outbound)")
+     *         type="array",
+     *         @SWG\Items(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="serviceAdvisor",
+     *                  ref=@Model(type=User::class, groups={"user_list"}),
+     *                  description="The service advisor"
+     *              ),
+     *              @SWG\Property(property="totalAppraiseClicks", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
+     *              @SWG\Property(property="totalFinanceClicks", type="integer", description="The # of finance my repair clicks (make 0 for now)"),
+     *              @SWG\Property(property="totalUnlockCouponClicks", type="integer", description="The # of unlock coupon clicks (make 0 for now)"),
+     *              @SWG\Property(property="totalVideos", type="integer", description="The # of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
+     *              @SWG\Property(property="totalInboundMessages", type="integer", description="The # of inbound messages from customers for repair orders that have closed in a given date range. "),
+     *              @SWG\Property(property="totalOutboundMessages", type="integer", description="The # of outbound messages from the advisor for repair orders that have closed in a given date range"),
+     *              @SWG\Property(property="totalMessages", type="integer", description="The # of total messages (# of inbound + # of outbound)")
+     *         )
      *     )
      * )
      */
@@ -579,7 +590,7 @@ class ReportingController extends AbstractFOSRestController
             }
 
             $result[] = [
-                'advisor' => $serviceAdvisor->getId(),
+                'serviceAdvisor' => $serviceAdvisor,
                 'totalAppraiseClicks' => $totalAppraiseClicks,
                 'totalFinanceClicks' => $totalFinanceClicks,
                 'totalUnlockCouponClicks' => $totalUnlockCouponClicks,
@@ -591,6 +602,7 @@ class ReportingController extends AbstractFOSRestController
         }
 
         $view = $this->view($result);
+        $view->getContext()->setGroups(['user_list']);
 
         return $this->handleView($view);
     }
@@ -646,16 +658,24 @@ class ReportingController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response="200",
-     *     description="Success!",
+     *     description="Returns the list of repair orders and data related to the MPI",
      *     @SWG\Schema(
-     *         type="object",
-     *         @SWG\Property(property="roNumber", type="integer", description="Repair Order Number"),
-     *         @SWG\Property(property="customerName", type="integer", description="customer name"),
-     *         @SWG\Property(property="customerPhone", type="integer", description="customer phone"),
-     *         @SWG\Property(property="advisorName", type="integer", description="advisor name"),
-     *         @SWG\Property(property="technicianName", type="integer", description="technician name"),
-     *         @SWG\Property(property="templateName", type="integer", description="template name"),
-     *         @SWG\Property(property="roMPI", type="integer", description="Repair Order MPI results")
+     *         type="array",
+     *         @SWG\Items(
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="repairOrder",
+     *                  ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS),
+     *                  description="The repair order"
+     *              ),
+     *              @SWG\Property(property="roNumber", type="integer", description="Repair Order Number"),
+     *              @SWG\Property(property="customerName", type="integer", description="customer name"),
+     *              @SWG\Property(property="customerPhone", type="integer", description="customer phone"),
+     *              @SWG\Property(property="advisorName", type="integer", description="advisor name"),
+     *              @SWG\Property(property="technicianName", type="integer", description="technician name"),
+     *              @SWG\Property(property="templateName", type="integer", description="template name"),
+     *              @SWG\Property(property="roMPI", type="integer", description="Repair Order MPI results")
+     *         )
      *     )
      * )
      */
