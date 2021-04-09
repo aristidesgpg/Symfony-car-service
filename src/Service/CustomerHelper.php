@@ -58,10 +58,16 @@ class CustomerHelper
                         $msg = 'Invalid phone number';
                         break;
                     }
+
+                    if (!$this->phoneValidator->isMobile($v)) {
+                        $msg = 'Phone number is not mobile';
+                    }
                     break;
                 case 'email':
-                    if (false === strpos($v, '@')) {
-                        $msg = 'Invalid email address';
+                    if (!empty($v)) {
+                        if (false === strpos($v, '@')) {
+                            $msg = 'Invalid email address';
+                        }
                     }
                     break;
                 case 'addedBy':
@@ -70,7 +76,6 @@ class CustomerHelper
                     }
                     break;
                 case 'doNotContact':
-                case 'skipMobileVerification':
                 default:
                     // Do nothing
                     break;
@@ -85,7 +90,7 @@ class CustomerHelper
 
     public function commitCustomer(Customer $customer, array $params = [])
     {
-        //$errors = $this->validateParams($params);
+        // $errors = $this->validateParams($params);
         $errors = [];
 
         if (true !== empty($errors)) {
@@ -142,12 +147,5 @@ class CustomerHelper
     private function paramToBool($param): bool
     {
         return 'false' !== $param && true == $param;
-    }
-
-    private function skipMobileVerification(array $params): bool
-    {
-        $skip = $params['skipMobileVerification'] ?? false;
-
-        return $this->paramToBool($skip);
     }
 }

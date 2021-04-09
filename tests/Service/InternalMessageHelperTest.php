@@ -31,9 +31,9 @@ class InternalMessageHelperTest extends KernelTestCase
         $this->assertGreaterThanOrEqual(0, $totalUnreadMessages);
     }
 
-    // public function testGetThreads()
-    // {
-    //     $result = $this->internalMessageHelper->getThreads();
+    // TODO: Fix internal message helper getId()
+    // public function testGetThreads() {
+    //     $result = $this->internalMessageHelper->getThreads(3);
 
     //     $this->assertGreaterThanOrEqual(0, $result);
     // }
