@@ -1,0 +1,26 @@
+App\Soap\cdk\src\PartsPricingType:
+    properties:
+        authToken:
+            expose: true
+            access_type: public_method
+            serialized_name: authToken
+            accessor:
+                getter: getAuthToken
+                setter: setAuthToken
+            type: App\Soap\cdk\src\AuthenticationTokenType
+        dealerId:
+            expose: true
+            access_type: public_method
+            serialized_name: dealerId
+            accessor:
+                getter: getDealerId
+                setter: setDealerId
+            type: App\Soap\cdk\src\DealerIdType
+        request:
+            expose: true
+            access_type: public_method
+            serialized_name: request
+            accessor:
+                getter: getRequest
+                setter: setRequest
+            type: App\Soap\cdk\src\PartsInventoryPricingRequestType

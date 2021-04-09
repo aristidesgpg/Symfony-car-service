@@ -1,0 +1,18 @@
+App\Soap\cdk\src\AuthenticationTokenType:
+    properties:
+        password:
+            expose: true
+            access_type: public_method
+            serialized_name: password
+            accessor:
+                getter: getPassword
+                setter: setPassword
+            type: string
+        username:
+            expose: true
+            access_type: public_method
+            serialized_name: username
+            accessor:
+                getter: getUsername
+                setter: setUsername
+            type: string

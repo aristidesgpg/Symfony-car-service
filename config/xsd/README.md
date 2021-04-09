@@ -25,6 +25,7 @@ https://cdx.dealerbuilt.com/0.99a/Api.svc?xsd=xsd12
 maker: tools\vendor\bin\xsd2php.bat convert config\xsd\dealerbuilt.yml config\xsd\dealerbuilt.xsd
 
 
+
 DealerTrack:
 wsdl: https://otstaging.arkona.com/opentrack/serviceapi.asmx?WSDL
 wsdl: https://otstaging.arkona.com/opentrack/partsapi.asmx?WSDL
@@ -37,3 +38,8 @@ CDK:
 Does not have a WSDL. Is not SOAP. Restfull API.
 Exported xml and converted to xsd.
 maker: vendor\bin\xsd2php.bat convert config\xsd\cdk.yml config\xsd\cdk.xsd
+
+CDK Parts:
+wsdl: https://uat-3pa.dmotorworks.com/pip-parts-inventory-pricing/services/PartsInventoryPricingCustom?wsdl
+xsd: https://uat-3pa.dmotorworks.com:443/pip-parts-inventory-pricing/services/PartsInventoryPricingCustom?xsd=1
+maker: vendor\bin\xsd2php.bat convert config\xsd\cdk.yml config\xsd\cdk_parts.xsd
