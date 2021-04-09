@@ -99,7 +99,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         Security $security
     ) {
         if ($security->isGranted('ROLE_CUSTOMER')) {
-            throw new BadRequestHttpException('The user should not be a customer');
+            throw new BadRequestHttpException('The user should be service user');
         }
 
         $repairOrderID = $request->get('repairOrderID');
@@ -159,15 +159,15 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $em->persist($repairOrderQuote);
 
-        $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->getUser());
-        
         $em->persist($repairOrder);
 
         $em->flush();
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-
+        
+        $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), $this->getUser());
+        
         return $this->handleView($view);
     }
 
@@ -200,6 +200,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuote $repairOrderQuote,
         Request $request,
         RepairOrderQuoteHelper $repairOrderQuoteHelper,
+        RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper,
         EntityManagerInterface $em,
         Security $security
     ): Response {
@@ -255,7 +256,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-
+        
+        $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), $this->getUser());
+        
         return $this->handleView($view);
     }
 
@@ -585,6 +588,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $repairOrderQuoteHelper,
+        RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper,
         Security $security
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
@@ -643,6 +647,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $repairOrder->setQuoteStatus($status);
 
+        $view = $this->view($repairOrderQuote);
+        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
+        if ($security->isGranted('ROLE_CUSTOMER') ) {
+            $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), null, $this->getUser());
+        } else {
+            $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), $this->getUser());
+        }
+        
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
         $em->flush();

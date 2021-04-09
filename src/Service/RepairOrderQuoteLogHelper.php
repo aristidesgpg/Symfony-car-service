@@ -11,8 +11,6 @@ use Exception;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Types\Null_;
 use RuntimeException;
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
-use JMS\Serializer\SerializerBuilder;
 
 /**
  * Class RepairOrderQuoteLogHelper.
@@ -23,29 +21,16 @@ class RepairOrderQuoteLogHelper
     private $em;
 
     /**
-     * @var Container
-     */
-    private $container;
-
-    /**
      * RepairOrderQuoteLogHelper constructor.
      */
-    public function __construct(EntityManagerInterface $em, Container $container)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
-        $this->container = $container;
     }
 
-    public function createRepairOrderQuoteLog(RepairOrderQuote $repairOrderQuote, User $user = NULL, Customer $customer = NULL): void
-    {
-        // // $serializer = $this->container->get('jms_serializer');
-        // // $serializer->serialize($repairOrderQuote, "json");
-        $serializerBuilder = SerializerBuilder::create();
-        $serializer = $serializerBuilder->build();
-        $data = $serializer->serialize($repairOrderQuote, "json");
-
-  
-         $repairOrderQuoteLog = new RepairOrderQuoteLog();
+    public function createRepairOrderQuoteLog(RepairOrderQuote $repairOrderQuote, string $data, User $user = NULL, Customer $customer = NULL): void
+    { 
+        $repairOrderQuoteLog = new RepairOrderQuoteLog();
         $repairOrderQuoteLog->setRepairOrderQuote($repairOrderQuote)
                             ->setData($data)
                             ->setDate(new \DateTime());
