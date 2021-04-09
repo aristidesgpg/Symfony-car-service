@@ -229,6 +229,34 @@ class SettingsHelper
             'default_value' => 'Qv593h-2PkH24-N2JKD8-Ze8NXU',
             'front_end' => 'N/A',
         ],
+        'usingAutomate' => [
+            'default_value' => false,
+            'front_end' => 'Hidden',
+        ],
+        'usingDealerBuilt' => [
+            'default_value' => false,
+            'front_end' => 'Hidden',
+        ],
+        'usingCdk' => [
+            'default_value' => false,
+            'front_end' => 'Hidden',
+        ],
+        'usingDealerTrack' => [
+            'default_value' => false,
+            'front_end' => 'Hidden',
+        ],
+        'offHoursIntegration' => [
+            'default_value' => false,
+            'front_end' => 'Hidden',
+        ],
+        'customerURL' => [
+            'default_value' => 'http://localhost/',
+            'front_end' => 'Hidden',
+        ],
+        'dmsFilter' => [
+            'default_value' => 'Internal',
+            'front_end' => 'Hidden',
+        ],
     ];
 
     /**
@@ -290,10 +318,36 @@ class SettingsHelper
         $this->persistToDb();
     }
 
+    public function updateMultipleSettings(array $settings): bool
+    {
+        foreach ($settings as $key => $value) {
+            $this->updateSetting($key, $value);
+        }
+        //If it doesn't throw an exception, all values have been updated.
+        return true;
+    }
+
     /**
      * @param ?string $value
      */
-    private function addSetting(string $key, ?string $value): Settings
+    public function updateSetting(string $key, ?string $value): bool
+    {
+        if (!$this->isValidSetting($key)) {
+            throw new InvalidArgumentException('Invalid Setting: '.$key);
+        }
+
+        $obj = $this->addSetting($key, $value);
+        if ($obj) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param ?string $value
+     */
+    public function addSetting(string $key, ?string $value): Settings
     {
         if (!is_string($key)) {
             throw new InvalidArgumentException('"key" must be string');
@@ -352,7 +406,7 @@ class SettingsHelper
     {
         // Throw exception because false is a valid option
         if (!$this->isValidSetting($key)) {
-            throw new Exception('Invalid Setting Requested');
+            throw new Exception('Invalid Setting Requested: '.$key);
         }
 
         $setting = $this->em->getRepository(Settings::class)->findOneBy([
@@ -435,6 +489,7 @@ class SettingsHelper
     private function settingsIterator(string $array_key): array
     {
         $setting = [];
+
         foreach ($this->getDefaultSettingsAndFrontendPathSettings() as $key => $value) {
             $setting[$key] = $value[$array_key];
         }
