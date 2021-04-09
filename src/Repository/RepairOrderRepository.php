@@ -192,6 +192,47 @@ class RepairOrderRepository extends ServiceEntityRepository
         }
     }
 
+    public function getMpiReporting($start = null, $end = null, $advisorId = null, $technicianId = null)
+    {
+        if (is_null($end)) {
+            $end = new DateTime();
+        } else {
+            $end = new DateTime($end);
+        }
+
+        if ($start) {
+            $start = new DateTime($start);
+        }
+
+        try {
+            $qb = $this->createQueryBuilder('ro');
+            $qb->andWhere('ro.deleted = false')->andWhere('ro.dateClosed IS NOT NULL');
+
+            if ($start && $end) {
+                $qb->andWhere('ro.dateCreated BETWEEN :start AND :end')
+                    ->setParameter('start', $start->format('Y-m-d H:i'))
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
+            } else {
+                $qb->andWhere('ro.dateCreated < :end')
+                    ->setParameter('end', $end->format('Y-m-d H:i'));
+            }
+
+            if ($advisorId) {
+                $qb->andWhere('ro.primaryAdvisorId = :advisorId')
+                   ->setParameter('advisorId', $advisorId);
+            }
+
+            if ($technicianId) {
+                $qb->andWhere('ro.primaryTechnicianId = :technicianId')
+                   ->setParameter('technicianId', $technicianId);
+            }
+
+            return $qb->getQuery()->getResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

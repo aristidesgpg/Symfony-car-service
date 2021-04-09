@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\RepairOrder;
 use App\Entity\User;
+use App\Repository\MPITemplateRepository;
+use App\Repository\RepairOrderMPIRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
@@ -235,9 +237,9 @@ class ReportingController extends AbstractFOSRestController
             $unread = 0;
             $threads = $smsHelper->getThreadsByAdvisor($sa->getId());
             $view = $this->view($threads);
-        $view->getContext()->setGroups(['user_list']);
+            $view->getContext()->setGroups(['user_list']);
 
-        return $this->handleView($view);
+            return $this->handleView($view);
             foreach ($threads as $thread) {
                 $unread += $thread['unread'];
             }
@@ -663,18 +665,13 @@ class ReportingController extends AbstractFOSRestController
      *         type="array",
      *         @SWG\Items(
      *              type="object",
-     *              @SWG\Property(
-     *                  property="repairOrder",
-     *                  ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS),
-     *                  description="The repair order"
-     *              ),
      *              @SWG\Property(property="roNumber", type="integer", description="Repair Order Number"),
-     *              @SWG\Property(property="customerName", type="integer", description="customer name"),
-     *              @SWG\Property(property="customerPhone", type="integer", description="customer phone"),
-     *              @SWG\Property(property="advisorName", type="integer", description="advisor name"),
-     *              @SWG\Property(property="technicianName", type="integer", description="technician name"),
-     *              @SWG\Property(property="templateName", type="integer", description="template name"),
-     *              @SWG\Property(property="roMPI", type="integer", description="Repair Order MPI results")
+     *              @SWG\Property(property="customerName", type="string", description="customer name"),
+     *              @SWG\Property(property="customerPhone", type="string", description="customer phone"),
+     *              @SWG\Property(property="advisorName", type="string", description="advisor name"),
+     *              @SWG\Property(property="technicianName", type="string", description="technician name"),
+     *              @SWG\Property(property="templateName", type="string", description="template name"),
+     *              @SWG\Property(property="roMPI", type="string", description="Repair Order MPI results")
      *         )
      *     )
      * )
@@ -683,7 +680,9 @@ class ReportingController extends AbstractFOSRestController
         Request $request,
         RepairOrderRepository $roRepo,
         UserRepository $userRepo,
-        RepairOrderQuoteRepository $quoteRepo
+        RepairOrderQuoteRepository $quoteRepo,
+        MPITemplateRepository $mpiTemplateRepo,
+        RepairOrderMPIRepository $roMpiRepo
     ): Response {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
@@ -693,53 +692,56 @@ class ReportingController extends AbstractFOSRestController
         $mpiItemId = $request->query->get('mpiItemId');
         $mpiItemStatus = $request->query->get('mpiItemStatus');
 
-        $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
+        $mpiTemplate = '';
+        if ($mpiTemplateId) {
+            $mpiTemplate = $mpiTemplateRepo->find($mpiTemplateId);
+        }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getMpiReporting(
             $startDate,
-            $endDate
+            $endDate,
+            $advisorId,
+            $technicianId
         );
 
         $result = [];
-        foreach ($technicians as $technician) {
-            $totalClosedRepairOrders = 0;
-            $totalStartValues = 0;
-            $totalFinalValues = 0;
-            $totalUpsellPercentage = 0;
+        foreach ($closedRepairOrders as $ro) {
+            $customer = $ro->getPrimaryCustomer();
+            $advisor = $ro->getPrimaryAdvisor();
+            $technician = $ro->getPrimaryTechnician();
+            $roMpi = $roMpiRepo->findOneBy(['repairOrder' => $ro->getId()]);
+            $mpiResults = '';
+            if ($roMpi) {
+                $mpiResults = $roMpi->getResults();
+                $mpiResults = json_decode($mpiResults, true);
 
-            $sumFinalValues = 0;
-            $roCountWithVideo = 0;
+                if ($mpiItemStatus) {
+                    $newResultsArr = [];
+                    $arrRes = $mpiResults['results'];
+                    if ($arrRes) {
+                        foreach ($arrRes as $res) {
+                            $newResultObj = ['group' => $res['group'], 'items' => []];
 
-            $sumFinalValuesWithoutVideo = 0;
-            $roCountWithoutVideo = 0;
+                            $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
+                                return $a['status'] === $mpiItemStatus;
+                            });
 
-            foreach ($closedRepairOrders as $ro) {
-                if ($technician->getId() === $ro->getPrimaryTechnician()->getId()) {
-                    ++$totalClosedRepairOrders;
-                    $totalStartValues += $ro->getStartValue();
-                    $totalFinalValues += $ro->getFinalValue();
-
-                    $videos = $ro->getVideos();
-                    $totalVideos = count($videos);
-
-                    if ($totalVideos) {
-                        $sumFinalValues += $ro->getFinalValue();
-                        ++$roCountWithVideo;
-                    } else {
-                        $sumFinalValuesWithoutVideo += $ro->getFinalValue();
-                        ++$roCountWithoutVideo;
+                            $newResultObj['items'] = $items;
+                            $newResultsArr[] = $newResultObj;
+                        }
+                        $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
                     }
                 }
             }
 
             $result[] = [
-                'roNumber' => $technician->getId(),
-                'customerName' => '',
-                'customerPhone' => '',
-                'advisorName' => '',
-                'technicianName' => '',
-                'templateName' => '',
-                'roMPI' => '',
+                'roNumber' => $ro->getNumber(),
+                'customerName' => $customer->getName(),
+                'customerPhone' => $customer->getPhone(),
+                'advisorName' => $advisor->getFirstName().$advisor->getLastName(),
+                'technicianName' => $technician->getFirstName().$technician->getLastName(),
+                'templateName' => $mpiTemplate ? $mpiTemplate->getName() : null,
+                'roMPI' => $mpiResults,
             ];
         }
 
