@@ -12,7 +12,7 @@ use Faker\Factory;
 
 class RepairOrderQuoteRecommendationFixture extends Fixture implements DependentFixtureInterface
 {
-    
+
     /**
      * @return void
      */
@@ -34,6 +34,7 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
                                            ->setPartsPrice($faker->randomFloat(2, 1, 2000))
                                            ->setSuppliesPrice($faker->randomFloat(2, 1, 500))
                                            ->setLaborPrice($faker->randomFloat(2, 1, 1000))
+                                           ->setLaborHours($faker->randomFloat(1, .1, 9.9))
                                            ->setNotes($faker->sentence(3, true));
 
             $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();

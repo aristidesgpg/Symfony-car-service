@@ -338,7 +338,7 @@ class InternalMessageController extends AbstractFOSRestController
         $internalMessage = new InternalMessage();
         $toUser = $this->getDoctrine()->getRepository(User::class)->find($toId);
 
-        if (!$toUser || !$toUser->getActive()) {
+        if (!$toUser) {
             throw new NotFoundHttpException("User doesn\'t exist");
         }
 
