@@ -167,7 +167,7 @@ class SettingsController extends AbstractFOSRestController
      * myReview Settings
      * @SWG\Parameter(name="myReviewGoogleURL", type="string", in="formData")
      * @SWG\Parameter(name="myReviewFacebookURL", type="string", in="formData")
-     * @SWG\Parameter(name="reviewLogo", type="file", in="formData")
+     * @SWG\Parameter(name="myReviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")
      *
@@ -238,7 +238,7 @@ class SettingsController extends AbstractFOSRestController
                 //File Uploads
                 case 'custAppPostInspectionVideo':
                 case 'generalLogo':
-                case 'reviewLogo':
+                case 'myReviewLogo':
                     if (!$val instanceof UploadedFile) {
                         $errors[$key] = 'File upload failed';
                         break;

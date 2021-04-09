@@ -17,30 +17,10 @@ class SettingsHelper
     use iServiceLoggerTrait;
 
     const VALID_SETTINGS = [
-//        'phase1' => [
-//            'default_value' => '60',
-//            'front_end' => '',
-//        ],
-//        'phase2' => [
-//            'default_value' => '60',
-//            'front_end' => '',
-//        ],
-//        'phase3' => [
-//            'default_value' => '60',
-//            'front_end' => '',
-//        ],
-//        'percentageOfTax' => [
-//            'default_value' => '6.25',
-//            'front_end' => '',
-//        ],
-//        'limitOnTax' => [
-//            'default_value' => '10000',
-//            'front_end' => '',
-//        ],
-//        'totalDays' => [
-//            'default_value' => '7',
-//            'front_end' => '',
-//        ],
+        'activateIntegrationSms' => [
+            'default_value' => '0',
+            'front_end' => 'TBD: Needed for integrated dealers to send/not send text message when RO pulled from DMS',
+        ],
         'techAppUsername' => [
             'default_value' => 'iService',
             'front_end' => 'iService App > App Username',
@@ -185,7 +165,7 @@ class SettingsHelper
             'default_value' => null,
             'front_end' => 'General > Website Inventory URL',
         ],
-        'generaAddress' => [
+        'generalAddress' => [
             'default_value' => null,
             'front_end' => 'General > Address 1',
         ],
@@ -209,17 +189,29 @@ class SettingsHelper
             'default_value' => null,
             'front_end' => 'General > Phone',
         ],
-        'reviewGoogleUrl' => [
+        'generalLogo' => [
+            'default_value' => 'https://iserviceauto.com/wp-content/uploads/2017/10/iService-logo.png',
+            'front_end' => 'General > Company Logo',
+        ],
+        'myReviewActivated' => [
+            'default_value' => '1',
+            'front_end' => 'Hidden',
+        ],
+        'myReviewGoogleUrl' => [
             'default_value' => null,
             'front_end' => 'myReview > Google URL',
         ],
-        'reviewFacebookUrl' => [
+        'myReviewFacebookUrl' => [
             'default_value' => null,
             'front_end' => 'myReview > Facebook URL',
         ],
-        'reviewText' => [
+        'myReviewText' => [
             'default_value' => null,
             'front_end' => 'Outgoing Messages > Review Text',
+        ],
+        'myReviewLogo' => [
+            'default_value' => 'https://iserviceauto.com/wp-content/uploads/2017/10/iService-logo.png',
+            'front_end' => 'myReview > Logo',
         ],
         'hasPayments' => [
             'default_value' => 0,
@@ -245,12 +237,8 @@ class SettingsHelper
             'default_value' => false,
             'front_end' => 'Hidden',
         ],
-        'offHoursIntegration' => [
-            'default_value' => false,
-            'front_end' => 'Hidden',
-        ],
         'customerURL' => [
-            'default_value' => 'http://localhost/',
+            'default_value' => 'https://client3.iserviceauto.com/',
             'front_end' => 'Hidden',
         ],
         'dmsFilter' => [
@@ -295,53 +283,45 @@ class SettingsHelper
     }
 
     /**
-     * This should only be used when you are wanting to OVERRIDE all of the settings.
-     *
-     * @throws InvalidArgumentException
+     * This returns a list of valid settings.
      */
-    public function commitSettings(array $settings): void
+    public function getValidSettings(): array
     {
-        foreach ($settings as $key => $value) {
-            if (!is_string($key)) {
-                throw new InvalidArgumentException('"key" must be string');
-            }
-
-            $obj = $this->em->find(Settings::class, $key);
-            if (!$obj instanceof Settings) {
-                $obj = new Settings($key, $value);
-                $this->em->persist($obj);
-            } else {
-                $obj->setValue($value);
-            }
-        }
-
-        $this->persistToDb();
-    }
-
-    public function updateMultipleSettings(array $settings): bool
-    {
-        foreach ($settings as $key => $value) {
-            $this->updateSetting($key, $value);
-        }
-        //If it doesn't throw an exception, all values have been updated.
-        return true;
+        return array_keys($this->getDefaultSettings());
     }
 
     /**
-     * @param ?string $value
+     * Currently values are stored in a const array. This method should be changed
+     * if the settings are wanting to be stored somewhere else.
+     *
+     * This pulls
      */
-    public function updateSetting(string $key, ?string $value): bool
+    public function getDefaultSettings(): array
     {
-        if (!$this->isValidSetting($key)) {
-            throw new InvalidArgumentException('Invalid Setting: '.$key);
+        return $this->settingsIterator('default_value');
+    }
+
+    /**
+     * Used to iterate through the settings array and extract the required key. Useful if more keys are added in the future.
+     */
+    private function settingsIterator(string $array_key): array
+    {
+        $setting = [];
+
+        foreach ($this->getDefaultSettingsAndFrontendPathSettings() as $key => $value) {
+            $setting[$key] = $value[$array_key];
         }
 
-        $obj = $this->addSetting($key, $value);
-        if ($obj) {
-            return true;
-        }
+        return $setting;
+    }
 
-        return false;
+    /**
+     * Currently values are stored in a const array. This method should be changed
+     * if the settings are wanting to be stored somewhere else.
+     */
+    private function getDefaultSettingsAndFrontendPathSettings(): array
+    {
+        return self::VALID_SETTINGS;
     }
 
     /**
@@ -382,6 +362,78 @@ class SettingsHelper
     }
 
     /**
+     * @throws Exception
+     */
+    public function getDefaultSettingValue(string $key): ?string
+    {
+        if ($this->isValidSetting(trim($key))) {
+            return $this->getDefaultSettings()[$key];
+        }
+
+        throw new Exception('Invalid Setting Requested');
+    }
+
+    public function isValidSetting(string $key): bool
+    {
+        if (!in_array($key, $this->getValidSettings())) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * This should only be used when you are wanting to OVERRIDE all of the settings.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function commitSettings(array $settings): void
+    {
+        foreach ($settings as $key => $value) {
+            if (!is_string($key)) {
+                throw new InvalidArgumentException('"key" must be string');
+            }
+
+            $obj = $this->em->find(Settings::class, $key);
+            if (!$obj instanceof Settings) {
+                $obj = new Settings($key, $value);
+                $this->em->persist($obj);
+            } else {
+                $obj->setValue($value);
+            }
+        }
+
+        $this->persistToDb();
+    }
+
+    public function updateMultipleSettings(array $settings): bool
+    {
+        foreach ($settings as $key => $value) {
+            $this->updateSetting($key, $value);
+        }
+
+        //If it doesn't throw an exception, all values have been updated.
+        return true;
+    }
+
+    /**
+     * @param ?string $value
+     */
+    public function updateSetting(string $key, ?string $value): bool
+    {
+        if (!$this->isValidSetting($key)) {
+            throw new InvalidArgumentException('Invalid Setting: '.$key);
+        }
+
+        $obj = $this->addSetting($key, $value);
+        if ($obj) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * TODO Should this do something besides fail quietly?
      */
     public function removeSetting(string $key)
@@ -393,6 +445,14 @@ class SettingsHelper
             $this->em->remove($setting);
             $this->em->flush();
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getSettingValue(string $key): ?string
+    {
+        return $this->getSetting($key)->getValue();
     }
 
     /**
@@ -427,82 +487,11 @@ class SettingsHelper
     }
 
     /**
-     * @throws Exception
-     */
-    public function getSettingValue(string $key): ?string
-    {
-        return $this->getSetting($key)->getValue();
-    }
-
-    public function isValidSetting(string $key): bool
-    {
-        if (!in_array($key, $this->getValidSettings())) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function getDefaultSettingValue(string $key): ?string
-    {
-        if ($this->isValidSetting(trim($key))) {
-            return $this->getDefaultSettings()[$key];
-        }
-
-        throw new Exception('Invalid Setting Requested');
-    }
-
-    /**
-     * This returns a list of valid settings.
-     */
-    public function getValidSettings(): array
-    {
-        return array_keys($this->getDefaultSettings());
-    }
-
-    /**
-     * Currently values are stored in a const array. This method should be changed
-     * if the settings are wanting to be stored somewhere else.
-     *
-     * This pulls
-     */
-    public function getDefaultSettings(): array
-    {
-        return $this->settingsIterator('default_value');
-    }
-
-    /**
      * Currently values are stored in a const array. This method should be changed
      * if the settings are wanting to be stored somewhere else.
      */
     public function getFrontendPathSettings(): array
     {
         return $this->settingsIterator('front_end');
-    }
-
-    /**
-     * Used to iterate through the settings array and extract the required key. Useful if more keys are added in the future.
-     */
-    private function settingsIterator(string $array_key): array
-    {
-        $setting = [];
-
-        foreach ($this->getDefaultSettingsAndFrontendPathSettings() as $key => $value) {
-            $setting[$key] = $value[$array_key];
-        }
-
-        return $setting;
-    }
-
-    /**
-     * Currently values are stored in a const array. This method should be changed
-     * if the settings are wanting to be stored somewhere else.
-     */
-    private function getDefaultSettingsAndFrontendPathSettings(): array
-    {
-        return self::VALID_SETTINGS;
     }
 }
