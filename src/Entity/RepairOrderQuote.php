@@ -103,6 +103,7 @@ class RepairOrderQuote
 
     /**
      * @ORM\OneToMany(targetEntity=RepairOrderQuoteLog::class, mappedBy="repairOrderQuote", orphanRemoval=true)
+     * @Serializer\Groups(groups={"roq_log"})
      */
     private $repairOrderQuoteLogs;
 

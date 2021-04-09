@@ -52,8 +52,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote, RepairOrderQuoteHelper $helper)
     {
+        $groups = array_merge(RepairOrderQuote::GROUPS, ['roq_log', 'user_list', 'customer_list']);
         $view = $this->view($repairOrderQuote);
-        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
+        $view->getContext()->setGroups($groups);
 
         return $this->handleView($view);
     }

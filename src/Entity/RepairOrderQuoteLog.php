@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\RepairOrderQuoteLogRepository;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderQuoteLogRepository::class)
@@ -14,6 +16,7 @@ class RepairOrderQuoteLog
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"roq_log"})
      */
     private $id;
 
@@ -25,21 +28,25 @@ class RepairOrderQuoteLog
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class)
+     * @Serializer\Groups(groups={"roq_log"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class)
+     * @Serializer\Groups(groups={"roq_log"})
      */
     private $customer;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"roq_log"})
      */
     private $date;
 
     /**
      * @ORM\Column(type="json", nullable=true)
+     * @Serializer\Groups(groups={"roq_log"})
      */
     private $data;
 
@@ -84,12 +91,12 @@ class RepairOrderQuoteLog
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 
