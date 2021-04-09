@@ -23,7 +23,7 @@ class TwilioHelper {
     public function __construct (Client $twilio, EntityManagerInterface $em, SettingsHelper $settings) {
         $this->twilio     = $twilio;
         $this->em         = $em;
-        $this->fromNumber = '+1' . $settings->getSettingValue('serviceTwilioFromNumber');
+        $this->fromNumber = '+1' . $settings->getSetting('serviceTwilioFromNumber');
     }
 
     /**
