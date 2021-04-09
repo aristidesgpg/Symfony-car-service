@@ -25,6 +25,19 @@ class SettingsRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return array|int|string
+     */
+    public function findKeys()
+    {
+        $result = $this->createQueryBuilder('s')
+            ->select('s.key')
+            ->getQuery()
+            ->getArrayResult();
+
+        return array_map(function ($v) {return $v['key']; }, $result);
+    }
+
+    /**
      * Finds the current active DMS.
      * @return int|mixed|string
      */
@@ -38,10 +51,10 @@ class SettingsRepository extends ServiceEntityRepository
                 ->getQuery()
                 ->setMaxResults(1)
                 ->getSingleScalarResult();
-        } catch (NoResultException $e) {
-        } catch (NonUniqueResultException $e) {
+        } catch (NoResultException | NonUniqueResultException $e) {
         }
 
         return null;
     }
+
 }

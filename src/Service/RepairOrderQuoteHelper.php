@@ -26,6 +26,7 @@ class RepairOrderQuoteHelper
         'laborTax',
         'partsTax',
         'suppliesTax',
+        'laborHours',
     ];
     private const COMPLETE_REQUIRED_FIELDS = [
         'repairOrderQuoteRecommendationId',
@@ -38,6 +39,7 @@ class RepairOrderQuoteHelper
         'laborTax',
         'partsTax',
         'suppliesTax',
+        'laborHours'
     ];
     private const PART_REQUIRED_FIELDS = [
         'number',
@@ -219,6 +221,7 @@ class RepairOrderQuoteHelper
                                             ->setLaborTax($recommendation->laborTax)
                                             ->setPartsTax($recommendation->partsTax)
                                             ->setSuppliesTax($recommendation->suppliesTax)
+                                            ->setLaborHours($recommendation->laborHours)
                                             ->setNotes($recommendation->notes);
             
             $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
