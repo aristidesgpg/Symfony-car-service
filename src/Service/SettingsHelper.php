@@ -448,21 +448,13 @@ class SettingsHelper
     }
 
     /**
-     * @throws Exception
-     */
-    public function getSettingValue(string $key): ?string
-    {
-        return $this->getSetting($key)->getValue();
-    }
-
-    /**
      * @param $key
      *
      * @return Settings
      *
      * @throws Exception
      */
-    public function getSetting($key): ?Settings
+    public function getSetting($key)
     {
         // Throw exception because false is a valid option
         if (!$this->isValidSetting($key)) {
@@ -483,7 +475,7 @@ class SettingsHelper
             }
         }
 
-        return $setting;
+        return $setting->getValue();
     }
 
     /**
