@@ -55,6 +55,82 @@ class ReportingControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testAdvisorUsage()
+    {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+
+            return;
+        }
+
+        // Ok
+        $this->requestActionNormalized('advisors');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testAdvisor()
+    {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+
+            return;
+        }
+
+        // Ok
+        $this->requestActionNormalized('advisors-usage');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testTechnicians()
+    {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+
+            return;
+        }
+
+        // Ok
+        $this->requestActionNormalized('technicians');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testCustomerEngagements()
+    {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+
+            return;
+        }
+
+        // Ok
+        $this->requestActionNormalized('customer-engagements');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testMpi()
+    {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+
+            return;
+        }
+
+        // Ok
+        $this->requestActionNormalized('mpi');
+        $this->assertResponseIsSuccessful();
+    }
+
+    // TODO: Will refactor on this weekend
+    private function requestActionNormalized($url)
+    {
+        $url = '/api/reporting/'.$url;
+        $crawler = $this->client->request('GET', $url, [], [], [
+            'HTTP_Authorization' => 'Bearer '.$this->token,
+            'HTTP_CONTENT_TYPE' => 'application/json',
+            'HTTP_ACCEPT' => 'application/json',
+        ]);
+    }
+
     private function requestAction($page = null, $pageLimit = null)
     {
         $apiUrl = '/api/reporting/archive';

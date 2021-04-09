@@ -12,7 +12,7 @@ use App\Entity\RepairOrderQuoteRecommendationPart;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class RepairOrderControllerTest extends WebTestCase {
+class RepairOrderQuoteControllerTest extends WebTestCase {
     private $client = null;
 
     private $token;
