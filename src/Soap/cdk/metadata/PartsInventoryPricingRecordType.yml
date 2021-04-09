@@ -1,0 +1,66 @@
+App\Soap\cdk\src\PartsInventoryPricingRecordType:
+    properties:
+        customerNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: customerNumber
+            accessor:
+                getter: getCustomerNumber
+                setter: setCustomerNumber
+            type: string
+        saleType:
+            expose: true
+            access_type: public_method
+            serialized_name: saleType
+            accessor:
+                getter: getSaleType
+                setter: setSaleType
+            type: string
+        partNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: partNumber
+            accessor:
+                getter: getPartNumber
+                setter: setPartNumber
+            type: string
+        laborType:
+            expose: true
+            access_type: public_method
+            serialized_name: laborType
+            accessor:
+                getter: getLaborType
+                setter: setLaborType
+            type: string
+        checkOLM:
+            expose: true
+            access_type: public_method
+            serialized_name: checkOLM
+            accessor:
+                getter: getCheckOLM
+                setter: setCheckOLM
+            type: string
+        olmMfgCode:
+            expose: true
+            access_type: public_method
+            serialized_name: olmMfgCode
+            accessor:
+                getter: getOlmMfgCode
+                setter: setOlmMfgCode
+            type: string
+        source:
+            expose: true
+            access_type: public_method
+            serialized_name: source
+            accessor:
+                getter: getSource
+                setter: setSource
+            type: string
+        chkMaster:
+            expose: true
+            access_type: public_method
+            serialized_name: chkMaster
+            accessor:
+                getter: getChkMaster
+                setter: setChkMaster
+            type: string

@@ -1,0 +1,11 @@
+App\Soap\cdk\src\PartsPricingType:
+    properties:
+        authToken:
+            -
+                Valid: null
+        dealerId:
+            -
+                Valid: null
+        request:
+            -
+                Valid: null

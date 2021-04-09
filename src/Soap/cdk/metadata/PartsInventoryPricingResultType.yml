@@ -1,0 +1,45 @@
+App\Soap\cdk\src\PartsInventoryPricingResultType:
+    properties:
+        errorCode:
+            expose: true
+            access_type: public_method
+            serialized_name: errorCode
+            accessor:
+                getter: getErrorCode
+                setter: setErrorCode
+            type: string
+        errorMessage:
+            expose: true
+            access_type: public_method
+            serialized_name: errorMessage
+            accessor:
+                getter: getErrorMessage
+                setter: setErrorMessage
+            type: string
+        partNumberInput:
+            expose: true
+            access_type: public_method
+            serialized_name: partNumberInput
+            accessor:
+                getter: getPartNumberInput
+                setter: setPartNumberInput
+            type: string
+        requestedPart:
+            expose: true
+            access_type: public_method
+            serialized_name: requestedPart
+            accessor:
+                getter: getRequestedPart
+                setter: setRequestedPart
+            type: App\Soap\cdk\src\PartsInventoryPricingResultRecordType
+        supersedePartChain:
+            expose: true
+            access_type: public_method
+            serialized_name: supersedePartChain
+            accessor:
+                getter: getSupersedePartChain
+                setter: setSupersedePartChain
+            xml_list:
+                inline: true
+                entry_name: supersedePartChain
+            type: array<App\Soap\cdk\src\PartsInventoryPricingResultRecordType>

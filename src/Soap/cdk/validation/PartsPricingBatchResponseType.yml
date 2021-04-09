@@ -1,0 +1,5 @@
+App\Soap\cdk\src\PartsPricingBatchResponseType:
+    properties:
+        return:
+            -
+                Valid: null
