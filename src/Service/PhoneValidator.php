@@ -44,7 +44,7 @@ class PhoneValidator
         }
 
         // Should only be 10 chars 8475551234
-        if (strlen($phone) != 10) {
+        if (10 != strlen($phone)) {
             throw new Exception('Invalid Phone Number: '.$phone);
         }
 
@@ -59,7 +59,7 @@ class PhoneValidator
             return false;
         }
 
-        return $lookup->getCarrierType() === 'mobile';
+        return 'mobile' === $lookup->getCarrierType();
     }
 
     /**
@@ -77,7 +77,7 @@ class PhoneValidator
             $instance = $this->twilio->lookups->v1->phoneNumbers($phone)->fetch(['type' => 'carrier']);
             $lookup = new PhoneLookup($phone, $instance);
         } catch (TwilioException $e) {
-            if ($e->getCode() === 20404) { // Technically a 404, can mean a bad/non-existent phone number
+            if (20404 === $e->getCode()) { // Technically a 404, can mean a bad/non-existent phone number
                 $lookup = new PhoneLookup($phone);
             } else {
                 throw new Exception('Caught twilio exception', 0, $e);

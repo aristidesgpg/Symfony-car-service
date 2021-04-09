@@ -28,19 +28,22 @@ class RepairOrderHelper
     private $customers;
     private $users;
     private $customerHelper;
+    private $phoneValidator;
 
     public function __construct(
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
         UserRepository $users,
-        CustomerHelper $customerHelper
+        CustomerHelper $customerHelper,
+        PhoneValidator $phoneValidator
     ) {
         $this->em = $em;
         $this->repo = $repo;
         $this->customers = $customers;
         $this->users = $users;
         $this->customerHelper = $customerHelper;
+        $this->phoneValidator = $phoneValidator;
     }
 
     /**
