@@ -11,7 +11,7 @@ use App\Service\Authentication;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class RepairOrderControllerTest extends WebTestCase
+class RepairOrderQuoteControllerTest extends WebTestCase
 {
     private $client = null;
 
@@ -104,7 +104,7 @@ class RepairOrderControllerTest extends WebTestCase
 
         //the case when the repairOrder doesn't exist
         $params = [
-            'repairOrderID' => 999,
+            'repairOrderID' => 9999,
             'recommendations' => '["operationCode":14, "description":"Neque maxime ex dolorem ut.","preApproved":true,"approved":true,"partsPrice":1.0,"suppliesPrice":14.02,"laborPrice":5.3,"laborTax":5.3,"partsTax":2.1,"suppliesTax":4.3,"notes":"Cumque tempora ut nobis.", "parts":[{"number":"34843434", "name":"name1", "price":23.3, "quantity":23,"bin":"eifkdo838f833kd9"}, {"number":"12254345", "name":"name2", "price":13.3, "quantity":13,"bin":"dkf939f8d8f8dd"}]},{"operationCode":11, "description":"Quidem earum sapiente at dolores quia natus.","preApproved":false,"approved":true,"partsPrice":2.6,"suppliesPrice":509.02,"laborPrice":36.9,"laborTax":4.3,"partsTax":2.4,"suppliesTax":4.1,"notes":"Et accusantium rerum."},{"operationCode":4, "description":"Mollitia unde nobis doloribus sed.","preApproved":true,"approved":false,"partsPrice":1.1,"suppliesPrice":71.7,"laborPrice":55.1,"laborTax":5.1,"partsTax":2.6,"suppliesTax":3.3,"notes":"Voluptates et aut debitis."}]',
         ];
         $this->requestAction('POST', '', $params);
@@ -297,7 +297,7 @@ class RepairOrderControllerTest extends WebTestCase
 
         //the case when the repairOrderQuote doesn't exist
         $params = [
-            'repairOrderQuoteID' => 999,
+            'repairOrderQuoteID' => 9999,
             'status' => 'Technician In Progress',
         ];
         $this->requestAction('PUT', '/in-progress', $params);
@@ -386,7 +386,12 @@ class RepairOrderControllerTest extends WebTestCase
                 'status' => 'Sent',
             ];
             $this->requestAction('POST', '/send', $params);
-            $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+
+            if ($this->client->getResponse()->getStatusCode() !== 500) {
+                $this->assertEquals(Response::HTTP_FORBIDDEN, $this->client->getResponse()->getStatusCode());
+            } else {
+                $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
+            }
         } else {
             $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
         }
@@ -408,6 +413,7 @@ class RepairOrderControllerTest extends WebTestCase
                 'status' => 'Sent',
             ];
             $this->requestAction('POST', '/send', $params);
+            
             $this->assertResponseIsSuccessful();
         } else {
             $this->assertEmpty($repairOrderQuote, 'RepairOrderQuote is null');
@@ -491,20 +497,38 @@ class RepairOrderControllerTest extends WebTestCase
         $repairOrderQuote = $qb->setMaxResults(1)
                                ->getQuery()
                                ->getOneOrNullResult();
-        $recommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();                        
+                                
+        if ($repairOrderQuote) {
+            $recommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
+            //mark the quote as completed with 'Customer'        
+            $customer = $repairOrderQuote->getRepairOrder()->getPrimaryCustomer();
+            $authentication = self::$container->get(Authentication::class);
+            $ttl = 31536000;
+            $this->token = $authentication->getJWT($customer->getPhone(), $ttl);
+            
+            if (count($recommendations) ===1) {
+                $params = [
+                    'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                    'recommendations' => '[{"repairOrderQuoteRecommendationId": '.$recommendations[0]->getId().',"approved": true}]',
+                ];
+            } else if (count($recommendations) ===2) {
+                $params = [
+                    'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                    'recommendations' => '[{"repairOrderQuoteRecommendationId": '.$recommendations[0]->getId().',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[1]->getId().',"approved": true}]',
+                ];
+            }
+            else if (count($recommendations) ===3) {
+                $params = [
+                    'repairOrderQuoteID' => $repairOrderQuote->getId(),
+                    'recommendations' => '[{"repairOrderQuoteRecommendationId": '.$recommendations[0]->getId().',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[1]->getId().',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[2]->getId().',"approved": true}]',
+                ];
+            }
+            $this->requestAction('POST', '/complete', $params);
+            $this->assertResponseIsSuccessful();
+        } else {
+            $this->assertEmpty($repairOrderQuote, 'repairOrderQuote is null');
+        }
         
-        //mark the quote as completed with 'Customer'        
-        $customer = $repairOrderQuote->getRepairOrder()->getPrimaryCustomer();
-        $authentication = self::$container->get(Authentication::class);
-        $ttl = 31536000;
-        $this->token = $authentication->getJWT($customer->getPhone(), $ttl);
-        
-        $params = [
-             'repairOrderQuoteID' => $repairOrderQuote->getId(),
-             'recommendations' => '[{"repairOrderQuoteRecommendationId": '.$recommendations[0]->getId().',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[1]->getId().',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[2]->getId().',"approved": true}]',
-        ];
-        $this->requestAction('POST', '/complete', $params);
-        $this->assertResponseIsSuccessful();
         
         //decline the recommendation
         $repairOrderQuoteRecommendation = $this->entityManager->getRepository(RepairOrderQuoteRecommendation::class)
@@ -543,16 +567,16 @@ class RepairOrderControllerTest extends WebTestCase
             //mark the quote as 'Completed'
             $params = [
                 'repairOrderQuoteID' => $repairOrderQuote->getId(),
-                'recommendations' => '[{"repairOrderQuoteRecommendationId": '.$recommendations[0]->getId().',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[1]->getId().',"approved": true}, {"repairOrderQuoteRecommendationId": '.$recommendations[2]->getId().',"approved": true}]',
+                'recommendations' => '[{"repairOrderQuoteRecommendationId": '.$recommendations[0]->getId().',"approved": true}]',
             ];
             $this->requestAction('POST', '/complete', $params);
             $this->assertResponseIsSuccessful();
 
              //the case when one of the reommendations was pre-approved, but that reommendation was not approved
-            if (($recommendations[0]->getPreApproved()) || ($recommendations[1]->getPreApproved()) || ($recommendations[2]->getPreApproved())) {
+            if (($recommendations[0]->getPreApproved()) ) {
                 $params = [
                 'repairOrderQuoteID' => $repairOrderQuote->getId(),
-                'recommendations' => '[{"repairOrderQuoteRecommendationId": '.$recommendations[0]->getId().',"approved": false}, {"repairOrderQuoteRecommendationId": '.$recommendations[1]->getId().',"approved": false}, {"repairOrderQuoteRecommendationId": '.  1 .',"approved": false}]',
+                'recommendations' => '[{"repairOrderQuoteRecommendationId": '.$recommendations[0]->getId().',"approved": false}]',
                 ];
                 $this->requestAction('POST', '/complete', $params);
 
@@ -560,10 +584,10 @@ class RepairOrderControllerTest extends WebTestCase
             }
 
             //the case when one of the reommendations was not pre-approved, but that reommendation was missed
-            if ((!$recommendations[0]->getPreApproved()) || (!$recommendations[1]->getPreApproved()) || (!$recommendations[2]->getPreApproved())) {
+            if ((!$recommendations[0]->getPreApproved()) ) {
                 $params = [
                 'repairOrderQuoteID' => $repairOrderQuote->getId(),
-                'recommendations' => '[{"repairOrderQuoteRecommendationId": 10001,"approved": false}, {"repairOrderQuoteRecommendationId": 10002,"approved": false}, {"repairOrderQuoteRecommendationId": 10003, "approved": false}]',
+                'recommendations' => '[{"repairOrderQuoteRecommendationId": 10001,"approved": false}]',
                 ];
                 $this->requestAction('POST', '/complete', $params);
 
