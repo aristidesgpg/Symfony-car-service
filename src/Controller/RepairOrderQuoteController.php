@@ -21,9 +21,12 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Serializer\Encoder\JsonDecode;
+use Symfony\Component\Serializer\Encoder\JsonEncode;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Security;
@@ -167,7 +170,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
         
-        $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), $this->getUser());
+        $data  = $this->handleView($view)->getContent();
+        $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $data, $this->getUser());
         
         return $this->handleView($view);
     }
