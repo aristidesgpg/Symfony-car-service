@@ -43,15 +43,14 @@ class ReportingControllerTest extends WebTestCase
         }
 
         // Ok
-        $this->requestAction();
+        $this->requestActionNormalized('archive');
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
         $this->assertGreaterThanOrEqual(0, $listData->totalResults);
 
         // Page limit validation
-        $page = 1;
-        $pageLimit = 0;
-        $this->requestAction($page, $pageLimit);
+        $params = ['page' => 1, 'pageLimit' => 0];
+        $this->requestActionNormalized('archive', $params);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
     }
 
@@ -66,6 +65,13 @@ class ReportingControllerTest extends WebTestCase
         // Ok
         $this->requestActionNormalized('advisors');
         $this->assertResponseIsSuccessful();
+
+        // Give date range
+        $params = ['startDate' => '2019-02-20 06:04:41', 'endDate' => '2021-08-07 06:04:41'];
+        $this->requestActionNormalized('advisors', $params);
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, count($listData));
     }
 
     public function testAdvisor()
@@ -120,26 +126,21 @@ class ReportingControllerTest extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
-    // TODO: Will refactor on this weekend
-    private function requestActionNormalized($url)
+    private function requestActionNormalized($url, $params = null)
     {
         $url = '/api/reporting/'.$url;
-        $crawler = $this->client->request('GET', $url, [], [], [
-            'HTTP_Authorization' => 'Bearer '.$this->token,
-            'HTTP_CONTENT_TYPE' => 'application/json',
-            'HTTP_ACCEPT' => 'application/json',
-        ]);
-    }
-
-    private function requestAction($page = null, $pageLimit = null)
-    {
-        $apiUrl = '/api/reporting/archive';
-
-        if (null !== $page && null !== $pageLimit) {
-            $apiUrl = $apiUrl.'?page='.$page.'&pageLimit='.$pageLimit;
+        if ($params) {
+            $keys = array_keys($params);
+            foreach ($keys as $key => $value) {
+                if (0 === $key) {
+                    $url = $url.'?'.$value.'='.$params[$value];
+                } else {
+                    $url = $url.'&'.$value.'='.$params[$value];
+                }
+            }
         }
 
-        $crawler = $this->client->request('GET', $apiUrl, [], [], [
+        $crawler = $this->client->request('GET', $url, [], [], [
             'HTTP_Authorization' => 'Bearer '.$this->token,
             'HTTP_CONTENT_TYPE' => 'application/json',
             'HTTP_ACCEPT' => 'application/json',
