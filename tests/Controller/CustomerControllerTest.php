@@ -117,10 +117,9 @@ class CustomerControllerTest extends WebTestCase
         $name = 'John Doe';
         $params = [
             'name' => $name,
-            'phone' => '8623456789',
+            'phone' => '2522050467',
             'email' => 'test@test.com',
             'doNotContact' => true,
-            'skipMobileVerification' => true,
         ];
         $this->requestAction('POST', '', $params);
         $this->assertResponseIsSuccessful();
@@ -132,7 +131,6 @@ class CustomerControllerTest extends WebTestCase
             'name' => $name,
             'email' => '',
             'doNotContact' => false,
-            'skipMobileVerification' => true,
         ];
 
         $this->requestAction('POST', '', $params);
@@ -159,10 +157,9 @@ class CustomerControllerTest extends WebTestCase
             $name = 'Jane Doe';
             $params = [
                 'name' => $name,
-                'phone' => '8623456788',
+                'phone' => '9292591059',
                 'email' => 'updated@test.com',
                 'doNotContact' => false,
-                'skipMobileVerification' => false,
             ];
             $this->requestAction('PUT', '/'.$id, $params);
             $this->assertResponseIsSuccessful();
