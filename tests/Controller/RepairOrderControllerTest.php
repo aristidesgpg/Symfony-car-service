@@ -179,27 +179,6 @@ class RepairOrderControllerTest extends WebTestCase {
         }
     }
 
-    public function testArchive() {
-        if (!$this->token) {
-            $this->assertEmpty($this->token, 'Token is null');
-            return;
-        }
-        $repairOrder = $this->entityManager->getRepository(RepairOrder::class)
-                            ->createQueryBuilder('r')
-                            ->where('r.deleted = 0')
-                            ->andWhere('r.archived = 0')
-                            ->setMaxResults(1)
-                            ->getQuery()
-                            ->getOneOrNullResult();
-
-        if ($repairOrder) {
-            $this->requestAction('PUT', '/'.$repairOrder->getId().'/archive');
-            $this->assertResponseIsSuccessful();
-        } else {
-            $this->assertEmpty($repairOrder, 'RepairOrder is null');
-        }
-    }
-
     public function testClose() {
         if (!$this->token) {
             $this->assertEmpty($this->token, 'Token is null');
