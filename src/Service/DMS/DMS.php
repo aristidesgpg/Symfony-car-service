@@ -322,7 +322,7 @@ class DMS
             if (true == $this->activateIntegrationSms) {
                 //TODO sendShortCode Does Not Exist, changed to sendSms(). This needs double checked.
                 //$this->twilioHelper->sendShortCode($customer->getPhone(), $introMessage);
-                $this->twilioHelper->sendSms($customer->getPhone(), $introMessage);
+                $this->twilioHelper->sendSms($customer, $introMessage);
             }
         } else {
             $introMessage = '
@@ -338,7 +338,7 @@ class DMS
                 $introMessage = $this->settingsHelper->getSetting('serviceTextIntro');
             }
             if (true == $this->activateIntegrationSms) {
-                $this->twilioHelper->sendSms($customer->getPhone(), $introMessage);
+                $this->twilioHelper->sendSms($customer, $introMessage);
             }
         }
     }

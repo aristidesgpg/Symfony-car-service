@@ -49,6 +49,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
      * )
      *
      * @return Response
+     *
      * @throws Exception
      */
     public function waiverSigned(
@@ -189,6 +190,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
      * )
      *
      * @return response
+     *
      * @throws Exception
      */
     public function waiverAcknowledged(
@@ -248,6 +250,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
      * @SWG\Response(response="404", description="Repair order not found")
      *
      * @return response
+     *
      * @throws Exception
      */
     public function waiverResend(

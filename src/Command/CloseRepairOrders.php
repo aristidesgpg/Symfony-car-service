@@ -32,18 +32,12 @@ class CloseRepairOrders extends Command {
     private $em;
 
     /**
-     * @var DMS
-     */
-    private $dms;
-
-    /**
      * @var Settings
      */
     private $settings;
 
-    public function __construct (EntityManagerInterface $em, DMS $dms, CDK $cdk, Settings $settings) {
+    public function __construct (EntityManagerInterface $em, Settings $settings) {
         $this->em       = $em;
-        $this->dms      = $dms;
         $this->settings = $settings;
 
         parent::__construct();
@@ -72,6 +66,7 @@ class CloseRepairOrders extends Command {
      * @throws Exception
      */
     protected function execute (InputInterface $input, OutputInterface $output) {
+        return;
         $dms = $this->dms;
 
         $offHoursIntegration = $this->settings->getSetting('offHoursIntegration') === 'true' ? true : false;
