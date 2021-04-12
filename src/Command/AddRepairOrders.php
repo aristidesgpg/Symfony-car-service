@@ -32,18 +32,12 @@ class AddRepairOrders extends Command {
     private $em;
 
     /**
-     * @var DMS
-     */
-    private $dms;
-
-    /**
      * @var Settings
      */
     private $settings;
 
-    public function __construct (EntityManagerInterface $em, DMS $dms, CDK $cdk, Settings $settings) {
+    public function __construct (EntityManagerInterface $em, Settings $settings) {
         $this->em       = $em;
-        $this->dms      = $dms;
         $this->settings = $settings;
 
         parent::__construct();
@@ -73,8 +67,7 @@ class AddRepairOrders extends Command {
      * @throws Exception
      */
     protected function execute (InputInterface $input, OutputInterface $output) {
-        $dms = $this->dms;
-
+        return;
         $offHoursIntegration = $this->settings->getSetting('offHoursIntegration') === 'true' ? true : false;
         // If using cdk and the dealer's service department isn't 24/7
         if ($dms->usingCdk && !$offHoursIntegration) {

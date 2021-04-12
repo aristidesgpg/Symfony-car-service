@@ -115,14 +115,17 @@ class RepairOrderControllerTest extends WebTestCase {
             $params = [
                 'customerName'  => 'John Doe',
                 'customerPhone' => $customer->getPhone(),
-                'number'        => '758'
+                'number'        => '156840' // this is not a mobile number
             ];
 
             $this->requestAction('POST', '', $params);
-            if ($this->client->getResponse()->getStatusCode() !== 500) {
+            if ($this->client->getResponse()->getStatusCode() == 200) {
                 $this->assertResponseIsSuccessful();
                 $response = json_decode($this->client->getResponse()->getContent());
                 $this->assertObjectHasAttribute('id', $response);
+            }
+            else if ($this->client->getResponse()->getStatusCode() == 406) {
+                $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
             }
             else {
                 $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
