@@ -28,19 +28,22 @@ class RepairOrderHelper
     private $customers;
     private $users;
     private $customerHelper;
+    private $phoneValidator;
 
     public function __construct(
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
         UserRepository $users,
-        CustomerHelper $customerHelper
+        CustomerHelper $customerHelper,
+        PhoneValidator $phoneValidator
     ) {
         $this->em = $em;
         $this->repo = $repo;
         $this->customers = $customers;
         $this->users = $users;
         $this->customerHelper = $customerHelper;
+        $this->phoneValidator = $phoneValidator;
     }
 
     /**
@@ -118,7 +121,6 @@ class RepairOrderHelper
         $map = [
             'customerName' => 'name',
             'customerPhone' => 'phone',
-            'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
         if (array_key_exists('customerEmail', $params) || array_key_exists('email', $params)) {
@@ -350,6 +352,7 @@ class RepairOrderHelper
                 break;
             }
         }
+
         foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
             $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {

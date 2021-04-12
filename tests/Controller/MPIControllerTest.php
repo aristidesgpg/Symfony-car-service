@@ -364,6 +364,14 @@ class MPIControllerTest extends WebTestCase
             return;
         }
 
+        $mpiGroup = $this->entityManager->getRepository(MPIGroup::class)
+                                        ->createQueryBuilder('mpi')
+                                        ->where('mpi.deleted = 0')
+                                        ->setMaxResults(1)
+                                        ->getQuery()
+                                        ->getOneOrNullResult();
+
+        $id = $mpiGroup->getId();
         // Ok
         $name = 'New MPI item name';
         $params = [
