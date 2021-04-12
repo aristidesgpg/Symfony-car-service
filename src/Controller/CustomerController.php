@@ -204,7 +204,6 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="phone", type="string", in="formData", required=True, minLength=10, maxLength=10)
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
-     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      */
     public function addCustomer(Request $req, CustomerHelper $helper, CustomerRepository $customerRepository): Response
     {
@@ -246,7 +245,6 @@ class CustomerController extends AbstractFOSRestController
      * @SWG\Parameter(name="phone", type="string", in="formData")
      * @SWG\Parameter(name="email", type="string", in="formData")
      * @SWG\Parameter(name="doNotContact", type="boolean", in="formData")
-     * @SWG\Parameter(name="skipMobileVerification", type="boolean", in="formData")
      */
     public function updateCustomer(
         Customer $customer,
@@ -301,5 +299,40 @@ class CustomerController extends AbstractFOSRestController
         $view->getContext()->setGroups(Customer::GROUPS);
 
         return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/mobileConfirmed")
+     *
+     * @SWG\Post(description="Set mobileConfirmed true for a customer")
+     *
+     * @SWG\Parameter(name="customerId", type="string", in="formData")
+     *
+     * @SWG\Response(
+     *      response="200",
+     *      description="Success",
+     *      @SWG\Schema(
+     *          type="object",
+     *          @SWG\Property(property="mobileConfirmed", type="boolean", description="Customer mobileConfirmed")
+     *      )
+     * )
+     *
+     * @SWG\Response(response="400", description="Input customerId")
+     */
+    public function mobileConfirmed(Request $request, CustomerRepository $customerRepo, EntityManagerInterface $em): Response
+    {
+        $customerId = $request->get('customerId');
+
+        if (!$customerId) {
+            return $this->handleView($this->view('Input customerId', Response::HTTP_BAD_REQUEST));
+        }
+
+        $customer = $customerRepo->find($customerId);
+        $customer->setMobileConfirmed(true);
+
+        $em->persist($customer);
+        $em->flush();
+
+        return $this->json(['mobileConfirmed' => true], Response::HTTP_OK);
     }
 }

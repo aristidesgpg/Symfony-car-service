@@ -9,6 +9,7 @@ use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderQuoteHelper;
+use App\Service\RepairOrderQuoteLogHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
@@ -20,7 +21,6 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -51,8 +51,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote, RepairOrderQuoteHelper $helper)
     {
+        $groups = array_merge(RepairOrderQuote::GROUPS, ['roq_log', 'user_list', 'customer_list']);
         $view = $this->view($repairOrderQuote);
-        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
+        $view->getContext()->setGroups($groups);
 
         return $this->handleView($view);
     }
@@ -75,7 +76,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="[{""operationCode"":14, ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3,""notes"":""Cumque tempora ut nobis."", ""parts"":[{""number"":""34843434"", ""name"":""name1"", ""price"":23.3, ""quantity"":23,""bin"":""eifkdo838f833kd9""}, {""number"":""12254345"", ""name"":""name2"", ""price"":13.3, ""quantity"":13,""bin"":""dkf939f8d8f8dd""}]},{""operationCode"":11, ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""notes"":""Et accusantium rerum.""},{""operationCode"":4, ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""notes"":""Voluptates et aut debitis.""}]",
+     *     description="[{""operationCode"":14, ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""laborHours"":5,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3,""notes"":""Cumque tempora ut nobis."", ""parts"":[{""number"":""34843434"", ""name"":""name1"", ""price"":23.3, ""quantity"":23,""bin"":""eifkdo838f833kd9""}, {""number"":""12254345"", ""name"":""name2"", ""price"":13.3, ""quantity"":13,""bin"":""dkf939f8d8f8dd""}]},{""operationCode"":11, ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""laborHours"":7,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""notes"":""Et accusantium rerum.""},{""operationCode"":4, ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""laborHours"":15,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""notes"":""Voluptates et aut debitis.""}]",
      * )
      *
      * @SWG\Response(
@@ -94,10 +95,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $helper,
+        RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper,
         Security $security
     ) {
         if ($security->isGranted('ROLE_CUSTOMER')) {
-            throw new BadRequestHttpException('The user should not be a customer');
+            throw new BadRequestHttpException('The user should be service user');
         }
 
         $repairOrderID = $request->get('repairOrderID');
@@ -135,6 +137,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $helper->validateRecommendationsJson($recommendations);
 
             $helper->buildRecommendations($repairOrderQuote, $recommendations);
+
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
@@ -150,17 +153,22 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
                          ->setStatus($status);
+
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
 
         $em->persist($repairOrderQuote);
+
         $em->persist($repairOrder);
 
         $em->flush();
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-
+        
+        $data  = $this->handleView($view)->getContent();
+        $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $data, $this->getUser());
+        
         return $this->handleView($view);
     }
 
@@ -174,7 +182,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="[{""operationCode"":14, ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3,""notes"":""Cumque tempora ut nobis."", ""parts"":[{""number"":""34843434"", ""name"":""name1"", ""price"":23.3, ""quantity"":23,""bin"":""eifkdo838f833kd9""}, {""number"":""12254345"", ""name"":""name2"", ""price"":13.3, ""quantity"":13,""bin"":""dkf939f8d8f8dd""}]},{""operationCode"":11, ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""notes"":""Et accusantium rerum.""},{""operationCode"":4, ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""notes"":""Voluptates et aut debitis.""}]",
+     *     description="[{""operationCode"":14, ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""laborHours"":5,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3,""notes"":""Cumque tempora ut nobis."", ""parts"":[{""number"":""34843434"", ""name"":""name1"", ""price"":23.3, ""quantity"":23,""bin"":""eifkdo838f833kd9""}, {""number"":""12254345"", ""name"":""name2"", ""price"":13.3, ""quantity"":13,""bin"":""dkf939f8d8f8dd""}]},{""operationCode"":11, ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""laborHours"":7,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""notes"":""Et accusantium rerum.""},{""operationCode"":4, ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""laborHours"":15,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""notes"":""Voluptates et aut debitis.""}]",
      * )
      *
      * @SWG\Response(
@@ -193,6 +201,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuote $repairOrderQuote,
         Request $request,
         RepairOrderQuoteHelper $repairOrderQuoteHelper,
+        RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper,
         EntityManagerInterface $em,
         Security $security
     ): Response {
@@ -248,7 +257,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-
+        
+        $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), $this->getUser());
+        
         return $this->handleView($view);
     }
 
@@ -578,6 +589,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $repairOrderQuoteHelper,
+        RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper,
         Security $security
     ): Response {
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
@@ -636,6 +648,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $repairOrder->setQuoteStatus($status);
 
+        $view = $this->view($repairOrderQuote);
+        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
+        if ($security->isGranted('ROLE_CUSTOMER') ) {
+            $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), null, $this->getUser());
+        } else {
+            $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), $this->getUser());
+        }
+        
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
         $em->flush();
