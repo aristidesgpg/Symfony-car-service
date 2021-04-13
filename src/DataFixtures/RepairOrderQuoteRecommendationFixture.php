@@ -27,7 +27,7 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
 
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
             $repairOrderQuoteRecommendation->setRepairOrderQuote($this->getReference('repairOrderQuote_'.$repairOrderQuoteReference))
-                                           ->setOperationCode($operationCode)
+                                           ->setOperationCode($operationCode->getId())
                                            ->setDescription($faker->sentence(5, true))
                                            ->setPreApproved($faker->boolean(70))
                                            ->setApproved($faker->boolean(50))
