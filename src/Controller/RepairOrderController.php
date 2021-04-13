@@ -383,7 +383,6 @@ class RepairOrderController extends AbstractFOSRestController
             } catch (Exception $e) {
                 throw new InternalErrorException($e);
             }
-
         }
 
         $view = $this->view($ro);
