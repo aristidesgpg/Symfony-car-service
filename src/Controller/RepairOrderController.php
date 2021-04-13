@@ -342,7 +342,8 @@ class RepairOrderController extends AbstractFOSRestController
         ShortUrlHelper $shortUrlHelper,
         SettingsHelper $settingsHelper,
         ParameterBagInterface $parameterBag,
-        CustomerRepository $customerRepo
+        CustomerRepository $customerRepo,
+        PhoneValidator $phoneValidator
     ): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
@@ -357,28 +358,31 @@ class RepairOrderController extends AbstractFOSRestController
         $customerPhone = $req->request->get('customerPhone');
         $customer = $customerRepo->findByPhone($customerPhone);
 
-        // Send waiver or intro message
-        try {
-            // waiver disabled so send regular text
-            if (!$waiverActivateAuthMessage) {
-                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
-            } else {
-                // waiver enabled
-                $url = $customerURL.$ro->getLinkHash();
-                $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                $waiverMessage = $waiverIntroText.' '.$shortUrl;
+        //if phone is valid send waiver or intro
+        if($phoneValidator->isMobile($customer->getPhone())){
+            // Send waiver or intro message
+            try {
+                // waiver disabled so send regular text
+                if (!$waiverActivateAuthMessage) {
+                    $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
+                } else {
+                    // waiver enabled
+                    $url = $customerURL.$ro->getLinkHash();
+                    $shortUrl = $shortUrlHelper->generateShortUrl($url);
+                    $waiverMessage = $waiverIntroText.' '.$shortUrl;
 
-                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
+                    $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
-                $roInteraction = new RepairOrderInteraction();
-                $roInteraction->setRepairOrder($ro)
-                              ->setUser($this->getUser())
-                              ->setType('Waiver Sent');
-                $em->persist($roInteraction);
-                $em->flush();
+                    $roInteraction = new RepairOrderInteraction();
+                    $roInteraction->setRepairOrder($ro)
+                        ->setUser($this->getUser())
+                        ->setType('Waiver Sent');
+                    $em->persist($roInteraction);
+                    $em->flush();
+                }
+            } catch (Exception $e) {
+                throw new InternalErrorException($e);
             }
-        } catch (Exception $e) {
-            throw new InternalErrorException($e);
         }
 
         $view = $this->view($ro);
