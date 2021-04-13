@@ -66,17 +66,14 @@ class RepairOrderQuoteHelper
 
     private $em;
     private $security;
-    private $operationCodeRepository;
     private $partRepository;
 
     public function __construct(
         EntityManagerInterface $em,
-        OperationCodeRepository $operationCodeRepository,
         partRepository $partRepository,
         Security $security
     ) {
         $this->em = $em;
-        $this->operationCodeRepository = $operationCodeRepository;
         $this->security = $security;
         $this->partRepository = $partRepository;
     }
@@ -204,13 +201,7 @@ class RepairOrderQuoteHelper
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
 
-            // Check if Operation Code exists
-            $operationCode = $this->operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
-            if (!$operationCode) {
-                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
-            }
-
-            $repairOrderQuoteRecommendation->setOperationCode($operationCode)
+            $repairOrderQuoteRecommendation->setOperationCode($recommendation->operationCode)
                                             ->setDescription($recommendation->description)
                                             ->setPreApproved(
                                                 filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
