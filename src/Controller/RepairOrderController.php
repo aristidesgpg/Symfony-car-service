@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Helper\FalsyTrait;
+use App\Helper\iServiceLoggerTrait;
 use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
@@ -37,6 +38,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RepairOrderController extends AbstractFOSRestController
 {
     use FalsyTrait;
+
+    use iServiceLoggerTrait;
 
     private const PAGE_LIMIT = 50;
 
@@ -358,8 +361,6 @@ class RepairOrderController extends AbstractFOSRestController
         $customerPhone = $req->request->get('customerPhone');
         $customer = $customerRepo->findByPhone($customerPhone);
 
-        //if phone is valid send waiver or intro
-        if($phoneValidator->isMobile($customer->getPhone())){
             // Send waiver or intro message
             try {
                 // waiver disabled so send regular text
@@ -381,9 +382,8 @@ class RepairOrderController extends AbstractFOSRestController
                     $em->flush();
                 }
             } catch (Exception $e) {
-                throw new InternalErrorException($e);
+                $this->logInfo($e->getMessage());
             }
-        }
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
