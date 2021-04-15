@@ -58,8 +58,6 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
      *
      * @param Request                                  $request
      * @param RepairOrderQuoteRepository               $repairOrderQuoteRepository
-     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo
-     * @param OperationCodeRepository                  $operationCodeRepository
      * @param EntityManagerInterface                   $em
      *
      * @return Response
@@ -67,8 +65,6 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
     public function createRepairOrderQuoteRecommendations (
         Request                                  $request, 
         RepairOrderQuoteRepository               $repairOrderQuoteRepository, 
-        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo,
-        OperationCodeRepository                  $operationCodeRepository, 
         EntityManagerInterface                   $em
     ) {
         $repairOrderQuoteID    = $request->get('repair_order_quote');
@@ -94,13 +90,9 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
         //add recommendations
         foreach ($obj as $index => $recommendation){
             $rOQRecom = new RepairOrderQuoteRecommendation();
-            //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
-            if (!$operationCode) {
-                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
-            }
+           
             $rOQRecom->setRepairOrderQuote($repairOrderQuote)
-                     ->setOperationCode($operationCode)
+                     ->setOperationCode($recommendation->operationCode)
                      ->setDescription($recommendation->description)
                      ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
                      ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))

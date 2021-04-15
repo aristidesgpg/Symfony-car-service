@@ -45,7 +45,7 @@ class RepairOrderQuoteLog
     private $date;
 
     /**
-     * @ORM\Column(type="json", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Serializer\Groups(groups={"roq_log"})
      */
     private $data;

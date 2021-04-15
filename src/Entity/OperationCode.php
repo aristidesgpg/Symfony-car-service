@@ -76,11 +76,6 @@ class OperationCode
     private $deleted = false;
 
     /**
-     * @ORM\OneToMany(targetEntity=RepairOrderQuoteRecommendation::class, mappedBy="operationCode")
-     */
-    private $repairOrderQuoteRecommendations;
-
-    /**
      * OperationCode constructor.
      */
     public function __construct()
