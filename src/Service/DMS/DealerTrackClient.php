@@ -3,7 +3,6 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
-use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
@@ -29,7 +28,7 @@ class DealerTrackClient extends AbstractDMSClient
     /**
      * @var string
      */
-    private $wsdl = 'https://ot.dms.dealertrack.com/serviceapi.asmx?WSDL';
+    private $wsdl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx?WSDL';
 
     //TODO Move to .env
     /**
@@ -62,14 +61,6 @@ class DealerTrackClient extends AbstractDMSClient
      */
     private $partsWsdl;
 
-    /**
-     * @var string
-     */
-    private $partsWsdlFileName = '/dealertrack/dealertrack_partsapi_prod.wsdl';
-
-    /**
-     * DealerTrackClient constructor.
-     */
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -81,8 +72,6 @@ class DealerTrackClient extends AbstractDMSClient
             $this->company = 'ZE7';
             $this->enterprise = 'ZE';
             $this->eventServiceUrl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx';
-            $this->wsdl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx?WSDL';
-            $this->partsWsdlFileName = '/dealertrack/dealertrack_partsapi_dev.wsdl';
         }
 
         $this->init();
@@ -92,7 +81,7 @@ class DealerTrackClient extends AbstractDMSClient
     {
         $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealertrack/metadata', 'App\Soap\dealertrack\src');
         $this->initializeSoapClient($this->getWsdl());
-        $this->setPartsWsdl($this->getParameterBag()->get('soap_directory').$this->getPartsWsdlFileName());
+        $this->setPartsWsdl($this->getParameterBag()->get('soap_directory').'/dealertrack/dealertrack_parts_prod.wsdl');
     }
 
     public function getOpenRepairOrders(): array
@@ -183,93 +172,6 @@ class DealerTrackClient extends AbstractDMSClient
         }
 
         return $repairOrders;
-    }
-
-    public function getRepairOrderByNumber(string $RONumber)
-    {
-        if ($this->getSoapClient()) {
-            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
-
-            $monthAgo = (new \DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
-            $monthAhead = (new \DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
-            $oneYearAgo = (new \DateTime())->modify('-1 year')->format('Y-m-d\TH:i:s\Z');
-
-            $request = [
-                'Dealer' => [
-                    'CompanyNumber' => $this->getCompany(),
-                    'EnterpriseCode' => $this->getEnterprise(),
-                    'ServerName' => $this->getServer(),
-                ],
-                'LookupParms' => [
-                    'ModifiedAfter' => $monthAgo,
-                    'CreatedDateTimeStart' => $oneYearAgo,
-                    'CreatedDateTimeEnd' => $monthAhead,
-                    'RepairOrderNumber' => $RONumber,
-                ],
-            ];
-
-            $soapResult = $this->sendSoapCall('OpenRepairOrderLookup', [$request], true);
-            dump($soapResult);
-            $response = $this->getSerializer()->deserialize($soapResult, DealerTrackSoapEnvelope::class, 'xml');
-            dd($response);
-            if (!$response) {
-                return $repairOrders;
-            }
-
-            /**
-             * @var Result $result
-             */
-            foreach ($response->getBody()->getOpenRepairOrderLookupResult()->getResult() as $result) {
-                $dmsResult = new DMSResult();
-                $dmsResult->setRaw($result);
-
-                $openDate = new \DateTime();
-                try {
-                    $openDate = new \DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
-                } catch (\Exception $e) {
-                    //ignore
-                }
-
-                //TODO This needs checked on... Couldn't find any with DateToArrive != 0.
-                $pickupDate = false;
-                if ($result->getDateToArrive() > 0) {
-                    try {
-                        $openDate = new \DateTime($result->getDateToArrive());
-                    } catch (\Exception $e) {
-                        //ignore
-                    }
-                }
-                //Customer
-                $dmsResult->getCustomer()
-                    ->setName($result->getCustomerName())
-                    ->setPhoneNumbers($this->phoneNormalizer($result->getCustomerPhoneNumber()))
-                    ->setEmail($result->getCustomerEmail());
-
-                //Repair Order
-                $dmsResult
-                    ->setNumber($result->getRepairOrderNumber())
-                    ->setDate($openDate)
-                    ->setWaiter(($pickupDate) ? false : true)
-                    ->setPickupDate(($pickupDate) ? $pickupDate : null)
-                    ->setYear($result->getModelYear())
-                    ->setMake($result->getMake())
-                    ->setModel($result->getModel())
-                    ->setMiles($result->getOdometerIn())
-                    ->setVin($result->getVIN())
-                    ->setInitialROValue($result->getTotalEstimate());
-
-                //Initial Technician
-                $dmsResult->getTechnician()->setFirstName($result->getROTechnicianID());
-
-                //TODO, sometimes ServiceWriterId is a string. What should we do?
-                //  -serviceWriterID: "MM"
-                if (is_int($result->getServiceWriterID())) {
-                    $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
-                }
-
-                $repairOrders[] = $dmsResult;
-            }
-        }
     }
 
     public function getClosedRoDetails(array $openRepairOrders): array
@@ -374,88 +276,6 @@ class DealerTrackClient extends AbstractDMSClient
         return $parts;
     }
 
-    public function getOperationCodes(): array
-    {
-        $operationCodes = [];
-
-        if ($this->getSoapClient()) {
-            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
-
-            $request = [
-                'Dealer' => [
-                    'CompanyNumber' => $this->getCompany(),
-                    'EnterpriseCode' => $this->getEnterprise(),
-                    'ServerName' => $this->getServer(),
-                ],
-            ];
-
-            $soapResult = $this->sendSoapCall('ServiceLaborOpcodesTable', [$request], false);
-
-            if (!$soapResult) {
-                return $operationCodes;
-            }
-//            $response = $this->getSerializer()->deserialize($soapResult, DealerTrackPartsEnvelope::class, 'xml');
-//            if (!$response) {
-//                return $operationCodes;
-//            }
-            // TODO Convert to Objects.
-            //dd($soapResult->Result[0]);
-            foreach ($soapResult->Result as $result) {
-                $operationCode = (new OperationCode())
-                    ->setCode($result->OperationCode)
-                    ->setDescription($result->Description1)
-                    ->setLaborHours($result->EstimatedHours)
-                    ->setLaborTaxable($result->Taxable)
-                    ->setPartsPrice($result->PartsAmount)
-                    ->setPartsTaxable($result->Taxable)
-                    ->setSuppliesPrice($result->CostAmount)
-                    ->setSuppliesTaxable($result->Taxable);
-
-                /*
-            +"CompanyNumber": "ZE7"
-            +"OperationCode": "ACTUAL"
-            +"Description1": "OIL CHANGE"
-            +"Description2": ""
-            +"Description3": ""
-            +"Description4": ""
-            +"MajorCode": "N"
-            +"MinorCode": ""
-            +"Manufacturer": ""
-            +"Make": ""
-            +"Model": ""
-            +"Engine": ""
-            +"Year": "Y"
-            +"DefLinePaymentMethod": ""
-            +"CorrectionLOP": "N"
-            +"Type": ""
-            +"ExcludeDiscount": "N"
-            +"SkillLevel": "A"
-            +"Taxable": "Y"
-            +"HazardMaterialCharge": "4.00"
-            +"ShopSupplyCharge": "Y"
-            +"RetailMethod": "A"
-            +"RetailAmount": "29.95"
-            +"CostMethod": "A"
-            +"CostAmount": "15.00"
-            +"PartsMethod": "B"
-            +"PartsAmount": "4.00"
-            +"Estimate": "N"
-            +"EstimatedHours": "4.00"
-            +"WaiterFlag": "Y"
-            +"PredefinedCauseDescription": ""
-            +"AdditionalDescriptionLine1": ""
-            +"AdditionalDescriptionLine2": ""
-            +"PredefinedComplaintDescription": ""
-            +"DefaultServiceType": "BS"
-            */
-
-                $operationCodes[] = $operationCode;
-            }
-        }
-
-        return $operationCodes;
-    }
-
     public function getPartsByStatus(string $status): array
     {
         $parts = [];
@@ -492,8 +312,7 @@ class DealerTrackClient extends AbstractDMSClient
                     ->setNumber($result->getPartNumber())
                     ->setName($result->getPartDescription())
                     ->setBin($result->getBinLocation())
-                    ->setAvailable($result->getQuantity())
-                    ->setPrice($result->getListPrice());
+                    ->setAvailable($result->getQuantity());
 
                 $parts[] = $part;
             }
@@ -591,15 +410,5 @@ class DealerTrackClient extends AbstractDMSClient
     public function setPartsWsdl(string $partsWsdl): void
     {
         $this->partsWsdl = $partsWsdl;
-    }
-
-    public function getPartsWsdlFileName(): string
-    {
-        return $this->partsWsdlFileName;
-    }
-
-    public function setPartsWsdlFileName(string $partsWsdlFileName): void
-    {
-        $this->partsWsdlFileName = $partsWsdlFileName;
     }
 }
