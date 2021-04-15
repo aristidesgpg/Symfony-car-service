@@ -26,7 +26,7 @@ class RepairOrderHelper
     private $em;
     private $repo;
     private $customers;
-    private $users;
+    private $userRepository;
     private $customerHelper;
     private $phoneValidator;
 
@@ -34,14 +34,14 @@ class RepairOrderHelper
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
-        UserRepository $users,
+        UserRepository $userRepository,
         CustomerHelper $customerHelper,
         PhoneValidator $phoneValidator
     ) {
         $this->em = $em;
         $this->repo = $repo;
         $this->customers = $customers;
-        $this->users = $users;
+        $this->userRepository = $userRepository;
         $this->customerHelper = $customerHelper;
         $this->phoneValidator = $phoneValidator;
     }
@@ -79,7 +79,7 @@ class RepairOrderHelper
         }
 
         if (is_null($ro->getPrimaryAdvisor())) {
-            $advisors = $this->users->getUserByRole('ROLE_SERVICE_ADVISOR');
+            $advisors = $this->userRepository->getUserByRole('ROLE_SERVICE_ADVISOR');
             $advisor = $advisors[0] ?? null;
             if (!$advisor instanceof User) {
                 throw new Exception('Could not find advisor');
@@ -149,7 +149,7 @@ class RepairOrderHelper
                 continue;
             }
             $role = ('advisor' === $k) ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
-            $user = $this->users->find($params[$k]);
+            $user = $this->userRepository->find($params[$k]);
             if (null === $user) {
                 $errors[$k] = ucfirst($k).' not found';
                 continue;
@@ -400,7 +400,7 @@ class RepairOrderHelper
                             $qb->andWhere('ro.primaryAdvisor IN (:users)')
                                ->setParameter('users', $user);
 
-                            $queryParameters['users'] = $this->userRepo->getSharedUsers();
+                            $queryParameters['users'] = $this->userRepository->getSharedUsers();
                         } else {
                             $qb->andWhere('ro.primaryAdvisor = :user')
                                ->setParameter('user', $user);
