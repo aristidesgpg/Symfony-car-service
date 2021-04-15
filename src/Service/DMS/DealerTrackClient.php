@@ -81,7 +81,7 @@ class DealerTrackClient extends AbstractDMSClient
     {
         $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealertrack/metadata', 'App\Soap\dealertrack\src');
         $this->initializeSoapClient($this->getWsdl());
-        $this->setPartsWsdl($this->getParameterBag()->get('soap_directory').'/dealertrack/dealertrack_parts.wsdl');
+        $this->setPartsWsdl($this->getParameterBag()->get('soap_directory').'/dealertrack/dealertrack_parts_prod.wsdl');
     }
 
     public function getOpenRepairOrders(): array
