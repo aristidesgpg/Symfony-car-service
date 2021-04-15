@@ -22,9 +22,5 @@ RUN apt-get update \
     && curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony \
     && chmod a+x /usr/local/bin/symfony \
     && echo "AllowEncodedSlashes On" >> /etc/apache2/apache2.conf 
-
-COPY --chown=pony:pony docker/app/script.sh /usr/local/
-
-ENTRYPOINT ["/usr/local/script.sh", "tail"]
-
+    
 WORKDIR /var/www/html

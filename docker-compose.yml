@@ -14,9 +14,9 @@ services:
         - ./docker/app/php.ini:/usr/local/etc/php/php.ini # copy php.ini
       depends_on:  # build current container after dependencies are built
         - db
-      # entrypoint: ./docker/app/script.sh
-      # stdin_open: true
-      # tty: true
+      entrypoint: ./docker/app/script.sh
+      stdin_open: true
+      tty: true
 
     db:
       # image: mysql:5.7     # use mysql5.7 image from docker hub
