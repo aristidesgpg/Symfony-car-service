@@ -345,8 +345,7 @@ class RepairOrderController extends AbstractFOSRestController
         ShortUrlHelper $shortUrlHelper,
         SettingsHelper $settingsHelper,
         ParameterBagInterface $parameterBag,
-        CustomerRepository $customerRepo,
-        PhoneValidator $phoneValidator
+        CustomerRepository $customerRepo
     ): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
@@ -446,6 +445,7 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
+     * @SWG\Parameter(name="customerId", type="integer", in="formData")
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
     {
