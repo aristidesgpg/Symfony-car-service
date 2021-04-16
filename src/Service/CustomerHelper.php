@@ -58,10 +58,6 @@ class CustomerHelper
                         $msg = 'Invalid phone number';
                         break;
                     }
-
-                    if (!$this->phoneValidator->isMobile($v)) {
-                        $msg = 'Phone number is not mobile';
-                    }
                     break;
                 case 'email':
                     if (!empty($v)) {
@@ -106,6 +102,7 @@ class CustomerHelper
                     $cleanNumber = $this->stripPhone($v);
                     $customer->setPhone($cleanNumber);
                     $isValid = $this->phoneValidator->isMobile($cleanNumber);
+                    // set setMobileConfirmed to true since no BE mobile validation being done
                     $customer->setMobileConfirmed($isValid);
                     break;
                 case 'email':

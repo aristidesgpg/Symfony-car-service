@@ -21,12 +21,12 @@ class PriceMatrixControllerTest extends WebTestCase
         $this->client = static::createClient();
 
         $user = self::$container->get('doctrine')
-                                ->getManager()
-                                ->getRepository(User::class)
-                                ->createQueryBuilder('u')
-                                ->setMaxResults(1)
-                                ->getQuery()
-                                ->getOneOrNullResult();
+            ->getManager()
+            ->getRepository(User::class)
+            ->createQueryBuilder('u')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
 
         $authentication = self::$container->get(Authentication::class);
         $ttl = 31536000;
@@ -53,13 +53,18 @@ class PriceMatrixControllerTest extends WebTestCase
 
             return;
         }
-        // TODO: PriceMatrixControllerTest post method has an issue
         // Ok
-        // $data = '[{"hours":0,"price":0},{"hours":0.1,"price":0.5},{"hours":0.2,"price":1},{"hours":0.3,"price":1.5},{"hours":0.4,"price":2},{"hours":0.5,"price":2.5},{"hours":0.6,"price":3},{"hours":0.7,"price":3.5},{"hours":0.8,"price":4},{"hours":0.9,"price":4.5},{"hours":1,"price":5},{"hours":1.1,"price":5.5},{"hours":1.2,"price":6},{"hours":1.3,"price":6.5},{"hours":1.4,"price":7},{"hours":1.5,"price":7.5},{"hours":1.6,"price":8},{"hours":1.7,"price":8.5},{"hours":1.8,"price":9},{"hours":1.9,"price":9.5}]';
-        // $this->requestActions('POST', ['payload' => $data]);
-        // $roInteractionRes = json_decode($this->client->getResponse()->getContent());
-        // $this->assertResponseIsSuccessful();
-        // $this->assertEquals('Successfully created', $roInteractionRes->message);
+        $data = '[{"hours":0,"price":0},{"hours":0.1,"price":0.5},{"hours":0.2,"price":1},
+            {"hours":0.3,"price":1.5},{"hours":0.4,"price":2},{"hours":0.5,"price":2.5},
+            {"hours":0.6,"price":3},{"hours":0.7,"price":3.5},{"hours":0.8,"price":4},
+            {"hours":0.9,"price":4.5},{"hours":1,"price":5},{"hours":1.1,"price":5.5},
+            {"hours":1.2,"price":6},{"hours":1.3,"price":6.5},{"hours":1.4,"price":7},
+            {"hours":1.5,"price":7.5},{"hours":1.6,"price":8},{"hours":1.7,"price":8.5},
+            {"hours":1.8,"price":9},{"hours":1.9,"price":9.5}]';
+        $this->requestActions('POST', ['payload' => $data]);
+        $roInteractionRes = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertEquals('Successfully created', $roInteractionRes->message);
 
         //wrong json object.  " is missing
         $data = '[{"hours":0, price":0}, {"hours":0.1,"price":0.5}]';

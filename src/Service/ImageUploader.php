@@ -53,12 +53,30 @@ class ImageUploader
      * @param null $directory
      *
      * @return false|string
+     * @throws Exception
      */
     public function uploadImage(UploadedFile $file, $directory = null)
     {
         $uploadsDirectory = $this->container->getParameter('uploads_directory').$directory;
         $filename = md5(uniqid()).'.'.$file->guessExtension();
 
+        try {
+            $this->isValidImage($file);
+        } catch (Exception $e) {
+            throw new Exception("Not a valid image file."); //generic but better than false
+        }
+
+        try {
+            $file->move(
+                $uploadsDirectory,
+                $filename
+            );
+        } catch (Exception  $e) {
+            //return false;
+            throw $e; //throw caught exception from UploadedFile->move
+        }
+
+        /*
         if (!$this->isValidImage($file)) {
             return false;
         }
@@ -71,7 +89,7 @@ class ImageUploader
         } catch (Exception  $e) {
             return false;
         }
-
+        */
         // return $this->urlHelper->getAbsoluteUrl('uploads/' . $directory . '/' . $filename);
         //get the route url
         $url = $this->urlGenerator->generate('app_coupons_new', [], UrlGeneratorInterface::ABSOLUTE_URL);

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Helper\FalsyTrait;
+use App\Helper\iServiceLoggerTrait;
 use App\Repository\CustomerRepository;
 use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
@@ -37,6 +38,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RepairOrderController extends AbstractFOSRestController
 {
     use FalsyTrait;
+
+    use iServiceLoggerTrait;
 
     private const PAGE_LIMIT = 50;
 
@@ -357,29 +360,29 @@ class RepairOrderController extends AbstractFOSRestController
         $customerPhone = $req->request->get('customerPhone');
         $customer = $customerRepo->findByPhone($customerPhone);
 
-        // Send waiver or intro message
-        try {
-            // waiver disabled so send regular text
-            if (!$waiverActivateAuthMessage) {
-                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
-            } else {
-                // waiver enabled
-                $url = $customerURL.$ro->getLinkHash();
-                $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                $waiverMessage = $waiverIntroText.' '.$shortUrl;
+            // Send waiver or intro message
+            try {
+                // waiver disabled so send regular text
+                if (!$waiverActivateAuthMessage) {
+                    $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
+                } else {
+                    // waiver enabled
+                    $url = $customerURL.$ro->getLinkHash();
+                    $shortUrl = $shortUrlHelper->generateShortUrl($url);
+                    $waiverMessage = $waiverIntroText.' '.$shortUrl;
 
-                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
+                    $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
-                $roInteraction = new RepairOrderInteraction();
-                $roInteraction->setRepairOrder($ro)
-                              ->setUser($this->getUser())
-                              ->setType('Waiver Sent');
-                $em->persist($roInteraction);
-                $em->flush();
+                    $roInteraction = new RepairOrderInteraction();
+                    $roInteraction->setRepairOrder($ro)
+                        ->setUser($this->getUser())
+                        ->setType('Waiver Sent');
+                    $em->persist($roInteraction);
+                    $em->flush();
+                }
+            } catch (Exception $e) {
+                $this->logInfo($e->getMessage());
             }
-        } catch (Exception $e) {
-            throw new InternalErrorException($e);
-        }
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -442,6 +445,7 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
+     * @SWG\Parameter(name="customerId", type="integer", in="formData")
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
     {
