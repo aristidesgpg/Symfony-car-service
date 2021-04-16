@@ -375,7 +375,7 @@ class MPIControllerTest extends WebTestCase
         // Ok
         $name = 'New MPI item name';
         $params = [
-            'id' => 1, // MPI group ID
+            'id' => $id,
             'name' => $name,
         ];
         $this->requestAction('POST', '/mpi-item', $params);
