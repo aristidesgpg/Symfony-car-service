@@ -281,7 +281,7 @@ class ServiceSMSController extends AbstractFOSRestController
      *     description="Page Limit",
      *     in="query"
      * )
-     * * @SWG\Parameter(
+     * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
      *     description="Search Value",
