@@ -497,6 +497,16 @@ class DMS
         }
 
         $dmsParts = $this->integration->getParts();
+        if (sizeof($dmsParts) > 0) {
+            try {
+                $result = $this->getEm()->getConnection()->executeStatement(
+                    'truncate table part'
+                );
+            } catch (\Doctrine\DBAL\Exception $e) {
+                //do nothing.
+            }
+        }
+
         // Loop over found parts
         /**
          * @var Part $dmsPart
@@ -519,7 +529,6 @@ class DMS
         $this->getEm()->flush();
     }
 
-
     public function getOperationCodes()
     {
         // Not integrated, do nothing
@@ -528,6 +537,16 @@ class DMS
         }
 
         $operationCodes = $this->integration->getOperationCodes();
+        if (sizeof($operationCodes) > 0) {
+            try {
+                $result = $this->getEm()->getConnection()->executeStatement(
+                    'truncate  table operation_code'
+                );
+            } catch (\Doctrine\DBAL\Exception $e) {
+                //do nothing.
+            }
+        }
+
         // Loop over found Operation Codes
         /**
          * @var OperationCode $operationCode
@@ -536,7 +555,7 @@ class DMS
             $this->upsertOperationCode($operationCode);
         }
 
-        return $operationCode;
+        return $operationCodes;
     }
 
     public function upsertOperationCode(OperationCode $operationCode)
@@ -549,7 +568,6 @@ class DMS
         $this->getEm()->persist($entityPart);
         $this->getEm()->flush();
     }
-
 
     public function getTwilioHelper(): TwilioHelper
     {
