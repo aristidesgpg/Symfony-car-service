@@ -337,6 +337,8 @@ class ReportingController extends AbstractFOSRestController
             $sumFinalValuesWithoutVideo = 0;
             $roCountWithoutVideo = 0;
 
+            $totalVideos = 0;
+
             foreach ($closedRepairOrders as $ro) {
                 if ($sa->getId() === $ro->getPrimaryAdvisor()->getId()) {
                     ++$totalClosedRepairOrders;
@@ -461,6 +463,8 @@ class ReportingController extends AbstractFOSRestController
 
             $sumFinalValuesWithoutVideo = 0;
             $roCountWithoutVideo = 0;
+
+            $totalVideos = 0;
 
             foreach ($closedRepairOrders as $ro) {
                 if ($technician->getId() === $ro->getPrimaryTechnician()->getId()) {

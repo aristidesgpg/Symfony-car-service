@@ -72,6 +72,13 @@ class ReportingControllerTest extends WebTestCase
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
         $this->assertGreaterThanOrEqual(0, count($listData));
+
+        // Reversed dates
+        $params = ['startDate' => '2021-08-07 06:04:41', 'endDate' => '2019-02-20 06:04:41'];
+        $this->requestActionNormalized('advisors', $params);
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, count($listData));
     }
 
     public function testAdvisor()
@@ -88,6 +95,13 @@ class ReportingControllerTest extends WebTestCase
 
         // Give date range
         $params = ['startDate' => '2019-02-20 06:04:41', 'endDate' => '2021-08-07 06:04:41'];
+        $this->requestActionNormalized('advisors-usage', $params);
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, count($listData));
+
+        // Reversed dates
+        $params = ['startDate' => '2021-08-07 06:04:41', 'endDate' => '2019-02-20 06:04:41'];
         $this->requestActionNormalized('advisors-usage', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
@@ -112,6 +126,13 @@ class ReportingControllerTest extends WebTestCase
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
         $this->assertGreaterThanOrEqual(0, count($listData));
+
+        // Reversed dates
+        $params = ['startDate' => '2021-08-07 06:04:41', 'endDate' => '2019-02-20 06:04:41'];
+        $this->requestActionNormalized('technicians', $params);
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, count($listData));
     }
 
     public function testCustomerEngagements()
@@ -128,6 +149,13 @@ class ReportingControllerTest extends WebTestCase
 
         // Give date range
         $params = ['startDate' => '2019-02-20 06:04:41', 'endDate' => '2021-08-07 06:04:41'];
+        $this->requestActionNormalized('customer-engagements', $params);
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, count($listData));
+
+        // Reversed dates
+        $params = ['startDate' => '2021-08-07 06:04:41', 'endDate' => '2019-02-20 06:04:41'];
         $this->requestActionNormalized('customer-engagements', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
