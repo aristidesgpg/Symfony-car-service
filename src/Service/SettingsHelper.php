@@ -245,6 +245,10 @@ class SettingsHelper
             'default_value' => 'Internal',
             'front_end' => 'Hidden',
         ],
+        'mpiSendToCustomer' => [
+            'default_value' => true,
+            'front_end' => 'TBD',
+        ],
     ];
 
     /**
