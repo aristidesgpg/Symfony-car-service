@@ -28,7 +28,7 @@ class DealerTrackClient extends AbstractDMSClient
     /**
      * @var string
      */
-    private $wsdl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx?WSDL';
+    private $wsdl = 'https://ot.dms.dealertrack.com/serviceapi.asmx?WSDL';
 
     //TODO Move to .env
     /**
@@ -86,6 +86,7 @@ class DealerTrackClient extends AbstractDMSClient
             $this->company = 'ZE7';
             $this->enterprise = 'ZE';
             $this->eventServiceUrl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx';
+            $this->wsdl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx?WSDL';
             $this->partsWsdlFileName = '/dealertrack/dealertrack_partsapi_dev.wsdl';
         }
 
