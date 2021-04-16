@@ -507,13 +507,25 @@ class DMS
             }
         }
 
-        // Loop over found parts
-        /**
-         * @var Part $dmsPart
-         */
-        foreach ($dmsParts as $dmsPart) {
-            $this->upsertPart($dmsPart);
+//        // Loop over found parts
+//        /**
+//         * @var Part $dmsPart
+//         */
+//        foreach ($dmsParts as $dmsPart) {
+//            $this->upsertPart($dmsPart);
+//         }
+
+        $batchSize = 200;
+        for ($i = 0; $i < sizeof($dmsParts); ++$i) {
+            $dmsPart = $dmsParts[$i];
+            $this->getEm()->persist($dmsPart);
+            if (($i % $batchSize) === 0) {
+                $this->getEm()->flush();
+                $this->getEm()->clear(); // Detaches all objects from Doctrine!
+            }
         }
+        $this->getEm()->flush(); //Persist objects that did not make up an entire batch
+        $this->getEm()->clear();
 
         return $dmsParts;
     }
@@ -547,13 +559,25 @@ class DMS
             }
         }
 
-        // Loop over found Operation Codes
-        /**
-         * @var OperationCode $operationCode
-         */
-        foreach ($operationCodes as $operationCode) {
-            $this->upsertOperationCode($operationCode);
+//        // Loop over found Operation Codes
+//        /**
+//         * @var OperationCode $operationCode
+//         */
+//        foreach ($operationCodes as $operationCode) {
+//            $this->upsertOperationCode($operationCode);
+//        }
+
+        $batchSize = 200;
+        for ($i = 0; $i < sizeof($operationCodes); ++$i) {
+            $operationCode = $operationCodes[$i];
+            $this->getEm()->persist($operationCode);
+            if (($i % $batchSize) === 0) {
+                $this->getEm()->flush();
+                $this->getEm()->clear(); // Detaches all objects from Doctrine!
+            }
         }
+        $this->getEm()->flush(); //Persist objects that did not make up an entire batch
+        $this->getEm()->clear();
 
         return $operationCodes;
     }

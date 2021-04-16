@@ -405,7 +405,8 @@ class DealerTrackClient extends AbstractDMSClient
                     ->setNumber($result->getPartNumber())
                     ->setName($result->getPartDescription())
                     ->setBin($result->getBinLocation())
-                    ->setAvailable($result->getQuantity());
+                    ->setAvailable($result->getQuantity())
+                    ->setPrice($result->getListPrice());
 
                 $parts[] = $part;
             }
