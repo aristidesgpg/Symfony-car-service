@@ -160,6 +160,11 @@ class ReportingControllerTest extends WebTestCase
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
         $this->assertGreaterThanOrEqual(0, count($listData));
+
+        // Wrong date format
+        $params = ['startDate' => '2021-08-07 06-04-41', 'endDate' => '2019-02-20 06:04:41'];
+        $this->requestActionNormalized('customer-engagements', $params);
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
     }
 
     public function testMpi()
