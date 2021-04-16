@@ -1,6 +1,7 @@
 #!/bin/bash
 
-chmod 775 -R public/uploads -f
+chown www-data:www-data -R public/uploads
+chmod 755 -R public/uploads -f
 
 service apache2 start
 
