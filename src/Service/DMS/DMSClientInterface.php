@@ -19,4 +19,6 @@ interface DMSClientInterface
     public static function getDefaultIndexName(): string;
 
     public function getParts(): array;
+
+    public function getOperationCodes(): array;
 }
