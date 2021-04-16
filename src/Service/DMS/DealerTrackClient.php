@@ -3,6 +3,7 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
@@ -68,19 +69,13 @@ class DealerTrackClient extends AbstractDMSClient
 
     /**
      * DealerTrackClient constructor.
-     * @param EntityManagerInterface $entityManager
-     * @param PhoneValidator $phoneValidator
-     * @param ParameterBagInterface $parameterBag
-     * @param ThirdPartyAPILogHelper $thirdPartyAPILogHelper
      */
-
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
 
         $this->company = $parameterBag->get('dealertrack_company');
         $this->enterprise = $parameterBag->get('dealertrack_enterprise');
-
 
         if ('dev' == $parameterBag->get('app_env')) {
             $this->company = 'ZE7';
@@ -292,6 +287,88 @@ class DealerTrackClient extends AbstractDMSClient
         return $parts;
     }
 
+    public function getOperationCodes(): array
+    {
+        $operationCodes = [];
+
+        if ($this->getSoapClient()) {
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+
+            $request = [
+                'Dealer' => [
+                    'CompanyNumber' => $this->getCompany(),
+                    'EnterpriseCode' => $this->getEnterprise(),
+                    'ServerName' => $this->getServer(),
+                ],
+            ];
+
+            $soapResult = $this->sendSoapCall('ServiceLaborOpcodesTable', [$request], false);
+
+            if (!$soapResult) {
+                return $operationCodes;
+            }
+//            $response = $this->getSerializer()->deserialize($soapResult, DealerTrackPartsEnvelope::class, 'xml');
+//            if (!$response) {
+//                return $operationCodes;
+//            }
+
+            //dd($soapResult->Result[0]);
+            foreach ($soapResult->Result as $result) {
+                $operationCode = (new OperationCode())
+                    ->setCode($result->OperationCode)
+                    ->setDescription($result->Description1)
+                    ->setLaborHours($result->EstimatedHours)
+                    ->setLaborTaxable($result->Taxable)
+                    ->setPartsPrice($result->PartsAmount)
+                    ->setPartsTaxable($result->Taxable)
+                    ->setSuppliesPrice($result->CostAmount)
+                    ->setSuppliesTaxable($result->Taxable);
+
+                /*
+            +"CompanyNumber": "ZE7"
+            +"OperationCode": "ACTUAL"
+            +"Description1": "OIL CHANGE"
+            +"Description2": ""
+            +"Description3": ""
+            +"Description4": ""
+            +"MajorCode": "N"
+            +"MinorCode": ""
+            +"Manufacturer": ""
+            +"Make": ""
+            +"Model": ""
+            +"Engine": ""
+            +"Year": "Y"
+            +"DefLinePaymentMethod": ""
+            +"CorrectionLOP": "N"
+            +"Type": ""
+            +"ExcludeDiscount": "N"
+            +"SkillLevel": "A"
+            +"Taxable": "Y"
+            +"HazardMaterialCharge": "4.00"
+            +"ShopSupplyCharge": "Y"
+            +"RetailMethod": "A"
+            +"RetailAmount": "29.95"
+            +"CostMethod": "A"
+            +"CostAmount": "15.00"
+            +"PartsMethod": "B"
+            +"PartsAmount": "4.00"
+            +"Estimate": "N"
+            +"EstimatedHours": "4.00"
+            +"WaiterFlag": "Y"
+            +"PredefinedCauseDescription": ""
+            +"AdditionalDescriptionLine1": ""
+            +"AdditionalDescriptionLine2": ""
+            +"PredefinedComplaintDescription": ""
+            +"DefaultServiceType": "BS"
+            */
+
+                $operationCodes[] = $operationCode;
+            }
+        }
+
+        return $operationCodes;
+    }
+
     public function getPartsByStatus(string $status): array
     {
         $parts = [];
@@ -428,21 +505,13 @@ class DealerTrackClient extends AbstractDMSClient
         $this->partsWsdl = $partsWsdl;
     }
 
-    /**
-     * @return string
-     */
     public function getPartsWsdlFileName(): string
     {
         return $this->partsWsdlFileName;
     }
 
-    /**
-     * @param string $partsWsdlFileName
-     */
     public function setPartsWsdlFileName(string $partsWsdlFileName): void
     {
         $this->partsWsdlFileName = $partsWsdlFileName;
     }
-
-
 }

@@ -404,20 +404,14 @@ class AutoMateClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
+
     public function getOperationCodes(): array
     {
         // TODO: Implement getOperationCodes() method.
-        throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getParts(): array
     {
-        throw new AccessDeniedException('Not Implemented for this DMS.');
-    }
-
-    public function getRepairOrderByNumber(string $RONumber)
-    {
-        // TODO: Implement getSingleRepairOrder() method.
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 

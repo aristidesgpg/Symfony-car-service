@@ -174,23 +174,14 @@ class CDKClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
-
-    /**
-     * @param $RONumber
-     */
-    public function addRepairOrderByNumber($RONumber)
-    {
-        return $this->getRepairOrderByNumber($RONumber);
-    }
-
     /**
      * Checks if the passed RO# exists in the DMS and pulls it if it does.
      *
-     * @param string $RONumber
+     * @param $RONumber
      *
      * @return false|object
      */
-    public function getRepairOrderByNumber(string $RONumber)
+    public function addRepairOrderByNumber($RONumber)
     {
         $repairOrder = null;
 
@@ -246,9 +237,11 @@ class CDKClient extends AbstractDMSClient
     }
 
     /**
+     * @param $repairOrder
+     *
      * @return null
      */
-    private function extractROInfo(ServiceRepairOrderOpen $repairOrder): ?DMSResult
+    private function extractROInfo($repairOrder): ?DMSResult
     {
         $dmsResult = new DMSResult();
         $dmsResult->setRaw($repairOrder);
@@ -351,7 +344,6 @@ class CDKClient extends AbstractDMSClient
     public function getOperationCodes(): array
     {
         // TODO: Implement getOperationCodes() method.
-        throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getParts(): array
