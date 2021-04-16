@@ -4,6 +4,7 @@ namespace App\Service\DMS;
 
 use App\Entity\Customer;
 use App\Entity\DMSResult;
+use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Entity\Settings;
@@ -517,6 +518,38 @@ class DMS
         $this->getEm()->persist($entityPart);
         $this->getEm()->flush();
     }
+
+
+    public function getOperationCodes()
+    {
+        // Not integrated, do nothing
+        if (!$this->integration) {
+            return null;
+        }
+
+        $operationCodes = $this->integration->getOperationCodes();
+        // Loop over found Operation Codes
+        /**
+         * @var OperationCode $operationCode
+         */
+        foreach ($operationCodes as $operationCode) {
+            $this->upsertOperationCode($operationCode);
+        }
+
+        return $operationCode;
+    }
+
+    public function upsertOperationCode(OperationCode $operationCode)
+    {
+        $entityPart = $this->getEm()->getRepository(OperationCode::class)->findOneBy(['code' => $operationCode->getCode()]);
+        if (!$entityPart) {
+            $entityPart = $operationCode;
+        }
+        //Add any updates here.
+        $this->getEm()->persist($entityPart);
+        $this->getEm()->flush();
+    }
+
 
     public function getTwilioHelper(): TwilioHelper
     {
