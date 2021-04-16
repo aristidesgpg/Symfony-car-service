@@ -331,6 +331,12 @@ class DealerBuiltClient extends AbstractDMSClient
         return null;
     }
 
+
+    public function getOperationCodes(): array
+    {
+        // TODO: Implement getOperationCodes() method.
+    }
+
     public function getParts(): array
     {
         $parts = [];
@@ -450,4 +456,5 @@ class DealerBuiltClient extends AbstractDMSClient
     {
         return 'usingDealerBuilt';
     }
+
 }

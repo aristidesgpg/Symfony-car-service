@@ -340,6 +340,12 @@ class CDKClient extends AbstractDMSClient
         return parent::phoneNormalizer($phoneNumbers->value());
     }
 
+
+    public function getOperationCodes(): array
+    {
+        // TODO: Implement getOperationCodes() method.
+    }
+
     public function getParts(): array
     {
         throw new AccessDeniedException('Not Implemented for this DMS.');
