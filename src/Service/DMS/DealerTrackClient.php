@@ -61,6 +61,19 @@ class DealerTrackClient extends AbstractDMSClient
      */
     private $partsWsdl;
 
+    /**
+     * @var string
+     */
+    private $partsWsdlFileName = '/dealertrack/dealertrack_partsapi_prod.wsdl';
+
+    /**
+     * DealerTrackClient constructor.
+     * @param EntityManagerInterface $entityManager
+     * @param PhoneValidator $phoneValidator
+     * @param ParameterBagInterface $parameterBag
+     * @param ThirdPartyAPILogHelper $thirdPartyAPILogHelper
+     */
+
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -68,10 +81,12 @@ class DealerTrackClient extends AbstractDMSClient
         $this->company = $parameterBag->get('dealertrack_company');
         $this->enterprise = $parameterBag->get('dealertrack_enterprise');
 
+
         if ('dev' == $parameterBag->get('app_env')) {
             $this->company = 'ZE7';
             $this->enterprise = 'ZE';
             $this->eventServiceUrl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx';
+            $this->partsWsdlFileName = '/dealertrack/dealertrack_partsapi_dev.wsdl';
         }
 
         $this->init();
@@ -81,7 +96,7 @@ class DealerTrackClient extends AbstractDMSClient
     {
         $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealertrack/metadata', 'App\Soap\dealertrack\src');
         $this->initializeSoapClient($this->getWsdl());
-        $this->setPartsWsdl($this->getParameterBag()->get('soap_directory').'/dealertrack/dealertrack_parts_prod.wsdl');
+        $this->setPartsWsdl($this->getParameterBag()->get('soap_directory').$this->getPartsWsdlFileName());
     }
 
     public function getOpenRepairOrders(): array
@@ -411,4 +426,22 @@ class DealerTrackClient extends AbstractDMSClient
     {
         $this->partsWsdl = $partsWsdl;
     }
+
+    /**
+     * @return string
+     */
+    public function getPartsWsdlFileName(): string
+    {
+        return $this->partsWsdlFileName;
+    }
+
+    /**
+     * @param string $partsWsdlFileName
+     */
+    public function setPartsWsdlFileName(string $partsWsdlFileName): void
+    {
+        $this->partsWsdlFileName = $partsWsdlFileName;
+    }
+
+
 }
