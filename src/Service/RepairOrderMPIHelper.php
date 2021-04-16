@@ -133,10 +133,14 @@ class RepairOrderMPIHelper
         $shortURL = $this->shortUrlHelper->generateShortUrl($url);
         $message = $message.' '.$shortURL;
 
-        try {
-            $this->twilioHelper->sendSms($customer, $message);
-        } catch (Exception $e) {
-            return;
+        // Only send sms if setting mpiSendToCustomer => TRUE
+        if($this->settingsHelper->getSetting('mpiSendToCustomer') === TRUE)
+        {
+            try {
+                $this->twilioHelper->sendSms($customer, $message);
+            } catch (Exception $e) {
+                return;
+            }
         }
 
         $interaction = new RepairOrderMPIInteraction();
