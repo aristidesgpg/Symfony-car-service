@@ -90,7 +90,7 @@ class SettingsHelper
             'front_end' => 'Waiver > Estimate Waiver Text',
         ],
         'waiverActivateAuthMessage' => [
-            'default_value' => '0',
+            'default_value' => '1',
             'front_end' => 'Outgoing Messages > Activate Authorization Welcome Message',
         ],
         'waiverIntroText' => [

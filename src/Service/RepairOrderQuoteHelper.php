@@ -2,17 +2,14 @@
 
 namespace App\Service;
 
-use App\Entity\Part;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
-use App\Repository\OperationCodeRepository;
 use App\Repository\PartRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Exception;
 use Symfony\Component\Security\Core\Security;
-
 class RepairOrderQuoteHelper
 {
     /** @var string[] */
@@ -66,16 +63,13 @@ class RepairOrderQuoteHelper
 
     private $em;
     private $security;
-    private $partRepository;
 
     public function __construct(
         EntityManagerInterface $em,
-        partRepository $partRepository,
         Security $security
     ) {
         $this->em = $em;
         $this->security = $security;
-        $this->partRepository = $partRepository;
     }
 
     /**
@@ -315,22 +309,9 @@ class RepairOrderQuoteHelper
                                                ->setName($part->name)
                                                ->setprice($part->price)
                                                ->setTotalPrice($part->quantity * $part->price)          
+                                               ->setBin($part->bin)
                                                ->setQuantity($part->quantity);      
             
-            $newPart = $this->partRepository->findOneBy(['number' => $part->number]);
-            if(!$newPart) {
-                $newPart = new Part();
-
-                $newPart->setNumber($part->number)
-                        ->setName($part->name)
-                        ->setPrice($part->price)
-                        ->setBin($part->bin);
-
-                $this->em->persist($newPart);
-            }
-            
-            $repairOrderQuoteRecommendationPart->setPart($newPart);
-
             $this->em->persist($repairOrderQuoteRecommendationPart);
         }
         $this->em->persist($repairOrderQuoteRecommendation);         
