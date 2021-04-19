@@ -342,6 +342,7 @@ class CDKClient extends AbstractDMSClient
     public function getOperationCodes(): array
     {
         // TODO: Implement getOperationCodes() method.
+        throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getParts(): array
