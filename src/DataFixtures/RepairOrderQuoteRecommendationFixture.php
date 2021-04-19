@@ -4,12 +4,10 @@ namespace App\DataFixtures;
 
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
-use App\Repository\PartRepository;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
-
 class RepairOrderQuoteRecommendationFixture extends Fixture implements DependentFixtureInterface
 {
 
@@ -39,15 +37,13 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
 
             $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
 
-            $quantity = $faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null);
-            $price = $faker->randomFloat($nbMaxDecimals = null, $min = 0, $max = null);
-            $part = $this->getReference('Parts_'.$i);
-
+            $quantity = $faker->randomFloat(2, 1, 100);
+            $price = $faker->randomFloat(2, 1, 2000);
             $repairOrderQuoteRecommendationPart->setRepairOrderRecommendation($repairOrderQuoteRecommendation)
-                                               ->setPart($part)
-                                               ->setNumber($part->getNumber())
+                                               ->setNumber($faker->unique(true)->numberBetween(10000, 99999))
                                                ->setName($faker->sentence($nbWords = 5, $variableNbWords = true))
                                                ->setPrice($price)
+                                               ->setBin(substr($faker->regexify('[A-Za-z0-9]{20}'), 0, 5))
                                                ->setQuantity($quantity)
                                                ->setTotalPrice($price * $quantity);
             $manager->persist($repairOrderQuoteRecommendation);
@@ -67,7 +63,6 @@ class RepairOrderQuoteRecommendationFixture extends Fixture implements Dependent
         return [
             RepairOrderQuoteFixture::class,
             OperationCodeFixture::class,
-            PartFixture::class,
         ];
     }
 }
