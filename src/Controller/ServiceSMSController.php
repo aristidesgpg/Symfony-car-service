@@ -190,6 +190,7 @@ class ServiceSMSController extends AbstractFOSRestController
      *     description="Page Limit",
      *     in="query"
      * )
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -298,8 +299,7 @@ class ServiceSMSController extends AbstractFOSRestController
      *         description="id, user, customer, phone, message, incoming, is_read, date"
      *     )
      * )
-     *
-     * * @SWG\Response(
+     * @SWG\Response(
      *     response=403,
      *     description="Permision Denied",
      * )
@@ -354,8 +354,7 @@ class ServiceSMSController extends AbstractFOSRestController
      *         description="id, user, customer, phone, message, incoming, is_read, date"
      *     )
      * )
-     *
-     * * @SWG\Response(
+     * @SWG\Response(
      *     response=403,
      *     description="Permision Denied",
      * )
