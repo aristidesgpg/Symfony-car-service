@@ -592,8 +592,8 @@ class MigrateFromOldDatabase extends Command
                 $clientInteraction = $statement->fetchAssociative();
 
                 if ($clientInteraction) {
-                    $repairOrderQuote->setDateCustomerCompleted($clientInteractionDate)
-                        ->setDateCompletedViewed($clientInteractionDate);
+                    $repairOrderQuote->setDateCompleted($clientInteractionDate)
+                        ->setDateCustomerViewed($clientInteractionDate);
                 }
 
                 $this->em->persist($repairOrderQuote);
