@@ -30,8 +30,7 @@ class RepairOrderQuoteRecommendation
     private $repairOrderQuote;
 
     /**
-     * @ORM\ManyToOne(targetEntity=OperationCode::class, inversedBy="RepairOrderQuoteRecommendations")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="string", nullable=false)
      * @Serializer\Groups(groups={"roqs_list"})
      */
     private $operationCode;
@@ -130,12 +129,12 @@ class RepairOrderQuoteRecommendation
         return $this;
     }
 
-    public function getOperationCode(): ?OperationCode
+    public function getOperationCode(): ?string
     {
         return $this->operationCode;
     }
 
-    public function setOperationCode(?OperationCode $operationCode): self
+    public function setOperationCode(?string $operationCode): self
     {
         $this->operationCode = $operationCode;
 

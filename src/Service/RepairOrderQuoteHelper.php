@@ -2,17 +2,14 @@
 
 namespace App\Service;
 
-use App\Entity\Part;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
-use App\Repository\OperationCodeRepository;
 use App\Repository\PartRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Exception;
 use Symfony\Component\Security\Core\Security;
-
 class RepairOrderQuoteHelper
 {
     /** @var string[] */
@@ -66,19 +63,13 @@ class RepairOrderQuoteHelper
 
     private $em;
     private $security;
-    private $operationCodeRepository;
-    private $partRepository;
 
     public function __construct(
         EntityManagerInterface $em,
-        OperationCodeRepository $operationCodeRepository,
-        partRepository $partRepository,
         Security $security
     ) {
         $this->em = $em;
-        $this->operationCodeRepository = $operationCodeRepository;
         $this->security = $security;
-        $this->partRepository = $partRepository;
     }
 
     /**
@@ -204,13 +195,7 @@ class RepairOrderQuoteHelper
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
 
-            // Check if Operation Code exists
-            $operationCode = $this->operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
-            if (!$operationCode) {
-                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
-            }
-
-            $repairOrderQuoteRecommendation->setOperationCode($operationCode)
+            $repairOrderQuoteRecommendation->setOperationCode($recommendation->operationCode)
                                             ->setDescription($recommendation->description)
                                             ->setPreApproved(
                                                 filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
@@ -324,22 +309,9 @@ class RepairOrderQuoteHelper
                                                ->setName($part->name)
                                                ->setprice($part->price)
                                                ->setTotalPrice($part->quantity * $part->price)          
+                                               ->setBin($part->bin)
                                                ->setQuantity($part->quantity);      
             
-            $newPart = $this->partRepository->findOneBy(['number' => $part->number]);
-            if(!$newPart) {
-                $newPart = new Part();
-
-                $newPart->setNumber($part->number)
-                        ->setName($part->name)
-                        ->setPrice($part->price)
-                        ->setBin($part->bin);
-
-                $this->em->persist($newPart);
-            }
-            
-            $repairOrderQuoteRecommendationPart->setPart($newPart);
-
             $this->em->persist($repairOrderQuoteRecommendationPart);
         }
         $this->em->persist($repairOrderQuoteRecommendation);         

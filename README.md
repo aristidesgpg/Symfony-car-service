@@ -12,7 +12,9 @@ MySQL Version: 5.7.31
         `docker-compose up -d --build`
 
         This command will create docker container named iService3 and iService3_db_1
-        (If you recieve an error about var-dump-server, delete your vendor folder and run `composer install`
+        (If you recieve an error about var-dump-server, delete your vendor folder and run `composer install`. 
+         Additionally, if you get an error about not being able to access the script.sh file, you may have to 
+         allow execute permissions on that file)
 
 3. After the docker containers are built, run command below
 

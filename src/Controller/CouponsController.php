@@ -183,6 +183,9 @@ class CouponsController extends AbstractFOSRestController
      *     @SWG\Schema(ref=@Model(type=Coupon::class, groups={"coupon_list"})))
      * )
      *
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @param ImageUploader $imageUploader
      * @return Response
      */
     public function new(EntityManagerInterface $em, Request $request, ImageUploader $imageUploader)
@@ -195,13 +198,21 @@ class CouponsController extends AbstractFOSRestController
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
+        try{
+            $path = $imageUploader->uploadImage($image, 'coupons');
+        } catch(\Exception $e) {
+            return $this->handleView(
+                $this->view($e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR)
+            );
+        }
+        /*
         $path = $imageUploader->uploadImage($image, 'coupons');
         if (!$path) {
             return $this->handleView(
                 $this->view('Something Went Wrong Trying to Upload the Image', Response::HTTP_INTERNAL_SERVER_ERROR)
             );
         }
-
+        */
         $coupon = new Coupon();
         $coupon->setTitle($title)->setImage($path);
         $em->persist($coupon);
