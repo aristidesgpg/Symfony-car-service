@@ -1,0 +1,19 @@
+App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeBodyEstimateJobCodes:
+  xml_root_name: Body
+#  xml_root_namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+  properties:
+    getEstimateJobCodesResponse:
+      expose: true
+      access_type: public_method
+      serialized_name: GetEstimateJobCodesResponse
+      xml_element:
+        namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'
+      accessor:
+        getter: getGetEstimateJobCodesResponse
+        setter: setGetEstimateJobCodesResponse
+      type: App\Soap\dealerbuilt\src\GetEstimateJobCodesResponse
+      xml_list:
+        inline: false
+        entry_name: GetEstimateJobCodesResult
+        skip_when_empty: true
+        namespace: 'http://cdx.dealerbuilt.com/Api/0.99/'

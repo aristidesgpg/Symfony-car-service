@@ -133,6 +133,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
 
             return $result;
         } catch (SoapFault $e) {
+            dd($e->getMessage());
             $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage());
         }
 

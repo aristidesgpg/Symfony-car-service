@@ -3,8 +3,8 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\OperationCode;
 use App\Entity\Part;
-use App\Entity\Parts;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
@@ -13,8 +13,10 @@ use App\Soap\dealerbuilt\src\BaseApi\RepairOrderType;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelope;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeByKey;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeByNumber;
+use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeEstimateJobCodes;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopePullParts;
 use App\Soap\dealerbuilt\src\Models\PhoneNumberType;
+use App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
@@ -69,7 +71,7 @@ class DealerBuiltClient extends AbstractDMSClient
         if ('dev' == $parameterBag->get('app_env')) {
             $this->timeFrame = 'PT8760H';
         }
-
+        $this->serviceLocationId = '58602';
         $this->init();
     }
 
@@ -331,11 +333,61 @@ class DealerBuiltClient extends AbstractDMSClient
         return null;
     }
 
-
     public function getOperationCodes(): array
     {
-        // TODO: Implement getOperationCodes() method.
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        $operationCodes = [];
+        if ($this->getSoapClient()) {
+            //create authentication token
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+
+            $searchCriteria = [
+                'searchCriteria' => [
+                    'ServiceLocationId' => $this->getServiceLocationId(),
+                ],
+            ];
+
+            $result = $this->sendSoapCall('GetEstimateJobCodes', [$searchCriteria], true);
+
+            if (!$result) {
+                return $operationCodes;
+            }
+
+            //Deserialize the soap result into objects.
+            $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopeEstimateJobCodes::class, 'xml');
+            /*
+             * @var PushedPotentialJobAttributesType
+             */
+            foreach ($deserializedNode->getBody()->getGetEstimateJobCodesResponse()->getGetEstimateJobCodesResult()->getJobs() as $job) {
+                $partsPrice = 0;
+                $laborHours = 0;
+
+                if (is_array($job->getTechs())) {
+                    foreach ($job->getTechs() as $tech) {
+                        $laborHours += $tech->getFlatRateHours();
+                    }
+                }
+
+                if (is_array($job->getParts())) {
+                    foreach ($job->getParts() as $part) {
+                        $partsPrice += $part->getPrice()->getAmount();
+                    }
+                }
+
+                $operationCode = (new OperationCode())
+                    ->setCode($job->getQuickCode())
+                    ->setDescription('')
+                    ->setLaborHours($laborHours)
+                    ->setLaborTaxable(true)
+                    ->setPartsPrice($partsPrice)
+                    ->setPartsTaxable(true)
+                    ->setSuppliesPrice(0)
+                    ->setSuppliesTaxable(true);
+
+                $operationCodes[] = $operationCode;
+            }
+        }
+
+        return $operationCodes;
     }
 
     public function getParts(): array
@@ -457,5 +509,4 @@ class DealerBuiltClient extends AbstractDMSClient
     {
         return 'usingDealerBuilt';
     }
-
 }
