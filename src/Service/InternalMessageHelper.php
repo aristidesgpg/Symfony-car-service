@@ -39,7 +39,6 @@ class InternalMessageHelper
 
         $totalUnreadMessages = $internalMessageRepository->createQueryBuilder('im')
             ->where('im.to = :userId')
-            ->orWhere('im.from = :userId')
             ->setParameter('userId', $userId)
             ->andWhere('im.isRead = 0')
             ->select('count(im.id)')
@@ -58,37 +57,37 @@ class InternalMessageHelper
     {
         $userId = $this->user->getId();
 
-        $sql = "SELECT  u.*, i.id AS im_id, i.from_id, i.to_id, i.message, i.date, i.is_read, (CASE WHEN kk.unreads is null THEN 0 ELSE kk.unreads END) AS unreads 
-                    FROM internal_message i
-                    INNER JOIN 
+        $sql = "SELECT  u.*, i.id AS im_id,i.from_id , i.to_id, i.message, i.date, i.is_read, (CASE WHEN kk.unreads is null THEN 0 ELSE kk.unreads END) AS unreads, (CASE WHEN kk.unreads is null THEN 0 ELSE 1 END) AS thread_read 
+                FROM internal_message i
+                INNER JOIN 
+                (
+                    SELECT id, MAX(date) MaxDate
+                    FROM 
                     (
-                        SELECT id, MAX(date) MaxDate
+                        SELECT id, date, to_id, from_id, is_read
+                        FROM  
+                        internal_message
+                        WHERE from_id = {$userId} OR to_id = {$userId}
+                    ) jj
+                    GROUP BY case when jj.to_id = {$userId} then jj.from_id when jj.from_id = {$userId} then jj.to_id END
+                ) im
+                ON i.date = im.MaxDate
+                INNER JOIN user u
+                ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END AND CONCAT(u.first_name,' ', u.last_name) LIKE '%{$searchTerm}%'
+                LEFT JOIN 
+                    (
+                    SELECT id,from_id, COUNT(id) AS unreads
                         FROM 
                         (
-                            SELECT id, date, to_id, from_id, is_read
+                            SELECT id, to_id, from_id, is_read
                             FROM  
                             internal_message
-                            WHERE from_id = {$userId} OR to_id = {$userId}
-                        ) jj
-                        GROUP BY case when jj.to_id = {$userId} then jj.from_id when jj.from_id = {$userId} then jj.to_id END
-                    ) im
-                    ON i.date = im.MaxDate
-                    INNER JOIN user u
-                    ON u.id = case when i.to_id = {$userId} then i.from_id when i.from_id = {$userId} then i.to_id END AND CONCAT(u.first_name,' ', u.last_name) LIKE '%{$searchTerm}%'
-                    Left Join 
-                        (
-                        SELECT id, COUNT(id) AS unreads
-                            FROM 
-                            (
-                                SELECT id, to_id, from_id, is_read
-                                FROM  
-                                internal_message
-                                WHERE to_id = {$userId} AND is_read = 0
-                            ) ii
-                            GROUP BY ii.from_id 
-                        ) kk
-                    ON kk.id = im.id
-                    ORDER BY unreads DESC, i.date DESC";
+                            WHERE to_id = {$userId} and is_read = 0 
+                        ) ii
+                        GROUP BY ii.from_id 
+                    ) kk
+                ON kk.from_id = u.id
+                ORDER BY thread_read DESC, i.date DESC";
 
         try {
             $query = $this->em->getConnection()->prepare($sql);

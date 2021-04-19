@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Repository\ServiceSMSRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Security\Core\Security;
@@ -10,11 +11,13 @@ class ServiceSMSHelper
 {
     private $em;
     private $security;
+    private $serviceSMSRepo;
 
-    public function __construct(EntityManagerInterface $em, Security $security)
+    public function __construct(EntityManagerInterface $em, Security $security, ServiceSMSRepository $serviceSMSRepo)
     {
         $this->em = $em;
         $this->security = $security;
+        $this->serviceSMSRepo = $serviceSMSRepo;
     }
 
     public function getThreads(string $searchTerm)
@@ -68,7 +71,7 @@ class ServiceSMSHelper
 
         //when there are repairOrders for the customer
         if ($isShared) {
-            $threadQuery = "SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = ".$userId." group by primary_advisor_id ,primary_customer_id) ss 
+            $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId." group by primary_advisor_id ,primary_customer_id) ss 
                             LEFT JOIN (select primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
                                 where id in (select MAX(id) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
@@ -77,13 +80,13 @@ class ServiceSMSHelper
                             where ss2.s_advisor_id in (select id from user where share_repair_orders=1) $searchQuery
                             ";
         } else {
-            $threadQuery = "SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = ".$userId." group by primary_advisor_id ,primary_customer_id) ss 
+            $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId.' group by primary_advisor_id ,primary_customer_id) ss 
                             LEFT JOIN (select primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
                                 where id in (select MAX(id) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
                             LEFT JOIN customer c on c.id = ss2.primary_customer_id
                             LEFT JOIN (select SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread, customer_id from service_sms ss3 group by customer_id)ss4 on ss4.customer_id = ss2.primary_customer_id
-                            where ss2.s_advisor_id = ".$userId.$searchQuery;
+                            where ss2.s_advisor_id = '.$userId.$searchQuery;
         }
 
         $statement = $this->em->getConnection()->prepare($threadQuery);
@@ -108,7 +111,7 @@ class ServiceSMSHelper
             $statement->execute();
 
             //if there aren't any repairOrders
-            if ($statement->rowCount() === 0) {
+            if (0 === $statement->rowCount()) {
                 $query1 = "SELECT user_id from service_sms ss where customer_id = $customerId and date in (SELECT MAX(date) FROM service_sms where incoming = 1 GROUP BY customer_id)";
                 $statement = $this->em->getConnection()->prepare($query1);
                 $statement->execute();
@@ -141,7 +144,7 @@ class ServiceSMSHelper
         $result1 = array_filter(
             $result,
             function ($item) {
-                if ($item['unread'] != 0) {
+                if (0 != $item['unread']) {
                     return true;
                 }
             }
@@ -149,7 +152,7 @@ class ServiceSMSHelper
         $result2 = array_filter(
             $result,
             function ($item) {
-                if ($item['unread'] == 0) {
+                if (0 == $item['unread']) {
                     return true;
                 }
             }
@@ -169,5 +172,48 @@ class ServiceSMSHelper
         );
 
         return array_merge($result1, $result2);
+    }
+
+    /**
+     * @return int
+     */
+    public function getUnReadMessagesCount()
+    {
+        if ($this->security->isGranted('ROLE_ADMIN') || $this->security->isGranted('ROLE_SERVICE_MANAGER')) {
+            $totalUnreadMessages = $this->serviceSMSRepo->createQueryBuilder('ss')
+                                ->andWhere('ss.incoming = 1')
+                                ->andWhere('ss.isRead = 0')
+                                ->select('count(ss.id)')
+                                ->getQuery()
+                                ->getSingleScalarResult();
+        } else {
+            if ($this->security->isGranted('ROLE_SERVICE_ADVISOR')) {
+                $user = $this->security->getUser();
+                $userId = $user->getId();
+                $shareRepairOrders = $user->getShareRepairOrders();
+
+                if ($shareRepairOrders) {
+                    $unreadQuery = 'select count(u.id) as count from `user` u LEFT JOIN service_sms ss on ss.user_id = u.id where u.share_repair_orders  = 1  and ss.is_read = 0 and ss.incoming  = 1';
+                    $statement = $this->em->getConnection()->prepare($unreadQuery);
+                    $statement->execute();
+
+                    $result = $statement->fetchAssociative();
+                    $totalUnreadMessages = $result['count'];
+                } else {
+                    $totalUnreadMessages = $this->serviceSMSRepo->createQueryBuilder('ss')
+                            ->where('ss.user = :userId')
+                            ->setParameter('userId', $userId)
+                            ->andWhere('ss.incoming = 1')
+                            ->andWhere('ss.isRead = 0')
+                            ->select('count(ss.id)')
+                            ->getQuery()
+                            ->getSingleScalarResult();
+                }
+            } else {
+                $totalUnreadMessages = 0;
+            }
+        }
+
+        return $totalUnreadMessages;
     }
 }
