@@ -75,7 +75,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function init(): void
     {
-        $this->buildSerializer('../src/Soap/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
+        $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
         $this->initializeSoapClient($this->getWsdl());
     }
 

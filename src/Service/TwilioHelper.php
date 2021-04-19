@@ -132,6 +132,7 @@ class TwilioHelper
                 $response['message'] ?? 'Unknown'
             );
             $this->logInfo($error);
+            $response = $error;
             $lookup = $this->phoneValidator->lookupNumber($phone);
             if (('mobile' === $lookup->getCarrierType())) {
                 throw new Exception($error);

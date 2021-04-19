@@ -43,7 +43,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="[{'operationCode':14, 'description':'Neque maxime ex dolorem ut.','preApproved':true,'approved':true,'partsPrice':1.0,'suppliesPrice':14.02,'laborPrice':5.3,'notes':'Cumque tempora ut nobis.'},{'operationCode':11, 'description':'Quidem earum sapiente at dolores quia natus.','preApproved':false,'approved':true,'partsPrice':2.6,'suppliesPrice':509.02,'laborPrice':36.9,'notes':'Et accusantium rerum.'},{'operationCode':4, 'description':'Mollitia unde nobis doloribus sed.','preApproved':true,'approved':false,'partsPrice':1.1,'suppliesPrice':71.7,'laborPrice':55.1,'notes':'Voluptates et aut debitis.'}]",
+     *     description="[{""operationCode"":""CCAF"", ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""laborHours"":5,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3,""notes"":""Cumque tempora ut nobis."" },{""operationCode"":""ACRS"", ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""laborHours"":7,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""notes"":""Et accusantium rerum.""},{""operationCode"":""ALIGNMENT"", ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""laborHours"":15,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""notes"":""Voluptates et aut debitis.""}]",
      * )
      * 
      * @SWG\Response(
@@ -58,8 +58,6 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
      *
      * @param Request                                  $request
      * @param RepairOrderQuoteRepository               $repairOrderQuoteRepository
-     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo
-     * @param OperationCodeRepository                  $operationCodeRepository
      * @param EntityManagerInterface                   $em
      *
      * @return Response
@@ -67,8 +65,6 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
     public function createRepairOrderQuoteRecommendations (
         Request                                  $request, 
         RepairOrderQuoteRepository               $repairOrderQuoteRepository, 
-        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo,
-        OperationCodeRepository                  $operationCodeRepository, 
         EntityManagerInterface                   $em
     ) {
         $repairOrderQuoteID    = $request->get('repair_order_quote');
@@ -94,14 +90,11 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
         //add recommendations
         foreach ($obj as $index => $recommendation){
             $rOQRecom = new RepairOrderQuoteRecommendation();
-            //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(["id" => $recommendation->operationCode]);
-            if (!$operationCode) {
-                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
-            }
+           
             $rOQRecom->setRepairOrderQuote($repairOrderQuote)
-                     ->setOperationCode($operationCode)
+                     ->setOperationCode($recommendation->operationCode)
                      ->setDescription($recommendation->description)
+                     ->setLaborHours($recommendation->laborHours)
                      ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
                      ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
                      ->setPartsPrice($recommendation->partsPrice)

@@ -86,7 +86,7 @@ class CDKClient extends AbstractDMSClient
 
     public function init(): void
     {
-        $this->buildSerializer('../src/Soap/cdk/metadata', 'App\Soap\cdk\src');
+        $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/cdk/metadata', 'App\Soap\cdk\src');
 
         $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
         $this->initializeGuzzleClient($this->getBaseURI(), $options);
@@ -235,11 +235,9 @@ class CDKClient extends AbstractDMSClient
     }
 
     /**
-     * @param $repairOrder
-     *
      * @return null
      */
-    private function extractROInfo($repairOrder): ?DMSResult
+    private function extractROInfo(ServiceRepairOrderOpen $repairOrder): ?DMSResult
     {
         $dmsResult = new DMSResult();
         $dmsResult->setRaw($repairOrder);
@@ -265,7 +263,7 @@ class CDKClient extends AbstractDMSClient
         //Try to find a number.
         $phoneNumber = $this->phoneNormalizer($repairOrder->getPhoneNumber());
 
-        if(!$phoneNumber){
+        if (!$phoneNumber) {
             return null;
         }
 
@@ -343,121 +341,76 @@ class CDKClient extends AbstractDMSClient
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
-    /**
-     * @return string
-     */
     public static function getDefaultIndexName(): string
     {
         return 'usingCdk';
     }
 
-    /**
-     * @return string
-     */
     public function getUsername(): string
     {
         return $this->username;
     }
 
-    /**
-     * @param string $username
-     */
     public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
     public function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
-    /**
-     * @return string
-     */
     public function getDealerID(): string
     {
         return $this->dealerID;
     }
 
-    /**
-     * @param string $dealerID
-     */
     public function setDealerID(string $dealerID): void
     {
         $this->dealerID = $dealerID;
     }
 
-    /**
-     * @return string
-     */
     public function getOpenROExtractURL(): string
     {
         return $this->openROExtractURL;
     }
 
-    /**
-     * @param string $openROExtractURL
-     */
     public function setOpenROExtractURL(string $openROExtractURL): void
     {
         $this->openROExtractURL = $openROExtractURL;
     }
 
-    /**
-     * @return string
-     */
     public function getSingleROExtractURL(): string
     {
         return $this->singleROExtractURL;
     }
 
-    /**
-     * @param string $singleROExtractURL
-     */
     public function setSingleROExtractURL(string $singleROExtractURL): void
     {
         $this->singleROExtractURL = $singleROExtractURL;
     }
 
-    /**
-     * @return string
-     */
     public function getClosedROExtractURL(): string
     {
         return $this->closedROExtractURL;
     }
 
-    /**
-     * @param string $closedROExtractURL
-     */
     public function setClosedROExtractURL(string $closedROExtractURL): void
     {
         $this->closedROExtractURL = $closedROExtractURL;
     }
 
-    /**
-     * @return string
-     */
     public function getBaseURI(): string
     {
         return $this->baseURI;
     }
 
-    /**
-     * @param string $baseURI
-     */
     public function setBaseURI(string $baseURI): void
     {
         $this->baseURI = $baseURI;

@@ -26,21 +26,24 @@ class RepairOrderHelper
     private $em;
     private $repo;
     private $customers;
-    private $users;
+    private $userRepository;
     private $customerHelper;
+    private $phoneValidator;
 
     public function __construct(
         EntityManagerInterface $em,
         RepairOrderRepository $repo,
         CustomerRepository $customers,
-        UserRepository $users,
-        CustomerHelper $customerHelper
+        UserRepository $userRepository,
+        CustomerHelper $customerHelper,
+        PhoneValidator $phoneValidator
     ) {
         $this->em = $em;
         $this->repo = $repo;
         $this->customers = $customers;
-        $this->users = $users;
+        $this->userRepository = $userRepository;
         $this->customerHelper = $customerHelper;
+        $this->phoneValidator = $phoneValidator;
     }
 
     /**
@@ -76,7 +79,7 @@ class RepairOrderHelper
         }
 
         if (is_null($ro->getPrimaryAdvisor())) {
-            $advisors = $this->users->getUserByRole('ROLE_SERVICE_ADVISOR');
+            $advisors = $this->userRepository->getUserByRole('ROLE_SERVICE_ADVISOR');
             $advisor = $advisors[0] ?? null;
             if (!$advisor instanceof User) {
                 throw new Exception('Could not find advisor');
@@ -118,7 +121,6 @@ class RepairOrderHelper
         $map = [
             'customerName' => 'name',
             'customerPhone' => 'phone',
-            'skipMobileVerification' => 'skipMobileVerification',
         ];
         $return = [];
         if (array_key_exists('customerEmail', $params) || array_key_exists('email', $params)) {
@@ -147,7 +149,7 @@ class RepairOrderHelper
                 continue;
             }
             $role = ('advisor' === $k) ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
-            $user = $this->users->find($params[$k]);
+            $user = $this->userRepository->find($params[$k]);
             if (null === $user) {
                 $errors[$k] = ucfirst($k).' not found';
                 continue;
@@ -235,14 +237,26 @@ class RepairOrderHelper
             $ro->setUpgradeQue($this->paramToBool($params['upgradeQue']));
         }
 
+        if (isset($params['customerId'])) {
+            $customer = $this->customers->find($params['customerId']);
+            if (!$customer) {
+                $errors['customerId'] = 'Customer ID does not exist';
+            } else {
+                $ro->setPrimaryCustomer($customer);
+            }
+        }
+
         return $errors;
     }
 
     public function isNumberUnique(string $roNumber): bool
     {
-        $ro = $this->repo->findByUID($roNumber);
+        $ro = $this->repo->findBy(['number' => $roNumber]);
+        if ($ro){
+            return false;
+        }
 
-        return null === $ro;
+        return true;
     }
 
     public function generateLinkHash(string $dateCreated): string
@@ -347,6 +361,7 @@ class RepairOrderHelper
                 break;
             }
         }
+
         foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
             $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {
@@ -359,6 +374,77 @@ class RepairOrderHelper
         sort($suggestedRoNumbers);
 
         return $suggestedRoNumbers;
+    }
+
+    /**
+     * @param User   $user
+     * @param null   $startDate
+     * @param null   $endDate
+     * @param string $sortField
+     * @param string $sortDirection
+     * @param null   $searchTerm
+     * @param bool   $needsVideo
+     * @param array  $fields
+     *
+     * @return null
+     */
+    public function getAllItems(
+        $user,
+        $startDate = null,
+        $endDate = null,
+        $sortField = 'dateCreated',
+        $sortDirection = 'DESC',
+        $searchTerm = null,
+        $needsVideo = false,
+        $fields = []
+    ) {
+        try {
+            $qb = $this->repo->createQueryBuilder('ro');
+            $qb->andWhere('ro.deleted = 0');
+
+            if ($user instanceof User) {
+                if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
+                    if (!$needsVideo) {
+                        if ($user->getShareRepairOrders()) {
+                            $qb->andWhere('ro.primaryAdvisor IN (:users)')
+                               ->setParameter('users', $user);
+
+                            $queryParameters['users'] = $this->userRepository->getSharedUsers();
+                        } else {
+                            $qb->andWhere('ro.primaryAdvisor = :user')
+                               ->setParameter('user', $user);
+
+                            $queryParameters['user'] = $user;
+                        }
+                    }
+                } elseif ($user->isTechnician()) {
+                    $qb->andWhere('ro.primaryTechnician = :user OR ro.primaryTechnician is NULL')
+                       ->setParameter('user', $user);
+
+                    $queryParameters['user'] = $user;
+                }
+            } else {
+                throw new BadRequestHttpException('Invalid User');
+            }
+
+            if (filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)) {
+                $qb->andWhere('ro.dateClosed IS NULL')->andWhere("ro.videoStatus = 'Not Started'");
+            }
+
+            $qb = $this->addFilters(
+                $qb,
+                $startDate,
+                $endDate,
+                $sortField,
+                $sortDirection,
+                $searchTerm,
+                $fields
+            );
+
+            return $qb->getQuery()->getResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 
     public function addFilters(
@@ -455,77 +541,6 @@ class RepairOrderHelper
             }
 
             return $qb;
-        } catch (NonUniqueResultException $e) {
-            return null;
-        }
-    }
-
-    /**
-     * @param User   $user
-     * @param null   $startDate
-     * @param null   $endDate
-     * @param string $sortField
-     * @param string $sortDirection
-     * @param null   $searchTerm
-     * @param bool   $needsVideo
-     * @param array  $fields
-     *
-     * @return null
-     */
-    public function getAllItems(
-        $user,
-        $startDate = null,
-        $endDate = null,
-        $sortField = 'dateCreated',
-        $sortDirection = 'DESC',
-        $searchTerm = null,
-        $needsVideo = false,
-        $fields = []
-    ) {
-        try {
-            $qb = $this->repo->createQueryBuilder('ro');
-            $qb->andWhere('ro.deleted = 0');
-
-            if ($user instanceof User) {
-                if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
-                    if (!$needsVideo) {
-                        if ($user->getShareRepairOrders()) {
-                            $qb->andWhere('ro.primaryAdvisor IN (:users)')
-                               ->setParameter('users', $user);
-
-                            $queryParameters['users'] = $this->userRepo->getSharedUsers();
-                        } else {
-                            $qb->andWhere('ro.primaryAdvisor = :user')
-                               ->setParameter('user', $user);
-
-                            $queryParameters['user'] = $user;
-                        }
-                    }
-                } elseif ($user->isTechnician()) {
-                    $qb->andWhere('ro.primaryTechnician = :user OR ro.primaryTechnician is NULL')
-                       ->setParameter('user', $user);
-
-                    $queryParameters['user'] = $user;
-                }
-            } else {
-                throw new BadRequestHttpException('Invalid User');
-            }
-
-            if (filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)) {
-                $qb->andWhere('ro.dateClosed IS NULL')->andWhere("ro.videoStatus = 'Not Started'");
-            }
-
-            $qb = $this->addFilters(
-                $qb,
-                $startDate,
-                $endDate,
-                $sortField,
-                $sortDirection,
-                $searchTerm,
-                $fields
-            );
-
-            return $qb->getQuery()->getResult();
         } catch (NonUniqueResultException $e) {
             return null;
         }
