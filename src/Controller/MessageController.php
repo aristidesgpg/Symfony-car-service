@@ -3,22 +3,20 @@
 namespace App\Controller;
 
 use App\Service\InternalMessageHelper;
+use App\Service\ServiceSMSHelper;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Swagger\Annotations as SWG;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class MessageController
- *
- * @package App\Controller
+ * Class MessageController.
  */
 class MessageController extends AbstractFOSRestController
 {
     /**
      * @Rest\Get("/api/message/unread")
-     * 
+     *
      * @SWG\Tag(name="Message")
      * @SWG\Get(description="Get total unread messages")
      * @SWG\Response(
@@ -31,17 +29,15 @@ class MessageController extends AbstractFOSRestController
      *          @SWG\Property(property="sales", type="integer", description="Total # of unread sales messages")
      *      )
      * )
-     * 
-     * @param InternalMessageHelper $internalMessageHelper
-     * 
+     *
      * @return Response
      */
-    public function unread(InternalMessageHelper $internalMessageHelper)
+    public function unread(InternalMessageHelper $internalMessageHelper, ServiceSMSHelper $serviceSMSHelper)
     {
         $totalUnreads = [
             'internal' => $internalMessageHelper->getUnReadMessagesCount(),
-            'service'  => 0,
-            'sales'    => 0
+            'service' => $serviceSMSHelper->getUnReadMessagesCount(),
+            'sales' => 0,
         ];
 
         return $this->handleView($this->view($totalUnreads));

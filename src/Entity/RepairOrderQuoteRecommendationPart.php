@@ -26,13 +26,6 @@ class RepairOrderQuoteRecommendationPart
      */
     private $repairOrderRecommendation;
 
-     /**
-     * @ORM\ManyToOne(targetEntity=Part::class, inversedBy="repairOrderQuoteRecommendationParts")
-     * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Groups(groups={"roqp_list"})
-     */
-    private $part;
-
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Groups(groups={"roqp_list"})
@@ -62,6 +55,12 @@ class RepairOrderQuoteRecommendationPart
      * @Serializer\Groups(groups={"roqp_list"})
      */
     private $totalPrice;
+
+     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups(groups={"roqp_list"})
+     */
+    private $bin;
 
     public function getId(): ?int
     {
@@ -128,18 +127,6 @@ class RepairOrderQuoteRecommendationPart
         return $this;
     }
 
-    public function getPart(): ?Part
-    {
-        return $this->part;
-    }
-
-    public function setPart(?Part $part): self
-    {
-        $this->part = $part;
-
-        return $this;
-    }
-
     public function getTotalPrice(): ?float
     {
         return $this->totalPrice;
@@ -148,6 +135,18 @@ class RepairOrderQuoteRecommendationPart
     public function setTotalPrice(?float $totalPrice): self
     {
         $this->totalPrice = $totalPrice;
+
+        return $this;
+    }
+
+    public function getBin(): ?string
+    {
+        return $this->bin;
+    }
+
+    public function setBin(?string $bin): self
+    {
+        $this->bin = $bin;
 
         return $this;
     }
