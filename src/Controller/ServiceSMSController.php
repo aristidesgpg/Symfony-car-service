@@ -332,7 +332,7 @@ class ServiceSMSController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/api/service-sms/read-thread")
+     * @Rest\Post("/api/service-sms/mark-read")
      *
      * @SWG\Tag(name="Service SMS")
      * @SWG\Post(description="Mark thread as read")
@@ -359,7 +359,7 @@ class ServiceSMSController extends AbstractFOSRestController
      *     description="Permision Denied",
      * )
      */
-    public function readThread(
+    public function markRead(
         Request $request,
         ServiceSMSHelper $helper,
         Security $security,
@@ -376,7 +376,7 @@ class ServiceSMSController extends AbstractFOSRestController
             throw new BadRequestHttpException('The user should be admin or service manager');
         }
         // Mark all incoming messages as read from the customer
-        $messages = $serviceSMSRepo->findBy(['customer' => $customerID, 'incoming' => 1]);
+        $messages = $serviceSMSRepo->findBy(['customer' => $customerID, 'incoming' => 1, 'isRead' => 0]);
         foreach ($messages as $message) {
             $message->setIsRead(true);
             $em->persist($message);
