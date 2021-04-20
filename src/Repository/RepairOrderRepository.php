@@ -159,7 +159,7 @@ class RepairOrderRepository extends ServiceEntityRepository
      *
      * @throws Exception
      */
-    public function getAllArchives($start = null, $end = null, $sortField = 'date', $sortDirection = 'DESC')
+    public function getAllArchives($start = null, $end = null, $sortField = 'dateCreated', $sortDirection = 'DESC')
     {
         if (is_null($end)) {
             $end = new DateTime();
@@ -196,7 +196,7 @@ class RepairOrderRepository extends ServiceEntityRepository
         }
     }
 
-    public function getMpiReporting($start = null, $end = null, $sortField = 'date', $sortDirection = 'DESC', $advisorId = null, $technicianId = null)
+    public function getMpiReporting($start = null, $end = null, $sortField = 'dateCreated', $sortDirection = 'DESC', $advisorId = null, $technicianId = null)
     {
         if (is_null($end)) {
             $end = new DateTime();
