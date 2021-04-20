@@ -19,6 +19,7 @@ use App\Soap\dealerbuilt\src\Models\PhoneNumberType;
 use App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class DealerBuiltClient.
@@ -156,6 +157,14 @@ class DealerBuiltClient extends AbstractDMSClient
 
         return $repairOrders;
     }
+
+
+    public function getRepairOrderByNumber(string $RONumber)
+    {
+        // TODO: Implement getSingleRepairOrder() method.
+        throw new AccessDeniedException('Not Implemented for this DMS.');
+    }
+
 
     public function getClosedRoDetails(array $openRepairOrders): array
     {
@@ -444,6 +453,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
         return $bins;
     }
+
 
     public function getPostUrl(): string
     {
