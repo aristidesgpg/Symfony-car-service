@@ -445,7 +445,7 @@ class RepairOrderController extends AbstractFOSRestController
      * @SWG\Parameter(name="vin", type="string", in="formData")
      * @SWG\Parameter(name="dmsKey", type="string", in="formData")
      * @SWG\Parameter(name="upgradeQue", type="boolean", in="formData")
-     * @SWG\Parameter(name="customerId", type="integer", in="formData")
+     * @SWG\Parameter(name="primaryCustomerId", type="integer", in="formData")
      */
     public function update(RepairOrder $ro, Request $req, RepairOrderHelper $helper): Response
     {
