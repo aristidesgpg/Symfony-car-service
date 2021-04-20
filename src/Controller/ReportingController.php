@@ -399,6 +399,30 @@ class ReportingController extends AbstractFOSRestController
      *      in="query"
      * )
      *
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     *
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *
      * @SWG\Response(
      *     response="200",
      *     description="Returns the list of Service Advisors and data relating to repair orders assigned to them that are closed",
@@ -428,16 +452,58 @@ class ReportingController extends AbstractFOSRestController
         Request $request,
         RepairOrderRepository $roRepo,
         UserRepository $userRepo,
-        RepairOrderQuoteRepository $quoteRepo
+        RepairOrderQuoteRepository $quoteRepo,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
     ): Response {
+        $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $urlParameters = [];
+        $sortField = '';
+        $sortDirection = '';
+        $searchTerm = '';
+        $errors = [];
+
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
+        // Invalid page
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        // Invalid page limit
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
+        }
+
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
+
+            $sortDirection = $request->query->get('sortDirection');
+
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
 
         $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
 
         $closedRepairOrders = $roRepo->getAllArchives(
             $startDate,
-            $endDate
+            $endDate,
+            $sortField,
+            $sortDirection
         );
 
         $result = [];
@@ -503,7 +569,19 @@ class ReportingController extends AbstractFOSRestController
             ];
         }
 
-        $view = $this->view($result);
+        $pager = $paginator->paginate($result, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $json = [
+            'results' => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('app_reporting_advisor', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('app_reporting_advisor', $urlParameters),
+        ];
+
+        $view = $this->view($json);
         $view->getContext()->setGroups(['user_list']);
 
         return $this->handleView($view);
