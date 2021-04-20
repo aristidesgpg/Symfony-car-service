@@ -185,7 +185,7 @@ class RepairOrderRepository extends ServiceEntityRepository
             }
 
             if ($sortDirection) {
-                $qb->orderBy('ro.' . $sortField, $sortDirection);
+                $qb->orderBy('ro.'.$sortField, $sortDirection);
             } else {
                 $qb->orderBy('ro.dateCreated', 'DESC');
             }
@@ -196,7 +196,7 @@ class RepairOrderRepository extends ServiceEntityRepository
         }
     }
 
-    public function getMpiReporting($start = null, $end = null, $advisorId = null, $technicianId = null)
+    public function getMpiReporting($start = null, $end = null, $sortField = 'date', $sortDirection = 'DESC', $advisorId = null, $technicianId = null)
     {
         if (is_null($end)) {
             $end = new DateTime();
@@ -229,6 +229,12 @@ class RepairOrderRepository extends ServiceEntityRepository
             if ($technicianId) {
                 $qb->andWhere('ro.primaryTechnicianId = :technicianId')
                    ->setParameter('technicianId', $technicianId);
+            }
+
+            if ($sortDirection) {
+                $qb->orderBy('ro.'.$sortField, $sortDirection);
+            } else {
+                $qb->orderBy('ro.dateCreated', 'DESC');
             }
 
             return $qb->getQuery()->getResult();

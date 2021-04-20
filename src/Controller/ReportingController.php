@@ -982,6 +982,30 @@ class ReportingController extends AbstractFOSRestController
      *      in="query"
      * )
      *
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     *
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     description="Page Limit",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *
      * @SWG\Parameter(
      *      name="advisorId",
      *      type="integer",
@@ -1037,10 +1061,51 @@ class ReportingController extends AbstractFOSRestController
         UserRepository $userRepo,
         RepairOrderQuoteRepository $quoteRepo,
         MPITemplateRepository $mpiTemplateRepo,
-        RepairOrderMPIRepository $roMpiRepo
+        RepairOrderMPIRepository $roMpiRepo,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
     ): Response {
+        $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $urlParameters = [];
+        $sortField = '';
+        $sortDirection = '';
+        $searchTerm = '';
+        $errors = [];
+
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
+        // Invalid page
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        // Invalid page limit
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
+        }
+
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
+
+            $sortDirection = $request->query->get('sortDirection');
+
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
         $advisorId = $request->query->get('advisorId');
         $technicianId = $request->query->get('technicianId');
         $mpiTemplateId = $request->query->get('mpiTemplateId');
@@ -1055,6 +1120,8 @@ class ReportingController extends AbstractFOSRestController
         $closedRepairOrders = $roRepo->getMpiReporting(
             $startDate,
             $endDate,
+            $sortField,
+            $sortDirection,
             $advisorId,
             $technicianId
         );
@@ -1100,7 +1167,19 @@ class ReportingController extends AbstractFOSRestController
             ];
         }
 
-        $view = $this->view($result);
+        $pager = $paginator->paginate($result, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $json = [
+            'results' => $pager->getItems(),
+            'totalResults' => $pagination->totalResults,
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('app_reporting_mpi', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('app_reporting_mpi', $urlParameters),
+        ];
+
+        $view = $this->view($json);
 
         return $this->handleView($view);
     }
