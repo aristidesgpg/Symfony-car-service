@@ -159,33 +159,48 @@ class DMS
     }
 
     /**
+     * Get's a single RO and adds it to the system.
+     *
      * @param $RONumber
      *
      * @throws exception
      */
     public function addSingleRepairOrder($RONumber): bool
     {
-        if (!$this->integration) {
-            throw new Exception('You are not integrated with a DMS');
-        }
-
-        if (!method_exists($this->integration, 'addRepairOrderByNumber')) {
-            throw new Exception("Your DMS hasn't been set up to pull individual repair orders");
-        }
-
-        $dmsRepairOrder = $this->integration->addRepairOrderByNumber($RONumber);
-        if (!$dmsRepairOrder) {
-            throw new Exception('We were unable to find that RO Number on your DMS');
-        }
+        $dmsRepairOrder = $this->getRepairOrderByNumber($RONumber);
 
         $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsRepairOrder->getNumber()]);
         if ($repairOrderExists) {
             throw new Exception('This RO is already in the system');
         }
-
         $this->processRepairOrder($dmsRepairOrder);
 
         return true;
+    }
+
+    /**
+     * Get a single RO Number.
+     *
+     * @return DMSResult|\App\Soap\cdk\src\ServiceRepairOrderOpen|object|void
+     *
+     * @throws Exception
+     */
+    public function getRepairOrderByNumber(string $RONumber)
+    {
+        if (!$this->integration) {
+            throw new Exception('You are not integrated with a DMS');
+        }
+
+        if (!method_exists($this->integration, 'getRepairOrderByNumber')) {
+            throw new Exception("Your DMS hasn't been set up to pull individual repair orders");
+        }
+
+        $dmsRepairOrder = $this->integration->getRepairOrderByNumber($RONumber);
+        if (!$dmsRepairOrder) {
+            throw new Exception('We were unable to find that RO Number on your DMS');
+        }
+
+        return $dmsRepairOrder;
     }
 
     public function processRepairOrder(DMSResult $dmsRepairOrder)
@@ -208,10 +223,10 @@ class DMS
         $date = $dmsRepairOrder->getDate();
         $openTimestamp = $date->getTimestamp();
         $fiveDaysAgo = (new DateTime())->modify('-5 days')->getTimestamp();
-
-        if ($fiveDaysAgo > $openTimestamp) {
-            return;
-        }
+        // TODO: REMOVE COMMENT
+//        if ($fiveDaysAgo > $openTimestamp) {
+//            return;
+//        }
 
         //TODO: The customerFinder() logic needs revisited.
         $customer = $this->customerFinder($dmsRepairOrder);
@@ -235,7 +250,7 @@ class DMS
 
         //text customer.
         try {
-            $this->sendCommunicationToCustomer($repairOrder, $customer);
+            //$this->sendCommunicationToCustomer($repairOrder, $customer);
         } catch (Exception $e) {
         }
     }
