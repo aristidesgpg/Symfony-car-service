@@ -42,7 +42,7 @@ class RepairOrderQuoteHelper
         'laborTax',
         'partsTax',
         'suppliesTax',
-        'laborHours'
+        'laborHours',
     ];
     private const PART_REQUIRED_FIELDS = [
         'number',
@@ -134,7 +134,7 @@ class RepairOrderQuoteHelper
         }
     }
 
-     /**
+    /**
      * @throws Exception
      */
     public function validateCompletedJson(array $params)
@@ -167,7 +167,6 @@ class RepairOrderQuoteHelper
      */
     public function validateRecommendationsJson(array $params)
     {
-
         foreach ($params as $recommendation) {
             if (!is_object($recommendation)) {
                 throw new Exception('Recommendations data is invalid');
@@ -191,7 +190,7 @@ class RepairOrderQuoteHelper
                         throw new Exception($field.' has no value in recommendations json');
                     }
 
-                    if ( in_array($field, self::RECOMMENDATION_NUMBER_FIELDS) ) {
+                    if (in_array($field, self::RECOMMENDATION_NUMBER_FIELDS)) {
                         if (!is_numeric($fields[$field])) {
                             throw new Exception($field.' has invalid value in recommendations json');
                         }
@@ -213,11 +212,20 @@ class RepairOrderQuoteHelper
      *
      * @throws Exception
      */
-    public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations)
+    public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations, bool $wipeAll = true, bool $wipePreApproved = false)
     {
         // Remove previous recommendations
-        foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
-            $this->em->remove($oldRecommendation);
+        if ($wipeAll) {
+            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+                $this->em->remove($oldRecommendation);
+            }
+        }
+        if ($wipePreApproved) {
+            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+                if ($oldRecommendation->getPreApproved()) {
+                    $this->em->remove($oldRecommendation);
+                }
+            }
         }
 
         foreach ($recommendations as $recommendation) {
@@ -234,7 +242,7 @@ class RepairOrderQuoteHelper
                                             ->setPreApproved(
                                                 filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
                                             )
-                                            ->setLaborPrice($recommendation->laborPrice)                                
+                                            ->setLaborPrice($recommendation->laborPrice)
                                             ->setPartsPrice($recommendation->partsPrice)
                                             ->setSuppliesPrice($recommendation->suppliesPrice)
                                             ->setLaborTax($recommendation->laborTax)
@@ -242,16 +250,16 @@ class RepairOrderQuoteHelper
                                             ->setSuppliesTax($recommendation->suppliesTax)
                                             ->setLaborHours($recommendation->laborHours)
                                             ->setNotes($recommendation->notes);
-            
+
             $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
-            
+
             $this->em->persist($repairOrderQuoteRecommendation);
-            
+
             if (property_exists($recommendation, 'parts')) {
                 $this->buildParts($repairOrderQuoteRecommendation, $recommendation->parts);
             }
         }
-        
+
         $this->em->beginTransaction();
 
         try {
@@ -264,7 +272,7 @@ class RepairOrderQuoteHelper
         }
     }
 
-   /**
+    /**
      * complete the repairOrderQuote.
      *
      * @throws Exception
@@ -275,11 +283,11 @@ class RepairOrderQuoteHelper
         $tax = 0;
         $repairOrderQuoteRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
 
-        foreach($repairOrderQuoteRecommendations as $repairOrderQuoteRecommendation) {
-            $currentRecommendation = "";
-            
+        foreach ($repairOrderQuoteRecommendations as $repairOrderQuoteRecommendation) {
+            $currentRecommendation = '';
+
             foreach ($recommendations as $recommendation) {
-                if($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
+                if ($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
                     $currentRecommendation = $recommendation;
                     break;
                 }
@@ -287,34 +295,34 @@ class RepairOrderQuoteHelper
 
             if ($repairOrderQuoteRecommendation->getPreApproved()) {
                 if ($currentRecommendation && !filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN)) {
-                    throw new Exception('The recommendation'. $repairOrderQuoteRecommendation->getId() .' was pre-approved');    
+                    throw new Exception('The recommendation'.$repairOrderQuoteRecommendation->getId().' was pre-approved');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(true);
             } else {
                 if (!$currentRecommendation) {
-                    throw new Exception("Recommendation ". $repairOrderQuoteRecommendation->getId()." was not pre-approved, but it is missing");    
+                    throw new Exception('Recommendation '.$repairOrderQuoteRecommendation->getId().' was not pre-approved, but it is missing');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN));
             }
 
-            if($repairOrderQuoteRecommendation->getApproved()) {
+            if ($repairOrderQuoteRecommendation->getApproved()) {
                 $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
-                          + $repairOrderQuoteRecommendation->getPartsPrice() 
+                          + $repairOrderQuoteRecommendation->getPartsPrice()
                           + $repairOrderQuoteRecommendation->getSuppliesPrice();
-                $tax +=  $repairOrderQuoteRecommendation->getLaborTax() 
-                     + $repairOrderQuoteRecommendation->getPartsTax() 
+                $tax += $repairOrderQuoteRecommendation->getLaborTax()
+                     + $repairOrderQuoteRecommendation->getPartsTax()
                      + $repairOrderQuoteRecommendation->getSuppliesPrice();
             }
-            
+
             $this->em->persist($repairOrderQuoteRecommendation);
         }
 
         $repairOrderQuote->setSubtotal($subtotal);
         $repairOrderQuote->setTax($tax);
         $repairOrderQuote->setTotal($subtotal + $tax);
-     
+
         $this->em->beginTransaction();
 
         try {
@@ -333,20 +341,20 @@ class RepairOrderQuoteHelper
      * @throws Exception
      */
     public function buildParts(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation, array $parts)
-    { 
+    {
         foreach ($parts as $part) {
             $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
-            
+
             $repairOrderQuoteRecommendation->addRepairOrderQuoteRecommendationPart($repairOrderQuoteRecommendationPart);
-            
+
             $repairOrderQuoteRecommendationPart->setNumber($part->number)
                                                ->setName($part->name)
                                                ->setprice($part->price)
-                                               ->setTotalPrice($part->quantity * $part->price)          
-                                               ->setQuantity($part->quantity);      
-            
+                                               ->setTotalPrice($part->quantity * $part->price)
+                                               ->setQuantity($part->quantity);
+
             $newPart = $this->partRepository->findOneBy(['number' => $part->number]);
-            if(!$newPart) {
+            if (!$newPart) {
                 $newPart = new Part();
 
                 $newPart->setNumber($part->number)
@@ -356,12 +364,12 @@ class RepairOrderQuoteHelper
 
                 $this->em->persist($newPart);
             }
-            
+
             $repairOrderQuoteRecommendationPart->setPart($newPart);
 
             $this->em->persist($repairOrderQuoteRecommendationPart);
         }
-        $this->em->persist($repairOrderQuoteRecommendation);         
+        $this->em->persist($repairOrderQuoteRecommendation);
         $this->em->beginTransaction();
 
         try {
@@ -401,9 +409,9 @@ class RepairOrderQuoteHelper
 
     public function createRepairOrderQuoteFromRepairOrder(RepairOrder $repairOrder)
     {
-
     }
-    /**
+
+    /*
      * Sync Repair Order Quote Recomendations
      * Get Repair Order from DMS
      * Check if Repair Order Quote Exists, Create if it does not.
@@ -428,5 +436,4 @@ class RepairOrderQuoteHelper
      *
      *
      */
-
 }
