@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Part;
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
@@ -397,4 +398,32 @@ class RepairOrderQuoteHelper
 
         return true;
     }
+
+    public function createRepairOrderQuoteFromRepairOrder(RepairOrder $repairOrder)
+    {
+
+    }
+    /**
+     * Sync Repair Order Quote Recomendations
+     * Get Repair Order from DMS
+     * Check if Repair Order Quote Exists, Create if it does not.
+     * SYnc "Preapproved" tasks, delete existing pre approved tasks.
+     *
+     *description should be the opcode text.
+    Comments should be notes
+    Should only wipe the pre_approved ones.
+
+    Description is opcode
+    If there is no op code, default to misc opcode.
+    Merging if the same.
+    Misc(Empty) do not merge.
+    Wipe preapproved everytime.
+
+    After you update the quote, there is a helper method that will update the repair order quote log
+    Need to merge
+
+     *
+     *
+     */
+
 }

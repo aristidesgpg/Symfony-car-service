@@ -551,6 +551,11 @@ class RepairOrderHelper
         }
     }
 
+    public function syncRepairOrderWithDMS(){
+
+    }
+
+
     /**
      * @return ROLinkHashHelper
      */
