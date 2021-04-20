@@ -71,14 +71,14 @@ class ReportingControllerTest extends WebTestCase
         $this->requestActionNormalized('advisors', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
 
         // Reversed dates
         $params = ['startDate' => '2021-08-07 06:04:41', 'endDate' => '2019-02-20 06:04:41'];
         $this->requestActionNormalized('advisors', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
     }
 
     public function testAdvisor()
@@ -98,14 +98,14 @@ class ReportingControllerTest extends WebTestCase
         $this->requestActionNormalized('advisors-usage', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
 
         // Reversed dates
         $params = ['startDate' => '2021-08-07 06:04:41', 'endDate' => '2019-02-20 06:04:41'];
         $this->requestActionNormalized('advisors-usage', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
     }
 
     public function testTechnicians()
@@ -125,14 +125,14 @@ class ReportingControllerTest extends WebTestCase
         $this->requestActionNormalized('technicians', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
 
         // Reversed dates
         $params = ['startDate' => '2021-08-07 06:04:41', 'endDate' => '2019-02-20 06:04:41'];
         $this->requestActionNormalized('technicians', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
     }
 
     public function testCustomerEngagements()
@@ -152,14 +152,14 @@ class ReportingControllerTest extends WebTestCase
         $this->requestActionNormalized('customer-engagements', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
 
         // Reversed dates
         $params = ['startDate' => '2021-08-07 06:04:41', 'endDate' => '2019-02-20 06:04:41'];
         $this->requestActionNormalized('customer-engagements', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
 
         // Wrong date format
         $params = ['startDate' => '2021-08-07 06-04-41', 'endDate' => '2019-02-20 06:04:41'];
@@ -184,7 +184,7 @@ class ReportingControllerTest extends WebTestCase
         $this->requestActionNormalized('mpi', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, count($listData));
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
     }
 
     private function requestActionNormalized($url, $params = null)
