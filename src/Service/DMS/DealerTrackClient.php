@@ -185,6 +185,93 @@ class DealerTrackClient extends AbstractDMSClient
         return $repairOrders;
     }
 
+    public function getRepairOrderByNumber(string $RONumber)
+    {
+        if ($this->getSoapClient()) {
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+
+            $monthAgo = (new \DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
+            $monthAhead = (new \DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
+            $oneYearAgo = (new \DateTime())->modify('-1 year')->format('Y-m-d\TH:i:s\Z');
+
+            $request = [
+                'Dealer' => [
+                    'CompanyNumber' => $this->getCompany(),
+                    'EnterpriseCode' => $this->getEnterprise(),
+                    'ServerName' => $this->getServer(),
+                ],
+                'LookupParms' => [
+                    'ModifiedAfter' => $monthAgo,
+                    'CreatedDateTimeStart' => $oneYearAgo,
+                    'CreatedDateTimeEnd' => $monthAhead,
+                    'RepairOrderNumber' => $RONumber,
+                ],
+            ];
+
+            $soapResult = $this->sendSoapCall('OpenRepairOrderLookup', [$request], true);
+            dump($soapResult);
+            $response = $this->getSerializer()->deserialize($soapResult, DealerTrackSoapEnvelope::class, 'xml');
+            dd($response);
+            if (!$response) {
+                return $repairOrders;
+            }
+
+            /**
+             * @var Result $result
+             */
+            foreach ($response->getBody()->getOpenRepairOrderLookupResult()->getResult() as $result) {
+                $dmsResult = new DMSResult();
+                $dmsResult->setRaw($result);
+
+                $openDate = new \DateTime();
+                try {
+                    $openDate = new \DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
+                } catch (\Exception $e) {
+                    //ignore
+                }
+
+                //TODO This needs checked on... Couldn't find any with DateToArrive != 0.
+                $pickupDate = false;
+                if ($result->getDateToArrive() > 0) {
+                    try {
+                        $openDate = new \DateTime($result->getDateToArrive());
+                    } catch (\Exception $e) {
+                        //ignore
+                    }
+                }
+                //Customer
+                $dmsResult->getCustomer()
+                    ->setName($result->getCustomerName())
+                    ->setPhoneNumbers($this->phoneNormalizer($result->getCustomerPhoneNumber()))
+                    ->setEmail($result->getCustomerEmail());
+
+                //Repair Order
+                $dmsResult
+                    ->setNumber($result->getRepairOrderNumber())
+                    ->setDate($openDate)
+                    ->setWaiter(($pickupDate) ? false : true)
+                    ->setPickupDate(($pickupDate) ? $pickupDate : null)
+                    ->setYear($result->getModelYear())
+                    ->setMake($result->getMake())
+                    ->setModel($result->getModel())
+                    ->setMiles($result->getOdometerIn())
+                    ->setVin($result->getVIN())
+                    ->setInitialROValue($result->getTotalEstimate());
+
+                //Initial Technician
+                $dmsResult->getTechnician()->setFirstName($result->getROTechnicianID());
+
+                //TODO, sometimes ServiceWriterId is a string. What should we do?
+                //  -serviceWriterID: "MM"
+                if (is_int($result->getServiceWriterID())) {
+                    $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
+                }
+
+                $repairOrders[] = $dmsResult;
+            }
+        }
+    }
+
     public function getClosedRoDetails(array $openRepairOrders): array
     {
         $closedRepairOrders = [];
