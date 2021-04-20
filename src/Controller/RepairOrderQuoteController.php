@@ -219,8 +219,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
             return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
         }
+
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
+        dd($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
             throw new BadRequestHttpException('Recommendations data is invalid');
         }
