@@ -291,6 +291,8 @@ class ReportingController extends AbstractFOSRestController
 
             if ('serviceAdvisorName' === $sortField) {
                 $serviceAdvisors = $userRepo->getUserByRole('ROLE_SERVICE_ADVISOR', 'firstName', $sortDirection);
+            } else {
+                $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
             }
 
             $urlParameters['sortDirection'] = $sortDirection;
@@ -416,7 +418,8 @@ class ReportingController extends AbstractFOSRestController
      *     name="sortField",
      *     type="string",
      *     description="The name of sort field",
-     *     in="query"
+     *     in="query",
+     *     enum={"serviceAdvisorName", "totalClosedRepairOrders", "totalAppraise", "totalStartValues", "totalFinalValues", "totalUpsellAmount", "totalUpsellPercentage", "totalVideos", "sumFinalValues", "sumFinalValuesWithoutVideo"}
      * )
      *
      * @SWG\Parameter(
@@ -471,7 +474,7 @@ class ReportingController extends AbstractFOSRestController
         $searchTerm = '';
         $errors = [];
 
-        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+        $columns = ['serviceAdvisorName', 'totalClosedRepairOrders', 'totalAppraise', 'totalStartValues', 'totalFinalValues', 'totalUpsellAmount', 'totalUpsellPercentage', 'totalVideos', 'sumFinalValues', 'sumFinalValuesWithoutVideo'];
 
         // Invalid page
         if ($page < 1) {
@@ -489,25 +492,27 @@ class ReportingController extends AbstractFOSRestController
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
+
+                return new ValidationResponse($errors);
             }
 
             $sortDirection = $request->query->get('sortDirection');
 
+            if ('serviceAdvisorName' === $sortField) {
+                $serviceAdvisors = $userRepo->getUserByRole('ROLE_SERVICE_ADVISOR', 'firstName', $sortDirection);
+            } else {
+                $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
+            }
+
             $urlParameters['sortDirection'] = $sortDirection;
             $urlParameters['sortField'] = $sortField;
+        } else {
+            $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
         }
-
-        if (!empty($errors)) {
-            return new ValidationResponse($errors);
-        }
-
-        $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
 
         $closedRepairOrders = $roRepo->getAllArchives(
             $startDate,
-            $endDate,
-            $sortField,
-            $sortDirection
+            $endDate
         );
 
         $result = [];
@@ -571,6 +576,9 @@ class ReportingController extends AbstractFOSRestController
                 'sumFinalValues' => $sumFinalValues,
                 'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
             ];
+        }
+        if ($request->query->has('sortField') && $request->query->has('sortDirection') && 'serviceAdvisorName' !== $sortField) {
+            $result = $this->sortByField($result, $sortField, $sortDirection);
         }
 
         $pager = $paginator->paginate($result, $page, $pageLimit);
