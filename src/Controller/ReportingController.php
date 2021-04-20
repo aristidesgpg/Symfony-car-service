@@ -1018,8 +1018,9 @@ class ReportingController extends AbstractFOSRestController
      * @SWG\Parameter(
      *     name="sortField",
      *     type="string",
-     *     description="The name of sort field",
-     *     in="query"
+     *     description="The name of sort field (Repair Order columns)",
+     *     in="query",
+     *     enum={"roNumber", "customerName", "customerPhone", "advisorName", "technicianName", "templateName"}
      * )
      *
      * @SWG\Parameter(
@@ -1100,7 +1101,7 @@ class ReportingController extends AbstractFOSRestController
         $searchTerm = '';
         $errors = [];
 
-        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+        $columns = ['roNumber', 'customerName', 'customerPhone', 'advisorName', 'technicianName', 'templateName'];
 
         // Invalid page
         if ($page < 1) {
@@ -1118,16 +1119,14 @@ class ReportingController extends AbstractFOSRestController
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
+
+                return new ValidationResponse($errors);
             }
 
             $sortDirection = $request->query->get('sortDirection');
 
             $urlParameters['sortDirection'] = $sortDirection;
             $urlParameters['sortField'] = $sortField;
-        }
-
-        if (!empty($errors)) {
-            return new ValidationResponse($errors);
         }
 
         $advisorId = $request->query->get('advisorId');
@@ -1144,8 +1143,8 @@ class ReportingController extends AbstractFOSRestController
         $closedRepairOrders = $roRepo->getMpiReporting(
             $startDate,
             $endDate,
-            $sortField,
-            $sortDirection,
+            null,
+            null,
             $advisorId,
             $technicianId
         );
@@ -1189,6 +1188,9 @@ class ReportingController extends AbstractFOSRestController
                 'templateName' => $mpiTemplate ? $mpiTemplate->getName() : null,
                 'roMPI' => $mpiResults,
             ];
+        }
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $result = $this->sortByField($result, $sortField, $sortDirection);
         }
 
         $pager = $paginator->paginate($result, $page, $pageLimit);
