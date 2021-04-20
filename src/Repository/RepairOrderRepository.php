@@ -159,7 +159,7 @@ class RepairOrderRepository extends ServiceEntityRepository
      *
      * @throws Exception
      */
-    public function getAllArchives($start = null, $end = null)
+    public function getAllArchives($start = null, $end = null, $sortField = 'date', $sortDirection = 'DESC')
     {
         if (is_null($end)) {
             $end = new DateTime();
@@ -184,7 +184,11 @@ class RepairOrderRepository extends ServiceEntityRepository
                     ->setParameter('end', $end->format('Y-m-d H:i'));
             }
 
-            $qb->orderBy('ro.dateCreated', 'DESC');
+            if ($sortDirection) {
+                $qb->orderBy('ro.' . $sortField, $sortDirection);
+            } else {
+                $qb->orderBy('ro.dateCreated', 'DESC');
+            }
 
             return $qb->getQuery()->getResult();
         } catch (NonUniqueResultException $e) {

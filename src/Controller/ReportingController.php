@@ -19,6 +19,7 @@ use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class ReportingController extends AbstractFOSRestController
@@ -49,6 +50,21 @@ class ReportingController extends AbstractFOSRestController
      *     name="pageLimit",
      *     type="integer",
      *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
      * )
      *
      * @SWG\Response(
@@ -89,6 +105,12 @@ class ReportingController extends AbstractFOSRestController
         $endDate = $request->query->get('endDate');
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
+        $sortField = '';
+        $sortDirection = '';
+        $errors = [];
+
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
         // Invalid page
         if ($page < 1) {
             throw new NotFoundHttpException();
@@ -99,9 +121,29 @@ class ReportingController extends AbstractFOSRestController
             return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
         }
 
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
+
+            $sortDirection = $request->query->get('sortDirection');
+
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
         $result = $roRepo->getAllArchives(
             $startDate,
-            $endDate
+            $endDate,
+            $sortField,
+            $sortDirection
         );
 
         $sumOfStartValues = 0;
