@@ -421,6 +421,9 @@ class RepairOrderQuoteHelper
 
     After you update the quote, there is a helper method that will update the repair order quote log
     Need to merge
+     *
+     *
+     * How to Log.
 
      *
      *
