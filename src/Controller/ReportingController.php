@@ -630,7 +630,8 @@ class ReportingController extends AbstractFOSRestController
      *     name="sortField",
      *     type="string",
      *     description="The name of sort field",
-     *     in="query"
+     *     in="query",
+     *     enum={"technicianName", "totalUnreadMessages", "totalClosedRepairOrders", "totalStartValues", "totalFinalValues", "totalUpsellAmount", "totalUpsellPercentage", "totalVideos", "sumFinalValues", "sumFinalValuesWithoutVideo", "totalNoVideosRecorded"}
      * )
      *
      * @SWG\Parameter(
@@ -685,7 +686,7 @@ class ReportingController extends AbstractFOSRestController
         $searchTerm = '';
         $errors = [];
 
-        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+        $columns = ['technicianName', 'totalUnreadMessages', 'totalClosedRepairOrders', 'totalStartValues', 'totalFinalValues', 'totalUpsellAmount', 'totalUpsellPercentage', 'totalVideos', 'sumFinalValues', 'sumFinalValuesWithoutVideo', 'totalNoVideosRecorded'];
 
         // Invalid page
         if ($page < 1) {
@@ -703,25 +704,27 @@ class ReportingController extends AbstractFOSRestController
             //check if the sortField exist
             if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
+
+                return new ValidationResponse($errors);
             }
 
             $sortDirection = $request->query->get('sortDirection');
 
+            if ('technicianName' === $sortField) {
+                $technicians = $userRepo->getUserByRole('ROLE_TECHNICIAN', 'firstName', $sortDirection);
+            } else {
+                $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
+            }
+
             $urlParameters['sortDirection'] = $sortDirection;
             $urlParameters['sortField'] = $sortField;
+        } else {
+            $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
         }
-
-        if (!empty($errors)) {
-            return new ValidationResponse($errors);
-        }
-
-        $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
 
         $closedRepairOrders = $roRepo->getAllArchives(
             $startDate,
-            $endDate,
-            $sortField,
-            $sortDirection
+            $endDate
         );
 
         $result = [];
@@ -784,6 +787,9 @@ class ReportingController extends AbstractFOSRestController
                 'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
                 'totalNoVideosRecorded' => $roCountWithoutVideo,
             ];
+        }
+        if ($request->query->has('sortField') && $request->query->has('sortDirection') && 'technicianName' !== $sortField) {
+            $result = $this->sortByField($result, $sortField, $sortDirection);
         }
 
         $pager = $paginator->paginate($result, $page, $pageLimit);
