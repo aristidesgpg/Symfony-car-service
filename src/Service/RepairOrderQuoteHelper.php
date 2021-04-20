@@ -237,7 +237,7 @@ class RepairOrderQuoteHelper
                 throw new Exception('Invalid operationCode Parameter in recommendations JSON');
             }
 
-            $repairOrderQuoteRecommendation->setOperationCode($operationCode)
+            $repairOrderQuoteRecommendation->setOperationCode($operationCode->getCode())
                                             ->setDescription($recommendation->description)
                                             ->setPreApproved(
                                                 filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
