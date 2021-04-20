@@ -2,14 +2,20 @@
 
 namespace App\Service;
 
+use App\Entity\Part;
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
+use App\Repository\OperationCodeRepository;
 use App\Repository\PartRepository;
+use App\Repository\PriceMatrixRepository;
+use App\Repository\RepairOrderQuoteRecommendationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Exception;
 use Symfony\Component\Security\Core\Security;
+
 class RepairOrderQuoteHelper
 {
     /** @var string[] */
@@ -63,13 +69,35 @@ class RepairOrderQuoteHelper
 
     private $em;
     private $security;
+    private $operationCodeRepository;
+    private $partRepository;
+    private $pricingLaborRate;
+    private $isPricingMatrix;
+    private $pricingLaborTax;
+    private $pricingPartsTax;
+    private $priceRepository;
+    private $repairOrderQuoteRecommendationRepository;
 
     public function __construct(
         EntityManagerInterface $em,
-        Security $security
+        OperationCodeRepository $operationCodeRepository,
+        SettingsHelper $settingsHelper,
+        PriceMatrixRepository $priceRepository,
+        partRepository $partRepository,
+        Security $security,
+        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository
     ) {
         $this->em = $em;
+        $this->operationCodeRepository = $operationCodeRepository;
         $this->security = $security;
+        $this->priceRepository = $priceRepository;
+        $this->partRepository = $partRepository;
+        $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
+
+        $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
+        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix');
+        $this->pricingLaborTax = $settingsHelper->getSetting('pricingLaborTax') * 0.01;
+        $this->pricingPartsTax = $settingsHelper->getSetting('pricingPartsTax') * 0.01;
     }
 
     /**
@@ -195,7 +223,13 @@ class RepairOrderQuoteHelper
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
 
-            $repairOrderQuoteRecommendation->setOperationCode($recommendation->operationCode)
+            // Check if Operation Code exists
+            $operationCode = $this->operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
+            if (!$operationCode) {
+                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
+            }
+
+            $repairOrderQuoteRecommendation->setOperationCode($operationCode)
                                             ->setDescription($recommendation->description)
                                             ->setPreApproved(
                                                 filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
@@ -210,7 +244,7 @@ class RepairOrderQuoteHelper
                                             ->setNotes($recommendation->notes);
             
             $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
-                                                
+            
             $this->em->persist($repairOrderQuoteRecommendation);
             
             if (property_exists($recommendation, 'parts')) {
@@ -309,9 +343,22 @@ class RepairOrderQuoteHelper
                                                ->setName($part->name)
                                                ->setprice($part->price)
                                                ->setTotalPrice($part->quantity * $part->price)          
-                                               ->setBin($part->bin)
                                                ->setQuantity($part->quantity);      
             
+            $newPart = $this->partRepository->findOneBy(['number' => $part->number]);
+            if(!$newPart) {
+                $newPart = new Part();
+
+                $newPart->setNumber($part->number)
+                        ->setName($part->name)
+                        ->setPrice($part->price)
+                        ->setBin($part->bin);
+
+                $this->em->persist($newPart);
+            }
+            
+            $repairOrderQuoteRecommendationPart->setPart($newPart);
+
             $this->em->persist($repairOrderQuoteRecommendationPart);
         }
         $this->em->persist($repairOrderQuoteRecommendation);         
@@ -351,4 +398,32 @@ class RepairOrderQuoteHelper
 
         return true;
     }
+
+    public function createRepairOrderQuoteFromRepairOrder(RepairOrder $repairOrder)
+    {
+
+    }
+    /**
+     * Sync Repair Order Quote Recomendations
+     * Get Repair Order from DMS
+     * Check if Repair Order Quote Exists, Create if it does not.
+     * SYnc "Preapproved" tasks, delete existing pre approved tasks.
+     *
+     *description should be the opcode text.
+    Comments should be notes
+    Should only wipe the pre_approved ones.
+
+    Description is opcode
+    If there is no op code, default to misc opcode.
+    Merging if the same.
+    Misc(Empty) do not merge.
+    Wipe preapproved everytime.
+
+    After you update the quote, there is a helper method that will update the repair order quote log
+    Need to merge
+
+     *
+     *
+     */
+
 }

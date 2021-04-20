@@ -216,7 +216,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Check permission if quote status is Sent, Completed or Confirmed
         $quoteStatus = $repairOrderQuote->getStatus();
-        if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus ) {
+        if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
             return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
         }
         // Validate recommendation json
@@ -595,7 +595,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $recommendations = $request->get('recommendations');
 
-         if (!$repairOrderQuoteID) {
+        if (!$repairOrderQuoteID) {
             throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
         }
         $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
@@ -604,14 +604,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
 
         $repairOrder = $repairOrderQuote->getRepairOrder();
-        if ($security->isGranted('ROLE_CUSTOMER') ) {
-            if ($repairOrder->getPrimaryCustomer() !== $this->getUser()){
+        if ($security->isGranted('ROLE_CUSTOMER')) {
+            if ($repairOrder->getPrimaryCustomer() !== $this->getUser()) {
                 throw new BadRequestHttpException('This customer is not the owner of the repairOrder');
             }
         } else {
             // Check permission if quote status is Sent, Completed or Confirmed
             $quoteStatus = $repairOrderQuote->getStatus();
-            if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus ) {
+            if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
                 return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
             }
         }
