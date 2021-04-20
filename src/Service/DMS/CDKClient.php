@@ -174,14 +174,23 @@ class CDKClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
+
+    /**
+     * @param $RONumber
+     */
+    public function addRepairOrderByNumber($RONumber)
+    {
+        return $this->getRepairOrderByNumber($RONumber);
+    }
+
     /**
      * Checks if the passed RO# exists in the DMS and pulls it if it does.
      *
-     * @param $RONumber
+     * @param string $RONumber
      *
      * @return false|object
      */
-    public function addRepairOrderByNumber($RONumber)
+    public function getRepairOrderByNumber(string $RONumber)
     {
         $repairOrder = null;
 
