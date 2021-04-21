@@ -223,7 +223,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
-        dd($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
             throw new BadRequestHttpException('Recommendations data is invalid');
         }

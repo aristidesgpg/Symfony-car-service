@@ -15,7 +15,9 @@ use App\Soap\dealertrack\src\DealerTrackSoapEnvelope;
 use App\Soap\dealertrack\src\OpenRepairOrderDetail;
 use App\Soap\dealertrack\src\PartsResult;
 use App\Soap\dealertrack\src\Result;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -105,9 +107,9 @@ class DealerTrackClient extends AbstractDMSClient
         if ($this->getSoapClient()) {
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
-            $monthAgo = (new \DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
-            $monthAhead = (new \DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
-            $oneYearAgo = (new \DateTime())->modify('-1 year')->format('Y-m-d\TH:i:s\Z');
+            $monthAgo = (new DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
+            $monthAhead = (new DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
+            $oneYearAgo = (new DateTime())->modify('-1 year')->format('Y-m-d\TH:i:s\Z');
 
             $request = [
                 'Dealer' => [
@@ -134,13 +136,14 @@ class DealerTrackClient extends AbstractDMSClient
              * @var Result $result
              */
             foreach ($response->getBody()->getOpenRepairOrderLookupResult()->getResult() as $result) {
+                //TODO This should be moved into parseResult() after testing.
                 $dmsResult = new DMSResult();
                 $dmsResult->setRaw($result);
 
-                $openDate = new \DateTime();
+                $openDate = new DateTime();
                 try {
-                    $openDate = new \DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
-                } catch (\Exception $e) {
+                    $openDate = new DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
+                } catch (Exception $e) {
                     //ignore
                 }
 
@@ -148,8 +151,8 @@ class DealerTrackClient extends AbstractDMSClient
                 $pickupDate = false;
                 if ($result->getDateToArrive() > 0) {
                     try {
-                        $openDate = new \DateTime($result->getDateToArrive());
-                    } catch (\Exception $e) {
+                        $openDate = new DateTime($result->getDateToArrive());
+                    } catch (Exception $e) {
                         //ignore
                     }
                 }
@@ -188,15 +191,15 @@ class DealerTrackClient extends AbstractDMSClient
         return $repairOrders;
     }
 
-    public function getRepairOrderByNumber(string $RONumber)
+    public function getRepairOrderByNumber(string $RONumber): ?DMSResult
     {
         $dmsResult = null;
         if ($this->getSoapClient()) {
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
-            $monthAgo = (new \DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
-            $monthAhead = (new \DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
-            $oneYearAgo = (new \DateTime())->modify('-1 year')->format('Y-m-d\TH:i:s\Z');
+            $monthAgo = (new DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
+            $monthAhead = (new DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
+            $oneYearAgo = (new DateTime())->modify('-1 year')->format('Y-m-d\TH:i:s\Z');
 
             $request = [
                 'Dealer' => [
@@ -235,10 +238,10 @@ class DealerTrackClient extends AbstractDMSClient
         $dmsResult = new DMSResult();
         $dmsResult->setRaw($result);
 
-        $openDate = new \DateTime();
+        $openDate = new DateTime();
         try {
-            $openDate = new \DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
-        } catch (\Exception $e) {
+            $openDate = new DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
+        } catch (Exception $e) {
             //ignore
         }
 
@@ -246,8 +249,8 @@ class DealerTrackClient extends AbstractDMSClient
         $pickupDate = false;
         if ($result->getDateToArrive() > 0) {
             try {
-                $openDate = new \DateTime($result->getDateToArrive());
-            } catch (\Exception $e) {
+                $openDate = new DateTime($result->getDateToArrive());
+            } catch (Exception $e) {
                 //ignore
             }
         }
@@ -381,14 +384,14 @@ class DealerTrackClient extends AbstractDMSClient
                     continue;
                 }
 
-                $closedDate = new \DateTime();
+                $closedDate = new DateTime();
                 try {
                     if (0 != $closedRepairOrder->getFinalCloseDate()) {
-                        $closedDate = new \DateTime($closedRepairOrder->getFinalCloseDate());
+                        $closedDate = new DateTime($closedRepairOrder->getFinalCloseDate());
                     } elseif (0 != $closedRepairOrder->getCloseDate()) {
-                        $closedDate = new \DateTime($closedRepairOrder->getCloseDate());
+                        $closedDate = new DateTime($closedRepairOrder->getCloseDate());
                     }
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     continue;
                 }
 
