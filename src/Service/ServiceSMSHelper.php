@@ -61,7 +61,7 @@ class ServiceSMSHelper
         return $statement->fetchAllAssociative();
     }
 
-    private function getThreadsByAdvisor($userId, $searchTerm, $isShared)
+    public function getThreadsByAdvisor($userId, $searchTerm = null, $isShared = null)
     {
         $searchQuery = '';
 
@@ -80,7 +80,7 @@ class ServiceSMSHelper
                             where ss2.s_advisor_id in (select id from user where share_repair_orders=1) $searchQuery
                             ";
         } else {
-            $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId.' group by primary_advisor_id ,primary_customer_id) ss 
+            $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss3.incoming,ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId.' group by primary_advisor_id ,primary_customer_id) ss 
                             LEFT JOIN (select primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
                                 where id in (select MAX(id) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)

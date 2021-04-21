@@ -8,16 +8,17 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class InternalMessageHelperTest extends KernelTestCase
 {
-
     /** @var InternalMessageHelper */
     private $internalMessageHelper;
 
-    protected function setUp() {
+    protected function setUp()
+    {
         self::bootKernel();
         $this->internalMessageHelper = self::$container->get(InternalMessageHelper::class);
     }
 
-    public function testUnReadMessagesCount() {
+    public function testUnReadMessagesCount()
+    {
         $totalUnreadMessages = self::$container->get('doctrine')->getRepository(InternalMessage::class)->createQueryBuilder('im')
             ->where('im.to = :userId')
             ->orWhere('im.from = :userId')
@@ -37,7 +38,8 @@ class InternalMessageHelperTest extends KernelTestCase
     //     $this->assertGreaterThanOrEqual(0, $result);
     // }
 
-    protected function tearDown() {
+    protected function tearDown()
+    {
         parent::tearDown();
 
         $this->internalMessageHelper = null;
