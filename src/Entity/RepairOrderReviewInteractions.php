@@ -4,16 +4,19 @@ namespace App\Entity;
 
 use App\Repository\RepairOrderReviewInteractionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderReviewInteractionsRepository::class)
  */
 class RepairOrderReviewInteractions
 {
+    public const GROUPS = ['ror_interactions_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"ror_interactions_list"})
      */
     private $id;
 
@@ -35,6 +38,7 @@ class RepairOrderReviewInteractions
 
     /**
      * @ORM\Column(type="string", length=15, nullable=true)
+     * @Serializer\Groups(groups={"ror_interactions_list"})
      */
     private $type;
 

@@ -7,14 +7,20 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderMPI;
 use App\Entity\RepairOrderMPIInteraction;
+use App\Entity\RepairOrderPaymentInteraction;
+use App\Entity\RepairOrderQuoteInteraction;
+use App\Entity\RepairOrderReviewInteractions;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderMPIRepository;
+use App\Repository\RepairOrderPaymentRepository;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use JMS\Serializer\SerializerBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use phpDocumentor\Reflection\Types\Collection;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,34 +38,66 @@ class RepairOrderInteractionsController extends AbstractFOSRestController
 
     use iServiceLoggerTrait;
 
-    private const PAGE_LIMIT = 50;
-
-    private $repairOrderMPIRepo;
-
-    public function __construct(RepairOrderMPIRepository $repairOrderMPIRepo)
-    {
-        $this->repairOrderMPIRepo = $repairOrderMPIRepo;
-    }
     /**
      * @Rest\Get("/{id}", name="getRepairOrderInteractions")
      *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
-     *     @SWG\Schema(ref=@Model(type=RepairOrderMPI::class, groups=RepairOrderMPI::GROUPS))
+     *
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function getOne(RepairOrder $repairOrder): Response
+    public function getOne(RepairOrder $repairOrder
+        ): Response
     {
 
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
-        //$repairOrderMPI->findBy(['repair_order_id' => $repairOrder->getId()]);
-        $view = $this->view($this->repairOrderMPIRepo->findBy(['id' => 1]));
-        $view->getContext()->setGroups(RepairOrderMPI::GROUPS);
+        //Repair Order Interactions
+        if($repairOrder) {
+            $repairOrderInteractions = $repairOrder->getRepairOrderInteractions();
+        } //RepairOrderInteraction::GROUPS
+
+        //Repair Order MPI Interactions
+        $repairOrderMPI = $repairOrder->getRepairOrderMPI();
+        if($repairOrderMPI) {
+            $repairOrderMPIInteractions = $repairOrderMPI->getRepairOrderMPIInteractions();
+        }//RepairOrderMPIInteraction::GROUPS
+
+        //Repair Order Payment Interactions
+        //Arrays *******
+        /*
+        $repairOrderPayment = $repairOrder->getPayments();
+        if($repairOrderPayment){
+            $repairOrderPaymentInteractions = $repairOrderPayment->getInteractions();
+        }
+        */
+
+        //Repair Order Quote Interactions
+        $repairOrderQuote = $repairOrder->getRepairOrderQuote();
+        if($repairOrderQuote){
+            $repairOrderQuoteInteractions = $repairOrderQuote->getRepairOrderQuoteInteractions();
+        }//RepairOrderQuoteInteraction::GROUPS
+
+        //Repair Order Review Interactions
+        $repairOrderReview = $repairOrder->getRepairOrderReview();
+        if($repairOrderReview) {
+            $repairOrderReviewInteractions = $repairOrderReview->getRepairOrderReviewInteractions();
+        } //RepairOrderReviewInteractions::GROUPS - good
+
+        /*Repair Order Video Interactions
+        $repairOrderVideo = $repairOrder->getVideos();
+        if($repairOrderVideo) {
+            $repairOrderVideoInteractions = $repairOrderVideo-
+        }
+        */
+
+
+        $view = $this->view($repairOrderQuoteInteractions);
+        $view->getContext()->setGroups(RepairOrderQuoteInteraction::GROUPS);
 
         return $this->handleView($view);
     }
