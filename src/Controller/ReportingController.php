@@ -1102,17 +1102,26 @@ class ReportingController extends AbstractFOSRestController
      *     response="200",
      *     description="Returns the list of repair orders and data related to the MPI",
      *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(
-     *              type="object",
-     *              @SWG\Property(property="roNumber", type="integer", description="Repair Order Number"),
-     *              @SWG\Property(property="customerName", type="string", description="customer name"),
-     *              @SWG\Property(property="customerPhone", type="string", description="customer phone"),
-     *              @SWG\Property(property="advisorName", type="string", description="advisor name"),
-     *              @SWG\Property(property="technicianName", type="string", description="technician name"),
-     *              @SWG\Property(property="templateName", type="string", description="template name"),
-     *              @SWG\Property(property="roMPI", type="string", description="Repair Order MPI results")
-     *         )
+     *          type="object",
+     *          @SWG\Property(
+     *              property="results",
+     *              type="array",
+     *              @SWG\Items(
+     *                   type="object",
+     *                   @SWG\Property(property="roNumber", type="integer", description="Repair Order Number"),
+     *                   @SWG\Property(property="customerName", type="string", description="customer name"),
+     *                   @SWG\Property(property="customerPhone", type="string", description="customer phone"),
+     *                   @SWG\Property(property="advisorName", type="string", description="advisor name"),
+     *                   @SWG\Property(property="technicianName", type="string", description="technician name"),
+     *                   @SWG\Property(property="templateName", type="string", description="template name"),
+     *                   @SWG\Property(property="roMPI", type="string", description="Repair Order MPI results")
+     *              )
+     *          ),
+     *          @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *          @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *          @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *          @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *          @SWG\Property(property="next", type="string", description="URL for next page")
      *     )
      * )
      */
