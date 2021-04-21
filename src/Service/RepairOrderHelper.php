@@ -565,16 +565,16 @@ class RepairOrderHelper
         }
     }
 
-    public function syncRepairOrderRecommendationsFromDMS(RepairOrder $repairOrder)
+    /**
+     * @throws Exception
+     */
+    public function syncRepairOrderRecommendationsFromDMS(RepairOrder $repairOrder): RepairOrder
     {
-        $dmsResult = null;
-//        $this->em->getRepository(RepairOrder::class)->find($repairOrderId);
-//        $result = $this->getDms()->getRepairOrderByNumber();
         //query the dms and get the repair order.
         $dmsResult = $this->getDms()->getRepairOrderByNumber($repairOrder->getNumber());
         //See if a quote exists and if not create one.
         if (!$repairOrder->getRepairOrderQuote()) {
-            $repairOrderQuote = $repairOrder->setRepairOrderQuote((new RepairOrderQuote()));
+            $repairOrder->setRepairOrderQuote((new RepairOrderQuote()));
         }
         $repairOrder = $this->repairOrderQuoteHelper->addRecommendationsFromDMS($repairOrder, $dmsResult);
         $this->em->persist($repairOrder);

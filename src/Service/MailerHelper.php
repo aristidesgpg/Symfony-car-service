@@ -96,7 +96,7 @@ class MailerHelper
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {
             $this->logger->critical('Email unsuccessfully sent.'.$e->getMessage());
-            dd($e->getMessage());
+            //dd($e->getMessage());
 
             return false;
         }

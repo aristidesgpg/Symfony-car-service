@@ -181,11 +181,10 @@ class DMS
     /**
      * Get a single RO Number.
      *
-     * @return DMSResult|\App\Soap\cdk\src\ServiceRepairOrderOpen|object|void
      *
      * @throws Exception
      */
-    public function getRepairOrderByNumber(string $RONumber)
+    public function getRepairOrderByNumber(string $RONumber): DMSResult
     {
         if (!$this->integration) {
             throw new Exception('You are not integrated with a DMS');
