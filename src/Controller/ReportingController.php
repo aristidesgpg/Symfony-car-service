@@ -359,6 +359,12 @@ class ReportingController extends AbstractFOSRestController
 
             foreach ($threads as $thread) {
                 $unread += $thread['unread'];
+
+                if (0 == $thread['incoming']) {
+                    ++$totalOutboundTxtMsgs;
+                } else {
+                    ++$totalInboundTxtMsgs;
+                }
             }
 
             $result[] = [
@@ -649,7 +655,7 @@ class ReportingController extends AbstractFOSRestController
      *     type="string",
      *     description="The name of sort field",
      *     in="query",
-     *     enum={"technicianName", "totalUnreadMessages", "totalClosedRepairOrders", "totalStartValues", "totalFinalValues", "totalUpsellAmount", "totalUpsellPercentage", "totalVideos", "sumFinalValues", "sumFinalValuesWithoutVideo", "totalNoVideosRecorded"}
+     *     enum={"technicianName", "totalClosedRepairOrders", "totalStartValues", "totalFinalValues", "totalUpsellAmount", "totalUpsellPercentage", "totalVideos", "sumFinalValues", "sumFinalValuesWithoutVideo", "totalNoVideosRecorded"}
      * )
      *
      * @SWG\Parameter(
@@ -713,7 +719,7 @@ class ReportingController extends AbstractFOSRestController
         $searchTerm = '';
         $errors = [];
 
-        $columns = ['technicianName', 'totalUnreadMessages', 'totalClosedRepairOrders', 'totalStartValues', 'totalFinalValues', 'totalUpsellAmount', 'totalUpsellPercentage', 'totalVideos', 'sumFinalValues', 'sumFinalValuesWithoutVideo', 'totalNoVideosRecorded'];
+        $columns = ['technicianName', 'totalClosedRepairOrders', 'totalStartValues', 'totalFinalValues', 'totalUpsellAmount', 'totalUpsellPercentage', 'totalVideos', 'sumFinalValues', 'sumFinalValuesWithoutVideo', 'totalNoVideosRecorded'];
 
         // Invalid page
         if ($page < 1) {
@@ -916,6 +922,7 @@ class ReportingController extends AbstractFOSRestController
         Request $request,
         RepairOrderRepository $roRepo,
         UserRepository $userRepo,
+        ServiceSMSHelper $smsHelper,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
@@ -988,6 +995,15 @@ class ReportingController extends AbstractFOSRestController
                             ++$totalVideos;
                         }
                     }
+                }
+            }
+
+            $threads = $smsHelper->getThreadsByAdvisor($serviceAdvisor->getId());
+            foreach ($threads as $thread) {
+                if (0 == $thread['incoming']) {
+                    ++$totalOutboundMessages;
+                } else {
+                    ++$totalInboundMessages;
                 }
             }
 
