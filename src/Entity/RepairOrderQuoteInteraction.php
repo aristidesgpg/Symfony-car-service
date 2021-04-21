@@ -5,42 +5,50 @@ namespace App\Entity;
 use App\Repository\RepairOrderQuoteInteractionRepository;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * @ORM\Entity(repositoryClass=RepairOrderQuoteInteractionRepository::class)
  */
 class RepairOrderQuoteInteraction
 {
+    public const GROUPS = ['roqi_list', 'user_list', 'customer_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Serializer\Groups(groups={"roqi_list"})
      */
     private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=RepairOrderQuote::class, inversedBy="repairOrderQuoteInteractions")
      * @ORM\JoinColumn(nullable=false)
+     * @Serializer\Groups(groups={"roqi_list"})
      */
     private $repairOrderQuote;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="repairOrderQuoteInteractions")
+     * @Serializer\Groups(groups={"roqi_list"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="type")
+     * @Serializer\Groups(groups={"roqi_list"})
      */
     private $customer;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Serializer\Groups(groups={"roqi_list"})
      */
     private $type;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Serializer\Groups(groups={"roqi_list"})
      */
     private $date;
 
