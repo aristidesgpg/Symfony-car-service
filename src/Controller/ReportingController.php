@@ -8,6 +8,7 @@ use App\Repository\MPITemplateRepository;
 use App\Repository\RepairOrderMPIRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
+use App\Repository\ServiceSMSRepository;
 use App\Repository\UserRepository;
 use App\Service\Pagination;
 use App\Service\ServiceSMSHelper;
@@ -262,7 +263,8 @@ class ReportingController extends AbstractFOSRestController
         RepairOrderQuoteRepository $quoteRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        ServiceSMSRepository $smsRepo
     ): Response {
         $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
@@ -325,12 +327,12 @@ class ReportingController extends AbstractFOSRestController
             $totalCompletedQuotes = 0;
             $totalInboundTxtMsgs = 0;
             $totalOutboundTxtMsgs = 0;
+            $unread = 0;
 
             foreach ($closedRepairOrders as $ro) {
                 if ($sa->getId() === $ro->getPrimaryAdvisor()->getId()) {
                     ++$totalClosedRepairOrders;
 
-                    // TODO: sum up
                     $videos = $ro->getVideos();
                     $totalVideos += count($videos);
 
@@ -352,19 +354,18 @@ class ReportingController extends AbstractFOSRestController
                             ++$totalCompletedQuotes;
                         }
                     }
-                }
-            }
 
-            $unread = 0;
-            $threads = $smsHelper->getThreadsByAdvisor($sa->getId());
-
-            foreach ($threads as $thread) {
-                $unread += $thread['unread'];
-
-                if (0 == $thread['incoming']) {
-                    ++$totalOutboundTxtMsgs;
-                } else {
-                    ++$totalInboundTxtMsgs;
+                    $smsRows = $smsRepo->findBy(['user' => $sa->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+                    foreach ($smsRows as $sms) {
+                        if (0 == $sms->getIncoming()) {
+                            ++$totalOutboundTxtMsgs;
+                        } else {
+                            ++$totalInboundTxtMsgs;
+                            if (0 == $sms->getIsRead()) {
+                                ++$unread;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -926,7 +927,8 @@ class ReportingController extends AbstractFOSRestController
         ServiceSMSHelper $smsHelper,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        ServiceSMSRepository $smsRepo
     ): Response {
         $page = $request->query->getInt('page', 1);
         $startDate = $request->query->get('startDate');
@@ -996,15 +998,15 @@ class ReportingController extends AbstractFOSRestController
                             ++$totalVideoViews;
                         }
                     }
-                }
-            }
 
-            $threads = $smsHelper->getThreadsByAdvisor($serviceAdvisor->getId());
-            foreach ($threads as $thread) {
-                if (0 == $thread['incoming']) {
-                    ++$totalOutboundMessages;
-                } else {
-                    ++$totalInboundMessages;
+                    $smsRows = $smsRepo->findBy(['user' => $serviceAdvisor->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+                    foreach ($smsRows as $sms) {
+                        if (0 == $sms->getIncoming()) {
+                            ++$totalOutboundMessages;
+                        } else {
+                            ++$totalInboundMessages;
+                        }
+                    }
                 }
             }
 
