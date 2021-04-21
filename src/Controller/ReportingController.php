@@ -209,7 +209,7 @@ class ReportingController extends AbstractFOSRestController
      *     type="string",
      *     description="The name of sort field",
      *     in="query",
-     *     enum={"serviceAdvisorName", "totalUnreadMessages", "totalClosedRepairOrders", "totalClosedVideos", "totalClosedVideoViews", "totalSentQuotes", "totalViewedQuotes", "totalCompletedQuotes", "totalInboundTxtMsgs", "totalOutboundTxtMsgs"}
+     *     enum={"serviceAdvisorName", "totalUnreadMessages", "totalClosedRepairOrders", "totalVideos", "totalVideoViews", "totalSentQuotes", "totalViewedQuotes", "totalCompletedQuotes", "totalInboundTxtMsgs", "totalOutboundTxtMsgs"}
      * )
      *
      * @SWG\Parameter(
@@ -237,8 +237,8 @@ class ReportingController extends AbstractFOSRestController
      *                  ),
      *                  @SWG\Property(property="totalUnreadMessages", type="integer", description="The current # of unread sms messages from customers where they are the primaryAdvisor"),
      *                  @SWG\Property(property="totalClosedRepairOrders", type="integer", description="A # of repair orders that were closed in the given date range"),
-     *                  @SWG\Property(property="totalClosedVideos", type="integer", description="A # of videos for repair orders that have closed in the given date range"),
-     *                  @SWG\Property(property="totalClosedVideoViews", type="integer", description="A # of video views for repair orders that have closed in the given date range"),
+     *                  @SWG\Property(property="totalVideos", type="integer", description="A # of videos for repair orders that have closed in the given date range"),
+     *                  @SWG\Property(property="totalVideoViews", type="integer", description="A # of video views for repair orders that have closed in the given date range"),
      *                  @SWG\Property(property="totalSentQuotes", type="integer", description="A # of quotes sent for repair orders that have closed in the given date range"),
      *                  @SWG\Property(property="totalViewedQuotes", type="integer", description="A # of quotes that were viewed for repair orders that have closed in the given date range"),
      *                  @SWG\Property(property="totalCompletedQuotes", type="integer", description="A # of quotes that were completed by the customer for repair orers that have closed in the given date range"),
@@ -274,7 +274,7 @@ class ReportingController extends AbstractFOSRestController
         $searchTerm = '';
         $errors = [];
 
-        $columns = ['serviceAdvisorName', 'totalUnreadMessages', 'totalClosedRepairOrders', 'totalClosedVideos', 'totalClosedVideoViews', 'totalSentQuotes', 'totalViewedQuotes', 'totalCompletedQuotes', 'totalInboundTxtMsgs', 'totalOutboundTxtMsgs'];
+        $columns = ['serviceAdvisorName', 'totalUnreadMessages', 'totalClosedRepairOrders', 'totalVideos', 'totalVideoViews', 'totalSentQuotes', 'totalViewedQuotes', 'totalCompletedQuotes', 'totalInboundTxtMsgs', 'totalOutboundTxtMsgs'];
 
         // Invalid page
         if ($page < 1) {
@@ -318,8 +318,8 @@ class ReportingController extends AbstractFOSRestController
         $result = [];
         foreach ($serviceAdvisors as $sa) {
             $totalClosedRepairOrders = 0;
-            $totalClosedVideos = 0;
-            $totalClosedVideoViews = 0;
+            $totalVideos = 0;
+            $totalVideoViews = 0;
             $totalSentQuotes = 0;
             $totalViewedQuotes = 0;
             $totalCompletedQuotes = 0;
@@ -330,12 +330,13 @@ class ReportingController extends AbstractFOSRestController
                 if ($sa->getId() === $ro->getPrimaryAdvisor()->getId()) {
                     ++$totalClosedRepairOrders;
 
+                    // TODO: sum up
                     $videos = $ro->getVideos();
-                    $totalClosedVideos = count($videos);
+                    $totalVideos += count($videos);
 
                     foreach ($videos as $video) {
                         if ($video->getDateViewed()) {
-                            ++$totalClosedVideoViews;
+                            ++$totalVideoViews;
                         }
                     }
 
@@ -371,8 +372,8 @@ class ReportingController extends AbstractFOSRestController
                 'serviceAdvisor' => $sa,
                 'totalUnreadMessages' => $unread,
                 'totalClosedRepairOrders' => $totalClosedRepairOrders,
-                'totalClosedVideos' => $totalClosedVideos,
-                'totalClosedVideoViews' => $totalClosedVideoViews,
+                'totalVideos' => $totalVideos,
+                'totalVideoViews' => $totalVideoViews,
                 'totalSentQuotes' => $totalSentQuotes,
                 'totalViewedQuotes' => $totalViewedQuotes,
                 'totalCompletedQuotes' => $totalCompletedQuotes,
@@ -434,7 +435,7 @@ class ReportingController extends AbstractFOSRestController
      *     type="string",
      *     description="The name of sort field",
      *     in="query",
-     *     enum={"serviceAdvisorName", "totalClosedRepairOrders", "totalAppraise", "totalStartValues", "totalFinalValues", "totalUpsellAmount", "totalUpsellPercentage", "totalVideos", "sumFinalValues", "sumFinalValuesWithoutVideo"}
+     *     enum={"serviceAdvisorName", "totalClosedRepairOrders", "totalAppraise", "totalStartValues", "totalFinalValues", "totalUpsellAmount", "totalUpsellPercentage", "totalVideos", "sumFinalValuesWithVideo", "sumFinalValuesWithoutVideo"}
      * )
      *
      * @SWG\Parameter(
@@ -467,7 +468,7 @@ class ReportingController extends AbstractFOSRestController
      *                   @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (sum of final values - sum of start values) for repair orders closed in the given date range"),
      *                   @SWG\Property(property="totalUpsellPercentage", type="integer", description="% upsell percentage (sum final values / sum start values) < as a percentage"),
      *                   @SWG\Property(property="totalVideos", type="integer", description="The # of total videos created for repair orders closed in the given date range"),
-     *                   @SWG\Property(property="sumFinalValues", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
+     *                   @SWG\Property(property="sumFinalValuesWithVideo", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
      *                   @SWG\Property(property="sumFinalValuesWithoutVideo", type="integer", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range")
      *              )
      *          ),
@@ -498,7 +499,7 @@ class ReportingController extends AbstractFOSRestController
         $searchTerm = '';
         $errors = [];
 
-        $columns = ['serviceAdvisorName', 'totalClosedRepairOrders', 'totalAppraise', 'totalStartValues', 'totalFinalValues', 'totalUpsellAmount', 'totalUpsellPercentage', 'totalVideos', 'sumFinalValues', 'sumFinalValuesWithoutVideo'];
+        $columns = ['serviceAdvisorName', 'totalClosedRepairOrders', 'totalAppraise', 'totalStartValues', 'totalFinalValues', 'totalUpsellAmount', 'totalUpsellPercentage', 'totalVideos', 'sumFinalValuesWithVideo', 'sumFinalValuesWithoutVideo'];
 
         // Invalid page
         if ($page < 1) {
@@ -547,7 +548,7 @@ class ReportingController extends AbstractFOSRestController
             $totalFinalValues = 0;
             $totalUpsellPercentage = 0;
 
-            $sumFinalValues = 0;
+            $sumFinalValuesWithVideo = 0;
             $roCountWithVideo = 0;
 
             $sumFinalValuesWithoutVideo = 0;
@@ -561,11 +562,11 @@ class ReportingController extends AbstractFOSRestController
                     $totalStartValues += $ro->getStartValue();
                     $totalFinalValues += $ro->getFinalValue();
 
-                    $videos = $ro->getVideos();
-                    $totalVideos = count($videos);
+                    $videosCount = count($ro->getVideos());
+                    $totalVideos += $videosCount;
 
-                    if ($totalVideos) {
-                        $sumFinalValues += $ro->getFinalValue();
+                    if ($videosCount) {
+                        $sumFinalValuesWithVideo += $ro->getFinalValue();
                         ++$roCountWithVideo;
                     } else {
                         $sumFinalValuesWithoutVideo += $ro->getFinalValue();
@@ -581,7 +582,7 @@ class ReportingController extends AbstractFOSRestController
             }
 
             if ($roCountWithVideo) {
-                $sumFinalValues = round($sumFinalValues / $roCountWithVideo, 2);
+                $sumFinalValuesWithVideo = round($sumFinalValuesWithVideo / $roCountWithVideo, 2);
             }
 
             if ($roCountWithoutVideo) {
@@ -597,7 +598,7 @@ class ReportingController extends AbstractFOSRestController
                 'totalUpsellAmount' => $totalUpsellAmount,
                 'totalUpsellPercentage' => $totalUpsellPercentage,
                 'totalVideos' => $totalVideos,
-                'sumFinalValues' => $sumFinalValues,
+                'sumFinalValuesWithVideo' => $sumFinalValuesWithVideo,
                 'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
             ];
         }
@@ -655,7 +656,7 @@ class ReportingController extends AbstractFOSRestController
      *     type="string",
      *     description="The name of sort field",
      *     in="query",
-     *     enum={"technicianName", "totalClosedRepairOrders", "totalStartValues", "totalFinalValues", "totalUpsellAmount", "totalUpsellPercentage", "totalVideos", "sumFinalValues", "sumFinalValuesWithoutVideo", "totalNoVideosRecorded"}
+     *     enum={"technicianName", "totalClosedRepairOrders", "totalStartValues", "totalFinalValues", "totalUpsellAmount", "totalUpsellPercentage", "totalVideos", "sumFinalValuesWithVideo", "sumFinalValuesWithoutVideo", "totalNoVideosRecorded"}
      * )
      *
      * @SWG\Parameter(
@@ -687,7 +688,7 @@ class ReportingController extends AbstractFOSRestController
      *                   @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (SUM final values - SUM start values) for repair orders closed in the given date range"),
      *                   @SWG\Property(property="totalUpsellPercentage", type="integer", description="% Upsell Percentage (sum final values / sum start values) < as a percentage"),
      *                   @SWG\Property(property="totalVideos", type="integer", description="The # total videos performed by this technician on repair orders that have closed in the given date range"),
-     *                   @SWG\Property(property="sumFinalValues", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
+     *                   @SWG\Property(property="sumFinalValuesWithVideo", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
      *                   @SWG\Property(property="sumFinalValuesWithoutVideo", type="integer", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range"),
      *                   @SWG\Property(property="totalNoVideosRecorded", type="integer", description="The # of repair orders where no videos were recorded for repair orders that were closed in the given date range")
      *              )
@@ -719,7 +720,7 @@ class ReportingController extends AbstractFOSRestController
         $searchTerm = '';
         $errors = [];
 
-        $columns = ['technicianName', 'totalClosedRepairOrders', 'totalStartValues', 'totalFinalValues', 'totalUpsellAmount', 'totalUpsellPercentage', 'totalVideos', 'sumFinalValues', 'sumFinalValuesWithoutVideo', 'totalNoVideosRecorded'];
+        $columns = ['technicianName', 'totalClosedRepairOrders', 'totalStartValues', 'totalFinalValues', 'totalUpsellAmount', 'totalUpsellPercentage', 'totalVideos', 'sumFinalValuesWithVideo', 'sumFinalValuesWithoutVideo', 'totalNoVideosRecorded'];
 
         // Invalid page
         if ($page < 1) {
@@ -767,7 +768,7 @@ class ReportingController extends AbstractFOSRestController
             $totalFinalValues = 0;
             $totalUpsellPercentage = 0;
 
-            $sumFinalValues = 0;
+            $sumFinalValuesWithVideo = 0;
             $roCountWithVideo = 0;
 
             $sumFinalValuesWithoutVideo = 0;
@@ -781,11 +782,11 @@ class ReportingController extends AbstractFOSRestController
                     $totalStartValues += $ro->getStartValue();
                     $totalFinalValues += $ro->getFinalValue();
 
-                    $videos = $ro->getVideos();
-                    $totalVideos = count($videos);
+                    $videosCount = count($ro->getVideos());
+                    $totalVideos += $videosCount;
 
-                    if ($totalVideos) {
-                        $sumFinalValues += $ro->getFinalValue();
+                    if ($videosCount) {
+                        $sumFinalValuesWithVideo += $ro->getFinalValue();
                         ++$roCountWithVideo;
                     } else {
                         $sumFinalValuesWithoutVideo += $ro->getFinalValue();
@@ -801,7 +802,7 @@ class ReportingController extends AbstractFOSRestController
             }
 
             if ($roCountWithVideo) {
-                $sumFinalValues = round($sumFinalValues / $roCountWithVideo, 2);
+                $sumFinalValuesWithVideo = round($sumFinalValuesWithVideo / $roCountWithVideo, 2);
             }
 
             if ($roCountWithoutVideo) {
@@ -816,7 +817,7 @@ class ReportingController extends AbstractFOSRestController
                 'totalUpsellAmount' => $totalUpsellAmount,
                 'totalUpsellPercentage' => $totalUpsellPercentage,
                 'totalVideos' => $totalVideos,
-                'sumFinalValues' => $sumFinalValues,
+                'sumFinalValuesWithVideo' => $sumFinalValuesWithVideo,
                 'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
                 'totalNoVideosRecorded' => $roCountWithoutVideo,
             ];
@@ -875,7 +876,7 @@ class ReportingController extends AbstractFOSRestController
      *     type="string",
      *     description="The name of sort field",
      *     in="query",
-     *     enum={"serviceAdvisorName", "totalAppraiseClicks", "totalFinanceClicks", "totalUnlockCouponClicks", "totalVideos", "totalInboundMessages", "totalOutboundMessages", "totalMessages"}
+     *     enum={"serviceAdvisorName", "totalAppraiseClicks", "totalFinanceClicks", "totalUnlockCouponClicks", "totalVideoViews", "totalInboundMessages", "totalOutboundMessages", "totalMessages"}
      * )
      *
      * @SWG\Parameter(
@@ -904,7 +905,7 @@ class ReportingController extends AbstractFOSRestController
      *                   @SWG\Property(property="totalAppraiseClicks", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
      *                   @SWG\Property(property="totalFinanceClicks", type="integer", description="The # of finance my repair clicks (make 0 for now)"),
      *                   @SWG\Property(property="totalUnlockCouponClicks", type="integer", description="The # of unlock coupon clicks (make 0 for now)"),
-     *                   @SWG\Property(property="totalVideos", type="integer", description="The # of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
+     *                   @SWG\Property(property="totalVideoViews", type="integer", description="The # of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
      *                   @SWG\Property(property="totalInboundMessages", type="integer", description="The # of inbound messages from customers for repair orders that have closed in a given date range. "),
      *                   @SWG\Property(property="totalOutboundMessages", type="integer", description="The # of outbound messages from the advisor for repair orders that have closed in a given date range"),
      *                   @SWG\Property(property="totalMessages", type="integer", description="The # of total messages (# of inbound + # of outbound)")
@@ -937,7 +938,7 @@ class ReportingController extends AbstractFOSRestController
         $searchTerm = '';
         $errors = [];
 
-        $columns = ['serviceAdvisorName', 'totalAppraiseClicks', 'totalFinanceClicks', 'totalUnlockCouponClicks', 'totalVideos', 'totalInboundMessages', 'totalOutboundMessages', 'totalMessages'];
+        $columns = ['serviceAdvisorName', 'totalAppraiseClicks', 'totalFinanceClicks', 'totalUnlockCouponClicks', 'totalVideoViews', 'totalInboundMessages', 'totalOutboundMessages', 'totalMessages'];
 
         // Invalid page
         if ($page < 1) {
@@ -983,7 +984,7 @@ class ReportingController extends AbstractFOSRestController
             $totalAppraiseClicks = 0;
             $totalFinanceClicks = 0;
             $totalUnlockCouponClicks = 0;
-            $totalVideos = 0;
+            $totalVideoViews = 0;
             $totalInboundMessages = 0;
             $totalOutboundMessages = 0;
 
@@ -992,7 +993,7 @@ class ReportingController extends AbstractFOSRestController
                     $videos = $ro->getVideos();
                     foreach ($videos as $video) {
                         if ($video->getDateViewed()) {
-                            ++$totalVideos;
+                            ++$totalVideoViews;
                         }
                     }
                 }
@@ -1012,7 +1013,7 @@ class ReportingController extends AbstractFOSRestController
                 'totalAppraiseClicks' => $totalAppraiseClicks,
                 'totalFinanceClicks' => $totalFinanceClicks,
                 'totalUnlockCouponClicks' => $totalUnlockCouponClicks,
-                'totalVideos' => $totalVideos,
+                'totalVideoViews' => $totalVideoViews,
                 'totalInboundMessages' => $totalInboundMessages,
                 'totalOutboundMessages' => $totalOutboundMessages,
                 'totalMessages' => $totalInboundMessages + $totalOutboundMessages,
