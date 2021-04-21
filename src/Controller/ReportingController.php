@@ -224,24 +224,33 @@ class ReportingController extends AbstractFOSRestController
      *     response="200",
      *     description="Returns the list of Service Advisors and what they have done in the passed date range based upon repair orders that were closed",
      *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="serviceAdvisor",
-     *                  ref=@Model(type=User::class, groups={"user_list"}),
-     *                  description="The service advisor"
-     *              ),
-     *              @SWG\Property(property="totalUnreadMessages", type="integer", description="The current # of unread sms messages from customers where they are the primaryAdvisor"),
-     *              @SWG\Property(property="totalClosedRepairOrders", type="integer", description="A # of repair orders that were closed in the given date range"),
-     *              @SWG\Property(property="totalClosedVideos", type="integer", description="A # of videos for repair orders that have closed in the given date range"),
-     *              @SWG\Property(property="totalClosedVideoViews", type="integer", description="A # of video views for repair orders that have closed in the given date range"),
-     *              @SWG\Property(property="totalSentQuotes", type="integer", description="A # of quotes sent for repair orders that have closed in the given date range"),
-     *              @SWG\Property(property="totalViewedQuotes", type="integer", description="A # of quotes that were viewed for repair orders that have closed in the given date range"),
-     *              @SWG\Property(property="totalCompletedQuotes", type="integer", description="A # of quotes that were completed by the customer for repair orers that have closed in the given date range"),
-     *              @SWG\Property(property="totalInboundTxtMsgs", type="integer", description="A # of total inbound text messages for repair orders that were closed in the given date range"),
-     *              @SWG\Property(property="totalOutboundTxtMsgs", type="integer", description="A # of total outbound text messages for repair orders that were closed in the given date range")
-     *         )
+     *          type="object",
+     *          @SWG\Property(
+     *              property="results",
+     *              type="array",
+     *              @SWG\Items(
+     *                  type="object",
+     *                  @SWG\Property(
+     *                      property="serviceAdvisor",
+     *                      ref=@Model(type=User::class, groups={"user_list"}),
+     *                      description="The service advisor"
+     *                  ),
+     *                  @SWG\Property(property="totalUnreadMessages", type="integer", description="The current # of unread sms messages from customers where they are the primaryAdvisor"),
+     *                  @SWG\Property(property="totalClosedRepairOrders", type="integer", description="A # of repair orders that were closed in the given date range"),
+     *                  @SWG\Property(property="totalClosedVideos", type="integer", description="A # of videos for repair orders that have closed in the given date range"),
+     *                  @SWG\Property(property="totalClosedVideoViews", type="integer", description="A # of video views for repair orders that have closed in the given date range"),
+     *                  @SWG\Property(property="totalSentQuotes", type="integer", description="A # of quotes sent for repair orders that have closed in the given date range"),
+     *                  @SWG\Property(property="totalViewedQuotes", type="integer", description="A # of quotes that were viewed for repair orders that have closed in the given date range"),
+     *                  @SWG\Property(property="totalCompletedQuotes", type="integer", description="A # of quotes that were completed by the customer for repair orers that have closed in the given date range"),
+     *                  @SWG\Property(property="totalInboundTxtMsgs", type="integer", description="A # of total inbound text messages for repair orders that were closed in the given date range"),
+     *                  @SWG\Property(property="totalOutboundTxtMsgs", type="integer", description="A # of total outbound text messages for repair orders that were closed in the given date range")
+     *              )
+     *          ),
+     *          @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *          @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *          @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *          @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *          @SWG\Property(property="next", type="string", description="URL for next page")
      *     )
      * )
      */
