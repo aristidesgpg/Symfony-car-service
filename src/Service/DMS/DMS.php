@@ -197,7 +197,7 @@ class DMS
 
         $dmsRepairOrder = $this->integration->getRepairOrderByNumber($RONumber);
         if (!$dmsRepairOrder) {
-            throw new Exception('We were unable to find that RO Number on your DMS');
+            throw new Exception('We were unable to find that Repair Order in your DMS');
         }
 
         return $dmsRepairOrder;

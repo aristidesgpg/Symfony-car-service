@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Customer;
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderQuote;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
@@ -36,6 +37,10 @@ class RepairOrderHelper
      * @var DMS\DMS
      */
     private $dms;
+    /**
+     * @var RepairOrderQuoteHelper
+     */
+    private $repairOrderQuoteHelper;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -44,9 +49,8 @@ class RepairOrderHelper
         UserRepository $userRepository,
         CustomerHelper $customerHelper,
         ROLinkHashHelper $ROLinkHash,
-        \App\Service\DMS\DMS $dms
-
-
+        DMS\DMS $dms,
+        RepairOrderQuoteHelper $repairOrderQuoteHelper
     ) {
         $this->em = $em;
         $this->repo = $repo;
@@ -55,6 +59,7 @@ class RepairOrderHelper
         $this->customerHelper = $customerHelper;
         $this->ROLinkHashHelper = $ROLinkHash;
         $this->dms = $dms;
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
     }
 
     /**
@@ -263,7 +268,7 @@ class RepairOrderHelper
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findBy(['number' => $roNumber]);
-        if ($ro){
+        if ($ro) {
             return false;
         }
 
@@ -272,7 +277,6 @@ class RepairOrderHelper
 
     public function generateLinkHash(string $dateCreated): string
     {
-
         return $this->getROLinkHashHelper()->generate($dateCreated);
 
 //        try {
@@ -561,44 +565,51 @@ class RepairOrderHelper
         }
     }
 
-    public function syncRepairOrderWithDMS(){
+    public function syncRepairOrderRecommendationsFromDMS(RepairOrder $repairOrder)
+    {
+        $dmsResult = null;
+//        $this->em->getRepository(RepairOrder::class)->find($repairOrderId);
+//        $result = $this->getDms()->getRepairOrderByNumber();
+        //query the dms and get the repair order.
+        $dmsResult = $this->getDms()->getRepairOrderByNumber($repairOrder->getNumber());
+        //See if a quote exists and if not create one.
+        if (!$repairOrder->getRepairOrderQuote()) {
+            $repairOrderQuote = $repairOrder->setRepairOrderQuote((new RepairOrderQuote()));
+        }
+        $repairOrder = $this->repairOrderQuoteHelper->addRecommendationsFromDMS($repairOrder, $dmsResult);
+        $this->em->persist($repairOrder);
+        $this->em->flush();
 
+        return $repairOrder;
     }
 
-
-    /**
-     * @return ROLinkHashHelper
-     */
     public function getROLinkHashHelper(): ROLinkHashHelper
     {
         return $this->ROLinkHashHelper;
     }
 
-    /**
-     * @param ROLinkHashHelper $ROLinkHashHelper
-     */
     public function setROLinkHashHelper(ROLinkHashHelper $ROLinkHashHelper): void
     {
         $this->ROLinkHashHelper = $ROLinkHashHelper;
     }
 
-    /**
-     * @return DMS\DMS
-     */
     public function getDms(): DMS\DMS
     {
         return $this->dms;
     }
 
-    /**
-     * @param DMS\DMS $dms
-     */
     public function setDms(DMS\DMS $dms): void
     {
         $this->dms = $dms;
     }
 
+    public function getRepairOrderQuoteHelper(): RepairOrderQuoteHelper
+    {
+        return $this->repairOrderQuoteHelper;
+    }
 
-
-
+    public function setRepairOrderQuoteHelper(RepairOrderQuoteHelper $repairOrderQuoteHelper): void
+    {
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
+    }
 }

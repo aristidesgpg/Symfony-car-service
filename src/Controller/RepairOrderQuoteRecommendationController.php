@@ -3,12 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\OperationCode;
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\OperationCodeRepository;
 use App\Repository\RepairOrderQuoteRecommendationRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Service\DMS\DMS;
+use App\Service\RepairOrderHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -109,51 +111,4 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
         ], Response::HTTP_OK));
     }
 
-    /**
-     * @Rest\Post("/api/repair-order-quote-recommendation-sync")
-     *
-     * @SWG\Tag(name="Repair Order Quote Recommendation DMS Sync")
-     * @SWG\Post(description="Sync Repair Order Quote Recommendations from DMS")
-     *
-     * @SWG\Parameter(
-     *     name="repair_order_quote",
-     *     in="formData",
-     *     required=true,
-     *     type="integer",
-     *     description="The Repair Order Quote ID",
-     * )
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Successfully Synced" }),
-     *         )
-     * )
-     *
-     * @return Response
-     */
-    public function syncRepairOrderQuoteRecommendationsWithDMS(
-        Request $request,
-        RepairOrderQuoteRepository $repairOrderQuoteRepository,
-        DMS $dms
-    ) {
-        $repairOrderQuoteID = $request->get('repair_order_quote');
-
-        //check if params are valid
-        if (!$repairOrderQuoteID) {
-            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
-        }
-        //Check if Repair Order Quote exists
-        $repairOrderQuote = $repairOrderQuoteRepository->findOneBy(['id' => $repairOrderQuoteID]);
-        if (!$repairOrderQuote) {
-            return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
-        }
-
-        return $this->handleView($this->view([
-            'message' => 'RepairOrderQuoteRecommendation Synced',
-        ], Response::HTTP_OK));
-    }
 }
