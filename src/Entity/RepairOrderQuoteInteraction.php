@@ -12,7 +12,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderQuoteInteraction
 {
-    public const GROUPS = ['roqi_list'];
+    public const GROUPS = ['roqi_list', 'user_list', 'customer_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
