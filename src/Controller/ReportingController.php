@@ -684,7 +684,8 @@ class ReportingController extends AbstractFOSRestController
      *                   @SWG\Property(property="sumFinalValues", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
      *                   @SWG\Property(property="sumFinalValuesWithoutVideo", type="integer", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range"),
      *                   @SWG\Property(property="totalNoVideosRecorded", type="integer", description="The # of repair orders where no videos were recorded for repair orders that were closed in the given date range")
-     *              ),
+     *              )
+     *          ),
      *          @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
      *          @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
      *          @SWG\Property(property="previous", type="string", description="URL for previous page"),
@@ -883,22 +884,31 @@ class ReportingController extends AbstractFOSRestController
      *     response="200",
      *     description="Returns a list of advisors with what customers have done on repair orders where they were the primary advisor",
      *     @SWG\Schema(
-     *         type="array",
-     *         @SWG\Items(
-     *              type="object",
-     *              @SWG\Property(
-     *                  property="serviceAdvisor",
-     *                  ref=@Model(type=User::class, groups={"user_list"}),
-     *                  description="The service advisor"
-     *              ),
-     *              @SWG\Property(property="totalAppraiseClicks", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
-     *              @SWG\Property(property="totalFinanceClicks", type="integer", description="The # of finance my repair clicks (make 0 for now)"),
-     *              @SWG\Property(property="totalUnlockCouponClicks", type="integer", description="The # of unlock coupon clicks (make 0 for now)"),
-     *              @SWG\Property(property="totalVideos", type="integer", description="The # of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
-     *              @SWG\Property(property="totalInboundMessages", type="integer", description="The # of inbound messages from customers for repair orders that have closed in a given date range. "),
-     *              @SWG\Property(property="totalOutboundMessages", type="integer", description="The # of outbound messages from the advisor for repair orders that have closed in a given date range"),
-     *              @SWG\Property(property="totalMessages", type="integer", description="The # of total messages (# of inbound + # of outbound)")
-     *         )
+     *          type="object",
+     *          @SWG\Property(
+     *              property="results",
+     *              type="array",
+     *              @SWG\Items(
+     *                   type="object",
+     *                   @SWG\Property(
+     *                       property="serviceAdvisor",
+     *                       ref=@Model(type=User::class, groups={"user_list"}),
+     *                       description="The service advisor"
+     *                   ),
+     *                   @SWG\Property(property="totalAppraiseClicks", type="integer", description="The # of appraise my car clicks (make 0 for now)"),
+     *                   @SWG\Property(property="totalFinanceClicks", type="integer", description="The # of finance my repair clicks (make 0 for now)"),
+     *                   @SWG\Property(property="totalUnlockCouponClicks", type="integer", description="The # of unlock coupon clicks (make 0 for now)"),
+     *                   @SWG\Property(property="totalVideos", type="integer", description="The # of video plays for repair orders that have closed in the given date range (RepairOrderVidoeInteractions)"),
+     *                   @SWG\Property(property="totalInboundMessages", type="integer", description="The # of inbound messages from customers for repair orders that have closed in a given date range. "),
+     *                   @SWG\Property(property="totalOutboundMessages", type="integer", description="The # of outbound messages from the advisor for repair orders that have closed in a given date range"),
+     *                   @SWG\Property(property="totalMessages", type="integer", description="The # of total messages (# of inbound + # of outbound)")
+     *              )
+     *          ),
+     *          @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *          @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *          @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *          @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *          @SWG\Property(property="next", type="string", description="URL for next page")
      *     )
      * )
      */
