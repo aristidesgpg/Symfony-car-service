@@ -7,6 +7,7 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderMPI;
 use App\Entity\RepairOrderMPIInteraction;
+use App\Entity\RepairOrderPayment;
 use App\Entity\RepairOrderPaymentInteraction;
 use App\Entity\RepairOrderQuoteInteraction;
 use App\Entity\RepairOrderReviewInteractions;
@@ -60,6 +61,8 @@ class RepairOrderInteractionsController extends AbstractFOSRestController
         $repairOrderMpiInteractions = [];
         $repairOrderQuoteInteractions = [];
         $repairOrderVideoInteractions = [];
+        $repairOrderPaymentInteractions = [];
+        $repairOrderReviewInteractions = [];
 
         // Get MPI interactions
         if ($repairOrder->getRepairOrderMPI()) {
@@ -71,9 +74,28 @@ class RepairOrderInteractionsController extends AbstractFOSRestController
             $repairOrderQuoteInteractions = $repairOrder->getRepairOrderQuote()->getRepairOrderQuoteInteractions();
         }
 
+        // Get review interactions
+        if ($repairOrder->getRepairOrderReview()){
+            $repairOrderReviewInteractions = $repairOrder->getRepairOrderReview()->getRepairOrderReviewInteractions();
+        }
+
         // Get videos (and relationally their interactions)
+        /** @var RepairOrderVideo $video */
         foreach ($repairOrder->getVideos() as $video){
+            // Don't add if video was deleted
+            if ($video->isDeleted()){
+                continue;
+            }
             $repairOrderVideoInteractions[] = $video;
+        }
+
+        // Get payments (and relationally their interactions)
+        foreach ($repairOrder->getPayments() as $payment){
+            // Don't add if payment was deleted
+            if ($payment->isDeleted()){
+                continue;
+            }
+            $repairOrderPaymentInteractions[] = $payment;
         }
 
         // Build the response object
@@ -82,65 +104,28 @@ class RepairOrderInteractionsController extends AbstractFOSRestController
             'repairOrderMpiInteractions' => $repairOrderMpiInteractions,
             'repairOrderQuoteInteractions' => $repairOrderQuoteInteractions,
             'repairOrderVideoInteractions' => $repairOrderVideoInteractions,
-            'repairOrderPaymentInteractions' => [], // @TODO: This
-            'repairOrderReviewInteractions' => [] // @TODO: This
+            'repairOrderPaymentInteractions' => $repairOrderPaymentInteractions,
+            'repairOrderReviewInteractions' => $repairOrderReviewInteractions
         ];
 
         $returnView = $this->view($returnObject);
+
+        // Merge all the various serializer groups we want to get what we need
         $returnGroups = array_merge(
             RepairOrderInteraction::GROUPS,
             RepairOrderMPIInteraction::GROUPS,
             RepairOrderQuoteInteraction::GROUPS,
-            RepairOrderVideo::GROUPS,
-            RepairOrderVideoInteraction::GROUPS
+            RepairOrderVideo::GROUPS, // Add video serializer or else we won't get the videos
+            RepairOrderVideoInteraction::GROUPS,
+            RepairOrderPayment::GROUPS, // Add payment serializer or else we won't get the payments
+            RepairOrderPaymentInteraction::GROUPS,
+            RepairOrderReviewInteractions::GROUPS
         );
+
+        // Only want unique ones
         $returnGroups = array_unique($returnGroups);
         $returnView->getContext()->setGroups($returnGroups);
 
         return $this->handleView($returnView);
-
-        // MS CODE
-
-        $repairOrderInteractions = $repairOrder->getRepairOrderInteractions();
-        $repairOrderMPIInteractions = [];
-        $repairOrderPaymentInteractions = [];
-
-        //Repair Order MPI Interactions
-        $repairOrderMPI = $repairOrder->getRepairOrderMPI();
-        if ($repairOrderMPI) {
-            $repairOrderMPIInteractions = $repairOrderMPI->getRepairOrderMPIInteractions();
-        }//RepairOrderMPIInteraction::GROUPS
-
-        //Repair Order Payment Interactions
-        //Arrays *******
-        $repairOrderPayment = $repairOrder->getPayments();
-        if ($repairOrderPayment) {
-            $repairOrderPaymentInteractions = $repairOrderPayment->getInteractions();
-        }
-
-        //Repair Order Quote Interactions
-        $repairOrderQuote = $repairOrder->getRepairOrderQuote();
-        if ($repairOrderQuote) {
-            $repairOrderQuoteInteractions = $repairOrderQuote->getRepairOrderQuoteInteractions();
-        }//RepairOrderQuoteInteraction::GROUPS
-
-        //Repair Order Review Interactions
-        $repairOrderReview = $repairOrder->getRepairOrderReview();
-        if ($repairOrderReview) {
-            $repairOrderReviewInteractions = $repairOrderReview->getRepairOrderReviewInteractions();
-        } //RepairOrderReviewInteractions::GROUPS - good
-
-        /*Repair Order Video Interactions
-        $repairOrderVideo = $repairOrder->getVideos();
-        if($repairOrderVideo) {
-            $repairOrderVideoInteractions = $repairOrderVideo-
-        }
-        */
-
-
-        $view = $this->view($repairOrderQuoteInteractions);
-        $view->getContext()->setGroups(RepairOrderQuoteInteraction::GROUPS);
-
-        return $this->handleView($response);
     }
 }
