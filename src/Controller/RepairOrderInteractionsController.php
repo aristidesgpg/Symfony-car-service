@@ -17,14 +17,17 @@ use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderMPIRepository;
 use App\Repository\RepairOrderPaymentRepository;
+use App\Repository\RepairOrderRepository;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Http\Discovery\Exception\NotFoundException;
 use JMS\Serializer\SerializerBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use phpDocumentor\Reflection\Types\Collection;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -42,17 +45,35 @@ class RepairOrderInteractionsController extends AbstractFOSRestController
     use iServiceLoggerTrait;
 
     /**
-     * @Rest\Get("/{id}", name="getRepairOrderInteractions")
+     * @Rest\Get(name="getRepairOrderInteractions")
+     *
+     * @SWG\Parameter(
+     *     name="repairOrderId",
+     *     type="integer",
+     *     description="ID of repair order you're grabbing interactions for",
+     *     in="query",
+     *     required=true
+     * )
      *
      * @SWG\Response(
      *     response="200",
      *     description="Success!",
-     *
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function getOne(RepairOrder $repairOrder): Response
+    public function getOne(Request $request, RepairOrderRepository $repairOrderRepository): Response
     {
+        // @TODO: Fix 200 response documentation
+        $repairOrderId = $request->query->get('repairOrderId');
+        if (!$repairOrderId) {
+            throw new BadRequestException('Missing Required Parameter: repairOrderId');
+        }
+
+        $repairOrder = $repairOrderRepository->find($repairOrderId);
+        if (!$repairOrder) {
+            throw new NotFoundException('Repair Order Not Found');
+        }
+
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -70,29 +91,29 @@ class RepairOrderInteractionsController extends AbstractFOSRestController
         }
 
         // Get quote interactions
-        if ($repairOrder->getRepairOrderQuote()){
+        if ($repairOrder->getRepairOrderQuote()) {
             $repairOrderQuoteInteractions = $repairOrder->getRepairOrderQuote()->getRepairOrderQuoteInteractions();
         }
 
         // Get review interactions
-        if ($repairOrder->getRepairOrderReview()){
+        if ($repairOrder->getRepairOrderReview()) {
             $repairOrderReviewInteractions = $repairOrder->getRepairOrderReview()->getRepairOrderReviewInteractions();
         }
 
         // Get videos (and relationally their interactions)
         /** @var RepairOrderVideo $video */
-        foreach ($repairOrder->getVideos() as $video){
+        foreach ($repairOrder->getVideos() as $video) {
             // Don't add if video was deleted
-            if ($video->isDeleted()){
+            if ($video->isDeleted()) {
                 continue;
             }
             $repairOrderVideoInteractions[] = $video;
         }
 
         // Get payments (and relationally their interactions)
-        foreach ($repairOrder->getPayments() as $payment){
+        foreach ($repairOrder->getPayments() as $payment) {
             // Don't add if payment was deleted
-            if ($payment->isDeleted()){
+            if ($payment->isDeleted()) {
                 continue;
             }
             $repairOrderPaymentInteractions[] = $payment;
