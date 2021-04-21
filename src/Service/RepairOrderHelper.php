@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Customer;
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderQuote;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
@@ -26,7 +27,7 @@ class RepairOrderHelper
     private $em;
     private $repo;
     private $customers;
-    private $users;
+    private $userRepository;
     private $customerHelper;
     /**
      * @var ROLinkHashHelper
@@ -36,6 +37,10 @@ class RepairOrderHelper
      * @var DMS\DMS
      */
     private $dms;
+    /**
+     * @var RepairOrderQuoteHelper
+     */
+    private $repairOrderQuoteHelper;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -44,9 +49,8 @@ class RepairOrderHelper
         UserRepository $userRepository,
         CustomerHelper $customerHelper,
         ROLinkHashHelper $ROLinkHash,
-        \App\Service\DMS\DMS $dms
-
-
+        DMS\DMS $dms,
+        RepairOrderQuoteHelper $repairOrderQuoteHelper
     ) {
         $this->em = $em;
         $this->repo = $repo;
@@ -55,6 +59,7 @@ class RepairOrderHelper
         $this->customerHelper = $customerHelper;
         $this->ROLinkHashHelper = $ROLinkHash;
         $this->dms = $dms;
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
     }
 
     /**
@@ -263,7 +268,7 @@ class RepairOrderHelper
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findBy(['number' => $roNumber]);
-        if ($ro){
+        if ($ro) {
             return false;
         }
 
@@ -391,6 +396,77 @@ class RepairOrderHelper
         return $suggestedRoNumbers;
     }
 
+    /**
+     * @param User   $user
+     * @param null   $startDate
+     * @param null   $endDate
+     * @param string $sortField
+     * @param string $sortDirection
+     * @param null   $searchTerm
+     * @param bool   $needsVideo
+     * @param array  $fields
+     *
+     * @return null
+     */
+    public function getAllItems(
+        $user,
+        $startDate = null,
+        $endDate = null,
+        $sortField = 'dateCreated',
+        $sortDirection = 'DESC',
+        $searchTerm = null,
+        $needsVideo = false,
+        $fields = []
+    ) {
+        try {
+            $qb = $this->repo->createQueryBuilder('ro');
+            $qb->andWhere('ro.deleted = 0');
+
+            if ($user instanceof User) {
+                if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
+                    if (!$needsVideo) {
+                        if ($user->getShareRepairOrders()) {
+                            $qb->andWhere('ro.primaryAdvisor IN (:users)')
+                               ->setParameter('users', $user);
+
+                            $queryParameters['users'] = $this->userRepository->getSharedUsers();
+                        } else {
+                            $qb->andWhere('ro.primaryAdvisor = :user')
+                               ->setParameter('user', $user);
+
+                            $queryParameters['user'] = $user;
+                        }
+                    }
+                } elseif ($user->isTechnician()) {
+                    $qb->andWhere('ro.primaryTechnician = :user OR ro.primaryTechnician is NULL')
+                       ->setParameter('user', $user);
+
+                    $queryParameters['user'] = $user;
+                }
+            } else {
+                throw new BadRequestHttpException('Invalid User');
+            }
+
+            if (filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)) {
+                $qb->andWhere('ro.dateClosed IS NULL')->andWhere("ro.videoStatus = 'Not Started'");
+            }
+
+            $qb = $this->addFilters(
+                $qb,
+                $startDate,
+                $endDate,
+                $sortField,
+                $sortDirection,
+                $searchTerm,
+                $fields
+            );
+
+            return $qb->getQuery()->getResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
+    }
+
     public function addFilters(
         $queryBuilder,
         $startDate,
@@ -490,80 +566,22 @@ class RepairOrderHelper
         }
     }
 
-    public function syncRepairOrderWithDMS(){
-
-    }
-
-
-    /**
-     * @param User   $user
-     * @param null   $startDate
-     * @param null   $endDate
-     * @param string $sortField
-     * @param string $sortDirection
-     * @param null   $searchTerm
-     * @param bool   $needsVideo
-     * @param array  $fields
-     *
-     * @return null
-     */
-    public function getAllItems(
-        $user,
-        $startDate = null,
-        $endDate = null,
-        $sortField = 'dateCreated',
-        $sortDirection = 'DESC',
-        $searchTerm = null,
-        $needsVideo = false,
-        $fields = []
-    ) {
-        try {
-            $qb = $this->repo->createQueryBuilder('ro');
-            $qb->andWhere('ro.deleted = 0');
-
-            if ($user instanceof User) {
-                if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
-                    if (!$needsVideo) {
-                        if ($user->getShareRepairOrders()) {
-                            $qb->andWhere('ro.primaryAdvisor IN (:users)')
-                               ->setParameter('users', $user);
-
-                            $queryParameters['users'] = $this->userRepo->getSharedUsers();
-                        } else {
-                            $qb->andWhere('ro.primaryAdvisor = :user')
-                               ->setParameter('user', $user);
-
-                            $queryParameters['user'] = $user;
-                        }
-                    }
-                } elseif ($user->isTechnician()) {
-                    $qb->andWhere('ro.primaryTechnician = :user OR ro.primaryTechnician is NULL')
-                       ->setParameter('user', $user);
-
-                    $queryParameters['user'] = $user;
-                }
-            } else {
-                throw new BadRequestHttpException('Invalid User');
-            }
-
-            if (filter_var($needsVideo, FILTER_VALIDATE_BOOLEAN)) {
-                $qb->andWhere('ro.dateClosed IS NULL')->andWhere("ro.videoStatus = 'Not Started'");
-            }
-
-            $qb = $this->addFilters(
-                $qb,
-                $startDate,
-                $endDate,
-                $sortField,
-                $sortDirection,
-                $searchTerm,
-                $fields
-            );
-
-            return $qb->getQuery()->getResult();
-        } catch (NonUniqueResultException $e) {
-            return null;
+    public function syncRepairOrderRecommendationsFromDMS(RepairOrder $repairOrder)
+    {
+        $dmsResult = null;
+//        $this->em->getRepository(RepairOrder::class)->find($repairOrderId);
+//        $result = $this->getDms()->getRepairOrderByNumber();
+        //query the dms and get the repair order.
+        $dmsResult = $this->getDms()->getRepairOrderByNumber($repairOrder->getNumber());
+        //See if a quote exists and if not create one.
+        if (!$repairOrder->getRepairOrderQuote()) {
+            $repairOrderQuote = $repairOrder->setRepairOrderQuote((new RepairOrderQuote()));
         }
+        $repairOrder = $this->repairOrderQuoteHelper->addRecommendationsFromDMS($repairOrder, $dmsResult);
+        $this->em->persist($repairOrder);
+        $this->em->flush();
+
+        return $repairOrder;
     }
 
     /**
@@ -574,31 +592,28 @@ class RepairOrderHelper
         return $this->ROLinkHashHelper;
     }
 
-    /**
-     * @param ROLinkHashHelper $ROLinkHashHelper
-     */
     public function setROLinkHashHelper(ROLinkHashHelper $ROLinkHashHelper): void
     {
         $this->ROLinkHashHelper = $ROLinkHashHelper;
     }
 
-    /**
-     * @return DMS\DMS
-     */
     public function getDms(): DMS\DMS
     {
         return $this->dms;
     }
 
-    /**
-     * @param DMS\DMS $dms
-     */
     public function setDms(DMS\DMS $dms): void
     {
         $this->dms = $dms;
     }
 
+    public function getRepairOrderQuoteHelper(): RepairOrderQuoteHelper
+    {
+        return $this->repairOrderQuoteHelper;
+    }
 
-
-
+    public function setRepairOrderQuoteHelper(RepairOrderQuoteHelper $repairOrderQuoteHelper): void
+    {
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
+    }
 }

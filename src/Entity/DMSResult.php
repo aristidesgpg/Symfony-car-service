@@ -47,6 +47,14 @@ class DMSResult
      */
     private $technician;
 
+    /**
+     * @var DMSResultRecommendation[]
+     */
+    private $recommendations = [];
+
+    /**
+     * DMSResult constructor.
+     */
     public function __construct()
     {
         $this->customer = new DMSResultCustomer();
@@ -313,22 +321,34 @@ class DMSResult
         $this->closedROValue = $closedROValue;
     }
 
-    /**
-     * @return DMSResultTechnician
-     */
     public function getTechnician(): DMSResultTechnician
     {
         return $this->technician;
     }
 
-    /**
-     * @param DMSResultTechnician $technician
-     */
     public function setTechnician(DMSResultTechnician $technician): void
     {
         $this->technician = $technician;
     }
 
+    public function addRecommendation(DMSResultRecommendation $recommendation)
+    {
+        $this->recommendations[] = $recommendation;
+    }
 
+    /**
+     * @return DMSResultRecommendation[]
+     */
+    public function getRecommendations(): array
+    {
+        return $this->recommendations;
+    }
 
+    /**
+     * @param DMSResultRecommendation[] $recommendations
+     */
+    public function setRecommendations(array $recommendations): void
+    {
+        $this->recommendations = $recommendations;
+    }
 }

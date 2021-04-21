@@ -3,6 +3,7 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\DMSResultRecommendation;
 use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
@@ -11,10 +12,12 @@ use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\dealertrack\src\DealerTrackClosedSoapEnvelope;
 use App\Soap\dealertrack\src\DealerTrackPartsEnvelope;
 use App\Soap\dealertrack\src\DealerTrackSoapEnvelope;
+use App\Soap\dealertrack\src\OpenRepairOrderDetail;
 use App\Soap\dealertrack\src\PartsResult;
 use App\Soap\dealertrack\src\Result;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class DealerTrackClient.
@@ -187,6 +190,7 @@ class DealerTrackClient extends AbstractDMSClient
 
     public function getRepairOrderByNumber(string $RONumber)
     {
+        $dmsResult = null;
         if ($this->getSoapClient()) {
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
@@ -209,67 +213,121 @@ class DealerTrackClient extends AbstractDMSClient
             ];
 
             $soapResult = $this->sendSoapCall('OpenRepairOrderLookup', [$request], true);
-            dump($soapResult);
             $response = $this->getSerializer()->deserialize($soapResult, DealerTrackSoapEnvelope::class, 'xml');
-            dd($response);
+
             if (!$response) {
-                return $repairOrders;
+                throw new NotFoundHttpException('Repair Order was not found in the DMS.');
             }
 
             /**
              * @var Result $result
              */
             foreach ($response->getBody()->getOpenRepairOrderLookupResult()->getResult() as $result) {
-                $dmsResult = new DMSResult();
-                $dmsResult->setRaw($result);
-
-                $openDate = new \DateTime();
-                try {
-                    $openDate = new \DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
-                } catch (\Exception $e) {
-                    //ignore
-                }
-
-                //TODO This needs checked on... Couldn't find any with DateToArrive != 0.
-                $pickupDate = false;
-                if ($result->getDateToArrive() > 0) {
-                    try {
-                        $openDate = new \DateTime($result->getDateToArrive());
-                    } catch (\Exception $e) {
-                        //ignore
-                    }
-                }
-                //Customer
-                $dmsResult->getCustomer()
-                    ->setName($result->getCustomerName())
-                    ->setPhoneNumbers($this->phoneNormalizer($result->getCustomerPhoneNumber()))
-                    ->setEmail($result->getCustomerEmail());
-
-                //Repair Order
-                $dmsResult
-                    ->setNumber($result->getRepairOrderNumber())
-                    ->setDate($openDate)
-                    ->setWaiter(($pickupDate) ? false : true)
-                    ->setPickupDate(($pickupDate) ? $pickupDate : null)
-                    ->setYear($result->getModelYear())
-                    ->setMake($result->getMake())
-                    ->setModel($result->getModel())
-                    ->setMiles($result->getOdometerIn())
-                    ->setVin($result->getVIN())
-                    ->setInitialROValue($result->getTotalEstimate());
-
-                //Initial Technician
-                $dmsResult->getTechnician()->setFirstName($result->getROTechnicianID());
-
-                //TODO, sometimes ServiceWriterId is a string. What should we do?
-                //  -serviceWriterID: "MM"
-                if (is_int($result->getServiceWriterID())) {
-                    $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
-                }
-
-                $repairOrders[] = $dmsResult;
+                $dmsResult = $this->parseResult($result);
             }
         }
+
+        return $dmsResult;
+    }
+
+    private function parseResult(Result $result): DMSResult
+    {
+        $dmsResult = new DMSResult();
+        $dmsResult->setRaw($result);
+
+        $openDate = new \DateTime();
+        try {
+            $openDate = new \DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
+        } catch (\Exception $e) {
+            //ignore
+        }
+
+        //TODO This needs checked on... Couldn't find any with DateToArrive != 0.
+        $pickupDate = false;
+        if ($result->getDateToArrive() > 0) {
+            try {
+                $openDate = new \DateTime($result->getDateToArrive());
+            } catch (\Exception $e) {
+                //ignore
+            }
+        }
+        //Customer
+        $dmsResult->getCustomer()
+            ->setName($result->getCustomerName())
+            ->setPhoneNumbers($this->phoneNormalizer($result->getCustomerPhoneNumber()))
+            ->setEmail($result->getCustomerEmail());
+
+        //Repair Order
+        $dmsResult
+            ->setNumber($result->getRepairOrderNumber())
+            ->setDate($openDate)
+            ->setWaiter(($pickupDate) ? false : true)
+            ->setPickupDate(($pickupDate) ? $pickupDate : null)
+            ->setYear($result->getModelYear())
+            ->setMake($result->getMake())
+            ->setModel($result->getModel())
+            ->setMiles($result->getOdometerIn())
+            ->setVin($result->getVIN())
+            ->setInitialROValue($result->getTotalEstimate());
+
+        //Initial Technician
+        $dmsResult->getTechnician()->setFirstName($result->getROTechnicianID());
+
+        //TODO, sometimes ServiceWriterId is a string. What should we do?
+        //  -serviceWriterID: "MM"
+        if (is_int($result->getServiceWriterID())) {
+            $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
+        }
+
+        //Get Dealer Pre-approved "Recommendations"
+        $recommendations = [];
+        $alreadyProcessedOpCodes = [];
+        /**
+         * @var OpenRepairOrderDetail $details
+         */
+        foreach ($result->getDetails() as $details) {
+            $opcode = $details->getLaborOpCode();
+            // If there is no opcode, add it as Misc.
+            if (empty($opcode)) {
+                $opcode = 'MISC';
+            }
+
+            //See if we already processed the opcode.
+            if (in_array($opcode, $alreadyProcessedOpCodes) && 'MISC' != $opcode) {
+                foreach ($recommendations as $rec) {
+                    if ($opcode == $rec->getOperationCode()) {
+                        $rec
+                            ->setLaborHours($rec->getLaborHours() + $details->getLaborHours())
+                            //->setLaborPrice($details->getLaborCostHours()) //TODO Which labor price should we keep?
+                            //->setLaborTax(0)
+                            ->setPartsPrice($rec->getPartsPrice() + $details->getListPrice())
+                            //->setPartsTax(0)
+                            ->setSuppliesPrice(0)
+                            ->setSuppliesTax(0)
+                            ->setNotes($rec->getNotes().' '.$details->getComments());
+                        break;
+                    }
+                }
+            } else {
+                $alreadyProcessedOpCodes[] = $opcode;
+                $recommendations[] = (new DMSResultRecommendation())
+                    ->setOperationCode($opcode)
+                    ->setDescription('') //This needs to be the description from the opcode.
+                    ->setPreApproved(true)
+                    ->setApproved(true)
+                    ->setLaborHours($details->getLaborHours())
+                    ->setLaborPrice($details->getLaborCostHours())
+                    ->setLaborTax(0)
+                    ->setPartsPrice($details->getListPrice())
+                    ->setPartsTax(0)
+                    ->setSuppliesPrice(0)
+                    ->setSuppliesTax(0)
+                    ->setNotes($details->getComments());
+            }
+        }
+        $dmsResult->setRecommendations($recommendations);
+
+        return $dmsResult;
     }
 
     public function getClosedRoDetails(array $openRepairOrders): array
