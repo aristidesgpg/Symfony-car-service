@@ -12,6 +12,9 @@ use App\Repository\ServiceSMSRepository;
 use App\Repository\UserRepository;
 use App\Service\Pagination;
 use App\Service\ServiceSMSHelper;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -1122,7 +1125,7 @@ class ReportingController extends AbstractFOSRestController
         $totalRepairOrdersWithMpi = 0;
 
         foreach ($closedRepairOrders as $ro) {
-            $currentMonth = new DateTime($ro->getClosedDate());
+            $currentMonth = $ro->getDateClosed();
             $currentMonth = $currentMonth->format('M');
 
             ++$result[$currentMonth]['totalRepairOrders'];
@@ -1146,8 +1149,16 @@ class ReportingController extends AbstractFOSRestController
                 ++$totalRepairOrdersWithMpi;
             }
         }
+        $totalResult = [
+            'byMonth' => $result,
+            'totalRepairOrders' => $totalRepairOrders,
+            'totalRepairOrdersWithVideo' => $totalRepairOrdersWithVideo,
+            'totalRepairOrdersWithPayment' => $totalRepairOrdersWithPayment,
+            'totalRepairOrdersWithQuote' => $totalRepairOrdersWithQuote,
+            'totalRepairOrdersWithMpi' => $totalRepairOrdersWithMpi,
+        ];
 
-        $view = $this->view($result);
+        $view = $this->view($totalResult);
 
         return $this->handleView($view);
     }
