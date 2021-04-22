@@ -707,7 +707,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     /**
      * @Rest\Post("/api/repair-order-recommendations-sync")
      *
-     * @SWG\Tag(name="Repair Order")
+     * @SWG\Tag(name="Repair Order Quote")
      * @SWG\Post(description="Sync Repair Order Recommendations from DMS")
      *
      * @SWG\Parameter(
