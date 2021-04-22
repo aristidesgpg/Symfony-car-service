@@ -90,8 +90,6 @@ class DealerTrackClient extends AbstractDMSClient
             $this->partsWsdlFileName = '/dealertrack/dealertrack_partsapi_dev.wsdl';
         }
 
-
-
         $this->init();
     }
 
@@ -141,7 +139,6 @@ class DealerTrackClient extends AbstractDMSClient
                 //TODO This should be moved into parseResult() after testing.
                 $dmsResult = new DMSResult();
                 $dmsResult->setRaw($result);
-
                 $openDate = new DateTime();
                 try {
                     $openDate = new DateTime(sprintf('%s%04d00', $result->getOpenTransactionDate(), $result->getTimeIn()));
@@ -317,7 +314,7 @@ class DealerTrackClient extends AbstractDMSClient
                 $alreadyProcessedOpCodes[] = $opcode;
                 $recommendations[] = (new DMSResultRecommendation())
                     ->setOperationCode($opcode)
-                    ->setDescription('') //This needs to be the description from the opcode.
+                    ->setDescription('') //TODO This needs to be the description from the opcode.
                     ->setPreApproved(true)
                     ->setApproved(true)
                     ->setLaborHours($details->getLaborHours())
