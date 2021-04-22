@@ -764,8 +764,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrder->getRepairOrderQuote(), $this->handleView($view)->getContent(), $this->getUser());
         }
 
-        return $this->handleView($this->view([
-            'message' => 'Repair Order Recommendations Synced',
-        ], Response::HTTP_OK));
+        return $this->handleView($view);
     }
 }
