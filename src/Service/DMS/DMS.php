@@ -146,7 +146,6 @@ class DMS
         }
 
         $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
-
         // Loop over found repair orders
         /**
          * @var DMSResult $dmsOpenRepairOrder
@@ -237,20 +236,22 @@ class DMS
         if (!$customer->getPhone()) {
             return;
         }
-        //TODO: UNCOMMENT FOR PRODUCTION.
-//        // Throws an error if it's not a mobile number
-//        //TODO, we are validating this upstream. Possibly redundant.
-//        try {
-//            $this->phoneValidator->isMobile($customer->getPhone());
-//        } catch (Exception $e) {
-//            return;
-//        }
-//
-//        //text customer.
-//        try {
-//            $this->sendCommunicationToCustomer($repairOrder, $customer);
-//        } catch (Exception $e) {
-//        }
+
+        // Throws an error if it's not a mobile number
+        //TODO, we are validating this upstream. Possibly redundant.
+        try {
+            $this->phoneValidator->isMobile($customer->getPhone());
+        } catch (Exception $e) {
+            return;
+        }
+
+        //text customer.
+        try {
+            if ('prod' == $this->parameterBag->get('app_env')) {
+                $this->sendCommunicationToCustomer($repairOrder, $customer);
+            }
+        } catch (Exception $e) {
+        }
     }
 
     /**
@@ -384,8 +385,6 @@ class DMS
 
             $introMessage = $introMessage.$textLink;
             if (true == $this->activateIntegrationSms) {
-                //TODO sendShortCode Does Not Exist, changed to sendSms(). This needs double checked.
-                //$this->twilioHelper->sendShortCode($customer->getPhone(), $introMessage);
                 $this->twilioHelper->sendSms($customer, $introMessage);
             }
         } else {

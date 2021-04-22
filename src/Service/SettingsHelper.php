@@ -462,7 +462,7 @@ class SettingsHelper
      *
      * @throws Exception
      */
-    public function getSetting($key)
+    public function getSetting($key): string
     {
         // Throw exception because false is a valid option
         if (!$this->isValidSetting($key)) {
