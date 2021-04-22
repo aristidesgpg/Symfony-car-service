@@ -127,6 +127,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
         //It should validate against the wsdl before the call to make sure its correct.
         try {
             $result = $this->getSoapClient()->__soapCall($name, $args);
+            //dump($this->getSoapClient()->__getLastResponse());
             if ($returnLastResponse) {
                 return $this->getSoapClient()->__getLastResponse();
             }

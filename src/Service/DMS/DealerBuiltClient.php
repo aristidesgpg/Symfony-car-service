@@ -3,6 +3,7 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\DMSResultRecommendation;
 use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
@@ -17,9 +18,9 @@ use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopeEstimateJobCodes;
 use App\Soap\dealerbuilt\src\DealerBuiltSoapEnvelopePullParts;
 use App\Soap\dealerbuilt\src\Models\PhoneNumberType;
 use App\Soap\dealerbuilt\src\Models\Service\PushedPotentialJobAttributesType;
+use App\Soap\dealerbuilt\src\Models\Service\RepairOrderJobType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class DealerBuiltClient.
@@ -158,13 +159,107 @@ class DealerBuiltClient extends AbstractDMSClient
         return $repairOrders;
     }
 
-
     public function getRepairOrderByNumber(string $RONumber)
     {
-        // TODO: Implement getSingleRepairOrder() method.
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        $dmsResult = null;
+        if ($this->getSoapClient()) {
+            //create authentication token
+            $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
+
+            $searchCriteria = [
+                'serviceLocationId' => $this->getServiceLocationId(),
+                'repairOrderNumber' => $RONumber,
+            ];
+
+            $result = $this->sendSoapCall('PullRepairOrderByNumber', [$searchCriteria], true);
+            if ($result) {
+                //Deserialize the soap result into objects.
+                $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopeByNumber::class, 'xml');
+
+                $repairOrder = $deserializedNode->getBody()->getPullRepairOrderByNumberResponse()->getPullRepairOrderByNumberResult();
+                $dmsResult = $this->parseResults($repairOrder);
+            }
+        }
+
+        return $dmsResult;
     }
 
+    public function parseResults(RepairOrderType $repairOrder): ?DMSResult
+    {
+        //init result objects
+        $dmsResult = new DMSResult();
+        $dmsResult->setRaw($repairOrder);
+
+        //All DealerBuilt have waiter set to false.
+        $dmsResult->setWaiter(false);
+
+        if ('InternalRepairOrder' == $repairOrder->getAttributes()->getType()) {
+            return null;
+        }
+        //Customer
+        $customer = $repairOrder->getReferences()->getROCustomer()->getAttributes()->getIdentity();
+        $customerName = sprintf('%s %s', $customer->getPersonalName()->getFirstName(), $customer->getPersonalName()->getLastName());
+        // No customer name, it's an internal RO so skip
+        if (!$customerName) {
+            return null;
+        }
+
+        $dmsResult->getCustomer()->setName($customerName);
+        $dmsResult->getCustomer()->setEmail($customer->getEmailAddress());
+
+        $dmsResult->getCustomer()->setPhoneNumbers(
+            $this->phoneNormalizer($customer->getPhoneNumbers())
+        );
+
+        $dmsResult->setNumber($repairOrder->getAttributes()->getRepairOrderNumber());
+
+        $dmsResult->setMiles($repairOrder->getAttributes()->getMilesIn());
+        //vehicle
+        $vehicle = $repairOrder->getReferences()->getROVehicle()->getAttributes();
+        $dmsResult->setYear($vehicle->getYear());
+        $dmsResult->setMake($vehicle->getMake());
+        $dmsResult->setModel($vehicle->getModel());
+        $dmsResult->setVin($vehicle->getVin());
+
+        //advisor
+        $advisor = $repairOrder->getAttributes()->getServiceAdvisor()->getPersonalName();
+        $dmsResult->getAdvisor()->setFirstName($advisor->getFirstName());
+        $dmsResult->getAdvisor()->setLastName($advisor->getLastName());
+
+        //The date is converted to a DateTime when its serialized.
+        $dmsResult->setDate($repairOrder->getAttributes()->getOpenedStamp());
+        $dmsResult->setRoKey($repairOrder->getROKey());
+        $dmsResult->setInitialROValue($repairOrder->getAttributes()->getTotalAmount()->getAmount());
+
+        //Get Dealer Pre-approved "Recommendations"
+        $recommendations = [];
+        // Try to set the technician that recorded it when closing
+        if ($repairOrder->getAttributes()->getJobs()) {
+            // TODO: This needs reviewed by Laramie.
+            /**
+             * @var RepairOrderJobType $job
+             */
+            foreach ($repairOrder->getAttributes()->getJobs() as $job) {
+                $recommendations[] = (new DMSResultRecommendation())
+                    ->setOperationCode($job->getJobCode())
+                    ->setDescription('') //This needs to be the description from the opcode.
+                    ->setPreApproved(true)
+                    ->setApproved(true)
+                    ->setLaborHours($job->getLaborActualHoursNumeric())
+                    ->setLaborPrice($job->getLaborCost()->getAmount())
+                    ->setLaborTax($job->getTaxAmount())
+                    ->setPartsPrice($job->getPartsTotal()->getAmount())
+                    ->setPartsTax(0)
+                    ->setSuppliesPrice($job->getMiscFees()->getAmount())
+                    ->setSuppliesTax(0)
+                    ->setNotes(substr($job->getJobCodeDescription(), 0, 255)); //TODO: Should we truncate or increase the size of the db field > 255;
+            }
+        }
+
+        $dmsResult->setRecommendations($recommendations);
+
+        return $dmsResult;
+    }
 
     public function getClosedRoDetails(array $openRepairOrders): array
     {
@@ -258,14 +353,19 @@ class DealerBuiltClient extends AbstractDMSClient
                     //Deserialize the soap result into objects.
                     $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopeByNumber::class, 'xml');
 
-                    /**
-                     * @var RepairOrderType $repairOrder
-                     */
-                    foreach ($deserializedNode->getBody()->getPullRepairOrderByNumberResponse()->getPullRepairOrderByNumberResult() as $repairOrder) {
-                        $closed = $this->closeRo($repairOrder, $repairOrders);
-                        if ($closed) {
-                            $closedRepairOrders[] = $closed;
-                        }
+//                    /**
+//                     * @var RepairOrderType $repairOrder
+//                     */
+//                    foreach ($deserializedNode->getBody()->getPullRepairOrderByNumberResponse()->getPullRepairOrderByNumberResult() as $repairOrder) {
+//                        $closed = $this->closeRo($repairOrder, $repairOrders);
+//                        if ($closed) {
+//                            $closedRepairOrders[] = $closed;
+//                        }
+//                    }
+                    $repairOrder = $deserializedNode->getBody()->getPullRepairOrderByNumberResponse()->getPullRepairOrderByNumberResult();
+                    $closed = $this->closeRo($repairOrder, $repairOrders);
+                    if ($closed) {
+                        $closedRepairOrders[] = $closed;
                     }
                 }
             }
@@ -453,7 +553,6 @@ class DealerBuiltClient extends AbstractDMSClient
 
         return $bins;
     }
-
 
     public function getPostUrl(): string
     {
