@@ -1059,7 +1059,7 @@ class ReportingController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response="200",
-     *     description="Returns the list of technicians with metrics relating to how they have performed",
+     *     description="This will report how they are using the system over time.",
      *     @SWG\Schema(
      *          type="object",
      *          @SWG\Property(
@@ -1093,17 +1093,10 @@ class ReportingController extends AbstractFOSRestController
      */
     public function trend(
         Request $request,
-        RepairOrderRepository $roRepo,
-        UserRepository $userRepo,
-        RepairOrderQuoteRepository $quoteRepo,
-        PaginatorInterface $paginator,
-        UrlGeneratorInterface $urlGenerator,
-        EntityManagerInterface $em
+        RepairOrderRepository $roRepo
     ): Response {
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
-
-        $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
 
         $closedRepairOrders = $roRepo->getAllArchives(
             $startDate,
@@ -1111,72 +1104,50 @@ class ReportingController extends AbstractFOSRestController
         );
 
         $result = [];
-        foreach ($technicians as $technician) {
-            $totalClosedRepairOrders = 0;
-            $totalStartValues = 0;
-            $totalFinalValues = 0;
-            $totalUpsellPercentage = 0;
-
-            $sumFinalValuesWithVideo = 0;
-            $roCountWithVideo = 0;
-
-            $sumFinalValuesWithoutVideo = 0;
-            $roCountWithoutVideo = 0;
-
-            $totalVideos = 0;
-
-            foreach ($closedRepairOrders as $ro) {
-                if ($technician->getId() === $ro->getPrimaryTechnician()->getId()) {
-                    ++$totalClosedRepairOrders;
-                    $totalStartValues += $ro->getStartValue();
-                    $totalFinalValues += $ro->getFinalValue();
-
-                    $videosCount = count($ro->getVideos());
-                    $totalVideos += $videosCount;
-
-                    if ($videosCount) {
-                        $sumFinalValuesWithVideo += $ro->getFinalValue();
-                        ++$roCountWithVideo;
-                    } else {
-                        $sumFinalValuesWithoutVideo += $ro->getFinalValue();
-                        ++$roCountWithoutVideo;
-                    }
-                }
-            }
-
-            $totalUpsellAmount = round($totalFinalValues - $totalStartValues, 2);
-
-            if ($totalStartValues) {
-                $totalUpsellPercentage = round(($totalFinalValues / $totalStartValues) * 100);
-            }
-
-            if ($roCountWithVideo) {
-                $sumFinalValuesWithVideo = round($sumFinalValuesWithVideo / $roCountWithVideo, 2);
-            }
-
-            if ($roCountWithoutVideo) {
-                $sumFinalValuesWithoutVideo = round($sumFinalValuesWithoutVideo / $roCountWithoutVideo, 2);
-            }
-
-            $result[] = [
-                'technician' => $technician,
-                'totalClosedRepairOrders' => $totalClosedRepairOrders,
-                'totalStartValues' => round($totalStartValues, 2),
-                'totalFinalValues' => round($totalFinalValues, 2),
-                'totalUpsellAmount' => $totalUpsellAmount,
-                'totalUpsellPercentage' => $totalUpsellPercentage,
-                'totalVideos' => $totalVideos,
-                'sumFinalValuesWithVideo' => $sumFinalValuesWithVideo,
-                'sumFinalValuesWithoutVideo' => $sumFinalValuesWithoutVideo,
-                'totalNoVideosRecorded' => $roCountWithoutVideo,
+        $months = $this->getMonths($startDate, $endDate);
+        foreach ($months as $m) {
+            $result[$m] = [
+                'totalRepairOrders' => 0,
+                'totalRepairOrdersWithVideo' => 0,
+                'totalRepairOrdersWithPayment' => 0,
+                'totalRepairOrdersWithQuote' => 0,
+                'totalRepairOrdersWithMpi' => 0,
             ];
         }
-        if ($request->query->has('sortField') && $request->query->has('sortDirection') && 'technicianName' !== $sortField) {
-            $result = $this->sortByField($result, $sortField, $sortDirection);
+
+        $totalRepairOrders = count($closedRepairOrders);
+        $totalRepairOrdersWithVideo = 0;
+        $totalRepairOrdersWithPayment = 0;
+        $totalRepairOrdersWithQuote = 0;
+        $totalRepairOrdersWithMpi = 0;
+
+        foreach ($closedRepairOrders as $ro) {
+            $currentMonth = new DateTime($ro->getClosedDate());
+            $currentMonth = $currentMonth->format('M');
+
+            ++$result[$currentMonth]['totalRepairOrders'];
+            if (count($ro->getVideos())) {
+                ++$result[$currentMonth]['totalRepairOrdersWithVideo'];
+                ++$totalRepairOrdersWithVideo;
+            }
+
+            if (count($ro->getPayments())) {
+                ++$result[$currentMonth]['totalRepairOrdersWithPayment'];
+                ++$totalRepairOrdersWithPayment;
+            }
+
+            if ($ro->getRepairOrderQuote()) {
+                ++$result[$currentMonth]['totalRepairOrdersWithQuote'];
+                ++$totalRepairOrdersWithQuote;
+            }
+
+            if ($ro->getRepairOrderMpi()) {
+                ++$result[$currentMonth]['totalRepairOrdersWithMpi'];
+                ++$totalRepairOrdersWithMpi;
+            }
         }
 
         $view = $this->view($result);
-        $view->getContext()->setGroups(['user_list']);
 
         return $this->handleView($view);
     }
@@ -1422,5 +1393,36 @@ class ReportingController extends AbstractFOSRestController
         });
 
         return $list;
+    }
+
+    private function getMonths($startDate = null, $endDate = null)
+    {
+        if (!$startDate || !$endDate) {
+            return [
+                'Jan',
+                'Feb',
+                'Mar',
+                'Apr',
+                'May',
+                'Jun',
+                'Jul',
+                'Aug',
+                'Sep',
+                'Oct',
+                'Nov',
+                'Dec',
+              ];
+        }
+        $start = (new DateTime($startDate))->modify('first day of this month');
+        $end = (new DateTime($endDate))->modify('first day of next month');
+        $interval = DateInterval::createFromDateString('1 month');
+        $period = new DatePeriod($start, $interval, $end);
+
+        $months = [];
+        foreach ($period as $dt) {
+            $months[] = $dt->format('M');
+        }
+
+        return $months;
     }
 }
