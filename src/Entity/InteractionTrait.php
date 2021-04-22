@@ -18,12 +18,14 @@ trait InteractionTrait
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=true)
+     * @Serializer\Groups(groups={"int_list"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Customer")
      * @ORM\JoinColumn(nullable=true)
+     * @Serializer\Groups(groups={"int_list"})
      */
     private $customer;
 

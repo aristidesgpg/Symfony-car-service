@@ -13,7 +13,7 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class RepairOrderMPIInteraction
 {
-    public const GROUPS = ['romi_list', 'rom_list', 'user_list', 'customer_list'];
+    public const GROUPS = ['romi_list', 'user_list', 'customer_list'];
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -25,7 +25,6 @@ class RepairOrderMPIInteraction
     /**
      * @ORM\ManyToOne(targetEntity=RepairOrderMPI::class, inversedBy="repairOrderMPIInteractions")
      * @ORM\JoinColumn(nullable=false)
-     * @Serializer\Groups(groups={"romi_list"})
      */
     private $repairOrderMPI;
 
