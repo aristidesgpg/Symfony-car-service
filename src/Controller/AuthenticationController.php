@@ -116,6 +116,23 @@ class AuthenticationController extends AbstractFOSRestController {
             goto INVALID_LOGIN;
         }
 
+        //If external user then use wordpress credentials
+        $user = $userRepository->findOneBy(['email' => $username]);
+        if($user->getExternalAuthentication() == true){
+            // Try to login via wordpress credentials
+            $username = $authentication->wordpressLogin($username, $password);
+            $this->logInfo('We are using wordpress login!!!!!');
+            if (!$username) {
+                $reason = 'Failed Admin Login. Reason: Invalid Wordpress Credentials';
+                goto INVALID_LOGIN;
+            }
+
+            $tokenUsername = $user->getEmail();
+            $roles         = ['ROLE_ADMIN'];
+
+            goto LOGIN;
+        }
+
         // Standard user login
         if ($username && $password) {
             /** @var User $user */
@@ -214,7 +231,6 @@ class AuthenticationController extends AbstractFOSRestController {
                 goto INVALID_LOGIN;
             }
 
-            $user = $userRepository->findOneBy(['email' => $username]);
             if (!$user) {
                 $reason = 'Failed Admin Login for user ' . $username . '. Reason: Wordpress Credentials are correct but user is not on this server';
                 goto INVALID_LOGIN;
