@@ -1066,31 +1066,23 @@ class ReportingController extends AbstractFOSRestController
      *     @SWG\Schema(
      *          type="object",
      *          @SWG\Property(
-     *              property="results",
-     *              type="array",
-     *              @SWG\Items(
-     *                   type="object",
-     *                   @SWG\Property(
-     *                       property="technician",
-     *                       ref=@Model(type=User::class, groups={"user_list"}),
-     *                       description="The technician"
-     *                   ),
-     *                   @SWG\Property(property="totalClosedRepairOrders", type="integer", description="The # of repair orders where they are the primary technciain on repair orders that have been closed in the given date range"),
-     *                   @SWG\Property(property="totalStartValues", type="integer", description="$ SUM of all start values for repair orders closed in a given date range"),
-     *                   @SWG\Property(property="totalFinalValues", type="integer", description="$ SUM of all final values for repair orders closed in a given date range"),
-     *                   @SWG\Property(property="totalUpsellAmount", type="integer", description="$ upsell amounts (SUM final values - SUM start values) for repair orders closed in the given date range"),
-     *                   @SWG\Property(property="totalUpsellPercentage", type="integer", description="% Upsell Percentage (sum final values / sum start values) < as a percentage"),
-     *                   @SWG\Property(property="totalVideos", type="integer", description="The # total videos performed by this technician on repair orders that have closed in the given date range"),
-     *                   @SWG\Property(property="sumFinalValuesWithVideo", type="integer", description="$ (sum of final values for repair orders with at least one video / # of repair orders with at least one video) for repair orders closed in the given date range"),
-     *                   @SWG\Property(property="sumFinalValuesWithoutVideo", type="integer", description="$ (sum of final values for repair orders WITHOUT a video / # of repair orders WITHOUT at least one video) for repair orders closed in the given date range"),
-     *                   @SWG\Property(property="totalNoVideosRecorded", type="integer", description="The # of repair orders where no videos were recorded for repair orders that were closed in the given date range")
+     *              property="byMonth",
+     *              type="object",
+     *              @SWG\Property(
+     *                  property="Mon",
+     *                  type="object",
+     *                  @SWG\Property(property="totalRepairOrders", type="integer", description="Total # of repair orders"),
+     *                  @SWG\Property(property="totalRepairOrdersWithVideo", type="integer", description="Total # of repair orders that had at least one video"),
+     *                  @SWG\Property(property="totalRepairOrdersWithPayment", type="integer", description="Total # of repair orders that had at least one payment"),
+     *                  @SWG\Property(property="totalRepairOrdersWithQuote", type="integer", description="Total # of repair orders that had quotes created"),
+     *                  @SWG\Property(property="totalRepairOrdersWithMpi", type="integer", description="Total # of repair orders that had MPIs created")
      *              )
      *          ),
-     *          @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
-     *          @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
-     *          @SWG\Property(property="previous", type="string", description="URL for previous page"),
-     *          @SWG\Property(property="currentPage", type="integer", description="Current page #"),
-     *          @SWG\Property(property="next", type="string", description="URL for next page")
+     *          @SWG\Property(property="totalRepairOrders", type="integer", description="Total # of repair orders"),
+     *          @SWG\Property(property="totalRepairOrdersWithVideo", type="integer", description="Total # of repair orders that had at least one video"),
+     *          @SWG\Property(property="totalRepairOrdersWithPayment", type="integer", description="Total # of repair orders that had at least one payment"),
+     *          @SWG\Property(property="totalRepairOrdersWithQuote", type="integer", description="Total # of repair orders that had quotes created"),
+     *          @SWG\Property(property="totalRepairOrdersWithMpi", type="integer", description="Total # of repair orders that had MPIs created")
      *     )
      * )
      */
