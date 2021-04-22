@@ -21,10 +21,6 @@ class SyncParts extends Command
      */
     protected static $defaultName = 'dms:syncParts';
 
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
 
     /**
      * @var DMS
@@ -36,9 +32,8 @@ class SyncParts extends Command
      */
     private $settingsHelper;
 
-    public function __construct(EntityManagerInterface $em, DMS $dms, SettingsHelper $settingsHelper)
+    public function __construct(DMS $dms, SettingsHelper $settingsHelper)
     {
-        $this->em = $em;
         $this->dms = $dms;
         $this->settingsHelper = $settingsHelper;
 
@@ -76,16 +71,6 @@ class SyncParts extends Command
         // Gets and adds parts
         $this->getDms()->getParts();
         $output->writeln('Complete!');
-    }
-
-    public function getEm(): EntityManagerInterface
-    {
-        return $this->em;
-    }
-
-    public function setEm(EntityManagerInterface $em): void
-    {
-        $this->em = $em;
     }
 
     public function getDms(): DMS

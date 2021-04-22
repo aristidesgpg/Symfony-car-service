@@ -90,6 +90,8 @@ class DealerTrackClient extends AbstractDMSClient
             $this->partsWsdlFileName = '/dealertrack/dealertrack_partsapi_dev.wsdl';
         }
 
+
+
         $this->init();
     }
 
@@ -419,11 +421,11 @@ class DealerTrackClient extends AbstractDMSClient
         $parts = [];
         $partStatuses = [
             'A', //Active
-            'C', //Core
-            'P', //Phase Out
-            'N', //Non Stock
-            'R', //Replaced
-            'O', //Obsolete
+//            'C', //Core
+//            'P', //Phase Out
+//            'N', //Non Stock
+//            'R', //Replaced
+//            'O', //Obsolete
         ];
 
         $this->initializeSoapClient($this->getPartsWsdl());
@@ -460,8 +462,10 @@ class DealerTrackClient extends AbstractDMSClient
 //                return $operationCodes;
 //            }
             // TODO Convert to Objects.
-            //dd($soapResult->Result[0]);
             foreach ($soapResult->Result as $result) {
+                if ('MISC' == $result->OperationCode) {
+                    continue;
+                }
                 $operationCode = (new OperationCode())
                     ->setCode($result->OperationCode)
                     ->setDescription($result->Description1)
@@ -553,7 +557,7 @@ class DealerTrackClient extends AbstractDMSClient
                     ->setNumber($result->getPartNumber())
                     ->setName($result->getPartDescription())
                     ->setBin($result->getBinLocation())
-                    ->setAvailable($result->getQuantity())
+                    ->setAvailable($result->getQuantityOnHand())
                     ->setPrice($result->getListPrice());
 
                 $parts[] = $part;

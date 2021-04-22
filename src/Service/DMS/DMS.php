@@ -181,7 +181,6 @@ class DMS
     /**
      * Get a single RO Number.
      *
-     *
      * @throws Exception
      */
     public function getRepairOrderByNumber(string $RONumber): DMSResult
@@ -222,10 +221,10 @@ class DMS
         $date = $dmsRepairOrder->getDate();
         $openTimestamp = $date->getTimestamp();
         $fiveDaysAgo = (new DateTime())->modify('-5 days')->getTimestamp();
-        // TODO: REMOVE COMMENT
-//        if ($fiveDaysAgo > $openTimestamp) {
-//            return;
-//        }
+
+        if ($fiveDaysAgo > $openTimestamp) {
+            return;
+        }
 
         //TODO: The customerFinder() logic needs revisited.
         $customer = $this->customerFinder($dmsRepairOrder);
@@ -238,20 +237,20 @@ class DMS
         if (!$customer->getPhone()) {
             return;
         }
-
-        // Throws an error if it's not a mobile number
-        //TODO, we are validating this upstream. Possibly redundant.
-        try {
-            $this->phoneValidator->isMobile($customer->getPhone());
-        } catch (Exception $e) {
-            return;
-        }
-
-        //text customer.
-        try {
-            //$this->sendCommunicationToCustomer($repairOrder, $customer);
-        } catch (Exception $e) {
-        }
+        //TODO: UNCOMMENT FOR PRODUCTION.
+//        // Throws an error if it's not a mobile number
+//        //TODO, we are validating this upstream. Possibly redundant.
+//        try {
+//            $this->phoneValidator->isMobile($customer->getPhone());
+//        } catch (Exception $e) {
+//            return;
+//        }
+//
+//        //text customer.
+//        try {
+//            $this->sendCommunicationToCustomer($repairOrder, $customer);
+//        } catch (Exception $e) {
+//        }
     }
 
     /**
@@ -511,6 +510,7 @@ class DMS
         }
 
         $dmsParts = $this->integration->getParts();
+
         if (sizeof($dmsParts) > 0) {
             try {
                 $result = $this->getEm()->getConnection()->executeStatement(
@@ -566,7 +566,7 @@ class DMS
         if (sizeof($operationCodes) > 0) {
             try {
                 $result = $this->getEm()->getConnection()->executeStatement(
-                    'truncate  table operation_code'
+                    "delete from operation_code where code <> 'MISC'"
                 );
             } catch (\Doctrine\DBAL\Exception $e) {
                 //do nothing.
