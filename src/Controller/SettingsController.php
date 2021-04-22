@@ -156,7 +156,7 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="generalEmail", type="string", in="formData")
      * @SWG\Parameter(name="generalWebsiteUrl", type="string", in="formData")
      * @SWG\Parameter(name="generalInventoryUrl", type="string", in="formData")
-     * @SWG\Parameter(name="generaAddress", type="string", in="formData")
+     * @SWG\Parameter(name="generalAddress", type="string", in="formData")
      * @SWG\Parameter(name="generalAddress2", type="string", in="formData")
      * @SWG\Parameter(name="generalCity", type="string", in="formData")
      * @SWG\Parameter(name="generalState", type="string", in="formData")
