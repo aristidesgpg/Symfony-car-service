@@ -48,13 +48,62 @@ security:
           - App\Security\Authenticator
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
+  # See: https://docs.google.com/spreadsheets/d/1hs8ozy2VzUva-oOWw1uLc2EMRr4Y9BDOT1ESy0AY8Ao/edit#gid=0
   access_control:
     - { path: ^/api/authentication/authenticate, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/doc, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/api/security/reset-password, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/security/validate, role: IS_AUTHENTICATED_ANONYMOUSLY }
+    - { path: ^/api/security/reset-password, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/security/get-security-question, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/service-sms/twilio-incoming, role: IS_AUTHENTICATED_ANONYMOUSLY }
     - { path: ^/api/service-sms/status-callback, role: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/api, role: IS_AUTHENTICATED_FULLY }
-    
+    - { path: ^/api/check-in, methods: [POST, GET], roles: ROLE_USER }
+    - { path: ^/api/coupons, methods: [GET], roles: [IS_AUTHENTICATED_FULLY] }
+    - { path: ^/api/coupons, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
+    - { path: ^/api/customer, methods: [GET, POST, PUT], roles: [ROLE_USER] }
+    - { path: ^/api/customer, methods: [DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SALES_MANAGER, ROLE_FINANCE_MANAGER] }
+    - { path: ^/api/internal-message/threads, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/internal-message/messages, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/internal-message, methods: [POST], roles: [ROLE_USER] }
+    - { path: ^/api/mpi-template, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/mpi-template, methods: [PUT, POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
+    - { path: ^/api/mpi-group, methods: [PUT, POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
+    - { path: ^/api/mpi-item, methods: [PUT, POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
+    - { path: ^/api/message/unread, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/my-review/view, methods: [POST], roles: [ROLE_CUSTOMER] }
+    - { path: ^/api/my-review/outcome, methods: [POST], roles: [ROLE_CUSTOMER] }
+    - { path: ^/api/my-review/resend, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/operation-code, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/operation-code, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
+    - { path: ^/api/parts, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/parts, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_PARTS_ADVISOR] }
+    - { path: ^/api/repair-order/link-hash, methods: [GET], roles: [IS_AUTHENTICATED_FULLY] }
+    - { path: ^/api/repair-order/repair-order-numbers/suggested, methods: [GET], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-customer, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-payment, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/repair-order-payment/view, methods: [POST], roles: [ROLE_CUSTOMER] }
+    - { path: ^/api/repair-order-payment/pay, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_CUSTOMER] }
+    - { path: ^/api/repair-order-payment/refund, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-payment/send-receipt, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_CUSTOMER] }
+    - { path: ^/api/repair-order-payment, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-quote, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/repair-order-quote, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN] }
+    - { path: ^/api/repair-order-team, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN, ROLE_PARTS_ADVISOR] }
+    - { path: ^/api/repair-order-video, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/repair-order-video, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN] }
+    - { path: ^/api/repair-order-video/view, methods: [POST], roles: [ROLE_CUSTOMER] }
+    - { path: ^/api/repair-order-waiver/signed, methods: [POST], roles: [ROLE_CUSTOMER] }
+    - { path: ^/api/repair-order-waiver/viewed, methods: [POST], roles: [ROLE_CUSTOMER] }
+    - { path: ^/api/repair-order-waiver/acknowledged, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-waiver/re-send, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order, methods: [GET], roles: [ROLE_USER] } # Ordered at end of RO endpoints
+    - { path: ^/api/security, methods: [PATCH], roles: [ROLE_USER] }
+    - { path: ^/api/service-sms, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_ADVISOR] }
+    - { path: ^/api/service-sms, methods: [GET], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_ADVISOR] }
+    - { path: ^/api/settings, methods: [GET], roles: [IS_AUTHENTICATED_FULLY] }
+    - { path: ^/api/settings, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
+    - { path: ^/api/users, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/users, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SALES_MANAER, ROLE_FINANCE_MANAGER] }
+    - { path: ^/api, role: IS_AUTHENTICATED_FULLY } # Defined at bottom or else it will overwrite rules above
+
