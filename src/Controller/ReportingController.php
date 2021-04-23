@@ -14,9 +14,9 @@ use App\Repository\ServiceSMSRepository;
 use App\Repository\UserRepository;
 use App\Service\Pagination;
 use App\Service\ServiceSMSHelper;
-use DateTime;
 use DateInterval;
 use DatePeriod;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -331,10 +331,12 @@ class ReportingController extends AbstractFOSRestController
             $totalCompletedQuotes = 0;
             $totalInboundTxtMsgs = 0;
             $totalOutboundTxtMsgs = 0;
-            $unread = 0;
+
+            $advisorId = $sa->getId();
+            $unread = $smsHelper->getUnReadMessagesByAdvisor($advisorId);
 
             foreach ($closedRepairOrders as $ro) {
-                if ($sa->getId() != $ro->getPrimaryAdvisor()->getId()){
+                if ($advisorId != $ro->getPrimaryAdvisor()->getId()) {
                     continue;
                 }
 
@@ -346,8 +348,8 @@ class ReportingController extends AbstractFOSRestController
                 /** @var RepairOrderVideo $video */
                 foreach ($videos as $video) {
                     /** @var RepairOrderVideoInteraction $interaction */
-                    foreach ($video->getInteractions() as $interaction){
-                        if ($interaction->getType() == 'Viewed'){
+                    foreach ($video->getInteractions() as $interaction) {
+                        if ('Viewed' == $interaction->getType()) {
                             ++$totalVideoViews;
                         }
                     }
@@ -366,15 +368,12 @@ class ReportingController extends AbstractFOSRestController
                     }
                 }
 
-                $smsRows = $smsRepo->findBy(['user' => $sa->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+                $smsRows = $smsRepo->findBy(['user' => $advisorId, 'customer' => $ro->getPrimaryCustomer()->getId()]);
                 foreach ($smsRows as $sms) {
                     if (0 == $sms->getIncoming()) {
                         ++$totalOutboundTxtMsgs;
                     } else {
                         ++$totalInboundTxtMsgs;
-                        if (0 == $sms->getIsRead()) {
-                            ++$unread;
-                        }
                     }
                 }
             }
@@ -1004,8 +1003,8 @@ class ReportingController extends AbstractFOSRestController
                     /** @var RepairOrderVideo $video */
                     foreach ($videos as $video) {
                         /** @var RepairOrderVideoInteraction $interaction */
-                        foreach ($video->getInteractions() as $interaction){
-                            if ($interaction->getType() == 'Viewed'){
+                        foreach ($video->getInteractions() as $interaction) {
+                            if ('Viewed' == $interaction->getType()) {
                                 ++$totalVideoViews;
                             }
                         }
