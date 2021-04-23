@@ -76,7 +76,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="[{""operationCode"":""CCAF"", ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""laborHours"":5,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3,""notes"":""Cumque tempora ut nobis."", ""parts"":[{""number"":""34843434"", ""name"":""name1"", ""price"":23.3, ""quantity"":23,""bin"":""eifkdo838f833kd9""}, {""number"":""12254345"", ""name"":""name2"", ""price"":13.3, ""quantity"":13,""bin"":""dkf939f8d8f8dd""}]},{""operationCode"":""ACRS"", ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""laborHours"":7,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""notes"":""Et accusantium rerum.""},{""operationCode"":""ALIGNMENT"", ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""laborHours"":15,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""notes"":""Voluptates et aut debitis.""}]",
+     *     description="[{""operationCode"":""CCAF"", ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""laborHours"":5,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3, ""laborTaxable"":true, ""partsTaxable"":true,""suppliesTaxable"":true ,""notes"":""Cumque tempora ut nobis."", ""parts"":[{""number"":""34843434"", ""name"":""name1"", ""price"":23.3, ""quantity"":23,""bin"":""eifkdo838f833kd9""}, {""number"":""12254345"", ""name"":""name2"", ""price"":13.3, ""quantity"":13,""bin"":""dkf939f8d8f8dd""}]},{""operationCode"":""ACRS"", ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""laborHours"":7,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""laborTaxable"":true, ""partsTaxable"":true,""suppliesTaxable"":true ,""notes"":""Et accusantium rerum.""},{""operationCode"":""ALIGNMENT"", ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""laborHours"":15,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""laborTaxable"":true, ""partsTaxable"":true,""suppliesTaxable"":true ,""notes"":""Voluptates et aut debitis.""}]",
      * )
      *
      * @SWG\Response(
@@ -137,7 +137,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $helper->validateRecommendationsJson($recommendations);
 
             $helper->buildRecommendations($repairOrderQuote, $recommendations);
-
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
@@ -147,12 +146,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType($status);
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
 
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                         ->setStatus($status);
+            ->setStatus($status);
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
@@ -165,10 +164,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-        
+
         $data  = $this->handleView($view)->getContent();
         $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $data, $this->getUser());
-        
+
         return $this->handleView($view);
     }
 
@@ -182,7 +181,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      *     in="formData",
      *     required=false,
      *     type="string",
-     *     description="[{""operationCode"":""CCAF"", ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""laborHours"":5,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3,""notes"":""Cumque tempora ut nobis."", ""parts"":[{""number"":""34843434"", ""name"":""name1"", ""price"":23.3, ""quantity"":23,""bin"":""eifkdo838f833kd9""}, {""number"":""12254345"", ""name"":""name2"", ""price"":13.3, ""quantity"":13,""bin"":""dkf939f8d8f8dd""}]},{""operationCode"":""ACRS"", ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""laborHours"":7,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""notes"":""Et accusantium rerum.""},{""operationCode"":""ALIGNMENT"", ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""laborHours"":15,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""notes"":""Voluptates et aut debitis.""}]",
+     *     description="[{""operationCode"":""CCAF"", ""description"":""Neque maxime ex dolorem ut."",""preApproved"":true,""approved"":true,""laborHours"":5,""partsPrice"":1.0,""suppliesPrice"":14.02,""laborPrice"":5.3,""laborTax"":5.3,""partsTax"":2.1,""suppliesTax"":4.3,""laborTaxable"":true, ""partsTaxable"":true,""suppliesTaxable"":true ,""notes"":""Cumque tempora ut nobis."", ""parts"":[{""number"":""34843434"", ""name"":""name1"", ""price"":23.3, ""quantity"":23,""bin"":""eifkdo838f833kd9""}, {""number"":""12254345"", ""name"":""name2"", ""price"":13.3, ""quantity"":13,""bin"":""dkf939f8d8f8dd""}]},{""operationCode"":""ACRS"", ""description"":""Quidem earum sapiente at dolores quia natus."",""preApproved"":false,""approved"":true,""laborHours"":7,""partsPrice"":2.6,""suppliesPrice"":509.02,""laborPrice"":36.9,""laborTax"":4.3,""partsTax"":2.4,""suppliesTax"":4.1,""laborTaxable"":true, ""partsTaxable"":true,""suppliesTaxable"":true ,""notes"":""Et accusantium rerum.""},{""operationCode"":""ALIGNMENT"", ""description"":""Mollitia unde nobis doloribus sed."",""preApproved"":true,""approved"":false,""laborHours"":15,""partsPrice"":1.1,""suppliesPrice"":71.7,""laborPrice"":55.1,""laborTax"":5.1,""partsTax"":2.6,""suppliesTax"":3.3,""laborTaxable"":true, ""partsTaxable"":true,""suppliesTaxable"":true ,""notes"":""Voluptates et aut debitis.""}]",
      * )
      *
      * @SWG\Response(
@@ -216,7 +215,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Check permission if quote status is Sent, Completed or Confirmed
         $quoteStatus = $repairOrderQuote->getStatus();
-        if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus ) {
+        if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
             return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
         }
         // Validate recommendation json
@@ -239,12 +238,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType($status);
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
 
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                         ->setStatus($status);
+            ->setStatus($status);
         // if($status === 'Completed')
         //     $repairOrderQuote->setDateCustomerCompleted(new DateTime());
 
@@ -257,9 +256,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-        
+
         $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), $this->getUser());
-        
+
         return $this->handleView($view);
     }
 
@@ -324,12 +323,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType($status);
+            ->setUser($repairOrder->getPrimaryTechnician())
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                         ->setStatus($status);
+            ->setStatus($status);
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
 
@@ -392,27 +391,29 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType($status);
+            ->setUser($repairOrder->getPrimaryTechnician())
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                         ->setStatus($status)
-                         ->setDateSent(new DateTime());
+            ->setStatus($status)
+            ->setDateSent(new DateTime());
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
         // send repair order link to the customer
         $serviceTextQuote = $settingsHelper->getSetting('serviceTextQuote');
         $customerURL = $parameterBag->get('customer_url');
-        $repairOrderURL = $customerURL.$repairOrder->getLinkHash();
+        $repairOrderURL = $customerURL . $repairOrder->getLinkHash();
         $shortUrl = $shortUrlHelper->generateShortUrl($repairOrderURL);
-        $message = $serviceTextQuote.':'.$shortUrl;
+        $message = $serviceTextQuote . ':' . $shortUrl;
 
         try {
             $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $message);
         } catch (Exception $e) {
-            return $this->handleView($this->view('Failed to send quote to customer: '.$e->getMessage(),
-                Response::HTTP_BAD_GATEWAY));
+            return $this->handleView($this->view(
+                'Failed to send quote to customer: ' . $e->getMessage(),
+                Response::HTTP_BAD_GATEWAY
+            ));
         }
 
         $em->persist($repairOrder);
@@ -470,13 +471,13 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType($status);
+            ->setUser($repairOrder->getPrimaryTechnician())
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                         ->setStatus($status)
-                         ->setDateCustomerViewed(new DateTime());
+            ->setStatus($status)
+            ->setDateCustomerViewed(new DateTime());
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
 
@@ -535,13 +536,13 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType($status);
+            ->setUser($repairOrder->getPrimaryTechnician())
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
         // Update repairOrderQuote Status
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                         ->setStatus($status)
-                         ->setDateConfirmed(new DateTime());
+            ->setStatus($status)
+            ->setDateConfirmed(new DateTime());
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
@@ -595,7 +596,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderQuoteID = $request->get('repairOrderQuoteID');
         $recommendations = $request->get('recommendations');
 
-         if (!$repairOrderQuoteID) {
+        if (!$repairOrderQuoteID) {
             throw new BadRequestHttpException('Missing Required Parameter RepairOrderQuoteID');
         }
         $repairOrderQuote = $repairOrderQuoteRepository->find($repairOrderQuoteID);
@@ -604,14 +605,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
 
         $repairOrder = $repairOrderQuote->getRepairOrder();
-        if ($security->isGranted('ROLE_CUSTOMER') ) {
-            if ($repairOrder->getPrimaryCustomer() !== $this->getUser()){
+        if ($security->isGranted('ROLE_CUSTOMER')) {
+            if ($repairOrder->getPrimaryCustomer() !== $this->getUser()) {
                 throw new BadRequestHttpException('This customer is not the owner of the repairOrder');
             }
         } else {
             // Check permission if quote status is Sent, Completed or Confirmed
             $quoteStatus = $repairOrderQuote->getStatus();
-            if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus ) {
+            if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
                 return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
             }
         }
@@ -634,13 +635,13 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
-                                    ->setUser($repairOrder->getPrimaryTechnician())
-                                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                                    ->setType($status);
+            ->setUser($repairOrder->getPrimaryTechnician())
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
 
         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                         ->setStatus($status)
-                         ->setDateCompleted(new DateTime());
+            ->setStatus($status)
+            ->setDateCompleted(new DateTime());
 
         if (!$security->isGranted('ROLE_CUSTOMER')) {
             $repairOrderQuote->setCompletedUser($this->getUser());
@@ -650,12 +651,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-        if ($security->isGranted('ROLE_CUSTOMER') ) {
+        if ($security->isGranted('ROLE_CUSTOMER')) {
             $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), null, $this->getUser());
         } else {
             $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $this->handleView($view)->getContent(), $this->getUser());
         }
-        
+
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
         $em->flush();
