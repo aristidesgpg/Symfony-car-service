@@ -1155,7 +1155,7 @@ class ReportingController extends AbstractFOSRestController
             }
         }
         $totalResult = [
-            'byMonth' => $result,
+            'results' => $result,
             'totalRepairOrders' => $totalRepairOrders,
             'totalRepairOrdersWithVideo' => $totalRepairOrdersWithVideo,
             'totalRepairOrdersWithPayment' => $totalRepairOrdersWithPayment,
