@@ -65,7 +65,8 @@ class UserRepository extends ServiceEntityRepository
         if ($sortDirection) {
             $qb->orderBy('u.'.$sortField, $sortDirection);
         }
-
+        // Dont return external users
+        $qb->andWhere('u.externalAuthentication = false');
         return $qb->getQuery()->getResult();
     }
 
