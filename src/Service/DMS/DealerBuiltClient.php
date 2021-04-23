@@ -233,7 +233,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
         //Get Dealer Pre-approved "Recommendations"
         $recommendations = [];
-        // Try to set the technician that recorded it when closing
+
         if ($repairOrder->getAttributes()->getJobs()) {
             // TODO: This needs reviewed by Laramie.
             /**
@@ -391,10 +391,15 @@ class DealerBuiltClient extends AbstractDMSClient
             if ($repairOrder->getAttributes()->getJobs()) {
                 $job = $repairOrder->getAttributes()->getJobs()[0];
                 if ($job->getTechs()) {
-                    $firstName = $job->getTechs()[0]->getTech()->getPersonalName()->getFirstName();
-                    $lastName = $job->getTechs()[0]->getTech()->getPersonalName()->getLastName();
+                    $id = $job->getTechs()[0]->getTech()->getNumber();
                     $technicianRecord = $this->getEntityManager()->getRepository('App:User')
-                        ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
+                        ->findOneBy(['dmsId ' => $id]);
+                    if (!$technicianRecord) {
+                        $firstName = $job->getTechs()[0]->getTech()->getPersonalName()->getFirstName();
+                        $lastName = $job->getTechs()[0]->getTech()->getPersonalName()->getLastName();
+                        $technicianRecord = $this->getEntityManager()->getRepository('App:User')
+                            ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
+                    }
                 }
             }
 

@@ -4,6 +4,7 @@ namespace App\Service\DMS;
 
 use App\Entity\Customer;
 use App\Entity\DMSResult;
+use App\Entity\DMSResultTechnician;
 use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
@@ -255,24 +256,30 @@ class DMS
     }
 
     /**
-     * @param $firstName
-     * @param $lastName
+     * @param $dmsTechnician
      *
      * @return User|object|null
      */
-    public function technicianFinder($firstName, $lastName)
+    public function technicianFinder(DMSResultTechnician $dmsTechnician)
     {
         //$defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
+        //search technician by id.
+        if ($dmsTechnician->getId()) {
+            $technicianRecord = $this->userRepo->findOneBy(['dmsId' => $dmsTechnician->getId(), 'role' => 'ROLE_TECHNICIAN']);
+            if ($technicianRecord) {
+                return $technicianRecord;
+            }
+        }
 
         $technicianRecord = $this->getEm()->getRepository('App:User')
-            ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
+            ->findOneBy(['firstName' => $dmsTechnician->getFirstName(), 'lastName' => $dmsTechnician->getLastName()]);
 
         return $technicianRecord;
     }
 
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
     {
-        $defaultTechnician = $this->technicianFinder($dmsResult->getTechnician()->getFirstName(), $dmsResult->getTechnician()->getLastName());
+        $defaultTechnician = $this->technicianFinder($dmsResult->getTechnician());
 
         $repairOrder = (new RepairOrder())
             ->setPrimaryCustomer($customer)
@@ -370,6 +377,7 @@ class DMS
     {
         // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
         // TODO: This method was incomplete. I tried to infer as much as possible to fix.
+        // TODO: Laramie to review.
         if ($this->settingsHelper->getSetting('waiverEstimateText') && $this->settingsHelper->getSetting('waiverActivateAuthMessage')) {
             $introMessage = sprintf(
                 'Welcome to %s. Click the link below to begin your visit. ',
@@ -413,7 +421,7 @@ class DMS
     {
         //search advisor by id.
         if ($dmsOpenRepairOrder->getAdvisor()->getId()) {
-            $foundAdvisor = $this->userRepo->findOneBy(['id' => $dmsOpenRepairOrder->getAdvisor()->getId(), 'role' => 'ROLE_SERVICE_ADVISOR']);
+            $foundAdvisor = $this->userRepo->findOneBy(['dmsId' => $dmsOpenRepairOrder->getAdvisor()->getId(), 'role' => 'ROLE_SERVICE_ADVISOR']);
             if ($foundAdvisor) {
                 return $foundAdvisor;
             }

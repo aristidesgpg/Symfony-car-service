@@ -5,7 +5,7 @@ namespace App\Entity;
 class DMSResultTechnician
 {
     /**
-     * @var ?int
+     * @var ?string
      */
     private $id;
 
@@ -19,7 +19,7 @@ class DMSResultTechnician
      */
     private $lastName;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
