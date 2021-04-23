@@ -71,9 +71,12 @@ class RepairOrderHelper
     {
         $errors = [];
         $required = ['customerName', 'customerPhone', 'number'];
-        foreach ($required as $k) {
-            if (!isset($params[$k]) || 0 === strlen($params[$k])) {
-                $errors[$k] = 'Required field missing';
+        // Check if CustomerID is provided
+        if (!isset($params['customerID'])) {
+            foreach ($required as $k) {
+                if (!isset($params[$k]) || 0 === strlen($params[$k])) {
+                    $errors[$k] = 'Required field missing';
+                }
             }
         }
 
@@ -118,16 +121,21 @@ class RepairOrderHelper
      */
     private function handleCustomer(array $params)
     {
-        $customer = $this->customers->findByPhone($params['customerPhone']);
-        $translated = $this->translateCustomerParams($params);
-        $errors = $this->customerHelper->validateParams($translated);
-        if (!empty($errors)) {
-            return $this->translateCustomerParams($errors, true);
+        // Check if CustomerID is provided
+        if (isset($params['customerID'])) {
+            $customer = $this->customers->find($params['customerID']);
+        } else {
+            $customer = $this->customers->findByPhone($params['customerPhone']);
+            $translated = $this->translateCustomerParams($params);
+            $errors = $this->customerHelper->validateParams($translated);
+            if (!empty($errors)) {
+                return $this->translateCustomerParams($errors, true);
+            }
+            if (!$customer) {
+                $customer = new Customer();
+            }
+            $this->customerHelper->commitCustomer($customer, $translated);
         }
-        if (!$customer) {
-            $customer = new Customer();
-        }
-        $this->customerHelper->commitCustomer($customer, $translated);
 
         return $customer;
     }
@@ -253,10 +261,10 @@ class RepairOrderHelper
             $ro->setUpgradeQue($this->paramToBool($params['upgradeQue']));
         }
 
-        if (isset($params['primaryCustomerId'])) {
-            $customer = $this->customers->find($params['primaryCustomerId']);
+        if (isset($params['customerID'])) {
+            $customer = $this->customers->find($params['customerID']);
             if (!$customer) {
-                $errors['primaryCustomerId'] = 'Customer ID does not exist';
+                $errors['customerID'] = 'Customer ID does not exist';
             } else {
                 $ro->setPrimaryCustomer($customer);
             }
@@ -268,7 +276,7 @@ class RepairOrderHelper
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findBy(['number' => $roNumber]);
-        if ($ro){
+        if ($ro) {
             return false;
         }
 
@@ -277,7 +285,6 @@ class RepairOrderHelper
 
     public function generateLinkHash(string $dateCreated): string
     {
-
         return $this->getROLinkHashHelper()->generate($dateCreated);
 
 //        try {
@@ -583,9 +590,6 @@ class RepairOrderHelper
         return $repairOrder;
     }
 
-    /**
-     * @return ROLinkHashHelper
-     */
     public function getROLinkHashHelper(): ROLinkHashHelper
     {
         return $this->ROLinkHashHelper;

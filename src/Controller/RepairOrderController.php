@@ -11,7 +11,6 @@ use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
 use App\Service\MyReviewHelper;
 use App\Service\Pagination;
-use App\Service\PhoneValidator;
 use App\Service\RepairOrderHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
@@ -23,11 +22,9 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -38,7 +35,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class RepairOrderController extends AbstractFOSRestController
 {
     use FalsyTrait;
-
     use iServiceLoggerTrait;
 
     private const PAGE_LIMIT = 50;
@@ -308,8 +304,9 @@ class RepairOrderController extends AbstractFOSRestController
     /**
      * @Rest\Post
      *
-     * @SWG\Parameter(name="customerName", type="string", in="formData", required=true)
-     * @SWG\Parameter(name="customerPhone", type="string", in="formData", required=true)
+     * @SWG\Parameter(name="customerID", type="integer", in="formData")
+     * @SWG\Parameter(name="customerName", type="string", in="formData")
+     * @SWG\Parameter(name="customerPhone", type="string", in="formData")
      * @SWG\Parameter(name="customerEmail", type="string", in="formData")
      * @SWG\Parameter(name="advisor", type="integer", in="formData")
      * @SWG\Parameter(name="technician", type="integer", in="formData")
@@ -357,32 +354,37 @@ class RepairOrderController extends AbstractFOSRestController
             return new ValidationResponse($ro);
         }
 
-        $customerPhone = $req->request->get('customerPhone');
-        $customer = $customerRepo->findByPhone($customerPhone);
+        $customerID = $req->request->get('customerID');
+        if ($customerID) {
+            $customer = $customerRepo->find($customerID);
+        } else {
+            $customerPhone = $req->request->get('customerPhone');
+            $customer = $customerRepo->findByPhone($customerPhone);
+        }
 
-            // Send waiver or intro message
-            try {
-                // waiver disabled so send regular text
-                if (!$waiverActivateAuthMessage) {
-                    $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
-                } else {
-                    // waiver enabled
-                    $url = $customerURL.$ro->getLinkHash();
-                    $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                    $waiverMessage = $waiverIntroText.' '.$shortUrl;
+        // Send waiver or intro message
+        try {
+            // waiver disabled so send regular text
+            if (!$waiverActivateAuthMessage) {
+                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
+            } else {
+                // waiver enabled
+                $url = $customerURL.$ro->getLinkHash();
+                $shortUrl = $shortUrlHelper->generateShortUrl($url);
+                $waiverMessage = $waiverIntroText.' '.$shortUrl;
 
-                    $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
+                $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
-                    $roInteraction = new RepairOrderInteraction();
-                    $roInteraction->setRepairOrder($ro)
+                $roInteraction = new RepairOrderInteraction();
+                $roInteraction->setRepairOrder($ro)
                         ->setUser($this->getUser())
                         ->setType('Waiver Sent');
-                    $em->persist($roInteraction);
-                    $em->flush();
-                }
-            } catch (Exception $e) {
-                $this->logInfo($e->getMessage());
+                $em->persist($roInteraction);
+                $em->flush();
             }
+        } catch (Exception $e) {
+            $this->logInfo($e->getMessage());
+        }
 
         $view = $this->view($ro);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
@@ -522,9 +524,4 @@ class RepairOrderController extends AbstractFOSRestController
 
         return $this->handleView($view);
     }
-
-
-
-
-
 }
