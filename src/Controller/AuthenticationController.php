@@ -264,17 +264,22 @@ class AuthenticationController extends AbstractFOSRestController
         INVALID_LOGIN:
 
         // Just before invalid, lets try to authenticate via WP
-        $wordpressEmail = $authentication->wordpressLogin($username, $password);
-        if ($wordpressEmail) {
-            $user = $userRepository->findOneBy(['email' => $wordpressEmail, 'active' => 1]);
+        if ($username && $password){
+            $wordpressEmail = $authentication->wordpressLogin($username, $password);
+            if ($wordpressEmail) {
+                $user = $userRepository->findOneBy(['email' => $wordpressEmail, 'active' => 1]);
 
-            if ($user) {
-                $this->logInfo('We are using wordpress login!!!!!');
+                if ($user) {
+                    $this->logInfo('We are using wordpress login!!!!!');
 
-                $tokenUsername = $user->getEmail();
-                $roles = ['ROLE_ADMIN'];
+                    $tokenUsername = $user->getEmail();
+                    $roles = ['ROLE_ADMIN'];
 
-                goto LOGIN;
+                    goto LOGIN;
+                }
+
+                // Valid credentials, not set up on the server
+                $this->logInfo('User '.$username.' does not have access to this dealer but authenticated successfully');
             }
         }
 
