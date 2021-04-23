@@ -60,6 +60,7 @@ security:
     - { path: ^/api/check-in, methods: [POST, GET], roles: ROLE_USER }
     - { path: ^/api/coupons, methods: [GET], roles: [IS_AUTHENTICATED_FULLY] }
     - { path: ^/api/coupons, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
+    - { path: ^/api/customer/mobileConfirmed, methods: [POST], roles: [ROLE_USER] }
     - { path: ^/api/customer, methods: [GET, POST, PUT], roles: [ROLE_USER] }
     - { path: ^/api/customer, methods: [DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SALES_MANAGER, ROLE_FINANCE_MANAGER] }
     - { path: ^/api/internal-message/threads, methods: [GET], roles: [ROLE_USER] }
@@ -77,15 +78,26 @@ security:
     - { path: ^/api/operation-code, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
     - { path: ^/api/parts, methods: [GET], roles: [ROLE_USER] }
     - { path: ^/api/parts, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_PARTS_ADVISOR] }
+    - { path: ^/api/phone-lookup, methods: [POST], roles: [ROLE_USER] }
+    - { path: ^/api/price-matrix, methods: [GET, POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
     - { path: ^/api/repair-order/link-hash, methods: [GET], roles: [IS_AUTHENTICATED_FULLY] }
     - { path: ^/api/repair-order/repair-order-numbers/suggested, methods: [GET], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/repair-order-customer, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-interactions, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/repair-order-mpi/view, methods: [POST], roles: [ROLE_CUSTOMER] }
+    - { path: ^/api/repair-order-mpi, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN] }
+    - { path: ^/api/repair-order-note, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN, ROLE_PARTS_ADVISOR] }
     - { path: ^/api/repair-order-payment, methods: [GET], roles: [ROLE_USER] }
     - { path: ^/api/repair-order-payment/view, methods: [POST], roles: [ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-payment/pay, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-payment/refund, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/repair-order-payment/send-receipt, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-payment, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-quote/in-progress, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN, ROLE_PARTS_ADVISOR] }
+    - { path: ^/api/repair-order-quote/send, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-quote/view, methods: [POST], roles: [ROLE_CUSTOMER] }
+    - { path: ^/api/repair-order-quote/confirm, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-quote/complete, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-quote, methods: [GET], roles: [ROLE_USER] }
     - { path: ^/api/repair-order-quote, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN] }
     - { path: ^/api/repair-order-team, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN, ROLE_PARTS_ADVISOR] }
@@ -98,7 +110,9 @@ security:
     - { path: ^/api/repair-order-waiver/re-send, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/repair-order, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/repair-order, methods: [GET], roles: [ROLE_USER] } # Ordered at end of RO endpoints
+    - { path: ^/api/reporting, methods: [GET], roles: [ROLE_USER] }
     - { path: ^/api/security, methods: [PATCH], roles: [ROLE_USER] }
+    - { path: ^/api/service-sms/mark-read, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
     - { path: ^/api/service-sms, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_ADVISOR] }
     - { path: ^/api/service-sms, methods: [GET], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_ADVISOR] }
     - { path: ^/api/settings, methods: [GET], roles: [IS_AUTHENTICATED_FULLY] }
