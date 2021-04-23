@@ -1401,20 +1401,7 @@ class ReportingController extends AbstractFOSRestController
     private function getMonths($startDate = null, $endDate = null)
     {
         if (!$startDate || !$endDate) {
-            return [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec',
-              ];
+            return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         }
         $start = (new DateTime($startDate))->modify('first day of this month');
         $end = (new DateTime($endDate))->modify('first day of next month');
