@@ -172,6 +172,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"user_list"})
      */
     private $dmsId;
 
@@ -517,8 +518,8 @@ class User implements UserInterface
     public function getTechnicianRepairOrders(): Collection
     {
         $criteria = Criteria::create()
-                            ->andWhere(Criteria::expr()->eq('deleted', false))
-                            ->orderBy(['dateCreated' => 'DESC']);
+            ->andWhere(Criteria::expr()->eq('deleted', false))
+            ->orderBy(['dateCreated' => 'DESC']);
 
         $this->technicianRepairOrders->matching($criteria);
     }
