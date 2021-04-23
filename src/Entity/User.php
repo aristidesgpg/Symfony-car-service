@@ -518,8 +518,8 @@ class User implements UserInterface
     public function getTechnicianRepairOrders(): Collection
     {
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->eq('deleted', false))
-            ->orderBy(['dateCreated' => 'DESC']);
+                            ->andWhere(Criteria::expr()->eq('deleted', false))
+                            ->orderBy(['dateCreated' => 'DESC']);
 
         $this->technicianRepairOrders->matching($criteria);
     }

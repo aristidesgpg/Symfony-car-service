@@ -268,7 +268,7 @@ class RepairOrderHelper
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findBy(['number' => $roNumber]);
-        if ($ro) {
+        if ($ro){
             return false;
         }
 
@@ -327,8 +327,6 @@ class RepairOrderHelper
             throw new InvalidArgumentException('RO is already closed');
         }
         $ro->setDateClosed(new DateTime());
-        $this->getDms()->closeOpenRepairOrder($ro);
-
         $this->commitRepairOrder();
     }
 
@@ -382,6 +380,7 @@ class RepairOrderHelper
                 break;
             }
         }
+
         foreach (range($latestRO + 1, $end, 1) as $possibleRONumber) {
             $exists = $this->repo->findOneBy(['number' => $possibleRONumber]);
             if (!$exists) {
