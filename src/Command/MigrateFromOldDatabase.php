@@ -115,14 +115,14 @@ class MigrateFromOldDatabase extends Command
 
         // $statement->bindValue('emp', );
 
-        // $this->mpi();
-        // $output->writeln("MPI done");
+        $this->mpi();
+        $output->writeln("MPI done");
 
-        // $this->mpiGroup();
-        // $output->writeln("MPI Group done");
+        $this->mpiGroup();
+        $output->writeln("MPI Group done");
 
-        // $this->mpiItems();
-        // $output->writeln("MPI Group done");
+        $this->mpiItems();
+        $output->writeln("MPI Group done");
 
         $this->admin();
         $output->writeln("Admin done");
@@ -156,7 +156,7 @@ class MigrateFromOldDatabase extends Command
 
         $this->repairOrderQuoteRecommendation();
 
-        $this->followUp();
+        // $this->followUp();
         $this->customerRepairOrder();
 
         $this->payment();
