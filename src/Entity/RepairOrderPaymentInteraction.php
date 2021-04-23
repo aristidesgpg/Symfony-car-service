@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class RepairOrderPaymentInteraction
 {
-    public const GROUPS = ['int_list'];
+    public const GROUPS = ['int_list', 'user_list', 'customer_list'];
 
     use InteractionTrait;
 
