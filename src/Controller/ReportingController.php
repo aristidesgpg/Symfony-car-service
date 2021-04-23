@@ -330,10 +330,10 @@ class ReportingController extends AbstractFOSRestController
             $totalViewedQuotes = 0;
             $totalCompletedQuotes = 0;
             $totalInboundTxtMsgs = 0;
-            
+
             $advisorId = $sa->getId();
             $unread = $smsHelper->getUnReadMessagesByAdvisor($advisorId);
-            $totalOutboundTxtMsgs = $smsHelper->getOutBoundMessagesByAdvisor($advisorId);;
+            $totalOutboundTxtMsgs = $smsHelper->getOutBoundMessagesByAdvisor($advisorId);
 
             foreach ($closedRepairOrders as $ro) {
                 if ($advisorId != $ro->getPrimaryAdvisor()->getId()) {
@@ -987,10 +987,12 @@ class ReportingController extends AbstractFOSRestController
             $totalUnlockCouponClicks = 0;
             $totalVideoViews = 0;
             $totalInboundMessages = 0;
-            $totalOutboundMessages = 0;
+
+            $advisorId = $serviceAdvisor->getId();
+            $totalOutboundMessages = $smsHelper->getOutBoundMessagesByAdvisor($advisorId);
 
             foreach ($closedRepairOrders as $ro) {
-                if ($serviceAdvisor->getId() === $ro->getPrimaryAdvisor()->getId()) {
+                if ($advisorId === $ro->getPrimaryAdvisor()->getId()) {
                     $videos = $ro->getVideos();
 
                     /** @var RepairOrderVideo $video */
@@ -1003,14 +1005,7 @@ class ReportingController extends AbstractFOSRestController
                         }
                     }
 
-                    $smsRows = $smsRepo->findBy(['user' => $serviceAdvisor->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
-                    foreach ($smsRows as $sms) {
-                        if (0 == $sms->getIncoming()) {
-                            ++$totalOutboundMessages;
-                        } else {
-                            ++$totalInboundMessages;
-                        }
-                    }
+                    $totalInboundMessages += $smsHelper->getInBoundMessagesByAdvisor($advisorId, $ro->getPrimaryCustomer()->getId(), $ro->getDateCreated(), $ro->getDateClosed());
                 }
             }
 
