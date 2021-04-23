@@ -502,6 +502,11 @@ class UserController extends AbstractFOSRestController
             }
         }
 
+        // They tried to update an externalAuthentication user
+        if($user->getExternalAuthentication()){
+            return $this->handleView($this->view('Can not update this user', Response::HTTP_BAD_REQUEST));
+        }
+
         // update user
         $user->setFirstName($firstName)
              ->setLastName($lastName)
@@ -551,6 +556,11 @@ class UserController extends AbstractFOSRestController
     public function delete(User $user, EntityManagerInterface $em)
     {
         $user->setActive(false);
+
+        // They tried to delete an externalAuthentication user
+        if($user->getExternalAuthentication()){
+            return $this->handleView($this->view('Can not delete this user', Response::HTTP_BAD_REQUEST));
+        }
 
         $em->persist($user);
         $em->flush();
