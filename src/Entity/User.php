@@ -171,6 +171,11 @@ class User implements UserInterface
     private $repairOrderQuoteInteractions;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $dmsId;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -662,6 +667,18 @@ class User implements UserInterface
                 $repairOrderQuoteInteraction->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDmsId(): ?string
+    {
+        return $this->dmsId;
+    }
+
+    public function setDmsId(?string $dmsId): self
+    {
+        $this->dmsId = $dmsId;
 
         return $this;
     }

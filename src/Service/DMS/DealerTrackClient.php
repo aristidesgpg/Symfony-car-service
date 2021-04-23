@@ -165,7 +165,7 @@ class DealerTrackClient extends AbstractDMSClient
                 $dmsResult
                     ->setNumber($result->getRepairOrderNumber())
                     ->setDate($openDate)
-                    ->setWaiter(($pickupDate) ? false : true)
+                    ->setWaiter(true)
                     ->setPickupDate(($pickupDate) ? $pickupDate : null)
                     ->setYear($result->getModelYear())
                     ->setMake($result->getMake())
@@ -175,13 +175,10 @@ class DealerTrackClient extends AbstractDMSClient
                     ->setInitialROValue($result->getTotalEstimate());
 
                 //Initial Technician
-                $dmsResult->getTechnician()->setFirstName($result->getROTechnicianID());
+                $dmsResult->getTechnician()->setId($result->getROTechnicianID());
 
-                //TODO, sometimes ServiceWriterId is a string. What should we do?
-                //  -serviceWriterID: "MM"
-                if (is_int($result->getServiceWriterID())) {
-                    $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
-                }
+                //Initial Advisor
+                $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
 
                 $repairOrders[] = $dmsResult;
             }
@@ -263,7 +260,7 @@ class DealerTrackClient extends AbstractDMSClient
         $dmsResult
             ->setNumber($result->getRepairOrderNumber())
             ->setDate($openDate)
-            ->setWaiter(($pickupDate) ? false : true)
+            ->setWaiter(true)
             ->setPickupDate(($pickupDate) ? $pickupDate : null)
             ->setYear($result->getModelYear())
             ->setMake($result->getMake())
@@ -273,13 +270,10 @@ class DealerTrackClient extends AbstractDMSClient
             ->setInitialROValue($result->getTotalEstimate());
 
         //Initial Technician
-        $dmsResult->getTechnician()->setFirstName($result->getROTechnicianID());
+        $dmsResult->getTechnician()->setId($result->getROTechnicianID());
 
-        //TODO, sometimes ServiceWriterId is a string. What should we do?
-        //  -serviceWriterID: "MM"
-        if (is_int($result->getServiceWriterID())) {
-            $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
-        }
+        //Initial Advisor
+        $dmsResult->getAdvisor()->setId($result->getServiceWriterID());
 
         //Get Dealer Pre-approved "Recommendations"
         $recommendations = [];

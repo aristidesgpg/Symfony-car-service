@@ -8,7 +8,7 @@ namespace App\Entity;
 class DMSResultAdvisor
 {
     /**
-     * @var ?int
+     * @var ?string
      */
     private $id;
 
@@ -22,7 +22,7 @@ class DMSResultAdvisor
      */
     private $lastName;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
