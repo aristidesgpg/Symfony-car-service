@@ -1187,7 +1187,7 @@ class ReportingController extends AbstractFOSRestController
      *     type="string",
      *     description="The name of sort field (Repair Order columns)",
      *     in="query",
-     *     enum={"roNumber", "customerName", "customerPhone", "advisorName", "technicianName", "templateName"}
+     *     enum={"repairOrderNumber", "customerName", "customerPhone", "advisorName", "technicianName", "templateName"}
      * )
      *
      * @SWG\Parameter(
@@ -1239,13 +1239,13 @@ class ReportingController extends AbstractFOSRestController
      *              type="array",
      *              @SWG\Items(
      *                   type="object",
-     *                   @SWG\Property(property="roNumber", type="integer", description="Repair Order Number"),
+     *                   @SWG\Property(property="repairOrderNumber", type="integer", description="Repair Order Number"),
      *                   @SWG\Property(property="customerName", type="string", description="customer name"),
      *                   @SWG\Property(property="customerPhone", type="string", description="customer phone"),
      *                   @SWG\Property(property="advisorName", type="string", description="advisor name"),
      *                   @SWG\Property(property="technicianName", type="string", description="technician name"),
      *                   @SWG\Property(property="templateName", type="string", description="template name"),
-     *                   @SWG\Property(property="roMPI", type="string", description="Repair Order MPI results")
+     *                   @SWG\Property(property="repairOrderMpi", type="string", description="Repair Order MPI results")
      *              )
      *          ),
      *          @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
@@ -1276,7 +1276,7 @@ class ReportingController extends AbstractFOSRestController
         $sortDirection = '';
         $errors = [];
 
-        $columns = ['roNumber', 'customerName', 'customerPhone', 'advisorName', 'technicianName', 'templateName'];
+        $columns = ['repairOrderNumber', 'customerName', 'customerPhone', 'advisorName', 'technicianName', 'templateName'];
 
         // Invalid page
         if ($page < 1) {
@@ -1326,42 +1326,45 @@ class ReportingController extends AbstractFOSRestController
 
         $result = [];
         foreach ($closedRepairOrders as $ro) {
+            $roMpi = $roMpiRepo->findOneBy(['repairOrder' => $ro->getId()]);
+            if (!$roMpi) {
+                continue;
+            }
+
             $customer = $ro->getPrimaryCustomer();
             $advisor = $ro->getPrimaryAdvisor();
             $technician = $ro->getPrimaryTechnician();
-            $roMpi = $roMpiRepo->findOneBy(['repairOrder' => $ro->getId()]);
             $mpiResults = '';
-            if ($roMpi) {
-                $mpiResults = $roMpi->getResults();
-                $mpiResults = json_decode($mpiResults, true);
 
-                if ($mpiItemStatus) {
-                    $newResultsArr = [];
-                    $arrRes = $mpiResults['results'];
-                    if ($arrRes) {
-                        foreach ($arrRes as $res) {
-                            $newResultObj = ['group' => $res['group'], 'items' => []];
+            $mpiResults = $roMpi->getResults();
+            $mpiResults = json_decode($mpiResults, true);
 
-                            $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
-                                return $a['status'] === $mpiItemStatus;
-                            });
+            if ($mpiItemStatus) {
+                $newResultsArr = [];
+                $arrRes = $mpiResults['results'];
+                if ($arrRes) {
+                    foreach ($arrRes as $res) {
+                        $newResultObj = ['group' => $res['group'], 'items' => []];
 
-                            $newResultObj['items'] = $items;
-                            $newResultsArr[] = $newResultObj;
-                        }
-                        $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
+                        $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
+                            return $a['status'] === $mpiItemStatus;
+                        });
+
+                        $newResultObj['items'] = $items;
+                        $newResultsArr[] = $newResultObj;
                     }
+                    $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
                 }
             }
 
             $result[] = [
-                'roNumber' => $ro->getNumber(),
+                'repairOrderNumber' => $ro->getNumber(),
                 'customerName' => $customer->getName(),
                 'customerPhone' => $customer->getPhone(),
-                'advisorName' => $advisor->getFirstName().$advisor->getLastName(),
-                'technicianName' => $technician->getFirstName().$technician->getLastName(),
+                'advisorName' => $advisor->getFirstName().' '.$advisor->getLastName(),
+                'technicianName' => $technician->getFirstName().' '.$technician->getLastName(),
                 'templateName' => $mpiTemplate ? $mpiTemplate->getName() : null,
-                'roMPI' => $mpiResults,
+                'repairOrderMpi' => $mpiResults,
             ];
         }
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {

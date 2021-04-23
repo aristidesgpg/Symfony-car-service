@@ -222,12 +222,12 @@ class RepairOrderRepository extends ServiceEntityRepository
             }
 
             if ($advisorId) {
-                $qb->andWhere('ro.primaryAdvisorId = :advisorId')
+                $qb->andWhere('ro.primaryAdvisor = :advisorId')
                    ->setParameter('advisorId', $advisorId);
             }
 
             if ($technicianId) {
-                $qb->andWhere('ro.primaryTechnicianId = :technicianId')
+                $qb->andWhere('ro.primaryTechnician = :technicianId')
                    ->setParameter('technicianId', $technicianId);
             }
 
