@@ -40,10 +40,26 @@ class DMSResult
 
     private $initialROValue;
 
+    private $closedROValue;
+
+    /**
+     * @var DMSResultTechnician
+     */
+    private $technician;
+
+    /**
+     * @var DMSResultRecommendation[]
+     */
+    private $recommendations = [];
+
+    /**
+     * DMSResult constructor.
+     */
     public function __construct()
     {
         $this->customer = new DMSResultCustomer();
         $this->advisor = new DMSResultAdvisor();
+        $this->technician = new DMSResultTechnician();
     }
 
     public function getCustomer(): DMSResultCustomer
@@ -287,5 +303,52 @@ class DMSResult
         $this->initialROValue = $initialROValue;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClosedROValue()
+    {
+        return $this->closedROValue;
+    }
+
+    /**
+     * @param mixed $closedROValue
+     */
+    public function setClosedROValue($closedROValue): void
+    {
+        $this->closedROValue = $closedROValue;
+    }
+
+    public function getTechnician(): DMSResultTechnician
+    {
+        return $this->technician;
+    }
+
+    public function setTechnician(DMSResultTechnician $technician): void
+    {
+        $this->technician = $technician;
+    }
+
+    public function addRecommendation(DMSResultRecommendation $recommendation)
+    {
+        $this->recommendations[] = $recommendation;
+    }
+
+    /**
+     * @return DMSResultRecommendation[]
+     */
+    public function getRecommendations(): array
+    {
+        return $this->recommendations;
+    }
+
+    /**
+     * @param DMSResultRecommendation[] $recommendations
+     */
+    public function setRecommendations(array $recommendations): void
+    {
+        $this->recommendations = $recommendations;
     }
 }

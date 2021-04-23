@@ -46,7 +46,7 @@ class SettingsRepository extends ServiceEntityRepository
         try {
             return $this->createQueryBuilder('q')
                 ->select('q.key')
-                ->andwhere("q.value='true'")
+                ->andwhere("q.value='1'")
                 ->andWhere("q.key like 'using%'")
                 ->getQuery()
                 ->setMaxResults(1)

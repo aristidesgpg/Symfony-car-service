@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Customer;
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteInteraction;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
+use App\Service\RepairOrderHelper;
 use App\Service\RepairOrderQuoteHelper;
 use App\Service\RepairOrderQuoteLogHelper;
 use App\Service\SettingsHelper;
@@ -164,8 +166,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-
-        $data  = $this->handleView($view)->getContent();
+        
+        $data = $this->handleView($view)->getContent();
         $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $data, $this->getUser());
 
         return $this->handleView($view);
@@ -218,6 +220,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
             return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
         }
+
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
@@ -701,5 +704,68 @@ class RepairOrderQuoteController extends AbstractFOSRestController
                 Response::HTTP_OK
             )
         );
+    }
+
+    /**
+     * @Rest\Post("/api/repair-order-recommendations-sync")
+     *
+     * @SWG\Tag(name="Repair Order Quote")
+     * @SWG\Post(description="Sync Repair Order Recommendations from DMS")
+     *
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The Repair Order",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return status code",
+     *     @SWG\Items(
+     *         type="object",
+     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
+     *                                              "Successfully Synced" }),
+     *         )
+     * )
+     *
+     * @return Response
+     */
+    public function syncRepairOrderQuoteRecommendationsFromDMS(
+        Request $request,
+        RepairOrderHelper $repairOrderHelper,
+        EntityManagerInterface $em,
+        Security $security,
+        RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper
+    ) {
+        $id = $request->get('id');
+
+        $repairOrder = $em->getRepository(RepairOrder::class)->find($id);
+
+        //check if params are valid
+        if (!$repairOrder) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+        //Check if Repair Order Quote exists
+//        $repairOrderQuote = $repairOrderQuoteRepository->findOneBy(['id' => $repairOrderQuoteID]);
+//        if (!$repairOrderQuote) {
+//            return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
+//        }
+        try {
+            $repairOrder = $repairOrderHelper->syncRepairOrderRecommendationsFromDMS($repairOrder);
+        } catch (\Exception $e) {
+            return $this->handleView($this->view($e->getMessage(), Response::HTTP_BAD_REQUEST));
+        }
+
+        $view = $this->view($repairOrder->getRepairOrderQuote());
+        $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
+        if ($security->isGranted('ROLE_CUSTOMER')) {
+            $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrder->getRepairOrderQuote(), $this->handleView($view)->getContent(), null, $this->getUser());
+        } else {
+            $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrder->getRepairOrderQuote(), $this->handleView($view)->getContent(), $this->getUser());
+        }
+
+        return $this->handleView($view);
     }
 }

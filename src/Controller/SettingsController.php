@@ -156,7 +156,7 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="generalEmail", type="string", in="formData")
      * @SWG\Parameter(name="generalWebsiteUrl", type="string", in="formData")
      * @SWG\Parameter(name="generalInventoryUrl", type="string", in="formData")
-     * @SWG\Parameter(name="generaAddress", type="string", in="formData")
+     * @SWG\Parameter(name="generalAddress", type="string", in="formData")
      * @SWG\Parameter(name="generalAddress2", type="string", in="formData")
      * @SWG\Parameter(name="generalCity", type="string", in="formData")
      * @SWG\Parameter(name="generalState", type="string", in="formData")
@@ -187,7 +187,7 @@ class SettingsController extends AbstractFOSRestController
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {
             // Doesn't exist, move along
-            if (true !== $req->request->has($key)) {
+            if (true !== $req->request->has($key) && true !== $req->files->has($key)) {
                 continue;
             }
 
@@ -239,6 +239,7 @@ class SettingsController extends AbstractFOSRestController
                 case 'custAppPostInspectionVideo':
                 case 'generalLogo':
                 case 'myReviewLogo':
+                    $val = $req->files->get($key);
                     if (!$val instanceof UploadedFile) {
                         $errors[$key] = 'File upload failed';
                         break;

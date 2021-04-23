@@ -2,13 +2,21 @@
 
 namespace App\Service;
 
+use App\Entity\DMSResult;
+use App\Entity\Part;
+use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
+use App\Entity\RepairOrderQuoteInteraction;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderQuoteRecommendationPart;
+use App\Repository\OperationCodeRepository;
 use App\Repository\PartRepository;
+use App\Repository\PriceMatrixRepository;
+use App\Repository\RepairOrderQuoteRecommendationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\ORMException;
 use Exception;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Security;
 
 class RepairOrderQuoteHelper
@@ -42,7 +50,7 @@ class RepairOrderQuoteHelper
         'laborTax',
         'partsTax',
         'suppliesTax',
-        'laborHours'
+        'laborHours',
     ];
 
     private const PART_REQUIRED_FIELDS = [
@@ -77,13 +85,46 @@ class RepairOrderQuoteHelper
 
     private $em;
     private $security;
+    private $operationCodeRepository;
+    private $partRepository;
+    private $pricingLaborRate;
+    private $isPricingMatrix;
+    private $pricingLaborTax;
+    private $pricingPartsTax;
+    private $priceRepository;
+    private $repairOrderQuoteRecommendationRepository;
+    /**
+     * @var SettingsHelper
+     */
+    private $settingsHelper;
+    /**
+     * @var RepairOrderQuoteLogHelper
+     */
+    private $repairOrderQuoteLogHelper;
 
     public function __construct(
         EntityManagerInterface $em,
-        Security $security
+        OperationCodeRepository $operationCodeRepository,
+        SettingsHelper $settingsHelper,
+        PriceMatrixRepository $priceRepository,
+        partRepository $partRepository,
+        Security $security,
+        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository,
+        RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
     ) {
         $this->em = $em;
+        $this->operationCodeRepository = $operationCodeRepository;
         $this->security = $security;
+        $this->priceRepository = $priceRepository;
+        $this->partRepository = $partRepository;
+        $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
+
+        $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
+        $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix');
+        $this->pricingLaborTax = $settingsHelper->getSetting('pricingLaborTax') * 0.01;
+        $this->pricingPartsTax = $settingsHelper->getSetting('pricingPartsTax') * 0.01;
+        $this->settingsHelper = $settingsHelper;
+        $this->repairOrderQuoteLogHelper = $repairOrderQuoteLogHelper;
     }
 
     /**
@@ -153,7 +194,6 @@ class RepairOrderQuoteHelper
      */
     public function validateRecommendationsJson(array $params)
     {
-
         foreach ($params as $recommendation) {
             if (!is_object($recommendation)) {
                 throw new Exception('Recommendations data is invalid');
@@ -211,18 +251,30 @@ class RepairOrderQuoteHelper
      *
      * @throws Exception
      */
-    public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations)
+    public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations, bool $wipeAll = true, bool $wipePreApproved = false)
     {
         // Remove previous recommendations
-        foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
-            $this->em->remove($oldRecommendation);
+        if ($wipeAll) {
+            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+                $this->em->remove($oldRecommendation);
+            }
+        }
+        if ($wipePreApproved) {
+            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+                if ($oldRecommendation->getPreApproved()) {
+                    $this->em->remove($oldRecommendation);
+                }
+            }
         }
 
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
-
-            if ($recommendation->laborTaxable === "true" or $recommendation->laborHours === '1') {
+            // Check if Operation Code exists
+            $operationCode = $this->operationCodeRepository->findOneBy(['code' => $recommendation->operationCode]);
+            if (!$operationCode) {
+                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
             }
+
             $repairOrderQuoteRecommendation->setOperationCode($recommendation->operationCode)
                 ->setDescription($recommendation->description)
                 ->setPreApproved(
@@ -273,7 +325,7 @@ class RepairOrderQuoteHelper
         $repairOrderQuoteRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
 
         foreach ($repairOrderQuoteRecommendations as $repairOrderQuoteRecommendation) {
-            $currentRecommendation = "";
+            $currentRecommendation = '';
 
             foreach ($recommendations as $recommendation) {
                 if ($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
@@ -284,13 +336,13 @@ class RepairOrderQuoteHelper
 
             if ($repairOrderQuoteRecommendation->getPreApproved()) {
                 if ($currentRecommendation && !filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN)) {
-                    throw new Exception('The recommendation' . $repairOrderQuoteRecommendation->getId() . ' was pre-approved');
+                    throw new Exception('The recommendation'.$repairOrderQuoteRecommendation->getId().' was pre-approved');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(true);
             } else {
                 if (!$currentRecommendation) {
-                    throw new Exception("Recommendation " . $repairOrderQuoteRecommendation->getId() . " was not pre-approved, but it is missing");
+                    throw new Exception('Recommendation '.$repairOrderQuoteRecommendation->getId().' was not pre-approved, but it is missing');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN));
@@ -382,4 +434,228 @@ class RepairOrderQuoteHelper
 
         return true;
     }
+
+    public function addRecommendationsFromDMS(RepairOrder $repairOrder, DMSResult $DMSResult)
+    {
+        try {
+            // TODO: Should we validate recommendations coming from the DMS?
+            //$this->validateRecommendationsJson($DMSResult->getRecommendations());
+
+            $this->buildRecommendations($repairOrder->getRepairOrderQuote(), $DMSResult->getRecommendations(), false, true);
+        } catch (Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+
+        $status = $this->getProgressStatus();
+
+        // Create RepairOrderQuoteInteraction
+        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+        $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
+                ->setCustomer($repairOrder->getPrimaryCustomer())
+                ->setType($status);
+
+        // Update repairOrderQuote Status
+        $repairOrder->getRepairOrderQuote()->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
+                ->setStatus($status);
+
+        // Update repairOrder quote_status
+        $repairOrder->setQuoteStatus($status);
+
+        return $repairOrder;
+    }
+
+    /**
+     * @return EntityManagerInterface
+     */
+    public function getEm(): EntityManagerInterface
+    {
+        return $this->em;
+    }
+
+    /**
+     * @param EntityManagerInterface $em
+     */
+    public function setEm(EntityManagerInterface $em): void
+    {
+        $this->em = $em;
+    }
+
+    /**
+     * @return Security
+     */
+    public function getSecurity(): Security
+    {
+        return $this->security;
+    }
+
+    /**
+     * @param Security $security
+     */
+    public function setSecurity(Security $security): void
+    {
+        $this->security = $security;
+    }
+
+    /**
+     * @return OperationCodeRepository
+     */
+    public function getOperationCodeRepository(): OperationCodeRepository
+    {
+        return $this->operationCodeRepository;
+    }
+
+    /**
+     * @param OperationCodeRepository $operationCodeRepository
+     */
+    public function setOperationCodeRepository(OperationCodeRepository $operationCodeRepository): void
+    {
+        $this->operationCodeRepository = $operationCodeRepository;
+    }
+
+    /**
+     * @return PartRepository
+     */
+    public function getPartRepository(): PartRepository
+    {
+        return $this->partRepository;
+    }
+
+    /**
+     * @param PartRepository $partRepository
+     */
+    public function setPartRepository(PartRepository $partRepository): void
+    {
+        $this->partRepository = $partRepository;
+    }
+
+    /**
+     * @return \App\Entity\Settings
+     */
+    public function getPricingLaborRate(): \App\Entity\Settings
+    {
+        return $this->pricingLaborRate;
+    }
+
+    /**
+     * @param \App\Entity\Settings $pricingLaborRate
+     */
+    public function setPricingLaborRate(\App\Entity\Settings $pricingLaborRate): void
+    {
+        $this->pricingLaborRate = $pricingLaborRate;
+    }
+
+    /**
+     * @return \App\Entity\Settings
+     */
+    public function getIsPricingMatrix(): \App\Entity\Settings
+    {
+        return $this->isPricingMatrix;
+    }
+
+    /**
+     * @param \App\Entity\Settings $isPricingMatrix
+     */
+    public function setIsPricingMatrix(\App\Entity\Settings $isPricingMatrix): void
+    {
+        $this->isPricingMatrix = $isPricingMatrix;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPricingLaborTax(): float
+    {
+        return $this->pricingLaborTax;
+    }
+
+    /**
+     * @param float $pricingLaborTax
+     */
+    public function setPricingLaborTax(float $pricingLaborTax): void
+    {
+        $this->pricingLaborTax = $pricingLaborTax;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPricingPartsTax(): float
+    {
+        return $this->pricingPartsTax;
+    }
+
+    /**
+     * @param float $pricingPartsTax
+     */
+    public function setPricingPartsTax(float $pricingPartsTax): void
+    {
+        $this->pricingPartsTax = $pricingPartsTax;
+    }
+
+    /**
+     * @return PriceMatrixRepository
+     */
+    public function getPriceRepository(): PriceMatrixRepository
+    {
+        return $this->priceRepository;
+    }
+
+    /**
+     * @param PriceMatrixRepository $priceRepository
+     */
+    public function setPriceRepository(PriceMatrixRepository $priceRepository): void
+    {
+        $this->priceRepository = $priceRepository;
+    }
+
+    /**
+     * @return RepairOrderQuoteRecommendationRepository
+     */
+    public function getRepairOrderQuoteRecommendationRepository(): RepairOrderQuoteRecommendationRepository
+    {
+        return $this->repairOrderQuoteRecommendationRepository;
+    }
+
+    /**
+     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository
+     */
+    public function setRepairOrderQuoteRecommendationRepository(RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository): void
+    {
+        $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
+    }
+
+    /**
+     * @return SettingsHelper
+     */
+    public function getSettingsHelper(): SettingsHelper
+    {
+        return $this->settingsHelper;
+    }
+
+    /**
+     * @param SettingsHelper $settingsHelper
+     */
+    public function setSettingsHelper(SettingsHelper $settingsHelper): void
+    {
+        $this->settingsHelper = $settingsHelper;
+    }
+
+    /**
+     * @return RepairOrderQuoteLogHelper
+     */
+    public function getRepairOrderQuoteLogHelper(): RepairOrderQuoteLogHelper
+    {
+        return $this->repairOrderQuoteLogHelper;
+    }
+
+    /**
+     * @param RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
+     */
+    public function setRepairOrderQuoteLogHelper(RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper): void
+    {
+        $this->repairOrderQuoteLogHelper = $repairOrderQuoteLogHelper;
+    }
+
+
+
 }

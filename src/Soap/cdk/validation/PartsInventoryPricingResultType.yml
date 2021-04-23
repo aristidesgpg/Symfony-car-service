@@ -1,0 +1,8 @@
+App\Soap\cdk\src\PartsInventoryPricingResultType:
+    properties:
+        requestedPart:
+            -
+                Valid: null
+        supersedePartChain:
+            -
+                Valid: null

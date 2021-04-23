@@ -135,8 +135,6 @@ class AutoMateClient extends AbstractDMSClient
 
     /**
      * Parses the returned SOAP response and pulls out the relevant information.
-     *
-     * @return DMSResult|null
      */
     public function parseRepairOrderNode(\App\Soap\automate\src\RepairOrder $repairOrder): ?DMSResult
     {
@@ -236,8 +234,11 @@ class AutoMateClient extends AbstractDMSClient
             }
 
             $initialRoValue = 0;
+
             //TODO Nested for loop. Revisit
             foreach ($repairOrder->getJob() as $job) {
+                $dmsResult->getTechnician()->setFirstName($job->getServiceTechnicianParty()->getSpecifiedPerson()->getGivenName());
+                $dmsResult->getTechnician()->setLastName($job->getServiceTechnicianParty()->getSpecifiedPerson()->getFamilyName());
                 if (!$job->getPricing()) {
                     continue;
                 }
@@ -311,8 +312,6 @@ class AutoMateClient extends AbstractDMSClient
     }
 
     /**
-     * @return array
-     *
      * @throws \Exception
      */
     public function getClosedRoDetails(array $openRepairOrders): array
@@ -355,7 +354,6 @@ class AutoMateClient extends AbstractDMSClient
                 continue;
             }
 
-
             if ('This RO is not retrievable through Open/Mate.' == $resultRepairOrder->getRepairOrderHeader()->getOrderNotes()) {
                 continue;
             }
@@ -373,7 +371,11 @@ class AutoMateClient extends AbstractDMSClient
             }
 
             //TODO Nested for loop. Revisit
+            $primaryTechnician = null;
             foreach ($resultRepairOrder->getJob() as $job) {
+                $primaryTechnician = $this->getEntityManager()->getRepository('App:User')
+                    ->findOneBy(['firstName' => $job->getServiceTechnicianParty()->getSpecifiedPerson()->getGivenName(), 'lastName' => $job->getServiceTechnicianParty()->getSpecifiedPerson()->getFamilyName()]);
+
                 if (!$job->getPricing()) {
                     continue;
                 }
@@ -389,6 +391,10 @@ class AutoMateClient extends AbstractDMSClient
             $repairOrder
                 ->setDateClosed(new \DateTime())
                 ->setFinalValue($finalRoValue);
+            if (null == $repairOrder->getPrimaryTechnician()) {
+                $repairOrder->setPrimaryTechnician($primaryTechnician);
+            }
+
             $this->getEntityManager()->persist($repairOrder);
             $this->getEntityManager()->flush();
 
@@ -398,8 +404,20 @@ class AutoMateClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
+    public function getOperationCodes(): array
+    {
+        // TODO: Implement getOperationCodes() method.
+        throw new AccessDeniedException('Not Implemented for this DMS.');
+    }
+
     public function getParts(): array
     {
+        throw new AccessDeniedException('Not Implemented for this DMS.');
+    }
+
+    public function getRepairOrderByNumber(string $RONumber)
+    {
+        // TODO: Implement getSingleRepairOrder() method.
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
@@ -429,33 +447,21 @@ class AutoMateClient extends AbstractDMSClient
         $this->username = $username;
     }
 
-    /**
-     * @return string
-     */
     public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
     public function setPassword(string $password): void
     {
         $this->password = $password;
     }
 
-    /**
-     * @return int
-     */
     public function getEndpointID(): int
     {
         return $this->endpointID;
     }
 
-    /**
-     * @param int $endpointID
-     */
     public function setEndpointID(int $endpointID): void
     {
         $this->endpointID = $endpointID;
@@ -477,9 +483,6 @@ class AutoMateClient extends AbstractDMSClient
         $this->processEvent = $processEvent;
     }
 
-    /**
-     * @return string
-     */
     public static function getDefaultIndexName(): string
     {
         return 'usingAutomate';

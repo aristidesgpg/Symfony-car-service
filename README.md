@@ -84,7 +84,7 @@ MySQL Version: 5.7.31
     7. At the top right, click "Authorize"
     8. In the text box type "Bearer " then paste the token you copied
     9. Click "Authorize" 
-    10. All calls after this will automatically have the bearer token in the "Autorization" header
+    10. All calls after this will automatically have the bearer token in the "Authorization" header
 
 
 9. Installing Developer Tools.

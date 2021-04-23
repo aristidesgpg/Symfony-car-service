@@ -498,7 +498,7 @@ class PushedPotentialLaborItemAttributesType
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborOperationSubletAttributesType[] $sublets
      * @return self
      */
-    public function setSublets(array $sublets)
+    public function setSublets(?array $sublets)
     {
         $this->sublets = $sublets;
         return $this;

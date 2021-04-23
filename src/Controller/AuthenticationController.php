@@ -23,7 +23,8 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  *
  * @package App\Controller
  */
-class AuthenticationController extends AbstractFOSRestController {
+class AuthenticationController extends AbstractFOSRestController
+{
     use iServiceLoggerTrait;
 
     /**
@@ -84,31 +85,32 @@ class AuthenticationController extends AbstractFOSRestController {
      *     description="Login Failed. Please try again later."
      * )
      *
-     * @param Request                      $request
+     * @param Request $request
      * @param UserPasswordEncoderInterface $passwordEncoder
-     * @param RepairOrderRepository        $repairOrderRepository
-     * @param SettingsHelper               $settingsHelper
-     * @param PasswordHelper               $passwordHelper
-     * @param Authentication               $authentication
-     * @param UserRepository               $userRepository
+     * @param RepairOrderRepository $repairOrderRepository
+     * @param SettingsHelper $settingsHelper
+     * @param PasswordHelper $passwordHelper
+     * @param Authentication $authentication
+     * @param UserRepository $userRepository
      *
      * @return Response
      */
-    public function authenticateAction (Request $request, UserPasswordEncoderInterface $passwordEncoder,
-                                        RepairOrderRepository $repairOrderRepository, SettingsHelper $settingsHelper,
-                                        PasswordHelper $passwordHelper, Authentication $authentication,
-                                        UserRepository $userRepository): Response {
+    public function authenticateAction(Request $request, UserPasswordEncoderInterface $passwordEncoder,
+                                       RepairOrderRepository $repairOrderRepository, SettingsHelper $settingsHelper,
+                                       PasswordHelper $passwordHelper, Authentication $authentication,
+                                       UserRepository $userRepository): Response
+    {
         $username = $request->get('username');  // tperson@iserviceauto.com
         $password = $request->get('password');  // test
         $linkHash = $request->get('linkHash');  // a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
-        $pin      = $request->get('pin');       // 1234
+        $pin = $request->get('pin');       // 1234
 
         // Defaults
         $tokenUsername = null;
-        $roles         = null;
-        $ttl           = 28800; // Default 8 hours
-        $reason        = null;
-        $user          = null;
+        $roles = null;
+        $ttl = 28800; // Default 8 hours
+        $reason = null;
+        $user = null;
 
         // Something wasn't passed
         if ((!$username || !$password) && !$linkHash && (!$username || !$pin)) {
@@ -119,7 +121,7 @@ class AuthenticationController extends AbstractFOSRestController {
         // Standard user login
         if ($username && $password) {
             /** @var User $user */
-            $user = $userRepository->findOneBy(['email' => $username]);
+            $user = $userRepository->findOneBy(['email' => $username, 'active' => 1]);
 
             // User was found...
             if ($user) {
@@ -133,7 +135,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
-                $roles         = $user->getRoles();
+                $roles = $user->getRoles();
 
                 goto LOGIN;
             }
@@ -142,7 +144,7 @@ class AuthenticationController extends AbstractFOSRestController {
         // Tech Pin login
         if ($username && $pin) {
             /** @var User $user */
-            $user = $userRepository->findOneBy(['email' => $username]);
+            $user = $userRepository->findOneBy(['email' => $username, 'active' => 1]);
 
             // User was found
             if ($user) {
@@ -162,8 +164,8 @@ class AuthenticationController extends AbstractFOSRestController {
 
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
-                $roles         = $user->getRoles();
-                $ttl           = 3600; // Techs get logged in 1 hour
+                $roles = $user->getRoles();
+                $ttl = 3600; // Techs get logged in 1 hour
 
                 goto LOGIN;
             }
@@ -179,7 +181,7 @@ class AuthenticationController extends AbstractFOSRestController {
 
             // Successful customer "login"
             $tokenUsername = $repairOrder->getPrimaryCustomer()->getPhone();
-            $roles         = ['ROLE_CUSTOMER'];
+            $roles = ['ROLE_CUSTOMER'];
 
             goto LOGIN;
         }
@@ -196,8 +198,8 @@ class AuthenticationController extends AbstractFOSRestController {
             if ($username === $techAppUsername) {
                 if ($passwordHelper->validatePassword($password, $techAppPassword)) {
                     $tokenUsername = 'technician';
-                    $roles         = ['ROLE_TECHNICIAN'];
-                    $ttl           = 31536000; // 1 year
+                    $roles = ['ROLE_TECHNICIAN'];
+                    $ttl = 31536000; // 1 year
 
                     goto LOGIN;
                 }
@@ -214,14 +216,13 @@ class AuthenticationController extends AbstractFOSRestController {
                 goto INVALID_LOGIN;
             }
 
-            $user = $userRepository->findOneBy(['email' => $username]);
             if (!$user) {
                 $reason = 'Failed Admin Login for user ' . $username . '. Reason: Wordpress Credentials are correct but user is not on this server';
                 goto INVALID_LOGIN;
             }
 
             $tokenUsername = $user->getEmail();
-            $roles         = ['ROLE_ADMIN'];
+            $roles = ['ROLE_ADMIN'];
 
             goto LOGIN;
         }
@@ -234,7 +235,7 @@ class AuthenticationController extends AbstractFOSRestController {
             goto INVALID_LOGIN;
         }
 
-        if (!$roles){
+        if (!$roles) {
             $reason = 'Failed Login. Reason: No $roles found';
             goto INVALID_LOGIN;
         }
@@ -251,7 +252,7 @@ class AuthenticationController extends AbstractFOSRestController {
         $view = $this->view([
             'token' => $token,
             'roles' => $roles,
-            'user'  => $user
+            'user' => $user
         ]);
 
         if ($user instanceof User) {
@@ -261,6 +262,26 @@ class AuthenticationController extends AbstractFOSRestController {
         return $this->handleView($view);
 
         INVALID_LOGIN:
+
+        // Just before invalid, lets try to authenticate via WP
+        if ($username && $password){
+            $wordpressEmail = $authentication->wordpressLogin($username, $password);
+            if ($wordpressEmail) {
+                $user = $userRepository->findOneBy(['email' => $wordpressEmail, 'active' => 1]);
+
+                if ($user) {
+                    $this->logInfo('We are using wordpress login!!!!!');
+
+                    $tokenUsername = $user->getEmail();
+                    $roles = ['ROLE_ADMIN'];
+
+                    goto LOGIN;
+                }
+
+                // Valid credentials, not set up on the server
+                $this->logInfo('User '.$username.' does not have access to this dealer but authenticated successfully');
+            }
+        }
 
         $this->logInfo($reason);
         return $this->handleView($this->view('Invalid Login', Response::HTTP_FORBIDDEN));

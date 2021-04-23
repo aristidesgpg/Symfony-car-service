@@ -347,7 +347,7 @@ class PushedPotentialJobAttributesType
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialLaborItemAttributesType[] $laborItems
      * @return self
      */
-    public function setLaborItems(array $laborItems)
+    public function setLaborItems(?array $laborItems)
     {
         $this->laborItems = $laborItems;
         return $this;
@@ -535,7 +535,7 @@ class PushedPotentialJobAttributesType
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialPartAttributesType[] $parts
      * @return self
      */
-    public function setParts(array $parts)
+    public function setParts(?array $parts)
     {
         $this->parts = $parts;
         return $this;
@@ -679,7 +679,7 @@ class PushedPotentialJobAttributesType
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedPotentialTechsAttributesType[] $techs
      * @return self
      */
-    public function setTechs(array $techs)
+    public function setTechs(?array $techs)
     {
         $this->techs = $techs;
         return $this;

@@ -391,37 +391,6 @@ class RepairOrderController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post("/phone-validate")
-     *
-     * @SWG\Parameter(name="phone", type="string", in="formData", required=true)
-     *
-     * @SWG\Response(
-     *     response=200,
-     *     description="Return status code",
-     *     @SWG\Items(
-     *         type="object",
-     *             @SWG\Property(property="status", type="string", description="status code", example={"status":
-     *                                              "Phone is valid" }),
-     *         )
-     * )
-     * @SWG\Response(response="406", ref="#/responses/ValidationResponse")
-     *
-     * @throws Exception
-     */
-    public function phoneValidate(Request $req, PhoneValidator $validator): Response
-    {
-        $phone = $req->get('phone');
-        $cleanNumber = $validator->clean($phone);
-        $isValid = $validator->isMobile($cleanNumber);
-
-        if (!$isValid) {
-            throw new BadRequestHttpException('Phone is invalid');
-        }
-
-        return $this->handleView($this->view(['status' => 'Phone is valid'], Response::HTTP_OK));
-    }
-
-    /**
      * @Rest\Put("/{id}")
      * @SWG\Response(
      *     response="200",
@@ -553,4 +522,9 @@ class RepairOrderController extends AbstractFOSRestController
 
         return $this->handleView($view);
     }
+
+
+
+
+
 }
