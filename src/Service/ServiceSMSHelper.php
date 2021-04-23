@@ -241,4 +241,24 @@ class ServiceSMSHelper
                             ->getQuery()
                             ->getSingleScalarResult();
     }
+
+    /**
+     * @return int
+     */
+    public function getInBoundMessagesByAdvisor($serviceAdvisorId, $customerId, $created, $closed)
+    {
+        /* totalInboundMessages */
+        return $this->serviceSMSRepo->createQueryBuilder('ss')
+                            ->where('ss.user = :userId')
+                            ->setParameter('userId', $serviceAdvisorId)
+                            ->andWhere('ss.customer = :customerId')
+                            ->setParameter('customerId', $customerId)
+                            ->andWhere('ss.date BETWEEN :start AND :end')
+                            ->setParameter('start', $created->format('Y-m-d H:i'))
+                            ->setParameter('end', $closed->format('Y-m-d H:i'))
+                            ->andWhere('ss.incoming = 1')
+                            ->select('count(ss.id)')
+                            ->getQuery()
+                            ->getSingleScalarResult();
+    }
 }

@@ -368,14 +368,7 @@ class ReportingController extends AbstractFOSRestController
                     }
                 }
 
-                $smsRows = $smsRepo->findBy(['user' => $advisorId, 'customer' => $ro->getPrimaryCustomer()->getId()]);
-                foreach ($smsRows as $sms) {
-                    if (0 == $sms->getIncoming()) {
-                     
-                    } else {
-                        ++$totalInboundTxtMsgs;
-                    }
-                }
+                $totalInboundTxtMsgs += $smsHelper->getInBoundMessagesByAdvisor($advisorId, $ro->getPrimaryCustomer()->getId(), $ro->getDateCreated(), $ro->getDateClosed());
             }
 
             $result[] = [
