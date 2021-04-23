@@ -379,7 +379,7 @@ class RepairOrderPartType
      * @param \DateTime $partSoldDate
      * @return self
      */
-    public function setPartSoldDate(\DateTime $partSoldDate)
+    public function setPartSoldDate(?\DateTime $partSoldDate)
     {
         $this->partSoldDate = $partSoldDate;
         return $this;

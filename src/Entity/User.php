@@ -171,6 +171,12 @@ class User implements UserInterface
     private $repairOrderQuoteInteractions;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Serializer\Groups({"user_list"})
+     */
+    private $dmsId;
+
+    /**
      * @ORM\Column(type="boolean")
      * @Serializer\Groups({"user_list"})
      */
@@ -680,6 +686,18 @@ class User implements UserInterface
     public function setExternalAuthentication(bool $externalAuthentication): self
     {
         $this->externalAuthentication = $externalAuthentication;
+
+        return $this;
+    }
+
+    public function getDmsId(): ?string
+    {
+        return $this->dmsId;
+    }
+
+    public function setDmsId(?string $dmsId): self
+    {
+        $this->dmsId = $dmsId;
 
         return $this;
     }

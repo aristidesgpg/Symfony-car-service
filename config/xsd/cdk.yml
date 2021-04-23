@@ -5,6 +5,7 @@
 xsd2php:
   namespaces:
     'http://www.dmotorworks.com/service-repair-order-open': 'App\Soap\cdk\src'
+    'http://www.dmotorworks.com/pip-parts-inventory-pricing': 'App\Soap\cdk\src'
 
   destinations_php:
     #    'App\Model': App\cdk

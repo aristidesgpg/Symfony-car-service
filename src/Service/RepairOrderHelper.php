@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Customer;
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderQuote;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
@@ -28,7 +29,18 @@ class RepairOrderHelper
     private $customers;
     private $userRepository;
     private $customerHelper;
-    private $phoneValidator;
+    /**
+     * @var ROLinkHashHelper
+     */
+    private $ROLinkHashHelper;
+    /**
+     * @var DMS\DMS
+     */
+    private $dms;
+    /**
+     * @var RepairOrderQuoteHelper
+     */
+    private $repairOrderQuoteHelper;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -36,14 +48,18 @@ class RepairOrderHelper
         CustomerRepository $customers,
         UserRepository $userRepository,
         CustomerHelper $customerHelper,
-        PhoneValidator $phoneValidator
+        ROLinkHashHelper $ROLinkHash,
+        DMS\DMS $dms,
+        RepairOrderQuoteHelper $repairOrderQuoteHelper
     ) {
         $this->em = $em;
         $this->repo = $repo;
         $this->customers = $customers;
         $this->userRepository = $userRepository;
         $this->customerHelper = $customerHelper;
-        $this->phoneValidator = $phoneValidator;
+        $this->ROLinkHashHelper = $ROLinkHash;
+        $this->dms = $dms;
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
     }
 
     /**
@@ -261,19 +277,22 @@ class RepairOrderHelper
 
     public function generateLinkHash(string $dateCreated): string
     {
-        try {
-            $hash = sha1($dateCreated.random_bytes(32));
-        } catch (Exception $e) { // Shouldn't ever happen
-            throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
-        }
-        $ro = $this->repo->findByHash($hash);
-        if (null !== $ro) { // Very unlikely
-            $this->logger->warning('link hash collision');
 
-            return $this->generateLinkHash($dateCreated);
-        }
+        return $this->getROLinkHashHelper()->generate($dateCreated);
 
-        return $hash;
+//        try {
+//            $hash = sha1($dateCreated.random_bytes(32));
+//        } catch (Exception $e) { // Shouldn't ever happen
+//            throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
+//        }
+//        $ro = $this->repo->findByHash($hash);
+//        if (null !== $ro) { // Very unlikely
+//            $this->logger->warning('link hash collision');
+//
+//            return $this->generateLinkHash($dateCreated);  //This is a never ending loop.
+//        }
+//
+//        return $hash;
     }
 
     private function commitRepairOrder(): void
@@ -544,5 +563,56 @@ class RepairOrderHelper
         } catch (NonUniqueResultException $e) {
             return null;
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function syncRepairOrderRecommendationsFromDMS(RepairOrder $repairOrder): RepairOrder
+    {
+        //query the dms and get the repair order.
+        $dmsResult = $this->getDms()->getRepairOrderByNumber($repairOrder->getNumber());
+        //See if a quote exists and if not create one.
+        if (!$repairOrder->getRepairOrderQuote()) {
+            $repairOrder->setRepairOrderQuote((new RepairOrderQuote()));
+        }
+        $repairOrder = $this->repairOrderQuoteHelper->addRecommendationsFromDMS($repairOrder, $dmsResult);
+        $this->em->persist($repairOrder);
+        $this->em->flush();
+
+        return $repairOrder;
+    }
+
+    /**
+     * @return ROLinkHashHelper
+     */
+    public function getROLinkHashHelper(): ROLinkHashHelper
+    {
+        return $this->ROLinkHashHelper;
+    }
+
+    public function setROLinkHashHelper(ROLinkHashHelper $ROLinkHashHelper): void
+    {
+        $this->ROLinkHashHelper = $ROLinkHashHelper;
+    }
+
+    public function getDms(): DMS\DMS
+    {
+        return $this->dms;
+    }
+
+    public function setDms(DMS\DMS $dms): void
+    {
+        $this->dms = $dms;
+    }
+
+    public function getRepairOrderQuoteHelper(): RepairOrderQuoteHelper
+    {
+        return $this->repairOrderQuoteHelper;
+    }
+
+    public function setRepairOrderQuoteHelper(RepairOrderQuoteHelper $repairOrderQuoteHelper): void
+    {
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
     }
 }

@@ -339,7 +339,7 @@ class PushedRepairOrderJobAttributesType
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedLaborItemAttributesType[] $laborItems
      * @return self
      */
-    public function setLaborItems(array $laborItems)
+    public function setLaborItems(?array $laborItems)
     {
         $this->laborItems = $laborItems;
         return $this;
@@ -439,7 +439,7 @@ class PushedRepairOrderJobAttributesType
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderPartAttributesType[] $parts
      * @return self
      */
-    public function setParts(array $parts)
+    public function setParts(?array $parts)
     {
         $this->parts = $parts;
         return $this;
@@ -539,7 +539,7 @@ class PushedRepairOrderJobAttributesType
      * @param \App\Soap\dealerbuilt\src\Models\Service\PushedRepairOrderTechsAttributesType[] $techs
      * @return self
      */
-    public function setTechs(array $techs)
+    public function setTechs(?array $techs)
     {
         $this->techs = $techs;
         return $this;

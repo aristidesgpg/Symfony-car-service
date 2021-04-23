@@ -1,0 +1,5 @@
+App\Soap\cdk\src\PartsPricingResponseType:
+    properties:
+        return:
+            -
+                Valid: null

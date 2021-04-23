@@ -4,12 +4,15 @@ namespace App\Service\DMS;
 
 use App\Entity\Customer;
 use App\Entity\DMSResult;
+use App\Entity\DMSResultTechnician;
+use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Entity\Settings;
 use App\Entity\User;
 use App\Service\CustomerHelper;
-use App\Service\RepairOrderHelper;
+use App\Service\PhoneValidator;
+use App\Service\ROLinkHashHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
@@ -44,10 +47,7 @@ class DMS
      * @var SettingsHelper
      */
     private $settingsHelper;
-    /**
-     * @var RepairOrderHelper
-     */
-    private $repairOrderHelper;
+
     /**
      * @var ParameterBagInterface
      */
@@ -92,6 +92,15 @@ class DMS
      * @var string|null
      */
     private $activeDMS;
+    /**
+     * @var PhoneValidator
+     */
+    private $phoneValidator;
+
+    /**
+     * @var ROLinkHashHelper
+     */
+    private $ROLinkHashHelper;
 
     public function __construct(ServiceLocator $serviceLocator,
                                 TwilioHelper $twilioHelper,
@@ -99,8 +108,9 @@ class DMS
                                 EntityManagerInterface $em,
                                 ShortUrlHelper $shortUrlHelper,
                                 SettingsHelper $settingsHelper,
-                                RepairOrderHelper $repairOrderHelper,
-                                ParameterBagInterface $parameterBag)
+                                ROLinkHashHelper $ROLinkHashHelper,
+                                ParameterBagInterface $parameterBag,
+                                PhoneValidator $phoneValidator)
     {
         $this->serviceLocator = $serviceLocator;
 
@@ -109,7 +119,7 @@ class DMS
         $this->em = $em;
         $this->shortUrlHelper = $shortUrlHelper;
         $this->settingsHelper = $settingsHelper;
-        $this->repairOrderHelper = $repairOrderHelper;
+        $this->ROLinkHashHelper = $ROLinkHashHelper;
         $this->parameterBag = $parameterBag;
 
         $this->customerRepo = $em->getRepository(Customer::class);
@@ -122,10 +132,10 @@ class DMS
 
         //TODO This needs to be revisited after the SettingsHelper branch is merged into master.
         $this->activeDMS = $em->getRepository(Settings::class)->findActiveDms();
-
         if ($this->getServiceLocator()->has($this->activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($this->activeDMS);
         }
+        $this->phoneValidator = $phoneValidator;
     }
 
     public function addOpenRepairOrders(): ?array
@@ -136,7 +146,6 @@ class DMS
         }
 
         $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
-
         // Loop over found repair orders
         /**
          * @var DMSResult $dmsOpenRepairOrder
@@ -149,33 +158,46 @@ class DMS
     }
 
     /**
+     * Get's a single RO and adds it to the system.
+     *
      * @param $RONumber
      *
      * @throws exception
      */
     public function addSingleRepairOrder($RONumber): bool
     {
-        if (!$this->integration) {
-            throw new Exception('You are not integrated with a DMS');
-        }
-
-        if (!method_exists($this->integration, 'addRepairOrderByNumber')) {
-            throw new Exception("Your DMS hasn't been set up to pull individual repair orders");
-        }
-
-        $dmsRepairOrder = $this->integration->addRepairOrderByNumber($RONumber);
-        if (!$dmsRepairOrder) {
-            throw new Exception('We were unable to find that RO Number on your DMS');
-        }
+        $dmsRepairOrder = $this->getRepairOrderByNumber($RONumber);
 
         $repairOrderExists = $this->repairOrderRepo->findOneBy(['number' => $dmsRepairOrder->getNumber()]);
         if ($repairOrderExists) {
             throw new Exception('This RO is already in the system');
         }
-
         $this->processRepairOrder($dmsRepairOrder);
 
         return true;
+    }
+
+    /**
+     * Get a single RO Number.
+     *
+     * @throws Exception
+     */
+    public function getRepairOrderByNumber(string $RONumber): DMSResult
+    {
+        if (!$this->integration) {
+            throw new Exception('You are not integrated with a DMS');
+        }
+
+        if (!method_exists($this->integration, 'getRepairOrderByNumber')) {
+            throw new Exception("Your DMS hasn't been set up to pull individual repair orders");
+        }
+
+        $dmsRepairOrder = $this->integration->getRepairOrderByNumber($RONumber);
+        if (!$dmsRepairOrder) {
+            throw new Exception('We were unable to find that Repair Order in your DMS');
+        }
+
+        return $dmsRepairOrder;
     }
 
     public function processRepairOrder(DMSResult $dmsRepairOrder)
@@ -218,21 +240,46 @@ class DMS
         // Throws an error if it's not a mobile number
         //TODO, we are validating this upstream. Possibly redundant.
         try {
-            $this->twilioHelper->lookupNumber($customer->getPhone());
-        } catch (\Exception $e) {
+            $this->phoneValidator->isMobile($customer->getPhone());
+        } catch (Exception $e) {
             return;
         }
 
         //text customer.
         try {
-            $this->sendCommunicationToCustomer($repairOrder, $customer);
+            if ('prod' == $this->parameterBag->get('app_env')) {
+                $this->sendCommunicationToCustomer($repairOrder, $customer);
+            }
         } catch (Exception $e) {
         }
     }
 
+    /**
+     * @param $dmsTechnician
+     *
+     * @return User|object|null
+     */
+    public function technicianFinder(DMSResultTechnician $dmsTechnician)
+    {
+        //$defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
+        //search technician by id.
+        if ($dmsTechnician->getId()) {
+            $technicianRecord = $this->userRepo->findOneBy(['dmsId' => $dmsTechnician->getId(), 'role' => 'ROLE_TECHNICIAN']);
+            if ($technicianRecord) {
+                return $technicianRecord;
+            }
+        }
+
+        $technicianRecord = $this->getEm()->getRepository('App:User')
+            ->findOneBy(['firstName' => $dmsTechnician->getFirstName(), 'lastName' => $dmsTechnician->getLastName()]);
+
+        return $technicianRecord;
+    }
+
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
     {
-        $defaultTechnician = $this->userRepo->findBy(['active' => 1, 'role' => 'ROLE_TECHNICIAN'], ['id' => 'ASC'])[0];
+        $defaultTechnician = $this->technicianFinder($dmsResult->getTechnician());
+
         $repairOrder = (new RepairOrder())
             ->setPrimaryCustomer($customer)
             ->setPrimaryTechnician($defaultTechnician)
@@ -249,7 +296,8 @@ class DMS
             ->setMiles($dmsResult->getMiles())
             ->setVin($dmsResult->getVin())
             ->setInternal(0)
-            ->setLinkHash($this->repairOrderHelper->generateLinkHash($dmsResult->getDate()->format('c')));
+            ->setLinkHash($this->ROLinkHashHelper->generate($dmsResult->getDate()->format('c')))
+            ->setStartValue($dmsResult->getInitialROValue());
 
         // If the customer name has "INVENTORY" in it, skip as an internal
         if (false !== strpos($dmsResult->getCustomer()->getName(), 'INVENTORY')) {
@@ -268,10 +316,33 @@ class DMS
     }
 
     /**
+     * Close a single RepairOrder.
+     */
+    public function closeOpenRepairOrder(RepairOrder $repairOrder)
+    {
+        // Not integrated, do nothing
+        if (!$this->integration) {
+            return null;
+        }
+        //TODO This should be refactored to close an individual instead of passing an array.
+        $openRepairOrders[] = $repairOrder;
+        try {
+            $this->integration->getClosedRoDetails($openRepairOrders);
+        } catch (Exception $e) {
+            //do nothing.
+        }
+    }
+
+    /**
      * Find currently open ROs and see if they've been closed in the DMS.
      */
     public function closeOpenRepairOrders()
     {
+        // Not integrated, do nothing
+        if (!$this->integration) {
+            return null;
+        }
+
         // Get open repair orders
         $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
 
@@ -305,6 +376,7 @@ class DMS
     {
         // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
         // TODO: This method was incomplete. I tried to infer as much as possible to fix.
+        // TODO: Laramie to review.
         if ($this->settingsHelper->getSetting('waiverEstimateText') && $this->settingsHelper->getSetting('waiverActivateAuthMessage')) {
             $introMessage = sprintf(
                 'Welcome to %s. Click the link below to begin your visit. ',
@@ -320,8 +392,6 @@ class DMS
 
             $introMessage = $introMessage.$textLink;
             if (true == $this->activateIntegrationSms) {
-                //TODO sendShortCode Does Not Exist, changed to sendSms(). This needs double checked.
-                //$this->twilioHelper->sendShortCode($customer->getPhone(), $introMessage);
                 $this->twilioHelper->sendSms($customer, $introMessage);
             }
         } else {
@@ -350,7 +420,7 @@ class DMS
     {
         //search advisor by id.
         if ($dmsOpenRepairOrder->getAdvisor()->getId()) {
-            $foundAdvisor = $this->userRepo->findOneBy(['id' => $dmsOpenRepairOrder->getAdvisor()->getId(), 'role' => 'ROLE_SERVICE_ADVISOR']);
+            $foundAdvisor = $this->userRepo->findOneBy(['dmsId' => $dmsOpenRepairOrder->getAdvisor()->getId(), 'role' => 'ROLE_SERVICE_ADVISOR']);
             if ($foundAdvisor) {
                 return $foundAdvisor;
             }
@@ -409,7 +479,7 @@ class DMS
 
             // We want to skip validating the customer phone if production
             if ('prod' == $this->parameterBag->get('app_env')) {
-                $phoneValid = $this->twilioHelper->lookupNumber($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers());
+                $phoneValid = $this->phoneValidator->isMobile($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers());
             }
 
             if ($phoneValid) {
@@ -421,7 +491,7 @@ class DMS
                         ]
                     );
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Nothing for now
         }
 
@@ -446,13 +516,36 @@ class DMS
         }
 
         $dmsParts = $this->integration->getParts();
-        // Loop over found parts
-        /**
-         * @var Part $dmsPart
-         */
-        foreach ($dmsParts as $dmsPart) {
-            $this->upsertPart($dmsPart);
+
+        if (sizeof($dmsParts) > 0) {
+            try {
+                $result = $this->getEm()->getConnection()->executeStatement(
+                    'truncate table part'
+                );
+            } catch (\Doctrine\DBAL\Exception $e) {
+                //do nothing.
+            }
         }
+
+//        // Loop over found parts
+//        /**
+//         * @var Part $dmsPart
+//         */
+//        foreach ($dmsParts as $dmsPart) {
+//            $this->upsertPart($dmsPart);
+//         }
+
+        $batchSize = 200;
+        for ($i = 0; $i < sizeof($dmsParts); ++$i) {
+            $dmsPart = $dmsParts[$i];
+            $this->getEm()->persist($dmsPart);
+            if (($i % $batchSize) === 0) {
+                $this->getEm()->flush();
+                $this->getEm()->clear(); // Detaches all objects from Doctrine!
+            }
+        }
+        $this->getEm()->flush(); //Persist objects that did not make up an entire batch
+        $this->getEm()->clear();
 
         return $dmsParts;
     }
@@ -464,6 +557,58 @@ class DMS
             $entityPart = $part;
         }
         $entityPart->setAvailable($part->getAvailable());
+        $this->getEm()->persist($entityPart);
+        $this->getEm()->flush();
+    }
+
+    public function getOperationCodes()
+    {
+        // Not integrated, do nothing
+        if (!$this->integration) {
+            return null;
+        }
+
+        $operationCodes = $this->integration->getOperationCodes();
+        if (sizeof($operationCodes) > 0) {
+            try {
+                $result = $this->getEm()->getConnection()->executeStatement(
+                    "delete from operation_code where code <> 'MISC'"
+                );
+            } catch (\Doctrine\DBAL\Exception $e) {
+                //do nothing.
+            }
+        }
+
+//        // Loop over found Operation Codes
+//        /**
+//         * @var OperationCode $operationCode
+//         */
+//        foreach ($operationCodes as $operationCode) {
+//            $this->upsertOperationCode($operationCode);
+//        }
+
+        $batchSize = 200;
+        for ($i = 0; $i < sizeof($operationCodes); ++$i) {
+            $operationCode = $operationCodes[$i];
+            $this->getEm()->persist($operationCode);
+            if (($i % $batchSize) === 0) {
+                $this->getEm()->flush();
+                $this->getEm()->clear(); // Detaches all objects from Doctrine!
+            }
+        }
+        $this->getEm()->flush(); //Persist objects that did not make up an entire batch
+        $this->getEm()->clear();
+
+        return $operationCodes;
+    }
+
+    public function upsertOperationCode(OperationCode $operationCode)
+    {
+        $entityPart = $this->getEm()->getRepository(OperationCode::class)->findOneBy(['code' => $operationCode->getCode()]);
+        if (!$entityPart) {
+            $entityPart = $operationCode;
+        }
+        //Add any updates here.
         $this->getEm()->persist($entityPart);
         $this->getEm()->flush();
     }
@@ -516,16 +661,6 @@ class DMS
     public function setSettingsHelper(SettingsHelper $settingsHelper): void
     {
         $this->settingsHelper = $settingsHelper;
-    }
-
-    public function getRepairOrderHelper(): RepairOrderHelper
-    {
-        return $this->repairOrderHelper;
-    }
-
-    public function setRepairOrderHelper(RepairOrderHelper $repairOrderHelper): void
-    {
-        $this->repairOrderHelper = $repairOrderHelper;
     }
 
     public function getParameterBag(): ParameterBagInterface
@@ -642,10 +777,7 @@ class DMS
         $this->serviceLocator = $serviceLocator;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getActiveDMS()
+    public function getActiveDMS(): ?string
     {
         return $this->activeDMS;
     }

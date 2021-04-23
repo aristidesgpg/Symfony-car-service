@@ -1,0 +1,21 @@
+App\Soap\cdk\src\PartsInventoryPricingRequestType:
+    properties:
+        records:
+            expose: true
+            access_type: public_method
+            serialized_name: records
+            accessor:
+                getter: getRecords
+                setter: setRecords
+            xml_list:
+                inline: true
+                entry_name: records
+            type: array<App\Soap\cdk\src\PartsInventoryPricingRecordType>
+        supersession:
+            expose: true
+            access_type: public_method
+            serialized_name: supersession
+            accessor:
+                getter: getSupersession
+                setter: setSupersession
+            type: bool

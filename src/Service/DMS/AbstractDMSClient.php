@@ -122,17 +122,19 @@ abstract class AbstractDMSClient implements DMSClientInterface
      *
      * @return mixed|string|null
      */
-    public function sendSoapCall($name, $args, $returnLastResponse = false): ?string
+    public function sendSoapCall($name, $args, $returnLastResponse = false)
     {
         //It should validate against the wsdl before the call to make sure its correct.
         try {
             $result = $this->getSoapClient()->__soapCall($name, $args);
+            //dump($this->getSoapClient()->__getLastResponse());
             if ($returnLastResponse) {
                 return $this->getSoapClient()->__getLastResponse();
             }
 
             return $result;
         } catch (SoapFault $e) {
+            //dd($e->getMessage());
             $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage());
         }
 
