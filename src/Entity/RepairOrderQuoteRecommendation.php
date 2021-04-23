@@ -96,6 +96,24 @@ class RepairOrderQuoteRecommendation
     private $laborHours;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $laborTaxable;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $partsTaxable;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     * @Serializer\Groups(groups={"roqs_list"})
+     */
+    private $suppliesTaxable;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
@@ -262,7 +280,7 @@ class RepairOrderQuoteRecommendation
 
         return $this;
     }
-    
+
     public function getLaborTax(): ?float
     {
         return $this->laborTax;
@@ -305,5 +323,39 @@ class RepairOrderQuoteRecommendation
         return $this->laborHours;
     }
 
+    public function getLaborTaxable(): ?bool
+    {
+        return $this->laborTaxable;
+    }
 
+    public function setLaborTaxable(?bool $laborTaxable): self
+    {
+        $this->laborTaxable = $laborTaxable;
+
+        return $this;
+    }
+
+    public function getPartsTaxable(): ?bool
+    {
+        return $this->partsTaxable;
+    }
+
+    public function setPartsTaxable(?bool $partsTaxable): self
+    {
+        $this->partsTaxable = $partsTaxable;
+
+        return $this;
+    }
+
+    public function getSuppliesTaxable(): ?bool
+    {
+        return $this->suppliesTaxable;
+    }
+
+    public function setSuppliesTaxable(?bool $suppliesTaxable): self
+    {
+        $this->suppliesTaxable = $suppliesTaxable;
+
+        return $this;
+    }
 }
