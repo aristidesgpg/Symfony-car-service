@@ -112,17 +112,16 @@ class UserController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        if(!$role){
+        if (!$role) {
             $users = $userRepo->getActiveUsers();
-        }
-        else if (!$userHelper->isValidRole($role)) {
+        } elseif (!$userHelper->isValidRole($role)) {
             return $this->handleView($this->view('Invalid Role Parameter', Response::HTTP_NOT_ACCEPTABLE));
-        }else{
+        } else {
             $users = $userRepo->getUserByRole($role);
         }
 
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
-            $sortField  = $request->query->get('sortField');
+            $sortField = $request->query->get('sortField');
 
             if (!in_array($sortField, $columns)) {
                 $errors['sortField'] = 'Invalid sort field name';
@@ -133,7 +132,7 @@ class UserController extends AbstractFOSRestController
             $urlParameters['sortDirection'] = $sortDirection;
         }
 
-        if ( $request->query->has('searchTerm')) {
+        if ($request->query->has('searchTerm')) {
             $searchTerm = $request->query->get('searchTerm');
             $urlParameters['searchTerm'] = $searchTerm;
         }
@@ -142,25 +141,25 @@ class UserController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        $users      = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchTerm);
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $users = $userRepo->getUserByRole($role, $sortField, $sortDirection, $searchTerm);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         if ($pageLimit < 1) {
             return $this->handleView(
                 $this->view('Page limit must be a positive non-zero integer', Response::HTTP_NOT_ACCEPTABLE)
             );
         }
 
-        $pager      = $paginator->paginate($users, $page, $pageLimit);
+        $pager = $paginator->paginate($users, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view(
             [
-                'results'      => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages'   => $pagination->totalPages,
-                'previous'     => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
-                'currentPage'  => $pagination->currentPage,
-                'next'         => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_user_getusers', $urlParameters),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_user_getusers', $urlParameters),
             ]
         );
 
@@ -226,6 +225,13 @@ class UserController extends AbstractFOSRestController
      *     description="The Pin of User",
      * )
      * @SWG\Parameter(
+     *     name="dmsId",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="The DMS ID of User",
+     * )
+     * @SWG\Parameter(
      *     name="certification",
      *     in="formData",
      *     required=false,
@@ -287,6 +293,7 @@ class UserController extends AbstractFOSRestController
         $experience = $request->get('experience');
         $processRefund = $request->get('processRefund');
         $shareRepairOrders = $request->get('shareRepairOrders');
+        $dmsId = $request->get('dmsId');
 
         //role is invalid
         if (!$role || !$userHelper->isValidRole($role)) {
@@ -297,10 +304,10 @@ class UserController extends AbstractFOSRestController
         if (!$firstName || !$lastName || !$email || !$phone || !$password) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        if ($role == 'ROLE_TECHNICIAN' && (!$certification || !$experience)) {
+        if ('ROLE_TECHNICIAN' == $role && (!$certification || !$experience)) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
-        if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
+        if ('ROLE_SERVICE_ADVISOR' == $role && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -323,14 +330,15 @@ class UserController extends AbstractFOSRestController
              ->setEmail($email)
              ->setPhone($phone)
              ->setPin($pin)
+             ->setDmsId($dmsId)
              ->setPassword($userHelper->passwordEncoder($user, $password))
              ->setRole($role);
 
-        if ($role == 'ROLE_TECHNICIAN') {
+        if ('ROLE_TECHNICIAN' == $role) {
             $user->setCertification($certification)
                  ->setExperience($experience);
         }
-        if ($role == 'ROLE_SERVICE_ADVISOR') {
+        if ('ROLE_SERVICE_ADVISOR' == $role) {
             $user->setProcessRefund(filter_var($processRefund, FILTER_VALIDATE_BOOLEAN))
                  ->setShareRepairOrders(filter_var($shareRepairOrders, FILTER_VALIDATE_BOOLEAN));
         }
@@ -338,15 +346,13 @@ class UserController extends AbstractFOSRestController
         $em->persist($user);
         $em->flush();
 
-        $this->logInfo('New User "' . $user->getFirstName() . '" Created');
+        $this->logInfo('New User "'.$user->getFirstName().'" Created');
 
         return $this->userView($user);
     }
 
     /**
      * @param $data
-     *
-     * @return Response
      */
     private function userView($data): Response
     {
@@ -413,6 +419,13 @@ class UserController extends AbstractFOSRestController
      *     description="The Pin of User",
      * )
      * @SWG\Parameter(
+     *     name="dmsId",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="The DMS ID of User",
+     * )
+     * @SWG\Parameter(
      *     name="certification",
      *     in="formData",
      *     required=false,
@@ -471,6 +484,7 @@ class UserController extends AbstractFOSRestController
         $experience = $request->get('experience') ?? $user->getExperience();
         $processRefund = $request->get('processRefund') ?? $user->getProcessRefund();
         $shareRepairOrders = $request->get('shareRepairOrders') ?? $user->getShareRepairOrders();
+        $dmsId = $request->get('dmsId') ?? $user->getDmsId();
 
         //role is invalid
         if ($role && !$userHelper->isValidRole($role)) {
@@ -478,12 +492,12 @@ class UserController extends AbstractFOSRestController
         }
 
         //check if parameters are valid
-        if ($role != 'ROLE_TECHNICIAN' && ($certification || $experience)) {
+        if ('ROLE_TECHNICIAN' != $role && ($certification || $experience)) {
             return $this->handleView(
                 $this->view('Certification and Experience is Only for Technicians', Response::HTTP_BAD_REQUEST)
             );
         }
-        if ($role == 'ROLE_SERVICE_ADVISOR' && (!isset($processRefund) || !isset($shareRepairOrders))) {
+        if ('ROLE_SERVICE_ADVISOR' == $role && (!isset($processRefund) || !isset($shareRepairOrders))) {
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
 
@@ -508,16 +522,17 @@ class UserController extends AbstractFOSRestController
              ->setEmail($email)
              ->setPhone($phone)
              ->setPin($pin)
+             ->setDmsId($dmsId)
              ->setRole($role);
-        if($password){
+        if ($password) {
             $user->setPassword($userHelper->passwordEncoder($user, $password));
         }
 
-        if ($role == 'ROLE_TECHNICIAN') {
+        if ('ROLE_TECHNICIAN' == $role) {
             $user->setCertification($certification)
                  ->setExperience($experience);
         }
-        if ($role == 'ROLE_SERVICE_ADVISOR') {
+        if ('ROLE_SERVICE_ADVISOR' == $role) {
             $user->setProcessRefund(filter_var($processRefund, FILTER_VALIDATE_BOOLEAN))
                  ->setShareRepairOrders(filter_var($shareRepairOrders, FILTER_VALIDATE_BOOLEAN));
         }
@@ -525,7 +540,7 @@ class UserController extends AbstractFOSRestController
         $em->persist($user);
         $em->flush();
 
-        $this->logInfo('User "' . $user->getFirstName() . '" Has Been Updated');
+        $this->logInfo('User "'.$user->getFirstName().'" Has Been Updated');
 
         return $this->userView($user);
     }
@@ -621,10 +636,10 @@ class UserController extends AbstractFOSRestController
         $salesManagerRoles = ['ROLE_SALES_MANAGER', 'ROLE_SALES_AGENT'];
         //check if user has permission
         if (!($user->getId() == $auth->getId(
-                )) && !($authRole[0] == 'ROLE_ADMIN') && !($authRole[0] == 'ROLE_SERVICE_MANAGER' && in_array(
+                )) && !('ROLE_ADMIN' == $authRole[0]) && !('ROLE_SERVICE_MANAGER' == $authRole[0] && in_array(
                     $userRole[0],
                     $serviceManagerRoles
-                )) && !($authRole[0] == 'ROLE_SALES_MANAGER' && in_array($userRole[0], $salesManagerRoles))) {
+                )) && !('ROLE_SALES_MANAGER' == $authRole[0] && in_array($userRole[0], $salesManagerRoles))) {
             return $this->handleView(
                 $this->view('Authenticated User Has No Permission to Perform This Action', Response::HTTP_FORBIDDEN)
             );
