@@ -251,7 +251,7 @@ class RepairOrderQuoteHelper
             }
 
             $repairOrderQuoteRecommendation->setOperationCode($operationCode->getCode())
-                                            ->setDescription($recommendation->description)
+                                            ->setDescription($operationCode->getDescription())
                                             ->setPreApproved(
                                                 filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
                                             )
