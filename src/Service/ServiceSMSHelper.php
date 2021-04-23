@@ -216,9 +216,8 @@ class ServiceSMSHelper
      */
     public function getUnReadMessagesByAdvisor($serviceAdvisorId)
     {
-        $totalUnreadMessages = 0;
-
-        $totalUnreadMessages = $this->serviceSMSRepo->createQueryBuilder('ss')
+        /* totalUnreadMessages */
+        return $this->serviceSMSRepo->createQueryBuilder('ss')
                             ->where('ss.user = :userId')
                             ->setParameter('userId', $serviceAdvisorId)
                             ->andWhere('ss.incoming = 1')
@@ -226,7 +225,20 @@ class ServiceSMSHelper
                             ->select('count(ss.id)')
                             ->getQuery()
                             ->getSingleScalarResult();
+    }
 
-        return $totalUnreadMessages;
+    /**
+     * @return int
+     */
+    public function getOutBoundMessagesByAdvisor($serviceAdvisorId)
+    {
+        /* totalOutboundMessages */
+        return $this->serviceSMSRepo->createQueryBuilder('ss')
+                            ->where('ss.user = :userId')
+                            ->setParameter('userId', $serviceAdvisorId)
+                            ->andWhere('ss.incoming = 0')
+                            ->select('count(ss.id)')
+                            ->getQuery()
+                            ->getSingleScalarResult();
     }
 }

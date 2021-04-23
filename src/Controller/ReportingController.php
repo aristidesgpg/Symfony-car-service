@@ -330,10 +330,10 @@ class ReportingController extends AbstractFOSRestController
             $totalViewedQuotes = 0;
             $totalCompletedQuotes = 0;
             $totalInboundTxtMsgs = 0;
-            $totalOutboundTxtMsgs = 0;
-
+            
             $advisorId = $sa->getId();
             $unread = $smsHelper->getUnReadMessagesByAdvisor($advisorId);
+            $totalOutboundTxtMsgs = $smsHelper->getOutBoundMessagesByAdvisor($advisorId);;
 
             foreach ($closedRepairOrders as $ro) {
                 if ($advisorId != $ro->getPrimaryAdvisor()->getId()) {
@@ -371,7 +371,7 @@ class ReportingController extends AbstractFOSRestController
                 $smsRows = $smsRepo->findBy(['user' => $advisorId, 'customer' => $ro->getPrimaryCustomer()->getId()]);
                 foreach ($smsRows as $sms) {
                     if (0 == $sms->getIncoming()) {
-                        ++$totalOutboundTxtMsgs;
+                     
                     } else {
                         ++$totalInboundTxtMsgs;
                     }
