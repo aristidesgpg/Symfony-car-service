@@ -222,23 +222,23 @@ class SettingsHelper
             'front_end' => 'N/A',
         ],
         'usingAutomate' => [
-            'default_value' => false,
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'usingDealerBuilt' => [
-            'default_value' => false,
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'usingCdk' => [
-            'default_value' => false,
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'usingDealerTrack' => [
-            'default_value' => false,
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'offHoursIntegration' => [
-            'default_value' => false,
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'customerURL' => [
