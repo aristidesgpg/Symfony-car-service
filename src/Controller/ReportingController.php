@@ -1000,9 +1000,14 @@ class ReportingController extends AbstractFOSRestController
             foreach ($closedRepairOrders as $ro) {
                 if ($serviceAdvisor->getId() === $ro->getPrimaryAdvisor()->getId()) {
                     $videos = $ro->getVideos();
+
+                    /** @var RepairOrderVideo $video */
                     foreach ($videos as $video) {
-                        if ($video->getDateViewed()) {
-                            ++$totalVideoViews;
+                        /** @var RepairOrderVideoInteraction $interaction */
+                        foreach ($video->getInteractions() as $interaction){
+                            if ($interaction->getType() == 'Viewed'){
+                                ++$totalVideoViews;
+                            }
                         }
                     }
 
