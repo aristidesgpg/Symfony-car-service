@@ -1,0 +1,29 @@
+App\Soap\cdk\src\PartsInventoryPricingResultContainerType:
+    properties:
+        code:
+            expose: true
+            access_type: public_method
+            serialized_name: code
+            accessor:
+                getter: getCode
+                setter: setCode
+            type: string
+        message:
+            expose: true
+            access_type: public_method
+            serialized_name: message
+            accessor:
+                getter: getMessage
+                setter: setMessage
+            type: string
+        results:
+            expose: true
+            access_type: public_method
+            serialized_name: results
+            accessor:
+                getter: getResults
+                setter: setResults
+            xml_list:
+                inline: true
+                entry_name: results
+            type: array<App\Soap\cdk\src\PartsInventoryPricingResultType>

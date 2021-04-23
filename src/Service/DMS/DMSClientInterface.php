@@ -11,6 +11,8 @@ interface DMSClientInterface
 
     public function getOpenRepairOrders(): array;
 
+    public function getRepairOrderByNumber(string $RONumber);
+
     /**
      * @return mixed
      */
@@ -19,4 +21,8 @@ interface DMSClientInterface
     public static function getDefaultIndexName(): string;
 
     public function getParts(): array;
+
+    public function getOperationCodes(): array;
+
+
 }

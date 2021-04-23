@@ -237,6 +237,10 @@ class SettingsHelper
             'default_value' => false,
             'front_end' => 'Hidden',
         ],
+        'offHoursIntegration' => [
+            'default_value' => false,
+            'front_end' => 'Hidden',
+        ],
         'customerURL' => [
             'default_value' => 'https://client3.iserviceauto.com/',
             'front_end' => 'Hidden',
@@ -458,7 +462,7 @@ class SettingsHelper
      *
      * @throws Exception
      */
-    public function getSetting($key)
+    public function getSetting($key): string
     {
         // Throw exception because false is a valid option
         if (!$this->isValidSetting($key)) {

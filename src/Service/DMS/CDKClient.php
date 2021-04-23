@@ -98,6 +98,7 @@ class CDKClient extends AbstractDMSClient
 
         if ($this->getGuzzleClient()) {
             $response = $this->sendRequest($this->getOpenROExtractURL(), ServiceRODetailOpen::class);
+
             if (!$response) {
                 return $repairOrders;
             }
@@ -173,14 +174,23 @@ class CDKClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
+
+    /**
+     * @param $RONumber
+     */
+    public function addRepairOrderByNumber($RONumber)
+    {
+        return $this->getRepairOrderByNumber($RONumber);
+    }
+
     /**
      * Checks if the passed RO# exists in the DMS and pulls it if it does.
      *
-     * @param $RONumber
+     * @param string $RONumber
      *
      * @return false|object
      */
-    public function addRepairOrderByNumber($RONumber)
+    public function getRepairOrderByNumber(string $RONumber)
     {
         $repairOrder = null;
 
@@ -215,6 +225,7 @@ class CDKClient extends AbstractDMSClient
     private function sendRequest($url, $deserializationClass)
     {
         $rawResponse = $this->sendGuzzleRequest($url);
+
         if ($rawResponse) {
             // Not an error, but logs the request/response for compliance
             // If there is an error, then we log when we do the guzzle request.
@@ -235,9 +246,11 @@ class CDKClient extends AbstractDMSClient
     }
 
     /**
+     * @param $repairOrder
+     *
      * @return null
      */
-    private function extractROInfo(ServiceRepairOrderOpen $repairOrder): ?DMSResult
+    private function extractROInfo($repairOrder): ?DMSResult
     {
         $dmsResult = new DMSResult();
         $dmsResult->setRaw($repairOrder);
@@ -334,6 +347,13 @@ class CDKClient extends AbstractDMSClient
         }
 
         return parent::phoneNormalizer($phoneNumbers->value());
+    }
+
+
+    public function getOperationCodes(): array
+    {
+        // TODO: Implement getOperationCodes() method.
+        throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getParts(): array

@@ -1,0 +1,19 @@
+App\Soap\cdk\src\CDKPartsSoapEnvelopeBody:
+  xml_root_name: Body
+#  xml_root_namespace: 'http://schemas.xmlsoap.org/soap/envelope/'
+  properties:
+    partsPricingResponse:
+      expose: true
+      access_type: public_method
+      serialized_name: partsPricingResponse
+      xml_element:
+        namespace: http://www.dmotorworks.com/pip-parts-inventory-pricing
+      accessor:
+        getter: getPartsPricingResponse
+        setter: setPartsPricingResponse
+      type: App\Soap\cdk\src\PartsPricingResponse
+      xml_list:
+        inline: false
+        entry_name: return
+#        skip_when_empty: true
+##        namespace: http://www.dmotorworks.com/pip-parts-inventory-pricing
