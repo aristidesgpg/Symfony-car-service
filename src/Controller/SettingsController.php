@@ -187,7 +187,7 @@ class SettingsController extends AbstractFOSRestController
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {
             // Doesn't exist, move along
-            if (true !== $req->request->has($key)) {
+            if (true !== $req->request->has($key) && true !== $req->files->has($key)) {
                 continue;
             }
 
@@ -239,6 +239,7 @@ class SettingsController extends AbstractFOSRestController
                 case 'custAppPostInspectionVideo':
                 case 'generalLogo':
                 case 'myReviewLogo':
+                    $val = $req->files->get($key);
                     if (!$val instanceof UploadedFile) {
                         $errors[$key] = 'File upload failed';
                         break;
