@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderVideo;
+use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
 use App\Repository\MPITemplateRepository;
 use App\Repository\RepairOrderMPIRepository;
@@ -332,40 +334,46 @@ class ReportingController extends AbstractFOSRestController
             $unread = 0;
 
             foreach ($closedRepairOrders as $ro) {
-                if ($sa->getId() === $ro->getPrimaryAdvisor()->getId()) {
-                    ++$totalClosedRepairOrders;
+                if ($sa->getId() != $ro->getPrimaryAdvisor()->getId()){
+                    continue;
+                }
 
-                    $videos = $ro->getVideos();
-                    $totalVideos += count($videos);
+                ++$totalClosedRepairOrders;
 
-                    foreach ($videos as $video) {
-                        if ($video->getDateViewed()) {
+                $videos = $ro->getVideos();
+                $totalVideos += count($videos);
+
+                /** @var RepairOrderVideo $video */
+                foreach ($videos as $video) {
+                    /** @var RepairOrderVideoInteraction $interaction */
+                    foreach ($video->getInteractions() as $interaction){
+                        if ($interaction->getType() == 'Viewed'){
                             ++$totalVideoViews;
                         }
                     }
+                }
 
-                    $quotes = $quoteRepo->findBy(['repairOrder' => $ro->getId()]);
-                    foreach ($quotes as $quote) {
-                        if ($quote->getDateSent()) {
-                            ++$totalSentQuotes;
-                        }
-                        if ($quote->getDateCustomerViewed()) {
-                            ++$totalViewedQuotes;
-                        }
-                        if ($quote->getDateCompleted()) {
-                            ++$totalCompletedQuotes;
-                        }
+                $quotes = $quoteRepo->findBy(['repairOrder' => $ro->getId()]);
+                foreach ($quotes as $quote) {
+                    if ($quote->getDateSent()) {
+                        ++$totalSentQuotes;
                     }
+                    if ($quote->getDateCustomerViewed()) {
+                        ++$totalViewedQuotes;
+                    }
+                    if ($quote->getDateCompleted()) {
+                        ++$totalCompletedQuotes;
+                    }
+                }
 
-                    $smsRows = $smsRepo->findBy(['user' => $sa->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
-                    foreach ($smsRows as $sms) {
-                        if (0 == $sms->getIncoming()) {
-                            ++$totalOutboundTxtMsgs;
-                        } else {
-                            ++$totalInboundTxtMsgs;
-                            if (0 == $sms->getIsRead()) {
-                                ++$unread;
-                            }
+                $smsRows = $smsRepo->findBy(['user' => $sa->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
+                foreach ($smsRows as $sms) {
+                    if (0 == $sms->getIncoming()) {
+                        ++$totalOutboundTxtMsgs;
+                    } else {
+                        ++$totalInboundTxtMsgs;
+                        if (0 == $sms->getIsRead()) {
+                            ++$unread;
                         }
                     }
                 }
