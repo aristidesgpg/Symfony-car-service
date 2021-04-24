@@ -71,6 +71,7 @@ class RepairOrderHelper
     {
         $errors = [];
         $required = ['customerName', 'customerPhone', 'number'];
+
         // Check if CustomerID is provided
         if (!isset($params['customerID'])) {
             foreach ($required as $k) {
@@ -78,6 +79,10 @@ class RepairOrderHelper
                     $errors[$k] = 'Required field missing';
                 }
             }
+        }
+
+        if ($errors){
+            return $errors;
         }
 
         $ro = new RepairOrder();

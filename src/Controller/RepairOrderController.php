@@ -354,14 +354,6 @@ class RepairOrderController extends AbstractFOSRestController
             return new ValidationResponse($ro);
         }
 
-        $customerID = $req->request->get('customerID');
-        if ($customerID) {
-            $customer = $customerRepo->find($customerID);
-        } else {
-            $customerPhone = $req->request->get('customerPhone');
-            $customer = $customerRepo->findByPhone($customerPhone);
-        }
-
         // Send waiver or intro message
         try {
             // waiver disabled so send regular text
