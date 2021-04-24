@@ -304,7 +304,7 @@ class RepairOrderController extends AbstractFOSRestController
     /**
      * @Rest\Post
      *
-     * @SWG\Parameter(name="customerID", type="integer", in="formData")
+     * @SWG\Parameter(name="primaryCustomerId", type="integer", in="formData")
      * @SWG\Parameter(name="customerName", type="string", in="formData")
      * @SWG\Parameter(name="customerPhone", type="string", in="formData")
      * @SWG\Parameter(name="customerEmail", type="string", in="formData")
@@ -341,8 +341,7 @@ class RepairOrderController extends AbstractFOSRestController
         TwilioHelper $twilioHelper,
         ShortUrlHelper $shortUrlHelper,
         SettingsHelper $settingsHelper,
-        ParameterBagInterface $parameterBag,
-        CustomerRepository $customerRepo
+        ParameterBagInterface $parameterBag
     ): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');

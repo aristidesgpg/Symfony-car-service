@@ -73,7 +73,7 @@ class RepairOrderHelper
         $required = ['customerName', 'customerPhone', 'number'];
 
         // Check if CustomerID is provided
-        if (!isset($params['customerID'])) {
+        if (!isset($params['primaryCustomerId'])) {
             foreach ($required as $k) {
                 if (!isset($params[$k]) || 0 === strlen($params[$k])) {
                     $errors[$k] = 'Required field missing';
@@ -126,9 +126,9 @@ class RepairOrderHelper
      */
     private function handleCustomer(array $params)
     {
-        // Check if CustomerID is provided
-        if (isset($params['customerID'])) {
-            $customer = $this->customers->find($params['customerID']);
+        // Check if customer is provided
+        if (isset($params['primaryCustomerId'])) {
+            $customer = $this->customers->find($params['primaryCustomerId']);
         } else {
             $customer = $this->customers->findByPhone($params['customerPhone']);
             $translated = $this->translateCustomerParams($params);
