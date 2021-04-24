@@ -250,7 +250,7 @@ class SettingsHelper
             'front_end' => 'Hidden',
         ],
         'mpiSendToCustomer' => [
-            'default_value' => true,
+            'default_value' => 0,
             'front_end' => 'TBD',
         ],
     ];
