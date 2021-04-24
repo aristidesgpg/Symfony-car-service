@@ -266,10 +266,10 @@ class RepairOrderHelper
             $ro->setUpgradeQue($this->paramToBool($params['upgradeQue']));
         }
 
-        if (isset($params['customerID'])) {
-            $customer = $this->customers->find($params['customerID']);
+        if (isset($params['primaryCustomerId'])) {
+            $customer = $this->customers->find($params['primaryCustomerId']);
             if (!$customer) {
-                $errors['customerID'] = 'Customer ID does not exist';
+                $errors['primaryCustomerId'] = 'Customer ID does not exist';
             } else {
                 $ro->setPrimaryCustomer($customer);
             }
