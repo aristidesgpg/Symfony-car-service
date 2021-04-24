@@ -87,7 +87,7 @@ security:
     - { path: ^/api/repair-order-mpi/view, methods: [POST], roles: [ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-mpi, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN] }
     - { path: ^/api/repair-order-note, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN, ROLE_PARTS_ADVISOR] }
-    - { path: ^/api/repair-order-payment, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/repair-order-payment, methods: [GET], roles: [ROLE_USER, ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-payment/view, methods: [POST], roles: [ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-payment/pay, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-payment/refund, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
@@ -98,15 +98,15 @@ security:
     - { path: ^/api/repair-order-quote/view, methods: [POST], roles: [ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-quote/confirm, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/repair-order-quote/complete, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_CUSTOMER] }
-    - { path: ^/api/repair-order-quote, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/repair-order-quote, methods: [GET], roles: [ROLE_USER, ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-quote, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN] }
     - { path: ^/api/repair-order-team, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN, ROLE_PARTS_ADVISOR] }
-    - { path: ^/api/repair-order-video, methods: [GET], roles: [ROLE_USER] }
+    - { path: ^/api/repair-order-video, methods: [GET], roles: [ROLE_USER, ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-video, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN] }
     - { path: ^/api/repair-order-video/view, methods: [POST], roles: [ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-waiver/signed, methods: [POST], roles: [ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-waiver/viewed, methods: [POST], roles: [ROLE_CUSTOMER] }
-    - { path: ^/api/repair-order-waiver/acknowledged, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/repair-order-waiver/acknowledged, methods: [POST], roles: [ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-waiver/re-send, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/repair-order, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/repair-order, methods: [GET], roles: [ROLE_USER] } # Ordered at end of RO endpoints
