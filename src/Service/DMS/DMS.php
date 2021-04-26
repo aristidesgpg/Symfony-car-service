@@ -113,7 +113,6 @@ class DMS
                                 PhoneValidator $phoneValidator)
     {
         $this->serviceLocator = $serviceLocator;
-
         $this->twilioHelper = $twilioHelper;
         $this->customerHelper = $customerHelper;
         $this->em = $em;
@@ -128,11 +127,11 @@ class DMS
 
         $this->customerURL = $this->settingsHelper->getSetting('customerURL');
         $this->dmsFilter = $this->settingsHelper->getSetting('dmsFilter');
-        $this->activateIntegrationSms = true;
+        $this->activateIntegrationSms = $this->settingsHelper->getSetting('activateIntegrationSms');
 
         //TODO This needs to be revisited after the SettingsHelper branch is merged into master.
         $this->activeDMS = $em->getRepository(Settings::class)->findActiveDms();
-        if ($this->getServiceLocator()->has($this->activeDMS)) {
+        if (!empty($this->activeDMS) && $this->getServiceLocator()->has($this->activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($this->activeDMS);
         }
         $this->phoneValidator = $phoneValidator;
@@ -346,20 +345,6 @@ class DMS
         // Get open repair orders
         $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
 
-        // if ($openRepairOrders) {
-        //     /** @var RepairOrder $openRepairOrder */
-        //     foreach ($openRepairOrders as $openRepairOrder) {
-        //         // Has a closed date so don't get the data again
-        //         if ($openRepairOrder->getDateClosed()) {
-        //             print_r($openRepairOrder);
-        //             echo PHP_EOL;
-        //             continue;
-        //         }
-
-        //         $checkRepairOrders[] = $openRepairOrder;
-        //     }
-        // }
-
         if ($openRepairOrders) {
             try {
                 $this->integration->getClosedRoDetails($openRepairOrders);
@@ -374,9 +359,6 @@ class DMS
      */
     public function sendCommunicationToCustomer(RepairOrder $repairOrder, Customer $customer)
     {
-        // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
-        // TODO: This method was incomplete. I tried to infer as much as possible to fix.
-        // TODO: Laramie to review.
         if ($this->settingsHelper->getSetting('waiverEstimateText') && $this->settingsHelper->getSetting('waiverActivateAuthMessage')) {
             $introMessage = sprintf(
                 'Welcome to %s. Click the link below to begin your visit. ',
@@ -391,23 +373,19 @@ class DMS
             $textLink = $this->shortUrlHelper->generateShortUrl($textLink);
 
             $introMessage = $introMessage.$textLink;
-            if (true == $this->activateIntegrationSms) {
+            if ($this->activateIntegrationSms) {
                 $this->twilioHelper->sendSms($customer, $introMessage);
             }
         } else {
             $introMessage = '
                     For updates on your vehicle, please reply to this number. Your video inspection will be sent to you soon.
                 ';
-            // if (!$settings->getTwoWayTexting()) {
-            //     $introMessage = "
-            //         For updates on your vehicle, contact your advisor. Your video inspection will be sent to you soon.
-            //     ";
-            // }
 
             if ($this->settingsHelper->getSetting('serviceTextIntro')) {
                 $introMessage = $this->settingsHelper->getSetting('serviceTextIntro');
             }
-            if (true == $this->activateIntegrationSms) {
+
+            if ($this->activateIntegrationSms) {
                 $this->twilioHelper->sendSms($customer, $introMessage);
             }
         }
@@ -438,7 +416,7 @@ class DMS
         }
 
         //If no advisor, set to defaultAdvisor.
-        return $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_PARTS_ADVISOR'], ['id' => 'ASC']);
+        return $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_SERVICE_ADVISOR'], ['id' => 'ASC']);
     }
 
     /**
