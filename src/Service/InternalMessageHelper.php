@@ -55,6 +55,10 @@ class InternalMessageHelper
      */
     public function getThreads(string $searchTerm)
     {
+        if (!$this->user){
+            return [];
+        }
+
         $userId = $this->user->getId();
 
         $sql = "SELECT  u.*, i.id AS im_id,i.from_id , i.to_id, i.message, i.date, i.is_read, (CASE WHEN kk.unreads is null THEN 0 ELSE kk.unreads END) AS unreads, (CASE WHEN kk.unreads is null THEN 0 ELSE 1 END) AS thread_read 
