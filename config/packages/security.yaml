@@ -113,8 +113,8 @@ security:
     - { path: ^/api/reporting, methods: [GET], roles: [ROLE_USER] }
     - { path: ^/api/security, methods: [PATCH], roles: [ROLE_USER] }
     - { path: ^/api/service-sms/mark-read, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
-    - { path: ^/api/service-sms, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_ADVISOR] }
-    - { path: ^/api/service-sms, methods: [GET], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_ADVISOR] }
+    - { path: ^/api/service-sms, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
+    - { path: ^/api/service-sms, methods: [GET], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/settings, methods: [GET], roles: [IS_AUTHENTICATED_FULLY] }
     - { path: ^/api/settings, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER] }
     - { path: ^/api/users, methods: [GET], roles: [ROLE_USER] }
