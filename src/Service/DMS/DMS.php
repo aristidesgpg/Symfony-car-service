@@ -431,7 +431,7 @@ class DMS
         }
 
         //If no advisor, set to defaultAdvisor.
-        return $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_PARTS_ADVISOR'], ['id' => 'ASC']);
+        return $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_SERVICE_ADVISOR'], ['id' => 'ASC']);
     }
 
     /**
