@@ -1365,18 +1365,23 @@ class ReportingController extends AbstractFOSRestController
                 $arrRes = $mpiResults['results'];
                 if ($arrRes) {
                     foreach ($arrRes as $res) {
+                        $items = $res['items'];
                         $newResultObj = ['group' => $res['group'], 'items' => []];
 
                         if ($mpiItemStatus) {
-                            $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
+                            $items = array_filter($items, function ($a) use ($mpiItemStatus) {
                                 return $a['status'] === $mpiItemStatus;
                             });
                         }
 
                         if ($mpiItemName) {
-                            $items = array_filter($res['items'], function ($a) use ($mpiItemName) {
-                                return $a['status'] === $mpiItemName;
+                            $items = array_filter($items, function ($a) use ($mpiItemName) {
+                                return $a['name'] === $mpiItemName;
                             });
+                        }
+
+                        if (!$items) {
+                            continue;
                         }
 
                         $newResultObj['items'] = $items;
