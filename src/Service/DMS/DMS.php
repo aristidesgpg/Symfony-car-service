@@ -128,7 +128,7 @@ class DMS
 
         $this->customerURL = $this->settingsHelper->getSetting('customerURL');
         $this->dmsFilter = $this->settingsHelper->getSetting('dmsFilter');
-        $this->activateIntegrationSms = true;
+        $this->activateIntegrationSms = $this->settingsHelper->getSetting('activateIntegrationSms');
 
         //TODO This needs to be revisited after the SettingsHelper branch is merged into master.
         $this->activeDMS = $em->getRepository(Settings::class)->findActiveDms();
@@ -374,9 +374,6 @@ class DMS
      */
     public function sendCommunicationToCustomer(RepairOrder $repairOrder, Customer $customer)
     {
-        // @TODO: Fix these settings, it was running off the 'user' table which doesn't store settings anymore
-        // TODO: This method was incomplete. I tried to infer as much as possible to fix.
-        // TODO: Laramie to review.
         if ($this->settingsHelper->getSetting('waiverEstimateText') && $this->settingsHelper->getSetting('waiverActivateAuthMessage')) {
             $introMessage = sprintf(
                 'Welcome to %s. Click the link below to begin your visit. ',
@@ -391,23 +388,19 @@ class DMS
             $textLink = $this->shortUrlHelper->generateShortUrl($textLink);
 
             $introMessage = $introMessage.$textLink;
-            if (true == $this->activateIntegrationSms) {
+            if ($this->activateIntegrationSms) {
                 $this->twilioHelper->sendSms($customer, $introMessage);
             }
         } else {
             $introMessage = '
                     For updates on your vehicle, please reply to this number. Your video inspection will be sent to you soon.
                 ';
-            // if (!$settings->getTwoWayTexting()) {
-            //     $introMessage = "
-            //         For updates on your vehicle, contact your advisor. Your video inspection will be sent to you soon.
-            //     ";
-            // }
 
             if ($this->settingsHelper->getSetting('serviceTextIntro')) {
                 $introMessage = $this->settingsHelper->getSetting('serviceTextIntro');
             }
-            if (true == $this->activateIntegrationSms) {
+
+            if ($this->activateIntegrationSms) {
                 $this->twilioHelper->sendSms($customer, $introMessage);
             }
         }
