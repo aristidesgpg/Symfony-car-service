@@ -135,7 +135,6 @@ class SettingsController extends AbstractFOSRestController
      *
      * // Other Settings
      * @SWG\Parameter(name="advisorUsageEmails", type="string", in="formData")
-     * @SWG\Parameter(name="openLate", type="boolean", in="formData")
      *
      * Preview Settings
      * @SWG\Parameter(name="previewSalesVideoText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
@@ -170,13 +169,6 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="myReviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")
-     *
-     * DMS Settings
-     * @SWG\Parameter(name="usingAutomate", type="string", in="formData")
-     * @SWG\Parameter(name="usingDealerBuilt", type="string", in="formData")
-     * @SWG\Parameter(name="usingDealerTrack", type="string", in="formData")
-     * @SWG\Parameter(name="usingCdk", type="string", in="formData")
-     * @SWG\Parameter(name="offHoursIntegration", type="string", in="formData")
      */
     public function setSettings(Request $req, SettingsHelper $helper, UploadHelper $uploader): Response
     {

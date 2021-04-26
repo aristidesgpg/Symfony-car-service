@@ -433,6 +433,14 @@ class SettingsHelper
             throw new InvalidArgumentException('Invalid Setting: '.$key);
         }
 
+        if ($value === 'false'){
+            $value = 0;
+        }
+
+        if ($value === 'true'){
+            $value = 1;
+        }
+
         $obj = $this->addSetting($key, $value);
         if ($obj) {
             return true;

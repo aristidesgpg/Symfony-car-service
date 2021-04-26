@@ -134,7 +134,7 @@ class RepairOrderMPIHelper
         $message = $message.' '.$shortURL;
 
         // Only send sms if setting mpiSendToCustomer => TRUE
-        if($this->settingsHelper->getSetting('mpiSendToCustomer') == TRUE)
+        if($this->settingsHelper->getSetting('mpiSendToCustomer'))
         {
             try {
                 $this->twilioHelper->sendSms($customer, $message);
