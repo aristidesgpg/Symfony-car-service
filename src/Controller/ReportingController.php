@@ -1334,28 +1334,28 @@ class ReportingController extends AbstractFOSRestController
             $customer = $ro->getPrimaryCustomer();
             $advisor = $ro->getPrimaryAdvisor();
             $technician = $ro->getPrimaryTechnician();
-            $mpiResults = '';
+            // $mpiResults = '';
 
-            $mpiResults = $roMpi->getResults();
-            $mpiResults = json_decode($mpiResults, true);
+            // $mpiResults = $roMpi->getResults();
+            // $mpiResults = json_decode($mpiResults, true);
 
-            if ($mpiItemStatus) {
-                $newResultsArr = [];
-                $arrRes = $mpiResults['results'];
-                if ($arrRes) {
-                    foreach ($arrRes as $res) {
-                        $newResultObj = ['group' => $res['group'], 'items' => []];
+            // if ($mpiItemStatus) {
+            //     $newResultsArr = [];
+            //     $arrRes = $mpiResults['results'];
+            //     if ($arrRes) {
+            //         foreach ($arrRes as $res) {
+            //             $newResultObj = ['group' => $res['group'], 'items' => []];
 
-                        $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
-                            return $a['status'] === $mpiItemStatus;
-                        });
+            //             $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
+            //                 return $a['status'] === $mpiItemStatus;
+            //             });
 
-                        $newResultObj['items'] = $items;
-                        $newResultsArr[] = $newResultObj;
-                    }
-                    $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
-                }
-            }
+            //             $newResultObj['items'] = $items;
+            //             $newResultsArr[] = $newResultObj;
+            //         }
+            //         $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
+            //     }
+            // }
 
             $result[] = [
                 'repairOrderNumber' => $ro->getNumber(),
@@ -1364,7 +1364,7 @@ class ReportingController extends AbstractFOSRestController
                 'advisorName' => $advisor->getFirstName().' '.$advisor->getLastName(),
                 'technicianName' => $technician->getFirstName().' '.$technician->getLastName(),
                 'templateName' => $mpiTemplate ? $mpiTemplate->getName() : null,
-                'repairOrderMpi' => $mpiResults,
+                'repairOrderMpi' => $roMpi,
             ];
         }
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
@@ -1384,6 +1384,7 @@ class ReportingController extends AbstractFOSRestController
         ];
 
         $view = $this->view($json);
+        $view->getContext()->setGroups(['rom_list']);
 
         return $this->handleView($view);
     }
