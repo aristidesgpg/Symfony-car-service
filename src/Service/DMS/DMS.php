@@ -131,7 +131,7 @@ class DMS
 
         //TODO This needs to be revisited after the SettingsHelper branch is merged into master.
         $this->activeDMS = $em->getRepository(Settings::class)->findActiveDms();
-        if ($this->getServiceLocator()->has($this->activeDMS)) {
+        if (!empty($this->activeDMS) && $this->getServiceLocator()->has($this->activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($this->activeDMS);
         }
         $this->phoneValidator = $phoneValidator;
