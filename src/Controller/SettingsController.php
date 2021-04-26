@@ -164,8 +164,8 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="generalLogo", type="file", in="formData")
      *
      * myReview Settings
-     * @SWG\Parameter(name="myReviewGoogleURL", type="string", in="formData")
-     * @SWG\Parameter(name="myReviewFacebookURL", type="string", in="formData")
+     * @SWG\Parameter(name="myReviewGoogleUrl", type="string", in="formData")
+     * @SWG\Parameter(name="myReviewFacebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="myReviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")
@@ -281,7 +281,7 @@ class SettingsController extends AbstractFOSRestController
             return $this->errorResponse($e->getMessage());
         }
 
-        return $this->handleView($this->view('Settings Updated', Response::HTTP_OK));
+        return $this->handleView($this->view($settings, Response::HTTP_OK));
     }
 
     private function validationErrorResponse(array $errors): JsonResponse
