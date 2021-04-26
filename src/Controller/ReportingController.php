@@ -6,6 +6,7 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
+use App\Repository\MPIItemRepository;
 use App\Repository\MPITemplateRepository;
 use App\Repository\RepairOrderMPIRepository;
 use App\Repository\RepairOrderQuoteRepository;
@@ -1262,6 +1263,7 @@ class ReportingController extends AbstractFOSRestController
         UserRepository $userRepo,
         RepairOrderQuoteRepository $quoteRepo,
         MPITemplateRepository $mpiTemplateRepo,
+        MPIItemRepository $mpiItemRepo,
         RepairOrderMPIRepository $roMpiRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
@@ -1308,11 +1310,26 @@ class ReportingController extends AbstractFOSRestController
         $technicianId = $request->query->get('technicianId');
         $mpiTemplateId = $request->query->get('mpiTemplateId');
         $mpiItemId = $request->query->get('mpiItemId');
+        $mpiItemName = '';
+        if ($mpiItemId) {
+            $mpiItem = $mpiItemRepo->find($mpiItemId);
+            if ($mpiItem) {
+                $mpiItemName = $mpiItem->getName();
+            } else {
+                return $this->handleView($this->view('Invalid MPI Item id', Response::HTTP_BAD_REQUEST));
+            }
+        }
+
         $mpiItemStatus = $request->query->get('mpiItemStatus');
 
-        $mpiTemplate = '';
+        $mpiTemplateName = null;
         if ($mpiTemplateId) {
             $mpiTemplate = $mpiTemplateRepo->find($mpiTemplateId);
+            if ($mpiTemplate) {
+                $mpiTemplateName = $mpiTemplate->getName();
+            } else {
+                return $this->handleView($this->view('Invalid MPI Template id', Response::HTTP_BAD_REQUEST));
+            }
         }
 
         $closedRepairOrders = $roRepo->getMpiReporting(
@@ -1334,28 +1351,42 @@ class ReportingController extends AbstractFOSRestController
             $customer = $ro->getPrimaryCustomer();
             $advisor = $ro->getPrimaryAdvisor();
             $technician = $ro->getPrimaryTechnician();
-            // $mpiResults = '';
+            $mpiResults = '';
 
-            // $mpiResults = $roMpi->getResults();
-            // $mpiResults = json_decode($mpiResults, true);
+            $mpiResults = $roMpi->getResults();
+            $mpiResults = json_decode($mpiResults, true);
 
-            // if ($mpiItemStatus) {
-            //     $newResultsArr = [];
-            //     $arrRes = $mpiResults['results'];
-            //     if ($arrRes) {
-            //         foreach ($arrRes as $res) {
-            //             $newResultObj = ['group' => $res['group'], 'items' => []];
+            if ($mpiTemplateName && $mpiTemplateName !== $mpiResults['name']) {
+                continue;
+            }
 
-            //             $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
-            //                 return $a['status'] === $mpiItemStatus;
-            //             });
+            if ($mpiItemStatus || $mpiItemName) {
+                $newResultsArr = [];
+                $arrRes = $mpiResults['results'];
+                if ($arrRes) {
+                    foreach ($arrRes as $res) {
+                        $newResultObj = ['group' => $res['group'], 'items' => []];
 
-            //             $newResultObj['items'] = $items;
-            //             $newResultsArr[] = $newResultObj;
-            //         }
-            //         $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
-            //     }
-            // }
+                        if ($mpiItemStatus) {
+                            $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
+                                return $a['status'] === $mpiItemStatus;
+                            });
+                        }
+
+                        if ($mpiItemName) {
+                            $items = array_filter($res['items'], function ($a) use ($mpiItemName) {
+                                return $a['status'] === $mpiItemName;
+                            });
+                        }
+
+                        $newResultObj['items'] = $items;
+                        $newResultsArr[] = $newResultObj;
+                    }
+                    $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
+                    $mpiResults = json_encode($mpiResults, true);
+                    $roMpi->setResults($mpiResults);
+                }
+            }
 
             $result[] = [
                 'repairOrderNumber' => $ro->getNumber(),
@@ -1363,7 +1394,7 @@ class ReportingController extends AbstractFOSRestController
                 'customerPhone' => $customer->getPhone(),
                 'advisorName' => $advisor->getFirstName().' '.$advisor->getLastName(),
                 'technicianName' => $technician->getFirstName().' '.$technician->getLastName(),
-                'templateName' => $mpiTemplate ? $mpiTemplate->getName() : null,
+                'templateName' => $mpiTemplateName,
                 'repairOrderMpi' => $roMpi,
             ];
         }
