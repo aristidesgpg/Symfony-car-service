@@ -281,7 +281,7 @@ class SettingsController extends AbstractFOSRestController
             return $this->errorResponse($e->getMessage());
         }
 
-        return $this->handleView($this->view($settings, Response::HTTP_OK));
+        return $this->handleView($this->view('Settings Updated', Response::HTTP_OK));
     }
 
     private function validationErrorResponse(array $errors): JsonResponse
