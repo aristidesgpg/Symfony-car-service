@@ -149,6 +149,7 @@ class ServiceSMSController extends AbstractFOSRestController
             }
 
             $em->beginTransaction();
+            $em->persist($serviceSMS);
             try {
                 $em->flush();
                 $em->commit();
