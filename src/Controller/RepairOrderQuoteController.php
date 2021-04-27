@@ -409,6 +409,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderURL = $customerURL . $repairOrder->getLinkHash();
         $shortUrl = $shortUrlHelper->generateShortUrl($repairOrderURL);
         $message = $serviceTextQuote . ':' . $shortUrl;
+        $customer = $repairOrder->getPrimaryCustomer();
+
+        if (!$customer->getPhone()){
+            return $this->handleView($this->view('Customer Phone Number is empty', Response::HTTP_BAD_REQUEST));
+        }
 
         try {
             $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $message);
