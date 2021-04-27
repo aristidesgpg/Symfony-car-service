@@ -237,10 +237,10 @@ class SettingsHelper
             'default_value' => 0,
             'front_end' => 'Hidden',
         ],
-        'offHoursIntegration' => [
-            'default_value' => 0,
-            'front_end' => 'Hidden',
-        ],
+//        'offHoursIntegration' => [
+//            'default_value' => 0,
+//            'front_end' => 'Hidden',
+//        ],
         'customerURL' => [
             'default_value' => 'https://client3.iserviceauto.com/',
             'front_end' => 'Hidden',
