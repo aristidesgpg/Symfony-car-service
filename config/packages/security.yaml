@@ -100,7 +100,7 @@ security:
     - { path: ^/api/repair-order-quote/confirm, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR] }
     - { path: ^/api/repair-order-quote/complete, methods: [POST], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-quote, methods: [GET], roles: [ROLE_USER, ROLE_CUSTOMER] }
-    - { path: ^/api/repair-order-quote, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN] }
+    - { path: ^/api/repair-order-quote, methods: [POST, PUT, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_PARTS_ADVISOR, ROLE_TECHNICIAN] }
     - { path: ^/api/repair-order-team, methods: [POST, DELETE], roles: [ROLE_ADMIN, ROLE_SERVICE_MANAGER, ROLE_SERVICE_ADVISOR, ROLE_TECHNICIAN, ROLE_PARTS_ADVISOR] }
     - { path: ^/api/repair-order-video/view, methods: [POST], roles: [ROLE_CUSTOMER] }
     - { path: ^/api/repair-order-video, methods: [GET], roles: [ROLE_USER, ROLE_CUSTOMER] }
