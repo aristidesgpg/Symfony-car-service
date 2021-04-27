@@ -172,7 +172,7 @@ class AuthenticationController extends AbstractFOSRestController
 
         // Logging in from customer app
         if ($linkHash) {
-            $repairOrder = $repairOrderRepository->findBy(['linkHash' => '64f49a32c8c3208e78f29106b788838865b2c693']);
+            $repairOrder = $repairOrderRepository->findBy(['linkHash' => $linkHash]);
             if (!$repairOrder) {
                 $reason = 'Failed Customer Login. Reason: Repair Order not found';
                 goto INVALID_LOGIN;
