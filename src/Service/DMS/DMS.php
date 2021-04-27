@@ -541,6 +541,8 @@ class DMS
 
     public function getOperationCodes()
     {
+
+
         // Not integrated, do nothing
         if (!$this->integration) {
             return null;

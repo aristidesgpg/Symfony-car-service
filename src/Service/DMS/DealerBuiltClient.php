@@ -240,9 +240,16 @@ class DealerBuiltClient extends AbstractDMSClient
              * @var RepairOrderJobType $job
              */
             foreach ($repairOrder->getAttributes()->getJobs() as $job) {
+                if ('Customer' != $job->getPayType()) {
+                    continue;
+                }
+
                 $recommendations[] = (new DMSResultRecommendation())
                     ->setOperationCode($job->getJobCode())
-                    ->setDescription('') //This needs to be the description from the opcode.
+                    //TODO: This needs to pull description from the result
+                    //TODO: If there is a parts node, try to tie it to the repair order: repair_order_quote_recommendation_part
+                    //TODO: don't need to validate opcodes.
+                    ->setDescription($job->getJobCodeDescription()) //This needs to be the description from the opcode.
                     ->setPreApproved(true)
                     ->setApproved(true)
                     ->setLaborHours($job->getLaborActualHoursNumeric())
@@ -252,7 +259,7 @@ class DealerBuiltClient extends AbstractDMSClient
                     ->setPartsTax(0)
                     ->setSuppliesPrice($job->getMiscFees()->getAmount())
                     ->setSuppliesTax(0)
-                    ->setNotes(substr($job->getJobCodeDescription(), 0, 255)); //TODO: Should we truncate or increase the size of the db field > 255;
+                    ->setNotes(substr($job->getComplaint(), 0, 255)); //TODO: Should we truncate or increase the size of the db field > 255; Increase field size to text.
             }
         }
 
@@ -489,7 +496,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 $operationCode = (new OperationCode())
                     ->setCode($job->getQuickCode())
-                    ->setDescription('')
+                    ->setDescription(substr($job->getComplaint(), 0, 255))
                     ->setLaborHours($laborHours)
                     ->setLaborTaxable(true)
                     ->setPartsPrice($partsPrice)
