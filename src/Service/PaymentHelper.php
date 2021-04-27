@@ -211,6 +211,7 @@ class PaymentHelper
 
         $payment->setDeleted(true);
         $payment->setDateDeleted(new DateTime());
+        $payment->setStatus('Deleted');
         $this->createInteraction($payment, 'Deleted');
         $this->commitPayment($payment);
     }
