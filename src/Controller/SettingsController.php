@@ -164,8 +164,8 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="generalLogo", type="file", in="formData")
      *
      * myReview Settings
-     * @SWG\Parameter(name="myReviewGoogleURL", type="string", in="formData")
-     * @SWG\Parameter(name="myReviewFacebookURL", type="string", in="formData")
+     * @SWG\Parameter(name="myReviewGoogleUrl", type="string", in="formData")
+     * @SWG\Parameter(name="myReviewFacebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="myReviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")

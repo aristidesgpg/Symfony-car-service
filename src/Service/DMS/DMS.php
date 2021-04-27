@@ -113,7 +113,6 @@ class DMS
                                 PhoneValidator $phoneValidator)
     {
         $this->serviceLocator = $serviceLocator;
-
         $this->twilioHelper = $twilioHelper;
         $this->customerHelper = $customerHelper;
         $this->em = $em;
@@ -132,7 +131,7 @@ class DMS
 
         //TODO This needs to be revisited after the SettingsHelper branch is merged into master.
         $this->activeDMS = $em->getRepository(Settings::class)->findActiveDms();
-        if ($this->getServiceLocator()->has($this->activeDMS)) {
+        if (!empty($this->activeDMS) && $this->getServiceLocator()->has($this->activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($this->activeDMS);
         }
         $this->phoneValidator = $phoneValidator;
@@ -346,20 +345,6 @@ class DMS
         // Get open repair orders
         $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
 
-        // if ($openRepairOrders) {
-        //     /** @var RepairOrder $openRepairOrder */
-        //     foreach ($openRepairOrders as $openRepairOrder) {
-        //         // Has a closed date so don't get the data again
-        //         if ($openRepairOrder->getDateClosed()) {
-        //             print_r($openRepairOrder);
-        //             echo PHP_EOL;
-        //             continue;
-        //         }
-
-        //         $checkRepairOrders[] = $openRepairOrder;
-        //     }
-        // }
-
         if ($openRepairOrders) {
             try {
                 $this->integration->getClosedRoDetails($openRepairOrders);
@@ -384,7 +369,7 @@ class DMS
                 $introMessage = $this->settingsHelper->getSetting('waiverIntroText').' ';
             }
 
-            $textLink = $this->customerURL.$repairOrder->getLinkHash().'/repair-waiver';
+            $textLink = $this->customerURL.$repairOrder->getLinkHash();
             $textLink = $this->shortUrlHelper->generateShortUrl($textLink);
 
             $introMessage = $introMessage.$textLink;

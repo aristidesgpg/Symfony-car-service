@@ -409,6 +409,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrderURL = $customerURL . $repairOrder->getLinkHash();
         $shortUrl = $shortUrlHelper->generateShortUrl($repairOrderURL);
         $message = $serviceTextQuote . ':' . $shortUrl;
+        $customer = $repairOrder->getPrimaryCustomer();
+
+        if (!$customer->getPhone()){
+            return $this->handleView($this->view('Customer Phone Number is empty', Response::HTTP_BAD_REQUEST));
+        }
 
         try {
             $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $message);
@@ -607,16 +612,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Quote Not Found');
         }
 
+        if (in_array($repairOrderQuote->getStatus(), ['Completed', 'Confirmed'])){
+            throw new BadRequestHttpException('You can not complete an already already finished quote');
+        }
+
         $repairOrder = $repairOrderQuote->getRepairOrder();
         if ($security->isGranted('ROLE_CUSTOMER')) {
             if ($repairOrder->getPrimaryCustomer() !== $this->getUser()) {
                 throw new BadRequestHttpException('This customer is not the owner of the repairOrder');
-            }
-        } else {
-            // Check permission if quote status is Sent, Completed or Confirmed
-            $quoteStatus = $repairOrderQuote->getStatus();
-            if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
-                return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
             }
         }
 
