@@ -70,7 +70,8 @@ class ServiceSMSController extends AbstractFOSRestController
         Request $request,
         TwilioHelper $twilioHelper,
         CustomerRepository $customerRepo
-    ) {
+    )
+    {
         $customerID = $request->get('customerID');
         $message = $request->get('message');
 
@@ -124,7 +125,8 @@ class ServiceSMSController extends AbstractFOSRestController
         CustomerRepository $customerRepo,
         PhoneValidator $phoneValidator,
         TwilioHelper $twilioHelper
-    ): Response {
+    ): Response
+    {
         $message = $request->get('Body');
         $from = $request->get('From');
         $to = $request->get('To');
@@ -135,10 +137,10 @@ class ServiceSMSController extends AbstractFOSRestController
         if ($customer) {
             $serviceSMS = new ServiceSMS();
             $serviceSMS->setCustomer($customer)
-                       ->setPhone($phone)
-                       ->setMessage($twilioHelper->Encode($message))
-                       ->setSid($sid)
-                       ->setIncoming(true);
+                ->setPhone($phone)
+                ->setMessage($twilioHelper->Encode($message))
+                ->setSid($sid)
+                ->setIncoming(true);
 
             // We got a message, mark it confirmed mobile
             if (!$customer->getMobileConfirmed()) {
@@ -146,12 +148,21 @@ class ServiceSMSController extends AbstractFOSRestController
                 $em->persist($customer);
             }
 
-            $em->persist($serviceSMS);
-            $em->flush();
+            $em->beginTransaction();
+            try {
+                $em->flush();
+                $em->commit();
+            } catch (\Exception $e) {
+                $em->rollback();
+
+                $response = new Response('<Response>' . $e->getMessage() . '<Response />', Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'text/xml');
+                return $response;
+            }
 
             $response = new Response('<Response><Response />', Response::HTTP_OK);
         } else {
-            $errorLog = 'Incoming message from '.$from.' to '.$to.'. No customer has this phone number.';
+            $errorLog = 'Incoming message from ' . $from . ' to ' . $to . '. No customer has this phone number.';
 
             $serviceSMSLog = new ServiceSMSLog();
             $serviceSMSLog->setError($errorLog);
@@ -208,7 +219,8 @@ class ServiceSMSController extends AbstractFOSRestController
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
-    ): Response {
+    ): Response
+    {
         $page = $request->query->getInt('page', 1);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
@@ -242,7 +254,7 @@ class ServiceSMSController extends AbstractFOSRestController
                 $em->commit();
             } catch (Exception $e) {
                 // nothing, need to return results
-                $this->logInfo('Failed to mark thread as read. user:'.$user->getId().'|customer:'.$customer->getId());
+                $this->logInfo('Failed to mark thread as read. user:' . $user->getId() . '|customer:' . $customer->getId());
             }
         }
 
@@ -309,7 +321,8 @@ class ServiceSMSController extends AbstractFOSRestController
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         ServiceSMSHelper $helper
-    ): Response {
+    ): Response
+    {
         $page = $request->query->getInt('page', 1);
         $searchTerm = $request->query->get('searchTerm', '');
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
@@ -365,7 +378,8 @@ class ServiceSMSController extends AbstractFOSRestController
         Security $security,
         ServiceSMSRepository $serviceSMSRepo,
         EntityManagerInterface $em
-    ): Response {
+    ): Response
+    {
         $customerID = $request->get('customerID');
         // Check param is valid
         if (!$customerID) {
@@ -409,7 +423,8 @@ class ServiceSMSController extends AbstractFOSRestController
         Request $request,
         EntityManagerInterface $em,
         ServiceSMSRepository $serviceSMSRepo
-    ): Response {
+    ): Response
+    {
         $smsStatus = $request->get('SmsStatus');
         $sid = $request->get('MessageSid');
 
