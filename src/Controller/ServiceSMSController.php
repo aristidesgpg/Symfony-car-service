@@ -160,7 +160,7 @@ class ServiceSMSController extends AbstractFOSRestController
                 return $response;
             }
 
-            $response = new Response('</Response>', Response::HTTP_OK);
+            $response = new Response('<Response></Response>', Response::HTTP_OK);
         } else {
             $errorLog = 'Incoming message from ' . $from . ' to ' . $to . '. No customer has this phone number.';
 
