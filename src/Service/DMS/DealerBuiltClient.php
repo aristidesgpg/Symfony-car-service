@@ -539,6 +539,7 @@ class DealerBuiltClient extends AbstractDMSClient
             foreach ($deserializedNode->getBody()->getPullPartsResponse()->getPullPartsResult() as $dmsPart) {
                 $part = new Part();
                 $part->setNumber($dmsPart->getPartKey())
+                    ->setPrice($dmsPart->getAttributes()->getListPrice()->getAmount())
                     ->setName($dmsPart->getAttributes()->getDescription())
                     ->setBin($this->binProcessor($dmsPart->getAttributes()->getBins()))
                     ->setAvailable($dmsPart->getAttributes()->getOnHandQuantity());
