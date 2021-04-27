@@ -369,7 +369,7 @@ class DMS
                 $introMessage = $this->settingsHelper->getSetting('waiverIntroText').' ';
             }
 
-            $textLink = $this->customerURL.$repairOrder->getLinkHash().'/repair-waiver';
+            $textLink = $this->customerURL.$repairOrder->getLinkHash();
             $textLink = $this->shortUrlHelper->generateShortUrl($textLink);
 
             $introMessage = $introMessage.$textLink;
