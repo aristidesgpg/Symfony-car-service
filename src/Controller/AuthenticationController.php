@@ -165,7 +165,6 @@ class AuthenticationController extends AbstractFOSRestController
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
                 $roles = $user->getRoles();
-                $ttl = 3600; // Techs get logged in 1 hour
 
                 goto LOGIN;
             }
