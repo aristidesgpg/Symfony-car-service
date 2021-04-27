@@ -152,15 +152,15 @@ class ServiceSMSController extends AbstractFOSRestController
             try {
                 $em->flush();
                 $em->commit();
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $em->rollback();
 
-                $response = new Response('<Response>' . $e->getMessage() . '<Response />', Response::HTTP_OK);
+                $response = new Response('<Response>' . $e->getMessage() . '</Response>', Response::HTTP_OK);
                 $response->headers->set('Content-Type', 'text/xml');
                 return $response;
             }
 
-            $response = new Response('<Response><Response />', Response::HTTP_OK);
+            $response = new Response('</Response>', Response::HTTP_OK);
         } else {
             $errorLog = 'Incoming message from ' . $from . ' to ' . $to . '. No customer has this phone number.';
 
