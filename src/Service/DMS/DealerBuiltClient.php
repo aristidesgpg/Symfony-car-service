@@ -277,11 +277,11 @@ class DealerBuiltClient extends AbstractDMSClient
         /** @var RepairOrder $repairOrder */
         foreach ($openRepairOrders as $repairOrder) {
             if ($repairOrder->getDmsKey()) {
-                $rosWithKeys[] = $repairOrder;
+                $rosWithKeys[$repairOrder->getNumber()] = $repairOrder;
                 continue;
             }
 
-            $rosWithoutKeys[] = $repairOrder;
+            $rosWithoutKeys[$repairOrder->getNumber()] = $repairOrder;
         }
 
         //TODO Shouldn't we close both?
