@@ -542,7 +542,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 $part = new Part();
                 $part->setNumber($dmsPart->getPartKey())
                     ->setPrice($dmsPart->getAttributes()->getListPrice()->getAmount())
-                    ->setName($dmsPart->getAttributes()->getDescription())
+                    ->setName(substr($dmsPart->getAttributes()->getDescription(), 0, 30))
                     ->setBin($this->binProcessor($dmsPart->getAttributes()->getBins()))
                     ->setAvailable($dmsPart->getAttributes()->getOnHandQuantity());
 
