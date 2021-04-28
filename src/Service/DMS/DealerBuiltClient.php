@@ -40,7 +40,8 @@ class DealerBuiltClient extends AbstractDMSClient
     /**
      * @var string
      */
-    private $timeFrame = 'PT5M';
+//    private $timeFrame = 'PT5M';
+    private $timeFrame = 'PT5H';
 
     /**
      * @var string
@@ -70,10 +71,9 @@ class DealerBuiltClient extends AbstractDMSClient
         $this->password = 'w37B(7pDIb/FZF8(*1';
 
         // Won't grab any from dev unless we up the time frame
-        if ('dev' == $parameterBag->get('app_env')) {
+        if ('prod' != $parameterBag->get('app_env')) {
             $this->timeFrame = 'PT8760H';
         }
-        $this->serviceLocationId = '58602';
         $this->init();
     }
 
@@ -117,6 +117,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 if ('InternalRepairOrder' == $repairOrder->getAttributes()->getType()) {
                     continue;
                 }
+
                 //Customer
                 $customer = $repairOrder->getReferences()->getROCustomer()->getAttributes()->getIdentity();
                 $customerName = sprintf('%s %s', $customer->getPersonalName()->getFirstName(), $customer->getPersonalName()->getLastName());
@@ -135,6 +136,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 $dmsResult->setNumber($repairOrder->getAttributes()->getRepairOrderNumber());
 
                 $dmsResult->setMiles($repairOrder->getAttributes()->getMilesIn());
+
                 //vehicle
                 $vehicle = $repairOrder->getReferences()->getROVehicle()->getAttributes();
                 $dmsResult->setYear($vehicle->getYear());
