@@ -395,6 +395,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 $closedDate = $repairOrder->getAttributes()->getClosedStamp();
             }
 
+            //TODO: The below code fails silently. Need to bug hunt why.
 //            // Try to set the technician that recorded it when closing
 //            if ($repairOrder->getAttributes()->getJobs()) {
 //                $job = $repairOrder->getAttributes()->getJobs()[0];
