@@ -168,7 +168,7 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="myReviewFacebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="myReviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
-     * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")
+     * @SWG\Parameter(name="myReviewActivated", type="number", in="formData", minimum="0", maximum="1")
      */
     public function setSettings(Request $req, SettingsHelper $helper, UploadHelper $uploader): Response
     {
@@ -197,6 +197,22 @@ class SettingsController extends AbstractFOSRestController
                 case 'myReviewText':
                     if (strlen($val) > self::SMS_MAX_LENGTH) {
                         $errors[$key] = sprintf(self::TOO_LONG_MSG, self::SMS_MAX_LENGTH);
+                    }
+                    break;
+                case 'activateIntegrationSms':
+                case 'hasPayments':
+                case 'mpiSendToCustomer':
+                case 'offHoursIntegration':
+                case 'openLate':
+                case 'pricingUseMatrix':
+                case 'usingAutomate':
+                case 'usingCdk':
+                case 'usingDealerBuilt':
+                case 'usingDealerTrack':
+                case 'myReviewActivated':
+                case 'waiverActivateAuthMessage':
+                    if ($this->numericBoolean($val) === false){
+                        $errors[$key] = sprintf($val . ' Must be 0 or 1');
                     }
                     break;
                 case 'serviceTextVideo':
@@ -297,5 +313,14 @@ class SettingsController extends AbstractFOSRestController
     private function errorResponse(string $msg): JsonResponse
     {
         return $this->json(['error' => $msg], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
+
+    private function numericBoolean($value): bool
+    {
+        if (!is_numeric($value) || (($value < 0) || ($value > 1))){
+            return false;
+        } else {
+            return false;
+        }
     }
 }
