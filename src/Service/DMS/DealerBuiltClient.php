@@ -522,7 +522,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
             $searchCriteria = [
                 'searchCriteria' => [
-                    'MinimumAddedDate' => '2021-01-01T00:00:00.000Z',
+                    'MinimumAddedDate' => '2020-04-01T00:00:00.000Z',
                     'ServiceLocationIds' => [$this->getServiceLocationId()],
                 ],
             ];
@@ -540,7 +540,8 @@ class DealerBuiltClient extends AbstractDMSClient
              */
             foreach ($deserializedNode->getBody()->getPullPartsResponse()->getPullPartsResult() as $dmsPart) {
                 $part = new Part();
-                $part->setNumber($dmsPart->getPartKey())
+                $part->setNumber($dmsPart->getAttributes()->getPartNumber())
+                //setNumber($dmsPart->getPartKey())
                     ->setPrice($dmsPart->getAttributes()->getListPrice()->getAmount())
                     ->setName(substr($dmsPart->getAttributes()->getDescription(), 0, 30))
                     ->setBin($this->binProcessor($dmsPart->getAttributes()->getBins()))
