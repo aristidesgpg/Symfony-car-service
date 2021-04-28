@@ -73,6 +73,7 @@ class DealerBuiltClient extends AbstractDMSClient
         if ('prod' != $parameterBag->get('app_env')) {
             $this->timeFrame = 'PT8760H';
         }
+
         $this->init();
     }
 
@@ -520,9 +521,13 @@ class DealerBuiltClient extends AbstractDMSClient
             //create authentication token
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
+            $today = new \DateTime('now');
+            $yearAgo = $today->modify('-1 year')->format('Y-m-d');
+            $yearAgoString = sprintf('%sT00:00:00.000Z', $yearAgo);
+
             $searchCriteria = [
                 'searchCriteria' => [
-                    'MinimumAddedDate' => '2020-04-01T00:00:00.000Z',
+                    'MinimumAddedDate' => $yearAgoString,
                     'ServiceLocationIds' => [$this->getServiceLocationId()],
                 ],
             ];
