@@ -395,21 +395,21 @@ class DealerBuiltClient extends AbstractDMSClient
                 $closedDate = $repairOrder->getAttributes()->getClosedStamp();
             }
 
-            // Try to set the technician that recorded it when closing
-            if ($repairOrder->getAttributes()->getJobs()) {
-                $job = $repairOrder->getAttributes()->getJobs()[0];
-                if ($job->getTechs()) {
-                    $id = $job->getTechs()[0]->getTech()->getNumber();
-                    $technicianRecord = $this->getEntityManager()->getRepository('App:User')
-                        ->findOneBy(['dmsId ' => $id]);
-                    if (!$technicianRecord) {
-                        $firstName = $job->getTechs()[0]->getTech()->getPersonalName()->getFirstName();
-                        $lastName = $job->getTechs()[0]->getTech()->getPersonalName()->getLastName();
-                        $technicianRecord = $this->getEntityManager()->getRepository('App:User')
-                            ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
-                    }
-                }
-            }
+//            // Try to set the technician that recorded it when closing
+//            if ($repairOrder->getAttributes()->getJobs()) {
+//                $job = $repairOrder->getAttributes()->getJobs()[0];
+//                if ($job->getTechs()) {
+//                    $id = $job->getTechs()[0]->getTech()->getNumber();
+//                    $technicianRecord = $this->getEntityManager()->getRepository('App:User')
+//                        ->findOneBy(['dmsId ' => $id]);
+//                    if (!$technicianRecord) {
+//                        $firstName = $job->getTechs()[0]->getTech()->getPersonalName()->getFirstName();
+//                        $lastName = $job->getTechs()[0]->getTech()->getPersonalName()->getLastName();
+//                        $technicianRecord = $this->getEntityManager()->getRepository('App:User')
+//                            ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
+//                    }
+//                }
+//            }
 
             // Loop over all passed ROs to get the RO in question
             if (array_key_exists($repairOrder->getAttributes()->getRepairOrderNumber(), $repairOrders)) {
