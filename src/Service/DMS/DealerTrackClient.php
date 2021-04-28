@@ -89,6 +89,7 @@ class DealerTrackClient extends AbstractDMSClient
             $this->wsdl = 'https://otstaging.arkona.com/opentrack/serviceapi.asmx?WSDL';
             $this->partsWsdlFileName = '/dealertrack/dealertrack_partsapi_dev.wsdl';
         }
+        $this->company='58602';
 
         $this->init();
     }

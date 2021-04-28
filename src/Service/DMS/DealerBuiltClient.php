@@ -73,7 +73,7 @@ class DealerBuiltClient extends AbstractDMSClient
         if ('dev' == $parameterBag->get('app_env')) {
             $this->timeFrame = 'PT8760H';
         }
-
+        $this->serviceLocationId = '58602';
         $this->init();
     }
 

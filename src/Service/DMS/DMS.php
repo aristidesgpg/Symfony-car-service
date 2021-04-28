@@ -145,6 +145,7 @@ class DMS
         }
 
         $dmsOpenRepairOrders = $this->integration->getOpenRepairOrders();
+        dd($dmsOpenRepairOrders);
         // Loop over found repair orders
         /**
          * @var DMSResult $dmsOpenRepairOrder
@@ -244,13 +245,13 @@ class DMS
             return;
         }
 
-        //text customer.
-        try {
-            if ('prod' == $this->parameterBag->get('app_env')) {
-                $this->sendCommunicationToCustomer($repairOrder, $customer);
-            }
-        } catch (Exception $e) {
-        }
+//        //text customer.
+//        try {
+//            if ('prod' == $this->parameterBag->get('app_env')) {
+//                $this->sendCommunicationToCustomer($repairOrder, $customer);
+//            }
+//        } catch (Exception $e) {
+//        }
     }
 
     /**
@@ -278,7 +279,6 @@ class DMS
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
     {
         $defaultTechnician = $this->technicianFinder($dmsResult->getTechnician());
-
         $repairOrder = (new RepairOrder())
             ->setPrimaryCustomer($customer)
             ->setPrimaryTechnician($defaultTechnician)
