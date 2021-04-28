@@ -124,13 +124,13 @@ class SettingsController extends AbstractFOSRestController
      *
      * Pricing Settings
      * @SWG\Parameter(name="pricingLaborRate", type="number", in="formData")
-     * @SWG\Parameter(name="pricingUseMatrix", type="boolean", in="formData")
+     * @SWG\Parameter(name="pricingUseMatrix", type="number", in="formData", minimum="0", maximum="1")
      * @SWG\Parameter(name="pricingLaborTax", type="number", in="formData")
      * @SWG\Parameter(name="pricingPartsTax", type="number", in="formData")
      *
      * Waiver Settings
      * @SWG\Parameter(name="waiverEstimateText", type="string", in="formData")
-     * @SWG\Parameter(name="waiverActivateAuthMessage", type="boolean", in="formData")
+     * @SWG\Parameter(name="waiverActivateAuthMessage", type="number", in="formData", minimum="0", maximum="1")
      * @SWG\Parameter(name="waiverIntroText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
      *
      * // Other Settings
