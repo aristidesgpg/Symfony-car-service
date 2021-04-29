@@ -5,6 +5,7 @@ namespace App\Service\DMS;
 use App\Entity\DMSResult;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
+use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\automate\src\AuthenticationTokenType;
 use App\Soap\automate\src\AutomateEnvelope;
@@ -54,9 +55,9 @@ class AutoMateClient extends AbstractDMSClient
 
     private $operationCodesUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations';
 
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
 
         $this->endpointID = $parameterBag->get('automate_endpoint_id');
         // Use staging credentials if in dev environment
@@ -307,7 +308,7 @@ class AutoMateClient extends AbstractDMSClient
         $processEventResultType = $deserialized->getBody()->getProcessEventResponse()->getProcessEventResult();
 
         if (in_array($processEventResultType->getStatusCode(), ['VALIDATION_FAILURE', 'UNKNOWN_FAILURE'])) {
-            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $this->getSoapClient()->__getLastResponse());
+            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $this->getSoapClient()->__getLastResponse(), false, true);
 
             return null;
         }
