@@ -50,6 +50,10 @@ class AutoMateClient extends AbstractDMSClient
      */
     private $initialized = false;
 
+    private $partsUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/parts/inventory?offset=1&limit=1000';
+
+    private $operationCodesUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations';
+
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -60,6 +64,9 @@ class AutoMateClient extends AbstractDMSClient
             $this->wsdl = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?wsdl';
             $this->username = '1334';
             $this->password = '3tdVAR6nPH^d';
+
+            $this->partsUri = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/parts/inventory?offset=1&limit=1000';
+            $this->operationCodesUri = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations';
         }
 
         //$this->init();
@@ -85,6 +92,7 @@ class AutoMateClient extends AbstractDMSClient
             ->setPayloadVersion('STAR-5.5.4');
         $this->setProcessEvent($processEvent);
         $this->setInitialized(true);
+
     }
 
     /**
@@ -329,7 +337,6 @@ class AutoMateClient extends AbstractDMSClient
      */
     public function getClosedRoDetails(array $openRepairOrders): array
     {
-
         if (!$this->isInitialized()) {
             $this->init();
         }
@@ -427,6 +434,18 @@ class AutoMateClient extends AbstractDMSClient
         if (!$this->isInitialized()) {
             $this->init();
         }
+        //init parts
+        //curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/parts/inventory?offset=1&limit=1000"
+        // -H "accept: application/json;charset=UTF-8"
+        // -H "authorization: Basic MTMzNDozdGRWQVI2blBIXmQ="
+
+        //init operation codes
+        ///  /curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations" -H "accept: application/json;charset=UTF-8" -u "1334:3tdVAR6nPH^d"
+
+        $options = [
+            'accept' => 'application/json;charset=UTF-8'
+        ];
+        $this->initializeGuzzleClient($this->getOperationCodesUri(), $options);
 
         // TODO: Implement getOperationCodes() method.
         throw new AccessDeniedException('Not Implemented for this DMS.');
@@ -438,6 +457,11 @@ class AutoMateClient extends AbstractDMSClient
             $this->init();
         }
 
+        $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
+        $this->initializeGuzzleClient($this->getPartsUri(), $options);
+
+
+        //curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations" -H "accept: application/json;charset=UTF-8" -u "1334:3tdVAR6nPH^d"
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
@@ -529,5 +553,25 @@ class AutoMateClient extends AbstractDMSClient
     public static function getDefaultIndexName(): string
     {
         return 'usingAutomate';
+    }
+
+    public function getPartsUri(): string
+    {
+        return $this->partsUri;
+    }
+
+    public function setPartsUri(string $partsUri): void
+    {
+        $this->partsUri = $partsUri;
+    }
+
+    public function getOperationCodesUri(): string
+    {
+        return $this->operationCodesUri;
+    }
+
+    public function setOperationCodesUri(string $operationCodesUri): void
+    {
+        $this->operationCodesUri = $operationCodesUri;
     }
 }
