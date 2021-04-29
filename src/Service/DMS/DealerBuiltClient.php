@@ -86,7 +86,7 @@ class DealerBuiltClient extends AbstractDMSClient
     {
         $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
         $this->initializeSoapClient($this->getWsdl());
-        $this->initialzed = true;
+        $this->setInitialized(true);
     }
 
     public function getOpenRepairOrders(): array
@@ -662,11 +662,6 @@ class DealerBuiltClient extends AbstractDMSClient
         $this->serviceLocationId = $serviceLocationId;
     }
 
-    public static function getDefaultIndexName(): string
-    {
-        return 'usingDealerBuilt';
-    }
-
     public function isInitialized(): bool
     {
         return $this->initialized;
@@ -679,4 +674,11 @@ class DealerBuiltClient extends AbstractDMSClient
     {
         $this->initialized = $initialized;
     }
+
+    public static function getDefaultIndexName(): string
+    {
+        return 'usingDealerBuilt';
+    }
+
+
 }

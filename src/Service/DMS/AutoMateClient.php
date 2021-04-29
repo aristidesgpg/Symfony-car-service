@@ -45,6 +45,11 @@ class AutoMateClient extends AbstractDMSClient
      */
     private $processEvent;
 
+    /**
+     * @var bool
+     */
+    private $initialized = false;
+
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -57,7 +62,7 @@ class AutoMateClient extends AbstractDMSClient
             $this->password = '3tdVAR6nPH^d';
         }
 
-        $this->init();
+        //$this->init();
     }
 
     /**
@@ -79,6 +84,7 @@ class AutoMateClient extends AbstractDMSClient
             ->setDealerEndpointId($this->getEndpointID())
             ->setPayloadVersion('STAR-5.5.4');
         $this->setProcessEvent($processEvent);
+        $this->setInitialized(true);
     }
 
     /**
@@ -86,6 +92,10 @@ class AutoMateClient extends AbstractDMSClient
      */
     public function getOpenRepairOrders(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrders = [];
 
         if ($this->getSoapClient()) {
@@ -257,6 +267,9 @@ class AutoMateClient extends AbstractDMSClient
 
     public function getRepairOrderKeys(ProcessEvent $processEvent): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
         $result = $this->sendSoapCall('processEvent', $this->buildEventForSoap($processEvent), true);
 
         //Deserialize the soap result into objects.
@@ -316,6 +329,11 @@ class AutoMateClient extends AbstractDMSClient
      */
     public function getClosedRoDetails(array $openRepairOrders): array
     {
+
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $closedRepairOrders = [];
 
         /**
@@ -406,17 +424,29 @@ class AutoMateClient extends AbstractDMSClient
 
     public function getOperationCodes(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         // TODO: Implement getOperationCodes() method.
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getParts(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getRepairOrderByNumber(string $RONumber)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         // TODO: Implement getSingleRepairOrder() method.
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
@@ -481,6 +511,19 @@ class AutoMateClient extends AbstractDMSClient
     public function setProcessEvent($processEvent): void
     {
         $this->processEvent = $processEvent;
+    }
+
+    public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialzed
+     */
+    public function setInitialized(bool $initialized): void
+    {
+        $this->initialized = $initialized;
     }
 
     public static function getDefaultIndexName(): string
