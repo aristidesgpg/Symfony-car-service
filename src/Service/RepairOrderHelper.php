@@ -44,18 +44,15 @@ class RepairOrderHelper
 
     public function __construct(
         EntityManagerInterface $em,
-        RepairOrderRepository $repo,
-        CustomerRepository $customers,
-        UserRepository $userRepository,
         CustomerHelper $customerHelper,
         ROLinkHashHelper $ROLinkHash,
         DMS\DMS $dms,
         RepairOrderQuoteHelper $repairOrderQuoteHelper
     ) {
         $this->em = $em;
-        $this->repo = $repo;
-        $this->customers = $customers;
-        $this->userRepository = $userRepository;
+        $this->repo = $em->getRepository(RepairOrder::class);
+        $this->customers = $em->getRepository(Customer::class);
+        $this->userRepository = $em->getRepository(UserRepository::class);
         $this->customerHelper = $customerHelper;
         $this->ROLinkHashHelper = $ROLinkHash;
         $this->dms = $dms;

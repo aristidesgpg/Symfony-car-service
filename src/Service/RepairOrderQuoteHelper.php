@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\DMSResult;
 use App\Entity\Part;
+use App\Entity\PriceMatrix;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteInteraction;
@@ -104,20 +105,16 @@ class RepairOrderQuoteHelper
 
     public function __construct(
         EntityManagerInterface $em,
-        OperationCodeRepository $operationCodeRepository,
         SettingsHelper $settingsHelper,
-        PriceMatrixRepository $priceRepository,
-        partRepository $partRepository,
         Security $security,
-        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository,
         RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
     ) {
         $this->em = $em;
-        $this->operationCodeRepository = $operationCodeRepository;
+        $this->operationCodeRepository = $em->getRepository(OperationCodeRepository::class);
         $this->security = $security;
-        $this->priceRepository = $priceRepository;
-        $this->partRepository = $partRepository;
-        $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
+        $this->priceRepository = $em->getRepository(PriceMatrix::class);
+        $this->partRepository = $em->getRepository(Part::class);
+        $this->repairOrderQuoteRecommendationRepository = $em->getRepository(RepairOrderQuote::class);
 
         $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
         $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix');
