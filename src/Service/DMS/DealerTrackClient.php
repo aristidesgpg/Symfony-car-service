@@ -8,7 +8,6 @@ use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
-use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\dealertrack\src\DealerTrackClosedSoapEnvelope;
 use App\Soap\dealertrack\src\DealerTrackPartsEnvelope;
@@ -81,9 +80,9 @@ class DealerTrackClient extends AbstractDMSClient
     /**
      * DealerTrackClient constructor.
      */
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
 
         $this->company = $parameterBag->get('dealertrack_company');
         $this->enterprise = $parameterBag->get('dealertrack_enterprise');
@@ -702,7 +701,7 @@ class DealerTrackClient extends AbstractDMSClient
     }
 
     /**
-     * @param bool $initialized
+     * @param bool $initialzed
      */
     public function setInitialized(bool $initialized): void
     {
