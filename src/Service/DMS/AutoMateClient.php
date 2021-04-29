@@ -5,7 +5,6 @@ namespace App\Service\DMS;
 use App\Entity\DMSResult;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
-use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\automate\src\AuthenticationTokenType;
 use App\Soap\automate\src\AutomateEnvelope;
@@ -55,9 +54,9 @@ class AutoMateClient extends AbstractDMSClient
 
     private $operationCodesUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations';
 
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
 
         $this->endpointID = $parameterBag->get('automate_endpoint_id');
         // Use staging credentials if in dev environment
@@ -93,6 +92,7 @@ class AutoMateClient extends AbstractDMSClient
             ->setPayloadVersion('STAR-5.5.4');
         $this->setProcessEvent($processEvent);
         $this->setInitialized(true);
+
     }
 
     /**
@@ -307,7 +307,7 @@ class AutoMateClient extends AbstractDMSClient
         $processEventResultType = $deserialized->getBody()->getProcessEventResponse()->getProcessEventResult();
 
         if (in_array($processEventResultType->getStatusCode(), ['VALIDATION_FAILURE', 'UNKNOWN_FAILURE'])) {
-            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $this->getSoapClient()->__getLastResponse(), false, true);
+            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $this->getSoapClient()->__getLastResponse());
 
             return null;
         }
@@ -443,7 +443,7 @@ class AutoMateClient extends AbstractDMSClient
         ///  /curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations" -H "accept: application/json;charset=UTF-8" -u "1334:3tdVAR6nPH^d"
 
         $options = [
-            'accept' => 'application/json;charset=UTF-8',
+            'accept' => 'application/json;charset=UTF-8'
         ];
         $this->initializeGuzzleClient($this->getOperationCodesUri(), $options);
 
@@ -459,6 +459,7 @@ class AutoMateClient extends AbstractDMSClient
 
         $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
         $this->initializeGuzzleClient($this->getPartsUri(), $options);
+
 
         //curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations" -H "accept: application/json;charset=UTF-8" -u "1334:3tdVAR6nPH^d"
         throw new AccessDeniedException('Not Implemented for this DMS.');
