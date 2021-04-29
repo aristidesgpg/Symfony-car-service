@@ -92,10 +92,6 @@ class DMS
      * @var string|null
      */
     private $activeDMS;
-    /**
-     * @var PhoneValidator
-     */
-    private $phoneValidator;
 
     /**
      * @var ROLinkHashHelper
@@ -109,8 +105,7 @@ class DMS
                                 ShortUrlHelper $shortUrlHelper,
                                 SettingsHelper $settingsHelper,
                                 ROLinkHashHelper $ROLinkHashHelper,
-                                ParameterBagInterface $parameterBag,
-                                PhoneValidator $phoneValidator)
+                                ParameterBagInterface $parameterBag)
     {
         $this->serviceLocator = $serviceLocator;
         $this->twilioHelper = $twilioHelper;
@@ -134,7 +129,6 @@ class DMS
         if (!empty($this->activeDMS) && $this->getServiceLocator()->has($this->activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($this->activeDMS);
         }
-        $this->phoneValidator = $phoneValidator;
     }
 
     public function addOpenRepairOrders(): ?array

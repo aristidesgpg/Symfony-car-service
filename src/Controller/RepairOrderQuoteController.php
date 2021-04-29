@@ -217,7 +217,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Check permission if quote status is Sent, Completed or Confirmed
         $quoteStatus = $repairOrderQuote->getStatus();
-        if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
+        if ('Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
             return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
         }
 
