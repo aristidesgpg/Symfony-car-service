@@ -92,10 +92,6 @@ class DMS
      * @var string|null
      */
     private $activeDMS;
-    /**
-     * @var PhoneValidator
-     */
-    private $phoneValidator;
 
     /**
      * @var ROLinkHashHelper
@@ -109,8 +105,7 @@ class DMS
                                 ShortUrlHelper $shortUrlHelper,
                                 SettingsHelper $settingsHelper,
                                 ROLinkHashHelper $ROLinkHashHelper,
-                                ParameterBagInterface $parameterBag,
-                                PhoneValidator $phoneValidator)
+                                ParameterBagInterface $parameterBag)
     {
         $this->serviceLocator = $serviceLocator;
         $this->twilioHelper = $twilioHelper;
@@ -134,7 +129,6 @@ class DMS
         if (!empty($this->activeDMS) && $this->getServiceLocator()->has($this->activeDMS)) {
             $this->integration = $this->getServiceLocator()->get($this->activeDMS);
         }
-        $this->phoneValidator = $phoneValidator;
     }
 
     public function addOpenRepairOrders(): ?array
@@ -236,20 +230,11 @@ class DMS
             return;
         }
 
-        // Throws an error if it's not a mobile number
-        //TODO, we are validating this upstream. Possibly redundant.
-        try {
-            $this->phoneValidator->isMobile($customer->getPhone());
-        } catch (Exception $e) {
-            return;
-        }
-
         //text customer.
         try {
-            if ('prod' == $this->parameterBag->get('app_env')) {
-                $this->sendCommunicationToCustomer($repairOrder, $customer);
-            }
+            $this->sendCommunicationToCustomer($repairOrder, $customer);
         } catch (Exception $e) {
+            // Nothing
         }
     }
 
@@ -278,7 +263,6 @@ class DMS
     public function persistRepairOrder(DMSResult $dmsResult, Customer $customer, User $advisor): RepairOrder
     {
         $defaultTechnician = $this->technicianFinder($dmsResult->getTechnician());
-
         $repairOrder = (new RepairOrder())
             ->setPrimaryCustomer($customer)
             ->setPrimaryTechnician($defaultTechnician)
@@ -359,36 +343,45 @@ class DMS
      */
     public function sendCommunicationToCustomer(RepairOrder $repairOrder, Customer $customer)
     {
+        // All the conditions! Don't want these sending out acidentally!
+        if (!$this->activateIntegrationSms ||
+            $this->activateIntegrationSms == '0' ||
+            $this->activateIntegrationSms == false ||
+            $this->parameterBag->get('app_env') != 'prod') {
+            return;
+        }
+
+        // Default regular intro message
+        $introMessage = '
+            For updates on your vehicle, please reply to this number. Your video inspection will be sent to you soon.
+        ';
+
+        // They entered their own, use this one
+        if ($this->settingsHelper->getSetting('serviceTextIntro')) {
+            $introMessage = $this->settingsHelper->getSetting('serviceTextIntro');
+        }
+
+        // They have waiver, use these instead
         if ($this->settingsHelper->getSetting('waiverEstimateText') && $this->settingsHelper->getSetting('waiverActivateAuthMessage')) {
+            // Set default waiver message
             $introMessage = sprintf(
                 'Welcome to %s. Click the link below to begin your visit. ',
                 $this->settingsHelper->getSetting('generalName')
             );
 
+            // They set their own use this one
             if ($this->settingsHelper->getSetting('waiverIntroText')) {
-                $introMessage = $this->settingsHelper->getSetting('waiverIntroText').' ';
+                $introMessage = $this->settingsHelper->getSetting('waiverIntroText') . ' ';
             }
 
-            $textLink = $this->customerURL.$repairOrder->getLinkHash().'/repair-waiver';
+            // build the link
+            $textLink = $this->customerURL . $repairOrder->getLinkHash();
             $textLink = $this->shortUrlHelper->generateShortUrl($textLink);
 
-            $introMessage = $introMessage.$textLink;
-            if ($this->activateIntegrationSms) {
-                $this->twilioHelper->sendSms($customer, $introMessage);
-            }
-        } else {
-            $introMessage = '
-                    For updates on your vehicle, please reply to this number. Your video inspection will be sent to you soon.
-                ';
-
-            if ($this->settingsHelper->getSetting('serviceTextIntro')) {
-                $introMessage = $this->settingsHelper->getSetting('serviceTextIntro');
-            }
-
-            if ($this->activateIntegrationSms) {
-                $this->twilioHelper->sendSms($customer, $introMessage);
-            }
+            $introMessage = $introMessage . $textLink;
         }
+
+        $this->twilioHelper->sendSms($customer, $introMessage);
     }
 
     /**
@@ -452,38 +445,16 @@ class DMS
         // Try to validate the phone number -> The phone number is validated when creating the initial RO.
         // TODO Should we move this validation to the phoneNormalizer function?
         try {
-            // Phone is valid, use this one
-            $phoneValid = true;
-
-            // We want to skip validating the customer phone if production
-            if ('prod' == $this->parameterBag->get('app_env')) {
-                $phoneValid = $this->phoneValidator->isMobile($dmsOpenRepairOrder->getCustomer()->getPhoneNumbers());
-            }
-
-            if ($phoneValid) {
-                return $this->customerHelper->commitCustomer(
-                        new Customer(), [
-                            'phone' => $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers(),
-                            'name' => $dmsOpenRepairOrder->getCustomer()->getName(),
-                            'email' => $dmsOpenRepairOrder->getCustomer()->getEmail(),
-                        ]
-                    );
-            }
+            return $this->customerHelper->commitCustomer(
+                new Customer(), [
+                    'phone' => $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers(),
+                    'name' => $dmsOpenRepairOrder->getCustomer()->getName(),
+                    'email' => $dmsOpenRepairOrder->getCustomer()->getEmail(),
+                ]
+            );
         } catch (Exception $e) {
             // Nothing for now
         }
-
-        // STILL no customer, just use the first number we got
-        $phoneNumber = $dmsOpenRepairOrder->getCustomer()->getPhoneNumbers();
-
-        return $this->customerHelper->commitCustomer(
-            new Customer(),
-            [
-                'phone' => $phoneNumber->getDigits(),
-                'name' => $dmsOpenRepairOrder->getCustomer()->getName(),
-                'email' => $dmsOpenRepairOrder->getCustomer()->getEmail(),
-            ]
-        );
     }
 
     public function getParts()
@@ -541,6 +512,8 @@ class DMS
 
     public function getOperationCodes()
     {
+
+
         // Not integrated, do nothing
         if (!$this->integration) {
             return null;

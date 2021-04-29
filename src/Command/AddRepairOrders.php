@@ -37,8 +37,6 @@ class AddRepairOrders extends Command
         $this->settingsHelper = $settingsHelper;
         $this->dms = $dms;
         parent::__construct();
-
-
     }
 
     protected function configure()
@@ -59,8 +57,7 @@ class AddRepairOrders extends Command
     }
 
     /**
-     * @return void
-     *
+     * @return int
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -74,12 +71,14 @@ class AddRepairOrders extends Command
             if ($now < $startTime || $now > $endTime) {
                 $output->writeln('The CDKClient servers are busy between 10pm and 3am doing nothing so they can\'t handle our requests');
 
-                return;
+                return 0;
             }
         }
         // Gets and adds parts
         $this->getDms()->addOpenRepairOrders();
         $output->writeln('Complete!');
+
+        return 1;
     }
 
     /**

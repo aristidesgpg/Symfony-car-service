@@ -73,7 +73,7 @@ class ServiceSMSHelper
         //when there are repairOrders for the customer
         if ($isShared) {
             $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread, ss2.repairOrderID, ss2.repairOrderNumber from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId." group by primary_advisor_id ,primary_customer_id) ss 
-                            LEFT JOIN (select id as repairOrderID, number as repairOrderNumber primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
+                            LEFT JOIN (select id as repairOrderID, number as repairOrderNumber, primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
                                 where date_created in (select MAX(date_created) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
                             LEFT JOIN customer c on c.id = ss2.primary_customer_id
