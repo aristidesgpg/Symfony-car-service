@@ -59,6 +59,11 @@ class CDKClient extends AbstractDMSClient
      */
     private $client;
 
+    /**
+     * @var bool
+     */
+    private $initialized = false;
+
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
@@ -81,7 +86,7 @@ class CDKClient extends AbstractDMSClient
             $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate=1/1/2020&qparamEndDate=12/31/2020';
         }
 
-        $this->init();
+        //$this->init();
     }
 
     public function init(): void
@@ -90,10 +95,15 @@ class CDKClient extends AbstractDMSClient
 
         $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
         $this->initializeGuzzleClient($this->getBaseURI(), $options);
+        $this->setInitialized(true);
     }
 
     public function getOpenRepairOrders(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrders = [];
 
         if ($this->getGuzzleClient()) {
@@ -121,6 +131,10 @@ class CDKClient extends AbstractDMSClient
 
     public function getClosedRoDetails(array $entityRepairOrders): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         // Collect all the ro numbers in an array to compare against
         $openRepairOrderNumbers = [];
         $closedRepairOrders = [];
@@ -180,6 +194,10 @@ class CDKClient extends AbstractDMSClient
      */
     public function addRepairOrderByNumber($RONumber)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         return $this->getRepairOrderByNumber($RONumber);
     }
 
@@ -192,6 +210,10 @@ class CDKClient extends AbstractDMSClient
      */
     public function getRepairOrderByNumber(string $RONumber)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrder = null;
 
         if ($this->getGuzzleClient()) {
@@ -224,6 +246,10 @@ class CDKClient extends AbstractDMSClient
      */
     private function sendRequest($url, $deserializationClass)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $rawResponse = $this->sendGuzzleRequest($url);
 
         if ($rawResponse) {
@@ -352,12 +378,21 @@ class CDKClient extends AbstractDMSClient
 
     public function getOperationCodes(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         // TODO: Implement getOperationCodes() method.
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getParts(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
+
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
@@ -450,5 +485,18 @@ class CDKClient extends AbstractDMSClient
     public function setClient($client): void
     {
         $this->client = $client;
+    }
+
+    public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialzed
+     */
+    public function setInitialized(bool $initialized): void
+    {
+        $this->initialized = $initialized;
     }
 }

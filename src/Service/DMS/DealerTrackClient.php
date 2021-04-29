@@ -73,6 +73,11 @@ class DealerTrackClient extends AbstractDMSClient
     private $partsWsdlFileName = '/dealertrack/dealertrack_partsapi_prod.wsdl';
 
     /**
+     * @var bool
+     */
+    private $initialized = false;
+
+    /**
      * DealerTrackClient constructor.
      */
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
@@ -90,7 +95,7 @@ class DealerTrackClient extends AbstractDMSClient
             $this->partsWsdlFileName = '/dealertrack/dealertrack_partsapi_dev.wsdl';
         }
 
-        $this->init();
+        //$this->init();
     }
 
     public function init(): void
@@ -98,10 +103,15 @@ class DealerTrackClient extends AbstractDMSClient
         $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealertrack/metadata', 'App\Soap\dealertrack\src');
         $this->initializeSoapClient($this->getWsdl());
         $this->setPartsWsdl($this->getParameterBag()->get('soap_directory').$this->getPartsWsdlFileName());
+        $this->setInitialized(true);
     }
 
     public function getOpenRepairOrders(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrders = [];
 
         if ($this->getSoapClient()) {
@@ -189,6 +199,10 @@ class DealerTrackClient extends AbstractDMSClient
 
     public function getRepairOrderByNumber(string $RONumber): ?DMSResult
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $dmsResult = null;
         if ($this->getSoapClient()) {
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
@@ -329,6 +343,10 @@ class DealerTrackClient extends AbstractDMSClient
     public function getClosedRoDetails(array $openRepairOrders): array
     {
         $closedRepairOrders = [];
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
 //        $monthAgo = (new \DateTime())->modify('-2 month')->format('Y-m-d\TH:i:s\Z');
 //        $monthAhead = (new \DateTime())->modify('+1 month')->format('Y-m-d\TH:i:s\Z');
 //        $sixYearsAgo = (new \DateTime())->modify('-6 year')->format('Y-m-d\TH:i:s\Z');
@@ -409,6 +427,10 @@ class DealerTrackClient extends AbstractDMSClient
 
     public function getParts(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $parts = [];
         $partStatuses = [
             'A', //Active
@@ -430,6 +452,10 @@ class DealerTrackClient extends AbstractDMSClient
 
     public function getOperationCodes(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $operationCodes = [];
 
         if ($this->getSoapClient()) {
@@ -448,10 +474,16 @@ class DealerTrackClient extends AbstractDMSClient
             if (!$soapResult) {
                 return $operationCodes;
             }
+
+            if (!isset($soapResult->Result)) {
+                return $operationCodes;
+            }
+
 //            $response = $this->getSerializer()->deserialize($soapResult, DealerTrackPartsEnvelope::class, 'xml');
 //            if (!$response) {
 //                return $operationCodes;
 //            }
+
             // TODO Convert to Objects.
             foreach ($soapResult->Result as $result) {
                 if ('MISC' == $result->OperationCode) {
@@ -514,6 +546,10 @@ class DealerTrackClient extends AbstractDMSClient
 
     public function getPartsByStatus(string $status): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $parts = [];
 
         if ($this->getSoapClient()) {
@@ -657,5 +693,18 @@ class DealerTrackClient extends AbstractDMSClient
     public function setPartsWsdlFileName(string $partsWsdlFileName): void
     {
         $this->partsWsdlFileName = $partsWsdlFileName;
+    }
+
+    public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialzed
+     */
+    public function setInitialized(bool $initialized): void
+    {
+        $this->initialized = $initialized;
     }
 }
