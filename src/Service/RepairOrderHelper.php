@@ -8,7 +8,6 @@ use App\Entity\RepairOrderQuote;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
-use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -50,7 +49,7 @@ class RepairOrderHelper
         $this->em = $em;
         $this->repo = $em->getRepository(RepairOrder::class);
         $this->customers = $em->getRepository(Customer::class);
-        $this->userRepository = $em->getRepository(UserRepository::class);
+        $this->userRepository = $em->getRepository(User::class);
         $this->customerHelper = $customerHelper;
         $this->ROLinkHashHelper = $ROLinkHash;
         $this->dms = $dms;
