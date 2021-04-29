@@ -8,8 +8,6 @@ use App\Entity\RepairOrderQuote;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
-use App\Repository\CustomerRepository;
-use App\Repository\RepairOrderRepository;
 use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;

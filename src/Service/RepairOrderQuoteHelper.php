@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\DMSResult;
+use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\PriceMatrix;
 use App\Entity\RepairOrder;
@@ -110,7 +111,7 @@ class RepairOrderQuoteHelper
         RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
     ) {
         $this->em = $em;
-        $this->operationCodeRepository = $em->getRepository(OperationCodeRepository::class);
+        $this->operationCodeRepository = $em->getRepository(OperationCode::class);
         $this->security = $security;
         $this->priceRepository = $em->getRepository(PriceMatrix::class);
         $this->partRepository = $em->getRepository(Part::class);
