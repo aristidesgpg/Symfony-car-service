@@ -11,8 +11,6 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
-use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
-use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use SoapFault;
@@ -91,12 +89,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
             $handler->registerSubscribingHandler(new XmlSchemaDateHandler()); // XMLSchema date handling
         });
         $this->serializer = $serializerBuilder->build();
-    }
-
-    public function buildEmptySerializer(){
-        $this->serializer = SerializerBuilder::create()
-            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
-            ->build();
     }
 
     public function initializeSoapClient(string $wsdl, $options = [])
@@ -228,7 +220,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
      */
     private function phoneNormalizerParser($phoneNumber)
     {
-        //TODO, Refactor this.
         try {
             $cleaned = $this->getPhoneValidator()->clean($phoneNumber);
             $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
@@ -238,10 +229,9 @@ abstract class AbstractDMSClient implements DMSClientInterface
             }
         } catch (\Exception $exception) {
             //Couldn't validate phone.
-            return $phoneNumber;
         }
 
-        return $phoneNumber;
+        return null;
     }
 
     /**
@@ -283,16 +273,12 @@ abstract class AbstractDMSClient implements DMSClientInterface
      * @param $request
      * @param $response
      * @param bool $isRest
-     * @param bool $exception
      */
-    public function logError($request, $response, bool $isRest = false, bool $exception = false)
+    public function logError($request, $response, $isRest = false, $exception = false)
     {
-
-
-        //        $this->settingsHelper->getSetting('generalName');
+//        $this->settingsHelper->getSetting('generalName');
         if ($exception) {
-            $message = sprintf('Request: %s, Response: %s', $request, $response);
-            $this->getSlackClient()->sendMessage('Mr.Robot', $message);
+            $this->getSlackClient()->sendMessage('Mr.Robot', $request.$response);
         }
 
         if ($isRest) {
