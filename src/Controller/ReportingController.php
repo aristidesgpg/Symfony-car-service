@@ -1425,6 +1425,161 @@ class ReportingController extends AbstractFOSRestController
         return $this->handleView($view);
     }
 
+    /**
+     * @Rest\Get("/api/reporting/ipay")
+     * @SWG\Tag(name="Reporting")
+     *
+     * @SWG\Parameter(
+     *      name="startDate",
+     *      type="string",
+     *      format="date-time",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *      name="endDate",
+     *      type="string",
+     *      format="date-time",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     *
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field (Repair Order Payment columns)",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     * 
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search. The available fields are customer name, advisor name, ro #, price, refund amount",
+     *     in="query"
+     * )
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Success!",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="results",
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
+     *         ),
+     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="next", type="string", description="URL for next page")
+     *     )
+     * )
+     *
+     * @SWG\Response(
+     *     response="404",
+     *     description="Invalid page parameter"
+     * )
+     */
+    public function iPay(
+        Request $request,
+        RepairOrderRepository $roRepo,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
+    ): Response {
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $urlParameters = [];
+        $sortField = '';
+        $sortDirection = '';
+        $errors = [];
+
+        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+
+        // Invalid page
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        // Invalid page limit
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
+        }
+
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
+
+            $sortDirection = $request->query->get('sortDirection');
+
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+        }
+
+        if (!empty($errors)) {
+            return new ValidationResponse($errors);
+        }
+
+        $result = $roRepo->getAllArchives(
+            $startDate,
+            $endDate,
+            $sortField,
+            $sortDirection
+        );
+
+        $sumOfStartValues = 0;
+        $sumOfFinalValues = 0;
+        foreach ($result as $ro) {
+            $sumOfStartValues += $ro->getStartValue();
+            $sumOfFinalValues += $ro->getFinalValue();
+        }
+
+        $totalUpsell = round($sumOfFinalValues - $sumOfStartValues, 2);
+
+        $pager = $paginator->paginate($result, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $json = [
+            'results' => $pager->getItems(),
+            'sumOfStartValues' => round($sumOfStartValues, 2),
+            'sumOfFinalValues' => round($sumOfFinalValues, 2),
+            'totalUpsell' => $totalUpsell,
+            'totalResults' => $pagination->totalResults,
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('app_reporting_ipay', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('app_reporting_ipay', $urlParameters),
+        ];
+
+        $view = $this->view($json);
+
+        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
+
+        return $this->handleView($view);
+    }
+
     private function sortByField($list, $field, $direction)
     {
         usort($list, function ($a, $b) use ($field, $direction) {
