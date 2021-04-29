@@ -5,7 +5,6 @@ namespace App\Service\DMS;
 use App\Entity\DMSResult;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
-use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\cdk\src\ServiceRepairOrderClosed;
 use App\Soap\cdk\src\ServiceRepairOrderOpen;
@@ -65,9 +64,9 @@ class CDKClient extends AbstractDMSClient
      */
     private $initialized = false;
 
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
 
         $this->dealerID = $parameterBag->get('cdk_dealer_id');
         $today = (new \DateTime())->format('m/d/Y');
@@ -266,7 +265,7 @@ class CDKClient extends AbstractDMSClient
         }
 
         if (0 != $response->getErrorCode()) {
-            $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $response->getErrorMessage(), true, true);
+            $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $response->getErrorMessage(), true);
         }
 
         return $response;
