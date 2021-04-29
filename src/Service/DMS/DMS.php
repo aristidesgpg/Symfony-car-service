@@ -11,7 +11,6 @@ use App\Entity\RepairOrder;
 use App\Entity\Settings;
 use App\Entity\User;
 use App\Service\CustomerHelper;
-use App\Service\PhoneValidator;
 use App\Service\ROLinkHashHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
@@ -232,7 +231,7 @@ class DMS
 
         //text customer.
         try {
-            $this->sendCommunicationToCustomer($repairOrder, $customer);
+            // $this->sendCommunicationToCustomer($repairOrder, $customer);
         } catch (Exception $e) {
             // Nothing
         }
@@ -345,9 +344,9 @@ class DMS
     {
         // All the conditions! Don't want these sending out acidentally!
         if (!$this->activateIntegrationSms ||
-            $this->activateIntegrationSms == '0' ||
-            $this->activateIntegrationSms == false ||
-            $this->parameterBag->get('app_env') != 'prod') {
+            '0' == $this->activateIntegrationSms ||
+            false == $this->activateIntegrationSms ||
+            'prod' != $this->parameterBag->get('app_env')) {
             return;
         }
 
@@ -371,14 +370,14 @@ class DMS
 
             // They set their own use this one
             if ($this->settingsHelper->getSetting('waiverIntroText')) {
-                $introMessage = $this->settingsHelper->getSetting('waiverIntroText') . ' ';
+                $introMessage = $this->settingsHelper->getSetting('waiverIntroText').' ';
             }
 
             // build the link
-            $textLink = $this->customerURL . $repairOrder->getLinkHash();
+            $textLink = $this->customerURL.$repairOrder->getLinkHash();
             $textLink = $this->shortUrlHelper->generateShortUrl($textLink);
 
-            $introMessage = $introMessage . $textLink;
+            $introMessage = $introMessage.$textLink;
         }
 
         $this->twilioHelper->sendSms($customer, $introMessage);
@@ -512,8 +511,6 @@ class DMS
 
     public function getOperationCodes()
     {
-
-
         // Not integrated, do nothing
         if (!$this->integration) {
             return null;
