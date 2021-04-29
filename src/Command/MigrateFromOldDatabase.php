@@ -20,6 +20,7 @@ use App\Entity\RepairOrderNote;
 use App\Entity\RepairOrderPayment;
 use App\Entity\RepairOrderPaymentInteraction;
 use App\Entity\RepairOrderQuote;
+use App\Entity\RepairOrderQuoteInteraction;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
@@ -81,7 +82,7 @@ class MigrateFromOldDatabase extends Command
      */
     public function __construct(ManagerRegistry $ri, EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
-        ini_set('memory_limit', '3G');
+        ini_set('memory_limit', '6G');
         $this->passwordEncoder = $passwordEncoder;
         $this->connection = $ri->getConnection("iservice2");
         $this->em = $em;
@@ -155,9 +156,11 @@ class MigrateFromOldDatabase extends Command
         $output->writeln("CheckIn done");
 
         $this->repairOrderQuoteRecommendation();
+        $output->writeln("QuoteRecommendation done");
 
         // $this->followUp();
         $this->customerRepairOrder();
+        $output->writeln("customerRepairOrder done");
 
         $this->payment();
         $output->writeln("Payment done");
@@ -561,55 +564,90 @@ class MigrateFromOldDatabase extends Command
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
         $operationCodeRepo = $this->em->getRepository(OperationCode::class);
 
-        $prev_repairOrderId = 0;
+        $prev_repairOrderId = -1;
+        $repairOrderQuote = null;
 
         foreach ($rows as $row) {
             // $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['email' => $row['email']]);
             if ($prev_repairOrderId !== $row['repair_order_id']) {
-                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrder[$row['repair_order_id']]]);
+                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
+                if ($repairOrderQuote) {
+                    $this->em->persist($repairOrderQuote);
+                }
                 $repairOrderQuote = new RepairOrderQuote();
+                if ($repairOrder) {
+                    $status = 'Not Started';
+                    if ($row['date_sent']) {
+                        $status = 'Sent';
+                    }
+                    $repairOrderQuote->setRepairOrder($repairOrder)
+                        ->setDateCreated(new \DateTime($row['date_sent']))
+                        ->setDateSent(new \DateTime($row['date_sent']));
 
-                $repairOrderQuote->setRepairOrder($repairOrder)
-                    ->setDateCreated(new \DateTime($row['date_sent']))
-                    ->setDateSent(new \DateTime($row['date_sent']));
+                    $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+                    $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
+                        ->setCustomer($repairOrder->getPrimaryCustomer())
+                        ->setDate(new \DateTime($row['date_sent']))
+                        ->setType($status);
+                    $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                    $this->em->persist($repairOrderQuoteInteraction);
 
-                $statement = $this->connection->prepare(
-                    "SELECT min(date) as date FROM client_interaction where type='quote_view' and repair_order_id = '" . $row['repair_order_id'] . "' group by repair_order_id"
-                );
+                    $statement = $this->connection->prepare(
+                        "SELECT min(date) as date FROM client_interaction where type='quote_view' and repair_order_id = '" . $row['repair_order_id'] . "' group by repair_order_id"
+                    );
 
-                $statement->execute();
-                $clientInteraction = $statement->fetchAssociative();
-                $clientInteractionDate = new \DateTime($clientInteraction['date']);
-                if ($clientInteraction) {
-                    $repairOrderQuote->setDateCustomerViewed($clientInteractionDate);
+                    $statement->execute();
+                    $clientInteraction = $statement->fetchAssociative();
+                    $clientInteractionDate = new \DateTime($clientInteraction['date']);
+                    if ($clientInteraction) {
+                        $repairOrderQuote->setDateCustomerViewed($clientInteractionDate);
+                        $status = 'Viewed';
+                        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+                        $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
+                            ->setCustomer($repairOrder->getPrimaryCustomer())
+                            ->setDate($clientInteractionDate)
+                            ->setType($status);
+                        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                        $this->em->persist($repairOrderQuoteInteraction);
+                    }
+
+                    $statement = $this->connection->prepare(
+                        "SELECT max(date) as date FROM client_interaction where type='update_quote' and repair_order_id = '" . $row['repair_order_id'] . "' group by repair_order_id"
+                    );
+
+                    $statement->execute();
+                    $clientInteraction = $statement->fetchAssociative();
+
+                    if ($clientInteraction) {
+                        $repairOrderQuote->setDateCompleted($clientInteractionDate)
+                            ->setDateCustomerViewed($clientInteractionDate);
+                        $status = 'Completed';
+                        $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
+                        $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
+                            ->setCustomer($repairOrder->getPrimaryCustomer())
+                            ->setDate($clientInteractionDate)
+                            ->setType($status);
+                        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                        $this->em->persist($repairOrderQuoteInteraction);
+                    }
+                    $repairOrderQuote->setStatus($status);
                 }
-
-                $statement = $this->connection->prepare(
-                    "SELECT max(date) as date FROM client_interaction where type='update_quote' and repair_order_id = '" . $row['repair_order_id'] . "' group by repair_order_id"
-                );
-
-                $statement->execute();
-                $clientInteraction = $statement->fetchAssociative();
-
-                if ($clientInteraction) {
-                    $repairOrderQuote->setDateCompleted($clientInteractionDate)
-                        ->setDateCustomerViewed($clientInteractionDate);
-                }
-
-                $this->em->persist($repairOrderQuote);
             }
-            $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
-            $operactionCode = $operationCodeRepo->findOneBy(['id' => $this->oldOperationCodeIds[$row['operation_code_id']]]);
-            $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
-                ->setOperationCode($operactionCode->getCode())
-                ->setPreApproved($row['default_value'])
-                ->setApproved($row['approved'])
-                ->setPartsPrice($row['parts'])
-                ->setSuppliesPrice($row['shop_supplies'])
-                ->setDescription($operactionCode->getDescription())
-                ->setLaborPrice($row['labor']);
+            if ($repairOrderQuote) {
+                $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
+                $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
+                $operactionCode = $operationCodeRepo->findOneBy(['id' => $this->oldOperationCodeIds[$row['operation_code_id']]]);
+                $repairOrderQuoteRecommendation->setRepairOrderQuote($repairOrderQuote)
+                    ->setOperationCode($operactionCode->getCode())
+                    ->setPreApproved($row['default_value'])
+                    ->setApproved($row['approved'])
+                    ->setPartsPrice($row['parts'])
+                    ->setSuppliesPrice($row['shop_supplies'])
+                    ->setDescription($operactionCode->getDescription())
+                    ->setLaborPrice($row['labor']);
 
-            $this->em->persist($repairOrderQuoteRecommendation);
+                // $this->em->persist($repairOrderQuoteRecommendation);
+            }
         }
         $this->em->flush();
     }
@@ -1108,9 +1146,10 @@ class MigrateFromOldDatabase extends Command
                         ->setModel($row['model'])
                         ->setVin($row['vin'])
                         ->setDeleted($row['inactive'])
-                        ->setMiles($row['miles'])
+                        ->setMiles(intval($row['miles']))
                         ->setWaiverSignature($row['waiver'])
                         ->setWaiverVerbiage($row['waiverVerbiage'])
+                        ->setDmsKey($row['ro_key'])
                         ->setUpgradeQue($row['upgradeQueue']);
 
                     $this->em->persist($repairOrder);
