@@ -57,6 +57,11 @@ class DealerBuiltClient extends AbstractDMSClient
      */
     private $serviceLocationId;
 
+    /**
+     * @var bool
+     */
+    private $initialized = false;
+
     /*
      * TODO When comparing the results of this class against the original, the original returns 10 more.
      * Didn't see anything obvious as to why. Possibly one is a little more restricted >= vs >?
@@ -74,17 +79,22 @@ class DealerBuiltClient extends AbstractDMSClient
             $this->timeFrame = 'PT8760H';
         }
 
-        $this->init();
+//        $this->init();
     }
 
     public function init(): void
     {
         $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
         $this->initializeSoapClient($this->getWsdl());
+        $this->initialzed = true;
     }
 
     public function getOpenRepairOrders(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrders = [];
         if ($this->getSoapClient()) {
             //create authentication token
@@ -163,6 +173,10 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getRepairOrderByNumber(string $RONumber)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $dmsResult = null;
         if ($this->getSoapClient()) {
             //create authentication token
@@ -272,6 +286,11 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getClosedRoDetails(array $openRepairOrders): array
     {
+
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $rosWithKeys = [];
         $rosWithoutKeys = [];
 
@@ -459,6 +478,10 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getOperationCodes(): array
     {
+
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
         $operationCodes = [];
         if ($this->getSoapClient()) {
             //create authentication token
@@ -516,6 +539,10 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getParts(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $parts = [];
         if ($this->getSoapClient()) {
             //create authentication token
@@ -638,5 +665,18 @@ class DealerBuiltClient extends AbstractDMSClient
     public static function getDefaultIndexName(): string
     {
         return 'usingDealerBuilt';
+    }
+
+    public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialzed
+     */
+    public function setInitialized(bool $initialized): void
+    {
+        $this->initialized = $initialized;
     }
 }
