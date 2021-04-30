@@ -7,6 +7,7 @@ use App\Entity\DMSResultRecommendation;
 use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
+use App\Entity\User;
 use App\Service\PhoneValidator;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\dealerbuilt\src\BaseApi\InventoryPartType;
@@ -417,23 +418,21 @@ class DealerBuiltClient extends AbstractDMSClient
                 $closedDate = $repairOrder->getAttributes()->getClosedStamp();
             }
 
-            //TODO: The below code fails silently. Need to bug hunt why.
-//            // Try to set the technician that recorded it when closing
-//            if ($repairOrder->getAttributes()->getJobs()) {
-//                $job = $repairOrder->getAttributes()->getJobs()[0];
-//                if ($job->getTechs()) {
-//                    $id = $job->getTechs()[0]->getTech()->getNumber();
-//                    $technicianRecord = $this->getEntityManager()->getRepository('App:User')
-//                        ->findOneBy(['dmsId ' => $id]);
-//                    if (!$technicianRecord) {
-//                        $firstName = $job->getTechs()[0]->getTech()->getPersonalName()->getFirstName();
-//                        $lastName = $job->getTechs()[0]->getTech()->getPersonalName()->getLastName();
-//                        $technicianRecord = $this->getEntityManager()->getRepository('App:User')
-//                            ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
-//                    }
-//                }
-//            }
-
+            // Try to set the technician that recorded it when closing
+            if ($repairOrder->getAttributes()->getJobs()) {
+                $job = $repairOrder->getAttributes()->getJobs()[0];
+                if ($job->getTechs()) {
+                    $id = $job->getTechs()[0]->getTech()->getNumber();
+                    $technicianRecord = $this->getEntityManager()->getRepository(User::class)
+                        ->findOneBy(['dmsId' => $id]);
+                    if (!$technicianRecord) {
+                        $firstName = $job->getTechs()[0]->getTech()->getPersonalName()->getFirstName();
+                        $lastName = $job->getTechs()[0]->getTech()->getPersonalName()->getLastName();
+                        $technicianRecord = $this->getEntityManager()->getRepository(User::class)
+                            ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
+                    }
+                }
+            }
             // Loop over all passed ROs to get the RO in question
             if (array_key_exists($repairOrder->getAttributes()->getRepairOrderNumber(), $repairOrders)) {
                 $referenceRepairOrder = $repairOrders[$repairOrder->getAttributes()->getRepairOrderNumber()];
