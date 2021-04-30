@@ -560,7 +560,7 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        // $repairOrderQuoteRepo = $this->em->getRepository(RepairOrderQuote::class);
+        $repairOrderQuoteRepo = $this->em->getRepository(RepairOrderQuote::class);
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
         $operationCodeRepo = $this->em->getRepository(OperationCode::class);
 
@@ -568,14 +568,16 @@ class MigrateFromOldDatabase extends Command
         $repairOrderQuote = null;
 
         foreach ($rows as $row) {
-            // $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['email' => $row['email']]);
             if ($prev_repairOrderId !== $row['repair_order_id']) {
                 $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
-                if ($repairOrderQuote) {
-                    $this->em->persist($repairOrderQuote);
-                }
-                $repairOrderQuote = new RepairOrderQuote();
-                if ($repairOrder) {
+                $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['repairOrder' => $repairOrder]);
+
+                if (!$oldRepairOrderQuote && $repairOrder) {
+                    if ($repairOrderQuote) {
+                        $this->em->persist($repairOrderQuote);
+                        $this->em->flush();
+                    }
+                    $repairOrderQuote = new RepairOrderQuote();
                     $status = 'Not Started';
                     if ($row['date_sent']) {
                         $status = 'Sent';
@@ -587,9 +589,10 @@ class MigrateFromOldDatabase extends Command
                     $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
                     $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
                         ->setCustomer($repairOrder->getPrimaryCustomer())
+                        ->setRepairOrderQuote($repairOrderQuote)
                         ->setDate(new \DateTime($row['date_sent']))
                         ->setType($status);
-                    $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                    // $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
                     $this->em->persist($repairOrderQuoteInteraction);
 
                     $statement = $this->connection->prepare(
@@ -605,9 +608,10 @@ class MigrateFromOldDatabase extends Command
                         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
                         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
                             ->setCustomer($repairOrder->getPrimaryCustomer())
+                            ->setRepairOrderQuote($repairOrderQuote)
                             ->setDate($clientInteractionDate)
                             ->setType($status);
-                        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                        // $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
                         $this->em->persist($repairOrderQuoteInteraction);
                     }
 
@@ -616,7 +620,7 @@ class MigrateFromOldDatabase extends Command
                     );
 
                     $statement->execute();
-                    $clientInteraction = $statement->fetchAssociative();
+                    // $clientInteraction = $statement->fetchAssociative();
 
                     if ($clientInteraction) {
                         $repairOrderQuote->setDateCompleted($clientInteractionDate)
@@ -625,15 +629,18 @@ class MigrateFromOldDatabase extends Command
                         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
                         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
                             ->setCustomer($repairOrder->getPrimaryCustomer())
+                            ->setRepairOrderQuote($repairOrderQuote)
                             ->setDate($clientInteractionDate)
                             ->setType($status);
                         $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
-                        $this->em->persist($repairOrderQuoteInteraction);
+                        // $this->em->persist($repairOrderQuoteInteraction);
                     }
                     $repairOrderQuote->setStatus($status);
                 }
+
+                $prev_repairOrderId = $row['repair_order_id'];
             }
-            if ($repairOrderQuote) {
+            if ($repairOrderQuote && !$oldRepairOrderQuote && $repairOrder) {
                 $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
                 $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
                 $operactionCode = $operationCodeRepo->findOneBy(['id' => $this->oldOperationCodeIds[$row['operation_code_id']]]);
@@ -649,7 +656,6 @@ class MigrateFromOldDatabase extends Command
                 // $this->em->persist($repairOrderQuoteRecommendation);
             }
         }
-        $this->em->flush();
     }
 
     private function createFollowUpInteraction(RepairOrder $repairOrder, FollowUp $followUp, string $type, $date)
