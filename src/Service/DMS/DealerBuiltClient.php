@@ -156,7 +156,6 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 //advisor
                 $advisor = $repairOrder->getAttributes()->getServiceAdvisor()->getPersonalName();
-                $dmsResult->getAdvisor()->setId($repairOrder->getAttributes()->getServiceAdvisor()->getNumber());
                 $dmsResult->getAdvisor()->setFirstName($advisor->getFirstName());
                 $dmsResult->getAdvisor()->setLastName($advisor->getLastName());
 
@@ -240,7 +239,6 @@ class DealerBuiltClient extends AbstractDMSClient
 
         //advisor
         $advisor = $repairOrder->getAttributes()->getServiceAdvisor()->getPersonalName();
-        $dmsResult->getAdvisor()->setId($repairOrder->getAttributes()->getServiceAdvisor()->getNumber());
         $dmsResult->getAdvisor()->setFirstName($advisor->getFirstName());
         $dmsResult->getAdvisor()->setLastName($advisor->getLastName());
 
