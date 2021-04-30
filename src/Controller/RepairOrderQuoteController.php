@@ -612,8 +612,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Quote Not Found');
         }
 
-        if (in_array($repairOrderQuote->getStatus(), ['Completed', 'Confirmed'])){
-            throw new BadRequestHttpException('You can not complete an already already finished quote');
+        if (!$this->isGranted('ROLE_SERVICE_MANAGER')){
+            if (in_array($repairOrderQuote->getStatus(), ['Completed', 'Confirmed'])){
+                throw new BadRequestHttpException('You can not complete an already already finished quote');
+            }
         }
 
         $repairOrder = $repairOrderQuote->getRepairOrder();
