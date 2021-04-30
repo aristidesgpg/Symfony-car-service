@@ -41,7 +41,7 @@ class DealerBuiltClient extends AbstractDMSClient
     /**
      * @var string
      */
-    private $timeFrame = 'PT5M';
+    private $timeFrame = 'PT1H';
 
     /**
      * @var string
