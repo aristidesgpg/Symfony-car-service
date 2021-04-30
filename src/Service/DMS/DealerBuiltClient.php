@@ -278,7 +278,7 @@ class DealerBuiltClient extends AbstractDMSClient
                     ->setPartsTax(0)
                     ->setSuppliesPrice($job->getMiscFees()->getAmount())
                     ->setSuppliesTax(0)
-                    ->setNotes(substr($job->getComplaint(), 0, 255)); //TODO: Should we truncate or increase the size of the db field > 255; Increase field size to text.
+                    ->setNotes($job->getComplaint());
             }
         }
 
@@ -289,7 +289,6 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getClosedRoDetails(array $openRepairOrders): array
     {
-
         if (!$this->isInitialized()) {
             $this->init();
         }
@@ -479,7 +478,6 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getOperationCodes(): array
     {
-
         if (!$this->isInitialized()) {
             $this->init();
         }
@@ -523,7 +521,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 $operationCode = (new OperationCode())
                     ->setCode($job->getQuickCode())
-                    ->setDescription(substr($job->getComplaint(), 0, 255))
+                    ->setDescription(substr($job->getComplaint(), 0, 255))//TODO Should this be a longer field.
                     ->setLaborHours($laborHours)
                     ->setLaborTaxable(true)
                     ->setPartsPrice($partsPrice)
@@ -576,7 +574,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 $part->setNumber($dmsPart->getAttributes()->getPartNumber())
                 //setNumber($dmsPart->getPartKey())
                     ->setPrice($dmsPart->getAttributes()->getListPrice()->getAmount())
-                    ->setName(substr($dmsPart->getAttributes()->getDescription(), 0, 30))
+                    ->setName(substr($dmsPart->getAttributes()->getDescription(), 0, 255))//TODO Should this be a longer field?
                     ->setBin($this->binProcessor($dmsPart->getAttributes()->getBins()))
                     ->setAvailable($dmsPart->getAttributes()->getOnHandQuantity());
 
