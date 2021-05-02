@@ -8,6 +8,7 @@ use App\Service\PhoneValidator;
 use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\automate\json\OperationCode;
+use App\Soap\automate\json\Part;
 use App\Soap\automate\src\AuthenticationTokenType;
 use App\Soap\automate\src\AutomateEnvelope;
 use App\Soap\automate\src\AutomateFakeBodyType;
@@ -54,7 +55,7 @@ class AutoMateClient extends AbstractDMSClient
 
     private $baseUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/';
 
-    private $partsUri = 'parts/inventory?offset=1&limit=1000';
+    private $partsUri = 'parts/inventory'; //?offset=1&limit=1000
 
     private $operationCodesUri = 'service_operations';
 
@@ -70,7 +71,7 @@ class AutoMateClient extends AbstractDMSClient
             $this->password = '3tdVAR6nPH^d';
 
             $this->baseUri = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/';
-            $this->partsUri = 'parts/inventory?offset=1&limit=1000';
+            $this->partsUri = 'parts/inventory';
             $this->operationCodesUri = 'service_operations';
         }
 
@@ -472,18 +473,53 @@ class AutoMateClient extends AbstractDMSClient
 
     public function getParts(): array
     {
-        if (!$this->isInitialized()) {
-            $this->init();
+        $offset = 0;
+        $limit = 5000;
+        $continue = true;
+        $parts = [];
+        while ($continue) {
+            $result = $this->getPartsByOffsetAndLimit($offset, $limit);
+            dump(sizeof($result));
+            if (0 == sizeof($result)) {
+                break;
+            }
+            $parts = array_merge($parts, $result);
+            $offset = $offset + $limit;
         }
-        //init parts
-        //curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/parts/inventory?offset=1&limit=1000"
-        // -H "accept: application/json;charset=UTF-8"
-        // -H "authorization: Basic MTMzNDozdGRWQVI2blBIXmQ="
-        $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
-        $this->initializeGuzzleClient($this->getPartsUri(), $options);
+        $entityParts = [];
+        foreach ($parts as $part) {
+            $bin = '';
+            if (is_array($part->getBinLocations())) {
+                $bin = $part->getBinLocations()[0]; //TODO: What to do if multiple bins?
+            }
+            $entityParts[] = (new \App\Entity\Part())
+                ->setNumber($part->getPartNumber())
+                ->setName($part->getDescription() ?? '')
+                ->setBin($bin)
+                ->setAvailable($part->getQuantityOnHand())
+                ->setPrice($part->getListPrice());
+        }
 
-        //curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations" -H "accept: application/json;charset=UTF-8" -u "1334:3tdVAR6nPH^d"
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        return $entityParts;
+    }
+
+    public function getPartsByOffsetAndLimit(int $offset, int $limit): array
+    {
+        $options = [
+            'accept' => 'application/json;charset=UTF-8',
+            'auth' => [$this->getUsername(), $this->getPassword()],
+        ];
+        $this->initializeGuzzleClient($this->getBaseUri(), $options, 'GET');
+
+        ////?offset=1&limit=1000
+        $uri = sprintf('%s?offset=%d&limit=%s', $this->getPartsUri(), $offset, $limit);
+        $response = $this->sendGuzzleRequest($uri);
+
+        $this->buildEmptySerializer();
+        $type = sprintf('array<%s>', Part::class);
+        $deserializedParts = $this->getSerializer()->deserialize($response, $type, 'json');
+
+        return $deserializedParts;
     }
 
     public function getRepairOrderByNumber(string $RONumber)
