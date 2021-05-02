@@ -7,6 +7,7 @@ use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
+use App\Soap\automate\json\OperationCode;
 use App\Soap\automate\src\AuthenticationTokenType;
 use App\Soap\automate\src\AutomateEnvelope;
 use App\Soap\automate\src\AutomateFakeBodyType;
@@ -51,9 +52,11 @@ class AutoMateClient extends AbstractDMSClient
      */
     private $initialized = false;
 
-    private $partsUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/parts/inventory?offset=1&limit=1000';
+    private $baseUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/';
 
-    private $operationCodesUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations';
+    private $partsUri = 'parts/inventory?offset=1&limit=1000';
+
+    private $operationCodesUri = 'service_operations';
 
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
     {
@@ -66,8 +69,9 @@ class AutoMateClient extends AbstractDMSClient
             $this->username = '1334';
             $this->password = '3tdVAR6nPH^d';
 
-            $this->partsUri = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/parts/inventory?offset=1&limit=1000';
-            $this->operationCodesUri = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations';
+            $this->baseUri = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/';
+            $this->partsUri = 'parts/inventory?offset=1&limit=1000';
+            $this->operationCodesUri = 'service_operations';
         }
 
         //$this->init();
@@ -431,24 +435,39 @@ class AutoMateClient extends AbstractDMSClient
 
     public function getOperationCodes(): array
     {
-        if (!$this->isInitialized()) {
-            $this->init();
-        }
-        //init parts
-        //curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/parts/inventory?offset=1&limit=1000"
-        // -H "accept: application/json;charset=UTF-8"
-        // -H "authorization: Basic MTMzNDozdGRWQVI2blBIXmQ="
-
-        //init operation codes
-        ///  /curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations" -H "accept: application/json;charset=UTF-8" -u "1334:3tdVAR6nPH^d"
-
+        $operationCodes = [];
         $options = [
             'accept' => 'application/json;charset=UTF-8',
+            'auth' => [$this->getUsername(), $this->getPassword()],
         ];
-        $this->initializeGuzzleClient($this->getOperationCodesUri(), $options);
+        $this->initializeGuzzleClient($this->getBaseUri(), $options, 'GET');
+        $response = $this->sendGuzzleRequest($this->getOperationCodesUri());
+        if (!$response) {
+            return $operationCodes;
+        }
 
-        // TODO: Implement getOperationCodes() method.
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        $this->buildEmptySerializer();
+        $type = sprintf('array<%s>', OperationCode::class);
+        $deserializedOpCodes = $this->getSerializer()->deserialize($response, $type, 'json');
+
+        /**
+         * @var OperationCode $opCode
+         */
+        foreach ($deserializedOpCodes as $opCode) {
+            $operationCode = (new \App\Entity\OperationCode())
+                ->setCode($opCode->getOpCode())
+                ->setDescription($opCode->getComplaint())
+                ->setLaborHours($opCode->getEstimatedLaborHours())
+                ->setLaborTaxable(false) //TODO: Check with Laramie.
+                ->setPartsPrice($opCode->getPartsPrice() ?? 0)
+                ->setPartsTaxable(false) //TODO: Check with Laramie.
+                ->setSuppliesPrice(0)
+                ->setSuppliesTaxable(false);
+
+            $operationCodes[] = $operationCode;
+        }
+
+        return $operationCodes;
     }
 
     public function getParts(): array
@@ -456,7 +475,10 @@ class AutoMateClient extends AbstractDMSClient
         if (!$this->isInitialized()) {
             $this->init();
         }
-
+        //init parts
+        //curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/parts/inventory?offset=1&limit=1000"
+        // -H "accept: application/json;charset=UTF-8"
+        // -H "authorization: Basic MTMzNDozdGRWQVI2blBIXmQ="
         $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
         $this->initializeGuzzleClient($this->getPartsUri(), $options);
 
@@ -572,5 +594,15 @@ class AutoMateClient extends AbstractDMSClient
     public function setOperationCodesUri(string $operationCodesUri): void
     {
         $this->operationCodesUri = $operationCodesUri;
+    }
+
+    public function getBaseUri(): string
+    {
+        return $this->baseUri;
+    }
+
+    public function setBaseUri(string $baseUri): void
+    {
+        $this->baseUri = $baseUri;
     }
 }
