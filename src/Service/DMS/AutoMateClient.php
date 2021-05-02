@@ -93,7 +93,6 @@ class AutoMateClient extends AbstractDMSClient
             ->setPayloadVersion('STAR-5.5.4');
         $this->setProcessEvent($processEvent);
         $this->setInitialized(true);
-
     }
 
     /**
@@ -444,7 +443,7 @@ class AutoMateClient extends AbstractDMSClient
         ///  /curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations" -H "accept: application/json;charset=UTF-8" -u "1334:3tdVAR6nPH^d"
 
         $options = [
-            'accept' => 'application/json;charset=UTF-8'
+            'accept' => 'application/json;charset=UTF-8',
         ];
         $this->initializeGuzzleClient($this->getOperationCodesUri(), $options);
 
@@ -460,7 +459,6 @@ class AutoMateClient extends AbstractDMSClient
 
         $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
         $this->initializeGuzzleClient($this->getPartsUri(), $options);
-
 
         //curl -X GET "https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/service_operations" -H "accept: application/json;charset=UTF-8" -u "1334:3tdVAR6nPH^d"
         throw new AccessDeniedException('Not Implemented for this DMS.');
