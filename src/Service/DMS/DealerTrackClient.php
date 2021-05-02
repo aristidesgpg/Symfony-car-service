@@ -81,7 +81,7 @@ class DealerTrackClient extends AbstractDMSClient
     /**
      * DealerTrackClient constructor.
      */
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper,  SlackClient $slackClient)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
 
@@ -702,7 +702,7 @@ class DealerTrackClient extends AbstractDMSClient
     }
 
     /**
-     * @param bool $initialzed
+     * @param bool $initialized
      */
     public function setInitialized(bool $initialized): void
     {
