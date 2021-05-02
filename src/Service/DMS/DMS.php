@@ -545,6 +545,9 @@ class DMS
         $batchSize = 200;
         for ($i = 0; $i < sizeof($operationCodes); ++$i) {
             $operationCode = $operationCodes[$i];
+            if ('MISC' == $operationCode->getCode()) {
+                continue;
+            }
             $this->getEm()->persist($operationCode);
             if (($i % $batchSize) === 0) {
                 $this->getEm()->flush();
