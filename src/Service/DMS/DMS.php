@@ -221,6 +221,11 @@ class DMS
         $customer = $this->customerFinder($dmsRepairOrder);
         //returns default advisor if one is not found.
         $advisor = $this->advisorFinder($dmsRepairOrder);
+        //BH 20210502 Changed to return null if no advisor is found.
+        //BH 20210502 Changed to not insert into iService if no advisor is found.
+        if (!$advisor) {
+            return null;
+        }
 
         $repairOrder = $this->persistRepairOrder($dmsRepairOrder, $customer, $advisor);
 
@@ -231,7 +236,7 @@ class DMS
 
         //text customer.
         try {
-            // $this->sendCommunicationToCustomer($repairOrder, $customer);
+            $this->sendCommunicationToCustomer($repairOrder, $customer);
         } catch (Exception $e) {
             // Nothing
         }
@@ -408,7 +413,9 @@ class DMS
         }
 
         //If no advisor, set to defaultAdvisor.
-        return $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_SERVICE_ADVISOR'], ['id' => 'ASC']);
+        //BH 20210502 Changed to return null if no advisor is found.
+        //return $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_SERVICE_ADVISOR'], ['id' => 'ASC']);
+        return null;
     }
 
     /**
