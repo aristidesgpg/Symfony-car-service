@@ -196,7 +196,9 @@ class MigrateFromOldDatabase extends Command
             ]);
             if (!$sms) {
                 $sms = new ServiceSMS();
-                if (str_contains($row['roles'], 'ROLE_ADMIN')) {
+                if (!$row['roles']) {
+                    $userIds = null;
+                } else if (str_contains($row['roles'], 'ROLE_ADMIN')) {
                     $userIds = $this->oldAdminIds;
                 } else if (str_contains($row['roles'], 'ROLE_MANAGER')) {
                     $userIds = $this->oldManagerIds;
@@ -254,64 +256,66 @@ class MigrateFromOldDatabase extends Command
                 $repairOrderPayment = $repairOrderPaymentRepo->findOneBy([
                     'transactionId' => $row['transaction_id'],
                 ]);
-                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
-                if (!$repairOrderPayment && $repairOrder) {
 
-                    $repairOrderPayment = new RepairOrderPayment();
+                if (!$repairOrderPayment) {
+                    $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
+                    if ($repairOrder) {
+                        $repairOrderPayment = new RepairOrderPayment();
 
-                    $createdDate = new \DateTime($row['created_at']);
-                    $status = 'Created';
-                    $money = MoneyHelper::parseAmount($row['amount']);
-                    $refundedMoney = $row['refunded_amount'] ? MoneyHelper::parseAmount($row['refunded_amount']) : null;
-
-                    $repairOrderPayment->setRepairOrder($repairOrder)
-                        ->setAmount($money)
-                        ->setTransactionId($row['transaction_id'])
-                        ->setRefundedAmount($refundedMoney)
-                        ->setDateCreated($createdDate)
-                        ->setCardType($row['card_type'])
-                        ->setCardNumber($row['card_number']);
-
-                    if ($row['sent_at']) {
+                        $createdDate = new \DateTime($row['created_at']);
                         $status = 'Created';
-                        $date = new \DateTime($row['sent_at']);
-                        $repairOrderPayment->setDateSent($date);
-                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, "Sent", $date);
-                    }
-                    if ($row['viewed_at']) {
-                        $status = 'Viewed';
-                        $date = new \DateTime($row['viewed_at']);
-                        $repairOrderPayment->setDateViewed($date);
-                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                    }
-                    if ($row['paid_at']) {
-                        $status = 'Paid';
-                        $date = new \DateTime($row['paid_at']);
-                        $repairOrderPayment->setDatePaid($date);
-                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                    }
-                    if ($row['updated_at']) {
-                        $status = 'Paid Viewed';
-                        $date = new \DateTime($row['updated_at']);
-                        $repairOrderPayment->setDateConfirmed($date);
-                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                    }
-                    if ($row['refunded_at']) {
-                        $status = 'Refunded';
-                        $date = new \DateTime($row['refunded_at']);
-                        $repairOrderPayment->setDateRefunded($date);
-                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                    }
-                    if ($row['paid_viewed_by_advisor_at']) {
-                        $status = 'Receipt Sent';
-                        $date = new \DateTime($row['paid_viewed_by_advisor_at']);
-                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                    }
+                        $money = MoneyHelper::parseAmount($row['amount']);
+                        $refundedMoney = $row['refunded_amount'] ? MoneyHelper::parseAmount($row['refunded_amount']) : null;
 
-                    $repairOrderPayment->setStatus($status);
-                    $repairOrder->setPaymentStatus($status);
-                    $this->em->persist($repairOrderPayment);
-                    $this->em->persist($repairOrder);
+                        $repairOrderPayment->setRepairOrder($repairOrder)
+                            ->setAmount($money)
+                            ->setTransactionId($row['transaction_id'])
+                            ->setRefundedAmount($refundedMoney)
+                            ->setDateCreated($createdDate)
+                            ->setCardType($row['card_type'])
+                            ->setCardNumber($row['card_number']);
+
+                        if ($row['sent_at']) {
+                            $status = 'Created';
+                            $date = new \DateTime($row['sent_at']);
+                            $repairOrderPayment->setDateSent($date);
+                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, "Sent", $date);
+                        }
+                        if ($row['viewed_at']) {
+                            $status = 'Viewed';
+                            $date = new \DateTime($row['viewed_at']);
+                            $repairOrderPayment->setDateViewed($date);
+                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                        }
+                        if ($row['paid_at']) {
+                            $status = 'Paid';
+                            $date = new \DateTime($row['paid_at']);
+                            $repairOrderPayment->setDatePaid($date);
+                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                        }
+                        if ($row['updated_at']) {
+                            $status = 'Paid Viewed';
+                            $date = new \DateTime($row['updated_at']);
+                            $repairOrderPayment->setDateConfirmed($date);
+                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                        }
+                        if ($row['refunded_at']) {
+                            $status = 'Refunded';
+                            $date = new \DateTime($row['refunded_at']);
+                            $repairOrderPayment->setDateRefunded($date);
+                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                        }
+                        if ($row['paid_viewed_by_advisor_at']) {
+                            $status = 'Receipt Sent';
+                            $date = new \DateTime($row['paid_viewed_by_advisor_at']);
+                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                        }
+
+                        $repairOrderPayment->setStatus($status);
+                        $repairOrder->setPaymentStatus($status);
+                        $this->em->persist($repairOrderPayment);
+                        $this->em->persist($repairOrder);
+                    }
                 }
             }
         }
