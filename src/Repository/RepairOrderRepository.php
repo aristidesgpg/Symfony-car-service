@@ -91,64 +91,6 @@ class RepairOrderRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param null $sortField
-     * @param null $sortDirection
-     * @param null $searchTerm
-     */
-    public function findByNeedsVideo(User $user, $sortField = null, $sortDirection = null, $searchTerm = null)
-    {
-        $queryBuilder = $this->createQueryBuilder('ro');
-
-        // If tech, only get theirs or others where tech is null
-        if ($user->isTechnician()) {
-            $queryBuilder->andWhere('ro.primaryTechnician IS NULL OR ro.primaryTechnician = :primaryTechnician')
-                         ->setParameter('primaryTechnician', $user);
-        }
-
-        // Only non-archived, non-deleted, non-closed repair orders matter
-        $queryBuilder->andWhere('ro.deleted = 0')
-                     ->andWhere('ro.dateClosed IS NULL')
-                     ->andWhere('ro.archived = 0');
-
-        // They passed a search term
-        if ($searchTerm) {
-            $query = '';
-            $queryBuilder->leftJoin('ro.primaryCustomer', 'ro_customer')
-                         ->leftJoin('ro.primaryTechnician', 'ro_technician')
-                         ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
-
-            $searchFields = [
-                'ro' => ['number', 'year', 'model', 'miles', 'vin'],
-                'ro_customer' => ['name', 'phone', 'email'],
-                'ro_advisor' => ['combine_name', 'phone', 'email'],
-                'ro_technician' => ['combine_name', 'phone', 'email'],
-            ];
-
-            foreach ($searchFields as $class => $fields) {
-                foreach ($fields as $field) {
-                    if ('combine_name' === $field) {
-                        $query .= "CONCAT($class.firstName , ' ' , $class.lastName) LIKE :searchTerm OR ";
-                    } else {
-                        $query .= "$class.$field LIKE :searchTerm OR ";
-                    }
-                }
-            }
-
-            $query = substr($query, 0, strlen($query) - 4);
-
-            $queryBuilder->andWhere($query)
-                         ->setParameter('searchTerm', '%'.$searchTerm.'%');
-        }
-
-        // They passed sort data
-        if ($sortDirection) {
-            $queryBuilder->orderBy('ro.'.$sortField, $sortDirection);
-        }
-
-        return $queryBuilder->getQuery()->getResult();
-    }
-
-    /**
      * @param null $start
      * @param null $end
      *
