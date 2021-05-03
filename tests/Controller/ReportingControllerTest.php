@@ -2,6 +2,8 @@
 
 namespace App\Tests;
 
+use App\Entity\Customer;
+use App\Entity\RepairOrderPayment;
 use App\Entity\User;
 use App\Service\Authentication;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -12,6 +14,11 @@ class ReportingControllerTest extends WebTestCase
     private $client = null;
 
     private $token;
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $entityManager;
 
     /**
      * {@inheritDoc}
@@ -31,6 +38,9 @@ class ReportingControllerTest extends WebTestCase
             $authentication = self::$container->get(Authentication::class);
             $ttl = 31536000;
             $this->token = $authentication->getJWT($user->getEmail(), $ttl);
+
+            $this->entityManager = self::$container->get('doctrine')
+                                                   ->getManager();
         }
     }
 
@@ -184,7 +194,7 @@ class ReportingControllerTest extends WebTestCase
         $this->requestActionNormalized('trend', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
-        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
+        $this->assertGreaterThanOrEqual(0, $listData->totalRepairOrders);
     }
 
     public function testMpi()
@@ -221,6 +231,37 @@ class ReportingControllerTest extends WebTestCase
 
         // Give date range
         $params = ['startDate' => '2019-02-20 06:04:41', 'endDate' => '2021-08-07 06:04:41'];
+        $this->requestActionNormalized('ipay', $params);
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
+
+        // Get customer name from db and test, e.g. "Dimitri Simonis" for searchTerm
+        $rop = $this->entityManager->getRepository(RepairOrderPayment::class)
+                                  ->createQueryBuilder('rop')
+                                  ->where('rop.amount IS NOT NULL')
+                                  ->andWhere('rop.refundedAmount IS NOT NULL')
+                                  ->andWhere('rop.deleted = 0')
+                                  ->setMaxResults(1)
+                                  ->getQuery()
+                                  ->getOneOrNullResult();
+        if (!$rop) {
+            return;
+        }
+        $ro = $rop->getRepairOrder();
+        if (!$ro) {
+            return;
+        }
+        $customer = $ro->getPrimaryCustomer();
+        if (!$customer) {
+            return;
+        }
+        $customerName = $customer->getName();
+        if (!$customerName) {
+            return;
+        }
+
+        $params = ['searchTerm' => $customerName];
         $this->requestActionNormalized('ipay', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
