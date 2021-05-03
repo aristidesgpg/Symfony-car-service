@@ -323,6 +323,12 @@ class RepairOrderQuoteHelper
         $repairOrderQuoteRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
 
         foreach ($repairOrderQuoteRecommendations as $repairOrderQuoteRecommendation) {
+            // If the recommendation was pre-approved, just approve it and bail
+            if ($repairOrderQuoteRecommendation->getPreApproved()){
+                $repairOrderQuoteRecommendation->setApproved(true);
+                continue;
+            }
+
             $currentRecommendation = '';
 
             foreach ($recommendations as $recommendation) {
