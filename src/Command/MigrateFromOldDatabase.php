@@ -206,7 +206,7 @@ class MigrateFromOldDatabase extends Command
                     $userIds = $this->oldAdvisorIds;
                 }
 
-                if ($userIds) {
+                if ($userIds && isset($userIds[$row['user_id']])) {
                     $user = $userRepo->findOneBy(['id' => $userIds[$row['user_id']]]);
                 } else {
                     $user = null;
