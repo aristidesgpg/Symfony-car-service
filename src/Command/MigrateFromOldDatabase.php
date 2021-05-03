@@ -241,18 +241,18 @@ class MigrateFromOldDatabase extends Command
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
         foreach ($rows as $index => $row) {
-            if ($row['deleted']) {
+            if (!$row['deleted']) {
                 $repairOrderPayment = $repairOrderPaymentRepo->findOneBy([
-                    'id' => $this->oldRepairOrderIds[$row['repair_order_id']],
+                    'repairOrder' => $this->oldRepairOrderIds[$row['repair_order_id']],
                 ]);
+                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
+                if (!$repairOrderPayment && $repairOrder) {
 
-                if (!$repairOrderPayment) {
-                    $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
                     $repairOrderPayment = new RepairOrderPayment();
 
                     $createdDate = new \DateTime($row['created_at']);
                     $status = 'Created';
-                    $money = $row['amount'] ? MoneyHelper::parseAmount($row['amount']) : 0;
+                    $money = MoneyHelper::parseAmount($row['amount']);
                     $refundedMoney = $row['refunded_amount'] ? MoneyHelper::parseAmount($row['refunded_amount']) : null;
 
                     $repairOrderPayment->setRepairOrder($repairOrder)
@@ -406,7 +406,7 @@ class MigrateFromOldDatabase extends Command
 
         foreach ($rows as $row) {
             $repairOrderNote = $repairOrderNoteRepo->findOneBy([
-                'id' => $this->oldRepairOrderIds[$row['repair_order_id']],
+                'repairOrder' => $this->oldRepairOrderIds[$row['repair_order_id']],
                 'dateCreated' => new \DateTime($row['date']),
                 'note' => $row['note']
             ]);
