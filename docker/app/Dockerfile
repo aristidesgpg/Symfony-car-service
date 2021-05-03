@@ -8,6 +8,7 @@ RUN apt-get update \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install zip mysqli pdo_mysql \
     && apt-get install -y libxml2-dev \
+    && apt-get -y install cron \
     && docker-php-ext-install soap \
     # && pecl install xdebug \
     # && docker-php-ext-enable xdebug \

@@ -1,0 +1,8 @@
+App\Soap\cdk\src\PartsPricingBatchType:
+    properties:
+        authToken:
+            -
+                Valid: null
+        requests:
+            -
+                Valid: null

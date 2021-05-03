@@ -1,0 +1,13 @@
+App\Soap\cdk\src\PartsInventoryPricingResultContainerType:
+    properties:
+        code:
+            -
+                Choice:
+                    choices:
+                        - success
+                        - failure
+                    groups:
+                        - xsd_rules
+        results:
+            -
+                Valid: null

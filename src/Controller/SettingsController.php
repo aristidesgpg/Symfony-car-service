@@ -135,7 +135,6 @@ class SettingsController extends AbstractFOSRestController
      *
      * // Other Settings
      * @SWG\Parameter(name="advisorUsageEmails", type="string", in="formData")
-     * @SWG\Parameter(name="openLate", type="boolean", in="formData")
      *
      * Preview Settings
      * @SWG\Parameter(name="previewSalesVideoText", type="string", in="formData", maxLength=SettingsController::SMS_EXTRA_MAX_LENGTH)
@@ -156,7 +155,7 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="generalEmail", type="string", in="formData")
      * @SWG\Parameter(name="generalWebsiteUrl", type="string", in="formData")
      * @SWG\Parameter(name="generalInventoryUrl", type="string", in="formData")
-     * @SWG\Parameter(name="generaAddress", type="string", in="formData")
+     * @SWG\Parameter(name="generalAddress", type="string", in="formData")
      * @SWG\Parameter(name="generalAddress2", type="string", in="formData")
      * @SWG\Parameter(name="generalCity", type="string", in="formData")
      * @SWG\Parameter(name="generalState", type="string", in="formData")
@@ -165,18 +164,11 @@ class SettingsController extends AbstractFOSRestController
      * @SWG\Parameter(name="generalLogo", type="file", in="formData")
      *
      * myReview Settings
-     * @SWG\Parameter(name="myReviewGoogleURL", type="string", in="formData")
-     * @SWG\Parameter(name="myReviewFacebookURL", type="string", in="formData")
+     * @SWG\Parameter(name="myReviewGoogleUrl", type="string", in="formData")
+     * @SWG\Parameter(name="myReviewFacebookUrl", type="string", in="formData")
      * @SWG\Parameter(name="myReviewLogo", type="file", in="formData")
      * @SWG\Parameter(name="myReviewText", type="string", in="formData", maxLength=SettingsController::SMS_MAX_LENGTH)
      * @SWG\Parameter(name="myReviewActivated", type="boolean", in="formData")
-     *
-     * DMS Settings
-     * @SWG\Parameter(name="usingAutomate", type="string", in="formData")
-     * @SWG\Parameter(name="usingDealerBuilt", type="string", in="formData")
-     * @SWG\Parameter(name="usingDealerTrack", type="string", in="formData")
-     * @SWG\Parameter(name="usingCdk", type="string", in="formData")
-     * @SWG\Parameter(name="offHoursIntegration", type="string", in="formData")
      */
     public function setSettings(Request $req, SettingsHelper $helper, UploadHelper $uploader): Response
     {
@@ -187,7 +179,7 @@ class SettingsController extends AbstractFOSRestController
         // Loop each one to see if it exists and validate it
         foreach ($parameterList as $key) {
             // Doesn't exist, move along
-            if (true !== $req->request->has($key)) {
+            if (true !== $req->request->has($key) && true !== $req->files->has($key)) {
                 continue;
             }
 
@@ -239,6 +231,7 @@ class SettingsController extends AbstractFOSRestController
                 case 'custAppPostInspectionVideo':
                 case 'generalLogo':
                 case 'myReviewLogo':
+                    $val = $req->files->get($key);
                     if (!$val instanceof UploadedFile) {
                         $errors[$key] = 'File upload failed';
                         break;

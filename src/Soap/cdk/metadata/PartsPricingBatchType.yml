@@ -1,0 +1,21 @@
+App\Soap\cdk\src\PartsPricingBatchType:
+    properties:
+        authToken:
+            expose: true
+            access_type: public_method
+            serialized_name: authToken
+            accessor:
+                getter: getAuthToken
+                setter: setAuthToken
+            type: App\Soap\cdk\src\AuthenticationTokenType
+        requests:
+            expose: true
+            access_type: public_method
+            serialized_name: requests
+            accessor:
+                getter: getRequests
+                setter: setRequests
+            xml_list:
+                inline: true
+                entry_name: requests
+            type: array<App\Soap\cdk\src\PartsInventoryPricingBatchRequestType>

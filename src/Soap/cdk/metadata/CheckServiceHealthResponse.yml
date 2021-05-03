@@ -1,0 +1,3 @@
+App\Soap\cdk\src\CheckServiceHealthResponse:
+    xml_root_name: 'ns-52da4bda:checkServiceHealthResponse'
+    xml_root_namespace: 'http://www.dmotorworks.com/pip-parts-inventory-pricing'

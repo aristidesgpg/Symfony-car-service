@@ -261,14 +261,6 @@ class MPIControllerTest extends WebTestCase
         // Missing required parameter
         $this->requestAction('POST', '/mpi-group');
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
-
-        // Invalid Template Parameter
-        // $params = [
-        //     'id'   => 2147483647, // MPI template ID
-        //     'name' => $name
-        // ];
-        // $this->requestAction('POST', '/mpi-group', $params);
-        // $this->assertEquals(Response::HTTP_NOT_ACCEPTABLE, $this->client->getResponse()->getStatusCode());
     }
 
     public function testEditGroup()
@@ -375,7 +367,7 @@ class MPIControllerTest extends WebTestCase
         // Ok
         $name = 'New MPI item name';
         $params = [
-            'id' => 1, // MPI group ID
+            'id' => $id,
             'name' => $name,
         ];
         $this->requestAction('POST', '/mpi-item', $params);

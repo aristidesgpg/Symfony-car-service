@@ -4,12 +4,10 @@ namespace App\Service;
 
 use App\Entity\Customer;
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderQuote;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
-use App\Repository\CustomerRepository;
-use App\Repository\RepairOrderRepository;
-use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -28,22 +26,34 @@ class RepairOrderHelper
     private $customers;
     private $userRepository;
     private $customerHelper;
-    private $phoneValidator;
+    /**
+     * @var ROLinkHashHelper
+     */
+    private $ROLinkHashHelper;
+    /**
+     * @var DMS\DMS
+     */
+    private $dms;
+    /**
+     * @var RepairOrderQuoteHelper
+     */
+    private $repairOrderQuoteHelper;
 
     public function __construct(
         EntityManagerInterface $em,
-        RepairOrderRepository $repo,
-        CustomerRepository $customers,
-        UserRepository $userRepository,
         CustomerHelper $customerHelper,
-        PhoneValidator $phoneValidator
+        ROLinkHashHelper $ROLinkHash,
+        DMS\DMS $dms,
+        RepairOrderQuoteHelper $repairOrderQuoteHelper
     ) {
         $this->em = $em;
-        $this->repo = $repo;
-        $this->customers = $customers;
-        $this->userRepository = $userRepository;
+        $this->repo = $em->getRepository(RepairOrder::class);
+        $this->customers = $em->getRepository(Customer::class);
+        $this->userRepository = $em->getRepository(User::class);
         $this->customerHelper = $customerHelper;
-        $this->phoneValidator = $phoneValidator;
+        $this->ROLinkHashHelper = $ROLinkHash;
+        $this->dms = $dms;
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
     }
 
     /**
@@ -55,10 +65,18 @@ class RepairOrderHelper
     {
         $errors = [];
         $required = ['customerName', 'customerPhone', 'number'];
-        foreach ($required as $k) {
-            if (!isset($params[$k]) || 0 === strlen($params[$k])) {
-                $errors[$k] = 'Required field missing';
+
+        // Check if CustomerID is provided
+        if (!isset($params['primaryCustomerId'])) {
+            foreach ($required as $k) {
+                if (!isset($params[$k]) || 0 === strlen($params[$k])) {
+                    $errors[$k] = 'Required field missing';
+                }
             }
+        }
+
+        if ($errors){
+            return $errors;
         }
 
         $ro = new RepairOrder();
@@ -102,16 +120,21 @@ class RepairOrderHelper
      */
     private function handleCustomer(array $params)
     {
-        $customer = $this->customers->findByPhone($params['customerPhone']);
-        $translated = $this->translateCustomerParams($params);
-        $errors = $this->customerHelper->validateParams($translated);
-        if (!empty($errors)) {
-            return $this->translateCustomerParams($errors, true);
+        // Check if customer is provided
+        if (isset($params['primaryCustomerId'])) {
+            $customer = $this->customers->find($params['primaryCustomerId']);
+        } else {
+            $customer = $this->customers->findByPhone($params['customerPhone']);
+            $translated = $this->translateCustomerParams($params);
+            $errors = $this->customerHelper->validateParams($translated);
+            if (!empty($errors)) {
+                return $this->translateCustomerParams($errors, true);
+            }
+            if (!$customer) {
+                $customer = new Customer();
+            }
+            $this->customerHelper->commitCustomer($customer, $translated);
         }
-        if (!$customer) {
-            $customer = new Customer();
-        }
-        $this->customerHelper->commitCustomer($customer, $translated);
 
         return $customer;
     }
@@ -237,10 +260,10 @@ class RepairOrderHelper
             $ro->setUpgradeQue($this->paramToBool($params['upgradeQue']));
         }
 
-        if (isset($params['customerId'])) {
-            $customer = $this->customers->find($params['customerId']);
+        if (isset($params['primaryCustomerId'])) {
+            $customer = $this->customers->find($params['primaryCustomerId']);
             if (!$customer) {
-                $errors['customerId'] = 'Customer ID does not exist';
+                $errors['primaryCustomerId'] = 'Customer ID does not exist';
             } else {
                 $ro->setPrimaryCustomer($customer);
             }
@@ -252,7 +275,7 @@ class RepairOrderHelper
     public function isNumberUnique(string $roNumber): bool
     {
         $ro = $this->repo->findBy(['number' => $roNumber]);
-        if ($ro){
+        if ($ro) {
             return false;
         }
 
@@ -261,19 +284,21 @@ class RepairOrderHelper
 
     public function generateLinkHash(string $dateCreated): string
     {
-        try {
-            $hash = sha1($dateCreated.random_bytes(32));
-        } catch (Exception $e) { // Shouldn't ever happen
-            throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
-        }
-        $ro = $this->repo->findByHash($hash);
-        if (null !== $ro) { // Very unlikely
-            $this->logger->warning('link hash collision');
+        return $this->getROLinkHashHelper()->generate($dateCreated);
 
-            return $this->generateLinkHash($dateCreated);
-        }
-
-        return $hash;
+//        try {
+//            $hash = sha1($dateCreated.random_bytes(32));
+//        } catch (Exception $e) { // Shouldn't ever happen
+//            throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
+//        }
+//        $ro = $this->repo->findByHash($hash);
+//        if (null !== $ro) { // Very unlikely
+//            $this->logger->warning('link hash collision');
+//
+//            return $this->generateLinkHash($dateCreated);  //This is a never ending loop.
+//        }
+//
+//        return $hash;
     }
 
     private function commitRepairOrder(): void
@@ -544,5 +569,53 @@ class RepairOrderHelper
         } catch (NonUniqueResultException $e) {
             return null;
         }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function syncRepairOrderRecommendationsFromDMS(RepairOrder $repairOrder): RepairOrder
+    {
+        //query the dms and get the repair order.
+        $dmsResult = $this->getDms()->getRepairOrderByNumber($repairOrder->getNumber());
+        //See if a quote exists and if not create one.
+        if (!$repairOrder->getRepairOrderQuote()) {
+            $repairOrder->setRepairOrderQuote((new RepairOrderQuote()));
+        }
+        $repairOrder = $this->repairOrderQuoteHelper->addRecommendationsFromDMS($repairOrder, $dmsResult);
+        $this->em->persist($repairOrder);
+        $this->em->flush();
+
+        return $repairOrder;
+    }
+
+    public function getROLinkHashHelper(): ROLinkHashHelper
+    {
+        return $this->ROLinkHashHelper;
+    }
+
+    public function setROLinkHashHelper(ROLinkHashHelper $ROLinkHashHelper): void
+    {
+        $this->ROLinkHashHelper = $ROLinkHashHelper;
+    }
+
+    public function getDms(): DMS\DMS
+    {
+        return $this->dms;
+    }
+
+    public function setDms(DMS\DMS $dms): void
+    {
+        $this->dms = $dms;
+    }
+
+    public function getRepairOrderQuoteHelper(): RepairOrderQuoteHelper
+    {
+        return $this->repairOrderQuoteHelper;
+    }
+
+    public function setRepairOrderQuoteHelper(RepairOrderQuoteHelper $repairOrderQuoteHelper): void
+    {
+        $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
     }
 }

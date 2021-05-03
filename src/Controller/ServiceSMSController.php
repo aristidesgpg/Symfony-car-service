@@ -18,12 +18,12 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\CssSelector\Exception\InternalErrorException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\Security;
 
 class ServiceSMSController extends AbstractFOSRestController
 {
@@ -63,15 +63,17 @@ class ServiceSMSController extends AbstractFOSRestController
      * )
      *
      * @return Response
+     *
      * @throws Exception
      */
     public function send(
         Request $request,
         TwilioHelper $twilioHelper,
         CustomerRepository $customerRepo
-    ) {
+    )
+    {
         $customerID = $request->get('customerID');
-        $message    = $request->get('message');
+        $message = $request->get('message');
 
         if (!$customerID || !$message) {
             throw new BadRequestHttpException('Missing Required Parameter');
@@ -123,7 +125,8 @@ class ServiceSMSController extends AbstractFOSRestController
         CustomerRepository $customerRepo,
         PhoneValidator $phoneValidator,
         TwilioHelper $twilioHelper
-    ): Response {
+    ): Response
+    {
         $message = $request->get('Body');
         $from = $request->get('From');
         $to = $request->get('To');
@@ -134,10 +137,10 @@ class ServiceSMSController extends AbstractFOSRestController
         if ($customer) {
             $serviceSMS = new ServiceSMS();
             $serviceSMS->setCustomer($customer)
-                       ->setPhone($phone)
-                       ->setMessage($twilioHelper->Encode($message))
-                       ->setSid($sid)
-                       ->setIncoming(true);
+                ->setPhone($phone)
+                ->setMessage($twilioHelper->Encode($message))
+                ->setSid($sid)
+                ->setIncoming(true);
 
             // We got a message, mark it confirmed mobile
             if (!$customer->getMobileConfirmed()) {
@@ -145,19 +148,29 @@ class ServiceSMSController extends AbstractFOSRestController
                 $em->persist($customer);
             }
 
+            $em->beginTransaction();
             $em->persist($serviceSMS);
-            $em->flush();
+            try {
+                $em->flush();
+                $em->commit();
+            } catch (Exception $e) {
+                $em->rollback();
 
-            $response = new Response('<Response><Response />', Response::HTTP_OK);
+                $response = new Response('<Response>' . $e->getMessage() . '</Response>', Response::HTTP_OK);
+                $response->headers->set('Content-Type', 'text/xml');
+                return $response;
+            }
+
+            $response = new Response('<Response></Response>', Response::HTTP_OK);
         } else {
-            $errorLog      = 'Incoming message from '.$from.' to '.$to.'. No customer has this phone number.';
+            $errorLog = 'Incoming message from ' . $from . ' to ' . $to . '. No customer has this phone number.';
 
             $serviceSMSLog = new ServiceSMSLog();
             $serviceSMSLog->setError($errorLog);
             $em->persist($serviceSMSLog);
             $em->flush();
 
-            $response      = new Response("<Response>{$errorLog}</Response>", Response::HTTP_NOT_ACCEPTABLE);
+            $response = new Response("<Response>{$errorLog}</Response>", Response::HTTP_NOT_ACCEPTABLE);
         }
 
         $response->headers->set('Content-Type', 'text/xml');
@@ -189,6 +202,7 @@ class ServiceSMSController extends AbstractFOSRestController
      *     description="Page Limit",
      *     in="query"
      * )
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Return status code",
@@ -206,8 +220,9 @@ class ServiceSMSController extends AbstractFOSRestController
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
-    ): Response {
-        $page      = $request->query->getInt('page', 1);
+    ): Response
+    {
+        $page = $request->query->getInt('page', 1);
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
 
         if ($page < 1) {
@@ -218,16 +233,16 @@ class ServiceSMSController extends AbstractFOSRestController
         if (!$customerID) {
             throw new BadRequestHttpException('Customer ID is required');
         }
-        $customer   = $customerRepo->findOneBy(['id' => $customerID]);
+        $customer = $customerRepo->findOneBy(['id' => $customerID]);
 
         if (!$customer) {
             throw new NotFoundHttpException('Customer ID is invalid');
         }
 
-        $messages   = $serviceSMSRepo->findBy(['customer' => $customer->getId()], ['date' => 'DESC']);
+        $messages = $serviceSMSRepo->findBy(['customer' => $customer->getId()], ['date' => 'DESC']);
 
         //if authenticated user is ROLE_SERVICE_ADVISOR, then update message statuses
-        $user       = $this->getUser();
+        $user = $this->getUser();
         if (in_array('ROLE_SERVICE_ADVISOR', $user->getRoles())) {
             foreach ($messages as $message) {
                 $message->setIsRead(true);
@@ -240,21 +255,21 @@ class ServiceSMSController extends AbstractFOSRestController
                 $em->commit();
             } catch (Exception $e) {
                 // nothing, need to return results
-                $this->logInfo('Failed to mark thread as read. user:'.$user->getId().'|customer:'.$customer->getId());
+                $this->logInfo('Failed to mark thread as read. user:' . $user->getId() . '|customer:' . $customer->getId());
             }
         }
 
-        $pager      = $paginator->paginate($messages, $page, $pageLimit);
+        $pager = $paginator->paginate($messages, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
-        $view       = $this->view(
+        $view = $this->view(
             [
-                'results'      => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages'   => $pagination->totalPages,
-                'previous'     => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
-                'currentPage'  => $pagination->currentPage,
-                'next'         => $pagination->getNextPageURL('app_servicesms_getthreads'),
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_servicesms_getthreads'),
             ]
         );
 
@@ -297,8 +312,7 @@ class ServiceSMSController extends AbstractFOSRestController
      *         description="id, user, customer, phone, message, incoming, is_read, date"
      *     )
      * )
-     *
-     * * @SWG\Response(
+     * @SWG\Response(
      *     response=403,
      *     description="Permision Denied",
      * )
@@ -308,24 +322,84 @@ class ServiceSMSController extends AbstractFOSRestController
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         ServiceSMSHelper $helper
-    ): Response {
-        $page       = $request->query->getInt('page', 1);
+    ): Response
+    {
+        $page = $request->query->getInt('page', 1);
         $searchTerm = $request->query->get('searchTerm', '');
-        $pageLimit  = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
-        $result     = $helper->getThreads($searchTerm);
-        $pager      = $paginator->paginate($result, $page, $pageLimit);
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $result = $helper->getThreads($searchTerm);
+        $pager = $paginator->paginate($result, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $view = $this->view(
             [
-                'results'      => $pager->getItems(),
+                'results' => $pager->getItems(),
                 'totalResults' => $pagination->totalResults,
-                'totalPages'   => $pagination->totalPages,
-                'previous'     => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
-                'currentPage'  => $pagination->currentPage,
-                'next'         => $pagination->getNextPageURL('app_servicesms_getthreads'),
+                'totalPages' => $pagination->totalPages,
+                'previous' => $pagination->getPreviousPageURL('app_servicesms_getthreads'),
+                'currentPage' => $pagination->currentPage,
+                'next' => $pagination->getNextPageURL('app_servicesms_getthreads'),
             ]
         );
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Post("/api/service-sms/mark-read")
+     *
+     * @SWG\Tag(name="Service SMS")
+     * @SWG\Post(description="Mark thread as read")
+     *
+     * @SWG\Parameter(
+     *     name="customerID",
+     *     in="formData",
+     *     required=true,
+     *     type="integer",
+     *     description="The Customer ID",
+     * )
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Return Thread",
+     *     @SWG\Items(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=ServiceSMS::class, groups=ServiceSMS::GROUPS)),
+     *         description="id, user, customer, phone, message, incoming, is_read, date"
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=403,
+     *     description="Permision Denied",
+     * )
+     */
+    public function markRead(
+        Request $request,
+        ServiceSMSHelper $helper,
+        Security $security,
+        ServiceSMSRepository $serviceSMSRepo,
+        EntityManagerInterface $em
+    ): Response
+    {
+        $customerID = $request->get('customerID');
+        // Check param is valid
+        if (!$customerID) {
+            throw new BadRequestHttpException('Missing Required Parameter');
+        }
+        // Check if user has permission
+        if (!$security->isGranted('ROLE_ADMIN') && !$security->isGranted('ROLE_SERVICE_MANAGER')) {
+            throw new BadRequestHttpException('The user should be admin or service manager');
+        }
+        // Mark all incoming messages as read from the customer
+        $messages = $serviceSMSRepo->findBy(['customer' => $customerID, 'incoming' => 1, 'isRead' => 0]);
+        foreach ($messages as $message) {
+            $message->setIsRead(true);
+            $em->persist($message);
+        }
+        $em->flush();
+
+        $view = $this->view($messages);
+        $view->getContext()->setGroups(ServiceSMS::GROUPS);
 
         return $this->handleView($view);
     }
@@ -345,19 +419,18 @@ class ServiceSMSController extends AbstractFOSRestController
      *                                              "Message Was Sent" }),
      *         )
      * )
-     *
-     * @return Response
      */
     public function statusCallback(
         Request $request,
         EntityManagerInterface $em,
         ServiceSMSRepository $serviceSMSRepo
-    ): Response {
+    ): Response
+    {
         $smsStatus = $request->get('SmsStatus');
-        $sid       = $request->get('MessageSid');
+        $sid = $request->get('MessageSid');
 
         //find ServiceSMS by sid and update status
-        $serviceSMS   = $serviceSMSRepo->findOneBy(['sid' => $sid]);
+        $serviceSMS = $serviceSMSRepo->findOneBy(['sid' => $sid]);
 
         if (!$serviceSMS) {
             $response = new Response(

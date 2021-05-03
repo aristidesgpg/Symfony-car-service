@@ -1,0 +1,3 @@
+App\Soap\cdk\src\PartsInventoryPricingPIPException:
+    xml_root_name: 'ns-52da4bda:PartsInventoryPricingPIPException'
+    xml_root_namespace: 'http://www.dmotorworks.com/pip-parts-inventory-pricing'

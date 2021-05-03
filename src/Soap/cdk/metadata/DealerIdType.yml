@@ -1,0 +1,10 @@
+App\Soap\cdk\src\DealerIdType:
+    properties:
+        dealerId:
+            expose: true
+            access_type: public_method
+            serialized_name: dealerId
+            accessor:
+                getter: getDealerId
+                setter: setDealerId
+            type: string

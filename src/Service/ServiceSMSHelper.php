@@ -49,10 +49,11 @@ class ServiceSMSHelper
             $searchQuery = " where c.phone LIKE '%$searchTerm%' or c.name LIKE '%$searchTerm%' ";
         }
 
-        $threadQuery = "SELECT c.id, c.name, c.phone, ss.date, ss.message, ss2.unread
+        $threadQuery = "SELECT c.id, c.name, c.phone, ss.date, ss.message, ss2.unread, ro.id as repairOrderID, ro.number as repairOrderNumber
                             FROM (select * from service_sms where date In (select max(date) from service_sms group by customer_id)) ss
                             LEFT JOIN customer c ON c.id = ss.customer_id
                             LEFT JOIN (select user_id, customer_id, SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread from service_sms group by customer_id) ss2 on (ss2.customer_id=ss.customer_id)
+                            LEFT JOIN (select * from repair_order where date_created IN (select max(date_created) from repair_order ro2 group by primary_customer_id)) ro on ro.primary_customer_id = c.id 
                             $searchQuery order by unread =0 ASC , ss.date DESC";
 
         $statement = $this->em->getConnection()->prepare($threadQuery);
@@ -61,7 +62,7 @@ class ServiceSMSHelper
         return $statement->fetchAllAssociative();
     }
 
-    private function getThreadsByAdvisor($userId, $searchTerm, $isShared)
+    public function getThreadsByAdvisor($userId, $searchTerm = null, $isShared = null)
     {
         $searchQuery = '';
 
@@ -71,18 +72,18 @@ class ServiceSMSHelper
 
         //when there are repairOrders for the customer
         if ($isShared) {
-            $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId." group by primary_advisor_id ,primary_customer_id) ss 
-                            LEFT JOIN (select primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
-                                where id in (select MAX(id) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
+            $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread, ss2.repairOrderID, ss2.repairOrderNumber from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId." group by primary_advisor_id ,primary_customer_id) ss 
+                            LEFT JOIN (select id as repairOrderID, number as repairOrderNumber, primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
+                                where date_created in (select MAX(date_created) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
                             LEFT JOIN customer c on c.id = ss2.primary_customer_id
                             LEFT JOIN (select SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread, customer_id from service_sms ss3 group by customer_id)ss4 on ss4.customer_id = ss2.primary_customer_id
                             where ss2.s_advisor_id in (select id from user where share_repair_orders=1) $searchQuery
                             ";
         } else {
-            $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId.' group by primary_advisor_id ,primary_customer_id) ss 
-                            LEFT JOIN (select primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
-                                where id in (select MAX(id) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
+            $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread, ss2.repairOrderID, ss2.repairOrderNumber from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId.' group by primary_advisor_id ,primary_customer_id) ss 
+                            LEFT JOIN (select id as repairOrderID, number as repairOrderNumber,primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
+                                where date_created in (select MAX(date_created) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
                             LEFT JOIN customer c on c.id = ss2.primary_customer_id
                             LEFT JOIN (select SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread, customer_id from service_sms ss3 group by customer_id)ss4 on ss4.customer_id = ss2.primary_customer_id
@@ -194,21 +195,14 @@ class ServiceSMSHelper
 
                 if ($shareRepairOrders) {
                     $unreadQuery = 'select count(u.id) as count from `user` u LEFT JOIN service_sms ss on ss.user_id = u.id where u.share_repair_orders  = 1  and ss.is_read = 0 and ss.incoming  = 1';
-                    $statement = $this->em->getConnection()->prepare($unreadQuery);
-                    $statement->execute();
-
-                    $result = $statement->fetchAssociative();
-                    $totalUnreadMessages = $result['count'];
                 } else {
-                    $totalUnreadMessages = $this->serviceSMSRepo->createQueryBuilder('ss')
-                            ->where('ss.user = :userId')
-                            ->setParameter('userId', $userId)
-                            ->andWhere('ss.incoming = 1')
-                            ->andWhere('ss.isRead = 0')
-                            ->select('count(ss.id)')
-                            ->getQuery()
-                            ->getSingleScalarResult();
+                    $unreadQuery = 'select count(ss.id) as count from `user` u left join repair_order ro on ro.primary_advisor_id = u.id left join service_sms ss on ss.customer_id = ro.primary_customer_id where u.id = '.$userId.' and ss.incoming = 1 and ss.is_read = 0;';
                 }
+                $statement = $this->em->getConnection()->prepare($unreadQuery);
+                $statement->execute();
+
+                $result = $statement->fetchAssociative();
+                $totalUnreadMessages = $result['count'];
             } else {
                 $totalUnreadMessages = 0;
             }

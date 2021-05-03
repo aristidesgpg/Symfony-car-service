@@ -222,19 +222,23 @@ class SettingsHelper
             'front_end' => 'N/A',
         ],
         'usingAutomate' => [
-            'default_value' => false,
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'usingDealerBuilt' => [
-            'default_value' => false,
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'usingCdk' => [
-            'default_value' => false,
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'usingDealerTrack' => [
-            'default_value' => false,
+            'default_value' => 0,
+            'front_end' => 'Hidden',
+        ],
+        'offHoursIntegration' => [
+            'default_value' => 0,
             'front_end' => 'Hidden',
         ],
         'customerURL' => [
@@ -246,7 +250,7 @@ class SettingsHelper
             'front_end' => 'Hidden',
         ],
         'mpiSendToCustomer' => [
-            'default_value' => true,
+            'default_value' => 0,
             'front_end' => 'TBD',
         ],
     ];
@@ -427,6 +431,14 @@ class SettingsHelper
     {
         if (!$this->isValidSetting($key)) {
             throw new InvalidArgumentException('Invalid Setting: '.$key);
+        }
+
+        if ($value === 'false'){
+            $value = 0;
+        }
+
+        if ($value === 'true'){
+            $value = 1;
         }
 
         $obj = $this->addSetting($key, $value);
