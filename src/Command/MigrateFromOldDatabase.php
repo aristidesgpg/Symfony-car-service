@@ -13,6 +13,7 @@ use App\Entity\MPITemplate;
 use App\Entity\OperationCode;
 use App\Entity\PaymentResponse;
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderCustomer;
 use App\Entity\RepairOrderInteraction;
 use App\Entity\RepairOrderMPI;
 use App\Entity\RepairOrderMPIInteraction;
@@ -26,6 +27,7 @@ use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\ServiceSMS;
 use App\Entity\User;
+use App\Money\MoneyHelper;
 use Aws\Api\Operation;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -179,7 +181,7 @@ class MigrateFromOldDatabase extends Command
     private function sms()
     {
         $statement = $this->connection->prepare(
-            'SELEC * from sms'
+            'SELECT * from sms'
         );
 
         $statement->execute();
@@ -229,7 +231,7 @@ class MigrateFromOldDatabase extends Command
     private function repairOrderPayment()
     {
         $statement = $this->connection->prepare(
-            'SELEC * from repair_order_payments'
+            'SELECT * from repair_order_payments'
         );
 
         $statement->execute();
@@ -250,10 +252,13 @@ class MigrateFromOldDatabase extends Command
 
                     $createdDate = new \DateTime($row['created_at']);
                     $status = 'Created';
+                    $money = $row['amount'] ? MoneyHelper::parseAmount($row['amount']) : 0;
+                    $refundedMoney = $row['refunded_amount'] ? MoneyHelper::parseAmount($row['refunded_amount']) : null;
+
                     $repairOrderPayment->setRepairOrder($repairOrder)
-                        ->setAmount($row['amount'])
+                        ->setAmount($money)
                         ->setTransactionId($row['transaction_id'])
-                        ->setRefundedAmount($row['refunced_amount'])
+                        ->setRefundedAmount($refundedMoney)
                         ->setDateCreated($createdDate)
                         ->setCardType($row['card_type'])
                         ->setCardNumber($row['card_number']);
@@ -321,7 +326,7 @@ class MigrateFromOldDatabase extends Command
     private function repairOrderMpi()
     {
         $statement = $this->connection->prepare(
-            'SELEC * from repair_order_mpi'
+            'SELECT * from repair_order_mpi'
         );
 
         $statement->execute();
@@ -332,7 +337,7 @@ class MigrateFromOldDatabase extends Command
 
         foreach ($rows as $index => $row) {
             $repairOrderMpi = $repairOrderMpiRepo->findOneBy([
-                'id' => $this->oldRepairOrderIds[$row['repair_order_id']],
+                'repairOrder' => $this->oldRepairOrderIds[$row['repair_order_id']],
             ]);
 
             if (!$repairOrderMpi) {
@@ -526,24 +531,26 @@ class MigrateFromOldDatabase extends Command
 
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
         $customerRepo = $this->em->getRepository(Customer::class);
+        $repairOrderCustomerRepo = $this->em->getRepository(RepairOrderCustomer::class);
 
         foreach ($rows as $row) {
-            $repairOrder = $repairOrderRepo->findOneBy([
-                'id' => $this->oldRepairOrderIds[$row['repair_order_id']],
-                'primaryCustomer' => $this->oldCustomerIds[$row['customer_id']]
+            $repairOrderCustomer = $repairOrderCustomerRepo->findOneBy([
+                'repairOrder' => $this->oldRepairOrderIds[$row['repair_order_id']],
+                'customer' => $this->oldCustomerIds[$row['customer_id']]
             ]);
 
-            if (!$repairOrder) {
-                $oldRepairOrder = $repairOrderRepo->findOneBy([
+            if (!$repairOrderCustomer) {
+                $repairOrder = $repairOrderRepo->findOneBy([
                     'id' => $this->oldRepairOrderIds[$row['repair_order_id']]
                 ]);
                 $customer = $customerRepo->findOneBy([
                     'id' => $this->oldCustomerIds[$row['customer_id']]
                 ]);
-                if ($oldRepairOrder) {
-                    $repairOrder = clone $oldRepairOrder;
-                    $repairOrder->setCustomer($customer);
-                    $this->em->persist($repairOrder);
+                if ($repairOrder && $customer) {
+                    $repairOrderCustomer = new RepairOrderCustomer();
+                    $repairOrderCustomer->setCustomer($customer)
+                        ->setRepairOrder($repairOrder);
+                    $this->em->persist($repairOrderCustomer);
                 }
             }
         }
@@ -554,7 +561,7 @@ class MigrateFromOldDatabase extends Command
         // With client_interaction table
 
         $statement = $this->connection->prepare(
-            'SELECT * FROM repair_order_quote'
+            'SELECT * FROM repair_order_quote order by repair_order_id'
         );
 
         $statement->execute();
@@ -575,6 +582,7 @@ class MigrateFromOldDatabase extends Command
                 if (!$oldRepairOrderQuote && $repairOrder) {
                     if ($repairOrderQuote) {
                         $this->em->persist($repairOrderQuote);
+                        $this->em->persist($repairOrder);
                         $this->em->flush();
                     }
                     $repairOrderQuote = new RepairOrderQuote();
@@ -592,8 +600,8 @@ class MigrateFromOldDatabase extends Command
                         ->setRepairOrderQuote($repairOrderQuote)
                         ->setDate(new \DateTime($row['date_sent']))
                         ->setType($status);
-                    // $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
-                    $this->em->persist($repairOrderQuoteInteraction);
+                    $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                    // $this->em->persist($repairOrderQuoteInteraction);
 
                     $statement = $this->connection->prepare(
                         "SELECT min(date) as date FROM client_interaction where type='quote_view' and repair_order_id = '" . $row['repair_order_id'] . "' group by repair_order_id"
@@ -611,8 +619,8 @@ class MigrateFromOldDatabase extends Command
                             ->setRepairOrderQuote($repairOrderQuote)
                             ->setDate($clientInteractionDate)
                             ->setType($status);
-                        // $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
-                        $this->em->persist($repairOrderQuoteInteraction);
+                        $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
+                        // $this->em->persist($repairOrderQuoteInteraction);
                     }
 
                     $statement = $this->connection->prepare(
@@ -636,6 +644,7 @@ class MigrateFromOldDatabase extends Command
                         // $this->em->persist($repairOrderQuoteInteraction);
                     }
                     $repairOrderQuote->setStatus($status);
+                    $repairOrder->setQuoteStatus($status);
                 }
 
                 $prev_repairOrderId = $row['repair_order_id'];

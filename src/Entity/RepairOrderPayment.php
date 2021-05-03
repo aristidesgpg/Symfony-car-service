@@ -165,7 +165,7 @@ class RepairOrderPayment
     /**
      * @return $this
      */
-    public function setAmount(Money $amount): self
+    public function setAmount(?Money $amount): self
     {
         $this->amount = $amount;
 
@@ -180,7 +180,7 @@ class RepairOrderPayment
     /**
      * @return $this
      */
-    public function setTransactionId(string $transactionId): self
+    public function setTransactionId(?string $transactionId): self
     {
         $this->transactionId = $transactionId;
 
@@ -204,7 +204,7 @@ class RepairOrderPayment
     /**
      * @return $this
      */
-    public function setRefundedAmount(Money $refundedAmount): self
+    public function setRefundedAmount(?Money $refundedAmount): self
     {
         $this->refundedAmount = $refundedAmount;
 
@@ -339,7 +339,7 @@ class RepairOrderPayment
     /**
      * @return $this
      */
-    public function setCardType(string $cardType): self
+    public function setCardType(?string $cardType): self
     {
         $this->cardType = $cardType;
 
@@ -357,7 +357,7 @@ class RepairOrderPayment
     /**
      * @return $this
      */
-    public function setCardNumber(string $cardNumber): self
+    public function setCardNumber(?string $cardNumber): self
     {
         $this->cardNumber = $cardNumber;
 
