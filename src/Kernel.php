@@ -23,6 +23,9 @@ class Kernel extends BaseKernel
                 yield new $class();
             }
         }
+
+        // Set Timezone
+        date_default_timezone_set($_SERVER['TIMEZONE']);
     }
 
     public function getProjectDir(): string

@@ -195,21 +195,14 @@ class ServiceSMSHelper
 
                 if ($shareRepairOrders) {
                     $unreadQuery = 'select count(u.id) as count from `user` u LEFT JOIN service_sms ss on ss.user_id = u.id where u.share_repair_orders  = 1  and ss.is_read = 0 and ss.incoming  = 1';
-                    $statement = $this->em->getConnection()->prepare($unreadQuery);
-                    $statement->execute();
-
-                    $result = $statement->fetchAssociative();
-                    $totalUnreadMessages = $result['count'];
                 } else {
-                    $totalUnreadMessages = $this->serviceSMSRepo->createQueryBuilder('ss')
-                            ->where('ss.user = :userId')
-                            ->setParameter('userId', $userId)
-                            ->andWhere('ss.incoming = 1')
-                            ->andWhere('ss.isRead = 0')
-                            ->select('count(ss.id)')
-                            ->getQuery()
-                            ->getSingleScalarResult();
+                    $unreadQuery = 'select count(ss.id) as count from `user` u left join repair_order ro on ro.primary_advisor_id = u.id left join service_sms ss on ss.customer_id = ro.primary_customer_id where u.id = '.$userId.' and ss.incoming = 1 and ss.is_read = 0;';
                 }
+                $statement = $this->em->getConnection()->prepare($unreadQuery);
+                $statement->execute();
+
+                $result = $statement->fetchAssociative();
+                $totalUnreadMessages = $result['count'];
             } else {
                 $totalUnreadMessages = 0;
             }
