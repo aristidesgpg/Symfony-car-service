@@ -116,8 +116,6 @@ class MigrateFromOldDatabase extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        // $statement->bindValue('emp', );
-
         $this->mpi();
         $output->writeln("MPI done");
 
@@ -243,7 +241,7 @@ class MigrateFromOldDatabase extends Command
         foreach ($rows as $index => $row) {
             if (!$row['deleted']) {
                 $repairOrderPayment = $repairOrderPaymentRepo->findOneBy([
-                    'repairOrder' => $this->oldRepairOrderIds[$row['repair_order_id']],
+                    'transactionId' => $row['transaction_id'],
                 ]);
                 $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
                 if (!$repairOrderPayment && $repairOrder) {
