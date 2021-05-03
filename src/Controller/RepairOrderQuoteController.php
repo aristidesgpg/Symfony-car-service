@@ -634,7 +634,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $hasNonPreApproved = $recommendationRepository->findOneBy(['repairOrderQuote' => $repairOrderQuote, 'preApproved' => 0]);
 
             if ($hasNonPreApproved){
-                return $this->handleView($this->view('Recommendation data is empty', Response::HTTP_BAD_REQUEST));
+                return $this->handleView($this->view('Recommendation data is invalid', Response::HTTP_BAD_REQUEST));
             }
         }
 
