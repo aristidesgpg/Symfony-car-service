@@ -167,6 +167,26 @@ class ReportingControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
     }
 
+    public function testTrend()
+    {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+
+            return;
+        }
+
+        // Ok
+        $this->requestActionNormalized('trend');
+        $this->assertResponseIsSuccessful();
+
+        // Give date range
+        $params = ['startDate' => '2019-02-20 06:04:41', 'endDate' => '2021-08-07 06:04:41'];
+        $this->requestActionNormalized('trend', $params);
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
+    }
+
     public function testMpi()
     {
         if (!$this->token) {
@@ -182,6 +202,26 @@ class ReportingControllerTest extends WebTestCase
         // Give date range
         $params = ['startDate' => '2019-02-20 06:04:41', 'endDate' => '2021-08-07 06:04:41'];
         $this->requestActionNormalized('mpi', $params);
+        $listData = json_decode($this->client->getResponse()->getContent());
+        $this->assertResponseIsSuccessful();
+        $this->assertGreaterThanOrEqual(0, $listData->totalResults);
+    }
+
+    public function testIPay()
+    {
+        if (!$this->token) {
+            $this->assertEmpty($this->token, 'Token is null');
+
+            return;
+        }
+
+        // Ok
+        $this->requestActionNormalized('ipay');
+        $this->assertResponseIsSuccessful();
+
+        // Give date range
+        $params = ['startDate' => '2019-02-20 06:04:41', 'endDate' => '2021-08-07 06:04:41'];
+        $this->requestActionNormalized('ipay', $params);
         $listData = json_decode($this->client->getResponse()->getContent());
         $this->assertResponseIsSuccessful();
         $this->assertGreaterThanOrEqual(0, $listData->totalResults);
