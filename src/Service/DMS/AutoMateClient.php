@@ -479,7 +479,6 @@ class AutoMateClient extends AbstractDMSClient
         $parts = [];
         while ($continue) {
             $result = $this->getPartsByOffsetAndLimit($offset, $limit);
-            dump(sizeof($result));
             if (0 == sizeof($result)) {
                 break;
             }

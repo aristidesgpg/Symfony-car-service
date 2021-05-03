@@ -281,14 +281,16 @@ abstract class AbstractDMSClient implements DMSClientInterface
      * @param $request
      * @param $response
      * @param bool $isRest
+     * @param bool $exception
      */
-    public function logError($request, $response, $isRest = false, $exception = false)
+    public function logError($request, $response, bool $isRest = false, bool $exception = false)
     {
 
-        dd($request, $response, $isRest, $exception);
+
         //        $this->settingsHelper->getSetting('generalName');
         if ($exception) {
-            $this->getSlackClient()->sendMessage('Mr.Robot', $request.$response);
+            $message = sprintf('Request: %s, Response: %s', $request, $response);
+            $this->getSlackClient()->sendMessage('Mr.Robot', $message);
         }
 
         if ($isRest) {
