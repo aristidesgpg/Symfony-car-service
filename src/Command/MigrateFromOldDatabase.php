@@ -171,12 +171,12 @@ class MigrateFromOldDatabase extends Command
         // $this->repairOrderPayment();
         // $output->writeln("repairOrderPayment done");
 
-        $this->sms();
+        $this->sms($output);
         $output->writeln("SMS done");
 
         return "success";
     }
-    private function sms()
+    private function sms($output)
     {
         $statement = $this->connection->prepare(
             'SELECT * from sms'
@@ -225,8 +225,11 @@ class MigrateFromOldDatabase extends Command
                     ->setIsRead($row['is_read'])
                     ->setPhone($row['number'])
                     ->setIncoming($row['type'] === 'incoming' ? 1 : 0);
-
-                $this->em->persist($sms);
+                try {
+                    $this->em->persist($sms);
+                } catch (Exception $e) {
+                    $output->writeln($row['id'] . " error");
+                }
             }
         }
 
