@@ -60,9 +60,8 @@ class MyReviewController extends AbstractFOSRestController
         }
 
         // Check if customer role and not customer's RO
-        $customer = $this->getUser();
-        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
-            if($repairOrderReview->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            if($repairOrderReview->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -134,9 +133,8 @@ class MyReviewController extends AbstractFOSRestController
         }
 
         // Check if customer role and not customer's RO
-        $customer = $this->getUser();
-        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
-            if($repairOrderReview->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            if($repairOrderReview->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }

@@ -54,9 +54,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote, RepairOrderQuoteHelper $helper)
     {
         // Check if customer role and not customer's RO
-        $customer = $this->getUser();
-        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
-            if($repairOrderQuote->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            if($repairOrderQuote->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -486,9 +485,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrder = $repairOrderQuote->getRepairOrder();
 
         // Check if customer role and not customer's RO
-        $customer = $this->getUser();
-        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
-            if($repairOrder->getPrimaryCustomer()->getId() != $customer->getId()){
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            if($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
