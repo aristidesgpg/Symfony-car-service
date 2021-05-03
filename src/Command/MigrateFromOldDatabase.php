@@ -196,8 +196,19 @@ class MigrateFromOldDatabase extends Command
             ]);
             if (!$sms) {
                 $sms = new ServiceSMS();
+                if (str_contains($row['roles'], 'ROLE_ADMIN')) {
+                    $userIds = $this->oldAdminIds;
+                } else if (str_contains($row['roles'], 'ROLE_MANAGER')) {
+                    $userIds = $this->oldManagerIds;
+                } else if (str_contains($row['roles'], 'ROLE_ADVISOR')) {
+                    $userIds = $this->oldAdvisorIds;
+                }
 
-                $user = $userRepo->findOneBy(['id' => $this->oldAdvisorIds[$row['user_id']]]);
+                if ($userIds) {
+                    $user = $userRepo->findOneBy(['id' => $userIds[$row['user_id']]]);
+                } else {
+                    $user = null;
+                }
                 $customer = $customerRepo->findOneBy(['phone' => $row['number']]);
                 $date = new \DateTime($row['date']);
 
