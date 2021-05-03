@@ -1510,8 +1510,7 @@ class ReportingController extends AbstractFOSRestController
         $endDate = $request->query->get('endDate');
         $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
         $urlParameters = [];
-        $sortField = '';
-        $sortDirection = '';
+        $sortField = $sortDirection = $searchTerm = null;
         $errors = [];
 
         $columns = $em->getClassMetadata('App\Entity\RepairOrderPayment')->getFieldNames();

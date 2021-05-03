@@ -59,11 +59,27 @@ class RepairOrderPaymentRepository extends ServiceEntityRepository
 
             if ($searchTerm) {
                 $query = '';
-                $fields = ['amount', 'refundedAmount'];
 
-                foreach ($fields as $field) {
-                    $query .= "rop.$field LIKE :searchTerm OR ";
+                $qb->leftJoin('ro.primaryCustomer', 'ro_customer')
+                   ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
+
+                $searchFields = [
+                    'ro' => ['number'],
+                    'ro_customer' => ['name'],
+                    'ro_advisor' => ['combine_name'],
+                    'rop' => ['amount', 'refundedAmount'],
+                ];
+
+                foreach ($searchFields as $class => $fields) {
+                    foreach ($fields as $field) {
+                        if ('combine_name' === $field) {
+                            $query .= "CONCAT($class.firstName , ' ' , $class.lastName) LIKE :searchTerm OR ";
+                        } else {
+                            $query .= "$class.$field LIKE :searchTerm OR ";
+                        }
+                    }
                 }
+
                 $query = substr($query, 0, strlen($query) - 4);
 
                 $qb->andWhere($query)
