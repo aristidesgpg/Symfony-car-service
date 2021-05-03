@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\RepairOrderPayment;
 use App\Exception\PaymentException;
 use App\Helper\FalsyTrait;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 use Twilio\Exceptions\TwilioException;
+use App\Service\RepairOrderHelper;
 
 /**
  * Class RepairOrderPaymentController.
@@ -62,7 +64,8 @@ class RepairOrderPaymentController extends AbstractFOSRestController
      */
     public function getPaymentsForRO(
         Request $request,
-        RepairOrderRepository $repairOrderRepository
+        RepairOrderRepository $repairOrderRepository,
+        RepairOrderHelper $repairOrderHelper
     ): Response {
         $repairOrderId = $request->get('repairOrderId');
         // check if params are valid
@@ -79,6 +82,15 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
+
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+            if($ro->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
+
         $payments = $ro->getPayments();
         foreach ($payments as $key => $payment) {
             if ($payment->isDeleted()) {
@@ -157,6 +169,13 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+            if($payment->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
         $view = $this->view($payment);
         $view->getContext()->setGroups(['int_list']);
 
@@ -287,6 +306,14 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Payment not found');
         }
 
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+            if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
+
         if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -400,6 +427,14 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
             throw new NotFoundHttpException();
+        }
+
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+            if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
         }
 
         if (null !== $rop->getDatePaid()) {
@@ -542,6 +577,13 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+            if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
         $text = null;
         if (null === $rop->getDatePaid()) {
             $text = 'Cannot send receipt for unpaid order';

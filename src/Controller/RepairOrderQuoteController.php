@@ -53,6 +53,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote, RepairOrderQuoteHelper $helper)
     {
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+            if($repairOrderQuote->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
+
         $groups = array_merge(RepairOrderQuote::GROUPS, ['roq_log', 'user_list', 'customer_list']);
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups($groups);
@@ -476,6 +484,15 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
         //Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
+
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+            if($repairOrder->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
+
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
