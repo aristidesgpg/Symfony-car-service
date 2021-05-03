@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderPayment;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
@@ -1465,7 +1466,7 @@ class ReportingController extends AbstractFOSRestController
      *     in="query",
      *     enum={"ASC", "DESC"}
      * )
-     * 
+     *
      * @SWG\Parameter(
      *     name="searchTerm",
      *     type="string",
@@ -1475,7 +1476,7 @@ class ReportingController extends AbstractFOSRestController
      *
      * @SWG\Response(
      *     response="200",
-     *     description="Success!",
+     *     description="Return array of payment objects",
      *     @SWG\Schema(
      *         type="object",
      *         @SWG\Property(
@@ -1512,7 +1513,7 @@ class ReportingController extends AbstractFOSRestController
         $sortDirection = '';
         $errors = [];
 
-        $columns = $em->getClassMetadata('App\Entity\RepairOrder')->getFieldNames();
+        $columns = $em->getClassMetadata('App\Entity\RepairOrderPayment')->getFieldNames();
 
         // Invalid page
         if ($page < 1) {
@@ -1538,34 +1539,29 @@ class ReportingController extends AbstractFOSRestController
             $urlParameters['sortField'] = $sortField;
         }
 
+        if ($request->query->has('searchTerm')) {
+            $searchTerm = $request->query->get('searchTerm');
+
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+
         if (!empty($errors)) {
             return new ValidationResponse($errors);
         }
 
-        $result = $roRepo->getAllArchives(
+        $paymentQuery = $roRepo->getAllPayments(
             $startDate,
             $endDate,
             $sortField,
-            $sortDirection
+            $sortDirection,
+            $searchTerm
         );
 
-        $sumOfStartValues = 0;
-        $sumOfFinalValues = 0;
-        foreach ($result as $ro) {
-            $sumOfStartValues += $ro->getStartValue();
-            $sumOfFinalValues += $ro->getFinalValue();
-        }
-
-        $totalUpsell = round($sumOfFinalValues - $sumOfStartValues, 2);
-
-        $pager = $paginator->paginate($result, $page, $pageLimit);
+        $pager = $paginator->paginate($paymentQuery, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
             'results' => $pager->getItems(),
-            'sumOfStartValues' => round($sumOfStartValues, 2),
-            'sumOfFinalValues' => round($sumOfFinalValues, 2),
-            'totalUpsell' => $totalUpsell,
             'totalResults' => $pagination->totalResults,
             'totalPages' => $pagination->totalPages,
             'previous' => $pagination->getPreviousPageURL('app_reporting_ipay', $urlParameters),
