@@ -326,31 +326,24 @@ class RepairOrderQuoteHelper
             // If the recommendation was pre-approved, just approve it and bail
             if ($repairOrderQuoteRecommendation->getPreApproved()){
                 $repairOrderQuoteRecommendation->setApproved(true);
-                continue;
-            }
-
-            $currentRecommendation = '';
-
-            foreach ($recommendations as $recommendation) {
-                if ($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
-                    $currentRecommendation = $recommendation;
-                    break;
-                }
-            }
-
-            if ($repairOrderQuoteRecommendation->getPreApproved()) {
-                if ($currentRecommendation && !filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN)) {
-                    throw new Exception('The recommendation'.$repairOrderQuoteRecommendation->getId().' was pre-approved');
-                }
-
-                $repairOrderQuoteRecommendation->setApproved(true);
             } else {
-                if (!$currentRecommendation) {
+                $recommendationOutcome = false;
+
+                foreach ($recommendations as $recommendation) {
+                    if ($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
+                        $recommendationOutcome = $recommendation;
+                        break;
+                    }
+                }
+
+                if (!$recommendationOutcome){
                     throw new Exception('Recommendation '.$repairOrderQuoteRecommendation->getId().' was not pre-approved, but it is missing');
                 }
 
-                $repairOrderQuoteRecommendation->setApproved(filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN));
+                $repairOrderQuoteRecommendation->setApproved(filter_var($recommendationOutcome->approved, FILTER_VALIDATE_BOOLEAN));
             }
+
+            $this->em->persist($repairOrderQuoteRecommendation);
 
             if ($repairOrderQuoteRecommendation->getApproved()) {
                 $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
@@ -360,8 +353,6 @@ class RepairOrderQuoteHelper
                     + $repairOrderQuoteRecommendation->getPartsTax()
                     + $repairOrderQuoteRecommendation->getSuppliesPrice();
             }
-
-            $this->em->persist($repairOrderQuoteRecommendation);
         }
 
         $repairOrderQuote->setSubtotal($subtotal);
