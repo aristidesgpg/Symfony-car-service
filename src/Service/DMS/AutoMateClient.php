@@ -3,6 +3,7 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\DMSResultRecommendation;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\SlackClient;
@@ -16,7 +17,6 @@ use App\Soap\automate\src\ProcessEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class AutoMateClient.
@@ -119,6 +119,7 @@ class AutoMateClient extends AbstractDMSClient
 
             //Get the keys of open repair orders.
             $targetNodes = $this->getRepairOrderKeys($this->getProcessEvent());
+
             //No open repair orders.
             if (empty($targetNodes)) {
                 return $repairOrders;
@@ -209,7 +210,6 @@ class AutoMateClient extends AbstractDMSClient
             if (!$dmsResult->getCustomer()->getPhoneNumbers()) {
                 return null;
             }
-
             //Email is not used.
 
             //Vehicle Details
@@ -257,20 +257,63 @@ class AutoMateClient extends AbstractDMSClient
             }
 
             $initialRoValue = 0;
-
+            $recommendations = [];
             //TODO Nested for loop. Revisit
             foreach ($repairOrder->getJob() as $job) {
-                $dmsResult->getTechnician()->setFirstName($job->getServiceTechnicianParty()->getSpecifiedPerson()->getGivenName());
-                $dmsResult->getTechnician()->setLastName($job->getServiceTechnicianParty()->getSpecifiedPerson()->getFamilyName());
-                if (!$job->getPricing()) {
-                    continue;
+                $firstName = '';
+                $lastName = '';
+                if(!is_null($job->getServiceTechnicianParty()->getSpecifiedPerson())){
+                    $firstName = $job->getServiceTechnicianParty()->getSpecifiedPerson()->getGivenName();
+                    $lastName = $job->getServiceTechnicianParty()->getSpecifiedPerson()->getFamilyName();
+                }
+                $dmsResult->getTechnician()->setFirstName($firstName);
+                $dmsResult->getTechnician()->setLastName($lastName);
+
+//                if (!$job->getPricing()) {
+//                    continue;
+//                }
+                $laborPrice = 0;
+                if (is_array($job->getPricing())) {
+                    foreach ($job->getPricing()->getPrice() as $price) {
+                        $initialRoValue += $price->getChargeAmount()->value();
+                        $laborPrice += $price->getChargeAmount()->value();
+                    }
+                }
+                //TODO Double check all these nested loops.
+                $partsPrice = 0;
+                if (is_array($job->getServiceParts())) {
+                    foreach ($job->getServiceParts() as $parts) {
+                        foreach ($parts->getPricing() as $price) {
+                            foreach ($price->getPrice() as $item) {
+                                $partsPrice += $item->getChargeAmount()->value();
+                            }
+                        }
+                    }
                 }
 
-                foreach ($job->getPricing()->getPrice() as $price) {
-                    $initialRoValue += $price->getChargeAmount()->value();
-                }
+                $notes = sprintf(' %s %s %s',
+                    $job->getCodesAndCommentsExpanded()->getCauseDescription(),
+                    $job->getCodesAndCommentsExpanded()->getComplaintDescription(),
+                    $job->getCodesAndCommentsExpanded()->getCorrectionDescription()
+                );
+                //Get Dealer Pre-approved "Recommendations"
+                $recommendations[] = (new DMSResultRecommendation())
+                    ->setOperationCode($job->getOperationID())
+                    ->setDescription($job->getOperationName()) //This needs to be the description from the opcode.
+                    ->setPreApproved(true)
+                    ->setApproved(true)
+                    ->setLaborHours($job->getLaborAllowanceHoursNumeric())
+                    ->setLaborPrice($laborPrice)
+                    ->setLaborTax(0)
+                    ->setPartsPrice($partsPrice)
+                    ->setPartsTax(0)
+                    ->setSuppliesPrice(0)
+                    ->setSuppliesTax(0)
+                    ->setNotes($notes);
             }
             $dmsResult->setInitialROValue($initialRoValue);
+
+            $dmsResult->setRecommendations($recommendations);
 
             return $dmsResult;
         }
@@ -521,14 +564,58 @@ class AutoMateClient extends AbstractDMSClient
         return $deserializedParts;
     }
 
-    public function getRepairOrderByNumber(string $RONumber)
+    public function getRepairOrderByNumber(string $RONumber): ?DMSResult
     {
         if (!$this->isInitialized()) {
             $this->init();
         }
 
-        // TODO: Implement getSingleRepairOrder() method.
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        $dmsResult = null;
+
+        $repairOrder = $this->getEntityManager()->getRepository(RepairOrder::class)->find($RONumber);
+        if (!$repairOrder) {
+            return null;
+        }
+
+        //$targetXml = sprintf('<target legacyId="%s">%s</target>', $repairOrder->getNumber(), $repairOrder->getDmsKey());
+        $targetXml = sprintf('<target legacyId="%s">%s</target>', '81870', '061ab7e1-0ae0-49d9-8099-4e05dc04c0fe-MWR601LF');
+        $this->getProcessEvent()
+            ->setEventType('GetRepairOrders')
+            ->setPayload('<ExtractRequest><targets>'.$targetXml.'</targets></ExtractRequest>');
+
+        $result = $this->sendSoapCall('processEvent', $this->buildEventForSoap($this->getProcessEvent()), true);
+
+        /**
+         * @var AutomateEnvelope $automateEnvelope
+         */
+        $response = $this->deserializeSOAPResponse($result)->getResponse();
+        if (!$response) {
+            return null;
+        }
+
+        //Since this is returned as an array of xml nodes, to deserialize it, add a fake body.
+        $rootNode = '<?xml version="1.0" ?><body>'.$response.'</body>';
+        $deserializedNode = $this->getSerializer()->deserialize($rootNode, \App\Soap\automate\src\AutomateFakeBodyType::class, 'xml');
+
+        if (!isset($deserializedNode->getRepairOrder()[0])) {
+            return null;
+        }
+
+        /**
+         * @var \App\Soap\automate\src\RepairOrder $resultRepairOrder
+         */
+        $resultRepairOrder = $deserializedNode->getRepairOrder()[0];
+
+        if (!$resultRepairOrder) {
+            return null;
+        }
+
+        if ('This RO is not retrievable through Open/Mate.' == $resultRepairOrder->getRepairOrderHeader()->getOrderNotes()) {
+            return null;
+        }
+
+        return $this->parseRepairOrderNode($resultRepairOrder);
+
     }
 
     public function getWsdl(): string
