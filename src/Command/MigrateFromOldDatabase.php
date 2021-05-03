@@ -223,10 +223,17 @@ class MigrateFromOldDatabase extends Command
 
                 $this->em->persist($sms);
             }
+
+            if ($index % 200 == 0){
+                $this->em->flush();
+                $this->em->clear();
+            }
         }
 
         $this->em->flush();
+        $this->em->clear();
     }
+
     private function createRepairOrderPaymentInteraction(
         RepairOrderPayment $repairOrderPayment,
         string $type,
@@ -318,9 +325,15 @@ class MigrateFromOldDatabase extends Command
                     }
                 }
             }
+
+            if ($index % 200 == 0){
+                $this->em->flush();
+                $this->em->clear();
+            }
         }
 
         $this->em->flush();
+        $this->em->clear();
     }
     private function createRepairOrderMpiInteraction(
         RepairOrderMPI $repairOrderMpi,
@@ -1140,21 +1153,32 @@ class MigrateFromOldDatabase extends Command
         $customerRepo = $this->em->getRepository(Customer::class);
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             if (!$row['inactive']) {
                 $oldRepairOrder = $repairOrderRepo->findOneBy(['number' => $row['number']]);
 
                 if ($oldRepairOrder) {
                     $this->oldRepairOrderIds[$row['id']] = $oldRepairOrder->getId();
                 } else {
+                    if (!isset($this->oldCustomerIds[$row['primary_customer_id']])){
+                        continue;
+                    }
                     $customerId = $this->oldCustomerIds[$row['primary_customer_id']];
                     $customer = $customerRepo->findOneBy(['id' => $customerId]);
+
+                    if (!$customer){
+                        continue;
+                    }
 
                     $technicanId = $this->oldTechnicanIds[$row['technician_id']];
                     $technican = $userRepo->findOneBy(['id' => $technicanId]);
 
                     $advisorId = $this->oldAdvisorIds[$row['advisor_id']];
                     $advisor = $userRepo->findOneBy(['id' => $advisorId]);
+
+                    if (!$advisor){
+                        continue;
+                    }
 
                     $repairOrder = new RepairOrder();
                     $repairOrder->setPrimaryCustomer($customer)
@@ -1228,53 +1252,61 @@ class MigrateFromOldDatabase extends Command
                         }
                     }
 
-                    $this->em->flush();
                     $this->oldRepairOrderIds[$row['id']] = $repairOrder->getId();
                 }
             } else {
                 $this->oldRepairOrderIds[$row['id']] = '';
             }
+
+            if ($index % 200 == 0){
+                $this->em->flush();
+                $this->em->clear();
+            }
         }
+
+        $this->em->flush();
+        $this->em->clear();
     }
     private function customer()
     {
         $statement = $this->connection->prepare(
-            'SELECT * FROM customer'
+            'SELECT *
+                FROM customer c
+                WHERE c.name IS NOT NULL AND c.phone IS NOT NULL AND c.name != \'\' AND c.phone != \'\''
         );
         $userRepo = $this->em->getRepository(User::class);
         $customerRepo = $this->em->getRepository(Customer::class);
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             $phone = $row['phone'];
-            $cleanPhone = preg_replace('/[^0-9]/', '', $phone);
-            if (strlen($cleanPhone) > 10) {
-                $cleanPhone = substr($cleanPhone, 1, 10);
+            if (strlen($phone) != 10) {
+                continue;
             }
 
-            $oldCustomer = $customerRepo->findOneBy(['phone' => $cleanPhone]);
+            if (empty($row['name'])){
+                continue;
+            }
 
-            if ($oldCustomer) {
-                $this->oldCustomerIds[$row['id']] = $oldCustomer->getId();
-            } else {
-                $customer = new Customer();
+            $customer = new Customer();
 
-                $customer->setMobileConfirmed($row['phone_validated'])
-                    ->setName($row['name'] ? $row['name'] : "No Name")
-                    ->setEmail($row['email'])
-                    ->setPhone($cleanPhone);
+            $customer->setMobileConfirmed($row['phone_validated'])
+                ->setName($row['name'])
+                ->setEmail($row['email'])
+                ->setPhone($phone);
 
-                if ($row['added_by_id']) {
-                    $user = $userRepo->findOneBy(['id' => $this->oldAdvisorIds[$row['added_by_id']]]);
-                    $customer->setAddedBy($user);
-                }
+            $this->em->persist($customer);
 
-                $this->em->persist($customer);
+            $this->oldCustomerIds[$row['id']] = $customer->getId();
+
+            if ($index % 200 == 0){
                 $this->em->flush();
-
-                $this->oldCustomerIds[$row['id']] = $customer->getId();
+                $this->em->clear();
             }
         }
+
+        $this->em->flush();
+        $this->em->clear();
     }
 }
