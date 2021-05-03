@@ -109,7 +109,8 @@ class RepairOrderQuoteHelper
         SettingsHelper $settingsHelper,
         Security $security,
         RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
-    ) {
+    )
+    {
         $this->em = $em;
         $this->operationCodeRepository = $em->getRepository(OperationCode::class);
         $this->security = $security;
@@ -240,7 +241,7 @@ class RepairOrderQuoteHelper
 
     public function isTrue($val)
     {
-        $boolval = (is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool) $val);
+        $boolval = (is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool)$val);
         return ($boolval === null ? false : $boolval);
     }
 
@@ -324,7 +325,7 @@ class RepairOrderQuoteHelper
 
         foreach ($repairOrderQuoteRecommendations as $repairOrderQuoteRecommendation) {
             // If the recommendation was pre-approved, just approve it and bail
-            if ($repairOrderQuoteRecommendation->getPreApproved()){
+            if ($repairOrderQuoteRecommendation->getPreApproved()) {
                 $repairOrderQuoteRecommendation->setApproved(true);
             } else {
                 $recommendationOutcome = false;
@@ -336,8 +337,8 @@ class RepairOrderQuoteHelper
                     }
                 }
 
-                if (!$recommendationOutcome){
-                    throw new Exception('Recommendation '.$repairOrderQuoteRecommendation->getId().' was not pre-approved, but it is missing');
+                if (!$recommendationOutcome) {
+                    throw new Exception('Recommendation ' . $repairOrderQuoteRecommendation->getId() . ' was not pre-approved, but it is missing');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(filter_var($recommendationOutcome->approved, FILTER_VALIDATE_BOOLEAN));
@@ -349,15 +350,15 @@ class RepairOrderQuoteHelper
                 $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
                     + $repairOrderQuoteRecommendation->getPartsPrice()
                     + $repairOrderQuoteRecommendation->getSuppliesPrice();
-                $tax +=  $repairOrderQuoteRecommendation->getLaborTax()
+                $tax += $repairOrderQuoteRecommendation->getLaborTax()
                     + $repairOrderQuoteRecommendation->getPartsTax()
-                    + $repairOrderQuoteRecommendation->getSuppliesPrice();
+                    + $repairOrderQuoteRecommendation->getSuppliesTax();
             }
         }
 
-        $repairOrderQuote->setSubtotal($subtotal);
-        $repairOrderQuote->setTax($tax);
-        $repairOrderQuote->setTotal($subtotal + $tax);
+        $repairOrderQuote->setSubtotal($subtotal)
+            ->setTax($tax)
+            ->setTotal($subtotal + $tax);
 
         $this->em->beginTransaction();
 
@@ -446,12 +447,12 @@ class RepairOrderQuoteHelper
         // Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
-                ->setCustomer($repairOrder->getPrimaryCustomer())
-                ->setType($status);
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
 
         // Update repairOrderQuote Status
         $repairOrder->getRepairOrderQuote()->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                ->setStatus($status);
+            ->setStatus($status);
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
@@ -650,7 +651,6 @@ class RepairOrderQuoteHelper
     {
         $this->repairOrderQuoteLogHelper = $repairOrderQuoteLogHelper;
     }
-
 
 
 }
