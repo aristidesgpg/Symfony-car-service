@@ -209,7 +209,7 @@ class MigrateFromOldDatabase extends Command
             $date = new \DateTime($row['date']);
             $message = $row['message'];
             if ($message && strlen($message) > 200) {
-                $message = substr($message, 0, 200);
+                $message = mb_substr($message, 0, 200, "utf-8");
             }
             try {
                 $sms->setUser($user)
@@ -221,12 +221,13 @@ class MigrateFromOldDatabase extends Command
                     ->setIncoming($row['type'] === 'incoming' ? 1 : 0);
 
                 $this->em->persist($sms);
-                if ($index % 200 == 0) {
+                if ($index % 10 == 0) {
                     $this->em->flush();
                     $this->em->clear();
                 }
             } catch (Exception $e) {
-                $output->writeln($row['id'] . " error");
+                $output->writeln($row['id'] . "----" . $message);
+                continue;
             }
         }
 
@@ -258,7 +259,7 @@ class MigrateFromOldDatabase extends Command
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
         foreach ($rows as $index => $row) {
-            if (!$row['deleted']) {
+            if (!$row['deleted'] && isset($this->oldRepairOrderIds[$row['repair_order_id']])) {
                 $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
                 if ($repairOrder) {
                     $repairOrderPayment = new RepairOrderPayment();
@@ -354,6 +355,9 @@ class MigrateFromOldDatabase extends Command
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
         foreach ($rows as $index => $row) {
+            if (!isset($this->oldRepairOrderIds[$row['repair_order_id']])) {
+                continue;
+            }
             $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
             $repairOrderMpi = new RepairOrderMPI();
 
@@ -419,18 +423,20 @@ class MigrateFromOldDatabase extends Command
         foreach ($rows as $index => $row) {
             $repairOrderNote = new RepairOrderNote();
 
-            $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
+            if (isset($this->oldRepairOrderIds[$row['repair_order_id']])) {
+                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
 
-            if ($repairOrder) {
-                $repairOrderNote->setRepairOrder($repairOrder)
-                    ->setNote($row['note'])
-                    ->setDateCreated(new \DateTime($row['date']));
+                if ($repairOrder) {
+                    $repairOrderNote->setRepairOrder($repairOrder)
+                        ->setNote($row['note'])
+                        ->setDateCreated(new \DateTime($row['date']));
 
-                $this->em->persist($repairOrderNote);
-            }
-            if ($index % 200 == 0) {
-                $this->em->flush();
-                $this->em->clear();
+                    $this->em->persist($repairOrderNote);
+                }
+                if ($index % 200 == 0) {
+                    $this->em->flush();
+                    $this->em->clear();
+                }
             }
         }
 
@@ -553,23 +559,24 @@ class MigrateFromOldDatabase extends Command
 
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
         $customerRepo = $this->em->getRepository(Customer::class);
-        $repairOrderCustomerRepo = $this->em->getRepository(RepairOrderCustomer::class);
 
         foreach ($rows as $index => $row) {
-            $repairOrder = $repairOrderRepo->findOneBy([
-                'id' => $this->oldRepairOrderIds[$row['repair_order_id']]
-            ]);
-            $customer = $customerRepo->findOneBy([
-                'id' => $this->oldCustomerIds[$row['customer_id']]
-            ]);
-            if ($repairOrder && $customer) {
-                $repairOrderCustomer = new RepairOrderCustomer();
-                $repairOrderCustomer->setCustomer($customer)
-                    ->setRepairOrder($repairOrder);
-            }
-            if ($index % 200 == 0) {
-                $this->em->flush();
-                $this->em->clear();
+            if (isset($this->oldRepairOrderIds[$row['repair_order_id']]) && isset($this->oldCustomerIds[$row['customer_id']])) {
+                $repairOrder = $repairOrderRepo->findOneBy([
+                    'id' => $this->oldRepairOrderIds[$row['repair_order_id']]
+                ]);
+                $customer = $customerRepo->findOneBy([
+                    'id' => $this->oldCustomerIds[$row['customer_id']]
+                ]);
+                if ($repairOrder && $customer) {
+                    $repairOrderCustomer = new RepairOrderCustomer();
+                    $repairOrderCustomer->setCustomer($customer)
+                        ->setRepairOrder($repairOrder);
+                }
+                if ($index % 200 == 0) {
+                    $this->em->flush();
+                    $this->em->clear();
+                }
             }
         }
         $this->em->flush();
@@ -586,7 +593,6 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $repairOrderQuoteRepo = $this->em->getRepository(RepairOrderQuote::class);
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
         $operationCodeRepo = $this->em->getRepository(OperationCode::class);
 
@@ -594,6 +600,10 @@ class MigrateFromOldDatabase extends Command
         $repairOrderQuote = null;
 
         foreach ($rows as $index => $row) {
+            if (!isset($this->oldRepairOrderIds[$row['repair_order_id']])) {
+                continue;
+            }
+
             if ($prev_repairOrderId !== $row['repair_order_id']) {
                 $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
                 if ($repairOrder) {
@@ -970,8 +980,6 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $userRepo = $this->em->getRepository(User::class);
-
         foreach ($rows as $row) {
             $statement = $this->connection->prepare(
                 "SELECT MAX(date) as date FROM login_log where user_type = 'advisor' and user_id = " . $row['id']
@@ -1123,7 +1131,11 @@ class MigrateFromOldDatabase extends Command
 
         foreach ($rows as $index => $row) {
             if (!$row['inactive']) {
-                if (!isset($this->oldCustomerIds[$row['primary_customer_id']])) {
+                if (
+                    !isset($this->oldCustomerIds[$row['primary_customer_id']])
+                    || !isset($this->oldTechnicanIds[$row['technician_id']])
+                    || !isset($this->oldAdvisorIds[$row['advisor_id']])
+                ) {
                     continue;
                 }
                 $customerId = $this->oldCustomerIds[$row['primary_customer_id']];
