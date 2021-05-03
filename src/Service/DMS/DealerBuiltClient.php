@@ -111,7 +111,6 @@ class DealerBuiltClient extends AbstractDMSClient
             ];
 
             $result = $this->sendSoapCall('PullRepairOrders', [$searchCriteria], true);
-            dd($result);
             //Deserialize the soap result into objects.
             $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelope::class, 'xml');
 
