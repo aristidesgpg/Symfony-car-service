@@ -134,11 +134,11 @@ class MigrateFromOldDatabase extends Command
         $this->technician();
         $output->writeln("Technican done");
 
-        $this->manager();
-        $output->writeln("Manager done");
+        // $this->manager();
+        // $output->writeln("Manager done");
 
-        $this->salesManager();
-        $output->writeln("SalesManager done");
+        // $this->salesManager();
+        // $output->writeln("SalesManager done");
 
         $this->customer();
         $output->writeln("Customer done");
@@ -185,39 +185,33 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $smsRepo = $this->em->getRepository(ServiceSMS::class);
         $userRepo = $this->em->getRepository(User::class);
         $customerRepo = $this->em->getRepository(Customer::class);
 
         foreach ($rows as $index => $row) {
-            $sms = $smsRepo->findOneBy([
-                'phone' => $row['number'],
-                'date' => new \DateTime($row['date'])
-            ]);
-            if (!$sms) {
-                $sms = new ServiceSMS();
-                if (!$row['roles']) {
-                    $userIds = null;
-                } else if (str_contains($row['roles'], 'ROLE_ADMIN')) {
-                    $userIds = $this->oldAdminIds;
-                } else if (str_contains($row['roles'], 'ROLE_MANAGER')) {
-                    $userIds = $this->oldManagerIds;
-                } else if (str_contains($row['roles'], 'ROLE_ADVISOR')) {
-                    $userIds = $this->oldAdvisorIds;
-                }
+            $sms = new ServiceSMS();
+            if (!$row['roles']) {
+                $userIds = null;
+            } else if (str_contains($row['roles'], 'ROLE_ADMIN')) {
+                $userIds = $this->oldAdminIds;
+            } else if (str_contains($row['roles'], 'ROLE_MANAGER')) {
+                $userIds = $this->oldManagerIds;
+            } else if (str_contains($row['roles'], 'ROLE_ADVISOR')) {
+                $userIds = $this->oldAdvisorIds;
+            }
 
-                if ($userIds && isset($userIds[$row['user_id']])) {
-                    $user = $userRepo->findOneBy(['id' => $userIds[$row['user_id']]]);
-                } else {
-                    $user = null;
-                }
-                $customer = $customerRepo->findOneBy(['phone' => $row['number']]);
-                $date = new \DateTime($row['date']);
-                $message = $row['message'];
-                if ($message && strlen($message) >= 255) {
-                    $message = substr($message, 0, 255);
-                }
-
+            if ($userIds && isset($userIds[$row['user_id']])) {
+                $user = $userRepo->findOneBy(['id' => $userIds[$row['user_id']]]);
+            } else {
+                $user = null;
+            }
+            $customer = $customerRepo->findOneBy(['phone' => $row['number']]);
+            $date = new \DateTime($row['date']);
+            $message = $row['message'];
+            if ($message && strlen($message) >= 255) {
+                $message = substr($message, 0, 254);
+            }
+            try {
                 $sms->setUser($user)
                     ->setCustomer($customer)
                     ->setDate($date)
@@ -225,14 +219,13 @@ class MigrateFromOldDatabase extends Command
                     ->setIsRead($row['is_read'])
                     ->setPhone($row['number'])
                     ->setIncoming($row['type'] === 'incoming' ? 1 : 0);
-                try {
-                    $this->em->persist($sms);
-                } catch (Exception $e) {
-                    $output->writeln($row['id'] . " error");
-                }
+
+                $this->em->persist($sms);
+            } catch (Exception $e) {
+                $output->writeln($row['id'] . " error");
             }
 
-            if ($index % 200 == 0){
+            if ($index % 200 == 0) {
                 $this->em->flush();
                 $this->em->clear();
             }
@@ -263,78 +256,71 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $repairOrderPaymentRepo = $this->em->getRepository(RepairOrderPayment::class);
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
         foreach ($rows as $index => $row) {
             if (!$row['deleted']) {
-                $repairOrderPayment = $repairOrderPaymentRepo->findOneBy([
-                    'transactionId' => $row['transaction_id'],
-                ]);
+                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
+                if ($repairOrder) {
+                    $repairOrderPayment = new RepairOrderPayment();
 
-                if (!$repairOrderPayment) {
-                    $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
-                    if ($repairOrder) {
-                        $repairOrderPayment = new RepairOrderPayment();
+                    $createdDate = new \DateTime($row['created_at']);
+                    $status = 'Created';
+                    $money = MoneyHelper::parseAmount($row['amount']);
+                    $refundedMoney = $row['refunded_amount'] ? MoneyHelper::parseAmount($row['refunded_amount']) : null;
 
-                        $createdDate = new \DateTime($row['created_at']);
+                    $repairOrderPayment->setRepairOrder($repairOrder)
+                        ->setAmount($money)
+                        ->setTransactionId($row['transaction_id'])
+                        ->setRefundedAmount($refundedMoney)
+                        ->setDateCreated($createdDate)
+                        ->setCardType($row['card_type'])
+                        ->setCardNumber($row['card_number']);
+
+                    if ($row['sent_at']) {
                         $status = 'Created';
-                        $money = MoneyHelper::parseAmount($row['amount']);
-                        $refundedMoney = $row['refunded_amount'] ? MoneyHelper::parseAmount($row['refunded_amount']) : null;
-
-                        $repairOrderPayment->setRepairOrder($repairOrder)
-                            ->setAmount($money)
-                            ->setTransactionId($row['transaction_id'])
-                            ->setRefundedAmount($refundedMoney)
-                            ->setDateCreated($createdDate)
-                            ->setCardType($row['card_type'])
-                            ->setCardNumber($row['card_number']);
-
-                        if ($row['sent_at']) {
-                            $status = 'Created';
-                            $date = new \DateTime($row['sent_at']);
-                            $repairOrderPayment->setDateSent($date);
-                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, "Sent", $date);
-                        }
-                        if ($row['viewed_at']) {
-                            $status = 'Viewed';
-                            $date = new \DateTime($row['viewed_at']);
-                            $repairOrderPayment->setDateViewed($date);
-                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                        }
-                        if ($row['paid_at']) {
-                            $status = 'Paid';
-                            $date = new \DateTime($row['paid_at']);
-                            $repairOrderPayment->setDatePaid($date);
-                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                        }
-                        if ($row['updated_at']) {
-                            $status = 'Paid Viewed';
-                            $date = new \DateTime($row['updated_at']);
-                            $repairOrderPayment->setDateConfirmed($date);
-                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                        }
-                        if ($row['refunded_at']) {
-                            $status = 'Refunded';
-                            $date = new \DateTime($row['refunded_at']);
-                            $repairOrderPayment->setDateRefunded($date);
-                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                        }
-                        if ($row['paid_viewed_by_advisor_at']) {
-                            $status = 'Receipt Sent';
-                            $date = new \DateTime($row['paid_viewed_by_advisor_at']);
-                            $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
-                        }
-
-                        $repairOrderPayment->setStatus($status);
-                        $repairOrder->setPaymentStatus($status);
-                        $this->em->persist($repairOrderPayment);
-                        $this->em->persist($repairOrder);
+                        $date = new \DateTime($row['sent_at']);
+                        $repairOrderPayment->setDateSent($date);
+                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, "Sent", $date);
                     }
+                    if ($row['viewed_at']) {
+                        $status = 'Viewed';
+                        $date = new \DateTime($row['viewed_at']);
+                        $repairOrderPayment->setDateViewed($date);
+                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                    }
+                    if ($row['paid_at']) {
+                        $status = 'Paid';
+                        $date = new \DateTime($row['paid_at']);
+                        $repairOrderPayment->setDatePaid($date);
+                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                    }
+                    if ($row['updated_at']) {
+                        $status = 'Paid Viewed';
+                        $date = new \DateTime($row['updated_at']);
+                        $repairOrderPayment->setDateConfirmed($date);
+                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                    }
+                    if ($row['refunded_at']) {
+                        $status = 'Refunded';
+                        $date = new \DateTime($row['refunded_at']);
+                        $repairOrderPayment->setDateRefunded($date);
+                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                    }
+                    if ($row['paid_viewed_by_advisor_at']) {
+                        $status = 'Receipt Sent';
+                        $date = new \DateTime($row['paid_viewed_by_advisor_at']);
+                        $this->createRepairOrderPaymentInteraction($repairOrderPayment, $status, $date);
+                    }
+
+                    $repairOrderPayment->setStatus($status);
+                    $repairOrder->setPaymentStatus($status);
+                    $this->em->persist($repairOrderPayment);
+                    $this->em->persist($repairOrder);
                 }
             }
 
-            if ($index % 200 == 0){
+            if ($index % 200 == 0) {
                 $this->em->flush();
                 $this->em->clear();
             }
@@ -366,37 +352,35 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $repairOrderMpiRepo = $this->em->getRepository(RepairOrderMPI::class);
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
         foreach ($rows as $index => $row) {
-            $repairOrderMpi = $repairOrderMpiRepo->findOneBy([
-                'repairOrder' => $this->oldRepairOrderIds[$row['repair_order_id']],
-            ]);
+            $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
+            $repairOrderMpi = new RepairOrderMPI();
 
-            if (!$repairOrderMpi) {
-                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
-                $repairOrderMpi = new RepairOrderMPI();
+            $date = new \DateTime($row['date']);
 
-                $date = new \DateTime($row['date']);
+            $repairOrderMpi->setRepairOrder($repairOrder)
+                ->setResults($row['results'])
+                ->setStatus('Complete')
+                ->setDateViewed($date)
+                ->setDateSent($date)
+                ->setDateCompleted($date);
+            $this->em->persist($repairOrderMpi);
 
-                $repairOrderMpi->setRepairOrder($repairOrder)
-                    ->setResults($row['results'])
-                    ->setStatus('Complete')
-                    ->setDateViewed($date)
-                    ->setDateSent($date)
-                    ->setDateCompleted($date);
-                $this->em->persist($repairOrderMpi);
+            $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Sent", $date);
 
-                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Sent", $date);
+            $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Viewed", $date);
 
-                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Viewed", $date);
-
-                $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Complete", $date);
+            $this->createRepairOrderMpiInteraction($repairOrderMpi, $repairOrder, "Complete", $date);
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
             }
         }
 
         $this->em->flush();
+        $this->em->clear();
     }
     private function payment()
     {
@@ -408,23 +392,19 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $paymentResponseRepo = $this->em->getRepository(PaymentResponse::class);
-
         foreach ($rows as $index => $row) {
-            $paymentResponse = $paymentResponseRepo->findOneBy([
-                'type' => $row['action'],
-                'created' => new \DateTime($row['datetime']),
-            ]);
+            $rawResponse = 'response_code=' . $row['code'] . '&responsetext=' . $row['response'];
+            $paymentResponse = new PaymentResponse($row['action'], $rawResponse, new \DateTime($row['datetime']));
 
-            if (!$paymentResponse) {
-                $rawResponse = 'response_code=' . $row['code'] . '&responsetext=' . $row['response'];
-                $paymentResponse = new PaymentResponse($row['action'], $rawResponse, new \DateTime($row['datetime']));
-
-                $this->em->persist($paymentResponse);
+            $this->em->persist($paymentResponse);
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
             }
         }
 
         $this->em->flush();
+        $this->em->clear();
     }
     private function note()
     {
@@ -435,32 +415,28 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $repairOrderNoteRepo = $this->em->getRepository(RepairOrderNote::class);
         $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
-        foreach ($rows as $row) {
-            $repairOrderNote = $repairOrderNoteRepo->findOneBy([
-                'repairOrder' => $this->oldRepairOrderIds[$row['repair_order_id']],
-                'dateCreated' => new \DateTime($row['date']),
-                'note' => $row['note']
-            ]);
+        foreach ($rows as $index => $row) {
+            $repairOrderNote = new RepairOrderNote();
 
-            if (!$repairOrderNote) {
-                $repairOrderNote = new RepairOrderNote();
+            $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
 
-                $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
+            if ($repairOrder) {
+                $repairOrderNote->setRepairOrder($repairOrder)
+                    ->setNote($row['note'])
+                    ->setDateCreated(new \DateTime($row['date']));
 
-                if ($repairOrder) {
-                    $repairOrderNote->setRepairOrder($repairOrder)
-                        ->setNote($row['note'])
-                        ->setDateCreated(new \DateTime($row['date']));
-
-                    $this->em->persist($repairOrderNote);
-                }
+                $this->em->persist($repairOrderNote);
+            }
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
             }
         }
 
         $this->em->flush();
+        $this->em->clear();
     }
     private function mpiItems()
     {
@@ -473,7 +449,7 @@ class MigrateFromOldDatabase extends Command
 
         $mpiGroupRepo = $this->em->getRepository(MPIGroup::class);
 
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             if ($row['active'] && $this->oldMpiGroupIds[$row['mpi_group_id']]) {
                 $mpiGroup = $mpiGroupRepo->findOneBy(['id' => $this->oldMpiGroupIds[$row['mpi_group_id']]]);
 
@@ -484,8 +460,11 @@ class MigrateFromOldDatabase extends Command
                         ->setMPIGroup($mpiGroup);
 
                     $this->em->persist($mpiItem);
-                    $this->em->flush();
                 }
+            }
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
             }
         }
     }
@@ -500,7 +479,7 @@ class MigrateFromOldDatabase extends Command
 
         $mpiTemplateRepo = $this->em->getRepository(MPITemplate::class);
 
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             if ($row['active'] && $this->oldMpiIds[$row['mpi_id']]) {
                 $mpiTempate = $mpiTemplateRepo->findOneBy(['id' => $this->oldMpiIds[$row['mpi_id']]]);
                 if ($mpiTempate) {
@@ -510,14 +489,19 @@ class MigrateFromOldDatabase extends Command
                         ->setMPITemplate($mpiTempate);
 
                     $this->em->persist($mpiGroup);
-                    $this->em->flush();
 
                     $this->oldMpiGroupIds[$row['id']] = $mpiGroup->getId();
                 }
             } else {
                 $this->oldMpiGroupIds[$row['id']] = "";
             }
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
+            }
         }
+        $this->em->flush();
+        $this->em->clear();
     }
     private function mpi()
     {
@@ -530,7 +514,7 @@ class MigrateFromOldDatabase extends Command
 
         $mpiTemplateRepo = $this->em->getRepository(MPITemplate::class);
 
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             if ($row['active']) {
                 $oldMpiTemplate = $mpiTemplateRepo->findOneBy(['name' => $row['name']]);
 
@@ -544,14 +528,19 @@ class MigrateFromOldDatabase extends Command
                     $mpiTemplate->setName($row['name']);
 
                     $this->em->persist($mpiTemplate);
-                    $this->em->flush();
 
                     $this->oldMpiIds[$row['id']] = $mpiTemplate->getId();
                 }
             } else {
                 $this->oldMpiIds[$row['id']] = "";
             }
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
+            }
         }
+        $this->em->flush();
+        $this->em->clear();
     }
 
     private function customerRepairOrder()
@@ -567,27 +556,24 @@ class MigrateFromOldDatabase extends Command
         $customerRepo = $this->em->getRepository(Customer::class);
         $repairOrderCustomerRepo = $this->em->getRepository(RepairOrderCustomer::class);
 
-        foreach ($rows as $row) {
-            $repairOrderCustomer = $repairOrderCustomerRepo->findOneBy([
-                'repairOrder' => $this->oldRepairOrderIds[$row['repair_order_id']],
-                'customer' => $this->oldCustomerIds[$row['customer_id']]
+        foreach ($rows as $index => $row) {
+            $repairOrder = $repairOrderRepo->findOneBy([
+                'id' => $this->oldRepairOrderIds[$row['repair_order_id']]
             ]);
-
-            if (!$repairOrderCustomer) {
-                $repairOrder = $repairOrderRepo->findOneBy([
-                    'id' => $this->oldRepairOrderIds[$row['repair_order_id']]
-                ]);
-                $customer = $customerRepo->findOneBy([
-                    'id' => $this->oldCustomerIds[$row['customer_id']]
-                ]);
-                if ($repairOrder && $customer) {
-                    $repairOrderCustomer = new RepairOrderCustomer();
-                    $repairOrderCustomer->setCustomer($customer)
-                        ->setRepairOrder($repairOrder);
-                    $this->em->persist($repairOrderCustomer);
-                }
+            $customer = $customerRepo->findOneBy([
+                'id' => $this->oldCustomerIds[$row['customer_id']]
+            ]);
+            if ($repairOrder && $customer) {
+                $repairOrderCustomer = new RepairOrderCustomer();
+                $repairOrderCustomer->setCustomer($customer)
+                    ->setRepairOrder($repairOrder);
+            }
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
             }
         }
+        $this->em->flush();
         $this->em->flush();
     }
     private function repairOrderQuoteRecommendation()
@@ -608,16 +594,13 @@ class MigrateFromOldDatabase extends Command
         $prev_repairOrderId = -1;
         $repairOrderQuote = null;
 
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             if ($prev_repairOrderId !== $row['repair_order_id']) {
                 $repairOrder = $repairOrderRepo->findOneBy(['id' => $this->oldRepairOrderIds[$row['repair_order_id']]]);
-                $oldRepairOrderQuote = $repairOrderQuoteRepo->findOneBy(['repairOrder' => $repairOrder]);
-
-                if (!$oldRepairOrderQuote && $repairOrder) {
+                if ($repairOrder) {
                     if ($repairOrderQuote) {
                         $this->em->persist($repairOrderQuote);
                         $this->em->persist($repairOrder);
-                        $this->em->flush();
                     }
                     $repairOrderQuote = new RepairOrderQuote();
                     $status = 'Not Started';
@@ -683,7 +666,7 @@ class MigrateFromOldDatabase extends Command
 
                 $prev_repairOrderId = $row['repair_order_id'];
             }
-            if ($repairOrderQuote && !$oldRepairOrderQuote && $repairOrder) {
+            if ($repairOrderQuote && $repairOrder) {
                 $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
                 $repairOrderQuote->addRepairOrderQuoteRecommendation($repairOrderQuoteRecommendation);
                 $operactionCode = $operationCodeRepo->findOneBy(['id' => $this->oldOperationCodeIds[$row['operation_code_id']]]);
@@ -698,7 +681,13 @@ class MigrateFromOldDatabase extends Command
 
                 // $this->em->persist($repairOrderQuoteRecommendation);
             }
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
+            }
         }
+        $this->em->flush();
+        $this->em->clear();
     }
 
     private function createFollowUpInteraction(RepairOrder $repairOrder, FollowUp $followUp, string $type, $date)
@@ -784,28 +773,23 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $checkInRepo = $this->em->getRepository(CheckIn::class);
-
         foreach ($rows as $row) {
-            $oldCheckin = $checkInRepo->findOneBy(['identification' => $row['Identifier']]);
+            $checkIn = new CheckIn();
 
-            if (!$oldCheckin && $row['Status']) {
-                $checkIn = new CheckIn();
-
-                if ($row['Video']) {
-                    $video = $row['Video'];
-                } else {
-                    $video = "undefined";
-                }
-
-                $checkIn->setIdentification($row['Identifier'])
-                    ->setVideo($video)
-                    ->setDate(new \DateTime($row['Date']));
-
-                $this->em->persist($checkIn);
+            if ($row['Video']) {
+                $video = $row['Video'];
+            } else {
+                $video = "undefined";
             }
+
+            $checkIn->setIdentification($row['Identifier'])
+                ->setVideo($video)
+                ->setDate(new \DateTime($row['Date']));
+
+            $this->em->persist($checkIn);
         }
         $this->em->flush();
+        $this->em->clear();
     }
 
     private function admin()
@@ -819,53 +803,50 @@ class MigrateFromOldDatabase extends Command
 
         $userRepo = $this->em->getRepository(User::class);
 
-        foreach ($rows as $row) {
+        foreach ($rows as $index => $row) {
             if ($row['name']) {
-                $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
-
-                if ($oldUser) {
-                    $this->oldAdminIds[$row['id']] = $oldUser->getId();
+                $user = new User();
+                $name = $row['name'];
+                $spacePosition = strpos($name, " ");
+                if ($row['app_password']) {
+                    $password = $row['app_password'];
                 } else {
-                    $user = new User();
-                    $name = $row['name'];
-                    $spacePosition = strpos($name, " ");
-                    if ($row['app_password']) {
-                        $password = $row['app_password'];
-                    } else {
-                        $password = $this->passwordEncoder->encodePassword($user, 'test');
-                    }
-                    if ($spacePosition === false) {
-                        $firstName = '';
-                    } else {
-                        $firstName = substr($name, 0, $spacePosition);
-                    }
-
-                    if ($spacePosition === false) {
-                        $lastName = substr($name, $spacePosition);
-                    } else {
-                        $lastName = substr($name, $spacePosition + 1);
-                    }
-
-                    $firstName = $firstName ? $firstName : $lastName;
-                    $lastName = $lastName ? $lastName : $firstName;
-
-                    $user->setFirstName($firstName)
-                        ->setLastName($lastName)
-                        ->setEmail($row['email'])
-                        ->setPhone($row['phone'])
-                        ->setPassword($password)
-                        ->setPreviewDeviceTokens($row['preview_tokens'])
-                        ->setRole('ROLE_ADMIN');
-
-                    $this->em->persist($user);
-                    $this->em->flush();
-
-                    $this->oldAdminIds[$row['id']] = $user->getId();
+                    $password = $this->passwordEncoder->encodePassword($user, 'test');
                 }
-            } else {
-                $this->oldAdminIds[$row['id']] = '';
+                if ($spacePosition === false) {
+                    $firstName = '';
+                } else {
+                    $firstName = substr($name, 0, $spacePosition);
+                }
+
+                if ($spacePosition === false) {
+                    $lastName = substr($name, $spacePosition);
+                } else {
+                    $lastName = substr($name, $spacePosition + 1);
+                }
+
+                $firstName = $firstName ? $firstName : $lastName;
+                $lastName = $lastName ? $lastName : $firstName;
+
+                $user->setFirstName($firstName)
+                    ->setLastName($lastName)
+                    ->setEmail($row['email'])
+                    ->setPhone($row['phone'])
+                    ->setPassword($password)
+                    ->setPreviewDeviceTokens($row['preview_tokens'])
+                    ->setRole('ROLE_ADMIN');
+
+                $this->em->persist($user);
+
+                $this->oldAdminIds[$row['id']] = $user->getId();
+            }
+            if ($index % 200 == 0) {
+                $this->em->flush();
+                $this->em->clear();
             }
         }
+        $this->em->flush();
+        $this->em->clear();
     }
     private function salesManager()
     {
@@ -880,11 +861,6 @@ class MigrateFromOldDatabase extends Command
 
         foreach ($rows as $row) {
             if ($row['active']) {
-                $oldUser = $userRepo->findOneBy(['email' => $row['email'], 'role' => 'ROLE_SALES_MANAGER']);
-
-                if ($oldUser) {
-                    $this->oldSalesManagerIds[$row['id']] = $oldUser->getId();
-                }
                 $user = new User();
 
                 $user->setFirstName($row['first_name'])
@@ -897,11 +873,12 @@ class MigrateFromOldDatabase extends Command
                     ->setRole('ROLE_SALES_MANAGER');
 
                 $this->em->persist($user);
-                $this->em->flush();
 
                 $this->oldSalesManagerIds[$row['id']] = $user->getId();
             }
         }
+        $this->em->flush();
+        $this->em->clear();
     }
     private function manager()
     {
@@ -916,42 +893,38 @@ class MigrateFromOldDatabase extends Command
 
         foreach ($rows as $row) {
             if ($row['active']) {
-                $oldUser = $userRepo->findOneBy(['email' => $row['email'], 'role' => 'ROLE_SERVICE_MANAGER']);
 
-                if ($oldUser) {
-                    $this->oldManagerIds[$row['id']] = $oldUser->getId();
-                } else {
-                    $statement = $this->connection->prepare(
-                        "SELECT MAX(date) as date FROM login_log where user_type = 'manager' and user_id = '" . $row['id'] . "'"
-                    );
+                $statement = $this->connection->prepare(
+                    "SELECT MAX(date) as date FROM login_log where user_type = 'manager' and user_id = '" . $row['id'] . "'"
+                );
 
-                    $statement->execute();
-                    $latestLog = $statement->fetchAssociative();
-                    if ($latestLog)
-                        $date = new \DateTime($latestLog['date']);
+                $statement->execute();
+                $latestLog = $statement->fetchAssociative();
+                if ($latestLog)
+                    $date = new \DateTime($latestLog['date']);
 
-                    $user = new User();
+                $user = new User();
 
-                    $user->setFirstName($row['first_name'])
-                        ->setLastName($row['last_name'])
-                        ->setEmail($row['email'])
-                        ->setPhone($row['phone'])
-                        ->setPassword($row['password'])
-                        ->setSecurityQuestion($row['security_question'])
-                        ->setSecurityAnswer($row['security_answer'])
-                        ->setRole('ROLE_SERVICE_MANAGER');
+                $user->setFirstName($row['first_name'])
+                    ->setLastName($row['last_name'])
+                    ->setEmail($row['email'])
+                    ->setPhone($row['phone'])
+                    ->setPassword($row['password'])
+                    ->setSecurityQuestion($row['security_question'])
+                    ->setSecurityAnswer($row['security_answer'])
+                    ->setRole('ROLE_SERVICE_MANAGER');
 
-                    if ($date) {
-                        $user->setLastLogin($date);
-                    }
-
-                    $this->em->persist($user);
-                    $this->em->flush();
-
-                    $this->oldManagerIds[$row['id']] = $user->getId();
+                if ($date) {
+                    $user->setLastLogin($date);
                 }
+
+                $this->em->persist($user);
+
+                $this->oldManagerIds[$row['id']] = $user->getId();
             }
         }
+        $this->em->flush();
+        $this->em->clear();
     }
     private function technician()
     {
@@ -962,39 +935,32 @@ class MigrateFromOldDatabase extends Command
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
-        $userRepo = $this->em->getRepository(User::class);
-
         foreach ($rows as $row) {
-            $oldUser = $userRepo->findOneBy(['firstName' => $row['first_name'], 'lastName' => $row['last_name']]);
-
             $user = new User();
-            if ($oldUser) {
-                $this->oldTechnicanIds[$row['id']] = $oldUser->getId();
+            if ($row['password']) {
+                $password = $row['password'];
             } else {
-                if ($row['password']) {
-                    $password = $row['password'];
-                } else {
-                    $password = $this->passwordEncoder->encodePassword($user, 'test');
-                }
-
-                $user->setFirstName($row['first_name'])
-                    ->setLastName($row['last_name'])
-                    ->setEmail($row['email'])
-                    ->setCertification($row['certification'])
-                    ->setExperience($row['experience'])
-                    ->setActive($row['active'])
-                    ->setPassword($password)
-                    ->setSecurityAnswer($row['security_answer'])
-                    ->setSecurityQuestion('security_question')
-                    ->setPhone("1234567890")
-                    ->setRole('ROLE_TECHNICIAN');
-
-                $this->em->persist($user);
-                $this->em->flush();
-
-                $this->oldTechnicanIds[$row['id']] = $user->getId();
+                $password = $this->passwordEncoder->encodePassword($user, 'test');
             }
+
+            $user->setFirstName($row['first_name'])
+                ->setLastName($row['last_name'])
+                ->setEmail($row['email'])
+                ->setCertification($row['certification'])
+                ->setExperience($row['experience'])
+                ->setActive($row['active'])
+                ->setPassword($password)
+                ->setSecurityAnswer($row['security_answer'])
+                ->setSecurityQuestion('security_question')
+                ->setPhone("1234567890")
+                ->setRole('ROLE_TECHNICIAN');
+
+            $this->em->persist($user);
+
+            $this->oldTechnicanIds[$row['id']] = $user->getId();
         }
+        $this->em->flush();
+        $this->em->clear();
     }
     private function advisor()
     {
@@ -1008,44 +974,40 @@ class MigrateFromOldDatabase extends Command
         $userRepo = $this->em->getRepository(User::class);
 
         foreach ($rows as $row) {
-            $oldUser = $userRepo->findOneBy(['email' => $row['email']]);
+            $statement = $this->connection->prepare(
+                "SELECT MAX(date) as date FROM login_log where user_type = 'advisor' and user_id = " . $row['id']
+            );
 
-            if ($oldUser) {
-                $this->oldAdvisorIds[$row['id']] = $oldUser->getId();
-            } else {
-                $statement = $this->connection->prepare(
-                    "SELECT MAX(date) as date FROM login_log where user_type = 'advisor' and user_id = " . $row['id']
-                );
+            $statement->execute();
+            $latestLog = $statement->fetchAssociative();
+            if ($latestLog)
+                $date = new \DateTime($latestLog['date']);
 
-                $statement->execute();
-                $latestLog = $statement->fetchAssociative();
-                if ($latestLog)
-                    $date = new \DateTime($latestLog['date']);
+            $user = new User();
+            $user->setFirstName($row['first_name'])
+                ->setLastName($row['last_name'])
+                ->setEmail($row['email'])
+                ->setPhone($row['phone'])
+                ->setPassword($row['password'])
+                ->setExtension($row['extension'])
+                ->setActive($row['active'])
+                ->setSecurityQuestion($row['security_question'])
+                ->setSecurityAnswer($row['security_answer'])
+                ->setProcessRefund($row['can_give_refund'])
+                ->setShareRepairOrders($row['express_advisor'])
+                ->setRole('ROLE_SERVICE_ADVISOR');
 
-                $user = new User();
-                $user->setFirstName($row['first_name'])
-                    ->setLastName($row['last_name'])
-                    ->setEmail($row['email'])
-                    ->setPhone($row['phone'])
-                    ->setPassword($row['password'])
-                    ->setExtension($row['extension'])
-                    ->setActive($row['active'])
-                    ->setSecurityQuestion($row['security_question'])
-                    ->setSecurityAnswer($row['security_answer'])
-                    ->setProcessRefund($row['can_give_refund'])
-                    ->setShareRepairOrders($row['express_advisor'])
-                    ->setRole('ROLE_SERVICE_ADVISOR');
-
-                if ($date) {
-                    $user->setLastLogin($date);
-                }
-
-                $this->em->persist($user);
-                $this->em->flush();
-
-                $this->oldAdvisorIds[$row['id']] = $user->getId();
+            if ($date) {
+                $user->setLastLogin($date);
             }
+
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->oldAdvisorIds[$row['id']] = $user->getId();
         }
+        $this->em->flush();
+        $this->em->clear();
     }
 
     private function operationCode()
@@ -1077,11 +1039,11 @@ class MigrateFromOldDatabase extends Command
                     ->setSuppliesTaxable($row['taxable_shop_supplies']);
 
                 $this->em->persist($operactionCode);
-                $this->em->flush();
-
                 $this->oldOperationCodeIds[$row['id']] = $operactionCode->getId();
             }
         }
+        $this->em->flush();
+        $this->em->clear();
     }
 
     private function CAQLog()
@@ -1159,114 +1121,105 @@ class MigrateFromOldDatabase extends Command
 
         $userRepo = $this->em->getRepository(User::class);
         $customerRepo = $this->em->getRepository(Customer::class);
-        $repairOrderRepo = $this->em->getRepository(RepairOrder::class);
 
         foreach ($rows as $index => $row) {
             if (!$row['inactive']) {
-                $oldRepairOrder = $repairOrderRepo->findOneBy(['number' => $row['number']]);
+                if (!isset($this->oldCustomerIds[$row['primary_customer_id']])) {
+                    continue;
+                }
+                $customerId = $this->oldCustomerIds[$row['primary_customer_id']];
+                $customer = $customerRepo->findOneBy(['id' => $customerId]);
 
-                if ($oldRepairOrder) {
-                    $this->oldRepairOrderIds[$row['id']] = $oldRepairOrder->getId();
-                } else {
-                    if (!isset($this->oldCustomerIds[$row['primary_customer_id']])){
-                        continue;
+                if (!$customer) {
+                    continue;
+                }
+
+                $technicanId = $this->oldTechnicanIds[$row['technician_id']];
+                $technican = $userRepo->findOneBy(['id' => $technicanId]);
+
+                $advisorId = $this->oldAdvisorIds[$row['advisor_id']];
+                $advisor = $userRepo->findOneBy(['id' => $advisorId]);
+
+                if (!$advisor) {
+                    continue;
+                }
+
+                $repairOrder = new RepairOrder();
+                $repairOrder->setPrimaryCustomer($customer)
+                    ->setPrimaryTechnician($technican)
+                    ->setPrimaryAdvisor($advisor)
+                    ->setNumber($row['number'])
+                    ->setStartValue($row['value'])
+                    ->setFinalValue($row['finalValue'])
+                    ->setApprovedValue($row['approvedValue'])
+                    ->setDateClosed(new \DateTime($row['closed_date']))
+                    ->setDateCreated(new \DateTime($row['date']))
+                    ->setWaiter($row['waiter'])
+                    ->setPickupDate(new \DateTime($row['pickup_date']))
+                    ->setLinkHash($row['link_hash'])
+                    ->setYear($row['year'])
+                    ->setMake($row['make'])
+                    ->setModel($row['model'])
+                    ->setVin($row['vin'])
+                    ->setDeleted($row['inactive'])
+                    ->setMiles(intval($row['miles']))
+                    ->setWaiverSignature($row['waiver'])
+                    ->setWaiverVerbiage($row['waiverVerbiage'])
+                    ->setDmsKey($row['ro_key'])
+                    ->setUpgradeQue($row['upgradeQueue']);
+
+                $this->em->persist($repairOrder);
+
+                if ($row['video']) {
+                    // make full path for the video
+                    $videoPath = $row['video'];
+                    $http = substr($videoPath, 0, 4);
+                    $https = substr($videoPath, 0, 5);
+
+                    if ($http !== 'http' && $https !== 'https') {
+                        //need to change the domain in the future
+                        $videoPath = $_ENV['CUSTOMER_URL'] . "/videos/" . $videoPath;
                     }
-                    $customerId = $this->oldCustomerIds[$row['primary_customer_id']];
-                    $customer = $customerRepo->findOneBy(['id' => $customerId]);
 
-                    if (!$customer){
-                        continue;
+                    $repairOrderVideo  = new RepairOrderVideo();
+                    $repairOrderVideoInteraction  = new RepairOrderVideoInteraction();
+
+                    $clientInteraction = $this->getItem($clientInteractions, ['repair_order_id'], [$row['id']]);
+
+                    $repairOrderVideo->setRepairOrder($repairOrder)
+                        ->setTechnician($technican)
+                        ->setPath($videoPath)
+                        ->setStatus("Uploaded")
+                        ->setDateUploaded(new \Datetime($row['date']));
+                    if ($clientInteraction) {
+                        $repairOrderVideo->setDateViewed(new \DateTime($clientInteraction['latest_date']))
+                            ->setStatus("Viewed");
                     }
+                    $this->em->persist($repairOrderVideo);
 
-                    $technicanId = $this->oldTechnicanIds[$row['technician_id']];
-                    $technican = $userRepo->findOneBy(['id' => $technicanId]);
+                    $repairOrderVideoInteraction->setRepairOrderVideo($repairOrderVideo)
+                        ->setUser($technican)
+                        ->setCustomer($customer)
+                        ->setType("Uploaded")
+                        ->setDate(new \DateTime($row['date']));
+                    $this->em->persist($repairOrderVideoInteraction);
 
-                    $advisorId = $this->oldAdvisorIds[$row['advisor_id']];
-                    $advisor = $userRepo->findOneBy(['id' => $advisorId]);
-
-                    if (!$advisor){
-                        continue;
-                    }
-
-                    $repairOrder = new RepairOrder();
-                    $repairOrder->setPrimaryCustomer($customer)
-                        ->setPrimaryTechnician($technican)
-                        ->setPrimaryAdvisor($advisor)
-                        ->setNumber($row['number'])
-                        ->setStartValue($row['value'])
-                        ->setFinalValue($row['finalValue'])
-                        ->setApprovedValue($row['approvedValue'])
-                        ->setDateClosed(new \DateTime($row['closed_date']))
-                        ->setDateCreated(new \DateTime($row['date']))
-                        ->setWaiter($row['waiter'])
-                        ->setPickupDate(new \DateTime($row['pickup_date']))
-                        ->setLinkHash($row['link_hash'])
-                        ->setYear($row['year'])
-                        ->setMake($row['make'])
-                        ->setModel($row['model'])
-                        ->setVin($row['vin'])
-                        ->setDeleted($row['inactive'])
-                        ->setMiles(intval($row['miles']))
-                        ->setWaiverSignature($row['waiver'])
-                        ->setWaiverVerbiage($row['waiverVerbiage'])
-                        ->setDmsKey($row['ro_key'])
-                        ->setUpgradeQue($row['upgradeQueue']);
-
-                    $this->em->persist($repairOrder);
-
-                    if ($row['video']) {
-                        // make full path for the video
-                        $videoPath = $row['video'];
-                        $http = substr($videoPath, 0, 4);
-                        $https = substr($videoPath, 0, 5);
-
-                        if ($http !== 'http' && $https !== 'https') {
-                            //need to change the domain in the future
-                            $videoPath = $_ENV['CUSTOMER_URL'] . "/videos/" . $videoPath;
-                        }
-
-                        $repairOrderVideo  = new RepairOrderVideo();
-                        $repairOrderVideoInteraction  = new RepairOrderVideoInteraction();
-
-                        $clientInteraction = $this->getItem($clientInteractions, ['repair_order_id'], [$row['id']]);
-
-                        $repairOrderVideo->setRepairOrder($repairOrder)
-                            ->setTechnician($technican)
-                            ->setPath($videoPath)
-                            ->setStatus("Uploaded")
-                            ->setDateUploaded(new \Datetime($row['date']));
-                        if ($clientInteraction) {
-                            $repairOrderVideo->setDateViewed(new \DateTime($clientInteraction['latest_date']))
-                                ->setStatus("Viewed");
-                        }
-                        $this->em->persist($repairOrderVideo);
-
-                        $repairOrderVideoInteraction->setRepairOrderVideo($repairOrderVideo)
+                    if ($clientInteraction) {
+                        $repairOrderVideoInteractionViewed = new RepairOrderVideoInteraction();
+                        $repairOrderVideoInteractionViewed->setRepairOrderVideo($repairOrderVideo)
                             ->setUser($technican)
                             ->setCustomer($customer)
-                            ->setType("Uploaded")
-                            ->setDate(new \DateTime($row['date']));
-                        $this->em->persist($repairOrderVideoInteraction);
+                            ->setType("Viewed")
+                            ->setDate(new \DateTime($clientInteraction['latest_date']));
 
-                        if ($clientInteraction) {
-                            $repairOrderVideoInteractionViewed = new RepairOrderVideoInteraction();
-                            $repairOrderVideoInteractionViewed->setRepairOrderVideo($repairOrderVideo)
-                                ->setUser($technican)
-                                ->setCustomer($customer)
-                                ->setType("Viewed")
-                                ->setDate(new \DateTime($clientInteraction['latest_date']));
-
-                            $this->em->persist($repairOrderVideoInteractionViewed);
-                        }
+                        $this->em->persist($repairOrderVideoInteractionViewed);
                     }
-
-                    $this->oldRepairOrderIds[$row['id']] = $repairOrder->getId();
                 }
-            } else {
-                $this->oldRepairOrderIds[$row['id']] = '';
+
+                $this->oldRepairOrderIds[$row['id']] = $repairOrder->getId();
             }
 
-            if ($index % 200 == 0){
+            if ($index % 200 == 0) {
                 $this->em->flush();
                 $this->em->clear();
             }
@@ -1282,8 +1235,6 @@ class MigrateFromOldDatabase extends Command
                 FROM customer c
                 WHERE c.name IS NOT NULL AND c.phone IS NOT NULL AND c.name != \'\' AND c.phone != \'\''
         );
-        $userRepo = $this->em->getRepository(User::class);
-        $customerRepo = $this->em->getRepository(Customer::class);
         $statement->execute();
         $rows = $statement->fetchAllAssociative();
 
@@ -1293,7 +1244,7 @@ class MigrateFromOldDatabase extends Command
                 continue;
             }
 
-            if (empty($row['name'])){
+            if (empty($row['name'])) {
                 continue;
             }
 
@@ -1308,7 +1259,7 @@ class MigrateFromOldDatabase extends Command
 
             $this->oldCustomerIds[$row['id']] = $customer->getId();
 
-            if ($index % 200 == 0){
+            if ($index % 200 == 0) {
                 $this->em->flush();
                 $this->em->clear();
             }
