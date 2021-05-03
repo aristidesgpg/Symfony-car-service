@@ -116,14 +116,14 @@ class MigrateFromOldDatabase extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $this->mpi();
-        $output->writeln("MPI done");
+        // $this->mpi();
+        // $output->writeln("MPI done");
 
-        $this->mpiGroup();
-        $output->writeln("MPI Group done");
+        // $this->mpiGroup();
+        // $output->writeln("MPI Group done");
 
-        $this->mpiItems();
-        $output->writeln("MPI Group done");
+        // $this->mpiItems();
+        // $output->writeln("MPI Group done");
 
         $this->admin();
         $output->writeln("Admin done");
@@ -143,33 +143,33 @@ class MigrateFromOldDatabase extends Command
         $this->customer();
         $output->writeln("Customer done");
 
-        $this->repairOrder();
-        $output->writeln("RepairOrder done");
+        // $this->repairOrder();
+        // $output->writeln("RepairOrder done");
 
-        $this->note();
-        $output->writeln("Note done");
+        // $this->note();
+        // $output->writeln("Note done");
 
-        $this->operationCode();
-        $output->writeln("OperactionCode done");
+        // $this->operationCode();
+        // $output->writeln("OperactionCode done");
 
-        $this->checkIn();
-        $output->writeln("CheckIn done");
+        // $this->checkIn();
+        // $output->writeln("CheckIn done");
 
-        $this->repairOrderQuoteRecommendation();
-        $output->writeln("QuoteRecommendation done");
+        // $this->repairOrderQuoteRecommendation();
+        // $output->writeln("QuoteRecommendation done");
 
-        // $this->followUp();
-        $this->customerRepairOrder();
-        $output->writeln("customerRepairOrder done");
+        // // $this->followUp();
+        // $this->customerRepairOrder();
+        // $output->writeln("customerRepairOrder done");
 
-        $this->payment();
-        $output->writeln("Payment done");
+        // $this->payment();
+        // $output->writeln("Payment done");
 
-        $this->repairOrderMpi();
-        $output->writeln("repairOrderMPI done");
+        // $this->repairOrderMpi();
+        // $output->writeln("repairOrderMPI done");
 
-        $this->repairOrderPayment();
-        $output->writeln("repairOrderPayment done");
+        // $this->repairOrderPayment();
+        // $output->writeln("repairOrderPayment done");
 
         $this->sms();
         $output->writeln("SMS done");
@@ -213,12 +213,17 @@ class MigrateFromOldDatabase extends Command
                 }
                 $customer = $customerRepo->findOneBy(['phone' => $row['number']]);
                 $date = new \DateTime($row['date']);
+                $message = $row['message'];
+                if ($message && strlen($message) >= 255) {
+                    $message = substr($message, 0, 255);
+                }
 
                 $sms->setUser($user)
                     ->setCustomer($customer)
                     ->setDate($date)
-                    ->setMessage($row['message'])
+                    ->setMessage($message)
                     ->setIsRead($row['is_read'])
+                    ->setPhone($row['number'])
                     ->setIncoming($row['type'] === 'incoming' ? 1 : 0);
 
                 $this->em->persist($sms);
