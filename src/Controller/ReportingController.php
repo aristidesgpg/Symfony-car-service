@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Repository\MPIItemRepository;
 use App\Repository\MPITemplateRepository;
 use App\Repository\RepairOrderMPIRepository;
+use App\Repository\RepairOrderPaymentRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\ServiceSMSRepository;

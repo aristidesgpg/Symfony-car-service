@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\RepairOrderPayment;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -27,7 +28,7 @@ class RepairOrderPaymentRepository extends ServiceEntityRepository
     public function getAllPayments(
         $start = null,
         $end = null,
-        $sortField = 'date',
+        $sortField = 'dateCreated',
         $sortDirection = 'DESC',
         $searchTerm = null
     ) {
@@ -45,19 +46,28 @@ class RepairOrderPaymentRepository extends ServiceEntityRepository
             $qb = $this->createQueryBuilder('rop');
             $qb->andWhere('rop.deleted = false');
 
+            $qb->innerJoin('rop.repairOrder', 'ro');
+
             if ($start && $end) {
-                $qb->andWhere('rop.date BETWEEN :start AND :end')
+                $qb->andWhere('ro.dateClosed BETWEEN :start AND :end')
                    ->setParameter('start', $start->format('Y-m-d H:i'))
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             } else {
-                $qb->andWhere('rop.date < :end')
+                $qb->andWhere('ro.dateClosed < :end')
                    ->setParameter('end', $end->format('Y-m-d H:i'));
             }
+
             if ($searchTerm) {
-                if (in_array($searchTerm, ['amount', 'refundedAmount'])) {
-                    $qb->andWhere('rop.identification LIKE :searchTerm')
-                       ->setParameter('searchTerm', '%'.$searchTerm.'%');
+                $query = '';
+                $fields = ['amount', 'refundedAmount'];
+
+                foreach ($fields as $field) {
+                    $query .= "rop.$field LIKE :searchTerm OR ";
                 }
+                $query = substr($query, 0, strlen($query) - 4);
+
+                $qb->andWhere($query)
+                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 
             if ($sortDirection) {

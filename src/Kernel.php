@@ -25,7 +25,7 @@ class Kernel extends BaseKernel
         }
 
         // Set Timezone
-        date_default_timezone_set($_SERVER['TIMEZONE']);
+        // date_default_timezone_set($_SERVER['TIMEZONE']);
     }
 
     public function getProjectDir(): string
