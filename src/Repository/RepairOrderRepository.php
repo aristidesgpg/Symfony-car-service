@@ -143,9 +143,6 @@ class RepairOrderRepository extends ServiceEntityRepository
         // They passed sort data
         if ($sortDirection) {
             $queryBuilder->orderBy('ro.'.$sortField, $sortDirection);
-
-            $urlParameters['sortField'] = $sortField;
-            $urlParameters['sortDirection'] = $sortDirection;
         }
 
         return $queryBuilder->getQuery()->getResult();

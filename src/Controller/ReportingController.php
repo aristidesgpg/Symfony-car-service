@@ -1499,7 +1499,7 @@ class ReportingController extends AbstractFOSRestController
      */
     public function iPay(
         Request $request,
-        RepairOrderRepository $roRepo,
+        RepairOrderPaymentRepository $roPaymentRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
@@ -1549,7 +1549,7 @@ class ReportingController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        $paymentQuery = $roRepo->getAllPayments(
+        $paymentQuery = $roPaymentRepo->getAllPayments(
             $startDate,
             $endDate,
             $sortField,
