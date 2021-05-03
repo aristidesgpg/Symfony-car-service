@@ -7,6 +7,7 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteInteraction;
 use App\Helper\iServiceLoggerTrait;
+use App\Repository\RepairOrderQuoteRecommendationRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderHelper;
@@ -218,7 +219,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Check permission if quote status is Sent, Completed or Confirmed
         $quoteStatus = $repairOrderQuote->getStatus();
         if ('Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
-            return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
+            return $this->handleView($this->view("You cannot edit a completed quote", Response::HTTP_FORBIDDEN));
         }
 
         // Validate recommendation json
@@ -596,6 +597,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     public function completed(
         Request $request,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        RepairOrderQuoteRecommendationRepository $recommendationRepository,
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $repairOrderQuoteHelper,
         RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper,
@@ -625,10 +627,15 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             }
         }
 
-        // Validate recommendation json
+        // Validate recommendation json but allow empty if there are only pre-approved
         $recommendations = json_decode($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
-            throw new BadRequestHttpException('Recommendation data is invalid');
+            // Only throw exception if there are non-pre-approved
+            $hasNonPreApproved = $recommendationRepository->findOneBy(['repairOrderQuote' => $repairOrderQuote, 'preApproved' => 0]);
+
+            if ($hasNonPreApproved){
+                return $this->handleView($this->view('Recommendation data is invalid', Response::HTTP_BAD_REQUEST));
+            }
         }
 
         try {
