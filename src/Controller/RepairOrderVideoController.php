@@ -62,6 +62,14 @@ class RepairOrderVideoController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Not Found');
         }
 
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
+            if($repairOrder->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
+
         $videos = [];
         foreach ($repairOrder->getVideos() as $video) {
             if ($video->isDeleted()) {
@@ -193,6 +201,14 @@ class RepairOrderVideoController extends AbstractFOSRestController
         $repairOrderVideo = $repairOrderVideoRepository->find($repairOrderVideoID);
         if (!$repairOrderVideo) {
             throw new NotFoundHttpException('Repair Order Video Not Found');
+        }
+
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
+            if($repairOrderVideo->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
         }
 
         $user = $this->getUser();

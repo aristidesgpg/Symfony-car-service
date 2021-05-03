@@ -85,7 +85,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         $customer = $this->getUser();
-        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
             if($ro->getPrimaryCustomer()->getId() != $customer->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
@@ -171,7 +171,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         $customer = $this->getUser();
-        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
             if($payment->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
@@ -308,7 +308,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         $customer = $this->getUser();
-        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
             if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
@@ -431,7 +431,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         $customer = $this->getUser();
-        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
             if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
@@ -579,7 +579,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         $customer = $this->getUser();
-        if ($customer instanceof Customer && $this->getUser()->getRoles() == ['ROLE_CUSTOMER']) {
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
             if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }

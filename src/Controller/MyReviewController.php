@@ -59,6 +59,14 @@ class MyReviewController extends AbstractFOSRestController
             throw new NotAcceptableHttpException('The review of this repairOrder was not created yet.');
         }
 
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
+            if($repairOrderReview->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
+
         if ($repairOrderReview->getStatus() !== 'Complete') {
             $repairOrderReview->setStatus('Viewed');
             $repairOrderReview->setDateViewed(new DateTime());
@@ -123,6 +131,14 @@ class MyReviewController extends AbstractFOSRestController
         $repairOrderReview = $repairOrderReviewRepository->find($repairOrderReviewID);
         if (!$repairOrderReview) {
             throw new NotAcceptableHttpException('The review of this repairOrder was not created yet.');
+        }
+
+        // Check if customer role and not customer's RO
+        $customer = $this->getUser();
+        if ($customer instanceof Customer && $customer->getRoles() == ['ROLE_CUSTOMER']) {
+            if($repairOrderReview->getRepairOrder()->getPrimaryCustomer()->getId() != $customer->getId()){
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
         }
 
         if ($repairOrderReview->getStatus() === 'Complete') {
