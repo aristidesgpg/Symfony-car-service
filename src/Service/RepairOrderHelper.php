@@ -8,9 +8,6 @@ use App\Entity\RepairOrderQuote;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
-use App\Repository\CustomerRepository;
-use App\Repository\RepairOrderRepository;
-use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -44,18 +41,15 @@ class RepairOrderHelper
 
     public function __construct(
         EntityManagerInterface $em,
-        RepairOrderRepository $repo,
-        CustomerRepository $customers,
-        UserRepository $userRepository,
         CustomerHelper $customerHelper,
         ROLinkHashHelper $ROLinkHash,
         DMS\DMS $dms,
         RepairOrderQuoteHelper $repairOrderQuoteHelper
     ) {
         $this->em = $em;
-        $this->repo = $repo;
-        $this->customers = $customers;
-        $this->userRepository = $userRepository;
+        $this->repo = $em->getRepository(RepairOrder::class);
+        $this->customers = $em->getRepository(Customer::class);
+        $this->userRepository = $em->getRepository(User::class);
         $this->customerHelper = $customerHelper;
         $this->ROLinkHashHelper = $ROLinkHash;
         $this->dms = $dms;

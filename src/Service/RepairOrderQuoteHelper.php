@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\Entity\DMSResult;
+use App\Entity\OperationCode;
 use App\Entity\Part;
+use App\Entity\PriceMatrix;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteInteraction;
@@ -104,20 +106,17 @@ class RepairOrderQuoteHelper
 
     public function __construct(
         EntityManagerInterface $em,
-        OperationCodeRepository $operationCodeRepository,
         SettingsHelper $settingsHelper,
-        PriceMatrixRepository $priceRepository,
-        partRepository $partRepository,
         Security $security,
-        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository,
         RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
-    ) {
+    )
+    {
         $this->em = $em;
-        $this->operationCodeRepository = $operationCodeRepository;
+        $this->operationCodeRepository = $em->getRepository(OperationCode::class);
         $this->security = $security;
-        $this->priceRepository = $priceRepository;
-        $this->partRepository = $partRepository;
-        $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
+        $this->priceRepository = $em->getRepository(PriceMatrix::class);
+        $this->partRepository = $em->getRepository(Part::class);
+        $this->repairOrderQuoteRecommendationRepository = $em->getRepository(RepairOrderQuote::class);
 
         $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
         $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix');
@@ -242,7 +241,7 @@ class RepairOrderQuoteHelper
 
     public function isTrue($val)
     {
-        $boolval = (is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool) $val);
+        $boolval = (is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool)$val);
         return ($boolval === null ? false : $boolval);
     }
 
@@ -325,44 +324,41 @@ class RepairOrderQuoteHelper
         $repairOrderQuoteRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
 
         foreach ($repairOrderQuoteRecommendations as $repairOrderQuoteRecommendation) {
-            $currentRecommendation = '';
-
-            foreach ($recommendations as $recommendation) {
-                if ($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
-                    $currentRecommendation = $recommendation;
-                    break;
-                }
-            }
-
+            // If the recommendation was pre-approved, just approve it and bail
             if ($repairOrderQuoteRecommendation->getPreApproved()) {
-                if ($currentRecommendation && !filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN)) {
-                    throw new Exception('The recommendation'.$repairOrderQuoteRecommendation->getId().' was pre-approved');
-                }
-
                 $repairOrderQuoteRecommendation->setApproved(true);
             } else {
-                if (!$currentRecommendation) {
-                    throw new Exception('Recommendation '.$repairOrderQuoteRecommendation->getId().' was not pre-approved, but it is missing');
+                $recommendationOutcome = false;
+
+                foreach ($recommendations as $recommendation) {
+                    if ($recommendation->repairOrderQuoteRecommendationId === $repairOrderQuoteRecommendation->getId()) {
+                        $recommendationOutcome = $recommendation;
+                        break;
+                    }
                 }
 
-                $repairOrderQuoteRecommendation->setApproved(filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN));
+                if (!$recommendationOutcome) {
+                    throw new Exception('Recommendation ' . $repairOrderQuoteRecommendation->getId() . ' was not pre-approved, but it is missing');
+                }
+
+                $repairOrderQuoteRecommendation->setApproved(filter_var($recommendationOutcome->approved, FILTER_VALIDATE_BOOLEAN));
             }
+
+            $this->em->persist($repairOrderQuoteRecommendation);
 
             if ($repairOrderQuoteRecommendation->getApproved()) {
                 $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
                     + $repairOrderQuoteRecommendation->getPartsPrice()
                     + $repairOrderQuoteRecommendation->getSuppliesPrice();
-                $tax +=  $repairOrderQuoteRecommendation->getLaborTax()
+                $tax += $repairOrderQuoteRecommendation->getLaborTax()
                     + $repairOrderQuoteRecommendation->getPartsTax()
-                    + $repairOrderQuoteRecommendation->getSuppliesPrice();
+                    + $repairOrderQuoteRecommendation->getSuppliesTax();
             }
-
-            $this->em->persist($repairOrderQuoteRecommendation);
         }
 
-        $repairOrderQuote->setSubtotal($subtotal);
-        $repairOrderQuote->setTax($tax);
-        $repairOrderQuote->setTotal($subtotal + $tax);
+        $repairOrderQuote->setSubtotal($subtotal)
+            ->setTax($tax)
+            ->setTotal($subtotal + $tax);
 
         $this->em->beginTransaction();
 
@@ -451,12 +447,12 @@ class RepairOrderQuoteHelper
         // Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
-                ->setCustomer($repairOrder->getPrimaryCustomer())
-                ->setType($status);
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
 
         // Update repairOrderQuote Status
         $repairOrder->getRepairOrderQuote()->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                ->setStatus($status);
+            ->setStatus($status);
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
@@ -655,7 +651,6 @@ class RepairOrderQuoteHelper
     {
         $this->repairOrderQuoteLogHelper = $repairOrderQuoteLogHelper;
     }
-
 
 
 }

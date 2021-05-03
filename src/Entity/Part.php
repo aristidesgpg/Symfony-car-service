@@ -32,7 +32,7 @@ class Part
     private $number;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=255)
      * @Serializer\Groups(groups={"part_list"})
      */
     private $name;

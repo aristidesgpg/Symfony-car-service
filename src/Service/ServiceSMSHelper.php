@@ -73,7 +73,7 @@ class ServiceSMSHelper
         //when there are repairOrders for the customer
         if ($isShared) {
             $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread, ss2.repairOrderID, ss2.repairOrderNumber from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = '.$userId." group by primary_advisor_id ,primary_customer_id) ss 
-                            LEFT JOIN (select id as repairOrderID, number as repairOrderNumber primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
+                            LEFT JOIN (select id as repairOrderID, number as repairOrderNumber, primary_advisor_id as s_advisor_id, primary_customer_id as s_customer_id from repair_order 
                                 where date_created in (select MAX(date_created) from repair_order group by primary_customer_id)) ss1 on (ss.primary_customer_id = ss1.s_customer_id) ) ss2
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
                             LEFT JOIN customer c on c.id = ss2.primary_customer_id
@@ -195,21 +195,14 @@ class ServiceSMSHelper
 
                 if ($shareRepairOrders) {
                     $unreadQuery = 'select count(u.id) as count from `user` u LEFT JOIN service_sms ss on ss.user_id = u.id where u.share_repair_orders  = 1  and ss.is_read = 0 and ss.incoming  = 1';
-                    $statement = $this->em->getConnection()->prepare($unreadQuery);
-                    $statement->execute();
-
-                    $result = $statement->fetchAssociative();
-                    $totalUnreadMessages = $result['count'];
                 } else {
-                    $totalUnreadMessages = $this->serviceSMSRepo->createQueryBuilder('ss')
-                            ->where('ss.user = :userId')
-                            ->setParameter('userId', $userId)
-                            ->andWhere('ss.incoming = 1')
-                            ->andWhere('ss.isRead = 0')
-                            ->select('count(ss.id)')
-                            ->getQuery()
-                            ->getSingleScalarResult();
+                    $unreadQuery = 'select count(ss.id) as count from `user` u left join repair_order ro on ro.primary_advisor_id = u.id left join service_sms ss on ss.customer_id = ro.primary_customer_id where u.id = '.$userId.' and ss.incoming = 1 and ss.is_read = 0;';
                 }
+                $statement = $this->em->getConnection()->prepare($unreadQuery);
+                $statement->execute();
+
+                $result = $statement->fetchAssociative();
+                $totalUnreadMessages = $result['count'];
             } else {
                 $totalUnreadMessages = 0;
             }
