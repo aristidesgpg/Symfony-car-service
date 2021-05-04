@@ -93,7 +93,8 @@ abstract class AbstractDMSClient implements DMSClientInterface
         $this->serializer = $serializerBuilder->build();
     }
 
-    public function buildEmptySerializer(){
+    public function buildEmptySerializer()
+    {
         $this->serializer = SerializerBuilder::create()
             ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
             ->build();
@@ -190,7 +191,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
                     $e->getResponse()->getBody()->getContents()
                 );
                 $this->logError($uri, $error, true, true);
-
             }
         }
 
@@ -286,17 +286,15 @@ abstract class AbstractDMSClient implements DMSClientInterface
      */
     public function logError($request, $response, bool $isRest = false, bool $exception = false)
     {
-
         $desiredLen = 3000000;
-        if(strlen($response) > $desiredLen){
+        if (strlen($response) > $desiredLen) {
             $response = substr($response, 0, $desiredLen);
         }
-
 
         //        $this->settingsHelper->getSetting('generalName');
         if ($exception) {
             $message = sprintf('Request: %s, Response: %s', $request, $response);
-            //$this->getSlackClient()->sendMessage('Mr.Robot', $message);
+            $this->getSlackClient()->sendMessage('Mr.Robot', $message);
         }
 
         if ($isRest) {
@@ -304,7 +302,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
         } else {
             $this->getThirdPartyAPILogHelper()->commitAPILog(null, $request, $response, $isRest);
         }
-
     }
 
     /**
