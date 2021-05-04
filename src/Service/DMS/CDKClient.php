@@ -264,7 +264,7 @@ class CDKClient extends AbstractDMSClient
         if ($rawResponse) {
             // Not an error, but logs the request/response for compliance
             // If there is an error, then we log when we do the guzzle request.
-            $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $rawResponse, true);
+            $this->logError($url, $rawResponse, true);
         }
 
         if (!$rawResponse) {
@@ -277,7 +277,7 @@ class CDKClient extends AbstractDMSClient
         }
 
         if (0 != $response->getErrorCode()) {
-            $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $response->getErrorMessage(), true, true);
+            $this->logError($url, $response->getErrorMessage(), true, true);
         }
 
         return $response;
