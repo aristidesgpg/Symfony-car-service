@@ -1,146 +1,79 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<xs:schema xmlns:tns="http://www.dmotorworks.com/pip-parts-inventory-pricing"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
-           targetNamespace="http://www.dmotorworks.com/pip-parts-inventory-pricing">
-    <xs:element name="PartsInventoryPricingPIPException" type="tns:PartsInventoryPricingPIPException"/>
-    <xs:element name="checkServiceHealth" type="tns:checkServiceHealth"/>
-    <xs:element name="checkServiceHealthResponse" type="tns:checkServiceHealthResponse"/>
-    <xs:element name="partsPricing" type="tns:partsPricing"/>
-    <xs:element name="partsPricingBatch" type="tns:partsPricingBatch"/>
-    <xs:element name="partsPricingBatchResponse" type="tns:partsPricingBatchResponse"/>
-    <xs:element name="partsPricingResponse" type="tns:partsPricingResponse"/>
-    <xs:complexType name="partsPricing">
-        <xs:sequence>
-            <xs:element name="authToken" type="tns:authenticationToken" minOccurs="0"/>
-            <xs:element name="dealerId" type="tns:dealerId" minOccurs="0"/>
-            <xs:element name="request" type="tns:partsInventoryPricingRequest" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="authenticationToken">
-        <xs:sequence>
-            <xs:element name="password" type="xs:string" minOccurs="0"/>
-            <xs:element name="username" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="dealerId">
-        <xs:sequence>
-            <xs:element name="dealerId" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="partsInventoryPricingRequest">
-        <xs:sequence>
-            <xs:element name="records" type="tns:partsInventoryPricingRecord" nillable="true" minOccurs="0"
-                        maxOccurs="unbounded"/>
-            <xs:element name="supersession" type="xs:boolean" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="partsInventoryPricingRecord">
-        <xs:sequence>
-            <xs:element name="customerNumber" type="xs:string" minOccurs="0"/>
-            <xs:element name="saleType" type="xs:string" minOccurs="0"/>
-            <xs:element name="partNumber" type="xs:string" minOccurs="0"/>
-            <xs:element name="laborType" type="xs:string" minOccurs="0"/>
-            <xs:element name="checkOLM" type="xs:string" minOccurs="0"/>
-            <xs:element name="olmMfgCode" type="xs:string" minOccurs="0"/>
-            <xs:element name="source" type="xs:string" minOccurs="0"/>
-            <xs:element name="chkMaster" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="partsPricingResponse">
-        <xs:sequence>
-            <xs:element name="return" type="tns:partsInventoryPricingResultContainer" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="partsInventoryPricingResultContainer">
-        <xs:sequence>
-            <xs:element name="code" type="tns:resultCode" minOccurs="0"/>
-            <xs:element name="message" type="xs:string" minOccurs="0"/>
-            <xs:element name="results" type="tns:partsInventoryPricingResult" nillable="true" minOccurs="0"
-                        maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="partsInventoryPricingResult">
-        <xs:sequence>
-            <xs:element name="errorCode" type="xs:string" minOccurs="0"/>
-            <xs:element name="errorMessage" type="xs:string" minOccurs="0"/>
-            <xs:element name="partNumberInput" type="xs:string" minOccurs="0"/>
-            <xs:element name="requestedPart" type="tns:partsInventoryPricingResultRecord" minOccurs="0"/>
-            <xs:element name="supersedePartChain" type="tns:partsInventoryPricingResultRecord" nillable="true"
-                        minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="partsInventoryPricingResultRecord">
-        <xs:sequence>
-            <xs:element name="partNumber" type="xs:string" minOccurs="0"/>
-            <xs:element name="description" type="xs:string" minOccurs="0"/>
-            <xs:element name="manufacturer1" type="xs:string" minOccurs="0"/>
-            <xs:element name="source" type="xs:string" minOccurs="0"/>
-            <xs:element name="cost" type="xs:string" minOccurs="0"/>
-            <xs:element name="list" type="xs:string" minOccurs="0"/>
-            <xs:element name="trade" type="xs:string" minOccurs="0"/>
-            <xs:element name="comp" type="xs:string" minOccurs="0"/>
-            <xs:element name="exchange" type="xs:string" minOccurs="0"/>
-            <xs:element name="unitPrice6" type="xs:string" minOccurs="0"/>
-            <xs:element name="unitPrice7" type="xs:string" minOccurs="0"/>
-            <xs:element name="unitPrice8" type="xs:string" minOccurs="0"/>
-            <xs:element name="unitPrice9" type="xs:string" minOccurs="0"/>
-            <xs:element name="unitPrice10" type="xs:string" minOccurs="0"/>
-            <xs:element name="supersedePartNumber" type="xs:string" minOccurs="0"/>
-            <xs:element name="supersedeCode" type="xs:string" minOccurs="0"/>
-            <xs:element name="bin1" type="xs:string" minOccurs="0"/>
-            <xs:element name="onHandQty" type="xs:string" minOccurs="0"/>
-            <xs:element name="specialStatus" type="xs:string" minOccurs="0"/>
-            <xs:element name="onOrderQty" type="xs:string" minOccurs="0"/>
-            <xs:element name="unitWeight" type="xs:string" minOccurs="0"/>
-            <xs:element name="olmNewPartNumber" type="xs:string" minOccurs="0"/>
-            <xs:element name="presoldQty" type="xs:string" minOccurs="0"/>
-            <xs:element name="requestedQty" type="xs:string" minOccurs="0"/>
-            <xs:element name="originalPartNumberFlag" type="xs:string" minOccurs="0"/>
-            <xs:element name="salePrice" type="xs:string" minOccurs="0"/>
-            <xs:element name="memoFlag" type="xs:string" minOccurs="0"/>
-            <xs:element name="errorLevel" type="xs:string" minOccurs="0"/>
-            <xs:element name="errorMessage" type="xs:string" minOccurs="0"/>
-            <xs:element name="olmMfr" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="PartsInventoryPricingPIPException">
-        <xs:sequence>
-            <xs:element name="message" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="partsPricingBatch">
-        <xs:sequence>
-            <xs:element name="authToken" type="tns:authenticationToken" minOccurs="0"/>
-            <xs:element name="requests" type="tns:partsInventoryPricingBatchRequest" nillable="true" minOccurs="0"
-                        maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="partsInventoryPricingBatchRequest">
-        <xs:complexContent>
-            <xs:extension base="tns:partsInventoryPricingRequest">
-                <xs:sequence>
-                    <xs:element name="dealerId" type="tns:dealerId" minOccurs="0"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    <xs:complexType name="partsPricingBatchResponse">
-        <xs:sequence>
-            <xs:element name="return" type="tns:partsInventoryPricingResultContainer" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="checkServiceHealth">
-        <xs:sequence/>
-    </xs:complexType>
-    <xs:complexType name="checkServiceHealthResponse">
-        <xs:sequence>
-            <xs:element name="return" type="xs:string" minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:simpleType name="resultCode">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="success"/>
-            <xs:enumeration value="failure"/>
-        </xs:restriction>
-    </xs:simpleType>
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.dmotorworks.com/pip-extract-parts" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Parts">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="PartsInventory">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="OnOrderQty" type="xs:unsignedByte" />
+                            <xs:element name="LastSaleDate" type="xs:string" />
+                            <xs:element name="HostItemID" type="xs:unsignedInt" />
+                            <xs:element name="PartNumber" type="xs:unsignedInt" />
+                            <xs:element name="Class" type="xs:unsignedShort" />
+                            <xs:element name="Description" type="xs:string" />
+                            <xs:element name="BOPCK" type="xs:string" />
+                            <xs:element name="Source" type="xs:unsignedByte" />
+                            <xs:element name="Pack" type="xs:unsignedByte" />
+                            <xs:element name="Multiple" type="xs:unsignedByte" />
+                            <xs:element name="PriceUnit" type="xs:string" />
+                            <xs:element name="PackMultipleFlag" type="xs:string" />
+                            <xs:element name="Cost" type="xs:decimal" />
+                            <xs:element name="List" type="xs:decimal" />
+                            <xs:element name="Trade" type="xs:decimal" />
+                            <xs:element name="Comp" type="xs:string" />
+                            <xs:element name="Exchange" />
+                            <xs:element name="ABCD" type="xs:string" />
+                            <xs:element name="Price6" />
+                            <xs:element name="Price7" />
+                            <xs:element name="PNC" type="xs:string" />
+                            <xs:element name="RBCode" type="xs:string" />
+                            <xs:element name="ExtraDS" />
+                            <xs:element name="UpdateCode" type="xs:string" />
+                            <xs:element name="CommentFlag" />
+                            <xs:element name="OldOnHand" />
+                            <xs:element name="NewOrderQty" type="xs:string" />
+                            <xs:element name="Bin1" type="xs:string" />
+                            <xs:element name="Bin2" type="xs:string" />
+                            <xs:element name="Bin3" type="xs:string" />
+                            <xs:element name="OnHand" type="xs:unsignedByte" />
+                            <xs:element name="MemoPartFlag" type="xs:string" />
+                            <xs:element name="DeletePartFlag" />
+                            <xs:element name="BRP" type="xs:string" />
+                            <xs:element name="BSL" type="xs:string" />
+                            <xs:element name="FullBin" />
+                            <xs:element name="SpecialStatus" type="xs:string" />
+                            <xs:element name="DateAdded" type="xs:date" />
+                            <xs:element name="LastCountDate" type="xs:string" />
+                            <xs:element name="Price8" />
+                            <xs:element name="Price9" type="xs:string" />
+                            <xs:element name="Price10" type="xs:string" />
+                            <xs:element name="MonthsNoReceipt" type="xs:string" />
+                            <xs:element name="MonthsNoSale" type="xs:unsignedByte" />
+                            <xs:element name="LastTransDate" type="xs:string" />
+                            <xs:element name="BaseCostLIFO" />
+                            <xs:element name="BegQtyLIFO" />
+                            <xs:element name="MTDEmerPurchase" />
+                            <xs:element name="MTDPlusAdj" />
+                            <xs:element name="MTDMinusAdj" />
+                            <xs:element name="MTDLostSales" type="xs:string" />
+                            <xs:element name="Comment" />
+                            <xs:element name="Misc" type="xs:string" />
+                            <xs:element name="Manufacturer" type="xs:string" />
+                            <xs:element name="AccountingAccount" type="xs:string" />
+                            <xs:element name="ABCXYZ" />
+                            <xs:element name="PriorYearSales1" type="xs:string" />
+                            <xs:element name="PriorYearSales2" type="xs:string" />
+                            <xs:element name="PriorYearSales3" type="xs:string" />
+                            <xs:element name="DateLastReceipted" />
+                            <xs:element name="ErrorLevel" type="xs:unsignedByte" />
+                            <xs:element name="ErrorMessage" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="ErrorCode" type="xs:unsignedByte" />
+                <xs:element name="ErrorMessage" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
 </xs:schema>

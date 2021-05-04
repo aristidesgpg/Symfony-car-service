@@ -1,0 +1,622 @@
+App\Soap\cdk\src\Parts\PartsInventoryAType:
+    properties:
+        onOrderQty:
+            expose: true
+            access_type: public_method
+            serialized_name: OnOrderQty
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getOnOrderQty
+                setter: setOnOrderQty
+            type: int
+        lastSaleDate:
+            expose: true
+            access_type: public_method
+            serialized_name: LastSaleDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getLastSaleDate
+                setter: setLastSaleDate
+            type: string
+        hostItemID:
+            expose: true
+            access_type: public_method
+            serialized_name: HostItemID
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getHostItemID
+                setter: setHostItemID
+            type: int
+        partNumber:
+            expose: true
+            access_type: public_method
+            serialized_name: PartNumber
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPartNumber
+                setter: setPartNumber
+            type: int
+        class:
+            expose: true
+            access_type: public_method
+            serialized_name: Class
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getClass
+                setter: setClass
+            type: int
+        description:
+            expose: true
+            access_type: public_method
+            serialized_name: Description
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getDescription
+                setter: setDescription
+            type: string
+        bOPCK:
+            expose: true
+            access_type: public_method
+            serialized_name: BOPCK
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getBOPCK
+                setter: setBOPCK
+            type: string
+        source:
+            expose: true
+            access_type: public_method
+            serialized_name: Source
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getSource
+                setter: setSource
+            type: int
+        pack:
+            expose: true
+            access_type: public_method
+            serialized_name: Pack
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPack
+                setter: setPack
+            type: int
+        multiple:
+            expose: true
+            access_type: public_method
+            serialized_name: Multiple
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMultiple
+                setter: setMultiple
+            type: int
+        priceUnit:
+            expose: true
+            access_type: public_method
+            serialized_name: PriceUnit
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPriceUnit
+                setter: setPriceUnit
+            type: string
+        packMultipleFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: PackMultipleFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPackMultipleFlag
+                setter: setPackMultipleFlag
+            type: string
+        cost:
+            expose: true
+            access_type: public_method
+            serialized_name: Cost
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getCost
+                setter: setCost
+            type: float
+        list:
+            expose: true
+            access_type: public_method
+            serialized_name: List
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getList
+                setter: setList
+            type: float
+        trade:
+            expose: true
+            access_type: public_method
+            serialized_name: Trade
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getTrade
+                setter: setTrade
+            type: float
+        comp:
+            expose: true
+            access_type: public_method
+            serialized_name: Comp
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getComp
+                setter: setComp
+            type: string
+        exchange:
+            expose: true
+            access_type: public_method
+            serialized_name: Exchange
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getExchange
+                setter: setExchange
+            type: string
+        aBCD:
+            expose: true
+            access_type: public_method
+            serialized_name: ABCD
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getABCD
+                setter: setABCD
+            type: string
+        price6:
+            expose: true
+            access_type: public_method
+            serialized_name: Price6
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPrice6
+                setter: setPrice6
+            type: string
+        price7:
+            expose: true
+            access_type: public_method
+            serialized_name: Price7
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPrice7
+                setter: setPrice7
+            type: string
+        pNC:
+            expose: true
+            access_type: public_method
+            serialized_name: PNC
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPNC
+                setter: setPNC
+            type: string
+        rBCode:
+            expose: true
+            access_type: public_method
+            serialized_name: RBCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getRBCode
+                setter: setRBCode
+            type: string
+        extraDS:
+            expose: true
+            access_type: public_method
+            serialized_name: ExtraDS
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getExtraDS
+                setter: setExtraDS
+            type: string
+        updateCode:
+            expose: true
+            access_type: public_method
+            serialized_name: UpdateCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getUpdateCode
+                setter: setUpdateCode
+            type: string
+        commentFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: CommentFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getCommentFlag
+                setter: setCommentFlag
+            type: string
+        oldOnHand:
+            expose: true
+            access_type: public_method
+            serialized_name: OldOnHand
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getOldOnHand
+                setter: setOldOnHand
+            type: string
+        newOrderQty:
+            expose: true
+            access_type: public_method
+            serialized_name: NewOrderQty
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getNewOrderQty
+                setter: setNewOrderQty
+            type: string
+        bin1:
+            expose: true
+            access_type: public_method
+            serialized_name: Bin1
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getBin1
+                setter: setBin1
+            type: string
+        bin2:
+            expose: true
+            access_type: public_method
+            serialized_name: Bin2
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getBin2
+                setter: setBin2
+            type: string
+        bin3:
+            expose: true
+            access_type: public_method
+            serialized_name: Bin3
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getBin3
+                setter: setBin3
+            type: string
+        onHand:
+            expose: true
+            access_type: public_method
+            serialized_name: OnHand
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getOnHand
+                setter: setOnHand
+            type: int
+        memoPartFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: MemoPartFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMemoPartFlag
+                setter: setMemoPartFlag
+            type: string
+        deletePartFlag:
+            expose: true
+            access_type: public_method
+            serialized_name: DeletePartFlag
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getDeletePartFlag
+                setter: setDeletePartFlag
+            type: string
+        bRP:
+            expose: true
+            access_type: public_method
+            serialized_name: BRP
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getBRP
+                setter: setBRP
+            type: string
+        bSL:
+            expose: true
+            access_type: public_method
+            serialized_name: BSL
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getBSL
+                setter: setBSL
+            type: string
+        fullBin:
+            expose: true
+            access_type: public_method
+            serialized_name: FullBin
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getFullBin
+                setter: setFullBin
+            type: string
+        specialStatus:
+            expose: true
+            access_type: public_method
+            serialized_name: SpecialStatus
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getSpecialStatus
+                setter: setSpecialStatus
+            type: string
+        dateAdded:
+            expose: true
+            access_type: public_method
+            serialized_name: DateAdded
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getDateAdded
+                setter: setDateAdded
+            type: string
+        lastCountDate:
+            expose: true
+            access_type: public_method
+            serialized_name: LastCountDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getLastCountDate
+                setter: setLastCountDate
+            type: string
+        price8:
+            expose: true
+            access_type: public_method
+            serialized_name: Price8
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPrice8
+                setter: setPrice8
+            type: string
+        price9:
+            expose: true
+            access_type: public_method
+            serialized_name: Price9
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPrice9
+                setter: setPrice9
+            type: string
+        price10:
+            expose: true
+            access_type: public_method
+            serialized_name: Price10
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPrice10
+                setter: setPrice10
+            type: string
+        monthsNoReceipt:
+            expose: true
+            access_type: public_method
+            serialized_name: MonthsNoReceipt
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMonthsNoReceipt
+                setter: setMonthsNoReceipt
+            type: string
+        monthsNoSale:
+            expose: true
+            access_type: public_method
+            serialized_name: MonthsNoSale
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMonthsNoSale
+                setter: setMonthsNoSale
+            type: int
+        lastTransDate:
+            expose: true
+            access_type: public_method
+            serialized_name: LastTransDate
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getLastTransDate
+                setter: setLastTransDate
+            type: string
+        baseCostLIFO:
+            expose: true
+            access_type: public_method
+            serialized_name: BaseCostLIFO
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getBaseCostLIFO
+                setter: setBaseCostLIFO
+            type: string
+        begQtyLIFO:
+            expose: true
+            access_type: public_method
+            serialized_name: BegQtyLIFO
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getBegQtyLIFO
+                setter: setBegQtyLIFO
+            type: string
+        mTDEmerPurchase:
+            expose: true
+            access_type: public_method
+            serialized_name: MTDEmerPurchase
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMTDEmerPurchase
+                setter: setMTDEmerPurchase
+            type: string
+        mTDPlusAdj:
+            expose: true
+            access_type: public_method
+            serialized_name: MTDPlusAdj
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMTDPlusAdj
+                setter: setMTDPlusAdj
+            type: string
+        mTDMinusAdj:
+            expose: true
+            access_type: public_method
+            serialized_name: MTDMinusAdj
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMTDMinusAdj
+                setter: setMTDMinusAdj
+            type: string
+        mTDLostSales:
+            expose: true
+            access_type: public_method
+            serialized_name: MTDLostSales
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMTDLostSales
+                setter: setMTDLostSales
+            type: string
+        comment:
+            expose: true
+            access_type: public_method
+            serialized_name: Comment
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getComment
+                setter: setComment
+            type: string
+        misc:
+            expose: true
+            access_type: public_method
+            serialized_name: Misc
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getMisc
+                setter: setMisc
+            type: string
+        manufacturer:
+            expose: true
+            access_type: public_method
+            serialized_name: Manufacturer
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getManufacturer
+                setter: setManufacturer
+            type: string
+        accountingAccount:
+            expose: true
+            access_type: public_method
+            serialized_name: AccountingAccount
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getAccountingAccount
+                setter: setAccountingAccount
+            type: string
+        aBCXYZ:
+            expose: true
+            access_type: public_method
+            serialized_name: ABCXYZ
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getABCXYZ
+                setter: setABCXYZ
+            type: string
+        priorYearSales1:
+            expose: true
+            access_type: public_method
+            serialized_name: PriorYearSales1
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPriorYearSales1
+                setter: setPriorYearSales1
+            type: string
+        priorYearSales2:
+            expose: true
+            access_type: public_method
+            serialized_name: PriorYearSales2
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPriorYearSales2
+                setter: setPriorYearSales2
+            type: string
+        priorYearSales3:
+            expose: true
+            access_type: public_method
+            serialized_name: PriorYearSales3
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPriorYearSales3
+                setter: setPriorYearSales3
+            type: string
+        dateLastReceipted:
+            expose: true
+            access_type: public_method
+            serialized_name: DateLastReceipted
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getDateLastReceipted
+                setter: setDateLastReceipted
+            type: string
+        errorLevel:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorLevel
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getErrorLevel
+                setter: setErrorLevel
+            type: int
+        errorMessage:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorMessage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getErrorMessage
+                setter: setErrorMessage
+            type: string

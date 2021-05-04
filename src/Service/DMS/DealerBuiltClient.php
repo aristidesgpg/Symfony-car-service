@@ -566,6 +566,8 @@ class DealerBuiltClient extends AbstractDMSClient
 
             //Deserialize the soap result into objects.
             $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopePullParts::class, 'xml');
+
+
             /**
              * @var InventoryPartType $dmsPart
              */
@@ -583,22 +585,6 @@ class DealerBuiltClient extends AbstractDMSClient
         }
 
         return $parts;
-    }
-
-    /**
-     * @param $bins
-     */
-    public function binProcessor($bins): ?string
-    {
-        if (is_array($bins)) {
-            if (empty($bins)) {
-                return null;
-            }
-
-            return implode(', ', $bins);
-        }
-
-        return $bins;
     }
 
     public function getPostUrl(): string
