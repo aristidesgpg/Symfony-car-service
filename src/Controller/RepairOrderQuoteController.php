@@ -56,7 +56,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     {
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($repairOrderQuote->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($repairOrderQuote->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -174,7 +174,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-        
+
         $data = $this->handleView($view)->getContent();
         $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $data, $this->getUser());
 
@@ -226,7 +226,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Check permission if quote status is Sent, Completed or Confirmed
         $quoteStatus = $repairOrderQuote->getStatus();
         if ('Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
-            return $this->handleView($this->view("You cannot edit a completed quote", Response::HTTP_FORBIDDEN));
+            return $this->handleView($this->view('You cannot edit a completed quote', Response::HTTP_FORBIDDEN));
         }
 
         // Validate recommendation json
@@ -414,12 +414,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // send repair order link to the customer
         $serviceTextQuote = $settingsHelper->getSetting('serviceTextQuote');
         $customerURL = $parameterBag->get('customer_url');
-        $repairOrderURL = $customerURL . $repairOrder->getLinkHash();
+        $repairOrderURL = $customerURL.$repairOrder->getLinkHash();
         $shortUrl = $shortUrlHelper->generateShortUrl($repairOrderURL);
-        $message = $serviceTextQuote . ':' . $shortUrl;
+        $message = $serviceTextQuote.':'.$shortUrl;
         $customer = $repairOrder->getPrimaryCustomer();
 
-        if (!$customer->getPhone()){
+        if (!$customer->getPhone()) {
             return $this->handleView($this->view('Customer Phone Number is empty', Response::HTTP_BAD_REQUEST));
         }
 
@@ -427,7 +427,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $message);
         } catch (Exception $e) {
             return $this->handleView($this->view(
-                'Failed to send quote to customer: ' . $e->getMessage(),
+                'Failed to send quote to customer: '.$e->getMessage(),
                 Response::HTTP_BAD_GATEWAY
             ));
         }
@@ -487,7 +487,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -629,8 +629,8 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Quote Not Found');
         }
 
-        if (!$this->isGranted('ROLE_SERVICE_MANAGER')){
-            if (in_array($repairOrderQuote->getStatus(), ['Completed', 'Confirmed'])){
+        if (!$this->isGranted('ROLE_SERVICE_MANAGER')) {
+            if (in_array($repairOrderQuote->getStatus(), ['Completed', 'Confirmed'])) {
                 throw new BadRequestHttpException('You can not complete an already already finished quote');
             }
         }
@@ -648,7 +648,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             // Only throw exception if there are non-pre-approved
             $hasNonPreApproved = $recommendationRepository->findOneBy(['repairOrderQuote' => $repairOrderQuote, 'preApproved' => 0]);
 
-            if ($hasNonPreApproved){
+            if ($hasNonPreApproved) {
                 return $this->handleView($this->view('Recommendation data is invalid', Response::HTTP_BAD_REQUEST));
             }
         }

@@ -64,7 +64,7 @@ class RepairOrderVideoController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -140,12 +140,12 @@ class RepairOrderVideoController extends AbstractFOSRestController
         $file = $request->files->get('video');
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
-        } elseif ($file->getError() !== UPLOAD_ERR_OK) {
+        } elseif (UPLOAD_ERR_OK !== $file->getError()) {
             return new ValidationResponse(['video' => $file->getErrorMessage()]);
         }
 
         $user = $this->getUser();
-        if (!$user instanceof User || $user->getId() === null) {
+        if (!$user instanceof User || null === $user->getId()) {
             $user = null;
         }
 
@@ -204,7 +204,7 @@ class RepairOrderVideoController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($repairOrderVideo->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($repairOrderVideo->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }

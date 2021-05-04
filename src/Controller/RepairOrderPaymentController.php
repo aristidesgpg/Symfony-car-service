@@ -11,6 +11,7 @@ use App\Repository\RepairOrderPaymentRepository;
 use App\Repository\RepairOrderRepository;
 use App\Response\ValidationResponse;
 use App\Service\PaymentHelper;
+use App\Service\RepairOrderHelper;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -22,7 +23,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 use Twilio\Exceptions\TwilioException;
-use App\Service\RepairOrderHelper;
 
 /**
  * Class RepairOrderPaymentController.
@@ -85,11 +85,10 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
-
 
         $payments = $ro->getPayments();
         foreach ($payments as $key => $payment) {
@@ -171,7 +170,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($payment->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($payment->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -307,7 +306,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -429,7 +428,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -576,7 +575,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }

@@ -72,7 +72,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -158,7 +158,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
@@ -224,7 +224,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }

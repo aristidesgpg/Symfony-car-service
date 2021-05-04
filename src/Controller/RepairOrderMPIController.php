@@ -171,7 +171,7 @@ class RepairOrderMPIController extends AbstractFOSRestController
 
         // Check if customer role and not customer's RO
         if ($this->isGranted('ROLE_CUSTOMER')) {
-            if($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()){
+            if ($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
                 return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
             }
         }
