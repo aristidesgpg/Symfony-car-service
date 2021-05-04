@@ -262,7 +262,7 @@ class AutoMateClient extends AbstractDMSClient
             foreach ($repairOrder->getJob() as $job) {
                 $firstName = '';
                 $lastName = '';
-                if(!is_null($job->getServiceTechnicianParty()->getSpecifiedPerson())){
+                if (!is_null($job->getServiceTechnicianParty()->getSpecifiedPerson())) {
                     $firstName = $job->getServiceTechnicianParty()->getSpecifiedPerson()->getGivenName();
                     $lastName = $job->getServiceTechnicianParty()->getSpecifiedPerson()->getFamilyName();
                 }
@@ -530,14 +530,10 @@ class AutoMateClient extends AbstractDMSClient
         }
         $entityParts = [];
         foreach ($parts as $part) {
-            $bin = '';
-            if (is_array($part->getBinLocations())) {
-                $bin = $part->getBinLocations()[0]; //TODO: What to do if multiple bins?
-            }
             $entityParts[] = (new \App\Entity\Part())
                 ->setNumber($part->getPartNumber())
                 ->setName($part->getDescription() ?? '')
-                ->setBin($bin)
+                ->setBin($this->binProcessor($part->getBinLocations()))
                 ->setAvailable($part->getQuantityOnHand())
                 ->setPrice($part->getListPrice());
         }
@@ -615,7 +611,6 @@ class AutoMateClient extends AbstractDMSClient
         }
 
         return $this->parseRepairOrderNode($resultRepairOrder);
-
     }
 
     public function getWsdl(): string

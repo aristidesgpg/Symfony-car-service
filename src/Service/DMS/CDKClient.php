@@ -3,10 +3,13 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
 use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
+use App\Soap\cdk\src\CDKPartsSoapEnvelope;
+use App\Soap\cdk\src\Parts;
 use App\Soap\cdk\src\ServiceRepairOrderClosed;
 use App\Soap\cdk\src\ServiceRepairOrderOpen;
 use App\Soap\cdk\src\ServiceRODetailClosed;
@@ -65,6 +68,10 @@ class CDKClient extends AbstractDMSClient
      */
     private $initialized = false;
 
+    private $partsBaseURI = 'https://3pa.dmotorworks.com/pip-extract/parts/extract';
+
+    private $partExtractURL;
+
     public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
     {
         parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
@@ -76,12 +83,16 @@ class CDKClient extends AbstractDMSClient
         $this->openROExtractURL = 'service-ro-open/extract?dealerId='.$this->dealerID.'&queryId=SROD_Open_WIP';
         $this->singleROExtractURL = 'service-ro-open/extract?dealerId='.$this->dealerID.'&queryId=SROD_ByRONumber&timeoutSeconds=2700&qparamRONum=';
         $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate='.$today.'&qparamEndDate='.$today;
+        $this->partExtractURL .= '?dealerId='.$this->dealerID.'&queryId=PINV_Bulk';
 
         if ('dev' == $parameterBag->get('app_env')) {
             $this->baseURI = 'https://uat-3pa.dmotorworks.com/pip-extract/';
             $this->openROExtractURL = 'service-ro-open/extract?dealerId='.$this->dealerID.'&queryId=SROD_Open_WIP';
             $this->singleROExtractURL = 'service-ro-open/extract?dealerId='.$this->dealerID.'&queryId=SROD_ByRONumber&timeoutSeconds=2700&qparamRONum=';
             $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate='.$today.'&qparamEndDate='.$today;
+
+            $this->partsBaseURI = 'https://uat-3pa.dmotorworks.com/pip-extract/parts/extract';
+            $this->partExtractURL = '?dealerId='.$this->dealerID.'&queryId=PINV_Bulk';
 
             //TODO Only used for testing.
             $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate=1/1/2020&qparamEndDate=12/31/2020';
@@ -189,7 +200,6 @@ class CDKClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
-
     /**
      * @param $RONumber
      */
@@ -204,8 +214,6 @@ class CDKClient extends AbstractDMSClient
 
     /**
      * Checks if the passed RO# exists in the DMS and pulls it if it does.
-     *
-     * @param string $RONumber
      *
      * @return false|object
      */
@@ -223,11 +231,11 @@ class CDKClient extends AbstractDMSClient
             if (!$response) {
                 return $repairOrder;
             }
-            /**
+            /*
              * @var ServiceRepairOrderOpen $repairOrder
              */
-            foreach ($response->getServiceRepairOrderOpen() as $repairOrder) {
-                $ro = $this->extractROInfo($repairOrder);
+            foreach ($response->getServiceRepairOrderOpen() as $repairOrderResult) {
+                $ro = $this->extractROInfo($repairOrderResult);
                 if (!$ro) {
                     continue;
                 }
@@ -259,6 +267,9 @@ class CDKClient extends AbstractDMSClient
             $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $rawResponse, true);
         }
 
+        if (!$rawResponse) {
+            return null;
+        }
         $response = $this->getSerializer()->deserialize($rawResponse, $deserializationClass, 'xml');
 
         if (!$response) {
@@ -376,7 +387,6 @@ class CDKClient extends AbstractDMSClient
         return parent::phoneNormalizer($phoneNumbers->value());
     }
 
-
     public function getOperationCodes(): array
     {
         if (!$this->isInitialized()) {
@@ -392,10 +402,37 @@ class CDKClient extends AbstractDMSClient
         if (!$this->isInitialized()) {
             $this->init();
         }
+        $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
+        $this->initializeGuzzleClient($this->getPartsBaseURI(), $options);
+        $parts = [];
+
+        if ($this->getGuzzleClient()) {
+            $response = $this->sendRequest($this->getPartExtractURL(), Parts::class);
+
+            if (!$response) {
+                return $parts;
+            }
 
 
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+            /**
+             * @var Parts\PartsInventoryAType $result
+             */
+            foreach ($response->getPartsInventory() as $result) {
+                $part = (new Part())
+                    ->setNumber($result->getPartNumber())
+                    ->setName($result->getDescription())
+                    ->setBin($this->binProcessor([$result->getBin1(), $result->getBin2(), $result->getBin3()]))
+                    ->setAvailable($result->getOnHand())
+                    ->setPrice($result->getList());
+
+                $parts[] = $part;
+            }
+        }
+
+        return $parts;
     }
+
+
 
     public static function getDefaultIndexName(): string
     {
@@ -499,5 +536,37 @@ class CDKClient extends AbstractDMSClient
     public function setInitialized(bool $initialized): void
     {
         $this->initialized = $initialized;
+    }
+
+    public function getPartsBaseURI(): string
+    {
+        return $this->partsBaseURI;
+    }
+
+    public function setPartsBaseURI(string $partsBaseURI): CDKClient
+    {
+        $this->partsBaseURI = $partsBaseURI;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPartExtractURL()
+    {
+        return $this->partExtractURL;
+    }
+
+    /**
+     * @param mixed $partExtractURL
+     *
+     * @return CDKClient
+     */
+    public function setPartExtractURL($partExtractURL)
+    {
+        $this->partExtractURL = $partExtractURL;
+
+        return $this;
     }
 }

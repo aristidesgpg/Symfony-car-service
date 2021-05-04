@@ -1,0 +1,362 @@
+App\Soap\cdk\src\Parts\PartsInventoryAType:
+    properties:
+        onOrderQty:
+            -
+                LessThanOrEqual:
+                    value: '255'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        lastSaleDate:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        hostItemID:
+            -
+                LessThanOrEqual:
+                    value: '4294967295'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        partNumber:
+            -
+                LessThanOrEqual:
+                    value: '4294967295'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        class:
+            -
+                LessThanOrEqual:
+                    value: '65535'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        description:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        bOPCK:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        source:
+            -
+                LessThanOrEqual:
+                    value: '255'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        pack:
+            -
+                LessThanOrEqual:
+                    value: '255'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        multiple:
+            -
+                LessThanOrEqual:
+                    value: '255'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        priceUnit:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        packMultipleFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        cost:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        list:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        trade:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        comp:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        exchange:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        aBCD:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        price6:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        price7:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        pNC:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        rBCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        extraDS:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        updateCode:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        commentFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        oldOnHand:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        newOrderQty:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        bin1:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        bin2:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        bin3:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        onHand:
+            -
+                LessThanOrEqual:
+                    value: '255'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        memoPartFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        deletePartFlag:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        bRP:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        bSL:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        fullBin:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        specialStatus:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        dateAdded:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        lastCountDate:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        price8:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        price9:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        price10:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        monthsNoReceipt:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        monthsNoSale:
+            -
+                LessThanOrEqual:
+                    value: '255'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        lastTransDate:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        baseCostLIFO:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        begQtyLIFO:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        mTDEmerPurchase:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        mTDPlusAdj:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        mTDMinusAdj:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        mTDLostSales:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        comment:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        misc:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        manufacturer:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        accountingAccount:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        aBCXYZ:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        priorYearSales1:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        priorYearSales2:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        priorYearSales3:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        dateLastReceipted:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        errorLevel:
+            -
+                LessThanOrEqual:
+                    value: '255'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        errorMessage:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules

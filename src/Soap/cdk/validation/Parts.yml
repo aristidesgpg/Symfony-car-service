@@ -1,0 +1,24 @@
+App\Soap\cdk\src\Parts:
+    properties:
+        partsInventory:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+            -
+                Valid: null
+        errorCode:
+            -
+                LessThanOrEqual:
+                    value: '255'
+                    groups:
+                        - xsd_rules
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
+        errorMessage:
+            -
+                NotNull:
+                    groups:
+                        - xsd_rules
