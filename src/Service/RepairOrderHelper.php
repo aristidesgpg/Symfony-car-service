@@ -333,6 +333,7 @@ class RepairOrderHelper
             throw new InvalidArgumentException('RO is already closed');
         }
         $ro->setDateClosed(new DateTime());
+        $this->getDms()->closeOpenRepairOrder($ro);
         $this->commitRepairOrder();
     }
 
