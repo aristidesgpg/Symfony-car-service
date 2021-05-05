@@ -330,16 +330,22 @@ class DMS
             return null;
         }
 
+        $results = [];
         // Get open repair orders
         $openRepairOrders = $this->repairOrderRepo->getOpenRepairOrders();
 
         if ($openRepairOrders) {
             try {
-                $this->integration->getClosedRoDetails($openRepairOrders);
+                $results = $this->integration->getClosedRoDetails($openRepairOrders);
             } catch (Exception $e) {
                 //do nothing.
             }
         }
+
+        foreach ($results as $result) {
+            $this->getEm()->persist($result);
+        }
+        $this->getEm()->flush();
     }
 
     /**

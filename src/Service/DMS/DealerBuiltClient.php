@@ -306,18 +306,15 @@ class DealerBuiltClient extends AbstractDMSClient
             $rosWithoutKeys[$repairOrder->getNumber()] = $repairOrder;
         }
 
-        //TODO Shouldn't we close both?
         if ($rosWithKeys) {
             $this->closeRosWithKeys($rosWithKeys);
-
-            return [];
         }
 
         if ($rosWithoutKeys) {
             $this->closeRosWithoutKeys($rosWithoutKeys);
-
-            return [];
         }
+
+        return [];
     }
 
     /**
@@ -442,7 +439,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 $this->getEntityManager()->persist($referenceRepairOrder);
                 $this->getEntityManager()->flush();
 
-                return $repairOrder;
+                return $referenceRepairOrder;
             }
         }//end closed/posted if.
 
