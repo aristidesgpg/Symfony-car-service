@@ -314,7 +314,7 @@ class DMS
         //TODO This should be refactored to close an individual instead of passing an array.
         $openRepairOrders[] = $repairOrder;
         try {
-            $this->integration->getClosedRoDetails($openRepairOrders);
+            $results = $this->integration->getClosedRoDetails($openRepairOrders);
         } catch (Exception $e) {
             //do nothing.
         }
@@ -341,11 +341,11 @@ class DMS
                 //do nothing.
             }
         }
-
-        foreach ($results as $result) {
-            $this->getEm()->persist($result);
-        }
-        $this->getEm()->flush();
+        //This is not needed as we close them in their respective classes.
+//        foreach ($results as $result) {
+//            $this->getEm()->persist($result);
+//        }
+//        $this->getEm()->flush();
     }
 
     /**
@@ -420,7 +420,7 @@ class DMS
 
         //If no advisor, set to defaultAdvisor.
         //BH 20210502 Changed to return null if no advisor is found.
-        //return $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_SERVICE_ADVISOR'], ['id' => 'ASC']);
+        return $this->getUserRepo()->findOneBy(['active' => 1, 'role' => 'ROLE_SERVICE_ADVISOR'], ['id' => 'ASC']);
         return null;
     }
 

@@ -192,7 +192,7 @@ class CDKClient extends AbstractDMSClient
                         ->setFinalValue($repairOrder->getPayCPTotal());
                     $this->getEntityManager()->persist($entityRepairOrder);
                     $this->getEntityManager()->flush();
-                    $closedRepairOrders[] = $repairOrder;
+                    $closedRepairOrders[] = $entityRepairOrder;
                 }
             }
         }
