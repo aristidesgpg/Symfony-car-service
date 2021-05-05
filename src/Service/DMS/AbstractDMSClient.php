@@ -294,7 +294,10 @@ abstract class AbstractDMSClient implements DMSClientInterface
         //        $this->settingsHelper->getSetting('generalName');
         if ($exception) {
             $message = sprintf('Request: %s, Response: %s', $request, $response);
-            $this->getSlackClient()->sendMessage('Mr.Robot', $message);
+
+            if ('prod' == $this->getParameterBag()->get('app_env')) {
+                $this->getSlackClient()->sendMessage('Mr.Robot', $message);
+            }
         }
 
         if ($isRest) {
