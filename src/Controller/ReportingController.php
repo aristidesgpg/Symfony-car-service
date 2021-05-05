@@ -1485,6 +1485,9 @@ class ReportingController extends AbstractFOSRestController
      *             type="array",
      *             @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
      *         ),
+     *         @SWG\Property(property="totalPayments", type="integer", description="Total # of payments"),
+     *         @SWG\Property(property="totalRefunds", type="integer", description="Total # of refunds"),
+     *         @SWG\Property(property="net", type="integer", description="Total # of (totalPayments - totalRefunds)"),
      *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
      *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
      *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
@@ -1557,11 +1560,23 @@ class ReportingController extends AbstractFOSRestController
             $searchTerm
         );
 
-        $pager = $paginator->paginate($paymentQuery, $page, $pageLimit);
+        $result = $paymentQuery->getResult();
+
+        $totalPayments = 0;
+        $totalRefunds = 0;
+        foreach ($result as $rop) {
+            $totalPayments += $rop->getAmountString();
+            $totalRefunds += $rop->getRefundedAmountString();
+        }
+
+        $pager = $paginator->paginate($result, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
             'results' => $pager->getItems(),
+            'totalPayments' => round($totalPayments, 2),
+            'totalRefunds' => round($totalRefunds, 2),
+            'net' => round($totalPayments - $totalRefunds, 2),
             'totalResults' => $pagination->totalResults,
             'totalPages' => $pagination->totalPages,
             'previous' => $pagination->getPreviousPageURL('app_reporting_ipay', $urlParameters),
