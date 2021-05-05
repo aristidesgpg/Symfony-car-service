@@ -471,7 +471,7 @@ class AutoMateClient extends AbstractDMSClient
             $this->getEntityManager()->persist($repairOrder);
             $this->getEntityManager()->flush();
 
-            $closedRepairOrder[] = $repairOrder;
+            $closedRepairOrders[] = $repairOrder;
         }
 
         return $closedRepairOrders;
