@@ -98,7 +98,7 @@ class RepairOrderRepository extends ServiceEntityRepository
      *
      * @throws Exception
      */
-    public function getAllArchives($start = null, $end = null, $sortField = 'dateCreated', $sortDirection = 'DESC', $searchTerm = null)
+    public function getRepairOrdersBy($start = null, $end = null, $sortField = 'dateCreated', $sortDirection = 'DESC', $searchTerm = null)
     {
         if (is_null($end)) {
             $end = new DateTime();

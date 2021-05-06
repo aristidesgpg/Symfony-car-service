@@ -148,7 +148,7 @@ class ReportingController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        $result = $roRepo->getAllArchives(
+        $result = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate,
             $sortField,
@@ -319,7 +319,7 @@ class ReportingController extends AbstractFOSRestController
             $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
         }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -540,7 +540,7 @@ class ReportingController extends AbstractFOSRestController
             $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
         }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -760,7 +760,7 @@ class ReportingController extends AbstractFOSRestController
             $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
         }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -978,7 +978,7 @@ class ReportingController extends AbstractFOSRestController
             $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
         }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -1096,7 +1096,7 @@ class ReportingController extends AbstractFOSRestController
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -1553,7 +1553,7 @@ class ReportingController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        $repairOrders = $ro->getAllArchives(
+        $repairOrders = $ro->getRepairOrdersBy(
             $startDate,
             $endDate,
             null,
