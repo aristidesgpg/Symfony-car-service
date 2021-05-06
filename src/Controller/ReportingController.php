@@ -1550,7 +1550,7 @@ class ReportingController extends AbstractFOSRestController
         }
 
         if (!empty($errors)) {
-            return new ValidationResponse($errors);
+            return $this->handleView($this->view('Errors: '.implode(', ', $errors), Response::HTTP_BAD_REQUEST));
         }
 
         $repairOrders = $ro->getRepairOrdersBy(
