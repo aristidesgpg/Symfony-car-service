@@ -37,7 +37,7 @@ class RepairOrderController extends AbstractFOSRestController
     use FalsyTrait;
     use iServiceLoggerTrait;
 
-    private const PAGE_LIMIT = 50;
+    private const PAGE_LIMIT = 250;
 
     /**
      * @Rest\Get(name="getRepairOrders")
