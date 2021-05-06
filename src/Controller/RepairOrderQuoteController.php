@@ -23,7 +23,6 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -379,7 +378,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         EntityManagerInterface $em,
         TwilioHelper $twilioHelper,
         SettingsHelper $settingsHelper,
-        ParameterBagInterface $parameterBag,
         RepairOrderQuoteHelper $helper,
         ShortUrlHelper $shortUrlHelper
     ): Response {
@@ -413,10 +411,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrder->setQuoteStatus($status);
         // send repair order link to the customer
         $serviceTextQuote = $settingsHelper->getSetting('serviceTextQuote');
-        $customerURL = $parameterBag->get('customer_url');
-        $repairOrderURL = $customerURL.$repairOrder->getLinkHash();
+        $customerURL = $settingsHelper->getSetting('customerURL');
+        $repairOrderURL = $customerURL . $repairOrder->getLinkHash();
         $shortUrl = $shortUrlHelper->generateShortUrl($repairOrderURL);
-        $message = $serviceTextQuote.':'.$shortUrl;
+        $message = $serviceTextQuote . ':' . $shortUrl;
         $customer = $repairOrder->getPrimaryCustomer();
 
         if (!$customer->getPhone()) {
@@ -427,7 +425,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $message);
         } catch (Exception $e) {
             return $this->handleView($this->view(
-                'Failed to send quote to customer: '.$e->getMessage(),
+                'Failed to send quote to customer: ' . $e->getMessage(),
                 Response::HTTP_BAD_GATEWAY
             ));
         }
@@ -775,10 +773,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order Quote exists
-//        $repairOrderQuote = $repairOrderQuoteRepository->findOneBy(['id' => $repairOrderQuoteID]);
-//        if (!$repairOrderQuote) {
-//            return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
-//        }
+        //        $repairOrderQuote = $repairOrderQuoteRepository->findOneBy(['id' => $repairOrderQuoteID]);
+        //        if (!$repairOrderQuote) {
+        //            return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
+        //        }
         try {
             $repairOrder = $repairOrderHelper->syncRepairOrderRecommendationsFromDMS($repairOrder);
         } catch (\Exception $e) {

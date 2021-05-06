@@ -22,7 +22,6 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Knp\Component\Pager\PaginatorInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -340,14 +339,13 @@ class RepairOrderController extends AbstractFOSRestController
         EntityManagerInterface $em,
         TwilioHelper $twilioHelper,
         ShortUrlHelper $shortUrlHelper,
-        SettingsHelper $settingsHelper,
-        ParameterBagInterface $parameterBag
+        SettingsHelper $settingsHelper
     ): Response {
         $ro = $helper->addRepairOrder($req->request->all());
         $waiverActivateAuthMessage = $settingsHelper->getSetting('waiverActivateAuthMessage');
         $waiverIntroText = $settingsHelper->getSetting('waiverIntroText');
         $welcomeMessage = $settingsHelper->getSetting('serviceTextIntro');
-        $customerURL = $parameterBag->get('customer_url');
+        $customerURL = $settingsHelper->getSetting('customerURL');
 
         if (is_array($ro)) {
             return new ValidationResponse($ro);
@@ -360,16 +358,16 @@ class RepairOrderController extends AbstractFOSRestController
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
             } else {
                 // waiver enabled
-                $url = $customerURL.$ro->getLinkHash();
+                $url = $customerURL . $ro->getLinkHash();
                 $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                $waiverMessage = $waiverIntroText.' '.$shortUrl;
+                $waiverMessage = $waiverIntroText . ' ' . $shortUrl;
 
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
                 $roInteraction = new RepairOrderInteraction();
                 $roInteraction->setRepairOrder($ro)
-                        ->setUser($this->getUser())
-                        ->setType('Waiver Sent');
+                    ->setUser($this->getUser())
+                    ->setType('Waiver Sent');
                 $em->persist($roInteraction);
                 $em->flush();
             }

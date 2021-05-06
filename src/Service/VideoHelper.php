@@ -11,7 +11,6 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Security;
 
@@ -23,7 +22,6 @@ class VideoHelper
     private $settingsHelper;
     private $user;
     private $twilioHelper;
-    private $parameterBag;
 
     public function __construct(
         EntityManagerInterface $em,
@@ -31,8 +29,7 @@ class VideoHelper
         ShortUrlHelper $urlHelper,
         SettingsHelper $settingsHelper,
         Security $security,
-        TwilioHelper $twilioHelper,
-        ParameterBagInterface $parameterBag
+        TwilioHelper $twilioHelper
     ) {
         $this->em = $em;
         $this->upload = $upload;
@@ -40,7 +37,6 @@ class VideoHelper
         $this->settingsHelper = $settingsHelper;
         $this->user = $security->getUser();
         $this->twilioHelper = $twilioHelper;
-        $this->parameterBag = $parameterBag;
     }
 
     public function uploadVideo(RepairOrder $ro, UploadedFile $file, ?User $tech = null): RepairOrderVideo
@@ -59,8 +55,8 @@ class VideoHelper
 
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Uploaded')
-                    ->setUser($this->user)
-                    ->setRepairOrderVideo($video);
+            ->setUser($this->user)
+            ->setRepairOrderVideo($video);
         $video->addInteraction($interaction);
         $ro->addVideo($video);
 
@@ -76,9 +72,9 @@ class VideoHelper
     {
         $customer = $video->getRepairOrder()->getPrimaryCustomer();
         $message = $this->settingsHelper->getSetting('serviceTextVideo');
-        $url = $this->parameterBag->get('customer_url').$video->getRepairOrder()->getLinkHash();
+        $url = $this->settingsHelper->getSetting('customerURL') . $video->getRepairOrder()->getLinkHash();
         $shortUrl = $this->urlHelper->generateShortUrl($url);
-        $message = $message.' '.$shortUrl;
+        $message = $message . ' ' . $shortUrl;
 
         try {
             $this->twilioHelper->sendSms($customer, $message);
@@ -88,11 +84,11 @@ class VideoHelper
 
         $interaction = new RepairOrderVideoInteraction();
         $interaction->setType('Sent')
-                    ->setUser($this->user)
-                    ->setRepairOrderVideo($video);
+            ->setUser($this->user)
+            ->setRepairOrderVideo($video);
         $video->addInteraction($interaction)
-              ->setDateSent(new DateTime())
-              ->setShortUrl($shortUrl);
+            ->setDateSent(new DateTime())
+            ->setShortUrl($shortUrl);
 
         $this->em->persist($video);
         $this->em->flush();
@@ -121,11 +117,11 @@ class VideoHelper
         }
 
         $interaction->setRepairOrderVideo($video)
-                    ->setCustomer($repairOrder->getPrimaryCustomer())
-                    ->setType('Viewed');
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType('Viewed');
 
         $video->addInteraction($interaction)
-              ->setDateViewed(new DateTime());
+            ->setDateViewed(new DateTime());
 
         $this->em->flush();
     }
