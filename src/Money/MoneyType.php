@@ -60,4 +60,9 @@ class MoneyType extends Type
     {
         return self::TYPE;
     }
+
+    public function requiresSQLCommentHint(AbstractPlatform $platform)
+    {
+        return true;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderInteraction;
 use App\Repository\RepairOrderRepository;
@@ -68,6 +69,13 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         }
 
         $ro = $roRepo->find($repairOrderId);
+
+        // Check if customer role and not customer's RO
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
 
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
@@ -148,6 +156,13 @@ class RepairOrderWaiverController extends AbstractFOSRestController
 
         $ro = $roRepo->find($repairOrderId);
 
+        // Check if customer role and not customer's RO
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
+
         if ($ro->getDeleted()) {
             throw new NotFoundHttpException();
         }
@@ -206,6 +221,13 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         }
 
         $ro = $roRepo->find($repairOrderId);
+
+        // Check if customer role and not customer's RO
+        if ($this->isGranted('ROLE_CUSTOMER')) {
+            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+            }
+        }
 
         if (!$ro || $ro->getDeleted()) {
             throw new NotFoundHttpException();
