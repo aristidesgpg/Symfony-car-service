@@ -98,7 +98,7 @@ class RepairOrderRepository extends ServiceEntityRepository
      *
      * @throws Exception
      */
-    public function getAllArchives($start = null, $end = null, $sortField = 'dateCreated', $sortDirection = 'DESC')
+    public function getAllArchives($start = null, $end = null, $sortField = 'dateCreated', $sortDirection = 'DESC', $searchTerm = null)
     {
         if (is_null($end)) {
             $end = new DateTime();
@@ -121,6 +121,35 @@ class RepairOrderRepository extends ServiceEntityRepository
             } else {
                 $qb->andWhere('ro.dateCreated < :end')
                     ->setParameter('end', $end->format('Y-m-d H:i'));
+            }
+
+            // for iPay reporting
+            if ($searchTerm) {
+                $query = '';
+
+                $qb->leftJoin('ro.primaryCustomer', 'ro_customer')
+                   ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
+
+                $searchFields = [
+                    'ro' => ['number'],
+                    'ro_customer' => ['name'],
+                    'ro_advisor' => ['combine_name'],
+                ];
+
+                foreach ($searchFields as $class => $fields) {
+                    foreach ($fields as $field) {
+                        if ('combine_name' === $field) {
+                            $query .= "CONCAT($class.firstName , ' ' , $class.lastName) LIKE :searchTerm OR ";
+                        } else {
+                            $query .= "$class.$field LIKE :searchTerm OR ";
+                        }
+                    }
+                }
+
+                $query = substr($query, 0, strlen($query) - 4);
+
+                $qb->andWhere($query)
+                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 
             if ($sortDirection) {

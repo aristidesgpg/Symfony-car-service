@@ -1504,6 +1504,7 @@ class ReportingController extends AbstractFOSRestController
     public function iPay(
         Request $request,
         RepairOrderPaymentRepository $roPaymentRepo,
+        RepairOrderRepository $ro,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
         EntityManagerInterface $em
@@ -1552,24 +1553,40 @@ class ReportingController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        $paymentQuery = $roPaymentRepo->getAllPayments(
+        $repairOrders = $ro->getAllArchives(
             $startDate,
             $endDate,
+            null,
+            null,
+            $searchTerm
+        );
+
+        $roPaymentQuery = $roPaymentRepo->getAllPayments(
             $sortField,
             $sortDirection,
             $searchTerm
         );
 
-        $result = $paymentQuery->getResult();
+        $roPayments = $roPaymentQuery->getResult();
 
         $totalPayments = 0;
         $totalRefunds = 0;
-        foreach ($result as $rop) {
-            $totalPayments += $rop->getAmountString();
-            $totalRefunds += $rop->getRefundedAmountString();
+
+        $roIds = [];
+        foreach ($repairOrders as $ro) {
+            $roIds[] = $ro->getId();
         }
 
-        $pager = $paginator->paginate($result, $page, $pageLimit);
+        $totalRepairOrderPayments = [];
+        foreach ($roPayments as $rop) {
+            if (in_array($rop->getRepairOrder()->getId(), $roIds)) {
+                $totalRepairOrderPayments[] = $rop;
+                $totalPayments += $rop->getAmountString();
+                $totalRefunds += $rop->getRefundedAmountString();
+            }
+        }
+
+        $pager = $paginator->paginate($totalRepairOrderPayments, $page, $pageLimit);
         $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
 
         $json = [
