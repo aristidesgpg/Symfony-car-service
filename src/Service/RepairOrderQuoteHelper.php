@@ -249,7 +249,7 @@ class RepairOrderQuoteHelper
      *
      * @throws Exception
      */
-    public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations, bool $wipeAll = true, bool $wipePreApproved = false)
+    public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations, bool $wipeAll = true, bool $wipePreApproved = false, bool $isDMS = false)
     {
         // Remove previous recommendations
         if ($wipeAll) {
@@ -267,9 +267,10 @@ class RepairOrderQuoteHelper
 
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
+
             // Check if Operation Code exists
             $operationCode = $this->operationCodeRepository->findOneBy(['code' => $recommendation->operationCode]);
-            if (!$operationCode) {
+            if (!$isDMS && !$operationCode) {
                 throw new Exception('Invalid operationCode Parameter in recommendations JSON');
             }
 
@@ -334,13 +335,13 @@ class RepairOrderQuoteHelper
 
             if ($repairOrderQuoteRecommendation->getPreApproved()) {
                 if ($currentRecommendation && !filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN)) {
-                    throw new Exception('The recommendation'.$repairOrderQuoteRecommendation->getId().' was pre-approved');
+                    throw new Exception('The recommendation' . $repairOrderQuoteRecommendation->getId() . ' was pre-approved');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(true);
             } else {
                 if (!$currentRecommendation) {
-                    throw new Exception('Recommendation '.$repairOrderQuoteRecommendation->getId().' was not pre-approved, but it is missing');
+                    throw new Exception('Recommendation ' . $repairOrderQuoteRecommendation->getId() . ' was not pre-approved, but it is missing');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(filter_var($currentRecommendation->approved, FILTER_VALIDATE_BOOLEAN));
@@ -439,7 +440,7 @@ class RepairOrderQuoteHelper
             // TODO: Should we validate recommendations coming from the DMS?
             //$this->validateRecommendationsJson($DMSResult->getRecommendations());
 
-            $this->buildRecommendations($repairOrder->getRepairOrderQuote(), $DMSResult->getRecommendations(), false, true);
+            $this->buildRecommendations($repairOrder->getRepairOrderQuote(), $DMSResult->getRecommendations(), false, true, true);
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
@@ -449,12 +450,12 @@ class RepairOrderQuoteHelper
         // Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
-                ->setCustomer($repairOrder->getPrimaryCustomer())
-                ->setType($status);
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
 
         // Update repairOrderQuote Status
         $repairOrder->getRepairOrderQuote()->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                ->setStatus($status);
+            ->setStatus($status);
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
@@ -653,7 +654,4 @@ class RepairOrderQuoteHelper
     {
         $this->repairOrderQuoteLogHelper = $repairOrderQuoteLogHelper;
     }
-
-
-
 }
