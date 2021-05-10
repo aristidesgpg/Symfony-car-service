@@ -15,6 +15,7 @@ use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\ServiceSMSRepository;
 use App\Repository\UserRepository;
+use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\ServiceSMSHelper;
 use DateInterval;
@@ -781,7 +782,7 @@ class ReportingController extends AbstractFOSRestController
             $totalVideos = 0;
 
             foreach ($closedRepairOrders as $ro) {
-                if ($technician->getId() === $ro->getPrimaryTechnician()->getId()) {
+                if ($ro->getPrimaryTechnician() && $technician->getId() === $ro->getPrimaryTechnician()->getId()) {
                     ++$totalClosedRepairOrders;
                     $totalStartValues += $ro->getStartValue();
                     $totalFinalValues += $ro->getFinalValue();
@@ -1399,8 +1400,8 @@ class ReportingController extends AbstractFOSRestController
                 'repairOrderNumber' => $ro->getNumber(),
                 'customerName' => $customer->getName(),
                 'customerPhone' => $customer->getPhone(),
-                'advisorName' => $advisor->getFirstName().' '.$advisor->getLastName(),
-                'technicianName' => $technician->getFirstName().' '.$technician->getLastName(),
+                'advisorName' => $advisor->getFirstName() . ' ' . $advisor->getLastName(),
+                'technicianName' => $technician->getFirstName() . ' ' . $technician->getLastName(),
                 'templateName' => $mpiTemplateName,
                 'repairOrderMpi' => $roMpi,
             ];
@@ -1550,7 +1551,7 @@ class ReportingController extends AbstractFOSRestController
         }
 
         if (!empty($errors)) {
-            return $this->handleView($this->view('Errors: '.implode(', ', $errors), Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Errors: ' . implode(', ', $errors), Response::HTTP_BAD_REQUEST));
         }
 
         $repairOrders = $ro->getRepairOrdersBy(
