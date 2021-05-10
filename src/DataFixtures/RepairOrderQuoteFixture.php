@@ -28,7 +28,6 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
             $repairOrder = $this->getReference('repairOrder_' . $repairOrderReference);
             
             $dateCreated = $faker->dateTimeThisYear;
-            //$status      = "Not Started";
             $status      = $repairOrder->getQuoteStatus();
             //create repairOrderQuote
             $repairOrderQuote = new RepairOrderQuote();
