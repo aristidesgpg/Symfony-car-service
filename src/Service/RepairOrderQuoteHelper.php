@@ -63,10 +63,10 @@ class RepairOrderQuoteHelper
     ];
 
     private const BOOLEAN_VALUES = [
-        "true",
-        "false",
-        "0",
-        "1"
+        'true',
+        'false',
+        '0',
+        '1',
     ];
 
     private const NOT_REQUIRED_FIELDS = [
@@ -109,8 +109,7 @@ class RepairOrderQuoteHelper
         SettingsHelper $settingsHelper,
         Security $security,
         RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
-    )
-    {
+    ) {
         $this->em = $em;
         $this->operationCodeRepository = $em->getRepository(OperationCode::class);
         $this->security = $security;
@@ -144,15 +143,15 @@ class RepairOrderQuoteHelper
 
             foreach (self::PART_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field . ' is missing in parts json');
+                    throw new Exception($field.' is missing in parts json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field . ' has no value in parts json');
+                        throw new Exception($field.' has no value in parts json');
                     }
 
                     if ('price' == $field || 'quantity' == $field) {
                         if (!is_numeric($fields[$field])) {
-                            throw new Exception($field . ' has invalid value in parts json');
+                            throw new Exception($field.' has invalid value in parts json');
                         }
                     }
                 }
@@ -178,10 +177,10 @@ class RepairOrderQuoteHelper
 
             foreach (self::COMPLETE_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field . ' is missing in recommendations json');
+                    throw new Exception($field.' is missing in recommendations json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field . ' has no value in recommendations json');
+                        throw new Exception($field.' has no value in recommendations json');
                     }
                 }
             }
@@ -210,21 +209,21 @@ class RepairOrderQuoteHelper
 
             foreach (self::RECOMMENDATION_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field . ' is missing in recommendations json');
+                    throw new Exception($field.' is missing in recommendations json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field . ' has no value in recommendations json');
+                        throw new Exception($field.' has no value in recommendations json');
                     }
 
                     if (in_array($field, self::RECOMMENDATION_NUMBER_FIELDS)) {
                         if (!is_numeric($fields[$field])) {
-                            throw new Exception($field . ' has invalid value in recommendations json');
+                            throw new Exception($field.' has invalid value in recommendations json');
                         }
                     }
 
-                    if (str_contains($field, "Taxable")) {
+                    if (str_contains($field, 'Taxable')) {
                         if (!in_array($fields[$field], self::BOOLEAN_VALUES)) {
-                            throw new Exception($field . ' is not boolean in recommendations json');
+                            throw new Exception($field.' is not boolean in recommendations json');
                         }
                     }
                 }
@@ -233,7 +232,7 @@ class RepairOrderQuoteHelper
             // These are required to be set but not required to have a value
             foreach (self::NOT_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field . ' is missing in recommendations json');
+                    throw new Exception($field.' is missing in recommendations json');
                 }
             }
         }
@@ -241,8 +240,9 @@ class RepairOrderQuoteHelper
 
     public function isTrue($val)
     {
-        $boolval = (is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool)$val);
-        return ($boolval === null ? false : $boolval);
+        $boolval = (is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool) $val);
+
+        return null === $boolval ? false : $boolval;
     }
 
     /**
@@ -271,10 +271,13 @@ class RepairOrderQuoteHelper
             // Check if Operation Code exists
             $operationCode = $this->operationCodeRepository->findOneBy(['code' => $recommendation->operationCode]);
             if (!$operationCode) {
-                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
+//                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
+                $operationCode = 'MISC';
+            } else {
+                $operationCode = $operationCode->getCode();
             }
 
-            $repairOrderQuoteRecommendation->setOperationCode($recommendation->operationCode)
+            $repairOrderQuoteRecommendation->setOperationCode($operationCode)
                 ->setDescription($recommendation->description)
                 ->setPreApproved(
                     filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
@@ -338,7 +341,7 @@ class RepairOrderQuoteHelper
                 }
 
                 if (!$recommendationOutcome) {
-                    throw new Exception('Recommendation ' . $repairOrderQuoteRecommendation->getId() . ' was not pre-approved, but it is missing');
+                    throw new Exception('Recommendation '.$repairOrderQuoteRecommendation->getId().' was not pre-approved, but it is missing');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(filter_var($recommendationOutcome->approved, FILTER_VALIDATE_BOOLEAN));
@@ -460,197 +463,123 @@ class RepairOrderQuoteHelper
         return $repairOrder;
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
     public function getEm(): EntityManagerInterface
     {
         return $this->em;
     }
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function setEm(EntityManagerInterface $em): void
     {
         $this->em = $em;
     }
 
-    /**
-     * @return Security
-     */
     public function getSecurity(): Security
     {
         return $this->security;
     }
 
-    /**
-     * @param Security $security
-     */
     public function setSecurity(Security $security): void
     {
         $this->security = $security;
     }
 
-    /**
-     * @return OperationCodeRepository
-     */
     public function getOperationCodeRepository(): OperationCodeRepository
     {
         return $this->operationCodeRepository;
     }
 
-    /**
-     * @param OperationCodeRepository $operationCodeRepository
-     */
     public function setOperationCodeRepository(OperationCodeRepository $operationCodeRepository): void
     {
         $this->operationCodeRepository = $operationCodeRepository;
     }
 
-    /**
-     * @return PartRepository
-     */
     public function getPartRepository(): PartRepository
     {
         return $this->partRepository;
     }
 
-    /**
-     * @param PartRepository $partRepository
-     */
     public function setPartRepository(PartRepository $partRepository): void
     {
         $this->partRepository = $partRepository;
     }
 
-    /**
-     * @return \App\Entity\Settings
-     */
     public function getPricingLaborRate(): \App\Entity\Settings
     {
         return $this->pricingLaborRate;
     }
 
-    /**
-     * @param \App\Entity\Settings $pricingLaborRate
-     */
     public function setPricingLaborRate(\App\Entity\Settings $pricingLaborRate): void
     {
         $this->pricingLaborRate = $pricingLaborRate;
     }
 
-    /**
-     * @return \App\Entity\Settings
-     */
     public function getIsPricingMatrix(): \App\Entity\Settings
     {
         return $this->isPricingMatrix;
     }
 
-    /**
-     * @param \App\Entity\Settings $isPricingMatrix
-     */
     public function setIsPricingMatrix(\App\Entity\Settings $isPricingMatrix): void
     {
         $this->isPricingMatrix = $isPricingMatrix;
     }
 
-    /**
-     * @return float
-     */
     public function getPricingLaborTax(): float
     {
         return $this->pricingLaborTax;
     }
 
-    /**
-     * @param float $pricingLaborTax
-     */
     public function setPricingLaborTax(float $pricingLaborTax): void
     {
         $this->pricingLaborTax = $pricingLaborTax;
     }
 
-    /**
-     * @return float
-     */
     public function getPricingPartsTax(): float
     {
         return $this->pricingPartsTax;
     }
 
-    /**
-     * @param float $pricingPartsTax
-     */
     public function setPricingPartsTax(float $pricingPartsTax): void
     {
         $this->pricingPartsTax = $pricingPartsTax;
     }
 
-    /**
-     * @return PriceMatrixRepository
-     */
     public function getPriceRepository(): PriceMatrixRepository
     {
         return $this->priceRepository;
     }
 
-    /**
-     * @param PriceMatrixRepository $priceRepository
-     */
     public function setPriceRepository(PriceMatrixRepository $priceRepository): void
     {
         $this->priceRepository = $priceRepository;
     }
 
-    /**
-     * @return RepairOrderQuoteRecommendationRepository
-     */
     public function getRepairOrderQuoteRecommendationRepository(): RepairOrderQuoteRecommendationRepository
     {
         return $this->repairOrderQuoteRecommendationRepository;
     }
 
-    /**
-     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository
-     */
     public function setRepairOrderQuoteRecommendationRepository(RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository): void
     {
         $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
     }
 
-    /**
-     * @return SettingsHelper
-     */
     public function getSettingsHelper(): SettingsHelper
     {
         return $this->settingsHelper;
     }
 
-    /**
-     * @param SettingsHelper $settingsHelper
-     */
     public function setSettingsHelper(SettingsHelper $settingsHelper): void
     {
         $this->settingsHelper = $settingsHelper;
     }
 
-    /**
-     * @return RepairOrderQuoteLogHelper
-     */
     public function getRepairOrderQuoteLogHelper(): RepairOrderQuoteLogHelper
     {
         return $this->repairOrderQuoteLogHelper;
     }
 
-    /**
-     * @param RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
-     */
     public function setRepairOrderQuoteLogHelper(RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper): void
     {
         $this->repairOrderQuoteLogHelper = $repairOrderQuoteLogHelper;
     }
-
-
 }
