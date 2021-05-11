@@ -78,7 +78,7 @@ class ServiceSMSHelper
                             LEFT JOIN (select * from service_sms where date In (select max(date) from service_sms group by customer_id))ss3  on (ss3.customer_id=ss2.primary_customer_id)
                             LEFT JOIN customer c on c.id = ss2.primary_customer_id
                             LEFT JOIN (select SUM(CASE WHEN is_read = 0 THEN 1 ELSE 0 END) AS unread, customer_id from service_sms ss3 group by customer_id)ss4 on ss4.customer_id = ss2.primary_customer_id
-                            where  ss2.s_advisor_id = " . $userId . " or ss2.s_advisor_id in (select id from user where share_repair_orders=1) $searchQuery
+                            where ss2.s_advisor_id = " . $userId . " or ss2.s_advisor_id in (select id from user where share_repair_orders=1) $searchQuery
                             ";
         } else {
             $threadQuery = 'SELECT c.id, c.name, c.phone, ss3.date,ss3.message, ss4.unread, ss2.repairOrderID, ss2.repairOrderNumber from (SELECT  * from (SELECT * from repair_order where primary_advisor_id = ' . $userId . ' group by primary_advisor_id ,primary_customer_id) ss 
