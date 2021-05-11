@@ -273,6 +273,7 @@ class RepairOrderQuoteHelper
             if (!$operationCode) {
 //                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
                 $operationCode = 'MISC';
+                continue;
             } else {
                 $operationCode = $operationCode->getCode();
             }
