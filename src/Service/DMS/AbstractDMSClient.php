@@ -213,6 +213,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
      */
     private function phoneNormalizerParser($phoneNumber)
     {
+        //TODO, Refactor this.
         try {
             $cleaned = $this->getPhoneValidator()->clean($phoneNumber);
             $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
@@ -222,9 +223,10 @@ abstract class AbstractDMSClient implements DMSClientInterface
             }
         } catch (\Exception $exception) {
             //Couldn't validate phone.
+            return $phoneNumber;
         }
 
-        return null;
+        return $phoneNumber;
     }
 
     /**
