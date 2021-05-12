@@ -36,7 +36,7 @@ class RepairOrderQuoteRecommendation
     private $operationCode;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      * @Serializer\Groups(groups={"roqs_list"})
      */
     private $description;
