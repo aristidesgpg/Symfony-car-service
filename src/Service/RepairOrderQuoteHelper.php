@@ -26,7 +26,6 @@ class RepairOrderQuoteHelper
     /** @var string[] */
     private const RECOMMENDATION_REQUIRED_FIELDS = [
         'operationCode',
-        'description',
         'preApproved',
         'partsPrice',
         'suppliesPrice',
@@ -71,6 +70,7 @@ class RepairOrderQuoteHelper
 
     private const NOT_REQUIRED_FIELDS = [
         'notes',
+        'description'
     ];
 
     private const QUOTE_STATUSES = [
@@ -143,15 +143,15 @@ class RepairOrderQuoteHelper
 
             foreach (self::PART_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field.' is missing in parts json');
+                    throw new Exception($field . ' is missing in parts json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field.' has no value in parts json');
+                        throw new Exception($field . ' has no value in parts json');
                     }
 
                     if ('price' == $field || 'quantity' == $field) {
                         if (!is_numeric($fields[$field])) {
-                            throw new Exception($field.' has invalid value in parts json');
+                            throw new Exception($field . ' has invalid value in parts json');
                         }
                     }
                 }
@@ -177,10 +177,10 @@ class RepairOrderQuoteHelper
 
             foreach (self::COMPLETE_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field.' is missing in recommendations json');
+                    throw new Exception($field . ' is missing in recommendations json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field.' has no value in recommendations json');
+                        throw new Exception($field . ' has no value in recommendations json');
                     }
                 }
             }
@@ -209,21 +209,21 @@ class RepairOrderQuoteHelper
 
             foreach (self::RECOMMENDATION_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field.' is missing in recommendations json');
+                    throw new Exception($field . ' is missing in recommendations json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field.' has no value in recommendations json');
+                        throw new Exception($field . ' has no value in recommendations json');
                     }
 
                     if (in_array($field, self::RECOMMENDATION_NUMBER_FIELDS)) {
                         if (!is_numeric($fields[$field])) {
-                            throw new Exception($field.' has invalid value in recommendations json');
+                            throw new Exception($field . ' has invalid value in recommendations json');
                         }
                     }
 
                     if (str_contains($field, 'Taxable')) {
                         if (!in_array($fields[$field], self::BOOLEAN_VALUES)) {
-                            throw new Exception($field.' is not boolean in recommendations json');
+                            throw new Exception($field . ' is not boolean in recommendations json');
                         }
                     }
                 }
@@ -232,7 +232,7 @@ class RepairOrderQuoteHelper
             // These are required to be set but not required to have a value
             foreach (self::NOT_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field.' is missing in recommendations json');
+                    throw new Exception($field . ' is missing in recommendations json');
                 }
             }
         }
@@ -271,7 +271,7 @@ class RepairOrderQuoteHelper
             // Check if Operation Code exists
             $operationCode = $this->operationCodeRepository->findOneBy(['code' => $recommendation->operationCode]);
             if (!$operationCode) {
-//                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
+                //                throw new Exception('Invalid operationCode Parameter in recommendations JSON');
                 $operationCode = 'MISC';
                 continue;
             } else {
@@ -342,7 +342,7 @@ class RepairOrderQuoteHelper
                 }
 
                 if (!$recommendationOutcome) {
-                    throw new Exception('Recommendation '.$repairOrderQuoteRecommendation->getId().' was not pre-approved, but it is missing');
+                    throw new Exception('Recommendation ' . $repairOrderQuoteRecommendation->getId() . ' was not pre-approved, but it is missing');
                 }
 
                 $repairOrderQuoteRecommendation->setApproved(filter_var($recommendationOutcome->approved, FILTER_VALIDATE_BOOLEAN));
