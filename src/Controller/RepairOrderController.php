@@ -12,6 +12,7 @@ use App\Response\ValidationResponse;
 use App\Service\MyReviewHelper;
 use App\Service\Pagination;
 use App\Service\RepairOrderHelper;
+use App\Service\RepairOrderMPIHelper;
 use App\Service\SettingsHelper;
 use App\Service\ShortUrlHelper;
 use App\Service\TwilioHelper;
@@ -244,12 +245,15 @@ class RepairOrderController extends AbstractFOSRestController
      * )
      * @SWG\Response(response="404", description="RO does not exist")
      */
-    public function getOne(RepairOrder $repairOrder): Response
-    {
+    public function getOne(
+        RepairOrder $repairOrder,
+        RepairOrderHelper $repairOrderHelper
+    ): Response {
         if ($repairOrder->getDeleted()) {
             throw new NotFoundHttpException();
         }
 
+        $repairOrderHelper->setStatusTimeStamps($repairOrder);
         $view = $this->view($repairOrder);
         $view->getContext()->setGroups(RepairOrder::GROUPS);
 
@@ -360,16 +364,16 @@ class RepairOrderController extends AbstractFOSRestController
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $welcomeMessage);
             } else {
                 // waiver enabled
-                $url = $customerURL.$ro->getLinkHash();
+                $url = $customerURL . $ro->getLinkHash();
                 $shortUrl = $shortUrlHelper->generateShortUrl($url);
-                $waiverMessage = $waiverIntroText.' '.$shortUrl;
+                $waiverMessage = $waiverIntroText . ' ' . $shortUrl;
 
                 $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
 
                 $roInteraction = new RepairOrderInteraction();
                 $roInteraction->setRepairOrder($ro)
-                        ->setUser($this->getUser())
-                        ->setType('Waiver Sent');
+                    ->setUser($this->getUser())
+                    ->setType('Waiver Sent');
                 $em->persist($roInteraction);
                 $em->flush();
             }

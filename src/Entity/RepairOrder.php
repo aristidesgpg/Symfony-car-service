@@ -255,6 +255,30 @@ class RepairOrder
     private $payments;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $mpiStatusTimestamp;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $videoStatusTimestamp;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $quoteStatusTimestamp;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Serializer\Groups(groups={"ro_list"})
+     */
+    private $iPayStatusTimestamp;
+
+    /**
      * RepairOrder constructor.
      */
     public function __construct()
@@ -622,7 +646,8 @@ class RepairOrder
     /**
      * @return RepairOrderPayment[]
      */
-    public function getPayments (): array {
+    public function getPayments(): array
+    {
         return $this->payments->toArray();
     }
 
@@ -631,7 +656,8 @@ class RepairOrder
      *
      * @return $this
      */
-    public function addPayment (RepairOrderPayment $payment): self {
+    public function addPayment(RepairOrderPayment $payment): self
+    {
         $this->payments->add($payment);
 
         return $this;
@@ -786,6 +812,54 @@ class RepairOrder
                 $repairOrderTeam->setRepairOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getMpiStatusTimestamp(): ?DateTime
+    {
+        return $this->mpiStatusTimestamp;
+    }
+
+    public function setMpiStatusTimestamp(DateTime $date = null): self
+    {
+        $this->mpiStatusTimestamp = $date;
+
+        return $this;
+    }
+
+    public function getVideoStatusTimestamp(): ?DateTime
+    {
+        return $this->videoStatusTimestamp;
+    }
+
+    public function setVideoStatusTimestamp(DateTime $date = null): self
+    {
+        $this->videoStatusTimestamp  = $date;
+
+        return $this;
+    }
+
+    public function getQuoteStatusTimestamp(): ?DateTime
+    {
+        return $this->quoteStatusTimestamp;
+    }
+
+    public function setQuoteStatusTimestamp(DateTime $date = null): self
+    {
+        $this->quoteStatusTimestamp  = $date;
+
+        return $this;
+    }
+
+    public function getIPayStatusTimestamp(): ?DateTime
+    {
+        return $this->iPayStatusTimestamp;
+    }
+
+    public function setIPayStatusTimestamp(DateTime $date = null): self
+    {
+        $this->iPayStatusTimestamp  = $date;
 
         return $this;
     }

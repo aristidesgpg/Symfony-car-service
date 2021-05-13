@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Customer;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
+use App\Entity\RepairOrderMPI;
 use App\Entity\User;
 use App\Helper\FalsyTrait;
 use App\Helper\iServiceLoggerTrait;
@@ -75,7 +76,7 @@ class RepairOrderHelper
             }
         }
 
-        if ($errors){
+        if ($errors) {
             return $errors;
         }
 
@@ -174,10 +175,10 @@ class RepairOrderHelper
             $role = ('advisor' === $k) ? 'ROLE_SERVICE_ADVISOR' : 'ROLE_TECHNICIAN';
             $user = $this->userRepository->find($params[$k]);
             if (null === $user) {
-                $errors[$k] = ucfirst($k).' not found';
+                $errors[$k] = ucfirst($k) . ' not found';
                 continue;
             } elseif (!in_array($role, $user->getRoles())) {
-                $errors[$k] = ucfirst($k).' does not have role '.$role;
+                $errors[$k] = ucfirst($k) . ' does not have role ' . $role;
                 continue;
             }
             if ('advisor' === $k) {
@@ -286,19 +287,19 @@ class RepairOrderHelper
     {
         return $this->getROLinkHashHelper()->generate($dateCreated);
 
-//        try {
-//            $hash = sha1($dateCreated.random_bytes(32));
-//        } catch (Exception $e) { // Shouldn't ever happen
-//            throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
-//        }
-//        $ro = $this->repo->findByHash($hash);
-//        if (null !== $ro) { // Very unlikely
-//            $this->logger->warning('link hash collision');
-//
-//            return $this->generateLinkHash($dateCreated);  //This is a never ending loop.
-//        }
-//
-//        return $hash;
+        //        try {
+        //            $hash = sha1($dateCreated.random_bytes(32));
+        //        } catch (Exception $e) { // Shouldn't ever happen
+        //            throw new RuntimeException('Could not generate random bytes. The server is broken.', 0, $e);
+        //        }
+        //        $ro = $this->repo->findByHash($hash);
+        //        if (null !== $ro) { // Very unlikely
+        //            $this->logger->warning('link hash collision');
+        //
+        //            return $this->generateLinkHash($dateCreated);  //This is a never ending loop.
+        //        }
+        //
+        //        return $hash;
     }
 
     private function commitRepairOrder(): void
@@ -432,19 +433,19 @@ class RepairOrderHelper
                     if (!$needsVideo) {
                         if ($user->getShareRepairOrders()) {
                             $qb->andWhere('ro.primaryAdvisor IN (:users)')
-                               ->setParameter('users', $user);
+                                ->setParameter('users', $user);
 
                             $queryParameters['users'] = $this->userRepository->getSharedUsers();
                         } else {
                             $qb->andWhere('ro.primaryAdvisor = :user')
-                               ->setParameter('user', $user);
+                                ->setParameter('user', $user);
 
                             $queryParameters['user'] = $user;
                         }
                     }
                 } elseif ($user->isTechnician()) {
                     $qb->andWhere('ro.primaryTechnician = :user OR ro.primaryTechnician is NULL')
-                       ->setParameter('user', $user);
+                        ->setParameter('user', $user);
 
                     $queryParameters['user'] = $user;
                 }
@@ -466,7 +467,12 @@ class RepairOrderHelper
                 $fields
             );
 
-            return $qb->getQuery()->getResult();
+            $repairOrders = $qb->getQuery()->getResult();
+            foreach ($repairOrders as $repairOrder) {
+                $this->setStatusTimeStamps($repairOrder);
+            }
+
+            return $repairOrders;
         } catch (NonUniqueResultException $e) {
             return null;
         }
@@ -497,7 +503,7 @@ class RepairOrderHelper
                             try {
                                 $value = new DateTime($value);
                             } catch (Exception $e) {
-                                throw new BadRequestHttpException("$name is invalid date format".$value);
+                                throw new BadRequestHttpException("$name is invalid date format" . $value);
                             }
                             if ('dateClosedStart' === $name) {
                                 $qb->andWhere("ro.dateClosed >= :$name");
@@ -507,7 +513,7 @@ class RepairOrderHelper
                             $qb->setParameter($name, $value);
                         } else {
                             $qb->andWhere("ro.$name = :$name")
-                               ->setParameter($name, $value);
+                                ->setParameter($name, $value);
                         }
                     }
                 }
@@ -519,8 +525,8 @@ class RepairOrderHelper
                     $endDate = new DateTime($endDate);
 
                     $qb->andWhere('ro.dateCreated BETWEEN :startDate AND :endDate')
-                       ->setParameter('startDate', $startDate)
-                       ->setParameter('endDate', $endDate);
+                        ->setParameter('startDate', $startDate)
+                        ->setParameter('endDate', $endDate);
                 } catch (Exception $e) {
                     throw new BadRequestHttpException('Invalid startDate or endDate format');
                 }
@@ -530,8 +536,8 @@ class RepairOrderHelper
                 $query = '';
 
                 $qb->leftJoin('ro.primaryCustomer', 'ro_customer')
-                   ->leftJoin('ro.primaryTechnician', 'ro_technician')
-                   ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
+                    ->leftJoin('ro.primaryTechnician', 'ro_technician')
+                    ->leftJoin('ro.primaryAdvisor', 'ro_advisor');
 
                 $searchFields = [
                     'ro' => ['number', 'year', 'model', 'miles', 'vin'],
@@ -553,11 +559,11 @@ class RepairOrderHelper
                 $query = substr($query, 0, strlen($query) - 4);
 
                 $qb->andWhere($query)
-                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
+                    ->setParameter('searchTerm', '%' . $searchTerm . '%');
             }
 
             if ($sortDirection) {
-                $qb->orderBy('ro.'.$sortField, $sortDirection);
+                $qb->orderBy('ro.' . $sortField, $sortDirection);
 
                 $urlParameters['sortField'] = $sortField;
                 $urlParameters['sortDirection'] = $sortDirection;
@@ -617,5 +623,89 @@ class RepairOrderHelper
     public function setRepairOrderQuoteHelper(RepairOrderQuoteHelper $repairOrderQuoteHelper): void
     {
         $this->repairOrderQuoteHelper = $repairOrderQuoteHelper;
+    }
+
+    private function getLatestDate($objs)
+    {
+        $arrDates = array();
+        foreach ($objs as $obj) {
+            array_push($arrDates, $obj->getDate());
+        }
+
+        usort($arrDates, function ($a, $b) {
+            return $a > $b ? -1 : 1;
+        });
+
+        return $arrDates[0];
+    }
+
+    public function getLatestMPIInteractionTime(RepairOrder $repairOrder)
+    {
+        $repairOrderMPI = $repairOrder->getRepairOrderMPI();
+
+        if ($repairOrderMPI) {
+            $repairOrderMPIInteractions = $repairOrderMPI->getRepairOrderMPIInteractions();
+            return $this->getLatestDate($repairOrderMPIInteractions);
+        } else {
+            return null;
+        }
+    }
+
+    public function getLatestVideoInteractionTime(RepairOrder $repairOrder)
+    {
+        $repairOrderVideos = $repairOrder->getVideos();
+
+        if (sizeof($repairOrderVideos)) {
+            $interactionTimes = array();
+            foreach ($repairOrderVideos as $repairOrderVideo) {
+                $interactionLatestTime = $this->getLatestDate($repairOrderVideo->getInteractions());
+                array_push($interactionTimes, $interactionLatestTime);
+            }
+            usort($interactionTimes, function ($a, $b) {
+                return $a > $b ? -1 : 1;
+            });
+            return $interactionTimes[0];
+        } else {
+            return null;
+        }
+    }
+
+    public function getLatestQuoteInteractionTime(RepairOrder $repairOrder)
+    {
+        $repairOrderQuote = $repairOrder->getRepairOrderQuote();
+
+        if ($repairOrderQuote) {
+            $repairOrderQuoteInteractions = $repairOrderQuote->getRepairOrderQuoteInteractions();
+            return $this->getLatestDate($repairOrderQuoteInteractions);
+        } else {
+            return null;
+        }
+    }
+
+    public function getLatestIPayInteractionTime(RepairOrder $repairOrder)
+    {
+        $payments = $repairOrder->getPayments();
+
+        if (sizeof($payments)) {
+            $interactionTimes = array();
+            foreach ($payments as $payment) {
+                $interactionLatestTime = $this->getLatestDate($payment->getInteractions());
+                array_push($interactionTimes, $interactionLatestTime);
+            }
+            usort($interactionTimes, function ($a, $b) {
+                return $a > $b ? -1 : 1;
+            });
+            return $interactionTimes[0];
+        } else {
+            return null;
+        }
+    }
+
+    public function setStatusTimeStamps($repairOrder)
+    {
+        $repairOrder->setMpiStatusTimestamp($this->getLatestMPIInteractionTime($repairOrder));
+        $repairOrder->setVideoStatusTimestamp($this->getLatestVideoInteractionTime($repairOrder));
+        $repairOrder->setQuoteStatusTimestamp($this->getLatestQuoteInteractionTime($repairOrder));
+        $repairOrder->setIPayStatusTimestamp($this->getLatestIPayInteractionTime($repairOrder));
     }
 }
