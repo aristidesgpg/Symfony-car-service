@@ -254,9 +254,9 @@ class SettingsHelper
             'front_end' => 'TBD',
         ],
         'processTimeout' => [
-            'default_value' => 0.0,
+            'default_value' => 0,
             'front_end' => 'Hidden',
-        ]
+        ],
     ];
 
     /**
@@ -434,14 +434,14 @@ class SettingsHelper
     public function updateSetting(string $key, ?string $value): bool
     {
         if (!$this->isValidSetting($key)) {
-            throw new InvalidArgumentException('Invalid Setting: ' . $key);
+            throw new InvalidArgumentException('Invalid Setting: '.$key);
         }
 
-        if ($value === 'false') {
+        if ('false' === $value) {
             $value = 0;
         }
 
-        if ($value === 'true') {
+        if ('true' === $value) {
             $value = 1;
         }
 
@@ -476,7 +476,7 @@ class SettingsHelper
     {
         // Throw exception because false is a valid option
         if (!$this->isValidSetting($key)) {
-            throw new Exception('Invalid Setting Requested: ' . $key);
+            throw new Exception('Invalid Setting Requested: '.$key);
         }
 
         $setting = $this->em->getRepository(Settings::class)->findOneBy([
