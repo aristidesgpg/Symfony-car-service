@@ -7,13 +7,9 @@ use App\Repository\RepairOrderReviewInteractionsRepository;
 use App\Repository\RepairOrderReviewRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class MyReviewHelper
 {
-
-    private $em;
-    private $params;
     private $review;
     private $reviewInteractions;
     private $urlHelper;
@@ -21,20 +17,16 @@ class MyReviewHelper
     private $twilioHelper;
 
     public function __construct(
-        EntityManagerInterface $em,
         RepairOrderReviewRepository $review,
         ShortUrlHelper $urlHelper,
         RepairOrderReviewInteractionsRepository $reviewInteractions,
         SettingsHelper $settings,
-        ParameterBagInterface $params,
         TwilioHelper $twilioHelper
     ) {
-        $this->em = $em;
         $this->review = $review;
         $this->reviewInteractions = $reviewInteractions;
         $this->urlHelper = $urlHelper;
         $this->settingsHelper = $settings;
-        $this->params = $params;
         $this->twilioHelper = $twilioHelper;
     }
 
@@ -50,9 +42,9 @@ class MyReviewHelper
     {
         $myReviewText = $this->settingsHelper->getSetting('myReviewText');
         $linkHash = $repairOrder->getLinkHash();
-        $url = $this->params->get('customer_url').$linkHash;
+        $url = $this->settingsHelper->getSetting('customerURL') . $linkHash;
         $shortUrl = $this->urlHelper->generateShortUrl($url);
-        $message = $myReviewText.' '.$shortUrl;
+        $message = $myReviewText . ' ' . $shortUrl;
 
         try {
             $this->twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $message);

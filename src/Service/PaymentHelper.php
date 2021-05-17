@@ -13,7 +13,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use InvalidArgumentException;
 use Money\Money;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Throwable;
 use Twilio\Exceptions\TwilioException;
 
@@ -52,7 +51,7 @@ class PaymentHelper
         SettingsRepository $settings,
         MailerHelper $mailer,
         TwilioHelper $twilio,
-        ParameterBagInterface $parameterBag
+        SettingsHelper $settingsHelper
     ) {
         $this->em = $em;
         $this->nmi = $nmi;
@@ -60,7 +59,7 @@ class PaymentHelper
         $this->settings = $settings;
         $this->mailer = $mailer;
         $this->twilio = $twilio;
-        $this->customerUrl = $parameterBag->get('customer_url');
+        $this->customerUrl = $settingsHelper->getSetting('customerURL');
 
         //TODO Find out what we should do if they don't have payments, Return null or exception?
         if ($this->settings->find('hasPayments')->getValue()) {
@@ -72,9 +71,9 @@ class PaymentHelper
     {
         $payment = new RepairOrderPayment();
         $payment->setRepairOrder($ro)
-                ->setAmount($amount)
-                ->setDateCreated(new DateTime())
-                ->setStatus($this->statusCalculator('Created', $payment->getStatus()));
+            ->setAmount($amount)
+            ->setDateCreated(new DateTime())
+            ->setStatus($this->statusCalculator('Created', $payment->getStatus()));
         $this->createInteraction($payment, 'Created');
         $this->commitPayment($payment);
         $this->updateRepairOrderStatus($payment);
@@ -107,9 +106,9 @@ class PaymentHelper
      */
     public function sendPayment(RepairOrderPayment $payment): void
     {
-        $url = $this->customerUrl.$payment->getRepairOrder()->getLinkHash();
+        $url = $this->customerUrl . $payment->getRepairOrder()->getLinkHash();
         $url = $this->urlHelper->generateShortUrl($url);
-        $message = $this->settings->find('serviceTextPayment')->getValue().':'.$url;
+        $message = $this->settings->find('serviceTextPayment')->getValue() . ':' . $url;
         $customer = $payment->getRepairOrder()->getPrimaryCustomer();
 
         $this->twilio->sendSms($customer, $message);
@@ -194,7 +193,7 @@ class PaymentHelper
 
         $this->nmi->makeRefund($transactionId, MoneyHelper::getFormatter()->format($amount));
         $payment->setDateRefunded(new DateTime())
-                ->setRefundedAmount(isset($totalRefunded) ? $totalRefunded : $amount);
+            ->setRefundedAmount(isset($totalRefunded) ? $totalRefunded : $amount);
         $this->createInteraction($payment, 'Refunded');
         $payment->setStatus($this->statusCalculator('Refunded', $payment->getStatus()));
         $this->commitPayment($payment);
@@ -257,7 +256,7 @@ class PaymentHelper
     {
         $interaction = new RepairOrderPaymentInteraction();
         $interaction->setPayment($payment)
-                    ->setType($type);
+            ->setType($type);
         $payment->addInteraction($interaction);
 
         return $interaction;
