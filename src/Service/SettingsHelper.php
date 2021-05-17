@@ -470,8 +470,6 @@ class SettingsHelper
     /**
      * @param $key
      *
-     * @return Settings
-     *
      * @throws Exception
      */
     public function getSetting($key)

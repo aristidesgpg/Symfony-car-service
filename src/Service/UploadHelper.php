@@ -45,7 +45,7 @@ class UploadHelper
         if ($this->isValidVideo($file)) {
             throw new \InvalidArgumentException(sprintf('Use %s::uploadVideo for video uploads', __CLASS__));
         }
-        $fileName = md5(uniqid()) . '.' . $this->getExtension($file);
+        $fileName = md5(uniqid()).'.'.$this->getExtension($file);
         $file = $file->move($file->getPath(), $fileName);
         $url = $this->spaces->upload($file, $directory);
         unlink($file->getPathname());
@@ -69,8 +69,8 @@ class UploadHelper
         if (!$this->isValidVideo($file)) {
             throw new \InvalidArgumentException(sprintf('%s is not a valid video format', $file->getFilename()));
         }
-        $newName = md5(uniqid() . time()) . '.mp4';
-        $newPath = $file->getPath() . '/' . $newName;
+        $newName = md5(uniqid().time()).'.mp4';
+        $newPath = $file->getPath().'/'.$newName;
         $process = new Process([
             'ffmpeg',
             '-i',
@@ -81,7 +81,14 @@ class UploadHelper
             '-2',
             $newPath,
         ]);
-        $process->setTimeout($this->settingsHelper->getSetting('processTimeout'));
+
+        $processTimeout = null;
+        $settingsTimeOut = $this->settingsHelper->getSetting('processTimeout');
+        if ($settingsTimeOut > 0) {
+            $processTimeout = $settingsTimeOut;
+        }
+
+        $process->setTimeout($processTimeout);
         $exit = $process->run();
         if (0 !== $exit || !file_exists($newPath)) {
             throw new \RuntimeException('Could not compress video');
