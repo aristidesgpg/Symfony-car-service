@@ -17,11 +17,17 @@ class UploadHelper
     private $spaces;
 
     /**
+     * @var SettingsHelper
+     */
+    private $settingsHelper;
+
+    /**
      * UploadHelper constructor.
      */
-    public function __construct(SpacesClient $spaces)
+    public function __construct(SpacesClient $spaces, SettingsHelper $settingsHelper)
     {
         $this->spaces = $spaces;
+        $this->settingsHelper = $settingsHelper;
     }
 
     public function isValidImage(File $file): bool
@@ -75,6 +81,14 @@ class UploadHelper
             '-2',
             $newPath,
         ]);
+
+        $processTimeout = null;
+        $settingsTimeOut = $this->settingsHelper->getSetting('processTimeout');
+        if ($settingsTimeOut > 0) {
+            $processTimeout = $settingsTimeOut;
+        }
+
+        $process->setTimeout($processTimeout);
         $exit = $process->run();
         if (0 !== $exit || !file_exists($newPath)) {
             throw new \RuntimeException('Could not compress video');
