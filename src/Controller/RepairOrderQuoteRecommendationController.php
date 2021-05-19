@@ -3,20 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\OperationCode;
-use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuoteRecommendation;
 use App\Helper\iServiceLoggerTrait;
 use App\Repository\OperationCodeRepository;
 use App\Repository\RepairOrderQuoteRecommendationRepository;
 use App\Repository\RepairOrderQuoteRepository;
-use App\Service\DMS\DMS;
-use App\Service\RepairOrderHelper;
+use App\Service\RepairOrderQuoteHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**
  * Class RepairOrderQuoteRecommendationController.
@@ -63,7 +62,8 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
         RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepo,
         OperationCodeRepository $operationCodeRepository,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        RepairOrderQuoteHelper $repairOrderQuoteHelper
     ) {
         $repairOrderQuoteID = $request->get('repair_order_quote');
         $recommendations = str_replace("'", '"', $request->get('recommendations'));
@@ -79,36 +79,46 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
             return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
         }
 
-        //remove existing recommendations
-        $allRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
-        foreach ($allRecommendations as $index => $recommendation) {
-            $em->remove($recommendation);
-            $em->flush();
-        }
-        //add recommendations
-        foreach ($obj as $index => $recommendation) {
-            $rOQRecom = new RepairOrderQuoteRecommendation();
-            //Check if Operation Code exists
-            $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
-            if (!$operationCode) {
-                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
-            }
-            $rOQRecom->setRepairOrderQuote($repairOrderQuote)
-                     ->setOperationCode($operationCode)
-                     ->setDescription($recommendation->description)
-                     ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
-                     ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
-                     ->setPartsPrice($recommendation->partsPrice)
-                     ->setSuppliesPrice($recommendation->suppliesPrice)
-                     ->setNotes($recommendation->notes);
+        try {
+            $repairOrderQuoteHelper->validateRecommendationsJson($obj);
 
-            $em->persist($rOQRecom);
-            $em->flush();
+            $repairOrderQuoteHelper->buildRecommendations($repairOrderQuote, $obj);
+        } catch (\Exception $e) {
+            throw new BadRequestHttpException($e->getMessage());
         }
+
+//        //remove existing recommendations
+//        $allRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
+//
+//        dd($allRecommendations, $obj);
+//        foreach ($allRecommendations as $index => $recommendation) {
+//            $em->remove($recommendation);
+//            $em->flush();
+//        }
+//        //add recommendations
+//        foreach ($obj as $index => $recommendation) {
+//            $rOQRecom = new RepairOrderQuoteRecommendation();
+//            //Check if Operation Code exists
+//
+//            $operationCode = $operationCodeRepository->findOneBy(['id' => $recommendation->operationCode]);
+//            if (!$operationCode) {
+//                return $this->handleView($this->view('Invalid operation_code Parameter', Response::HTTP_BAD_REQUEST));
+//            }
+//            $rOQRecom->setRepairOrderQuote($repairOrderQuote)
+//                     ->setOperationCode($operationCode)
+//                     ->setDescription($recommendation->description)
+//                     ->setPreApproved(filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN))
+//                     ->setApproved(filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN))
+//                     ->setPartsPrice($recommendation->partsPrice)
+//                     ->setSuppliesPrice($recommendation->suppliesPrice)
+//                     ->setNotes($recommendation->notes);
+//
+//            $em->persist($rOQRecom);
+//            $em->flush();
+//        }
 
         return $this->handleView($this->view([
             'message' => 'RepairOrderQuoteRecommendation Created',
         ], Response::HTTP_OK));
     }
-
 }
