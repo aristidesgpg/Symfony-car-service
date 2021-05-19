@@ -23,12 +23,12 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
     {
         $faker = Factory::create();
 
-        for ($i = 1; $i <= 100; $i++) {
+        for ($i = 1; $i <= 150; $i++) {
             $repairOrderReference = $faker->unique()->numberBetween(1, 150);
             $repairOrder = $this->getReference('repairOrder_' . $repairOrderReference);
             
             $dateCreated = $faker->dateTimeThisYear;
-            $status      = "Not Started";
+            $status      = $repairOrder->getQuoteStatus();
             //create repairOrderQuote
             $repairOrderQuote = new RepairOrderQuote();
             $repairOrderQuote->setRepairOrder($repairOrder)
@@ -42,7 +42,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
                                         ->setDate($dateCreated);
             $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
             //Advisor in Progress
-            if($faker->boolean(50)){
+            if($repairOrder->getQuoteStatus() == "Advisor In Progress"){
                 $dateAdvisorInProgress       = clone $dateCreated;
                 $dateAdvisorInProgressModify = random_int(1, 12);
                 $dateAdvisorInProgress       = $dateAdvisorInProgress->modify('+' . $dateAdvisorInProgressModify . ' hours');
@@ -56,7 +56,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
                                             ->setDate($dateAdvisorInProgress);
                 $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
                 //Sent
-                if($faker->boolean(50)){
+                if($repairOrder->getQuoteStatus() == "Sent"){
                     $dateSent       = clone $dateAdvisorInProgress;
                     $dateSentModify = random_int(1, 12);
                     $dateSent       = $dateSent->modify('+' . $dateSentModify . ' hours');
@@ -72,7 +72,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
                                                 ->setDate($dateCreated);
                     $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
                     //Viewed
-                    if($faker->boolean(50)){
+                    if($repairOrder->getQuoteStatus() == "Viewed"){
                         $viewCount  = $faker->numberBetween(1, 5);
                         $dateViewed = clone $dateSent;
                         for($j = 0; $j < $viewCount; $j++){
@@ -92,7 +92,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
                             $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
                         }
                         //Completed
-                        if($faker->boolean(50)){
+                        if($repairOrder->getQuoteStatus() == "Completed"){
                             $dateCompleted       = clone $dateViewed;
                             $dateCompletedModify = random_int(1, 12);
                             $dateCompleted       = $dateCompleted->modify('+' . $dateCompletedModify . ' hours');
@@ -109,7 +109,7 @@ class RepairOrderQuoteFixture extends Fixture implements DependentFixtureInterfa
                             $repairOrderQuote->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction);
 
                             //Confirmed
-                            if($faker->boolean(50)){
+                            if($repairOrder->getQuoteStatus() == "Confirmed"){
                                 $dateConfirmed       = clone $dateCompleted;
                                 $dateConfirmedModify = random_int(1, 12);
                                 $dateConfirmed       = $dateConfirmed->modify('+' . $dateConfirmedModify . ' hours');
