@@ -83,12 +83,12 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        // Check if customer role and not customer's RO
-        if ($this->isGranted('ROLE_CUSTOMER')) {
-            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
-                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
-            }
-        }
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($ro->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
 
         $payments = $ro->getPayments();
         foreach ($payments as $key => $payment) {
@@ -168,12 +168,12 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        // Check if customer role and not customer's RO
-        if ($this->isGranted('ROLE_CUSTOMER')) {
-            if ($payment->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
-                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
-            }
-        }
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($payment->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
         $view = $this->view($payment);
         $view->getContext()->setGroups(['int_list']);
 
@@ -304,12 +304,12 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Payment not found');
         }
 
-        // Check if customer role and not customer's RO
-        if ($this->isGranted('ROLE_CUSTOMER')) {
-            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
-                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
-            }
-        }
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
 
         if ($rop->getRepairOrder()->getDeleted() || $rop->isDeleted()) {
             throw new NotFoundHttpException();
@@ -426,12 +426,12 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        // Check if customer role and not customer's RO
-        if ($this->isGranted('ROLE_CUSTOMER')) {
-            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
-                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
-            }
-        }
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
 
         if (null !== $rop->getDatePaid()) {
             return $this->handleView(
@@ -573,12 +573,12 @@ class RepairOrderPaymentController extends AbstractFOSRestController
             throw new NotFoundHttpException();
         }
 
-        // Check if customer role and not customer's RO
-        if ($this->isGranted('ROLE_CUSTOMER')) {
-            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
-                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
-            }
-        }
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($rop->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
         $text = null;
         if (null === $rop->getDatePaid()) {
             $text = 'Cannot send receipt for unpaid order';

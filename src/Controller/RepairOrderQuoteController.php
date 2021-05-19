@@ -53,12 +53,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote, RepairOrderQuoteHelper $helper)
     {
-        // Check if customer role and not customer's RO
-        if ($this->isGranted('ROLE_CUSTOMER')) {
-            if ($repairOrderQuote->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
-                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
-            }
-        }
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($repairOrderQuote->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
 
         $groups = array_merge(RepairOrderQuote::GROUPS, ['roq_log', 'user_list', 'customer_list']);
         $view = $this->view($repairOrderQuote);
@@ -483,12 +483,12 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         //Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
 
-        // Check if customer role and not customer's RO
-        if ($this->isGranted('ROLE_CUSTOMER')) {
-            if ($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
-                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
-            }
-        }
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
 
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
