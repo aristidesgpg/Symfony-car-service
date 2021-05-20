@@ -278,11 +278,14 @@ class RepairOrderQuoteHelper
             $currentRecs = $repairOrderQuote->getRepairOrderQuoteRecommendations();
             $keysToPop = [];
             foreach ($recommendations as $key => $recommendation) {
-                //If the recode is false, just ignore it.
+                //If the rec code is false, just ignore it.
                 //This keeps the preapproved and approved ones there.
                 $preApproved = filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN);
+                $approved = filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN);
                 if (!$preApproved) {
-                    continue;
+                    if(!$approved){
+                        continue;
+                    }
                 }
 
                 //Pre-approved(probably pre existing), try to find it
@@ -293,9 +296,11 @@ class RepairOrderQuoteHelper
 //                }
                 $notes = $recommendation->notes; //this could change.
                 foreach ($currentRecs as $rec) {
+
                     if ($rec->getOperationCode() == $operationCode && $notes == $rec->getNotes()) {
                         //it matches
                         $keysToPop[] = $key;
+                        continue;
                     }
                 }
             }
@@ -312,6 +317,7 @@ class RepairOrderQuoteHelper
                 }
             }
         }
+
 
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
