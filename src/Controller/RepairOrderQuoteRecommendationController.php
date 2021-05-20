@@ -87,6 +87,11 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
             throw new BadRequestHttpException($e->getMessage());
         }
 
+
+        if ('Completed' != $repairOrderQuote->getRepairOrder()->getQuoteStatus()) {
+            $repairOrderQuote->getRepairOrder()->setDateClosed(null);
+        }
+
 //        //remove existing recommendations
 //        $allRecommendations = $repairOrderQuote->getRepairOrderQuoteRecommendations();
 //
