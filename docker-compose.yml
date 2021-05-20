@@ -25,8 +25,8 @@ services:
         dockerfile: docker/mysql/Dockerfile # Dockerfile path
       environment:           # database config
         - MYSQL_HOST=db       # set database alias
-        - MYSQL_ROOT_PASSWORD=password
-        - MYSQL_PASSWORD=password
+        - MYSQL_ROOT_PASSWORD=6&ydM85oUR!w
+        - MYSQL_PASSWORD=6&ydM85oUR!w
         - MYSQL_DATABASE=iservice3
       # volumes:
         # - ./docker/my.cnf:/etc/mysql/my.cnf # copy my.cnf
