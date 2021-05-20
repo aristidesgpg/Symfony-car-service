@@ -263,9 +263,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
-        if ('Completed' != $status) {
-            $repairOrder->setDateClosed(null);
-        }
+        //any PUT marks it as date closed null.
+        $repairOrder->setDateClosed(null);
+
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
         $em->flush();
