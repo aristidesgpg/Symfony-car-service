@@ -165,7 +165,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
         if ('Completed' != $status) {
-            $repairOrder->setDateClosed(null);
+            $repairOrderQuote->setDateCompleted(null);
         }
 
         $em->persist($repairOrderQuote);
@@ -260,11 +260,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // if($status === 'Completed')
         //     $repairOrderQuote->setDateCustomerCompleted(new DateTime());
 
-
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
-        //any PUT marks it as date closed null.
-        $repairOrder->setDateClosed(null);
+        $repairOrderQuote->setDateCompleted(null);
 
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
@@ -348,7 +346,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
         if ('Completed' != $status) {
-            $repairOrder->setDateClosed(null);
+            $repairOrderQuote->setDateCompleted(null);
         }
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
@@ -418,7 +416,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
         if ('Completed' != $status) {
-            $repairOrder->setDateClosed(null);
+            $repairOrderQuote->setDateCompleted(null);
         }
         // send repair order link to the customer
         $serviceTextQuote = $settingsHelper->getSetting('serviceTextQuote');
@@ -514,7 +512,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
         if ('Completed' != $status) {
-            $repairOrder->setDateClosed(null);
+            $repairOrderQuote->setDateCompleted(null);
         }
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
@@ -582,7 +580,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
         if ('Completed' != $status) {
-            $repairOrder->setDateClosed(null);
+            $repairOrderQuote->setDateCompleted(null);
         }
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
@@ -732,7 +730,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $repairOrder = $repairOrderQuote->getRepairOrder();
         $repairOrder->setQuoteStatus($status);
         if ('Completed' != $status) {
-            $repairOrder->setDateClosed(null);
+            $repairOrderQuote->setDateCompleted(null);
         }
         //delete repairOrderQuote
         $em->remove($repairOrderQuote);

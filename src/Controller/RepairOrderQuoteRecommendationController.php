@@ -89,7 +89,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
 
 
         if ('Completed' != $repairOrderQuote->getRepairOrder()->getQuoteStatus()) {
-            $repairOrderQuote->getRepairOrder()->setDateClosed(null);
+            $$repairOrderQuote->setDateCompleted(null);
         }
 
 //        //remove existing recommendations
