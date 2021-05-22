@@ -44,9 +44,9 @@ class AdminController extends AbstractFOSRestController
      *
      */
     public function getSettings( SettingsHelper $settingsHelper, Security $security ) {
-        // if (!$security->isGranted('ROLE_ADMIN') ||  !$this->getUser()->getExternalAuthentication()) {
-        //     throw new BadRequestHttpException('The user should be admin and the external_authenticaion feature should be available');
-        // }
+        if (!$security->isGranted('ROLE_ADMIN') ||  !$this->getUser()->getExternalAuthentication()) {
+            throw new BadRequestHttpException('The user should be admin and the external_authenticaion feature should be available');
+        }
 
         $json = [
             'hasPayments' => $settingsHelper->getSetting("hasPayments"),
@@ -131,7 +131,7 @@ class AdminController extends AbstractFOSRestController
      */
     public function new(Request $request, SettingsHelper $settingsHelper, Security $security)
     {
-        if (!$security->isGranted('ROLE_ADMIN') &&  !$this->getUser()->getExternalAuthentication()) {
+        if (!$security->isGranted('ROLE_ADMIN') || !$this->getUser()->getExternalAuthentication()) {
             throw new BadRequestHttpException('The user should be admin and the external_authenticaion feature should be available');
         }
         
