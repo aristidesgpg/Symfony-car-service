@@ -291,24 +291,8 @@ class RepairOrderQuoteHelper
                 //Pre-approved(probably pre existing), try to find it
                 //Values that we match back on. This is very loose
                 $operationCode = $recommendation->operationCode;
-//                if($operationCode == 'MISC'){
-//                    continue;
-//                }
-                $notes = $recommendation->notes; //this could change.
-                foreach ($currentRecs as $rec) {
-
-                    if ($rec->getOperationCode() == $operationCode && $notes == $rec->getNotes()) {
-                        //it matches
-                        $keysToPop[] = $key;
-                        continue;
-                    }
-                }
             }
-            //pop the keys.
-            foreach ($keysToPop as $k) {
-                unset($recommendations[$k]);
-            }
-
+             
             foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
                 if (!$oldRecommendation->getPreApproved()) {
                     if (!$oldRecommendation->getApproved()) {
