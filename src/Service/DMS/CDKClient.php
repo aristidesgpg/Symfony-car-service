@@ -413,7 +413,7 @@ class CDKClient extends AbstractDMSClient
             ->setSuppliesPrice(0)
             ->setSuppliesTax($suppliesTax)
             ->setNotes($notes);
-print_r($recommendations);
+
         $dmsResult->setRecommendations($recommendations);
 
         return $dmsResult;
