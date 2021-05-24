@@ -392,9 +392,17 @@ class CDKClient extends AbstractDMSClient
             $totalPartsPrice += array_sum($repairOrder->getTotPartsCost());
         }
 
+        $opCodeDescription = sprintf(' %s',
+            $repairOrder->getFeeOpCodeDesc()->getV()
+        );
+
+        $notes = sprintf(' %s',
+            $repairOrder->getLinServiceRequest()->getV()
+        );
+
         $recommendations[] = (new DMSResultRecommendation())
             ->setOperationCode($opcode)
-            ->setDescription('')
+            ->setDescription($opCodeDescription)
             ->setPreApproved(true)
             ->setApproved(true)
             ->setLaborHours($laborHours)
@@ -404,8 +412,8 @@ class CDKClient extends AbstractDMSClient
             ->setPartsTax(0)
             ->setSuppliesPrice(0)
             ->setSuppliesTax($suppliesTax)
-            ->setNotes('');
-
+            ->setNotes($notes);
+print_r($recommendations);
         $dmsResult->setRecommendations($recommendations);
 
         return $dmsResult;
