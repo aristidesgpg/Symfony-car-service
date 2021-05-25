@@ -37,6 +37,7 @@ class PaymentHelper
         'Paid',
         'Confirmed',
         'Refunded',
+        'Deleted'
     ];
 
     private $hasPayments = false;
@@ -214,7 +215,7 @@ class PaymentHelper
 
         $payment->setDeleted(true);
         $payment->setDateDeleted(new DateTime());
-        $payment->setStatus('Deleted');
+        $payment->setStatus($this->statusCalculator('Deleted', $payment->getStatus()));
         $this->createInteraction($payment, 'Deleted');
         $this->commitPayment($payment);
     }
