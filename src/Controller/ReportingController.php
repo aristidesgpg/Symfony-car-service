@@ -1400,8 +1400,8 @@ class ReportingController extends AbstractFOSRestController
                 'repairOrderNumber' => $ro->getNumber(),
                 'customerName' => $customer->getName(),
                 'customerPhone' => $customer->getPhone(),
-                'advisorName' => $advisor->getFirstName() . ' ' . $advisor->getLastName(),
-                'technicianName' => $technician->getFirstName() . ' ' . $technician->getLastName(),
+                'advisorName' => $advisor->getFirstName().' '.$advisor->getLastName(),
+                'technicianName' => $technician->getFirstName().' '.$technician->getLastName(),
                 'templateName' => $mpiTemplateName,
                 'repairOrderMpi' => $roMpi,
             ];
@@ -1484,7 +1484,16 @@ class ReportingController extends AbstractFOSRestController
      *         @SWG\Property(
      *             property="results",
      *             type="array",
-     *             @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
+     *             @SWG\Items(
+     *                  @SWG\Property(
+     *                      property="repairOrder",
+     *                      @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
+     *                  ),
+     *                  @SWG\Property(
+     *                      property="repairOrderPayment",
+     *                      @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
+     *                  )
+     *             )
      *         ),
      *         @SWG\Property(property="totalPayments", type="integer", description="Total # of payments"),
      *         @SWG\Property(property="totalRefunds", type="integer", description="Total # of refunds"),
@@ -1518,6 +1527,7 @@ class ReportingController extends AbstractFOSRestController
         $sortField = $sortDirection = $searchTerm = null;
         $errors = [];
 
+        // Get column names of RepairOrderPayment for sorting
         $columns = $em->getClassMetadata('App\Entity\RepairOrderPayment')->getFieldNames();
 
         // Invalid page
@@ -1551,7 +1561,7 @@ class ReportingController extends AbstractFOSRestController
         }
 
         if (!empty($errors)) {
-            return $this->handleView($this->view('Errors: ' . implode(', ', $errors), Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Errors: '.implode(', ', $errors), Response::HTTP_BAD_REQUEST));
         }
 
         $repairOrders = $ro->getRepairOrdersBy(
@@ -1580,8 +1590,9 @@ class ReportingController extends AbstractFOSRestController
 
         $totalRepairOrderPayments = [];
         foreach ($roPayments as $rop) {
-            if (in_array($rop->getRepairOrder()->getId(), $roIds)) {
-                $totalRepairOrderPayments[] = $rop;
+            $ro = $rop->getRepairOrder();
+            if (in_array($ro->getId(), $roIds)) {
+                $totalRepairOrderPayments[] = ['repairOrder' => $ro, 'repairOrderPayment' => $rop];
                 $totalPayments += $rop->getAmountString();
                 $totalRefunds += $rop->getRefundedAmountString();
             }
@@ -1604,7 +1615,7 @@ class ReportingController extends AbstractFOSRestController
 
         $view = $this->view($json);
 
-        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
+        $view->getContext()->setGroups(array_merge(RepairOrder::GROUPS, RepairOrderPayment::GROUPS));
 
         return $this->handleView($view);
     }
