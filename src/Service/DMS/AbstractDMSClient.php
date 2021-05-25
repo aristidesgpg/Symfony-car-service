@@ -230,12 +230,12 @@ abstract class AbstractDMSClient implements DMSClientInterface
     private function phoneNormalizerParser($phoneNumber)
     {
         try {
-            $cleaned = $this->getPhoneValidator()->clean($phoneNumber);
-            $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
-            if ($isMobile) {
-                //Found a valid mobile number.
-                return $phoneNumber;
-            }
+            return $this->getPhoneValidator()->clean($phoneNumber);
+//            $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
+//            if ($isMobile) {
+//                //Found a valid mobile number.
+//                return $phoneNumber;
+//            }
         } catch (\Exception $exception) {
             //Couldn't validate phone.
         }
