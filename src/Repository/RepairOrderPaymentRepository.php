@@ -25,7 +25,8 @@ class RepairOrderPaymentRepository extends ServiceEntityRepository
         $searchTerm = null
     ) {
         $qb = $this->createQueryBuilder('rop');
-        $qb->andWhere('rop.deleted = false');
+        $qb->andWhere('rop.deleted = false')
+           ->andWhere('rop.datePaid IS NOT NULL');
 
         if ($searchTerm) {
             $query = '';

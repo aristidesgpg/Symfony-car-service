@@ -1592,9 +1592,12 @@ class ReportingController extends AbstractFOSRestController
         foreach ($roPayments as $rop) {
             $ro = $rop->getRepairOrder();
             if (in_array($ro->getId(), $roIds)) {
-                $totalRepairOrderPayments[] = ['repairOrder' => $ro, 'repairOrderPayment' => $rop];
-                $totalPayments += $rop->getAmountString();
-                $totalRefunds += $rop->getRefundedAmountString();
+                if (!$rop->getRefundedAmountString()) {
+                    $totalRepairOrderPayments[] = ['repairOrder' => $ro, 'repairOrderPayment' => $rop];
+                    $totalPayments += $rop->getAmountString();
+                } else {
+                    $totalRefunds += $rop->getRefundedAmountString();
+                }
             }
         }
 
