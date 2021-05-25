@@ -2,26 +2,25 @@
 
 namespace App\Command;
 
-
 use App\Service\DMS\DMS;
 use App\Service\SettingsHelper;
 use App\Service\SettingsHelper as Settings;
 use DateTime;
-use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Class AddRepairOrders.
  */
-class AddRepairOrders extends Command
+class GetRepairOrderByNumber extends Command
 {
     /**
      * @var string
      */
-    protected static $defaultName = 'dms:addRepairOrders';
+    protected static $defaultName = 'dms:getRepairOrderByNumber';
 
     /**
      * @var DMS
@@ -43,21 +42,20 @@ class AddRepairOrders extends Command
     {
         $this
             // the name of the command (the part after "bin/console")
-            ->setName('dms:addRepairOrders')
+            ->setName('dms:getRepairOrderByNumber')
             // the short description shown while running "php bin/console list"
-            ->setDescription("Adds repair orders from dealer's DMS into iService")
+            ->setDescription("Get's a specific Repair order by number")
             // the full command description shown when running the command with
             // the "--help" option
             ->setHelp("
-                This command is used to grab open repair orders in the dealer's DMS and add them into the iService 
-                platform. Usage is straight forward, no additional parameters required. The service built checks the 
-                parameters for which DMS (if any) the dealership is using, and determines which one to use 
-                automatically.
-            ");
+                This command is used to help debug why RO's are not importing.
+            ")
+            ->addArgument('ro', InputArgument::REQUIRED, 'Enter an RO Number');
     }
 
     /**
      * @return int
+     *
      * @throws Exception
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -74,61 +72,43 @@ class AddRepairOrders extends Command
                 return 0;
             }
         }
+
+        $ro = $input->getArgument('ro');
         // Gets and adds parts
-        $this->getDms()->addOpenRepairOrders();
+        $result = $this->getDms()->getRepairOrderByNumber($ro);
+        dump($result);
         $output->writeln('Complete!');
 
         return 1;
     }
 
-    /**
-     * @return string
-     */
     public static function getDefaultName(): string
     {
         return self::$defaultName;
     }
 
-    /**
-     * @param string $defaultName
-     */
     public static function setDefaultName(string $defaultName): void
     {
         self::$defaultName = $defaultName;
     }
 
-    /**
-     * @return DMS
-     */
     public function getDms(): DMS
     {
         return $this->dms;
     }
 
-    /**
-     * @param DMS $dms
-     */
     public function setDms(DMS $dms): void
     {
         $this->dms = $dms;
     }
 
-    /**
-     * @return SettingsHelper
-     */
     public function getSettingsHelper(): Settings
     {
         return $this->settingsHelper;
     }
 
-    /**
-     * @param SettingsHelper $settingsHelper
-     */
     public function setSettingsHelper(Settings $settingsHelper): void
     {
         $this->settingsHelper = $settingsHelper;
     }
-
-
-
 }

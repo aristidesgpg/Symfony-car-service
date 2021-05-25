@@ -37,6 +37,7 @@ class PaymentHelper
         'Paid',
         'Confirmed',
         'Refunded',
+        'Deleted',
     ];
 
     private $hasPayments = false;
@@ -106,9 +107,9 @@ class PaymentHelper
      */
     public function sendPayment(RepairOrderPayment $payment): void
     {
-        $url = $this->customerUrl . $payment->getRepairOrder()->getLinkHash();
+        $url = $this->customerUrl.$payment->getRepairOrder()->getLinkHash();
         $url = $this->urlHelper->generateShortUrl($url);
-        $message = $this->settings->find('serviceTextPayment')->getValue() . ':' . $url;
+        $message = $this->settings->find('serviceTextPayment')->getValue().':'.$url;
         $customer = $payment->getRepairOrder()->getPrimaryCustomer();
 
         $this->twilio->sendSms($customer, $message);
@@ -214,6 +215,7 @@ class PaymentHelper
 
         $payment->setDeleted(true);
         $payment->setDateDeleted(new DateTime());
+        $payment->setStatus($this->statusCalculator('Deleted', $payment->getStatus()));
         $this->createInteraction($payment, 'Deleted');
         $this->commitPayment($payment);
     }

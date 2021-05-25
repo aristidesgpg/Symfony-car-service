@@ -3,6 +3,7 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\DMSResultRecommendation;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
@@ -362,6 +363,58 @@ class CDKClient extends AbstractDMSClient
         if (!$dmsResult->getModel()) {
             $dmsResult->setModel($repairOrder->getModel());
         }
+
+        $opcode = $repairOrder->getStatusCode();
+        // If there is no opcode, set it as MISC.
+        if (empty($opcode)) {
+            $opcode = 'MISC';
+        }
+
+        // Get total supplies tax
+        $suppliesTax = 0;
+        if (is_array($repairOrder->getTotSupp2Tax())) {
+            $suppliesTax += array_sum($repairOrder->getTotSupp2Tax());
+        }
+        if (is_array($repairOrder->getTotSupp3Tax())) {
+            $suppliesTax += array_sum($repairOrder->getTotSupp3Tax());
+        }
+        if (is_array($repairOrder->getTotSupp4Tax())) {
+            $suppliesTax += array_sum($repairOrder->getTotSupp4Tax());
+        }
+
+        $laborHours = 0;
+        if (is_array($repairOrder->getTotActualHours())) {
+            $laborHours += array_sum($repairOrder->getTotActualHours());
+        }
+
+        $totalPartsPrice = 0;
+        if (is_array($repairOrder->getTotPartsCost())) {
+            $totalPartsPrice += array_sum($repairOrder->getTotPartsCost());
+        }
+
+        $opCodeDescription = sprintf('%s',
+            $repairOrder->getFeeOpCodeDesc()->getV()
+        );
+
+        $notes = sprintf('%s',
+            $repairOrder->getLinServiceRequest()->getV()
+        );
+
+        $recommendations[] = (new DMSResultRecommendation())
+            ->setOperationCode($opcode)
+            ->setDescription($opCodeDescription)
+            ->setPreApproved(true)
+            ->setApproved(true)
+            ->setLaborHours($laborHours)
+            ->setLaborPrice(0)
+            ->setLaborTax(0)
+            ->setPartsPrice($totalPartsPrice)
+            ->setPartsTax(0)
+            ->setSuppliesPrice(0)
+            ->setSuppliesTax($suppliesTax)
+            ->setNotes($notes);
+
+        $dmsResult->setRecommendations($recommendations);
 
         return $dmsResult;
     }

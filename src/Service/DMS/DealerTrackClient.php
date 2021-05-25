@@ -315,7 +315,7 @@ class DealerTrackClient extends AbstractDMSClient
                             //->setPartsTax(0)
                             ->setSuppliesPrice(0)
                             ->setSuppliesTax(0)
-                            ->setNotes($rec->getNotes().' '.$details->getComments());
+                            ->setDescription($rec->getDescription().' '.$details->getComments());
                         break;
                     }
                 }
@@ -323,7 +323,7 @@ class DealerTrackClient extends AbstractDMSClient
                 $alreadyProcessedOpCodes[] = $opcode;
                 $recommendations[] = (new DMSResultRecommendation())
                     ->setOperationCode($opcode)
-                    ->setDescription('') //TODO This needs to be the description from the opcode.
+                    ->setDescription($details->getComments())
                     ->setPreApproved(true)
                     ->setApproved(true)
                     ->setLaborHours($details->getLaborHours())
@@ -333,7 +333,7 @@ class DealerTrackClient extends AbstractDMSClient
                     ->setPartsTax(0)
                     ->setSuppliesPrice(0)
                     ->setSuppliesTax(0)
-                    ->setNotes($details->getComments());
+                    ->setNotes('');
             }
         }
         $dmsResult->setRecommendations($recommendations);

@@ -230,12 +230,12 @@ abstract class AbstractDMSClient implements DMSClientInterface
     private function phoneNormalizerParser($phoneNumber)
     {
         try {
-            $cleaned = $this->getPhoneValidator()->clean($phoneNumber);
-            $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
-            if ($isMobile) {
-                //Found a valid mobile number.
-                return $phoneNumber;
-            }
+            return $this->getPhoneValidator()->clean($phoneNumber);
+//            $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
+//            if ($isMobile) {
+//                //Found a valid mobile number.
+//                return $phoneNumber;
+//            }
         } catch (\Exception $exception) {
             //Couldn't validate phone.
         }
@@ -281,8 +281,6 @@ abstract class AbstractDMSClient implements DMSClientInterface
     /**
      * @param $request
      * @param $response
-     * @param bool $isRest
-     * @param bool $exception
      */
     public function logError($request, $response, bool $isRest = false, bool $exception = false)
     {
@@ -294,10 +292,13 @@ abstract class AbstractDMSClient implements DMSClientInterface
         //        $this->settingsHelper->getSetting('generalName');
         if ($exception) {
             $message = sprintf('Request: %s, Response: %s', $request, $response);
-
-            if ('prod' == $this->getParameterBag()->get('app_env')) {
-                $this->getSlackClient()->sendMessage('Mr.Robot', $message);
+            if (!str_contains($response, 'There was an error pulling repaire orders for the roNumber')) {
+                if ('prod' == $this->getParameterBag()->get('app_env')) {
+                    $this->getSlackClient()->sendMessage('Mr.Robot', $message);
+                }
             }
+
+
         }
 
         if ($isRest) {
