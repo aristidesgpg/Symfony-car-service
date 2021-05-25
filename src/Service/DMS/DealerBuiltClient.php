@@ -265,10 +265,8 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 $recommendations[] = (new DMSResultRecommendation())
                     ->setOperationCode($job->getJobCode())
-                    //TODO: This needs to pull description from the result
                     //TODO: If there is a parts node, try to tie it to the repair order: repair_order_quote_recommendation_part
-                    //TODO: don't need to validate opcodes.
-                    ->setDescription($job->getJobCodeDescription()) //This needs to be the description from the opcode.
+                    ->setDescription($job->getJobCodeDescription())
                     ->setPreApproved(true)
                     ->setApproved(true)
                     ->setLaborHours($job->getLaborActualHoursNumeric())
@@ -564,7 +562,6 @@ class DealerBuiltClient extends AbstractDMSClient
             //Deserialize the soap result into objects.
             $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopePullParts::class, 'xml');
 
-
             /**
              * @var InventoryPartType $dmsPart
              */
@@ -661,6 +658,4 @@ class DealerBuiltClient extends AbstractDMSClient
     {
         return 'usingDealerBuilt';
     }
-
-
 }

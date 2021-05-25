@@ -392,11 +392,11 @@ class CDKClient extends AbstractDMSClient
             $totalPartsPrice += array_sum($repairOrder->getTotPartsCost());
         }
 
-        $opCodeDescription = sprintf(' %s',
+        $opCodeDescription = sprintf('%s',
             $repairOrder->getFeeOpCodeDesc()->getV()
         );
 
-        $notes = sprintf(' %s',
+        $notes = sprintf('%s',
             $repairOrder->getLinServiceRequest()->getV()
         );
 

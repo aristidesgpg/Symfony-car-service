@@ -299,7 +299,7 @@ class AutoMateClient extends AbstractDMSClient
                 //Get Dealer Pre-approved "Recommendations"
                 $recommendations[] = (new DMSResultRecommendation())
                     ->setOperationCode($job->getOperationID())
-                    ->setDescription($job->getOperationName()) //This needs to be the description from the opcode.
+                    ->setDescription($job->getOperationName())
                     ->setPreApproved(true)
                     ->setApproved(true)
                     ->setLaborHours($job->getLaborAllowanceHoursNumeric())
