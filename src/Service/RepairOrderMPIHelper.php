@@ -12,7 +12,6 @@ use App\Repository\UserRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Security;
 
@@ -27,7 +26,6 @@ class RepairOrderMPIHelper
     private $users;
     private $customerHelper;
     private $settingsHelper;
-    private $parameterBag;
     private $shortUrlHelper;
     private $user;
     private $twilioHelper;
@@ -39,7 +37,6 @@ class RepairOrderMPIHelper
         UserRepository $users,
         CustomerHelper $customerHelper,
         SettingsHelper $settingsHelper,
-        ParameterBagInterface $parameterBag,
         ShortUrlHelper $shortUrlHelper,
         Security $security,
         TwilioHelper $twilioHelper
@@ -50,7 +47,6 @@ class RepairOrderMPIHelper
         $this->users = $users;
         $this->customerHelper = $customerHelper;
         $this->settingsHelper = $settingsHelper;
-        $this->parameterBag = $parameterBag;
         $this->shortUrlHelper = $shortUrlHelper;
         $this->user = $security->getUser();
         $this->twilioHelper = $twilioHelper;
@@ -80,7 +76,7 @@ class RepairOrderMPIHelper
         foreach ($mpiGroups as $groupKey => $mpiGroup) {
             if (!isset($mpiGroup->group) || !isset($mpiGroup->items)) {
                 throw new BadRequestHttpException(
-                    'Error in results parameter. Missing group name or group items in group '.$groupKey
+                    'Error in results parameter. Missing group name or group items in group ' . $groupKey
                 );
             }
 
@@ -89,14 +85,14 @@ class RepairOrderMPIHelper
                 // Name value special status, if special true, value required
                 if (!isset($item->name) || !isset($item->special) || !isset($item->status)) {
                     throw new BadRequestHttpException(
-                        'Error in results parameter. Missing item name, special, or status in group '.$groupKey.' item '.$itemKey
+                        'Error in results parameter. Missing item name, special, or status in group ' . $groupKey . ' item ' . $itemKey
                     );
                 }
 
                 // If special, we need the value
                 if ($item->special && !isset($item->value)) {
                     throw new BadRequestHttpException(
-                        'Error in results parameter. Missing item value when special=true in group '.$groupKey.' item '.$itemKey
+                        'Error in results parameter. Missing item value when special=true in group ' . $groupKey . ' item ' . $itemKey
                     );
                 }
             }
@@ -106,12 +102,12 @@ class RepairOrderMPIHelper
             $items = $group->items;
             foreach ($items as $key => $item) {
                 if ($group->group == 'Brakes') {
-                    $item->text = $item->value.' / 10 - '.$item->name;
+                    $item->text = $item->value . ' / 10 - ' . $item->name;
                     continue;
                 }
 
                 if ($group->group == 'Tires') {
-                    $item->text = $item->value.' / 32 - '.$item->name;
+                    $item->text = $item->value . ' / 32 - ' . $item->name;
                     continue;
                 }
 
@@ -127,15 +123,14 @@ class RepairOrderMPIHelper
         $repairOrder = $repairOrderMPI->getRepairOrder();
         $dealer = $this->settingsHelper->getSetting('generalName');
         $customer = $repairOrderMPI->getRepairOrder()->getPrimaryCustomer();
-        $message = 'Your Multi Point Inspection Report is ready from '.$dealer;
-        $customerURL = $this->parameterBag->get('customer_url');
-        $url = $customerURL.$repairOrder->getLinkHash();
+        $message = 'Your Multi Point Inspection Report is ready from ' . $dealer;
+        $customerURL = $this->settingsHelper->getSetting('customerURL');
+        $url = $customerURL . $repairOrder->getLinkHash();
         $shortURL = $this->shortUrlHelper->generateShortUrl($url);
-        $message = $message.' '.$shortURL;
+        $message = $message . ' ' . $shortURL;
 
         // Only send sms if setting mpiSendToCustomer => TRUE
-        if($this->settingsHelper->getSetting('mpiSendToCustomer'))
-        {
+        if ($this->settingsHelper->getSetting('mpiSendToCustomer')) {
             try {
                 $this->twilioHelper->sendSms($customer, $message);
             } catch (Exception $e) {
@@ -145,11 +140,11 @@ class RepairOrderMPIHelper
 
         $interaction = new RepairOrderMPIInteraction();
         $interaction->setRepairOrderMPI($repairOrderMPI)
-                    ->setType('Sent')
-                    ->setUser($this->user);
+            ->setType('Sent')
+            ->setUser($this->user);
         $repairOrderMPI->setStatus('Sent')
-                       ->addRepairOrderMPIInteraction($interaction)
-                       ->setDateSent(new DateTime());
+            ->addRepairOrderMPIInteraction($interaction)
+            ->setDateSent(new DateTime());
 
         $this->em->persist($repairOrderMPI);
         $this->em->flush();

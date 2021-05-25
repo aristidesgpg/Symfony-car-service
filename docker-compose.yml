@@ -17,16 +17,18 @@ services:
       entrypoint: ./docker/app/script.sh
       stdin_open: true
       tty: true
+      restart: always
 
     db:
       # image: mysql:5.7     # use mysql5.7 image from docker hub
       build:
         context: .
         dockerfile: docker/mysql/Dockerfile # Dockerfile path
+      restart: always
       environment:           # database config
         - MYSQL_HOST=db       # set database alias
-        - MYSQL_ROOT_PASSWORD=password
-        - MYSQL_PASSWORD=password
+        - MYSQL_ROOT_PASSWORD=6&ydM85oUR!w
+        - MYSQL_PASSWORD=6&ydM85oUR!w
         - MYSQL_DATABASE=iservice3
       # volumes:
         # - ./docker/my.cnf:/etc/mysql/my.cnf # copy my.cnf

@@ -20,7 +20,7 @@ class SpacesClient
     /**
      * SpacesClient constructor.
      */
-    public function __construct(string $customerURL)
+    public function __construct(SettingsHelper $settingsHelper)
     {
         $this->client = new S3Client([
             'version' => 'latest',
@@ -31,6 +31,7 @@ class SpacesClient
                 'secret' => self::SECRET,
             ],
         ]);
+        $customerURL = $settingsHelper->getSetting('customerURL');
         $this->clientSubdomain = preg_replace('~(https?://)?(.+)\.iserviceauto.com~', '$2', $customerURL);
     }
 
@@ -44,13 +45,13 @@ class SpacesClient
         }
         $directory = rtrim((null !== $customDirectory) ? $customDirectory : $this->clientSubdomain, '/');
         if (null !== $subDirectory) {
-            $directory .= '/'.rtrim($subDirectory, '/');
+            $directory .= '/' . rtrim($subDirectory, '/');
         }
         $fileStream = fopen($file->getPathname(), 'r+');
 
         $response = $this->client->putObject([
             'Bucket' => self::BUCKET_NAME,
-            'Key' => $directory.'/'.$file->getBasename(),
+            'Key' => $directory . '/' . $file->getBasename(),
             'Body' => $fileStream,
             'ACL' => 'public-read',
         ]);

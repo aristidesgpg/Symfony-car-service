@@ -3,20 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\RepairOrder;
+use App\Entity\RepairOrderPayment;
 use App\Entity\RepairOrderVideo;
 use App\Entity\RepairOrderVideoInteraction;
 use App\Entity\User;
+use App\Repository\MPIItemRepository;
 use App\Repository\MPITemplateRepository;
 use App\Repository\RepairOrderMPIRepository;
+use App\Repository\RepairOrderPaymentRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Repository\ServiceSMSRepository;
 use App\Repository\UserRepository;
+use App\Response\ValidationResponse;
 use App\Service\Pagination;
 use App\Service\ServiceSMSHelper;
-use DateTime;
 use DateInterval;
 use DatePeriod;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -145,7 +149,7 @@ class ReportingController extends AbstractFOSRestController
             return new ValidationResponse($errors);
         }
 
-        $result = $roRepo->getAllArchives(
+        $result = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate,
             $sortField,
@@ -316,7 +320,7 @@ class ReportingController extends AbstractFOSRestController
             $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
         }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -330,11 +334,13 @@ class ReportingController extends AbstractFOSRestController
             $totalViewedQuotes = 0;
             $totalCompletedQuotes = 0;
             $totalInboundTxtMsgs = 0;
-            $totalOutboundTxtMsgs = 0;
-            $unread = 0;
+
+            $advisorId = $sa->getId();
+            $unread = $smsHelper->getUnReadMessagesByAdvisor($advisorId);
+            $totalOutboundTxtMsgs = $smsHelper->getOutBoundMessagesByAdvisor($advisorId);
 
             foreach ($closedRepairOrders as $ro) {
-                if ($sa->getId() != $ro->getPrimaryAdvisor()->getId()){
+                if ($advisorId != $ro->getPrimaryAdvisor()->getId()) {
                     continue;
                 }
 
@@ -346,8 +352,8 @@ class ReportingController extends AbstractFOSRestController
                 /** @var RepairOrderVideo $video */
                 foreach ($videos as $video) {
                     /** @var RepairOrderVideoInteraction $interaction */
-                    foreach ($video->getInteractions() as $interaction){
-                        if ($interaction->getType() == 'Viewed'){
+                    foreach ($video->getInteractions() as $interaction) {
+                        if ('Viewed' == $interaction->getType()) {
                             ++$totalVideoViews;
                         }
                     }
@@ -366,17 +372,7 @@ class ReportingController extends AbstractFOSRestController
                     }
                 }
 
-                $smsRows = $smsRepo->findBy(['user' => $sa->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
-                foreach ($smsRows as $sms) {
-                    if (0 == $sms->getIncoming()) {
-                        ++$totalOutboundTxtMsgs;
-                    } else {
-                        ++$totalInboundTxtMsgs;
-                        if (0 == $sms->getIsRead()) {
-                            ++$unread;
-                        }
-                    }
-                }
+                $totalInboundTxtMsgs += $smsHelper->getInBoundMessagesByAdvisor($advisorId, $ro->getPrimaryCustomer()->getId(), $ro->getDateCreated(), $ro->getDateClosed());
             }
 
             $result[] = [
@@ -545,7 +541,7 @@ class ReportingController extends AbstractFOSRestController
             $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
         }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -765,7 +761,7 @@ class ReportingController extends AbstractFOSRestController
             $technicians = $userRepo->findBy(['role' => 'ROLE_TECHNICIAN', 'active' => 1]);
         }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -786,7 +782,7 @@ class ReportingController extends AbstractFOSRestController
             $totalVideos = 0;
 
             foreach ($closedRepairOrders as $ro) {
-                if ($technician->getId() === $ro->getPrimaryTechnician()->getId()) {
+                if ($ro->getPrimaryTechnician() && $technician->getId() === $ro->getPrimaryTechnician()->getId()) {
                     ++$totalClosedRepairOrders;
                     $totalStartValues += $ro->getStartValue();
                     $totalFinalValues += $ro->getFinalValue();
@@ -983,7 +979,7 @@ class ReportingController extends AbstractFOSRestController
             $serviceAdvisors = $userRepo->findBy(['role' => 'ROLE_SERVICE_ADVISOR', 'active' => 1]);
         }
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -995,30 +991,25 @@ class ReportingController extends AbstractFOSRestController
             $totalUnlockCouponClicks = 0;
             $totalVideoViews = 0;
             $totalInboundMessages = 0;
-            $totalOutboundMessages = 0;
+
+            $advisorId = $serviceAdvisor->getId();
+            $totalOutboundMessages = $smsHelper->getOutBoundMessagesByAdvisor($advisorId);
 
             foreach ($closedRepairOrders as $ro) {
-                if ($serviceAdvisor->getId() === $ro->getPrimaryAdvisor()->getId()) {
+                if ($advisorId === $ro->getPrimaryAdvisor()->getId()) {
                     $videos = $ro->getVideos();
 
                     /** @var RepairOrderVideo $video */
                     foreach ($videos as $video) {
                         /** @var RepairOrderVideoInteraction $interaction */
-                        foreach ($video->getInteractions() as $interaction){
-                            if ($interaction->getType() == 'Viewed'){
+                        foreach ($video->getInteractions() as $interaction) {
+                            if ('Viewed' == $interaction->getType()) {
                                 ++$totalVideoViews;
                             }
                         }
                     }
 
-                    $smsRows = $smsRepo->findBy(['user' => $serviceAdvisor->getId(), 'customer' => $ro->getPrimaryCustomer()->getId()]);
-                    foreach ($smsRows as $sms) {
-                        if (0 == $sms->getIncoming()) {
-                            ++$totalOutboundMessages;
-                        } else {
-                            ++$totalInboundMessages;
-                        }
-                    }
+                    $totalInboundMessages += $smsHelper->getInBoundMessagesByAdvisor($advisorId, $ro->getPrimaryCustomer()->getId(), $ro->getDateCreated(), $ro->getDateClosed());
                 }
             }
 
@@ -1106,7 +1097,7 @@ class ReportingController extends AbstractFOSRestController
         $startDate = $request->query->get('startDate');
         $endDate = $request->query->get('endDate');
 
-        $closedRepairOrders = $roRepo->getAllArchives(
+        $closedRepairOrders = $roRepo->getRepairOrdersBy(
             $startDate,
             $endDate
         );
@@ -1200,7 +1191,7 @@ class ReportingController extends AbstractFOSRestController
      *     type="string",
      *     description="The name of sort field (Repair Order columns)",
      *     in="query",
-     *     enum={"roNumber", "customerName", "customerPhone", "advisorName", "technicianName", "templateName"}
+     *     enum={"repairOrderNumber", "customerName", "customerPhone", "advisorName", "technicianName", "templateName"}
      * )
      *
      * @SWG\Parameter(
@@ -1252,13 +1243,13 @@ class ReportingController extends AbstractFOSRestController
      *              type="array",
      *              @SWG\Items(
      *                   type="object",
-     *                   @SWG\Property(property="roNumber", type="integer", description="Repair Order Number"),
+     *                   @SWG\Property(property="repairOrderNumber", type="integer", description="Repair Order Number"),
      *                   @SWG\Property(property="customerName", type="string", description="customer name"),
      *                   @SWG\Property(property="customerPhone", type="string", description="customer phone"),
      *                   @SWG\Property(property="advisorName", type="string", description="advisor name"),
      *                   @SWG\Property(property="technicianName", type="string", description="technician name"),
      *                   @SWG\Property(property="templateName", type="string", description="template name"),
-     *                   @SWG\Property(property="roMPI", type="string", description="Repair Order MPI results")
+     *                   @SWG\Property(property="repairOrderMpi", type="string", description="Repair Order MPI results")
      *              )
      *          ),
      *          @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
@@ -1275,6 +1266,7 @@ class ReportingController extends AbstractFOSRestController
         UserRepository $userRepo,
         RepairOrderQuoteRepository $quoteRepo,
         MPITemplateRepository $mpiTemplateRepo,
+        MPIItemRepository $mpiItemRepo,
         RepairOrderMPIRepository $roMpiRepo,
         PaginatorInterface $paginator,
         UrlGeneratorInterface $urlGenerator,
@@ -1289,7 +1281,7 @@ class ReportingController extends AbstractFOSRestController
         $sortDirection = '';
         $errors = [];
 
-        $columns = ['roNumber', 'customerName', 'customerPhone', 'advisorName', 'technicianName', 'templateName'];
+        $columns = ['repairOrderNumber', 'customerName', 'customerPhone', 'advisorName', 'technicianName', 'templateName'];
 
         // Invalid page
         if ($page < 1) {
@@ -1321,11 +1313,26 @@ class ReportingController extends AbstractFOSRestController
         $technicianId = $request->query->get('technicianId');
         $mpiTemplateId = $request->query->get('mpiTemplateId');
         $mpiItemId = $request->query->get('mpiItemId');
+        $mpiItemName = '';
+        if ($mpiItemId) {
+            $mpiItem = $mpiItemRepo->find($mpiItemId);
+            if ($mpiItem) {
+                $mpiItemName = $mpiItem->getName();
+            } else {
+                return $this->handleView($this->view('Invalid MPI Item id', Response::HTTP_BAD_REQUEST));
+            }
+        }
+
         $mpiItemStatus = $request->query->get('mpiItemStatus');
 
-        $mpiTemplate = '';
+        $mpiTemplateName = null;
         if ($mpiTemplateId) {
             $mpiTemplate = $mpiTemplateRepo->find($mpiTemplateId);
+            if ($mpiTemplate) {
+                $mpiTemplateName = $mpiTemplate->getName();
+            } else {
+                return $this->handleView($this->view('Invalid MPI Template id', Response::HTTP_BAD_REQUEST));
+            }
         }
 
         $closedRepairOrders = $roRepo->getMpiReporting(
@@ -1339,42 +1346,64 @@ class ReportingController extends AbstractFOSRestController
 
         $result = [];
         foreach ($closedRepairOrders as $ro) {
+            $roMpi = $roMpiRepo->findOneBy(['repairOrder' => $ro->getId()]);
+            if (!$roMpi) {
+                continue;
+            }
+
             $customer = $ro->getPrimaryCustomer();
             $advisor = $ro->getPrimaryAdvisor();
             $technician = $ro->getPrimaryTechnician();
-            $roMpi = $roMpiRepo->findOneBy(['repairOrder' => $ro->getId()]);
             $mpiResults = '';
-            if ($roMpi) {
-                $mpiResults = $roMpi->getResults();
-                $mpiResults = json_decode($mpiResults, true);
 
-                if ($mpiItemStatus) {
-                    $newResultsArr = [];
-                    $arrRes = $mpiResults['results'];
-                    if ($arrRes) {
-                        foreach ($arrRes as $res) {
-                            $newResultObj = ['group' => $res['group'], 'items' => []];
+            $mpiResults = $roMpi->getResults();
+            $mpiResults = json_decode($mpiResults, true);
 
-                            $items = array_filter($res['items'], function ($a) use ($mpiItemStatus) {
+            if ($mpiTemplateName && $mpiTemplateName !== $mpiResults['name']) {
+                continue;
+            }
+
+            if ($mpiItemStatus || $mpiItemName) {
+                $newResultsArr = [];
+                $arrRes = $mpiResults['results'];
+                if ($arrRes) {
+                    foreach ($arrRes as $res) {
+                        $items = $res['items'];
+                        $newResultObj = ['group' => $res['group'], 'items' => []];
+
+                        if ($mpiItemStatus) {
+                            $items = array_filter($items, function ($a) use ($mpiItemStatus) {
                                 return $a['status'] === $mpiItemStatus;
                             });
-
-                            $newResultObj['items'] = $items;
-                            $newResultsArr[] = $newResultObj;
                         }
-                        $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
+
+                        if ($mpiItemName) {
+                            $items = array_filter($items, function ($a) use ($mpiItemName) {
+                                return $a['name'] === $mpiItemName;
+                            });
+                        }
+
+                        if (!$items) {
+                            continue;
+                        }
+
+                        $newResultObj['items'] = $items;
+                        $newResultsArr[] = $newResultObj;
                     }
+                    $mpiResults = ['name' => $mpiResults['name'], 'results' => $newResultsArr];
+                    $mpiResults = json_encode($mpiResults, true);
+                    $roMpi->setResults($mpiResults);
                 }
             }
 
             $result[] = [
-                'roNumber' => $ro->getNumber(),
+                'repairOrderNumber' => $ro->getNumber(),
                 'customerName' => $customer->getName(),
                 'customerPhone' => $customer->getPhone(),
-                'advisorName' => $advisor->getFirstName().$advisor->getLastName(),
-                'technicianName' => $technician->getFirstName().$technician->getLastName(),
-                'templateName' => $mpiTemplate ? $mpiTemplate->getName() : null,
-                'roMPI' => $mpiResults,
+                'advisorName' => $advisor->getFirstName() . ' ' . $advisor->getLastName(),
+                'technicianName' => $technician->getFirstName() . ' ' . $technician->getLastName(),
+                'templateName' => $mpiTemplateName,
+                'repairOrderMpi' => $roMpi,
             ];
         }
         if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
@@ -1394,6 +1423,188 @@ class ReportingController extends AbstractFOSRestController
         ];
 
         $view = $this->view($json);
+        $view->getContext()->setGroups(['rom_list']);
+
+        return $this->handleView($view);
+    }
+
+    /**
+     * @Rest\Get("/api/reporting/ipay")
+     * @SWG\Tag(name="Reporting")
+     *
+     * @SWG\Parameter(
+     *      name="startDate",
+     *      type="string",
+     *      format="date-time",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *      name="endDate",
+     *      type="string",
+     *      format="date-time",
+     *      in="query"
+     * )
+     *
+     * @SWG\Parameter(name="page", type="integer", in="query")
+     *
+     * @SWG\Parameter(
+     *     name="pageLimit",
+     *     type="integer",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortField",
+     *     type="string",
+     *     description="The name of sort field (Repair Order Payment columns)",
+     *     in="query"
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="sortDirection",
+     *     type="string",
+     *     description="The direction of sort",
+     *     in="query",
+     *     enum={"ASC", "DESC"}
+     * )
+     *
+     * @SWG\Parameter(
+     *     name="searchTerm",
+     *     type="string",
+     *     description="The value of search. The available fields are customer name, advisor name, ro #, price, refund amount",
+     *     in="query"
+     * )
+     *
+     * @SWG\Response(
+     *     response="200",
+     *     description="Return array of payment objects",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(
+     *             property="results",
+     *             type="array",
+     *             @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
+     *         ),
+     *         @SWG\Property(property="totalPayments", type="integer", description="Total # of payments"),
+     *         @SWG\Property(property="totalRefunds", type="integer", description="Total # of refunds"),
+     *         @SWG\Property(property="net", type="integer", description="Total # of (totalPayments - totalRefunds)"),
+     *         @SWG\Property(property="totalResults", type="integer", description="Total # of results found"),
+     *         @SWG\Property(property="totalPages", type="integer", description="Total # of pages of results"),
+     *         @SWG\Property(property="previous", type="string", description="URL for previous page"),
+     *         @SWG\Property(property="currentPage", type="integer", description="Current page #"),
+     *         @SWG\Property(property="next", type="string", description="URL for next page")
+     *     )
+     * )
+     *
+     * @SWG\Response(
+     *     response="404",
+     *     description="Invalid page parameter"
+     * )
+     */
+    public function iPay(
+        Request $request,
+        RepairOrderPaymentRepository $roPaymentRepo,
+        RepairOrderRepository $ro,
+        PaginatorInterface $paginator,
+        UrlGeneratorInterface $urlGenerator,
+        EntityManagerInterface $em
+    ): Response {
+        $page = $request->query->getInt('page', 1);
+        $startDate = $request->query->get('startDate');
+        $endDate = $request->query->get('endDate');
+        $pageLimit = $request->query->getInt('pageLimit', self::PAGE_LIMIT);
+        $urlParameters = [];
+        $sortField = $sortDirection = $searchTerm = null;
+        $errors = [];
+
+        $columns = $em->getClassMetadata('App\Entity\RepairOrderPayment')->getFieldNames();
+
+        // Invalid page
+        if ($page < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        // Invalid page limit
+        if ($pageLimit < 1) {
+            return $this->handleView($this->view('Invalid Page Limit', Response::HTTP_BAD_REQUEST));
+        }
+
+        if ($request->query->has('sortField') && $request->query->has('sortDirection')) {
+            $sortField = $request->query->get('sortField');
+
+            //check if the sortField exist
+            if (!in_array($sortField, $columns)) {
+                $errors['sortField'] = 'Invalid sort field name';
+            }
+
+            $sortDirection = $request->query->get('sortDirection');
+
+            $urlParameters['sortDirection'] = $sortDirection;
+            $urlParameters['sortField'] = $sortField;
+        }
+
+        if ($request->query->has('searchTerm')) {
+            $searchTerm = $request->query->get('searchTerm');
+
+            $urlParameters['searchTerm'] = $searchTerm;
+        }
+
+        if (!empty($errors)) {
+            return $this->handleView($this->view('Errors: ' . implode(', ', $errors), Response::HTTP_BAD_REQUEST));
+        }
+
+        $repairOrders = $ro->getRepairOrdersBy(
+            $startDate,
+            $endDate,
+            null,
+            null,
+            $searchTerm
+        );
+
+        $roPaymentQuery = $roPaymentRepo->getAllPayments(
+            $sortField,
+            $sortDirection,
+            $searchTerm
+        );
+
+        $roPayments = $roPaymentQuery->getResult();
+
+        $totalPayments = 0;
+        $totalRefunds = 0;
+
+        $roIds = [];
+        foreach ($repairOrders as $ro) {
+            $roIds[] = $ro->getId();
+        }
+
+        $totalRepairOrderPayments = [];
+        foreach ($roPayments as $rop) {
+            if (in_array($rop->getRepairOrder()->getId(), $roIds)) {
+                $totalRepairOrderPayments[] = $rop;
+                $totalPayments += $rop->getAmountString();
+                $totalRefunds += $rop->getRefundedAmountString();
+            }
+        }
+
+        $pager = $paginator->paginate($totalRepairOrderPayments, $page, $pageLimit);
+        $pagination = new Pagination($pager, $pageLimit, $urlGenerator);
+
+        $json = [
+            'results' => $pager->getItems(),
+            'totalPayments' => round($totalPayments, 2),
+            'totalRefunds' => round($totalRefunds, 2),
+            'net' => round($totalPayments - $totalRefunds, 2),
+            'totalResults' => $pagination->totalResults,
+            'totalPages' => $pagination->totalPages,
+            'previous' => $pagination->getPreviousPageURL('app_reporting_ipay', $urlParameters),
+            'currentPage' => $pagination->currentPage,
+            'next' => $pagination->getNextPageURL('app_reporting_ipay', $urlParameters),
+        ];
+
+        $view = $this->view($json);
+
+        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
 
         return $this->handleView($view);
     }
@@ -1414,20 +1625,7 @@ class ReportingController extends AbstractFOSRestController
     private function getMonths($startDate = null, $endDate = null)
     {
         if (!$startDate || !$endDate) {
-            return [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec',
-              ];
+            return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         }
         $start = (new DateTime($startDate))->modify('first day of this month');
         $end = (new DateTime($endDate))->modify('first day of next month');

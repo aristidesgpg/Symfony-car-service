@@ -1,0 +1,38 @@
+App\Soap\cdk\src\Parts:
+    xml_root_name: Parts
+    xml_root_namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+    properties:
+        partsInventory:
+            expose: true
+            access_type: public_method
+            serialized_name: PartsInventory
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getPartsInventory
+                setter: setPartsInventory
+            xml_list:
+                inline: true
+                entry_name: PartsInventory
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            type: array<App\Soap\cdk\src\Parts\PartsInventoryAType>
+        errorCode:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorCode
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getErrorCode
+                setter: setErrorCode
+            type: int
+        errorMessage:
+            expose: true
+            access_type: public_method
+            serialized_name: ErrorMessage
+            xml_element:
+                namespace: 'http://www.dmotorworks.com/pip-extract-parts'
+            accessor:
+                getter: getErrorMessage
+                setter: setErrorMessage
+            type: string

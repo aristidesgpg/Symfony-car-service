@@ -36,6 +36,7 @@
     "symfony/framework-bundle": "4.4.*",
     "symfony/http-client": "4.4.*",
     "symfony/mailer": "4.4.*",
+    "symfony/monolog-bundle": "^3.0",
     "symfony/process": "4.4.*",
     "symfony/security-bundle": "4.4.*",
     "symfony/serializer": "4.4.*",
@@ -53,7 +54,6 @@
     "symfony/css-selector": "4.4.*",
     "symfony/debug-bundle": "^4.4",
     "symfony/maker-bundle": "^1.21",
-    "symfony/monolog-bundle": "^3.0",
     "symfony/phpunit-bridge": "^5.2",
     "symfony/stopwatch": "^4.4",
     "symfony/var-dumper": "^4.4"

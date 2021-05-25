@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use App\Entity\DMSResult;
+use App\Entity\OperationCode;
 use App\Entity\Part;
+use App\Entity\PriceMatrix;
 use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteInteraction;
@@ -61,10 +63,10 @@ class RepairOrderQuoteHelper
     ];
 
     private const BOOLEAN_VALUES = [
-        "true",
-        "false",
-        "0",
-        "1"
+        'true',
+        'false',
+        '0',
+        '1',
     ];
 
     private const NOT_REQUIRED_FIELDS = [
@@ -104,20 +106,16 @@ class RepairOrderQuoteHelper
 
     public function __construct(
         EntityManagerInterface $em,
-        OperationCodeRepository $operationCodeRepository,
         SettingsHelper $settingsHelper,
-        PriceMatrixRepository $priceRepository,
-        partRepository $partRepository,
         Security $security,
-        RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository,
         RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
     ) {
         $this->em = $em;
-        $this->operationCodeRepository = $operationCodeRepository;
+        $this->operationCodeRepository = $em->getRepository(OperationCode::class);
         $this->security = $security;
-        $this->priceRepository = $priceRepository;
-        $this->partRepository = $partRepository;
-        $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
+        $this->priceRepository = $em->getRepository(PriceMatrix::class);
+        $this->partRepository = $em->getRepository(Part::class);
+        $this->repairOrderQuoteRecommendationRepository = $em->getRepository(RepairOrderQuote::class);
 
         $this->pricingLaborRate = $settingsHelper->getSetting('pricingLaborRate');
         $this->isPricingMatrix = $settingsHelper->getSetting('pricingUseMatrix');
@@ -145,15 +143,15 @@ class RepairOrderQuoteHelper
 
             foreach (self::PART_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field . ' is missing in parts json');
+                    throw new Exception($field.' is missing in parts json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field . ' has no value in parts json');
+                        throw new Exception($field.' has no value in parts json');
                     }
 
                     if ('price' == $field || 'quantity' == $field) {
                         if (!is_numeric($fields[$field])) {
-                            throw new Exception($field . ' has invalid value in parts json');
+                            throw new Exception($field.' has invalid value in parts json');
                         }
                     }
                 }
@@ -179,10 +177,10 @@ class RepairOrderQuoteHelper
 
             foreach (self::COMPLETE_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field . ' is missing in recommendations json');
+                    throw new Exception($field.' is missing in recommendations json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field . ' has no value in recommendations json');
+                        throw new Exception($field.' has no value in recommendations json');
                     }
                 }
             }
@@ -211,21 +209,21 @@ class RepairOrderQuoteHelper
 
             foreach (self::RECOMMENDATION_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field . ' is missing in recommendations json');
+                    throw new Exception($field.' is missing in recommendations json');
                 } else {
                     if ('' === $fields[$field]) {
-                        throw new Exception($field . ' has no value in recommendations json');
+                        throw new Exception($field.' has no value in recommendations json');
                     }
 
                     if (in_array($field, self::RECOMMENDATION_NUMBER_FIELDS)) {
                         if (!is_numeric($fields[$field])) {
-                            throw new Exception($field . ' has invalid value in recommendations json');
+                            throw new Exception($field.' has invalid value in recommendations json');
                         }
                     }
 
-                    if (str_contains($field, "Taxable")) {
+                    if (str_contains($field, 'Taxable')) {
                         if (!in_array($fields[$field], self::BOOLEAN_VALUES)) {
-                            throw new Exception($field . ' is not boolean in recommendations json');
+                            throw new Exception($field.' is not boolean in recommendations json');
                         }
                     }
                 }
@@ -234,7 +232,7 @@ class RepairOrderQuoteHelper
             // These are required to be set but not required to have a value
             foreach (self::NOT_REQUIRED_FIELDS as $field) {
                 if (!isset($fields[$field])) {
-                    throw new Exception($field . ' is missing in recommendations json');
+                    throw new Exception($field.' is missing in recommendations json');
                 }
             }
         }
@@ -243,7 +241,8 @@ class RepairOrderQuoteHelper
     public function isTrue($val)
     {
         $boolval = (is_string($val) ? filter_var($val, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE) : (bool) $val);
-        return ($boolval === null ? false : $boolval);
+
+        return null === $boolval ? false : $boolval;
     }
 
     /**
@@ -251,14 +250,18 @@ class RepairOrderQuoteHelper
      *
      * @throws Exception
      */
-    public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations, bool $wipeAll = true, bool $wipePreApproved = false)
+    public function buildRecommendations(RepairOrderQuote $repairOrderQuote, array $recommendations,
+                                         bool $wipeAll = false,
+                                         bool $wipePreApproved = false,
+                                         bool $isDMS = false)
     {
-        // Remove previous recommendations
+        // Remove previous recommendations (This is not really used anymore)
         if ($wipeAll) {
             foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
                 $this->em->remove($oldRecommendation);
             }
         }
+        //This is coming from the DMS to update the new pre approved.
         if ($wipePreApproved) {
             foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
                 if ($oldRecommendation->getPreApproved()) {
@@ -267,11 +270,61 @@ class RepairOrderQuoteHelper
             }
         }
 
+        //TODO FIX THIS SPAGHETTI MESS
+        //If no wipe flags are set, we try to keep the existing Recs and only insert the new.
+        //These are usually edited within from iService.
+        if (!$wipeAll && !$wipePreApproved) {
+            //Get all the current recommendations()
+            $currentRecs = $repairOrderQuote->getRepairOrderQuoteRecommendations();
+            $keysToPop = [];
+            foreach ($recommendations as $key => $recommendation) {
+                //If the rec code is false, just ignore it.
+                //This keeps the preapproved and approved ones there.
+                $preApproved = filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN);
+                $approved = filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN);
+                if (!$preApproved) {
+                    if(!$approved){
+                        continue;
+                    }
+                }
+
+                //Pre-approved(probably pre existing), try to find it
+                //Values that we match back on. This is very loose
+                $operationCode = $recommendation->operationCode;
+//                if($operationCode == 'MISC'){
+//                    continue;
+//                }
+                $notes = $recommendation->notes; //this could change.
+                foreach ($currentRecs as $rec) {
+
+                    if ($rec->getOperationCode() == $operationCode && $notes == $rec->getNotes()) {
+                        //it matches
+                        $keysToPop[] = $key;
+                        continue;
+                    }
+                }
+            }
+            //pop the keys.
+            foreach ($keysToPop as $k) {
+                unset($recommendations[$k]);
+            }
+
+            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+                if (!$oldRecommendation->getPreApproved()) {
+                    if (!$oldRecommendation->getApproved()) {
+                        $this->em->remove($oldRecommendation);
+                    }
+                }
+            }
+        }
+
+
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
+
             // Check if Operation Code exists
             $operationCode = $this->operationCodeRepository->findOneBy(['code' => $recommendation->operationCode]);
-            if (!$operationCode) {
+            if (!$isDMS && !$operationCode) {
                 throw new Exception('Invalid operationCode Parameter in recommendations JSON');
             }
 
@@ -352,7 +405,7 @@ class RepairOrderQuoteHelper
                 $subtotal += $repairOrderQuoteRecommendation->getLaborPrice()
                     + $repairOrderQuoteRecommendation->getPartsPrice()
                     + $repairOrderQuoteRecommendation->getSuppliesPrice();
-                $tax +=  $repairOrderQuoteRecommendation->getLaborTax()
+                $tax += $repairOrderQuoteRecommendation->getLaborTax()
                     + $repairOrderQuoteRecommendation->getPartsTax()
                     + $repairOrderQuoteRecommendation->getSuppliesPrice();
             }
@@ -441,7 +494,7 @@ class RepairOrderQuoteHelper
             // TODO: Should we validate recommendations coming from the DMS?
             //$this->validateRecommendationsJson($DMSResult->getRecommendations());
 
-            $this->buildRecommendations($repairOrder->getRepairOrderQuote(), $DMSResult->getRecommendations(), false, true);
+            $this->buildRecommendations($repairOrder->getRepairOrderQuote(), $DMSResult->getRecommendations(), false, true, true);
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
@@ -451,12 +504,12 @@ class RepairOrderQuoteHelper
         // Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setUser($repairOrder->getPrimaryTechnician())
-                ->setCustomer($repairOrder->getPrimaryCustomer())
-                ->setType($status);
+            ->setCustomer($repairOrder->getPrimaryCustomer())
+            ->setType($status);
 
         // Update repairOrderQuote Status
         $repairOrder->getRepairOrderQuote()->addRepairOrderQuoteInteraction($repairOrderQuoteInteraction)
-                ->setStatus($status);
+            ->setStatus($status);
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
@@ -464,198 +517,123 @@ class RepairOrderQuoteHelper
         return $repairOrder;
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
     public function getEm(): EntityManagerInterface
     {
         return $this->em;
     }
 
-    /**
-     * @param EntityManagerInterface $em
-     */
     public function setEm(EntityManagerInterface $em): void
     {
         $this->em = $em;
     }
 
-    /**
-     * @return Security
-     */
     public function getSecurity(): Security
     {
         return $this->security;
     }
 
-    /**
-     * @param Security $security
-     */
     public function setSecurity(Security $security): void
     {
         $this->security = $security;
     }
 
-    /**
-     * @return OperationCodeRepository
-     */
     public function getOperationCodeRepository(): OperationCodeRepository
     {
         return $this->operationCodeRepository;
     }
 
-    /**
-     * @param OperationCodeRepository $operationCodeRepository
-     */
     public function setOperationCodeRepository(OperationCodeRepository $operationCodeRepository): void
     {
         $this->operationCodeRepository = $operationCodeRepository;
     }
 
-    /**
-     * @return PartRepository
-     */
     public function getPartRepository(): PartRepository
     {
         return $this->partRepository;
     }
 
-    /**
-     * @param PartRepository $partRepository
-     */
     public function setPartRepository(PartRepository $partRepository): void
     {
         $this->partRepository = $partRepository;
     }
 
-    /**
-     * @return \App\Entity\Settings
-     */
     public function getPricingLaborRate(): \App\Entity\Settings
     {
         return $this->pricingLaborRate;
     }
 
-    /**
-     * @param \App\Entity\Settings $pricingLaborRate
-     */
     public function setPricingLaborRate(\App\Entity\Settings $pricingLaborRate): void
     {
         $this->pricingLaborRate = $pricingLaborRate;
     }
 
-    /**
-     * @return \App\Entity\Settings
-     */
     public function getIsPricingMatrix(): \App\Entity\Settings
     {
         return $this->isPricingMatrix;
     }
 
-    /**
-     * @param \App\Entity\Settings $isPricingMatrix
-     */
     public function setIsPricingMatrix(\App\Entity\Settings $isPricingMatrix): void
     {
         $this->isPricingMatrix = $isPricingMatrix;
     }
 
-    /**
-     * @return float
-     */
     public function getPricingLaborTax(): float
     {
         return $this->pricingLaborTax;
     }
 
-    /**
-     * @param float $pricingLaborTax
-     */
     public function setPricingLaborTax(float $pricingLaborTax): void
     {
         $this->pricingLaborTax = $pricingLaborTax;
     }
 
-    /**
-     * @return float
-     */
     public function getPricingPartsTax(): float
     {
         return $this->pricingPartsTax;
     }
 
-    /**
-     * @param float $pricingPartsTax
-     */
     public function setPricingPartsTax(float $pricingPartsTax): void
     {
         $this->pricingPartsTax = $pricingPartsTax;
     }
 
-    /**
-     * @return PriceMatrixRepository
-     */
     public function getPriceRepository(): PriceMatrixRepository
     {
         return $this->priceRepository;
     }
 
-    /**
-     * @param PriceMatrixRepository $priceRepository
-     */
     public function setPriceRepository(PriceMatrixRepository $priceRepository): void
     {
         $this->priceRepository = $priceRepository;
     }
 
-    /**
-     * @return RepairOrderQuoteRecommendationRepository
-     */
     public function getRepairOrderQuoteRecommendationRepository(): RepairOrderQuoteRecommendationRepository
     {
         return $this->repairOrderQuoteRecommendationRepository;
     }
 
-    /**
-     * @param RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository
-     */
     public function setRepairOrderQuoteRecommendationRepository(RepairOrderQuoteRecommendationRepository $repairOrderQuoteRecommendationRepository): void
     {
         $this->repairOrderQuoteRecommendationRepository = $repairOrderQuoteRecommendationRepository;
     }
 
-    /**
-     * @return SettingsHelper
-     */
     public function getSettingsHelper(): SettingsHelper
     {
         return $this->settingsHelper;
     }
 
-    /**
-     * @param SettingsHelper $settingsHelper
-     */
     public function setSettingsHelper(SettingsHelper $settingsHelper): void
     {
         $this->settingsHelper = $settingsHelper;
     }
 
-    /**
-     * @return RepairOrderQuoteLogHelper
-     */
     public function getRepairOrderQuoteLogHelper(): RepairOrderQuoteLogHelper
     {
         return $this->repairOrderQuoteLogHelper;
     }
 
-    /**
-     * @param RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper
-     */
     public function setRepairOrderQuoteLogHelper(RepairOrderQuoteLogHelper $repairOrderQuoteLogHelper): void
     {
         $this->repairOrderQuoteLogHelper = $repairOrderQuoteLogHelper;
     }
-
-
-
 }

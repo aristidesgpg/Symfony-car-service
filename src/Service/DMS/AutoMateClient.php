@@ -3,9 +3,13 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\DMSResultRecommendation;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
+use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
+use App\Soap\automate\json\OperationCode;
+use App\Soap\automate\json\Part;
 use App\Soap\automate\src\AuthenticationTokenType;
 use App\Soap\automate\src\AutomateEnvelope;
 use App\Soap\automate\src\AutomateFakeBodyType;
@@ -13,7 +17,6 @@ use App\Soap\automate\src\ProcessEvent;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class AutoMateClient.
@@ -45,9 +48,20 @@ class AutoMateClient extends AbstractDMSClient
      */
     private $processEvent;
 
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
+    /**
+     * @var bool
+     */
+    private $initialized = false;
+
+    private $baseUri = 'https://openmate.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/';
+
+    private $partsUri = 'parts/inventory'; //?offset=1&limit=1000
+
+    private $operationCodesUri = 'service_operations';
+
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
 
         $this->endpointID = $parameterBag->get('automate_endpoint_id');
         // Use staging credentials if in dev environment
@@ -55,9 +69,13 @@ class AutoMateClient extends AbstractDMSClient
             $this->wsdl = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/ProcessEventService?wsdl';
             $this->username = '1334';
             $this->password = '3tdVAR6nPH^d';
+
+            $this->baseUri = 'https://openmate-preprod.automate-webservices.com/OpenMateGateway/api/v2/1589/fixed_ops/';
+            $this->partsUri = 'parts/inventory';
+            $this->operationCodesUri = 'service_operations';
         }
 
-        $this->init();
+        //$this->init();
     }
 
     /**
@@ -79,6 +97,7 @@ class AutoMateClient extends AbstractDMSClient
             ->setDealerEndpointId($this->getEndpointID())
             ->setPayloadVersion('STAR-5.5.4');
         $this->setProcessEvent($processEvent);
+        $this->setInitialized(true);
     }
 
     /**
@@ -86,6 +105,10 @@ class AutoMateClient extends AbstractDMSClient
      */
     public function getOpenRepairOrders(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrders = [];
 
         if ($this->getSoapClient()) {
@@ -96,6 +119,7 @@ class AutoMateClient extends AbstractDMSClient
 
             //Get the keys of open repair orders.
             $targetNodes = $this->getRepairOrderKeys($this->getProcessEvent());
+
             //No open repair orders.
             if (empty($targetNodes)) {
                 return $repairOrders;
@@ -186,7 +210,6 @@ class AutoMateClient extends AbstractDMSClient
             if (!$dmsResult->getCustomer()->getPhoneNumbers()) {
                 return null;
             }
-
             //Email is not used.
 
             //Vehicle Details
@@ -234,20 +257,63 @@ class AutoMateClient extends AbstractDMSClient
             }
 
             $initialRoValue = 0;
-
+            $recommendations = [];
             //TODO Nested for loop. Revisit
             foreach ($repairOrder->getJob() as $job) {
-                $dmsResult->getTechnician()->setFirstName($job->getServiceTechnicianParty()->getSpecifiedPerson()->getGivenName());
-                $dmsResult->getTechnician()->setLastName($job->getServiceTechnicianParty()->getSpecifiedPerson()->getFamilyName());
-                if (!$job->getPricing()) {
-                    continue;
+                $firstName = '';
+                $lastName = '';
+                if (!is_null($job->getServiceTechnicianParty()->getSpecifiedPerson())) {
+                    $firstName = $job->getServiceTechnicianParty()->getSpecifiedPerson()->getGivenName();
+                    $lastName = $job->getServiceTechnicianParty()->getSpecifiedPerson()->getFamilyName();
+                }
+                $dmsResult->getTechnician()->setFirstName($firstName);
+                $dmsResult->getTechnician()->setLastName($lastName);
+
+//                if (!$job->getPricing()) {
+//                    continue;
+//                }
+                $laborPrice = 0;
+                if (is_array($job->getPricing())) {
+                    foreach ($job->getPricing()->getPrice() as $price) {
+                        $initialRoValue += $price->getChargeAmount()->value();
+                        $laborPrice += $price->getChargeAmount()->value();
+                    }
+                }
+                //TODO Double check all these nested loops.
+                $partsPrice = 0;
+                if (is_array($job->getServiceParts())) {
+                    foreach ($job->getServiceParts() as $parts) {
+                        foreach ($parts->getPricing() as $price) {
+                            foreach ($price->getPrice() as $item) {
+                                $partsPrice += $item->getChargeAmount()->value();
+                            }
+                        }
+                    }
                 }
 
-                foreach ($job->getPricing()->getPrice() as $price) {
-                    $initialRoValue += $price->getChargeAmount()->value();
-                }
+                $notes = sprintf(' %s %s %s',
+                    $job->getCodesAndCommentsExpanded()->getCauseDescription(),
+                    $job->getCodesAndCommentsExpanded()->getComplaintDescription(),
+                    $job->getCodesAndCommentsExpanded()->getCorrectionDescription()
+                );
+                //Get Dealer Pre-approved "Recommendations"
+                $recommendations[] = (new DMSResultRecommendation())
+                    ->setOperationCode($job->getOperationID())
+                    ->setDescription($job->getOperationName()) //This needs to be the description from the opcode.
+                    ->setPreApproved(true)
+                    ->setApproved(true)
+                    ->setLaborHours($job->getLaborAllowanceHoursNumeric())
+                    ->setLaborPrice($laborPrice)
+                    ->setLaborTax(0)
+                    ->setPartsPrice($partsPrice)
+                    ->setPartsTax(0)
+                    ->setSuppliesPrice(0)
+                    ->setSuppliesTax(0)
+                    ->setNotes($notes);
             }
             $dmsResult->setInitialROValue($initialRoValue);
+
+            $dmsResult->setRecommendations($recommendations);
 
             return $dmsResult;
         }
@@ -257,6 +323,9 @@ class AutoMateClient extends AbstractDMSClient
 
     public function getRepairOrderKeys(ProcessEvent $processEvent): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
         $result = $this->sendSoapCall('processEvent', $this->buildEventForSoap($processEvent), true);
 
         //Deserialize the soap result into objects.
@@ -286,7 +355,7 @@ class AutoMateClient extends AbstractDMSClient
         $processEventResultType = $deserialized->getBody()->getProcessEventResponse()->getProcessEventResult();
 
         if (in_array($processEventResultType->getStatusCode(), ['VALIDATION_FAILURE', 'UNKNOWN_FAILURE'])) {
-            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $this->getSoapClient()->__getLastResponse());
+            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $this->getSoapClient()->__getLastResponse(), false, true);
 
             return null;
         }
@@ -316,6 +385,10 @@ class AutoMateClient extends AbstractDMSClient
      */
     public function getClosedRoDetails(array $openRepairOrders): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $closedRepairOrders = [];
 
         /**
@@ -398,7 +471,7 @@ class AutoMateClient extends AbstractDMSClient
             $this->getEntityManager()->persist($repairOrder);
             $this->getEntityManager()->flush();
 
-            $closedRepairOrder[] = $repairOrder;
+            $closedRepairOrders[] = $repairOrder;
         }
 
         return $closedRepairOrders;
@@ -406,19 +479,138 @@ class AutoMateClient extends AbstractDMSClient
 
     public function getOperationCodes(): array
     {
-        // TODO: Implement getOperationCodes() method.
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        $operationCodes = [];
+        $options = [
+            'accept' => 'application/json;charset=UTF-8',
+            'auth' => [$this->getUsername(), $this->getPassword()],
+        ];
+        $this->initializeGuzzleClient($this->getBaseUri(), $options, 'GET');
+        $response = $this->sendGuzzleRequest($this->getOperationCodesUri());
+        if (!$response) {
+            return $operationCodes;
+        }
+
+        $this->buildEmptySerializer();
+        $type = sprintf('array<%s>', OperationCode::class);
+        $deserializedOpCodes = $this->getSerializer()->deserialize($response, $type, 'json');
+
+        /**
+         * @var OperationCode $opCode
+         */
+        foreach ($deserializedOpCodes as $opCode) {
+            $operationCode = (new \App\Entity\OperationCode())
+                ->setCode($opCode->getOpCode())
+                ->setDescription($opCode->getComplaint())
+                ->setLaborHours($opCode->getEstimatedLaborHours())
+                ->setLaborTaxable(false) //TODO: Check with Laramie.
+                ->setPartsPrice($opCode->getPartsPrice() ?? 0)
+                ->setPartsTaxable(false) //TODO: Check with Laramie.
+                ->setSuppliesPrice(0)
+                ->setSuppliesTaxable(false);
+
+            $operationCodes[] = $operationCode;
+        }
+
+        return $operationCodes;
     }
 
     public function getParts(): array
     {
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        $offset = 0;
+        $limit = 5000;
+        $continue = true;
+        $parts = [];
+        while ($continue) {
+            $result = $this->getPartsByOffsetAndLimit($offset, $limit);
+            if (0 == sizeof($result)) {
+                break;
+            }
+            $parts = array_merge($parts, $result);
+            $offset = $offset + $limit;
+        }
+        $entityParts = [];
+        foreach ($parts as $part) {
+            $entityParts[] = (new \App\Entity\Part())
+                ->setNumber($part->getPartNumber())
+                ->setName($part->getDescription() ?? '')
+                ->setBin($this->binProcessor($part->getBinLocations()))
+                ->setAvailable($part->getQuantityOnHand())
+                ->setPrice($part->getListPrice());
+        }
+
+        return $entityParts;
     }
 
-    public function getRepairOrderByNumber(string $RONumber)
+    public function getPartsByOffsetAndLimit(int $offset, int $limit): array
     {
-        // TODO: Implement getSingleRepairOrder() method.
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        $options = [
+            'accept' => 'application/json;charset=UTF-8',
+            'auth' => [$this->getUsername(), $this->getPassword()],
+        ];
+        $this->initializeGuzzleClient($this->getBaseUri(), $options, 'GET');
+
+        ////?offset=1&limit=1000
+        $uri = sprintf('%s?offset=%d&limit=%s', $this->getPartsUri(), $offset, $limit);
+        $response = $this->sendGuzzleRequest($uri);
+
+        $this->buildEmptySerializer();
+        $type = sprintf('array<%s>', Part::class);
+        $deserializedParts = $this->getSerializer()->deserialize($response, $type, 'json');
+
+        return $deserializedParts;
+    }
+
+    public function getRepairOrderByNumber(string $RONumber): ?DMSResult
+    {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
+        $dmsResult = null;
+
+        $repairOrder = $this->getEntityManager()->getRepository(RepairOrder::class)->find($RONumber);
+        if (!$repairOrder) {
+            return null;
+        }
+
+        //$targetXml = sprintf('<target legacyId="%s">%s</target>', $repairOrder->getNumber(), $repairOrder->getDmsKey());
+        $targetXml = sprintf('<target legacyId="%s">%s</target>', '81870', '061ab7e1-0ae0-49d9-8099-4e05dc04c0fe-MWR601LF');
+        $this->getProcessEvent()
+            ->setEventType('GetRepairOrders')
+            ->setPayload('<ExtractRequest><targets>'.$targetXml.'</targets></ExtractRequest>');
+
+        $result = $this->sendSoapCall('processEvent', $this->buildEventForSoap($this->getProcessEvent()), true);
+
+        /**
+         * @var AutomateEnvelope $automateEnvelope
+         */
+        $response = $this->deserializeSOAPResponse($result)->getResponse();
+        if (!$response) {
+            return null;
+        }
+
+        //Since this is returned as an array of xml nodes, to deserialize it, add a fake body.
+        $rootNode = '<?xml version="1.0" ?><body>'.$response.'</body>';
+        $deserializedNode = $this->getSerializer()->deserialize($rootNode, \App\Soap\automate\src\AutomateFakeBodyType::class, 'xml');
+
+        if (!isset($deserializedNode->getRepairOrder()[0])) {
+            return null;
+        }
+
+        /**
+         * @var \App\Soap\automate\src\RepairOrder $resultRepairOrder
+         */
+        $resultRepairOrder = $deserializedNode->getRepairOrder()[0];
+
+        if (!$resultRepairOrder) {
+            return null;
+        }
+
+        if ('This RO is not retrievable through Open/Mate.' == $resultRepairOrder->getRepairOrderHeader()->getOrderNotes()) {
+            return null;
+        }
+
+        return $this->parseRepairOrderNode($resultRepairOrder);
     }
 
     public function getWsdl(): string
@@ -483,8 +675,51 @@ class AutoMateClient extends AbstractDMSClient
         $this->processEvent = $processEvent;
     }
 
+    public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialzed
+     */
+    public function setInitialized(bool $initialized): void
+    {
+        $this->initialized = $initialized;
+    }
+
     public static function getDefaultIndexName(): string
     {
         return 'usingAutomate';
+    }
+
+    public function getPartsUri(): string
+    {
+        return $this->partsUri;
+    }
+
+    public function setPartsUri(string $partsUri): void
+    {
+        $this->partsUri = $partsUri;
+    }
+
+    public function getOperationCodesUri(): string
+    {
+        return $this->operationCodesUri;
+    }
+
+    public function setOperationCodesUri(string $operationCodesUri): void
+    {
+        $this->operationCodesUri = $operationCodesUri;
+    }
+
+    public function getBaseUri(): string
+    {
+        return $this->baseUri;
+    }
+
+    public function setBaseUri(string $baseUri): void
+    {
+        $this->baseUri = $baseUri;
     }
 }

@@ -165,7 +165,6 @@ class AuthenticationController extends AbstractFOSRestController
                 // Successful regular user login
                 $tokenUsername = $user->getEmail();
                 $roles = $user->getRoles();
-                $ttl = 3600; // Techs get logged in 1 hour
 
                 goto LOGIN;
             }
@@ -173,7 +172,7 @@ class AuthenticationController extends AbstractFOSRestController
 
         // Logging in from customer app
         if ($linkHash) {
-            $repairOrder = $repairOrderRepository->findByUID($linkHash);
+            $repairOrder = $repairOrderRepository->findOneBy(['linkHash' => $linkHash]);
             if (!$repairOrder) {
                 $reason = 'Failed Customer Login. Reason: Repair Order not found';
                 goto INVALID_LOGIN;

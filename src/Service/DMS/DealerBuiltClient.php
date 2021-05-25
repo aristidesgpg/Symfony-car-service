@@ -7,7 +7,9 @@ use App\Entity\DMSResultRecommendation;
 use App\Entity\OperationCode;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
+use App\Entity\User;
 use App\Service\PhoneValidator;
+use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\dealerbuilt\src\BaseApi\InventoryPartType;
 use App\Soap\dealerbuilt\src\BaseApi\RepairOrderType;
@@ -40,7 +42,7 @@ class DealerBuiltClient extends AbstractDMSClient
     /**
      * @var string
      */
-    private $timeFrame = 'PT5M';
+    private $timeFrame = 'PT1H';
 
     /**
      * @var string
@@ -57,34 +59,44 @@ class DealerBuiltClient extends AbstractDMSClient
      */
     private $serviceLocationId;
 
+    /**
+     * @var bool
+     */
+    private $initialized = false;
+
     /*
      * TODO When comparing the results of this class against the original, the original returns 10 more.
      * Didn't see anything obvious as to why. Possibly one is a little more restricted >= vs >?
      */
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
         $this->serviceLocationId = $parameterBag->get('dealerbuilt_location_id');
         //TODO These should not be hard coded. Should be a param somewhere.
         $this->username = 'iservice';
         $this->password = 'w37B(7pDIb/FZF8(*1';
 
         // Won't grab any from dev unless we up the time frame
-        if ('dev' == $parameterBag->get('app_env')) {
+        if ('prod' != $parameterBag->get('app_env')) {
             $this->timeFrame = 'PT8760H';
         }
-        $this->serviceLocationId = '58602';
-        $this->init();
+
+//        $this->init();
     }
 
     public function init(): void
     {
         $this->buildSerializer($this->getParameterBag()->get('soap_directory').'/dealerbuilt/metadata', 'App\Soap\dealerbuilt\src');
         $this->initializeSoapClient($this->getWsdl());
+        $this->setInitialized(true);
     }
 
     public function getOpenRepairOrders(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrders = [];
         if ($this->getSoapClient()) {
             //create authentication token
@@ -99,7 +111,6 @@ class DealerBuiltClient extends AbstractDMSClient
             ];
 
             $result = $this->sendSoapCall('PullRepairOrders', [$searchCriteria], true);
-
             //Deserialize the soap result into objects.
             $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelope::class, 'xml');
 
@@ -117,6 +128,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 if ('InternalRepairOrder' == $repairOrder->getAttributes()->getType()) {
                     continue;
                 }
+
                 //Customer
                 $customer = $repairOrder->getReferences()->getROCustomer()->getAttributes()->getIdentity();
                 $customerName = sprintf('%s %s', $customer->getPersonalName()->getFirstName(), $customer->getPersonalName()->getLastName());
@@ -135,6 +147,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 $dmsResult->setNumber($repairOrder->getAttributes()->getRepairOrderNumber());
 
                 $dmsResult->setMiles($repairOrder->getAttributes()->getMilesIn());
+
                 //vehicle
                 $vehicle = $repairOrder->getReferences()->getROVehicle()->getAttributes();
                 $dmsResult->setYear($vehicle->getYear());
@@ -144,6 +157,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 //advisor
                 $advisor = $repairOrder->getAttributes()->getServiceAdvisor()->getPersonalName();
+                $dmsResult->getAdvisor()->setId($repairOrder->getAttributes()->getServiceAdvisor()->getNumber());
                 $dmsResult->getAdvisor()->setFirstName($advisor->getFirstName());
                 $dmsResult->getAdvisor()->setLastName($advisor->getLastName());
 
@@ -161,6 +175,10 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getRepairOrderByNumber(string $RONumber)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $dmsResult = null;
         if ($this->getSoapClient()) {
             //create authentication token
@@ -223,6 +241,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
         //advisor
         $advisor = $repairOrder->getAttributes()->getServiceAdvisor()->getPersonalName();
+        $dmsResult->getAdvisor()->setId($repairOrder->getAttributes()->getServiceAdvisor()->getNumber());
         $dmsResult->getAdvisor()->setFirstName($advisor->getFirstName());
         $dmsResult->getAdvisor()->setLastName($advisor->getLastName());
 
@@ -240,9 +259,16 @@ class DealerBuiltClient extends AbstractDMSClient
              * @var RepairOrderJobType $job
              */
             foreach ($repairOrder->getAttributes()->getJobs() as $job) {
+                if ('Customer' != $job->getPayType()) {
+                    continue;
+                }
+
                 $recommendations[] = (new DMSResultRecommendation())
                     ->setOperationCode($job->getJobCode())
-                    ->setDescription('') //This needs to be the description from the opcode.
+                    //TODO: This needs to pull description from the result
+                    //TODO: If there is a parts node, try to tie it to the repair order: repair_order_quote_recommendation_part
+                    //TODO: don't need to validate opcodes.
+                    ->setDescription($job->getJobCodeDescription()) //This needs to be the description from the opcode.
                     ->setPreApproved(true)
                     ->setApproved(true)
                     ->setLaborHours($job->getLaborActualHoursNumeric())
@@ -252,7 +278,7 @@ class DealerBuiltClient extends AbstractDMSClient
                     ->setPartsTax(0)
                     ->setSuppliesPrice($job->getMiscFees()->getAmount())
                     ->setSuppliesTax(0)
-                    ->setNotes(substr($job->getJobCodeDescription(), 0, 255)); //TODO: Should we truncate or increase the size of the db field > 255;
+                    ->setNotes($job->getComplaint());
             }
         }
 
@@ -263,31 +289,32 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getClosedRoDetails(array $openRepairOrders): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $rosWithKeys = [];
         $rosWithoutKeys = [];
 
         /** @var RepairOrder $repairOrder */
         foreach ($openRepairOrders as $repairOrder) {
             if ($repairOrder->getDmsKey()) {
-                $rosWithKeys[] = $repairOrder;
+                $rosWithKeys[$repairOrder->getNumber()] = $repairOrder;
                 continue;
             }
 
-            $rosWithoutKeys[] = $repairOrder;
+            $rosWithoutKeys[$repairOrder->getNumber()] = $repairOrder;
         }
 
-        //TODO Shouldn't we close both?
         if ($rosWithKeys) {
             $this->closeRosWithKeys($rosWithKeys);
-
-            return [];
         }
 
         if ($rosWithoutKeys) {
             $this->closeRosWithoutKeys($rosWithoutKeys);
-
-            return [];
         }
+
+        return [];
     }
 
     /**
@@ -392,17 +419,16 @@ class DealerBuiltClient extends AbstractDMSClient
                 $job = $repairOrder->getAttributes()->getJobs()[0];
                 if ($job->getTechs()) {
                     $id = $job->getTechs()[0]->getTech()->getNumber();
-                    $technicianRecord = $this->getEntityManager()->getRepository('App:User')
-                        ->findOneBy(['dmsId ' => $id]);
+                    $technicianRecord = $this->getEntityManager()->getRepository(User::class)
+                        ->findOneBy(['dmsId' => $id]);
                     if (!$technicianRecord) {
                         $firstName = $job->getTechs()[0]->getTech()->getPersonalName()->getFirstName();
                         $lastName = $job->getTechs()[0]->getTech()->getPersonalName()->getLastName();
-                        $technicianRecord = $this->getEntityManager()->getRepository('App:User')
+                        $technicianRecord = $this->getEntityManager()->getRepository(User::class)
                             ->findOneBy(['firstName' => $firstName, 'lastName' => $lastName]);
                     }
                 }
             }
-
             // Loop over all passed ROs to get the RO in question
             if (array_key_exists($repairOrder->getAttributes()->getRepairOrderNumber(), $repairOrders)) {
                 $referenceRepairOrder = $repairOrders[$repairOrder->getAttributes()->getRepairOrderNumber()];
@@ -413,7 +439,7 @@ class DealerBuiltClient extends AbstractDMSClient
                 $this->getEntityManager()->persist($referenceRepairOrder);
                 $this->getEntityManager()->flush();
 
-                return $repairOrder;
+                return $referenceRepairOrder;
             }
         }//end closed/posted if.
 
@@ -449,6 +475,9 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getOperationCodes(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
         $operationCodes = [];
         if ($this->getSoapClient()) {
             //create authentication token
@@ -489,7 +518,7 @@ class DealerBuiltClient extends AbstractDMSClient
 
                 $operationCode = (new OperationCode())
                     ->setCode($job->getQuickCode())
-                    ->setDescription('')
+                    ->setDescription(substr($job->getComplaint(), 0, 255))//TODO Should this be a longer field.
                     ->setLaborHours($laborHours)
                     ->setLaborTaxable(true)
                     ->setPartsPrice($partsPrice)
@@ -506,14 +535,22 @@ class DealerBuiltClient extends AbstractDMSClient
 
     public function getParts(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $parts = [];
         if ($this->getSoapClient()) {
             //create authentication token
             $this->getSoapClient()->__setSoapHeaders($this->createWSSUsernameToken($this->getUsername(), $this->getPassword()));
 
+            $today = new \DateTime('now');
+            $yearAgo = $today->modify('-1 year')->format('Y-m-d');
+            $yearAgoString = sprintf('%sT00:00:00.000Z', $yearAgo);
+
             $searchCriteria = [
                 'searchCriteria' => [
-                    'MinimumAddedDate' => '2021-01-01T00:00:00.000Z',
+                    'MinimumAddedDate' => $yearAgoString,
                     'ServiceLocationIds' => [$this->getServiceLocationId()],
                 ],
             ];
@@ -526,13 +563,17 @@ class DealerBuiltClient extends AbstractDMSClient
 
             //Deserialize the soap result into objects.
             $deserializedNode = $this->getSerializer()->deserialize($result, DealerBuiltSoapEnvelopePullParts::class, 'xml');
+
+
             /**
              * @var InventoryPartType $dmsPart
              */
             foreach ($deserializedNode->getBody()->getPullPartsResponse()->getPullPartsResult() as $dmsPart) {
                 $part = new Part();
-                $part->setNumber($dmsPart->getPartKey())
-                    ->setName($dmsPart->getAttributes()->getDescription())
+                $part->setNumber($dmsPart->getAttributes()->getPartNumber())
+                //setNumber($dmsPart->getPartKey())
+                    ->setPrice($dmsPart->getAttributes()->getListPrice()->getAmount())
+                    ->setName(substr($dmsPart->getAttributes()->getDescription(), 0, 255))//TODO Should this be a longer field?
                     ->setBin($this->binProcessor($dmsPart->getAttributes()->getBins()))
                     ->setAvailable($dmsPart->getAttributes()->getOnHandQuantity());
 
@@ -541,22 +582,6 @@ class DealerBuiltClient extends AbstractDMSClient
         }
 
         return $parts;
-    }
-
-    /**
-     * @param $bins
-     */
-    public function binProcessor($bins): ?string
-    {
-        if (is_array($bins)) {
-            if (empty($bins)) {
-                return null;
-            }
-
-            return implode(', ', $bins);
-        }
-
-        return $bins;
     }
 
     public function getPostUrl(): string
@@ -619,8 +644,23 @@ class DealerBuiltClient extends AbstractDMSClient
         $this->serviceLocationId = $serviceLocationId;
     }
 
+    public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialzed
+     */
+    public function setInitialized(bool $initialized): void
+    {
+        $this->initialized = $initialized;
+    }
+
     public static function getDefaultIndexName(): string
     {
         return 'usingDealerBuilt';
     }
+
+
 }

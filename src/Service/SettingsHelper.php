@@ -253,6 +253,10 @@ class SettingsHelper
             'default_value' => 0,
             'front_end' => 'TBD',
         ],
+        'processTimeout' => [
+            'default_value' => 0,
+            'front_end' => 'Hidden',
+        ],
     ];
 
     /**
@@ -433,11 +437,11 @@ class SettingsHelper
             throw new InvalidArgumentException('Invalid Setting: '.$key);
         }
 
-        if ($value === 'false'){
+        if ('false' === $value) {
             $value = 0;
         }
 
-        if ($value === 'true'){
+        if ('true' === $value) {
             $value = 1;
         }
 
@@ -465,8 +469,6 @@ class SettingsHelper
 
     /**
      * @param $key
-     *
-     * @return Settings
      *
      * @throws Exception
      */

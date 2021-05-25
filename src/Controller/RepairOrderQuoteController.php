@@ -7,6 +7,7 @@ use App\Entity\RepairOrder;
 use App\Entity\RepairOrderQuote;
 use App\Entity\RepairOrderQuoteInteraction;
 use App\Helper\iServiceLoggerTrait;
+use App\Repository\RepairOrderQuoteRecommendationRepository;
 use App\Repository\RepairOrderQuoteRepository;
 use App\Repository\RepairOrderRepository;
 use App\Service\RepairOrderHelper;
@@ -22,7 +23,6 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -53,6 +53,13 @@ class RepairOrderQuoteController extends AbstractFOSRestController
      */
     public function getRepairOrderQuote(RepairOrderQuote $repairOrderQuote, RepairOrderQuoteHelper $helper)
     {
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($repairOrderQuote->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
+
         $groups = array_merge(RepairOrderQuote::GROUPS, ['roq_log', 'user_list', 'customer_list']);
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups($groups);
@@ -157,6 +164,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
+        if ('Completed' != $status) {
+            $repairOrderQuote->setDateCompleted(null);
+        }
 
         $em->persist($repairOrderQuote);
 
@@ -166,7 +176,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         $view = $this->view($repairOrderQuote);
         $view->getContext()->setGroups(RepairOrderQuote::GROUPS);
-        
+
         $data = $this->handleView($view)->getContent();
         $repairOrderQuoteLoghelper->createRepairOrderQuoteLog($repairOrderQuote, $data, $this->getUser());
 
@@ -215,11 +225,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new BadRequestHttpException('Missing Required Parameter: recommendations');
         }
 
-        // Check permission if quote status is Sent, Completed or Confirmed
-        $quoteStatus = $repairOrderQuote->getStatus();
-        if ('Sent' == $quoteStatus || 'Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
-            return $this->handleView($this->view("You cannot edit a quote that's been sent to the customer", Response::HTTP_FORBIDDEN));
-        }
+//        // Check permission if quote status is Sent, Completed or Confirmed
+//        $quoteStatus = $repairOrderQuote->getStatus();
+//        if ('Completed' == $quoteStatus || 'Confirmed' == $quoteStatus) {
+//            return $this->handleView($this->view('You cannot edit a completed quote', Response::HTTP_FORBIDDEN));
+//        }
 
         // Validate recommendation json
         $recommendations = json_decode($recommendations);
@@ -252,6 +262,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
+        $repairOrderQuote->setDateCompleted(null);
 
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
@@ -334,7 +345,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             ->setStatus($status);
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
-
+        if ('Completed' != $status) {
+            $repairOrderQuote->setDateCompleted(null);
+        }
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
         $em->flush();
@@ -371,7 +384,6 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         EntityManagerInterface $em,
         TwilioHelper $twilioHelper,
         SettingsHelper $settingsHelper,
-        ParameterBagInterface $parameterBag,
         RepairOrderQuoteHelper $helper,
         ShortUrlHelper $shortUrlHelper
     ): Response {
@@ -403,15 +415,18 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             ->setDateSent(new DateTime());
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
+        if ('Completed' != $status) {
+            $repairOrderQuote->setDateCompleted(null);
+        }
         // send repair order link to the customer
         $serviceTextQuote = $settingsHelper->getSetting('serviceTextQuote');
-        $customerURL = $parameterBag->get('customer_url');
-        $repairOrderURL = $customerURL . $repairOrder->getLinkHash();
+        $customerURL = $settingsHelper->getSetting('customerURL');
+        $repairOrderURL = $customerURL.$repairOrder->getLinkHash();
         $shortUrl = $shortUrlHelper->generateShortUrl($repairOrderURL);
-        $message = $serviceTextQuote . ':' . $shortUrl;
+        $message = $serviceTextQuote.':'.$shortUrl;
         $customer = $repairOrder->getPrimaryCustomer();
 
-        if (!$customer->getPhone()){
+        if (!$customer->getPhone()) {
             return $this->handleView($this->view('Customer Phone Number is empty', Response::HTTP_BAD_REQUEST));
         }
 
@@ -419,7 +434,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             $twilioHelper->sendSms($repairOrder->getPrimaryCustomer(), $message);
         } catch (Exception $e) {
             return $this->handleView($this->view(
-                'Failed to send quote to customer: ' . $e->getMessage(),
+                'Failed to send quote to customer: '.$e->getMessage(),
                 Response::HTTP_BAD_GATEWAY
             ));
         }
@@ -476,6 +491,14 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         }
         //Get RepairOrder
         $repairOrder = $repairOrderQuote->getRepairOrder();
+
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
+
         //Create RepairOrderQuoteInteraction
         $repairOrderQuoteInteraction = new RepairOrderQuoteInteraction();
         $repairOrderQuoteInteraction->setRepairOrderQuote($repairOrderQuote)
@@ -488,7 +511,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             ->setDateCustomerViewed(new DateTime());
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
-
+        if ('Completed' != $status) {
+            $repairOrderQuote->setDateCompleted(null);
+        }
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
         $em->flush();
@@ -554,7 +579,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
 
         // Update repairOrder quote_status
         $repairOrder->setQuoteStatus($status);
-
+        if ('Completed' != $status) {
+            $repairOrderQuote->setDateCompleted(null);
+        }
         $em->persist($repairOrder);
         $em->persist($repairOrderQuote);
         $em->flush();
@@ -596,6 +623,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
     public function completed(
         Request $request,
         RepairOrderQuoteRepository $repairOrderQuoteRepository,
+        RepairOrderQuoteRecommendationRepository $recommendationRepository,
         EntityManagerInterface $em,
         RepairOrderQuoteHelper $repairOrderQuoteHelper,
         RepairOrderQuoteLogHelper $repairOrderQuoteLoghelper,
@@ -612,9 +640,11 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Quote Not Found');
         }
 
-        if (in_array($repairOrderQuote->getStatus(), ['Completed', 'Confirmed'])){
-            throw new BadRequestHttpException('You can not complete an already already finished quote');
-        }
+//        if (!$this->isGranted('ROLE_SERVICE_MANAGER')) {
+//            if (in_array($repairOrderQuote->getStatus(), ['Completed', 'Confirmed'])) {
+//                throw new BadRequestHttpException('You can not complete an already already finished quote');
+//            }
+//        }
 
         $repairOrder = $repairOrderQuote->getRepairOrder();
         if ($security->isGranted('ROLE_CUSTOMER')) {
@@ -623,10 +653,15 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             }
         }
 
-        // Validate recommendation json
+        // Validate recommendation json but allow empty if there are only pre-approved
         $recommendations = json_decode($recommendations);
         if (is_null($recommendations) || !is_array($recommendations) || 0 === count($recommendations)) {
-            throw new BadRequestHttpException('Recommendation data is invalid');
+            // Only throw exception if there are non-pre-approved
+            $hasNonPreApproved = $recommendationRepository->findOneBy(['repairOrderQuote' => $repairOrderQuote, 'preApproved' => 0]);
+
+            if ($hasNonPreApproved) {
+                return $this->handleView($this->view('Recommendation data is invalid', Response::HTTP_BAD_REQUEST));
+            }
         }
 
         try {
@@ -694,7 +729,9 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         $status = 'Not Started';
         $repairOrder = $repairOrderQuote->getRepairOrder();
         $repairOrder->setQuoteStatus($status);
-
+        if ('Completed' != $status) {
+            $repairOrderQuote->setDateCompleted(null);
+        }
         //delete repairOrderQuote
         $em->remove($repairOrderQuote);
         $em->flush();
@@ -751,10 +788,10 @@ class RepairOrderQuoteController extends AbstractFOSRestController
             return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
         }
         //Check if Repair Order Quote exists
-//        $repairOrderQuote = $repairOrderQuoteRepository->findOneBy(['id' => $repairOrderQuoteID]);
-//        if (!$repairOrderQuote) {
-//            return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
-//        }
+        //        $repairOrderQuote = $repairOrderQuoteRepository->findOneBy(['id' => $repairOrderQuoteID]);
+        //        if (!$repairOrderQuote) {
+        //            return $this->handleView($this->view('Invalid repair_order_quote Parameter', Response::HTTP_BAD_REQUEST));
+        //        }
         try {
             $repairOrder = $repairOrderHelper->syncRepairOrderRecommendationsFromDMS($repairOrder);
         } catch (\Exception $e) {

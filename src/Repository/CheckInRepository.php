@@ -60,6 +60,7 @@ class CheckInRepository extends ServiceEntityRepository
      * @param null   $searchTerm
      *
      * @return Query|null
+     *
      * @throws Exception
      */
     public function getAllItems(
@@ -89,20 +90,18 @@ class CheckInRepository extends ServiceEntityRepository
                     ->setParameter('end', $end->format('Y-m-d H:i'));
             } else {
                 $qb->andWhere('ch.date < :end')
-                    ->setParameter('end', $end->format('Y-m-d H:i'));
+                   ->setParameter('end', $end->format('Y-m-d H:i'));
             }
             if ($searchTerm) {
-                $qb->andWhere("ch.identification LIKE :searchTerm")
-                    ->setParameter('searchTerm', '%' . $searchTerm . '%');
+                $qb->andWhere('ch.identification LIKE :searchTerm')
+                   ->setParameter('searchTerm', '%'.$searchTerm.'%');
             }
 
             if ($sortDirection) {
-                $qb->orderBy('ch.' . $sortField, $sortDirection);
+                $qb->orderBy('ch.'.$sortField, $sortDirection);
             } else {
                 $qb->orderBy('ch.date', 'DESC');
             }
-
-            $qb->andWHere('ch.deleted = false');
 
             return $qb->getQuery();
         } catch (NonUniqueResultException $e) {
