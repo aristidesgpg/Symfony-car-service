@@ -277,6 +277,8 @@ class RepairOrderQuoteHelper
             //Get all the current recommendations()
             $currentRecs = $repairOrderQuote->getRepairOrderQuoteRecommendations();
             $keysToPop = [];
+            $keysToUpdate = [];
+            $existingRecommendations = [];
             foreach ($recommendations as $key => $recommendation) {
                 //If the rec code is false, just ignore it.
                 //This keeps the preapproved and approved ones there.
@@ -296,28 +298,43 @@ class RepairOrderQuoteHelper
 //                }
                 $notes = $recommendation->notes; //this could change.
                 foreach ($currentRecs as $rec) {
-
                     if ($rec->getOperationCode() == $operationCode && $notes == $rec->getNotes()) {
                         //it matches
                         $keysToPop[] = $key;
+                        $existingRecommendations[] = $rec;
                         continue;
                     }
                 }
             }
             //pop the keys.
             foreach ($keysToPop as $k) {
+                $keysToUpdate[] = $recommendations[$k];
                 unset($recommendations[$k]);
-            }
+            }  
 
             foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
                 if (!$oldRecommendation->getPreApproved()) {
                     if (!$oldRecommendation->getApproved()) {
-                        $this->em->remove($oldRecommendation);
+                        $isRemove = true;
+                        foreach($existingRecommendations as $existingRecommendation) {
+                            if ($existingRecommendation->getId() == $oldRecommendation->getId()) {
+                                $isRemove = false;
+                                break;
+                            }
+                        }
+                        if ($isRemove) {
+                            $this->em->remove($oldRecommendation);
+                        }
                     }
                 }
             }
         }
 
+        foreach($keysToUpdate as $index => $update){
+            if (property_exists($update, 'parts')) {
+                $this->buildParts($existingRecommendations[$index], $update->parts, true);
+            }
+        }
 
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
@@ -434,8 +451,12 @@ class RepairOrderQuoteHelper
      *
      * @throws Exception
      */
-    public function buildParts(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation, array $parts)
+    public function buildParts(RepairOrderQuoteRecommendation $repairOrderQuoteRecommendation, array $parts, $wipeAll = false)
     {
+        $oldRecommendationParts = $repairOrderQuoteRecommendation->getRepairOrderQuoteRecommendationParts();
+        foreach ($oldRecommendationParts as $oldRecommendationPart) {
+            $this->em->remove($oldRecommendationPart);
+        }
         foreach ($parts as $part) {
             $repairOrderQuoteRecommendationPart = new RepairOrderQuoteRecommendationPart();
 
