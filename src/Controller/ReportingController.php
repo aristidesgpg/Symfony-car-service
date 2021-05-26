@@ -1484,7 +1484,7 @@ class ReportingController extends AbstractFOSRestController
      *         @SWG\Property(
      *             property="results",
      *             type="array",
-     *             @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
+     *             @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups={"rop_list", "int_list", "ipay_reporting", "ro_list", "customer_list","user_list","roq_list","rot_list","roqs_list","operation_code_list","rov_list","ror_list","roc_list","roqp_list"}))
      *         ),
      *         @SWG\Property(property="totalPayments", type="integer", description="Total # of payments"),
      *         @SWG\Property(property="totalRefunds", type="integer", description="Total # of refunds"),
