@@ -320,7 +320,7 @@ class SettingsController extends AbstractFOSRestController
         if (!is_numeric($value) || (($value < 0) || ($value > 1))){
             return false;
         } else {
-            return false;
+            return true;
         }
     }
 }
