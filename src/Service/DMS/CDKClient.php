@@ -7,6 +7,7 @@ use App\Entity\DMSResultRecommendation;
 use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
+use App\Service\SettingsHelper;
 use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\cdk\src\CDKPartsSoapEnvelope;
@@ -73,9 +74,9 @@ class CDKClient extends AbstractDMSClient
 
     private $partExtractURL;
 
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient, SettingsHelper $settingsHelper)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient, $settingsHelper);
 
         $this->dealerID = $parameterBag->get('cdk_dealer_id');
         $today = (new \DateTime())->format('m/d/Y');

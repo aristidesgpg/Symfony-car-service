@@ -9,6 +9,7 @@ use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Entity\User;
 use App\Service\PhoneValidator;
+use App\Service\SettingsHelper;
 use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\dealerbuilt\src\BaseApi\InventoryPartType;
@@ -68,9 +69,9 @@ class DealerBuiltClient extends AbstractDMSClient
      * TODO When comparing the results of this class against the original, the original returns 10 more.
      * Didn't see anything obvious as to why. Possibly one is a little more restricted >= vs >?
      */
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient, SettingsHelper $settingsHelper)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient, $settingsHelper);
         $this->serviceLocationId = $parameterBag->get('dealerbuilt_location_id');
         //TODO These should not be hard coded. Should be a param somewhere.
         $this->username = 'iservice';
