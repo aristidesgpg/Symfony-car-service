@@ -26,6 +26,7 @@ class RepairOrderPayment
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\RepairOrder")
+     * @Serializer\Groups(groups={"ipay_reporting"})
      */
     private $repairOrder;
 

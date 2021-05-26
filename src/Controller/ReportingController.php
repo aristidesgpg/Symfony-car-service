@@ -1400,8 +1400,8 @@ class ReportingController extends AbstractFOSRestController
                 'repairOrderNumber' => $ro->getNumber(),
                 'customerName' => $customer->getName(),
                 'customerPhone' => $customer->getPhone(),
-                'advisorName' => $advisor->getFirstName() . ' ' . $advisor->getLastName(),
-                'technicianName' => $technician->getFirstName() . ' ' . $technician->getLastName(),
+                'advisorName' => $advisor->getFirstName().' '.$advisor->getLastName(),
+                'technicianName' => $technician->getFirstName().' '.$technician->getLastName(),
                 'templateName' => $mpiTemplateName,
                 'repairOrderMpi' => $roMpi,
             ];
@@ -1551,7 +1551,7 @@ class ReportingController extends AbstractFOSRestController
         }
 
         if (!empty($errors)) {
-            return $this->handleView($this->view('Errors: ' . implode(', ', $errors), Response::HTTP_BAD_REQUEST));
+            return $this->handleView($this->view('Errors: '.implode(', ', $errors), Response::HTTP_BAD_REQUEST));
         }
 
         $repairOrders = $ro->getRepairOrdersBy(
@@ -1604,7 +1604,7 @@ class ReportingController extends AbstractFOSRestController
 
         $view = $this->view($json);
 
-        $view->getContext()->setGroups(RepairOrderPayment::GROUPS);
+        $view->getContext()->setGroups(array_merge(RepairOrder::GROUPS, RepairOrderPayment::GROUPS, ['ipay_reporting']));
 
         return $this->handleView($view);
     }
