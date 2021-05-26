@@ -1484,16 +1484,7 @@ class ReportingController extends AbstractFOSRestController
      *         @SWG\Property(
      *             property="results",
      *             type="array",
-     *             @SWG\Items(
-     *                  @SWG\Property(
-     *                      property="repairOrder",
-     *                      @SWG\Items(ref=@Model(type=RepairOrder::class, groups=RepairOrder::GROUPS))
-     *                  ),
-     *                  @SWG\Property(
-     *                      property="repairOrderPayment",
-     *                      @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups=RepairOrderPayment::GROUPS))
-     *                  )
-     *             )
+     *             @SWG\Items(ref=@Model(type=RepairOrderPayment::class, groups={"rop_list", "int_list", "ipay_reporting", "ro_list", "customer_list","user_list","roq_list","rot_list","roqs_list","operation_code_list","rov_list","ror_list","roc_list","roqp_list"}))
      *         ),
      *         @SWG\Property(property="totalPayments", type="integer", description="Total # of payments"),
      *         @SWG\Property(property="totalRefunds", type="integer", description="Total # of refunds"),
@@ -1527,7 +1518,6 @@ class ReportingController extends AbstractFOSRestController
         $sortField = $sortDirection = $searchTerm = null;
         $errors = [];
 
-        // Get column names of RepairOrderPayment for sorting
         $columns = $em->getClassMetadata('App\Entity\RepairOrderPayment')->getFieldNames();
 
         // Invalid page
@@ -1590,14 +1580,10 @@ class ReportingController extends AbstractFOSRestController
 
         $totalRepairOrderPayments = [];
         foreach ($roPayments as $rop) {
-            $ro = $rop->getRepairOrder();
-            if (in_array($ro->getId(), $roIds)) {
-                if (!$rop->getRefundedAmountString()) {
-                    $totalRepairOrderPayments[] = ['repairOrder' => $ro, 'repairOrderPayment' => $rop];
-                    $totalPayments += $rop->getAmountString();
-                } else {
-                    $totalRefunds += $rop->getRefundedAmountString();
-                }
+            if (in_array($rop->getRepairOrder()->getId(), $roIds)) {
+                $totalRepairOrderPayments[] = $rop;
+                $totalPayments += $rop->getAmountString();
+                $totalRefunds += $rop->getRefundedAmountString();
             }
         }
 
@@ -1618,7 +1604,7 @@ class ReportingController extends AbstractFOSRestController
 
         $view = $this->view($json);
 
-        $view->getContext()->setGroups(array_merge(RepairOrder::GROUPS, RepairOrderPayment::GROUPS));
+        $view->getContext()->setGroups(array_merge(RepairOrder::GROUPS, RepairOrderPayment::GROUPS, ['ipay_reporting']));
 
         return $this->handleView($view);
     }
