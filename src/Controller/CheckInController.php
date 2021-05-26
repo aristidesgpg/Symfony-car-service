@@ -136,7 +136,6 @@ class CheckInController extends AbstractFOSRestController
         }
 
         if ($request->query->has('searchTerm')) {
-
             $searchTerm = $request->query->get('searchTerm');
 
             $urlParameters['searchTerm'] = $searchTerm;
@@ -203,13 +202,8 @@ class CheckInController extends AbstractFOSRestController
      *     description="Invalid page parameter"
      * )
      *
-     * @param Request                $request
-     * @param CheckInHelper          $helper
-     * @param EntityManagerInterface $em
-     *
      * @return Response
      */
-
     public function new(Request $request, CheckInHelper $helper, EntityManagerInterface $em)
     {
         $file = $request->files->get('video');
@@ -218,7 +212,7 @@ class CheckInController extends AbstractFOSRestController
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
         } else {
-            if ($file->getError() !== UPLOAD_ERR_OK) {
+            if (UPLOAD_ERR_OK !== $file->getError()) {
                 return new ValidationResponse(['video' => $file->getErrorMessage()]);
             }
         }

@@ -22,7 +22,7 @@ MySQL Version: 5.7.31
 
         This will lead you to iService3 docker container bash
         
-4. (OPTIONAL) If you would like to set up your database in a third party database tool, create a new session using 127.0.0.1 as the host and 3307 as the port with a username/password of root/password
+4. (OPTIONAL) If you would like to set up your database in a third party database tool, create a new session using 127.0.0.1 as the host and 3307 as the port with a username/password of root/6&ydM85oUR!w
 
 5. Now that you are able to install composer packages and doctrine migrations
 

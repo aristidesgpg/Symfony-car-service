@@ -46,6 +46,10 @@ class TwilioHelper
     {
         $phone = $customer->getPhone();
 
+        if (!$phone) {
+            return false;
+        }
+
         // Try to validate the phone number
         try {
             $phone = $this->phoneValidator->clean($phone);

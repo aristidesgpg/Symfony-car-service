@@ -57,9 +57,9 @@ class SyncOperationCodes extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $offHoursIntegration = $this->getSettingsHelper()->getSetting('offHoursIntegration') ? true : false;
+        $openLate = $this->getSettingsHelper()->getSetting('openLate') ? true : false;
         // If using cdk and the dealer's service department isn't 24/7
-        if ('usingCdk' == $this->getDms()->getActiveDMS() && !$offHoursIntegration) {
+        if ('usingCdk' == $this->getDms()->getActiveDMS() && !$openLate) {
             $now = new DateTime();
             $startTime = new DateTime($now->format('Y-m-d 03:00:00'));
             $endTime = new DateTime($now->format('Y-m-d 22:00:00'));

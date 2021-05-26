@@ -3,6 +3,7 @@
 namespace App\Service\DMS;
 
 use App\Service\PhoneValidator;
+use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\BaseTypesHandler;
@@ -10,6 +11,8 @@ use GoetasWebservices\Xsd\XsdToPhpRuntime\Jms\Handler\XmlSchemaDateHandler;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use JMS\Serializer\Handler\HandlerRegistryInterface;
+use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\Serializer;
 use JMS\Serializer\SerializerBuilder;
 use SoapFault;
@@ -60,16 +63,22 @@ abstract class AbstractDMSClient implements DMSClientInterface
      * @var
      */
     private $guzzleType;
+    /**
+     * @var SlackClient
+     */
+    private $slackClient;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 PhoneValidator $phoneValidator,
                                 ParameterBagInterface $parameterBag,
-                                ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
+                                ThirdPartyAPILogHelper $thirdPartyAPILogHelper,
+                                SlackClient $slackClient)
     {
         $this->entityManager = $entityManager;
         $this->phoneValidator = $phoneValidator;
         $this->parameterBag = $parameterBag;
         $this->thirdPartyAPILogHelper = $thirdPartyAPILogHelper;
+        $this->slackClient = $slackClient;
     }
 
     public function buildSerializer(string $dir, string $namespacePrefix = '')
@@ -84,6 +93,13 @@ abstract class AbstractDMSClient implements DMSClientInterface
         $this->serializer = $serializerBuilder->build();
     }
 
+    public function buildEmptySerializer()
+    {
+        $this->serializer = SerializerBuilder::create()
+            ->setPropertyNamingStrategy(new SerializedNameAnnotationStrategy(new IdenticalPropertyNamingStrategy()))
+            ->build();
+    }
+
     public function initializeSoapClient(string $wsdl, $options = [])
     {
         $options = array_merge(
@@ -95,7 +111,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
         try {
             $this->soapClient = new \SoapClient($wsdl, $options);
         } catch (\SoapFault $e) {
-            $this->logError($this->getWsdl(), $e->getMessage());
+            $this->logError($this->getWsdl(), $e->getMessage(), false, true);
         }
     }
 
@@ -127,7 +143,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
         //It should validate against the wsdl before the call to make sure its correct.
         try {
             $result = $this->getSoapClient()->__soapCall($name, $args);
-            //dump($this->getSoapClient()->__getLastResponse());
+
             if ($returnLastResponse) {
                 return $this->getSoapClient()->__getLastResponse();
             }
@@ -135,7 +151,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
             return $result;
         } catch (SoapFault $e) {
             //dd($e->getMessage());
-            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage());
+            $this->logError($this->getSoapClient()->__getLastRequestHeaders(), $e->getMessage(), false, true);
         }
 
         return null;
@@ -174,7 +190,7 @@ abstract class AbstractDMSClient implements DMSClientInterface
                     $e->getResponse()->getStatusCode(),
                     $e->getResponse()->getBody()->getContents()
                 );
-                $this->logError($uri, $error, true);
+                $this->logError($uri, $error, true, true);
             }
         }
 
@@ -214,12 +230,12 @@ abstract class AbstractDMSClient implements DMSClientInterface
     private function phoneNormalizerParser($phoneNumber)
     {
         try {
-            $cleaned = $this->getPhoneValidator()->clean($phoneNumber);
-            $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
-            if ($isMobile) {
-                //Found a valid mobile number.
-                return $phoneNumber;
-            }
+            return $this->getPhoneValidator()->clean($phoneNumber);
+//            $isMobile = $this->getPhoneValidator()->isMobile($cleaned);
+//            if ($isMobile) {
+//                //Found a valid mobile number.
+//                return $phoneNumber;
+//            }
         } catch (\Exception $exception) {
             //Couldn't validate phone.
         }
@@ -265,10 +281,26 @@ abstract class AbstractDMSClient implements DMSClientInterface
     /**
      * @param $request
      * @param $response
-     * @param bool $isRest
      */
-    public function logError($request, $response, $isRest = false)
+    public function logError($request, $response, bool $isRest = false, bool $exception = false)
     {
+        $desiredLen = 3000000;
+        if (strlen($response) > $desiredLen) {
+            $response = substr($response, 0, $desiredLen);
+        }
+
+        //        $this->settingsHelper->getSetting('generalName');
+        if ($exception) {
+            $message = sprintf('Request: %s, Response: %s', $request, $response);
+            if (!str_contains($response, 'There was an error pulling repaire orders for the roNumber')) {
+                if ('prod' == $this->getParameterBag()->get('app_env')) {
+                    $this->getSlackClient()->sendMessage('Mr.Robot', $message);
+                }
+            }
+
+
+        }
+
         if ($isRest) {
             $this->getThirdPartyAPILogHelper()->commitAPILog($request, null, $response, $isRest);
         } else {
@@ -277,80 +309,66 @@ abstract class AbstractDMSClient implements DMSClientInterface
     }
 
     /**
-     * @return Serializer
+     * @param $bins
      */
+    public function binProcessor($bins): ?string
+    {
+        if (is_array($bins)) {
+            if (empty($bins)) {
+                return null;
+            }
+
+            return implode(', ', array_filter($bins));
+        }
+
+        return $bins;
+    }
+
     public function getSerializer(): Serializer
     {
         return $this->serializer;
     }
 
-    /**
-     * @param Serializer $serializer
-     */
     public function setSerializer(Serializer $serializer): void
     {
         $this->serializer = $serializer;
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
     public function getEntityManager(): EntityManagerInterface
     {
         return $this->entityManager;
     }
 
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
     public function setEntityManager(EntityManagerInterface $entityManager): void
     {
         $this->entityManager = $entityManager;
     }
 
-    /**
-     * @return PhoneValidator
-     */
     public function getPhoneValidator(): PhoneValidator
     {
         return $this->phoneValidator;
     }
 
-    /**
-     * @param PhoneValidator $phoneValidator
-     */
     public function setPhoneValidator(PhoneValidator $phoneValidator): void
     {
         $this->phoneValidator = $phoneValidator;
     }
 
-    /**
-     * @return ParameterBagInterface
-     */
     public function getParameterBag(): ParameterBagInterface
     {
         return $this->parameterBag;
     }
 
-    /**
-     * @param ParameterBagInterface $parameterBag
-     */
     public function setParameterBag(ParameterBagInterface $parameterBag): void
     {
         $this->parameterBag = $parameterBag;
     }
 
-    /**
-     * @return ThirdPartyAPILogHelper
-     */
     public function getThirdPartyAPILogHelper(): ThirdPartyAPILogHelper
     {
         return $this->thirdPartyAPILogHelper;
     }
 
-    /**
-     * @param ThirdPartyAPILogHelper $thirdPartyAPILogHelper
-     */
     public function setThirdPartyAPILogHelper(ThirdPartyAPILogHelper $thirdPartyAPILogHelper): void
     {
         $this->thirdPartyAPILogHelper = $thirdPartyAPILogHelper;
@@ -402,5 +420,15 @@ abstract class AbstractDMSClient implements DMSClientInterface
     public function setGuzzleType($guzzleType): void
     {
         $this->guzzleType = $guzzleType;
+    }
+
+    public function getSlackClient(): SlackClient
+    {
+        return $this->slackClient;
+    }
+
+    public function setSlackClient(SlackClient $slackClient): void
+    {
+        $this->slackClient = $slackClient;
     }
 }

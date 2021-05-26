@@ -3,9 +3,14 @@
 namespace App\Service\DMS;
 
 use App\Entity\DMSResult;
+use App\Entity\DMSResultRecommendation;
+use App\Entity\Part;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
+use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
+use App\Soap\cdk\src\CDKPartsSoapEnvelope;
+use App\Soap\cdk\src\Parts;
 use App\Soap\cdk\src\ServiceRepairOrderClosed;
 use App\Soap\cdk\src\ServiceRepairOrderOpen;
 use App\Soap\cdk\src\ServiceRODetailClosed;
@@ -59,9 +64,18 @@ class CDKClient extends AbstractDMSClient
      */
     private $client;
 
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper)
+    /**
+     * @var bool
+     */
+    private $initialized = false;
+
+    private $partsBaseURI = 'https://3pa.dmotorworks.com/pip-extract/parts/extract';
+
+    private $partExtractURL;
+
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
 
         $this->dealerID = $parameterBag->get('cdk_dealer_id');
         $today = (new \DateTime())->format('m/d/Y');
@@ -70,6 +84,7 @@ class CDKClient extends AbstractDMSClient
         $this->openROExtractURL = 'service-ro-open/extract?dealerId='.$this->dealerID.'&queryId=SROD_Open_WIP';
         $this->singleROExtractURL = 'service-ro-open/extract?dealerId='.$this->dealerID.'&queryId=SROD_ByRONumber&timeoutSeconds=2700&qparamRONum=';
         $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate='.$today.'&qparamEndDate='.$today;
+        $this->partExtractURL .= '?dealerId='.$this->dealerID.'&queryId=PINV_Bulk';
 
         if ('dev' == $parameterBag->get('app_env')) {
             $this->baseURI = 'https://uat-3pa.dmotorworks.com/pip-extract/';
@@ -77,11 +92,14 @@ class CDKClient extends AbstractDMSClient
             $this->singleROExtractURL = 'service-ro-open/extract?dealerId='.$this->dealerID.'&queryId=SROD_ByRONumber&timeoutSeconds=2700&qparamRONum=';
             $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate='.$today.'&qparamEndDate='.$today;
 
+            $this->partsBaseURI = 'https://uat-3pa.dmotorworks.com/pip-extract/parts/extract';
+            $this->partExtractURL = '?dealerId='.$this->dealerID.'&queryId=PINV_Bulk';
+
             //TODO Only used for testing.
             $this->closedROExtractURL = 'service-ro-closed/extract?dealerId='.$this->dealerID.'&queryId=SROD_Closed_DateRange&qparamStartDate=1/1/2020&qparamEndDate=12/31/2020';
         }
 
-        $this->init();
+        //$this->init();
     }
 
     public function init(): void
@@ -90,10 +108,15 @@ class CDKClient extends AbstractDMSClient
 
         $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
         $this->initializeGuzzleClient($this->getBaseURI(), $options);
+        $this->setInitialized(true);
     }
 
     public function getOpenRepairOrders(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrders = [];
 
         if ($this->getGuzzleClient()) {
@@ -121,6 +144,10 @@ class CDKClient extends AbstractDMSClient
 
     public function getClosedRoDetails(array $entityRepairOrders): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         // Collect all the ro numbers in an array to compare against
         $openRepairOrderNumbers = [];
         $closedRepairOrders = [];
@@ -166,7 +193,7 @@ class CDKClient extends AbstractDMSClient
                         ->setFinalValue($repairOrder->getPayCPTotal());
                     $this->getEntityManager()->persist($entityRepairOrder);
                     $this->getEntityManager()->flush();
-                    $closedRepairOrders[] = $repairOrder;
+                    $closedRepairOrders[] = $entityRepairOrder;
                 }
             }
         }
@@ -174,24 +201,29 @@ class CDKClient extends AbstractDMSClient
         return $closedRepairOrders;
     }
 
-
     /**
      * @param $RONumber
      */
     public function addRepairOrderByNumber($RONumber)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         return $this->getRepairOrderByNumber($RONumber);
     }
 
     /**
      * Checks if the passed RO# exists in the DMS and pulls it if it does.
      *
-     * @param string $RONumber
-     *
      * @return false|object
      */
     public function getRepairOrderByNumber(string $RONumber)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $repairOrder = null;
 
         if ($this->getGuzzleClient()) {
@@ -200,11 +232,11 @@ class CDKClient extends AbstractDMSClient
             if (!$response) {
                 return $repairOrder;
             }
-            /**
+            /*
              * @var ServiceRepairOrderOpen $repairOrder
              */
-            foreach ($response->getServiceRepairOrderOpen() as $repairOrder) {
-                $ro = $this->extractROInfo($repairOrder);
+            foreach ($response->getServiceRepairOrderOpen() as $repairOrderResult) {
+                $ro = $this->extractROInfo($repairOrderResult);
                 if (!$ro) {
                     continue;
                 }
@@ -224,14 +256,21 @@ class CDKClient extends AbstractDMSClient
      */
     private function sendRequest($url, $deserializationClass)
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         $rawResponse = $this->sendGuzzleRequest($url);
 
         if ($rawResponse) {
             // Not an error, but logs the request/response for compliance
             // If there is an error, then we log when we do the guzzle request.
-            $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $rawResponse, true);
+            $this->logError($url, $rawResponse, true);
         }
 
+        if (!$rawResponse) {
+            return null;
+        }
         $response = $this->getSerializer()->deserialize($rawResponse, $deserializationClass, 'xml');
 
         if (!$response) {
@@ -239,7 +278,7 @@ class CDKClient extends AbstractDMSClient
         }
 
         if (0 != $response->getErrorCode()) {
-            $this->logError($this->getBaseURI().$this->getOpenROExtractURL(), $response->getErrorMessage(), true);
+            $this->logError($url, $response->getErrorMessage(), true, true);
         }
 
         return $response;
@@ -325,6 +364,58 @@ class CDKClient extends AbstractDMSClient
             $dmsResult->setModel($repairOrder->getModel());
         }
 
+        $opcode = $repairOrder->getStatusCode();
+        // If there is no opcode, set it as MISC.
+        if (empty($opcode)) {
+            $opcode = 'MISC';
+        }
+
+        // Get total supplies tax
+        $suppliesTax = 0;
+        if (is_array($repairOrder->getTotSupp2Tax())) {
+            $suppliesTax += array_sum($repairOrder->getTotSupp2Tax());
+        }
+        if (is_array($repairOrder->getTotSupp3Tax())) {
+            $suppliesTax += array_sum($repairOrder->getTotSupp3Tax());
+        }
+        if (is_array($repairOrder->getTotSupp4Tax())) {
+            $suppliesTax += array_sum($repairOrder->getTotSupp4Tax());
+        }
+
+        $laborHours = 0;
+        if (is_array($repairOrder->getTotActualHours())) {
+            $laborHours += array_sum($repairOrder->getTotActualHours());
+        }
+
+        $totalPartsPrice = 0;
+        if (is_array($repairOrder->getTotPartsCost())) {
+            $totalPartsPrice += array_sum($repairOrder->getTotPartsCost());
+        }
+
+        $opCodeDescription = sprintf('%s',
+            $repairOrder->getFeeOpCodeDesc()->getV()
+        );
+
+        $notes = sprintf('%s',
+            $repairOrder->getLinServiceRequest()->getV()
+        );
+
+        $recommendations[] = (new DMSResultRecommendation())
+            ->setOperationCode($opcode)
+            ->setDescription($opCodeDescription)
+            ->setPreApproved(true)
+            ->setApproved(true)
+            ->setLaborHours($laborHours)
+            ->setLaborPrice(0)
+            ->setLaborTax(0)
+            ->setPartsPrice($totalPartsPrice)
+            ->setPartsTax(0)
+            ->setSuppliesPrice(0)
+            ->setSuppliesTax($suppliesTax)
+            ->setNotes($notes);
+
+        $dmsResult->setRecommendations($recommendations);
+
         return $dmsResult;
     }
 
@@ -349,17 +440,52 @@ class CDKClient extends AbstractDMSClient
         return parent::phoneNormalizer($phoneNumbers->value());
     }
 
-
     public function getOperationCodes(): array
     {
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+
         // TODO: Implement getOperationCodes() method.
         throw new AccessDeniedException('Not Implemented for this DMS.');
     }
 
     public function getParts(): array
     {
-        throw new AccessDeniedException('Not Implemented for this DMS.');
+        if (!$this->isInitialized()) {
+            $this->init();
+        }
+        $options = ['auth' => [$this->getUsername(), $this->getPassword()]];
+        $this->initializeGuzzleClient($this->getPartsBaseURI(), $options);
+        $parts = [];
+
+        if ($this->getGuzzleClient()) {
+            $response = $this->sendRequest($this->getPartExtractURL(), Parts::class);
+
+            if (!$response) {
+                return $parts;
+            }
+
+
+            /**
+             * @var Parts\PartsInventoryAType $result
+             */
+            foreach ($response->getPartsInventory() as $result) {
+                $part = (new Part())
+                    ->setNumber($result->getPartNumber())
+                    ->setName($result->getDescription())
+                    ->setBin($this->binProcessor([$result->getBin1(), $result->getBin2(), $result->getBin3()]))
+                    ->setAvailable($result->getOnHand())
+                    ->setPrice($result->getList());
+
+                $parts[] = $part;
+            }
+        }
+
+        return $parts;
     }
+
+
 
     public static function getDefaultIndexName(): string
     {
@@ -450,5 +576,50 @@ class CDKClient extends AbstractDMSClient
     public function setClient($client): void
     {
         $this->client = $client;
+    }
+
+    public function isInitialized(): bool
+    {
+        return $this->initialized;
+    }
+
+    /**
+     * @param bool $initialzed
+     */
+    public function setInitialized(bool $initialized): void
+    {
+        $this->initialized = $initialized;
+    }
+
+    public function getPartsBaseURI(): string
+    {
+        return $this->partsBaseURI;
+    }
+
+    public function setPartsBaseURI(string $partsBaseURI): CDKClient
+    {
+        $this->partsBaseURI = $partsBaseURI;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPartExtractURL()
+    {
+        return $this->partExtractURL;
+    }
+
+    /**
+     * @param mixed $partExtractURL
+     *
+     * @return CDKClient
+     */
+    public function setPartExtractURL($partExtractURL)
+    {
+        $this->partExtractURL = $partExtractURL;
+
+        return $this;
     }
 }

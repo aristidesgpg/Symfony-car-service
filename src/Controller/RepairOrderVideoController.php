@@ -62,6 +62,13 @@ class RepairOrderVideoController extends AbstractFOSRestController
             throw new NotFoundHttpException('Repair Order Not Found');
         }
 
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
+
         $videos = [];
         foreach ($repairOrder->getVideos() as $video) {
             if ($video->isDeleted()) {
@@ -133,12 +140,12 @@ class RepairOrderVideoController extends AbstractFOSRestController
         $file = $request->files->get('video');
         if (!$file instanceof UploadedFile) {
             return new ValidationResponse(['video' => 'File upload failed']);
-        } elseif ($file->getError() !== UPLOAD_ERR_OK) {
+        } elseif (UPLOAD_ERR_OK !== $file->getError()) {
             return new ValidationResponse(['video' => $file->getErrorMessage()]);
         }
 
         $user = $this->getUser();
-        if (!$user instanceof User || $user->getId() === null) {
+        if (!$user instanceof User || null === $user->getId()) {
             $user = null;
         }
 
@@ -194,6 +201,13 @@ class RepairOrderVideoController extends AbstractFOSRestController
         if (!$repairOrderVideo) {
             throw new NotFoundHttpException('Repair Order Video Not Found');
         }
+
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($repairOrderVideo->getRepairOrder()->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
 
         $user = $this->getUser();
         if (!$user instanceof Customer && !$user instanceof User) {

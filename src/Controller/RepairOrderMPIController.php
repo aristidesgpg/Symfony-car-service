@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\RepairOrderMPI;
 use App\Entity\RepairOrderMPIInteraction;
 use App\Helper\iServiceLoggerTrait;
@@ -167,6 +168,13 @@ class RepairOrderMPIController extends AbstractFOSRestController
         }
 
         $repairOrder = $repairOrderMPI->getRepairOrder();
+
+//        // Check if customer role and not customer's RO
+//        if ($this->isGranted('ROLE_CUSTOMER')) {
+//            if ($repairOrder->getPrimaryCustomer()->getId() != $this->getUser()->getId()) {
+//                return $this->handleView($this->view('Not Authorized', Response::HTTP_UNAUTHORIZED));
+//            }
+//        }
 
         //Create RepairOrderMPIInteraction
         $repairOrderMPIInteraction = new RepairOrderMPIInteraction();
