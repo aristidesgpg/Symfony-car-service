@@ -291,6 +291,10 @@ class SettingsHelper
             $settingsSynced = $settingsSynced + 1;
         }
 
+        // Check and Update any setting that are text boolean to 0 or 1
+        $dbSettingsValues = $this->em->getRepository(Settings::class)->findAll();
+        $this->updateBooleansToNumeric($dbSettingsValues);
+
         return $settingsSynced;
     }
 
@@ -503,5 +507,21 @@ class SettingsHelper
     public function getFrontendPathSettings(): array
     {
         return $this->settingsIterator('front_end');
+    }
+
+    public function updateBooleansToNumeric($dbSettingsValues)
+    {
+        foreach ($dbSettingsValues as $value) {
+            if ('false' == $value->getValue()) {
+                $value->setValue(0);
+                $this->em->persist($value);
+                $this->em->flush();
+            }
+            if ('true' == $value->getValue()) {
+                $value->setValue(1);
+                $this->em->persist($value);
+                $this->em->flush();
+            }
+        }
     }
 }
