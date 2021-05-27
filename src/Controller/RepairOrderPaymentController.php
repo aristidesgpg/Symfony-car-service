@@ -21,6 +21,8 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Throwable;
 use Twilio\Exceptions\TwilioException;
 
@@ -550,9 +552,26 @@ class RepairOrderPaymentController extends AbstractFOSRestController
     public function sendReceipt(
         Request $request,
         PaymentHelper $helper,
-        RepairOrderPaymentRepository $repairOrderPaymentRepository
+        RepairOrderPaymentRepository $repairOrderPaymentRepository,
+        ValidatorInterface $validator
     ): Response {
         $repairOrderPaymentId = $request->get('repairOrderPaymentId');
+        $email = $request->request->get('email');
+
+        // check if params are valid
+        if (!$email) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
+
+        // Check if valid email.
+        $emailConstraint = new Assert\Email();
+        $errors = $validator->validate(
+            $email,
+            $emailConstraint
+        );
+        if (count($errors) > 0) {
+            return $this->handleView($this->view('Missing Required Parameter', Response::HTTP_BAD_REQUEST));
+        }
 
         // check if params are valid
         if (!$repairOrderPaymentId) {
@@ -599,7 +618,7 @@ class RepairOrderPaymentController extends AbstractFOSRestController
         $text = 'Receipt sent';
         $code = Response::HTTP_OK;
         try {
-            $helper->sendReceipt($rop, $request->request->get('email'));
+            $helper->sendReceipt($rop, $email);
         } catch (Throwable $e) {
             $text = 'Could not send receipt';
             $code = Response::HTTP_INTERNAL_SERVER_ERROR;

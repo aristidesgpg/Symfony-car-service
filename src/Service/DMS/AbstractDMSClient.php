@@ -3,6 +3,7 @@
 namespace App\Service\DMS;
 
 use App\Service\PhoneValidator;
+use App\Service\SettingsHelper;
 use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -67,18 +68,24 @@ abstract class AbstractDMSClient implements DMSClientInterface
      * @var SlackClient
      */
     private $slackClient;
+    /**
+     * @var SettingsHelper
+     */
+    private $settingsHelper;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 PhoneValidator $phoneValidator,
                                 ParameterBagInterface $parameterBag,
                                 ThirdPartyAPILogHelper $thirdPartyAPILogHelper,
-                                SlackClient $slackClient)
+                                SlackClient $slackClient,
+                                SettingsHelper $settingsHelper)
     {
         $this->entityManager = $entityManager;
         $this->phoneValidator = $phoneValidator;
         $this->parameterBag = $parameterBag;
         $this->thirdPartyAPILogHelper = $thirdPartyAPILogHelper;
         $this->slackClient = $slackClient;
+        $this->settingsHelper = $settingsHelper;
     }
 
     public function buildSerializer(string $dir, string $namespacePrefix = '')
@@ -289,16 +296,18 @@ abstract class AbstractDMSClient implements DMSClientInterface
             $response = substr($response, 0, $desiredLen);
         }
 
-        //        $this->settingsHelper->getSetting('generalName');
         if ($exception) {
-            $message = sprintf('Request: %s, Response: %s', $request, $response);
+            $name = 'Unknown';
+            try {
+                $name = $this->settingsHelper->getSetting('generalName');
+            } catch (\Exception $e) {
+            }
+            $message = sprintf('Dealer: %s \nRequest: %sResponse: %s', $name, $request, $response);
             if (!str_contains($response, 'There was an error pulling repaire orders for the roNumber')) {
                 if ('prod' == $this->getParameterBag()->get('app_env')) {
                     $this->getSlackClient()->sendMessage('Mr.Robot', $message);
                 }
             }
-
-
         }
 
         if ($isRest) {
@@ -430,5 +439,17 @@ abstract class AbstractDMSClient implements DMSClientInterface
     public function setSlackClient(SlackClient $slackClient): void
     {
         $this->slackClient = $slackClient;
+    }
+
+    public function getSettingsHelper(): SettingsHelper
+    {
+        return $this->settingsHelper;
+    }
+
+    public function setSettingsHelper(SettingsHelper $settingsHelper): AbstractDMSClient
+    {
+        $this->settingsHelper = $settingsHelper;
+
+        return $this;
     }
 }

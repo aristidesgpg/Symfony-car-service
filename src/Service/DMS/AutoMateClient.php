@@ -6,6 +6,7 @@ use App\Entity\DMSResult;
 use App\Entity\DMSResultRecommendation;
 use App\Entity\RepairOrder;
 use App\Service\PhoneValidator;
+use App\Service\SettingsHelper;
 use App\Service\SlackClient;
 use App\Service\ThirdPartyAPILogHelper;
 use App\Soap\automate\json\OperationCode;
@@ -59,9 +60,9 @@ class AutoMateClient extends AbstractDMSClient
 
     private $operationCodesUri = 'service_operations';
 
-    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient)
+    public function __construct(EntityManagerInterface $entityManager, PhoneValidator $phoneValidator, ParameterBagInterface $parameterBag, ThirdPartyAPILogHelper $thirdPartyAPILogHelper, SlackClient $slackClient, SettingsHelper $settingsHelper)
     {
-        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient);
+        parent::__construct($entityManager, $phoneValidator, $parameterBag, $thirdPartyAPILogHelper, $slackClient, $settingsHelper);
 
         $this->endpointID = $parameterBag->get('automate_endpoint_id');
         // Use staging credentials if in dev environment
