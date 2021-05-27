@@ -313,7 +313,7 @@ class RepairOrderWaiverController extends AbstractFOSRestController
         try {
             $twilioHelper->sendSms($ro->getPrimaryCustomer(), $waiverMessage);
         } catch (Exception $e) {
-            throw new Exception($e);
+            return $this->handleView($this->view($e->getMessage(), Response::HTTP_BAD_REQUEST));
         }
 
         // Add an interaction Waiver Resent
