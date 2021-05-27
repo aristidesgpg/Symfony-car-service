@@ -145,7 +145,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         try {
             $helper->validateRecommendationsJson($recommendations);
 
-            $helper->buildRecommendations($repairOrderQuote, $recommendations);
+            $helper->buildRecommendations($repairOrderQuote, $recommendations, true);
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
@@ -240,7 +240,7 @@ class RepairOrderQuoteController extends AbstractFOSRestController
         try {
             $repairOrderQuoteHelper->validateRecommendationsJson($recommendations);
 
-            $repairOrderQuoteHelper->buildRecommendations($repairOrderQuote, $recommendations);
+            $repairOrderQuoteHelper->buildRecommendations($repairOrderQuote, $recommendations, true);
         } catch (Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }

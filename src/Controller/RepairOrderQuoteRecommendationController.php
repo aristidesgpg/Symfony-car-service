@@ -82,7 +82,7 @@ class RepairOrderQuoteRecommendationController extends AbstractFOSRestController
         try {
             $repairOrderQuoteHelper->validateRecommendationsJson($obj);
 
-            $repairOrderQuoteHelper->buildRecommendations($repairOrderQuote, $obj);
+            $repairOrderQuoteHelper->buildRecommendations($repairOrderQuote, $obj, true);
         } catch (\Exception $e) {
             throw new BadRequestHttpException($e->getMessage());
         }

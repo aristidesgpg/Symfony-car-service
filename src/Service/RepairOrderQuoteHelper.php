@@ -270,71 +270,71 @@ class RepairOrderQuoteHelper
             }
         }
 
-        //TODO FIX THIS SPAGHETTI MESS
-        //If no wipe flags are set, we try to keep the existing Recs and only insert the new.
-        //These are usually edited within from iService.
-        if (!$wipeAll && !$wipePreApproved) {
-            //Get all the current recommendations()
-            $currentRecs = $repairOrderQuote->getRepairOrderQuoteRecommendations();
-            $keysToPop = [];
-            $keysToUpdate = [];
-            $existingRecommendations = [];
-            foreach ($recommendations as $key => $recommendation) {
-                //If the rec code is false, just ignore it.
-                //This keeps the preapproved and approved ones there.
-                $preApproved = filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN);
-                $approved = filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN);
-                if (!$preApproved) {
-                    if(!$approved){
-                        continue;
-                    }
-                }
-
-                //Pre-approved(probably pre existing), try to find it
-                //Values that we match back on. This is very loose
-                $operationCode = $recommendation->operationCode;
-//                if($operationCode == 'MISC'){
-//                    continue;
+//        //TODO FIX THIS SPAGHETTI MESS
+//        //If no wipe flags are set, we try to keep the existing Recs and only insert the new.
+//        //These are usually edited within from iService.
+//        if (!$wipeAll && !$wipePreApproved) {
+//            //Get all the current recommendations()
+//            $currentRecs = $repairOrderQuote->getRepairOrderQuoteRecommendations();
+//            $keysToPop = [];
+//            $keysToUpdate = [];
+//            $existingRecommendations = [];
+//            foreach ($recommendations as $key => $recommendation) {
+//                //If the rec code is false, just ignore it.
+//                //This keeps the preapproved and approved ones there.
+//                $preApproved = filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN);
+//                $approved = filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN);
+//                if (!$preApproved) {
+//                    if(!$approved){
+//                        continue;
+//                    }
 //                }
-                $notes = $recommendation->notes; //this could change.
-                foreach ($currentRecs as $rec) {
-                    if ($rec->getOperationCode() == $operationCode && $notes == $rec->getNotes()) {
-                        //it matches
-                        $keysToPop[] = $key;
-                        $existingRecommendations[] = $rec;
-                        continue;
-                    }
-                }
-            }
-            //pop the keys.
-            foreach ($keysToPop as $k) {
-                $keysToUpdate[] = $recommendations[$k];
-                unset($recommendations[$k]);
-            }  
+//
+//                //Pre-approved(probably pre existing), try to find it
+//                //Values that we match back on. This is very loose
+//                $operationCode = $recommendation->operationCode;
+////                if($operationCode == 'MISC'){
+////                    continue;
+////                }
+//                $notes = $recommendation->notes; //this could change.
+//                foreach ($currentRecs as $rec) {
+//                    if ($rec->getOperationCode() == $operationCode && $notes == $rec->getNotes()) {
+//                        //it matches
+//                        $keysToPop[] = $key;
+//                        $existingRecommendations[] = $rec;
+//                        continue;
+//                    }
+//                }
+//            }
+//            //pop the keys.
+//            foreach ($keysToPop as $k) {
+//                $keysToUpdate[] = $recommendations[$k];
+//                unset($recommendations[$k]);
+//            }
+//
+//            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
+//                if (!$oldRecommendation->getPreApproved()) {
+//                    if (!$oldRecommendation->getApproved()) {
+//                        $isRemove = true;
+//                        foreach($existingRecommendations as $existingRecommendation) {
+//                            if ($existingRecommendation->getId() == $oldRecommendation->getId()) {
+//                                $isRemove = false;
+//                                break;
+//                            }
+//                        }
+//                        if ($isRemove) {
+//                            $this->em->remove($oldRecommendation);
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
-            foreach ($repairOrderQuote->getRepairOrderQuoteRecommendations() as $oldRecommendation) {
-                if (!$oldRecommendation->getPreApproved()) {
-                    if (!$oldRecommendation->getApproved()) {
-                        $isRemove = true;
-                        foreach($existingRecommendations as $existingRecommendation) {
-                            if ($existingRecommendation->getId() == $oldRecommendation->getId()) {
-                                $isRemove = false;
-                                break;
-                            }
-                        }
-                        if ($isRemove) {
-                            $this->em->remove($oldRecommendation);
-                        }
-                    }
-                }
-            }
-        }
-
-        foreach($keysToUpdate as $index => $update){
-            if (property_exists($update, 'parts')) {
-                $this->buildParts($existingRecommendations[$index], $update->parts, true);
-            }
-        }
+//        foreach($keysToUpdate as $index => $update){
+//            if (property_exists($update, 'parts')) {
+//                $this->buildParts($existingRecommendations[$index], $update->parts, true);
+//            }
+//        }
 
         foreach ($recommendations as $recommendation) {
             $repairOrderQuoteRecommendation = new RepairOrderQuoteRecommendation();
@@ -349,6 +349,9 @@ class RepairOrderQuoteHelper
                 ->setDescription($recommendation->description)
                 ->setPreApproved(
                     filter_var($recommendation->preApproved, FILTER_VALIDATE_BOOLEAN)
+                )
+                ->setApproved(
+                    filter_var($recommendation->approved, FILTER_VALIDATE_BOOLEAN)
                 )
                 ->setLaborPrice($recommendation->laborPrice)
                 ->setPartsPrice($recommendation->partsPrice)
