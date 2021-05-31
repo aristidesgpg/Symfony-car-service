@@ -15,7 +15,11 @@ use RuntimeException;
 class SettingsHelper
 {
     use iServiceLoggerTrait;
-
+    const PAYMENT_REQUIRED_FIELDS = [
+        'paymentToken' => 'paymentToken',
+        'nmiUsername' => 'NMI_USERNAME',
+        'nmiPassword' => 'NMI_PASSWORD'
+    ];
     const VALID_SETTINGS = [
         'activateIntegrationSms' => [
             'default_value' => '0',
@@ -523,5 +527,89 @@ class SettingsHelper
                 $this->em->flush();
             }
         }
+    }
+
+     /**
+     * This should only be used when you are wanting to OVERRIDE all of the settings.
+     *
+     * @throws InvalidArgumentException
+     */
+    public function adminCommitSettings(array $settings): void
+    {
+        foreach ($settings as $key => $value) {
+            if (!is_string($key)) {
+                throw new InvalidArgumentException('"key" must be string');
+            }
+        }
+
+        if (array_key_exists('myReviewActivated',$settings)) {
+            $this->addSetting('myReviewActivated', $settings['myReviewActivated']);
+        }
+
+        if (array_key_exists('hasPayments',$settings)) {    
+            if (filter_var($settings['hasPayments'], FILTER_VALIDATE_BOOLEAN)) {
+                foreach (array_keys(self::PAYMENT_REQUIRED_FIELDS) as $key) {
+                    if (!array_key_exists($key, $settings)) {
+                        throw new InvalidArgumentException("$key doesn't exist");
+                    } else {
+                        if ($key === 'paymentToken') {
+                            $this->addSetting('paymentToken', $settings['paymentToken']);
+                        } else {
+                            $this->updateEnvSetting(self::PAYMENT_REQUIRED_FIELDS[$key], $settings[$key]);
+                        }
+                    }
+                }
+            } 
+            $this->addSetting('hasPayments', $settings['hasPayments']);
+        }
+
+        $keys = ['usingAutomate', 'usingDealerBuilt', 'usingDealerTrack', 'usingCdk'];
+        $requiredKeys = [ 
+            ['automateEndpointId' => 'AUTOMATE_ENDPOINT_ID'],
+            ['dealerbuiltLocationId' => 'DEALERBUILT_LOCATION_ID'],
+            ['dealertrackEnterprise' => 'DEALERTRACK_ENTERPRISE', 'dealertrackLocationId' => 'DEALERTRACK_LOCATION_ID'],
+            ['cdkDealerId' => 'CDK_DEALER_ID']
+        ];
+        foreach($keys as $index => $key) {
+            if (array_key_exists($key, $settings)) {    
+                if (filter_var($settings[$key], FILTER_VALIDATE_BOOLEAN)) {
+                    foreach($requiredKeys[$index] as $requiredKey => $envKey) {
+                        if (!array_key_exists($requiredKey, $settings)) {
+                            throw new InvalidArgumentException("$requiredKey doesn't exist");
+                        } else {
+                            $this->updateEnvSetting($envKey, $settings[$requiredKey]);    
+                        }
+                    }
+                    foreach($keys as $otherKey) {
+                        if ($key !== $otherKey) {
+                            $this->addSetting($otherKey, 'false');
+                        }
+                    }
+                } 
+                $this->addSetting($key, $settings[$key]);
+            }
+        }
+    }
+    private function updateEnvSetting($key, $value) {
+        $file = fopen(__DIR__."/../../.env.local", 'r');
+        $data = "";
+        //read file
+        while (!feof($file)) {
+            $row = fgets($file);
+            $arr = explode("=", $row);
+            if (count($arr) === 1) {
+                continue;
+            }
+            if (trim($arr[0]) !== $key) {
+                $data .= $row;
+            }
+        }
+
+        $data .= "$key=$value\n";
+        fclose($file);
+        //rewrite file
+        $file = fopen(__DIR__."/../../.env.local", 'w');
+        fwrite($file, $data);
+        fclose($file);
     }
 }

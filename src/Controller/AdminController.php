@@ -83,6 +83,20 @@ class AdminController extends AbstractFOSRestController
      * )
      * 
      * @SWG\Parameter(
+     *     name="nmiUsername",
+     *     type="string",
+     *     description="Update the NMI_USERNAME in env.local",
+     *     in="formData",
+     * )
+     * 
+     * @SWG\Parameter(
+     *     name="nmiPassword",
+     *     type="string",
+     *     description="Update the NMI_PASSWORD in env.local",
+     *     in="formData",
+     * )
+     * 
+     * @SWG\Parameter(
      *     name="myReviewActivated",
      *     type="boolean",
      *     description="Set the myReviewActivated setting",
@@ -97,9 +111,23 @@ class AdminController extends AbstractFOSRestController
      * )
      * 
      * @SWG\Parameter(
+     *     name="automateEndpointId",
+     *     type="string",
+     *     description="Update the AUTOMATE_ENDPOINT_ID in .env.local",
+     *     in="formData",
+     * )
+     * 
+     * @SWG\Parameter(
      *     name="usingCdk",
      *     type="boolean",
      *     description="Set the usingCdk setting",
+     *     in="formData",
+     * )
+     * 
+     * @SWG\Parameter(
+     *     name="cdkDealerId",
+     *     type="string",
+     *     description="Update the CDK_DEALER_ID in .env.local",
      *     in="formData",
      * )
      * 
@@ -111,9 +139,30 @@ class AdminController extends AbstractFOSRestController
      * )
      * 
      * @SWG\Parameter(
+     *     name="dealerbuiltLocationId",
+     *     type="string",
+     *     description="Update the DEALERBUILT_LOCATION_ID in .env.local",
+     *     in="formData",
+     * )
+     * 
+     * @SWG\Parameter(
      *     name="usingDealerTrack",
      *     type="boolean",
      *     description="Set the usingDealerTrack setting",
+     *     in="formData",
+     * )
+     * 
+     * @SWG\Parameter(
+     *     name="dealertrackEnterprise",
+     *     type="string",
+     *     description="Update the DEALERTRACK_ENTERPRISE in .env.local",
+     *     in="formData",
+     * )
+     * 
+     * @SWG\Parameter(
+     *     name="dealertrackLocationId",
+     *     type="string",
+     *     description="Update the DEALERTRACK_LOCATION_ID in .env.local",
      *     in="formData",
      * )
      * 
@@ -136,7 +185,7 @@ class AdminController extends AbstractFOSRestController
         }
         
         if (count($request->request->all()) !== 0) {
-            $settingsHelper->commitSettings($request->request->all());
+            $settingsHelper->adminCommitSettings($request->request->all());
         }
 
         $view = $this->view("Successfully saved", Response::HTTP_OK);
