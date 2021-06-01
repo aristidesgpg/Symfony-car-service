@@ -604,7 +604,6 @@ class SettingsHelper
                 $data .= $row;
             }
         }
-
         $data .= "$key=$value\n";
         fclose($file);
         //rewrite file
